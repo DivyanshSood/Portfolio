@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://divyansh.studio/</loc>
+    <lastmod>2026-04-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://divyansh.studio/assets/og.jpg</image:loc>
+      <image:title>Divyansh Sood Studio — Custom websites for Indian businesses</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://divyansh.studio/sme.html</loc>
+    <lastmod>2026-04-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://divyansh.studio/Portfolio.html</loc>
+    <lastmod>2026-04-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://divyansh.studio/projects/webseek.html</loc>
+    <lastmod>2026-04-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://ik.imagekit.io/dn2zdxiu3/webp-portfolio/Ai-website-generator--IMG_1360.webp</image:loc>
+      <image:title>WebSeek.ai — AI website builder</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://divyansh.studio/projects/inhimalayas.html</loc>
+    <lastmod>2026-04-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://ik.imagekit.io/dn2zdxiu3/webp-portfolio/Inhimalyas-Macbook-Air-inhimalayas.vercel.app.webp</image:loc>
+      <image:title>InHimalayas — booking platform</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://divyansh.studio/projects/dharamshala-tours.html</loc>
+    <lastmod>2026-04-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://ik.imagekit.io/dn2zdxiu3/webp-portfolio/Dharamshala-tours-Macbook-Air-www.dharamshalatours.in.webp</image:loc>
+      <image:title>Dharamshala Tours — WhatsApp-first travel</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://divyansh.studio/projects/redline.html</loc>
+    <lastmod>2026-04-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://ik.imagekit.io/dn2zdxiu3/webp-portfolio/Redline-studios-Macbook-Air-www.redlinestudios.in.webp</image:loc>
+      <image:title>Redline Moto — apparel storefront</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://divyansh.studio/projects/chinkiz.html</loc>
+    <lastmod>2026-04-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://ik.imagekit.io/dn2zdxiu3/webp-portfolio/Chinkiz-knitting-knife-Screenshot-2026-04-25-at-3.41.20%E2%80%AFPM.webp</image:loc>
+      <image:title>ChinkiZ Knitting Knife — D2C storefront</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://divyansh.studio/projects/modernkbs.html</loc>
+    <lastmod>2026-04-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://ik.imagekit.io/dn2zdxiu3/webp-portfolio/Modernkbs-Macbook-Air-www.modernkbs.com.webp</image:loc>
+      <image:title>Modern K.B.S. — school portal</image:title>
+    </image:image>
+  </url>
+</urlset>

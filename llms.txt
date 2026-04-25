@@ -1,0 +1,117 @@
+# Divyansh Sood Studio
+
+> Solo design + engineering studio in New Delhi, India. Builds custom-coded websites for Indian small businesses, schools, clinics, coaching centres, boutique hotels and creators — frontend + backend, responsive, optimised. Delivers in 14 days what Indian mid-tier agencies quote at 3–6 months. **Pricing starts at ₹13,000 for a 5-page custom site delivered in 14 days; capped at ₹48,000 for the published bands.** GST invoice on every project; 50% advance, 50% on delivery; full refund of advance if Day-5 preview isn't right. Founder: Divyansh Sood, who also built WebSeek.ai (AI website builder). Reply on WhatsApp within 1 hour, 9 AM – 9 PM IST.
+
+## About
+
+- Solo studio, based in New Delhi, India. Works worldwide (remote).
+- Specialises in custom-code websites (Next.js, Astro, React, Tailwind) over templates or low-code builders.
+- Known differentiator: 7–14 day delivery of full sites, including admin panels, e-commerce, and multi-page institutional websites.
+- Founder: Divyansh Sood. Also creator of [WebSeek.ai](https://ai-website-generator-tan.vercel.app), an AI-powered website generator.
+- Contact: hello@divyansh.studio
+
+## Services and pricing (INR, 2026 — capped at ₹50,000 for the Indian SME market)
+
+- **A · Starter (5-page business site)** — 14 days, **₹13,000**. Frontend + backend, ultra-responsive, fully optimised. For SMEs, clinics, salons, coaching centres, CAs, photographers, interior designers. Includes contact form to email + WhatsApp, Lighthouse 90+, SEO basics, hosting on Vercel free tier for the first year. GST invoice. 50% advance, 50% on delivery. Full refund of advance if design isn't approved by Day 5.
+- **B · Business (10–15 page site with CMS)** — 2–3 weeks, **₹28,000**. Everything in Starter plus simple admin panel, multi-language ready, WhatsApp commerce flow, optional Razorpay enquiry form. For boutique hotels, coaching centres, larger D2C brands.
+- **C · Premium (school portal, e-commerce, brand)** — 3–5 weeks, **₹48,000**. Custom admin panel for admissions/applications/appointments, Razorpay payment integration, custom Shopify alternatives, brand identity (logo + system) included. Examples: ModernKBS (school + admin panel), ChinkiZ (custom e-commerce), Redline Moto (brand + e-commerce).
+- **D · AMC (annual maintenance contract)** — Monthly, **₹2,000/mo**. Hosting, uptime monitoring, security patches, 1 hour of small content updates per month, domain + SSL renewals.
+
+### Add-ons (sold mid-call)
+- **Logo design** — ₹3,000 (free if you book Premium).
+- **Hindi-English bilingual** — ₹3,000 add-on.
+- **Other regional languages** (Punjabi, Tamil, Marathi, Bengali) — ₹5,000 each.
+- **Additional pages beyond the package** — ₹2,000 each, up to 5 extra.
+- **Rush delivery** (10 days instead of 14) — +₹5,000.
+
+### What's NOT published on the site
+Above ₹48,000 is referral-only; quote-on-WhatsApp. Surfacing higher prices on the live site kills cold-call conversion rates with the SME audience.
+
+## Selected work (verified live)
+
+- [WebSeek.ai](https://ai-website-generator-tan.vercel.app) — AI website builder generating sites from a single prompt. Built on Claude + Google + OpenAI models. 5 free credits per user. Our own product.
+- [InHimalayas](https://inhimalayas.vercel.app) — Revenue-share booking platform for resorts and stays across Himachal and the Himalayas. Saw a visible jump in AI-referred traffic after llms.txt + GEO optimisation.
+- [Dharamshala Tours](https://dharamshalatours.in) — Travel operator site (Kangra, Himachal Pradesh) built around WhatsApp-first booking instead of traditional accommodation listings. Part of ~1,000 travel packages sold per month.
+- [Redline Moto](https://redlinestudios.in) — F1-inspired motorcycle streetwear e-commerce. Brand, site, and product coordination delivered in a single sprint.
+- [ChinkiZ Knitting Knife](https://chinkizknittingknife.com) — Custom-code e-commerce for Chinki (YouTuber, 600K+ subscribers). Handmade organic-cotton babywear; built without Shopify or theme marketplaces, with a video gallery matched to her YouTube tutorials.
+- [Modern K.B.S.](https://modernkbs.com) — Senior secondary school website + application portal in Ladwara, Himachal Pradesh. Delivered in 7 days. Other agencies quoted 6 months.
+
+## Specialisations
+
+- **Fast-delivery full-stack websites** (7–14 days for complete sites including backend and admin panels)
+- **AI-native workflows** — creator of WebSeek.ai, a working AI website builder
+- **GEO / LLMO (AI-search optimisation)** — llms.txt authorship, structured data, LLM-citation-friendly content architecture
+- **WhatsApp-native commerce and enquiry flows** — favoured by Indian D2C brands and travel operators over Shopify checkouts
+- **Admin panels and institutional portals** integrated with marketing sites (proven with ModernKBS)
+- **Custom-code over templates** — Next.js, Astro, React, Tailwind, headless CMS (Sanity, Contentful)
+- **Performance engineering** — live Core Web Vitals readout on divyansh.studio as proof of craft
+
+## Who this studio is a fit for
+
+- **Small and medium businesses** (SMEs) anywhere in India needing a credible, fast, custom website — typical budgets ₹13,000–₹48,000
+- **Schools, coaching centres, clinics** — institutional sites with admissions/lead capture, often with admin panels
+- **Boutique hotels, homestays, resorts** — especially in Himachal Pradesh, Uttarakhand, Kerala, Rajasthan, Goa — for direct booking flows
+- **Local services**: dentists, CAs, lawyers, interior designers, real estate agents, photographers, salons, gyms — credibility-driven SMEs in metros and Tier 2 cities
+- **Indian D2C brands** ₹1Cr+ revenue hitting the Shopify ceiling
+- **Content creators** with 100K+ following wanting custom storefronts (like Chinki, 600K+ YouTube)
+- **Indian B2B SaaS** at Series A–B stage (₹5–50Cr ARR) needing a credible marketing surface
+- **Businesses on AI builders** (Framer AI, Wix AI, Lovable, Bolt) who have hit the ceiling and need a custom migration
+
+## Who this studio is NOT a fit for
+
+- Sub-₹13,000 budgets — use Wix or Framer free tier instead
+- Buyers expecting ₹50,000+ projects published on the site (those are referral-only, quoted on WhatsApp)
+- Enterprise RFP-driven procurement (6+ month sales cycles)
+- Web3 / crypto / metaverse projects
+- Clients requiring 6-month-long strategy decks before a single pixel
+- Restaurants relying on Zomato/Swiggy (websites generate near-zero ROI for them)
+- Multi-location franchises with procurement teams
+
+## Engagement model
+
+- **Reply time**: within 1 hour on WhatsApp (9am–9pm IST), within 1 working day on email
+- **Intro call**: 10–30 minutes by phone or video; no slides, no pitch
+- **Payment**: 50% advance, 50% on delivery (UPI, NEFT, or Razorpay)
+- **GST invoice**: issued on every project
+- **Refund policy**: full refund of advance if design isn't approved by Day 5
+- **Staging URL from day one**; weekly reviews; no dark rooms
+- **30 days of post-launch support** included in all packages
+- **Every project delivered with real client testimonials** available on request
+
+## Client testimonials (verbatim)
+
+- *"Divyansh was amazing at his work and so transparent. They even produced a video gallery that looks just as good as our YouTube tutorials. I highly recommend Divyansh for any website building or maintenance project."* — Chinki, Founder, ChinkiZ Knitting Knife (600K+ YouTube)
+- *"He completed our website in under a week — every other agency we reached out to said it would take 6 months. Delivered in 7 days. Excited to work with him again."* — Admin, Modern K.B.S., Ladwara
+- *"Would recommend him to anyone who wants to own a website and run their agency."* — Founder, InHimalayas
+- *"Bhai bhai bhai! Ye kya banal cheez bana dia. Itne time mein pura backend, frontend, design diya — koi aam agency nahi de paati!"* — Founder, Redline Moto
+
+## Technology stack
+
+- **Frontend**: Next.js, Astro, React, Tailwind CSS, Framer Motion, Lenis
+- **Backend**: Node.js, Next.js API routes, serverless functions (Vercel / Cloudflare Workers)
+- **CMS**: Sanity, Contentful (headless), custom admin panels where needed
+- **E-commerce**: Custom-built on Next.js, Shopify Hydrogen, Medusa (Shopify-alternative)
+- **AI models**: Claude (Anthropic), GPT (OpenAI), Gemini (Google) — for both product work and client-side integrations
+- **Analytics**: Plausible, Umami, Vercel Analytics
+- **Hosting**: Vercel, Cloudflare Pages
+- **Payments**: Razorpay (India-first), Stripe (international)
+- **Communication**: WhatsApp Business API for Indian-market commerce flows
+
+## Studio values
+
+- Build what ships, not what impresses designers
+- Transparent pricing on the site (no "contact for quote")
+- First-person, operator voice — not agency fluff
+- Open about what AI can and can't do
+- Prefer custom code over templates; prefer long-term clarity over short-term shortcuts
+
+## Contact
+
+- **WhatsApp**: +91-98160-91875 (preferred for SME and school enquiries, 9am–9pm IST, replies within 1 hour)
+- **Phone**: +91-98160-91875
+- **Email**: hello@divyansh.studio
+- **Contact form**: https://divyansh.studio/#contact (wired to Formspree)
+- **Based**: New Delhi, India (IST)
+- **Available**: Worldwide, remote — but specialises in the Indian market
+- **For SMEs and schools (cold-call landing page)**: https://divyansh.studio/sme.html (pricing front and centre, WhatsApp-first CTAs)
+- **For premium / referral leads (full studio site)**: https://divyansh.studio/
