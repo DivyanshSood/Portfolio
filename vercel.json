@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/project/Portfolio.html" },
+    { "source": "/:path*", "destination": "/project/:path*" }
+  ]
+}
