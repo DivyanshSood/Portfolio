@@ -256,7 +256,7 @@
 </nav>
 
 <script>
-// Mobile hamburger toggle
+// Mobile hamburger toggle — opens a horizontal pill below the main nav
 (function () {
   var t = document.getElementById('nav-toggle');
   var m = document.getElementById('nav-menu');
@@ -265,23 +265,30 @@
     m.classList.remove('is-open');
     t.classList.remove('is-open');
     t.setAttribute('aria-expanded', 'false');
-    document.body.style.overflow = '';
   }
   function open() {
     m.classList.add('is-open');
     t.classList.add('is-open');
     t.setAttribute('aria-expanded', 'true');
-    document.body.style.overflow = 'hidden';
   }
   t.addEventListener('click', function (e) {
     e.stopPropagation();
     if (m.classList.contains('is-open')) close(); else open();
   });
   m.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', close); });
-  // Close on Escape
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
-  // Close on overlay tap (mobile)
-  m.addEventListener('click', function (e) { if (e.target === m) close(); });
+  // Tap anywhere outside the menu/toggle closes it
+  document.addEventListener('click', function (e) {
+    if (!m.classList.contains('is-open')) return;
+    if (m.contains(e.target) || t.contains(e.target)) return;
+    close();
+  });
+  // Close on scroll past a few px
+  var lastY = window.scrollY;
+  window.addEventListener('scroll', function () {
+    if (m.classList.contains('is-open') && Math.abs(window.scrollY - lastY) > 40) close();
+    lastY = window.scrollY;
+  }, { passive: true });
 })();
 </script>
 

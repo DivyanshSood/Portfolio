@@ -915,26 +915,50 @@ footer .socials { display: flex; gap: var(--s-4); justify-content: flex-end; }
 
 @media (max-width: 880px) {
   .nav-toggle { display: block; }
+
+  /* Mobile menu: a horizontal pill that slides DOWN below the main nav.
+     Not a vertical fullscreen overlay — keeps the page visible and feels lighter. */
   .nav-menu {
-    position: fixed; inset: 0;
-    background: rgba(10, 10, 11, .98);
-    backdrop-filter: blur(12px);
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    gap: var(--s-5);
+    position: fixed;
+    top: 56px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-12px);
+    width: max-content;
+    max-width: calc(100vw - 16px);
+    display: flex; flex-direction: row;
+    align-items: center; justify-content: flex-start;
+    gap: 2px;
+    padding: 5px 6px;
+    background: rgba(20, 20, 26, 0.85);
+    backdrop-filter: blur(18px) saturate(1.15);
+    -webkit-backdrop-filter: blur(18px) saturate(1.15);
+    border: 1px solid rgba(245, 242, 236, 0.08);
+    border-radius: var(--r-full);
+    box-shadow: 0 16px 40px -16px rgba(0,0,0,0.6);
+    overflow-x: auto;
+    scrollbar-width: none;
     opacity: 0; pointer-events: none;
-    transform: translateY(-20px);
-    transition: opacity .3s var(--ease-out), transform .3s var(--ease-out);
-    z-index: 105;
+    transition: opacity .25s var(--ease-out), transform .3s var(--ease-out);
+    z-index: 55;
   }
-  .nav-menu.is-open { opacity: 1; pointer-events: auto; transform: translateY(0); }
+  .nav-menu::-webkit-scrollbar { display: none; }
+  .nav-menu.is-open {
+    opacity: 1; pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
+  }
   .nav-menu .nav-link {
-    display: block;
-    font-size: 24px; font-family: var(--f-display); font-weight: 500;
-    letter-spacing: -.01em;
-    color: var(--bone-100);
-    padding: 10px 20px;
+    display: inline-block;
+    padding: 7px 13px;
+    font-size: 12px;
+    font-family: var(--f-mono);
+    letter-spacing: 0.04em;
+    color: var(--bone-200);
+    border-radius: var(--r-full);
+    white-space: nowrap;
+    flex-shrink: 0;
   }
+  .nav-menu .nav-link:hover,
+  .nav-menu .nav-link:active { background: rgba(255,255,255,0.08); color: var(--bone-100); }
 }
 
 /* ============================================================
