@@ -540,9 +540,13 @@
     </div>
 
     <div class="stack-grid" data-stagger>
-      <div class="stack-cell" data-stagger-item>
-        <div class="stack-num">01</div>
-        <div class="stack-cat">Frontend</div>
+      <details class="stack-cell" data-stagger-item open>
+        <summary>
+          <span class="stack-num">01</span>
+          <span class="stack-cat">Frontend</span>
+          <span class="stack-teaser">Astro · Next.js · React · Tailwind</span>
+          <span class="exp-icon" aria-hidden="true"></span>
+        </summary>
         <ul class="stack-list">
           <li><strong>Astro</strong> — content sites, default for Starter/Business</li>
           <li><strong>Next.js 15</strong> — when admin panels or auth are needed</li>
@@ -550,11 +554,15 @@
           <li><strong>Tailwind CSS 4</strong> — design tokens to code, no CSS bloat</li>
           <li><strong>Framer Motion · Lenis</strong> — motion when it earns its place</li>
         </ul>
-      </div>
+      </details>
 
-      <div class="stack-cell" data-stagger-item>
-        <div class="stack-num">02</div>
-        <div class="stack-cat">Backend &amp; data</div>
+      <details class="stack-cell" data-stagger-item>
+        <summary>
+          <span class="stack-num">02</span>
+          <span class="stack-cat">Backend &amp; data</span>
+          <span class="stack-teaser">Node · Vercel · Supabase · CMS</span>
+          <span class="exp-icon" aria-hidden="true"></span>
+        </summary>
         <ul class="stack-list">
           <li><strong>Node.js · Vercel Functions · Cloudflare Workers</strong> — serverless first</li>
           <li><strong>Supabase (Postgres)</strong> — default DB for products + admin panels</li>
@@ -562,11 +570,15 @@
           <li><strong>Resend · Formspree</strong> — transactional email + form submissions</li>
           <li><strong>Clerk · Auth.js · Supabase Auth</strong> — pick by use case</li>
         </ul>
-      </div>
+      </details>
 
-      <div class="stack-cell" data-stagger-item>
-        <div class="stack-num">03</div>
-        <div class="stack-cat">Payments &amp; commerce</div>
+      <details class="stack-cell" data-stagger-item>
+        <summary>
+          <span class="stack-num">03</span>
+          <span class="stack-cat">Payments &amp; commerce</span>
+          <span class="stack-teaser">Razorpay · Stripe · WhatsApp Business API</span>
+          <span class="exp-icon" aria-hidden="true"></span>
+        </summary>
         <ul class="stack-list">
           <li><strong>Razorpay</strong> — India-first; UPI, cards, NEFT, COD</li>
           <li><strong>Stripe</strong> — international transactions</li>
@@ -574,11 +586,15 @@
           <li><strong>Custom storefronts</strong> — when Shopify limits matter</li>
           <li><strong>Shopify Hydrogen / Medusa</strong> — for high-volume e-commerce</li>
         </ul>
-      </div>
+      </details>
 
-      <div class="stack-cell" data-stagger-item>
-        <div class="stack-num">04</div>
-        <div class="stack-cat">Hosting &amp; infra</div>
+      <details class="stack-cell" data-stagger-item>
+        <summary>
+          <span class="stack-num">04</span>
+          <span class="stack-cat">Hosting &amp; infra</span>
+          <span class="stack-teaser">Vercel · Cloudflare · CDN · DNS</span>
+          <span class="exp-icon" aria-hidden="true"></span>
+        </summary>
         <ul class="stack-list">
           <li><strong>Vercel</strong> — default deploy target; free tier covers SMEs year 1</li>
           <li><strong>Cloudflare Pages + R2</strong> — when bandwidth or edge matters</li>
@@ -586,11 +602,15 @@
           <li><strong>Cloudflare DNS · CDN · WAF</strong> — DDoS / cache layer</li>
           <li><strong>Domain</strong> — owned by client (GoDaddy / Hostinger guidance)</li>
         </ul>
-      </div>
+      </details>
 
-      <div class="stack-cell" data-stagger-item>
-        <div class="stack-num">05</div>
-        <div class="stack-cat">SEO · GEO · AI</div>
+      <details class="stack-cell" data-stagger-item>
+        <summary>
+          <span class="stack-num">05</span>
+          <span class="stack-cat">SEO · GEO · AI</span>
+          <span class="stack-teaser">JSON-LD · llms.txt · Sitemap · Lighthouse</span>
+          <span class="exp-icon" aria-hidden="true"></span>
+        </summary>
         <ul class="stack-list">
           <li><strong>Schema.org JSON-LD</strong> — LocalBusiness, FAQPage, Review, Person</li>
           <li><strong>llms.txt</strong> — AI-search discoverability (Claude / GPT / Perplexity)</li>
@@ -598,11 +618,15 @@
           <li><strong>Plausible · Umami</strong> — privacy-first analytics, no cookie banner</li>
           <li><strong>Lighthouse CI</strong> — 90+ score gate before launch</li>
         </ul>
-      </div>
+      </details>
 
-      <div class="stack-cell" data-stagger-item>
-        <div class="stack-num">06</div>
-        <div class="stack-cat">AI tooling (in product work)</div>
+      <details class="stack-cell" data-stagger-item>
+        <summary>
+          <span class="stack-num">06</span>
+          <span class="stack-cat">AI tooling</span>
+          <span class="stack-teaser">Claude · GPT · Gemini · Vector DB</span>
+          <span class="exp-icon" aria-hidden="true"></span>
+        </summary>
         <ul class="stack-list">
           <li><strong>Claude · GPT · Gemini</strong> — for AI features in client products</li>
           <li><strong>Anthropic SDK / OpenAI SDK</strong> — direct API integrations</li>
@@ -610,7 +634,7 @@
           <li><strong>WebSeek.ai</strong> — own AI builder, eats own dog food</li>
           <li><strong>Cursor · Claude Code</strong> — daily dev tooling</li>
         </ul>
-      </div>
+      </details>
     </div>
 
     <p class="t-small" style="margin-top: var(--s-7); color: var(--bone-400); max-width: 640px;">
@@ -813,8 +837,12 @@
       <h2 class="t-display">A to Z. <span class="t-serif" style="color:var(--accent)">No surprises</span>.</h2>
     </div>
     <div class="incl-grid" data-stagger>
-      <div class="incl-col" data-stagger-item>
-        <div class="incl-head">Design</div>
+      <details class="incl-col" data-stagger-item open>
+        <summary>
+          <span class="incl-head">Design</span>
+          <span class="incl-count">5 items</span>
+          <span class="exp-icon" aria-hidden="true"></span>
+        </summary>
         <ul>
           <li>Custom layouts (no themes)</li>
           <li>Logo design (Premium)</li>
@@ -822,9 +850,13 @@
           <li>Mobile-first wireframes</li>
           <li>Day-5 preview &amp; refund</li>
         </ul>
-      </div>
-      <div class="incl-col" data-stagger-item>
-        <div class="incl-head">Build</div>
+      </details>
+      <details class="incl-col" data-stagger-item>
+        <summary>
+          <span class="incl-head">Build</span>
+          <span class="incl-count">5 items</span>
+          <span class="exp-icon" aria-hidden="true"></span>
+        </summary>
         <ul>
           <li>Custom-coded (Astro / Next.js)</li>
           <li>Lighthouse 90+ score</li>
@@ -832,9 +864,13 @@
           <li>llms.txt for AI search</li>
           <li>WhatsApp + email forms</li>
         </ul>
-      </div>
-      <div class="incl-col" data-stagger-item>
-        <div class="incl-head">Content &amp; Media</div>
+      </details>
+      <details class="incl-col" data-stagger-item>
+        <summary>
+          <span class="incl-head">Content &amp; Media</span>
+          <span class="incl-count">5 items</span>
+          <span class="exp-icon" aria-hidden="true"></span>
+        </summary>
         <ul>
           <li>Copywriting guidance</li>
           <li>Image production (add-on)</li>
@@ -842,9 +878,13 @@
           <li>Hindi / regional language</li>
           <li>Royalty-free stock setup</li>
         </ul>
-      </div>
-      <div class="incl-col" data-stagger-item>
-        <div class="incl-head">Launch &amp; After</div>
+      </details>
+      <details class="incl-col" data-stagger-item>
+        <summary>
+          <span class="incl-head">Launch &amp; After</span>
+          <span class="incl-count">5 items</span>
+          <span class="exp-icon" aria-hidden="true"></span>
+        </summary>
         <ul>
           <li>Domain &amp; hosting setup</li>
           <li>Razorpay / UPI integration</li>
@@ -852,7 +892,7 @@
           <li>30 days free fixes post-launch</li>
           <li>5-min video walkthrough</li>
         </ul>
-      </div>
+      </details>
     </div>
   </div>
 </section>
