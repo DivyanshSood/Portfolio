@@ -130,9 +130,13 @@ img { max-width: 100%; display: block; }
   .section-head { grid-template-columns: 1fr; gap: var(--s-3); margin-bottom: var(--s-6); }
 }
 
-/* Nav — pill stays static, slightly transparent. Brand + WhatsApp on left, links + hamburger on right */
+/* Nav — pill stays static, slightly transparent. Brand + WhatsApp on left, links + hamburger on right.
+   IMPORTANT: NO transform on .nav — that creates a containing block and would break the
+   fixed-position mobile overlay (it would render inside the pill instead of covering the screen). */
 .nav {
-  position: fixed; top: 14px; left: 50%; transform: translateX(-50%);
+  position: fixed; top: 14px; left: 0; right: 0;
+  margin-left: auto; margin-right: auto;
+  width: max-content;
   z-index: 60; display: flex; align-items: center; gap: var(--s-2);
   padding: 5px 5px 5px 6px;
   background: rgba(20, 20, 26, 0.55);
@@ -142,7 +146,6 @@ img { max-width: 100%; display: block; }
   border-radius: var(--r-full);
   box-shadow: 0 12px 36px -16px rgba(0,0,0,0.55);
   max-width: calc(100vw - 24px);
-  width: max-content;
 }
 .nav .brand-group { display: flex; align-items: center; gap: 6px; }
 .nav .brand {
@@ -156,19 +159,19 @@ img { max-width: 100%; display: block; }
 .nav a.nav-link { padding: 7px 12px; font-size: 12px; color: var(--bone-300); border-radius: var(--r-full); transition: color .35s var(--ease-out), background .35s var(--ease-out); white-space: nowrap; }
 .nav a.nav-link:hover { color: var(--bone-100); background: rgba(255,255,255,0.06); }
 
-/* WhatsApp pill — green, always visible (desktop + mobile) */
+/* WhatsApp pill — same white-pill style as original, just placed inline next to brand */
 .nav .cta-wa {
-  padding: 7px 14px 7px 12px;
-  font-size: 12px; font-weight: 600;
-  color: white;
-  background: #25D366;
+  padding: 7px 14px 7px 11px;
+  font-size: 12px; font-weight: 500;
+  color: var(--ink-050);
+  background: var(--bone-100);
   border-radius: var(--r-full);
   transition: background .25s var(--ease-out), transform .25s var(--ease-out);
   display: inline-flex; align-items: center; gap: 6px;
   white-space: nowrap;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.005em;
 }
-.nav .cta-wa:hover { background: #1FB855; transform: translateY(-1px); }
+.nav .cta-wa:hover { background: var(--accent); transform: translateY(-1px); }
 .nav .cta-wa svg { display: block; }
 
 /* nav-menu container holds desktop links; on mobile becomes overlay */
@@ -176,9 +179,13 @@ img { max-width: 100%; display: block; }
 
 @media (max-width: 880px) {
   .nav { top: 10px; padding: 4px 4px 4px 6px; gap: 4px; }
-  .nav .brand { padding: 6px 6px 6px 8px; font-size: 10.5px; }
+  .nav .brand { padding: 6px 4px 6px 8px; font-size: 10.5px; letter-spacing: 0.06em; }
   .nav .cta-wa { padding: 6px 12px 6px 10px; font-size: 11px; }
   .nav .cta-wa svg { width: 12px; height: 12px; }
+}
+@media (max-width: 380px) {
+  .nav .cta-wa span.cta-wa-label { display: none; }
+  .nav .cta-wa { padding: 6px 10px; }
 }
 
 /* Buttons */
@@ -212,13 +219,22 @@ img { max-width: 100%; display: block; }
   background: rgba(255,255,255,0.04);
   border: 1px solid var(--hairline);
   border-radius: var(--r-full);
-  margin-bottom: var(--s-7);
+  margin-bottom: var(--s-6);
   color: var(--bone-300);
   font-size: 11px;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .hero-eyebrow .eyebrow-dot {
   width: 7px; height: 7px; border-radius: 50%;
   background: var(--accent); box-shadow: 0 0 12px var(--accent);
+  flex-shrink: 0;
+}
+@media (max-width: 520px) {
+  .hero-eyebrow { font-size: 10px; padding: 5px 12px 5px 9px; letter-spacing: .12em; }
+  .hero-eyebrow .eyebrow-mobile-hide { display: none; }
 }
 .hero-pitch .caption strong { color: var(--bone-100); font-weight: 600; }
 .hero-bullets {
