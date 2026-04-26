@@ -67,31 +67,36 @@
     el, speed: parseFloat(el.dataset.parallax) || 0.2,
   }));
 
-  // ---------- Bumblebee parable — word-by-word + bee path ----------
-  const parable = $('#parable');
-  const parableWords = parable ? $$('[data-word]', parable) : [];
-  const bee = parable ? $('.parable-bee', parable) : null;
-
-  // ---------- Horizontal work scroll ----------
-  const hStage = $('.h-scroll-stage');
-  const hTrack = $('#h-track');
-  const hProgress = $('#h-progress');
-  let hMaxTranslate = 0;
-  function computeTrackWidth() {
-    if (!hTrack || !hStage) return;
-    const vw = window.innerWidth;
-    hMaxTranslate = Math.max(0, hTrack.scrollWidth - vw);
-  }
-  computeTrackWidth();
-  window.addEventListener('resize', computeTrackWidth);
+  // ---------- Work card image swipes — active dot tracking ----------
+  $$('[data-swipe]').forEach((swipe) => {
+    const card = swipe.closest('.work-card');
+    const dots = card ? $$('.work-dots span', card) : [];
+    if (!dots.length) return;
+    dots[0].classList.add('is-active');
+    let raf = null;
+    swipe.addEventListener('scroll', () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = null;
+        const w = swipe.clientWidth;
+        if (!w) return;
+        const idx = Math.round(swipe.scrollLeft / w);
+        dots.forEach((d, i) => d.classList.toggle('is-active', i === idx));
+      });
+    }, { passive: true });
+    // Click a dot to scroll
+    dots.forEach((d, i) => {
+      d.addEventListener('click', (e) => {
+        e.preventDefault(); e.stopPropagation();
+        swipe.scrollTo({ left: swipe.clientWidth * i, behavior: 'smooth' });
+      });
+    });
+  });
 
   // ---------- Pinned Process — step reveals based on progress ----------
   const pinned = $('#process');
   const bigSteps = pinned ? $$('[data-step-reveal]', pinned) : [];
 
-  // ---------- Nav hide on scroll down ----------
-  const nav = $('.nav');
-  let lastY = 0;
   // ---------- Scroll progress bar ----------
   const scrollBar = $('#scroll-progress');
 
@@ -128,12 +133,7 @@
     // Scroll progress bar
     if (scrollBar) scrollBar.style.width = clamp(y / docH, 0, 1) * 100 + '%';
 
-    // Nav auto-hide
-    if (nav) {
-      if (y > 120 && y > lastY + 6) nav.classList.add('nav-hidden');
-      else if (y < lastY - 4 || y < 120) nav.classList.remove('nav-hidden');
-      lastY = y;
-    }
+    // (Nav stays static — no auto-hide)
 
     // Parallax
     for (const p of parallaxEls) {
@@ -143,37 +143,7 @@
       p.el.style.transform = `translate3d(0, ${ty.toFixed(2)}px, 0)`;
     }
 
-    // Parable
-    if (parable && bee) {
-      const prect = parable.getBoundingClientRect();
-      const total = parable.offsetHeight - vh;
-      const p = clamp(-prect.top / total, 0, 1);
-
-      // Word reveal based on progress
-      const active = Math.floor(p * parableWords.length * 1.15);
-      parableWords.forEach((w, i) => {
-        w.classList.toggle('on', i < active);
-      });
-
-      // Bee drifts across — diagonal path with rotation
-      const bx = lerp(-10, 110, p);   // % across viewport
-      const by = lerp(10, 75, Math.sin(p * Math.PI)); // arc
-      const rot = lerp(-8, 10, p);
-      bee.style.transform = `translate(${bx}vw, ${by - 30}vh) rotate(${rot}deg) scale(${lerp(0.8, 1.2, p)})`;
-    }
-
-    // Horizontal scroll
-    if (hStage && hTrack) {
-      const rect = hStage.getBoundingClientRect();
-      const total = hStage.offsetHeight - vh;
-      const p = clamp(-rect.top / total, 0, 1);
-      if (window.innerWidth > 760) {
-        hTrack.style.transform = `translate3d(${(-hMaxTranslate * p).toFixed(2)}px, 0, 0)`;
-      } else {
-        hTrack.style.transform = '';
-      }
-      if (hProgress) hProgress.style.width = (p * 100).toFixed(1) + '%';
-    }
+    // (Old horizontal-scroll work section removed; cards use per-card image swipe instead)
 
     // Pinned process — reveal each step as its centerline crosses viewport mid
     if (bigSteps.length) {
@@ -184,16 +154,16 @@
       });
     }
 
-    // Scroll-linked hero scale/blur
+    // Scroll-linked hero scale/blur — lighter blur, gentler depth
     const heroEl = $('.hero');
     if (heroEl) {
       const r = heroEl.getBoundingClientRect();
       const p = clamp(-r.top / vh, 0, 1);
       const h1 = heroEl.querySelector('h1');
       if (h1) {
-        h1.style.transform = `scale(${lerp(1, 0.94, p)})`;
-        h1.style.opacity = (1 - p * 0.8).toFixed(2);
-        h1.style.filter = `blur(${(p * 4).toFixed(2)}px)`;
+        h1.style.transform = `translateZ(0) scale(${lerp(1, 0.96, p)})`;
+        h1.style.opacity = (1 - p * 0.55).toFixed(2);
+        h1.style.filter = `blur(${(p * 1.5).toFixed(2)}px)`;
       }
     }
   }

@@ -101,49 +101,109 @@
   display: block;
 }
 
-/* ---- Body section: brief / role / outcomes ---- */
+/* ---- Results strip — big metrics row right under hero image ---- */
+.cs-results {
+  padding: var(--s-7) 0;
+  border-bottom: 1px solid var(--hairline);
+  background: linear-gradient(180deg, rgba(232,198,140,0.04) 0%, transparent 100%);
+}
+.cs-results .row {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: var(--s-5);
+}
+.cs-results .metric {
+  display: flex; flex-direction: column; gap: 4px;
+  padding-left: var(--s-3);
+  border-left: 2px solid var(--accent);
+}
+.cs-results .metric .v {
+  font-family: var(--f-display);
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: var(--bone-100);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.cs-results .metric .l {
+  font-family: var(--f-mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--bone-400);
+  margin-top: 6px;
+}
+@media (max-width: 760px) {
+  .cs-results .row { grid-template-columns: repeat(2, 1fr); gap: var(--s-5); }
+}
+
+/* ---- Body section: widget-style stacked blocks ---- */
 .cs-body {
   padding: var(--s-9) 0;
   border-bottom: 1px solid var(--hairline);
 }
-.cs-body .grid {
+.cs-body .widget-stack {
   display: grid;
-  grid-template-columns: 220px 1fr;
-  gap: var(--s-8);
-  align-items: start;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s-5);
 }
-.cs-body .label {
-  font-family: var(--f-mono); font-size: 11px; letter-spacing: .14em;
-  text-transform: uppercase; color: var(--bone-400);
+.cs-widget {
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-3);
+  background: var(--ink-100);
+  padding: var(--s-5);
+  display: flex; flex-direction: column; gap: var(--s-4);
 }
-.cs-body .copy p {
-  color: var(--bone-200);
-  font-size: 18px; line-height: 1.65;
-  margin-bottom: var(--s-5);
-  max-width: 64ch;
+.cs-widget.span-2 { grid-column: span 2; }
+.cs-widget .w-head {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--s-3);
+  padding-bottom: var(--s-3);
+  border-bottom: 1px solid var(--hairline);
 }
-.cs-body .copy p strong { color: var(--bone-100); font-weight: 500; }
-.cs-body .copy p em { font-family: var(--f-serif); color: var(--accent); }
-.cs-body .pillars {
-  list-style: none; padding: 0; margin: var(--s-6) 0 0;
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-5);
-  border-top: 1px solid var(--hairline);
-  padding-top: var(--s-6);
+.cs-widget .w-tag {
+  font-family: var(--f-mono); font-size: 10px;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--accent);
 }
-.cs-body .pillars li {
-  display: flex; flex-direction: column; gap: 8px;
+.cs-widget .w-title {
+  font-family: var(--f-display);
+  font-size: clamp(20px, 2vw, 28px);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--bone-100);
 }
-.cs-body .pillars .k {
-  font-family: var(--f-mono); font-size: 10px; letter-spacing: .14em;
-  text-transform: uppercase; color: var(--bone-400);
+.cs-widget p {
+  color: var(--bone-300);
+  font-size: 15px; line-height: 1.6;
 }
-.cs-body .pillars .v {
-  font-family: var(--f-display); font-size: 22px;
-  letter-spacing: -0.01em; color: var(--bone-100);
+.cs-widget p strong { color: var(--bone-100); font-weight: 500; }
+.cs-widget p em { font-family: var(--f-serif); color: var(--accent); font-style: italic; }
+.cs-widget .quote-block {
+  padding: var(--s-4) var(--s-5);
+  background: var(--ink-200);
+  border-left: 2px solid var(--accent);
+  border-radius: 4px;
+  font-family: var(--f-display);
+  font-size: 17px; line-height: 1.5;
+  color: var(--bone-100);
+  font-style: italic;
 }
-@media (max-width: 900px) {
-  .cs-body .grid { grid-template-columns: 1fr; gap: var(--s-5); }
-  .cs-body .pillars { grid-template-columns: 1fr; }
+.cs-widget .stack-list {
+  list-style: none; padding: 0;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+}
+.cs-widget .stack-list li {
+  font-family: var(--f-mono); font-size: 11px;
+  letter-spacing: .08em;
+  color: var(--bone-300);
+  padding: 8px 12px;
+  background: var(--ink-200);
+  border-radius: var(--r-full);
+  text-align: center;
+}
+@media (max-width: 760px) {
+  .cs-body .widget-stack { grid-template-columns: 1fr; }
+  .cs-widget.span-2 { grid-column: auto; }
+  .cs-widget .stack-list { grid-template-columns: 1fr; }
 }
 
 /* ---- Gallery — preserves each image's natural aspect ratio ---- */
