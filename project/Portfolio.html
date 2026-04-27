@@ -82,19 +82,19 @@
     "@type": "OfferCatalog",
     "name": "Website packages",
     "itemListElement": [
-      { "@type": "Offer", "name": "Landing page — single high-converting page", "price": "7000", "priceCurrency": "INR", "description": "Single page with hero, offer, social proof and lead form. Live in 5 days." },
-      { "@type": "Offer", "name": "Starter — 5-page custom website", "price": "13000", "priceCurrency": "INR", "description": "Frontend + backend, mobile-perfect, delivered in 14 days. For SMEs, clinics, salons, CAs, photographers." },
-      { "@type": "Offer", "name": "Business — 10–15 page website with CMS", "price": "28000", "priceCurrency": "INR", "description": "Larger sites with content editor. For boutique hotels, coaching centres, larger D2C brands." },
-      { "@type": "Offer", "name": "Premium — School portal / E-commerce / Brand", "price": "48000", "priceCurrency": "INR", "description": "Custom admin panel, Razorpay, brand identity. For schools, custom storefronts, brand-from-scratch." },
-      { "@type": "Offer", "name": "AMC — Annual maintenance contract", "price": "3000", "priceCurrency": "INR", "description": "Hosting, uptime, 2 hours of changes per month." }
+      { "@type": "Offer", "name": "Landing page — single high-converting page", "priceCurrency": "INR", "priceSpecification": { "@type": "PriceSpecification", "minPrice": "7000", "maxPrice": "10000", "priceCurrency": "INR" }, "description": "Single page with hero, offer, social proof and lead form. Live in 5 days." },
+      { "@type": "Offer", "name": "Starter — 5-page custom website", "priceCurrency": "INR", "priceSpecification": { "@type": "PriceSpecification", "minPrice": "13000", "maxPrice": "16000", "priceCurrency": "INR" }, "description": "Frontend + backend, mobile-perfect, delivered in 14 days. For SMEs, clinics, salons, CAs, photographers." },
+      { "@type": "Offer", "name": "Business — 10–15 page website with CMS", "priceCurrency": "INR", "priceSpecification": { "@type": "PriceSpecification", "minPrice": "28000", "maxPrice": "32000", "priceCurrency": "INR" }, "description": "Larger sites with content editor. For boutique hotels, coaching centres, larger D2C brands." },
+      { "@type": "Offer", "name": "Premium — School portal / E-commerce / Brand", "priceCurrency": "INR", "priceSpecification": { "@type": "PriceSpecification", "minPrice": "48000", "maxPrice": "55000", "priceCurrency": "INR" }, "description": "Custom admin panel, Razorpay, brand identity. For schools, custom storefronts, brand-from-scratch." },
+      { "@type": "Offer", "name": "AMC — Annual maintenance contract", "price": "2500", "priceCurrency": "INR", "description": "Hosting, uptime monitoring, 2 hours of changes per month, domain + SSL renewals." }
     ]
   },
   "aggregateRating": {
     "@type": "AggregateRating",
     "ratingValue": "5.0",
     "bestRating": "5",
-    "ratingCount": "6",
-    "reviewCount": "4"
+    "ratingCount": "8",
+    "reviewCount": "6"
   },
   "review": [
     {
@@ -120,6 +120,18 @@
       "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
       "author": { "@type": "Person", "name": "Founder, Redline Moto" },
       "reviewBody": "Bhai bhai bhai! Ye kya banal cheez bana dia. Itne time mein pura backend, frontend, design diya — koi aam agency nahi de paati!"
+    },
+    {
+      "@type": "Review",
+      "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+      "author": { "@type": "Person", "name": "Founder, Nandini Travels" },
+      "reviewBody": "The website is so beautiful — looks 10 times more premium than our competitors. We started getting direct bookings instead of losing them to Google Maps. Delighted to work with Divyansh."
+    },
+    {
+      "@type": "Review",
+      "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+      "author": { "@type": "Person", "name": "Founder, North Peak Power Systems" },
+      "reviewBody": "Divyansh, exactly yahi chahiye tha. Humne pehle jisse karwaya tha vo sirf photos laga ke chala gaya. Mein apne circle mein lifetime zaroor refer karunga."
     }
   ]
 }
@@ -144,7 +156,7 @@
     {
       "@type": "Question",
       "name": "Domain and hosting — who pays?",
-      "acceptedAnswer": { "@type": "Answer", "text": "You buy your domain directly (₹600–1,200/yr on GoDaddy / Hostinger — I'll guide you, no markup). Hosting is included on Vercel free tier for year 1. After that, either pay ~₹2,000/yr for hosting OR enrol in the AMC at ₹2,000/month and I cover hosting + small updates." }
+      "acceptedAnswer": { "@type": "Answer", "text": "You buy your domain directly (₹600–1,200/yr on GoDaddy / Hostinger — I'll guide you, no markup). Hosting is included on Vercel free tier for year 1. After that, either pay ~₹2,000/yr for hosting OR enrol in the AMC at ₹2,500/month and I cover hosting + small updates." }
     },
     {
       "@type": "Question",
@@ -304,7 +316,7 @@
 
     <h1 class="t-mega reveal-lines">
       <span class="line"><span class="line-inner">Websites that</span></span>
-      <span class="line"><span class="line-inner"><span class="accent-word">earn, for you.</span>
+      <span class="line"><span class="line-inner"><span class="accent-word">earn,</span> for you.</span></span>
     </h1>
 
     <div class="hero-sub">
@@ -335,7 +347,7 @@
 <section class="work" id="work">
   <div class="wrap">
     <div class="section-head" data-reveal>
-      <div class="t-meta eyebrow">Selected Work · 6 live, 4 in build</div>
+      <div class="t-meta eyebrow">Selected Work · 8 live · more in build</div>
       <h2 class="t-display">Real <span class="t-serif" style="color:var(--accent)">businesses</span>. Real revenue.</h2>
     </div>
 
@@ -359,10 +371,15 @@
           </div>
           <h3 class="t-h2">WebSeek.ai</h3>
           <p class="work-blurb">AI website generator. Type a prompt → working site.</p>
+          <div class="case-strip">
+            <div class="case-line"><span class="case-tag">Problem</span><span class="case-text">As AI grows, web agencies need their own tooling — not someone else's API wrapper.</span></div>
+            <div class="case-line"><span class="case-tag">Built</span><span class="case-text">Single prompt → site, in any language. Paired with Claude · GPT · Gemini for fallbacks.</span></div>
+            <div class="case-line case-line-out"><span class="case-tag">Outcome</span><span class="case-text">Live beta. 5 free credits per user, PRO plan when they run out.</span></div>
+          </div>
           <div class="work-kpis">
             <div><strong>3</strong><span>AI models</span></div>
             <div><strong>5</strong><span>Free credits</span></div>
-            <div><strong>1</strong><span>Prompt → site</span></div>
+            <div><strong>Any</strong><span>Language prompt</span></div>
           </div>
         </div>
       </a>
@@ -381,6 +398,11 @@
           </div>
           <h3 class="t-h2">InHimalayas</h3>
           <p class="work-blurb">Booking platform for Himalayan stays. Tuned for AI-search traffic.</p>
+          <div class="case-strip">
+            <div class="case-line"><span class="case-tag">Problem</span><span class="case-text">Revenue-share travel brand needed a stays/resorts platform tuned for global travellers, not just India.</span></div>
+            <div class="case-line"><span class="case-tag">Built</span><span class="case-text">Booking platform with llms.txt + GEO-optimisation built in from day one.</span></div>
+            <div class="case-line case-line-out"><span class="case-tag">Outcome</span><span class="case-text">Sudden surge in AI-referrer traffic post-launch. Founder: <em>"glad it worked out so fast and so well."</em></span></div>
+          </div>
           <div class="work-kpis">
             <div><strong>30+</strong><span>Stays listed</span></div>
             <div><strong>↑</strong><span>AI-referred traffic</span></div>
@@ -406,6 +428,11 @@
           </div>
           <h3 class="t-h2">Dharamshala Tours</h3>
           <p class="work-blurb">WhatsApp-first booking. ~1,000 bookings/month.</p>
+          <div class="case-strip">
+            <div class="case-line"><span class="case-tag">Problem</span><span class="case-text">Joint venture of 3 school friends — treks, tours, spirituality. Listing-style competitors were stealing their leads.</span></div>
+            <div class="case-line"><span class="case-tag">Built</span><span class="case-text">No accommodation listings. One-tap WhatsApp button on every package. Faster than the competition by design.</span></div>
+            <div class="case-line case-line-out"><span class="case-tag">Outcome</span><span class="case-text">~1,000 bookings/month flowing through this exact funnel.</span></div>
+          </div>
           <div class="work-kpis">
             <div><strong>~1,000</strong><span>Bookings/mo</span></div>
             <div><strong>WhatsApp</strong><span>First flow</span></div>
@@ -432,6 +459,11 @@
           </div>
           <h3 class="t-h2">Redline Moto</h3>
           <p class="work-blurb">Brand identity + Razorpay store for a moto apparel label.</p>
+          <div class="case-strip">
+            <div class="case-line"><span class="case-tag">Problem</span><span class="case-text">F1-inspired moto-apparel brand born out of speed — needed identity, store, and a track-grade aesthetic, all at once.</span></div>
+            <div class="case-line"><span class="case-tag">Built</span><span class="case-text">Brand + logo + product mockups + F1 track-loading animation + Razorpay store. Every element hand-tuned to racing geometry.</span></div>
+            <div class="case-line case-line-out"><span class="case-tag">Outcome</span><span class="case-text">Live storefront. Founder: <em>"Bhai bhai bhai! Koi aam agency nahi de paati."</em></span></div>
+          </div>
           <div class="work-kpis">
             <div><strong>Brand</strong><span>+ Storefront</span></div>
             <div><strong>Razorpay</strong><span>Live checkout</span></div>
@@ -458,6 +490,11 @@
           </div>
           <h3 class="t-h2">ChinkiZ Knitting Knife</h3>
           <p class="work-blurb">D2C store for a 600K-sub YouTuber. Custom video gallery — no Shopify themes.</p>
+          <div class="case-strip">
+            <div class="case-line"><span class="case-tag">Problem</span><span class="case-text">600K-sub YouTuber wanted to sell handmade products beyond YouTube — needed her own store, not someone else's builder.</span></div>
+            <div class="case-line"><span class="case-tag">Built</span><span class="case-text">Custom-coded storefront with a native video gallery that matches her tutorials. Razorpay UPI · cards · COD.</span></div>
+            <div class="case-line case-line-out"><span class="case-tag">Outcome</span><span class="case-text">Live D2C. Chinki: <em>"didn't think it could be done without an e-commerce builder."</em></span></div>
+          </div>
           <div class="work-kpis">
             <div><strong>600K+</strong><span>YouTube subs</span></div>
             <div><strong>Razorpay</strong><span>Cart + COD</span></div>
@@ -483,6 +520,11 @@
           </div>
           <h3 class="t-h2">Modern K.B.S.</h3>
           <p class="work-blurb">School site + admissions panel. 7 days vs. 6 months.</p>
+          <div class="case-strip">
+            <div class="case-line"><span class="case-tag">Problem</span><span class="case-text">High school in Ladwara needed website + admissions portal at the same time — had to be lightweight and fully functional.</span></div>
+            <div class="case-line"><span class="case-tag">Built</span><span class="case-text">5-page site + integrated admin panel so office staff can edit admissions content end-to-end without a developer.</span></div>
+            <div class="case-line case-line-out"><span class="case-tag">Outcome</span><span class="case-text">Delivered in 7 days. Other agencies quoted 6+ months. Admin: <em>"excited to work with him again."</em></span></div>
+          </div>
           <div class="work-kpis">
             <div><strong>7d</strong><span>vs. 6 months</span></div>
             <div><strong>Admin</strong><span>For office staff</span></div>
@@ -491,13 +533,55 @@
         </div>
       </a>
 
-      <!-- More coming soon -->
-      <div class="work-card work-coming" data-stagger-item aria-hidden="true">
-        <div class="work-coming-inner">
-          <div class="t-meta">07 — 10 · 2026</div>
-          <h3 class="t-h2">4 more projects shipping soon.</h3>
-          <p class="work-blurb">A boutique hotel, a CA firm, a coaching centre, a D2C fashion label. Want to be the next?</p>
-          <a class="btn btn-ghost" href="https://wa.me/919816091875?text=Hi%20Divyansh,%20I%20want%20a%20website%20for%20my%20business." target="_blank" rel="noopener">Start your build <span class="arrow">↗</span></a>
+      <!-- 07 · Nandini Travels — Kangra taxi operator -->
+      <div class="work-card work-card-nopic" data-stagger-item>
+        <div class="work-media work-media-fallback work-media-nandini">
+          <div class="work-media-glyph">N</div>
+          <div class="work-media-tag t-meta">Kangra · Taxi · Next.js</div>
+        </div>
+        <div class="work-body">
+          <div class="work-row">
+            <div class="t-meta">07 · 2025 · TRAVEL · LOCAL</div>
+            <div class="work-pill">Direct bookings live</div>
+          </div>
+          <h3 class="t-h2">Nandini Travels</h3>
+          <p class="work-blurb">Kangra's most-reviewed taxi operator. Rebuilt site, rebuilt funnel.</p>
+          <div class="case-strip">
+            <div class="case-line"><span class="case-tag">Problem</span><span class="case-text">Most-positively-reviewed taxi op in Kangra — but their website was down. All clients came via Google Maps; zero direct bookings.</span></div>
+            <div class="case-line"><span class="case-tag">Built</span><span class="case-text">Next.js rebuild with on-site booking form, WhatsApp CTA, outstation packages for North Indian states, airport pickup option.</span></div>
+            <div class="case-line case-line-out"><span class="case-tag">Outcome</span><span class="case-text">Direct bookings now flowing through site. Founder: <em>"looks 10× more premium than competitors."</em></span></div>
+          </div>
+          <div class="work-kpis">
+            <div><strong>Next.js</strong><span>Rebuild</span></div>
+            <div><strong>10×</strong><span>"More premium"</span></div>
+            <div><strong>Direct</strong><span>Bookings live</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 08 · North Peak Power Systems — HP electrical & solar -->
+      <div class="work-card work-card-nopic" data-stagger-item>
+        <div class="work-media work-media-fallback work-media-northpeak">
+          <div class="work-media-glyph">▲</div>
+          <div class="work-media-tag t-meta">Himachal · Solar · Angular</div>
+        </div>
+        <div class="work-body">
+          <div class="work-row">
+            <div class="t-meta">08 · 2025 · INFRA · DASHBOARD</div>
+            <div class="work-pill">Govt → private pivot</div>
+          </div>
+          <h3 class="t-h2">North Peak Power Systems</h3>
+          <p class="work-blurb">Electrical &amp; solar contractor. 15 pages + admin to publish project galleries themselves.</p>
+          <div class="case-strip">
+            <div class="case-line"><span class="case-tag">Problem</span><span class="case-text">HP electrical/solar contractor doing mostly government work — wanted to break into private sector dominated by digital + offline competitors.</span></div>
+            <div class="case-line"><span class="case-tag">Built</span><span class="case-text">15-page Angular site + project gallery + work calendar + dashboard-cum-admin so they add new projects from their end, no dev involved.</span></div>
+            <div class="case-line case-line-out"><span class="case-tag">Outcome</span><span class="case-text">Founder, in Hindi: <em>"exactly yahi chahiye tha — mein apne circle mein lifetime zaroor refer karunga."</em></span></div>
+          </div>
+          <div class="work-kpis">
+            <div><strong>15</strong><span>Pages</span></div>
+            <div><strong>Admin</strong><span>Self-publish</span></div>
+            <div><strong>Angular</strong><span>Framework</span></div>
+          </div>
         </div>
       </div>
 
@@ -505,208 +589,281 @@
   </div>
 </section>
 
-<!-- PRICING — collapsible packages, placed right after Work -->
-<section class="section" id="engagements">
+<!-- MARQUEE — horizontal break between Work and Pricing -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span class="marquee-item">CBSE School Portal</span><span class="marquee-dot">●</span>
+    <span class="marquee-item">D2C E-commerce</span><span class="marquee-dot">●</span>
+    <span class="marquee-item">600K Creator Storefront</span><span class="marquee-dot">●</span>
+    <span class="marquee-item">Himalayan Booking Platform</span><span class="marquee-dot">●</span>
+    <span class="marquee-item">Tour Operator CMS</span><span class="marquee-dot">●</span>
+    <span class="marquee-item">Solar Contractor Dashboard</span><span class="marquee-dot">●</span>
+    <span class="marquee-item">Taxi Operator Rebuild</span><span class="marquee-dot">●</span>
+    <span class="marquee-item">Brand + Razorpay Storefront</span><span class="marquee-dot">●</span>
+    <span class="marquee-item">AI Website Generator</span><span class="marquee-dot">●</span>
+    <span class="marquee-item t-serif" style="font-style:italic;">Live in 14 days.</span><span class="marquee-dot">●</span>
+    <span class="marquee-item">CBSE School Portal</span><span class="marquee-dot">●</span>
+    <span class="marquee-item">D2C E-commerce</span><span class="marquee-dot">●</span>
+    <span class="marquee-item">600K Creator Storefront</span><span class="marquee-dot">●</span>
+    <span class="marquee-item">Himalayan Booking Platform</span><span class="marquee-dot">●</span>
+    <span class="marquee-item">Tour Operator CMS</span><span class="marquee-dot">●</span>
+    <span class="marquee-item">Solar Contractor Dashboard</span><span class="marquee-dot">●</span>
+    <span class="marquee-item">Taxi Operator Rebuild</span><span class="marquee-dot">●</span>
+    <span class="marquee-item">Brand + Razorpay Storefront</span><span class="marquee-dot">●</span>
+    <span class="marquee-item">AI Website Generator</span><span class="marquee-dot">●</span>
+    <span class="marquee-item t-serif" style="font-style:italic;">Live in 14 days.</span><span class="marquee-dot">●</span>
+  </div>
+</div>
+
+<!-- PRICING — visual cards, ranges, custom-build WhatsApp tile -->
+<section class="section section-pricing" id="engagements">
   <div class="wrap">
     <div class="section-head" data-reveal>
-      <div class="t-meta eyebrow">Pricing · Fixed · GST invoice</div>
+      <div class="t-meta eyebrow">Pricing · GST invoice · 50% advance · Day-5 refund</div>
       <h2 class="t-display">Pick a <span class="t-serif" style="color:var(--accent)">package</span>.</h2>
-      <p class="t-small" style="max-width: 640px; margin-top: var(--s-3); color: var(--bone-300);">Tap any row to expand. 50% advance to start. Full refund if Day-5 preview isn't right.</p>
+      <p class="t-small" style="max-width: 640px; margin-top: var(--s-3); color: var(--bone-300);">Real ranges, not "starting from". Final quote on a 10-min WhatsApp call. Most clients land in the middle of their range.</p>
     </div>
 
-    <div class="bands" data-stagger>
-      <details class="band" data-stagger-item>
-        <summary>
-          <span class="num">A · LANDING</span>
-          <span class="band-title">Single high-converting page</span>
-          <span class="band-meta t-meta">5d · ₹7K</span>
-          <span class="exp-icon" aria-hidden="true"></span>
-        </summary>
-        <div class="band-body">
-          <p>One page that does the job — hero, offer, social proof, lead form. For ad campaigns, product launches, lead-gen for service businesses.</p>
-          <ul class="list"><li>WhatsApp lead form</li><li>Mobile-first</li><li>Live in 5 days</li></ul>
+    <div class="pricing-grid" data-stagger>
+      <article class="pcard pcard-a" data-stagger-item>
+        <div class="pcard-top">
+          <span class="pcard-num">A</span>
+          <span class="pcard-tier t-meta">Landing</span>
         </div>
-      </details>
+        <h3 class="pcard-title">Single high-converting page</h3>
+        <div class="pcard-price">
+          <span class="pcard-cur">₹</span><span class="pcard-amt">7K–10K</span>
+        </div>
+        <div class="pcard-time t-meta">5 days · live URL</div>
+        <p class="pcard-blurb">For ad campaigns, product launches, lead-gen for service businesses.</p>
+        <ul class="pcard-list">
+          <li>Hero + offer + social proof + lead form</li>
+          <li>WhatsApp-first form</li>
+          <li>Mobile-first, Lighthouse 90+</li>
+        </ul>
+        <a class="pcard-cta" href="https://wa.me/919816091875?text=Hi%20Divyansh,%20I%20want%20the%20Landing%20package%20(%E2%82%B97-10K).%20My%20business%20is..." target="_blank" rel="noopener">Discuss on WhatsApp <span class="arrow">↗</span></a>
+      </article>
 
-      <details class="band band-featured" data-stagger-item open>
-        <summary>
-          <span class="num">B · STARTER</span>
-          <span class="band-title">5-page business site</span>
-          <span class="band-meta t-meta">14d · ₹13K</span>
-          <span class="exp-icon" aria-hidden="true"></span>
-        </summary>
-        <div class="band-body">
-          <p>Home, About, Services, Gallery, Contact. For SMEs, clinics, salons, CAs, photographers, interior designers.</p>
-          <ul class="list"><li>Lighthouse 90+ mobile</li><li>Form → WhatsApp + email</li><li>Free hosting · year 1</li></ul>
+      <article class="pcard pcard-b pcard-featured" data-stagger-item>
+        <div class="pcard-flag t-meta">Most picked</div>
+        <div class="pcard-top">
+          <span class="pcard-num">B</span>
+          <span class="pcard-tier t-meta">Starter</span>
         </div>
-      </details>
+        <h3 class="pcard-title">5-page business site</h3>
+        <div class="pcard-price">
+          <span class="pcard-cur">₹</span><span class="pcard-amt">13K–16K</span>
+        </div>
+        <div class="pcard-time t-meta">14 days · live URL</div>
+        <p class="pcard-blurb">Home, About, Services, Gallery, Contact. SMEs, clinics, salons, CAs, photographers.</p>
+        <ul class="pcard-list">
+          <li>Form → WhatsApp + email</li>
+          <li>Lighthouse 90+ on mobile</li>
+          <li>Free hosting · year 1</li>
+        </ul>
+        <a class="pcard-cta" href="https://wa.me/919816091875?text=Hi%20Divyansh,%20I%20want%20the%20Starter%20package%20(%E2%82%B913-16K).%20My%20business%20is..." target="_blank" rel="noopener">Discuss on WhatsApp <span class="arrow">↗</span></a>
+      </article>
 
-      <details class="band" data-stagger-item>
-        <summary>
-          <span class="num">C · BUSINESS</span>
-          <span class="band-title">10–15 pages with CMS</span>
-          <span class="band-meta t-meta">2–3w · ₹28K</span>
-          <span class="exp-icon" aria-hidden="true"></span>
-        </summary>
-        <div class="band-body">
-          <p>Larger sites with content editor your team can update. Bookings, blog, multi-language ready. For boutique hotels, coaching centres, D2C.</p>
-          <ul class="list"><li>Simple admin panel</li><li>Hindi / regional ready</li><li>WhatsApp commerce flow</li></ul>
+      <article class="pcard pcard-c" data-stagger-item>
+        <div class="pcard-top">
+          <span class="pcard-num">C</span>
+          <span class="pcard-tier t-meta">Business</span>
         </div>
-      </details>
+        <h3 class="pcard-title">10–15 pages with CMS</h3>
+        <div class="pcard-price">
+          <span class="pcard-cur">₹</span><span class="pcard-amt">28K–32K</span>
+        </div>
+        <div class="pcard-time t-meta">2–3 weeks · live URL</div>
+        <p class="pcard-blurb">Boutique hotels, coaching centres, larger D2C. Your team can update content.</p>
+        <ul class="pcard-list">
+          <li>Simple admin panel (no developer needed)</li>
+          <li>Hindi / regional language ready</li>
+          <li>WhatsApp commerce flow</li>
+        </ul>
+        <a class="pcard-cta" href="https://wa.me/919816091875?text=Hi%20Divyansh,%20I%20want%20the%20Business%20package%20(%E2%82%B928-32K).%20My%20business%20is..." target="_blank" rel="noopener">Discuss on WhatsApp <span class="arrow">↗</span></a>
+      </article>
 
-      <details class="band" data-stagger-item>
-        <summary>
-          <span class="num">D · PREMIUM</span>
-          <span class="band-title">School portal · E-com · Brand</span>
-          <span class="band-meta t-meta">3–5w · ₹48K</span>
-          <span class="exp-icon" aria-hidden="true"></span>
-        </summary>
-        <div class="band-body">
-          <p>Custom admin panel, Razorpay payments, custom storefronts, or brand-from-scratch. Like ModernKBS, ChinkiZ, Redline.</p>
-          <ul class="list"><li>Custom admin / dashboard</li><li>Razorpay / UPI / COD</li><li>Logo &amp; identity included</li></ul>
+      <article class="pcard pcard-d" data-stagger-item>
+        <div class="pcard-top">
+          <span class="pcard-num">D</span>
+          <span class="pcard-tier t-meta">Premium</span>
         </div>
-      </details>
+        <h3 class="pcard-title">School portal · E-com · Brand</h3>
+        <div class="pcard-price">
+          <span class="pcard-cur">₹</span><span class="pcard-amt">48K–55K</span>
+        </div>
+        <div class="pcard-time t-meta">3–5 weeks · live URL</div>
+        <p class="pcard-blurb">Like ModernKBS, ChinkiZ, Redline. Custom admin, Razorpay, full identity from scratch.</p>
+        <ul class="pcard-list">
+          <li>Custom admin / dashboard</li>
+          <li>Razorpay · UPI · COD</li>
+          <li>Logo &amp; identity included</li>
+        </ul>
+        <a class="pcard-cta" href="https://wa.me/919816091875?text=Hi%20Divyansh,%20I%20want%20the%20Premium%20package%20(%E2%82%B948-55K).%20My%20business%20is..." target="_blank" rel="noopener">Discuss on WhatsApp <span class="arrow">↗</span></a>
+      </article>
 
-      <details class="band" data-stagger-item>
-        <summary>
-          <span class="num">E · AMC</span>
-          <span class="band-title">Hosting, uptime, updates</span>
-          <span class="band-meta t-meta">Monthly · ₹3K/mo</span>
-          <span class="exp-icon" aria-hidden="true"></span>
-        </summary>
-        <div class="band-body">
-          <p>Annual maintenance contract for SMEs and schools. Hosting, security patches, content updates, reply within one working day.</p>
-          <ul class="list"><li>Uptime monitoring</li><li>2 hours changes/month</li><li>Domain + SSL renewals</li></ul>
+      <!-- 5th card — custom build, dominant WhatsApp CTA -->
+      <article class="pcard pcard-custom" data-stagger-item>
+        <div class="pcard-custom-inner">
+          <div class="pcard-custom-left">
+            <div class="pcard-flag t-meta">Don't see your fit?</div>
+            <h3 class="pcard-custom-title">Custom build. Or — not sure which one?</h3>
+            <p class="pcard-custom-blurb">Tell me what you're trying to do. I'll quote in 10 minutes — most enquiries get a fixed range, a timeline, and a refund clause on the first message.</p>
+            <ul class="pcard-custom-list">
+              <li>Multi-vendor marketplace</li>
+              <li>SaaS marketing site + onboarding</li>
+              <li>Mobile app + admin panel</li>
+              <li>Mid-build rescue (broken Wix / WordPress)</li>
+              <li>Anything weirder than the four packages above</li>
+            </ul>
+          </div>
+          <div class="pcard-custom-right">
+            <a class="btn-wa-loud" href="https://wa.me/919816091875?text=Hi%20Divyansh,%20I%20have%20a%20custom%20project.%20Quick%20description%3A" target="_blank" rel="noopener">
+              <svg viewBox="0 0 32 32" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M16 .395c-8.836 0-16 7.164-16 16 0 2.823.738 5.583 2.137 8.011L0 32l7.83-2.057a15.92 15.92 0 008.17 2.247c8.836 0 16-7.164 16-16s-7.164-15.795-16-15.795zm7.27 19.366c-.397-.198-2.348-1.158-2.713-1.29-.365-.132-.629-.198-.893.198-.265.397-1.024 1.29-1.256 1.555-.232.265-.464.298-.86.099-.397-.198-1.677-.617-3.193-1.969-1.18-1.052-1.978-2.353-2.21-2.75-.232-.397-.025-.611.174-.808.179-.178.397-.464.595-.695.198-.232.265-.397.397-.661.132-.265.066-.496-.033-.695-.099-.198-.893-2.155-1.224-2.948-.322-.774-.65-.669-.893-.682a16.65 16.65 0 00-.762-.014c-.265 0-.695.099-1.058.496-.365.397-1.388 1.357-1.388 3.31s1.421 3.842 1.62 4.107c.198.265 2.798 4.272 6.776 5.99.946.408 1.685.652 2.262.835.951.302 1.815.26 2.498.158.762-.114 2.348-.96 2.679-1.886.331-.927.331-1.722.232-1.886-.099-.165-.365-.265-.762-.464z"/></svg>
+              <span>Chat on WhatsApp</span>
+              <span class="btn-wa-meta t-meta">Reply within 1h · 9–9 IST</span>
+            </a>
+            <div class="pcard-custom-or">— or —</div>
+            <a class="btn-call" href="tel:+919816091875">Call · +91-98160-91875</a>
+          </div>
         </div>
-      </details>
+      </article>
+    </div>
 
-      <details class="band" data-stagger-item>
-        <summary>
-          <span class="num">+ ADD-ONS</span>
-          <span class="band-title">Logo · Photo · Video · Copy</span>
-          <span class="band-meta t-meta">A la carte</span>
-          <span class="exp-icon" aria-hidden="true"></span>
-        </summary>
-        <div class="band-body">
-          <p>End-to-end coverage — anything else your launch needs.</p>
-          <ul class="list"><li>Logo design · ₹4,000</li><li>Product photography · from ₹6,000</li><li>Hero video · from ₹8,000</li></ul>
-        </div>
-      </details>
+    <!-- Recurring + à la carte (smaller, supporting) -->
+    <div class="pricing-secondary" data-reveal>
+      <div class="psec psec-amc">
+        <div class="psec-num t-meta">+ AMC</div>
+        <div class="psec-title">Hosting, uptime, monthly updates</div>
+        <div class="psec-price"><span>₹2,500</span><span class="psec-suffix t-meta">/month</span></div>
+        <ul class="psec-list">
+          <li>Uptime monitoring · daily backups</li>
+          <li>2 hours of changes per month</li>
+          <li>Domain + SSL renewals handled</li>
+        </ul>
+      </div>
+      <div class="psec psec-addons">
+        <div class="psec-num t-meta">+ Add-ons</div>
+        <div class="psec-title">Logo · Copy · Photo · Video · Languages</div>
+        <ul class="psec-list psec-list-2col">
+          <li>Logo design <span>₹4,000</span></li>
+          <li>Hindi-English bilingual <span>₹3,000</span></li>
+          <li>Other language (Punjabi/Tamil/…) <span>₹5,000</span></li>
+          <li>Extra page beyond package <span>₹2,000</span></li>
+          <li>Product photography <span>from ₹6,000</span></li>
+          <li>Hero video edit <span>from ₹8,000</span></li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- TECH STACK — for the technical buyers (CTOs, devs, founders evaluating) -->
-<section class="section" id="stack">
+<!-- TECH STACK — bento grid, no clicks needed -->
+<section class="section section-stack" id="stack">
   <div class="wrap">
     <div class="section-head" data-reveal>
-      <div class="t-meta eyebrow">Tech stack · For the technical reader</div>
+      <div class="t-meta eyebrow">Tech stack · Bento</div>
       <h2 class="t-display">Under the <span class="t-serif" style="color:var(--accent)">hood</span>.</h2>
-      <p class="t-small" style="max-width: 640px; margin-top: var(--s-4); color: var(--bone-300);">No proprietary lock-in. No cookie-cutter themes. The whole stack is open, owned by you, and chosen for the job — not the trend.</p>
+      <p class="t-small" style="max-width: 640px; margin-top: var(--s-4); color: var(--bone-300);">Open, owned by you, chosen for the job — not the trend. No proprietary lock-in.</p>
     </div>
 
-    <div class="stack-grid" data-stagger>
-      <details class="stack-cell" data-stagger-item open>
+    <div class="bento" data-stagger>
+      <details class="bento-tile bento-1" data-stagger-item open>
         <summary>
-          <span class="stack-num">01</span>
-          <span class="stack-cat">Frontend</span>
-          <span class="stack-teaser">Astro · Next.js · React · Tailwind</span>
+          <span class="bento-num t-meta">01 / Frontend</span>
+          <h3 class="bento-title">Astro · Next 15 · React 19 · Tailwind 4</h3>
           <span class="exp-icon" aria-hidden="true"></span>
         </summary>
-        <ul class="stack-list">
-          <li><strong>Astro</strong> — content sites, default for Starter/Business</li>
-          <li><strong>Next.js 15</strong> — when admin panels or auth are needed</li>
-          <li><strong>React 19</strong> — for interactive surfaces</li>
-          <li><strong>Tailwind CSS 4</strong> — design tokens to code, no CSS bloat</li>
-          <li><strong>Framer Motion · Lenis</strong> — motion when it earns its place</li>
-        </ul>
+        <div class="bento-body">
+          <div class="bento-tags">
+            <span>Astro</span><span>Next.js</span><span>React</span><span>Tailwind</span><span>Framer Motion</span><span>Lenis</span>
+          </div>
+        </div>
       </details>
 
-      <details class="stack-cell" data-stagger-item>
+      <details class="bento-tile bento-2" data-stagger-item>
         <summary>
-          <span class="stack-num">02</span>
-          <span class="stack-cat">Backend &amp; data</span>
-          <span class="stack-teaser">Node · Vercel · Supabase · CMS</span>
+          <span class="bento-num t-meta">02 / Backend</span>
+          <h3 class="bento-title">Serverless · Postgres · Headless CMS</h3>
           <span class="exp-icon" aria-hidden="true"></span>
         </summary>
-        <ul class="stack-list">
-          <li><strong>Node.js · Vercel Functions · Cloudflare Workers</strong> — serverless first</li>
-          <li><strong>Supabase (Postgres)</strong> — default DB for products + admin panels</li>
-          <li><strong>Sanity / Contentful</strong> — headless CMS when client team will publish</li>
-          <li><strong>Resend · Formspree</strong> — transactional email + form submissions</li>
-          <li><strong>Clerk · Auth.js · Supabase Auth</strong> — pick by use case</li>
-        </ul>
+        <div class="bento-body">
+          <div class="bento-tags">
+            <span>Node</span><span>Vercel Fns</span><span>CF Workers</span><span>Supabase</span><span>Sanity</span><span>Resend</span><span>Clerk</span>
+          </div>
+        </div>
       </details>
 
-      <details class="stack-cell" data-stagger-item>
+      <details class="bento-tile bento-3 bento-accent" data-stagger-item>
         <summary>
-          <span class="stack-num">03</span>
-          <span class="stack-cat">Payments &amp; commerce</span>
-          <span class="stack-teaser">Razorpay · Stripe · WhatsApp Business API</span>
+          <span class="bento-num t-meta">03 / Payments</span>
+          <h3 class="bento-title">Razorpay · Stripe · WhatsApp Business API</h3>
           <span class="exp-icon" aria-hidden="true"></span>
         </summary>
-        <ul class="stack-list">
-          <li><strong>Razorpay</strong> — India-first; UPI, cards, NEFT, COD</li>
-          <li><strong>Stripe</strong> — international transactions</li>
-          <li><strong>WhatsApp Business API</strong> — via wati.io / Twilio</li>
-          <li><strong>Custom storefronts</strong> — when Shopify limits matter</li>
-          <li><strong>Shopify Hydrogen / Medusa</strong> — for high-volume e-commerce</li>
-        </ul>
+        <div class="bento-body">
+          <p class="bento-blurb">India-first checkout (UPI · cards · NEFT · COD) for SMEs. International when needed.</p>
+          <div class="bento-tags">
+            <span>Razorpay</span><span>Stripe</span><span>WATI</span><span>Hydrogen</span><span>Medusa</span>
+          </div>
+        </div>
       </details>
 
-      <details class="stack-cell" data-stagger-item>
+      <details class="bento-tile bento-4" data-stagger-item>
         <summary>
-          <span class="stack-num">04</span>
-          <span class="stack-cat">Hosting &amp; infra</span>
-          <span class="stack-teaser">Vercel · Cloudflare · CDN · DNS</span>
+          <span class="bento-num t-meta">04 / Hosting</span>
+          <h3 class="bento-title">Vercel · Cloudflare · CDN</h3>
           <span class="exp-icon" aria-hidden="true"></span>
         </summary>
-        <ul class="stack-list">
-          <li><strong>Vercel</strong> — default deploy target; free tier covers SMEs year 1</li>
-          <li><strong>Cloudflare Pages + R2</strong> — when bandwidth or edge matters</li>
-          <li><strong>Netlify</strong> — fallback / migration target</li>
-          <li><strong>Cloudflare DNS · CDN · WAF</strong> — DDoS / cache layer</li>
-          <li><strong>Domain</strong> — owned by client (GoDaddy / Hostinger guidance)</li>
-        </ul>
+        <div class="bento-body">
+          <div class="bento-tags">
+            <span>Vercel</span><span>CF Pages</span><span>R2</span><span>Netlify</span><span>WAF</span>
+          </div>
+        </div>
       </details>
 
-      <details class="stack-cell" data-stagger-item>
+      <details class="bento-tile bento-5 bento-wide" data-stagger-item>
         <summary>
-          <span class="stack-num">05</span>
-          <span class="stack-cat">SEO · GEO · AI</span>
-          <span class="stack-teaser">JSON-LD · llms.txt · Sitemap · Lighthouse</span>
+          <span class="bento-num t-meta">05 / SEO · GEO · AI search</span>
+          <h3 class="bento-title">JSON-LD schema · llms.txt · Lighthouse 90+</h3>
           <span class="exp-icon" aria-hidden="true"></span>
         </summary>
-        <ul class="stack-list">
-          <li><strong>Schema.org JSON-LD</strong> — LocalBusiness, FAQPage, Review, Person</li>
-          <li><strong>llms.txt</strong> — AI-search discoverability (Claude / GPT / Perplexity)</li>
-          <li><strong>Sitemap.xml + robots.txt</strong> — Google Search Console-ready</li>
-          <li><strong>Plausible · Umami</strong> — privacy-first analytics, no cookie banner</li>
-          <li><strong>Lighthouse CI</strong> — 90+ score gate before launch</li>
-        </ul>
+        <div class="bento-body">
+          <p class="bento-blurb">Tuned for both Google rich results and LLM crawlers (Claude · GPT · Perplexity). This very page ships with 4 schema blocks, an <code>llms.txt</code>, and a sitemap.</p>
+          <div class="bento-tags">
+            <span>Schema.org</span><span>llms.txt</span><span>Sitemap</span><span>OpenGraph</span><span>Lighthouse CI</span>
+          </div>
+        </div>
       </details>
 
-      <details class="stack-cell" data-stagger-item>
+      <details class="bento-tile bento-6" data-stagger-item>
         <summary>
-          <span class="stack-num">06</span>
-          <span class="stack-cat">AI tooling</span>
-          <span class="stack-teaser">Claude · GPT · Gemini · Vector DB</span>
+          <span class="bento-num t-meta">06 / AI tooling</span>
+          <h3 class="bento-title">Claude · GPT · Gemini + WebSeek.ai</h3>
           <span class="exp-icon" aria-hidden="true"></span>
         </summary>
-        <ul class="stack-list">
-          <li><strong>Claude · GPT · Gemini</strong> — for AI features in client products</li>
-          <li><strong>Anthropic SDK / OpenAI SDK</strong> — direct API integrations</li>
-          <li><strong>Vector DB</strong> — Pinecone / Supabase pgvector for retrieval</li>
-          <li><strong>WebSeek.ai</strong> — own AI builder, eats own dog food</li>
-          <li><strong>Cursor · Claude Code</strong> — daily dev tooling</li>
-        </ul>
+        <div class="bento-body">
+          <div class="bento-tags">
+            <span>Anthropic SDK</span><span>OpenAI SDK</span><span>pgvector</span><span>Pinecone</span><span>Cursor</span>
+          </div>
+        </div>
       </details>
     </div>
 
-    <p class="t-small" style="margin-top: var(--s-7); color: var(--bone-400); max-width: 640px;">
-      <strong style="color:var(--accent);">Why custom over Wix / WordPress / Shopify themes?</strong>
-      Themes load 1–4&nbsp;MB of bloat per page, lock you into proprietary editors, and rank poorly. Custom-coded sites load &lt;200&nbsp;KB, score 90+ on Lighthouse out of the box, and stay yours forever. The tradeoff is you can't drag-and-drop content yourself — which is why Band B onwards ships with a real CMS. <span style="color:var(--bone-300);">Live performance metrics for this exact page are in the footer.</span>
+    <p class="stack-foot t-small">
+      <strong>Why custom over Wix / WordPress / Shopify themes?</strong>
+      Themes load 1–4&nbsp;MB of bloat per page, lock you in, and rank poorly. Custom-coded sites load &lt;200&nbsp;KB, score 90+ on Lighthouse out of the box, and stay yours forever. <span class="t-meta" style="color:var(--accent); margin-left:8px;">↓ Live metrics for this page in the footer.</span>
     </p>
+  </div>
+</section>
+
+<!-- EDITORIAL PULL-QUOTE — pacing break before testimonials -->
+<section class="pullquote" aria-label="Featured quote">
+  <div class="wrap">
+    <blockquote class="pq" data-reveal>
+      <div class="pq-mark t-serif">"</div>
+      <p class="pq-text">Other agencies said <span class="t-serif" style="color:var(--accent); font-style:italic;">six months.</span> Delivered in <span class="t-serif" style="color:var(--accent); font-style:italic;">seven days.</span></p>
+      <footer class="pq-foot t-meta">— Admin · Modern K.B.S., Ladwara · CBSE school</footer>
+    </blockquote>
   </div>
 </section>
 
@@ -753,8 +910,41 @@
           <span class="sig t-meta">Full stack · 1 sprint</span>
         </figcaption>
       </figure>
+
+      <figure class="quote-card" data-stagger-item>
+        <blockquote class="q-body">"The website is so beautiful — looks 10 times more premium than our competitors. We started getting direct bookings instead of losing them to Google Maps. Delighted to work with Divyansh."</blockquote>
+        <figcaption class="q-foot">
+          <span class="av av-n" aria-hidden="true">N</span>
+          <span class="who"><strong>Founder</strong> · Nandini Travels, Kangra</span>
+          <span class="sig t-meta">10× more premium</span>
+        </figcaption>
+      </figure>
+
+      <figure class="quote-card" data-stagger-item>
+        <blockquote class="q-body">"Divyansh, exactly yahi chahiye tha. Humne pehle jisse karwaya tha vo sirf photos laga ke chala gaya. Tabse laga thumhe sahi developer keh ke buhthon krwaya — mein apne circle mein lifetime zaroor refer karunga."</blockquote>
+        <figcaption class="q-foot">
+          <span class="av av-p" aria-hidden="true">▲</span>
+          <span class="who"><strong>Founder</strong> · North Peak Power Systems</span>
+          <span class="sig t-meta">Govt → private pivot</span>
+        </figcaption>
+      </figure>
     </div>
     <div class="quotes-hint">← swipe →</div>
+
+    <!-- Client logo strip — swap text wordmarks with <img> when client sends SVG/PNG -->
+    <div class="logo-strip" data-reveal>
+      <div class="logo-strip-label t-meta">Trusted by</div>
+      <div class="logo-strip-row">
+        <div class="logo-mark" data-logo="modernkbs">Modern K.B.S.</div>
+        <div class="logo-mark" data-logo="chinkiz">ChinkiZ</div>
+        <div class="logo-mark" data-logo="redline">Redline Moto</div>
+        <div class="logo-mark" data-logo="inhimalayas">InHimalayas</div>
+        <div class="logo-mark" data-logo="dharamshala">Dharamshala Tours</div>
+        <div class="logo-mark" data-logo="nandini">Nandini Travels</div>
+        <div class="logo-mark" data-logo="northpeak">North Peak</div>
+        <div class="logo-mark" data-logo="webseek">WebSeek.ai</div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -767,7 +957,7 @@
     </div>
     <div class="about">
       <div class="about-portrait">
-        <img class="portrait-img" src="assets/divyansh.png" alt="Divyansh Sood — founder" />
+        <img class="portrait-img" src="assets/divyansh.jpg" alt="Divyansh Sood — founder" />
         <div class="portrait-tag">DIVYANSH SOOD · FOUNDER</div>
       </div>
       <div class="about-copy">
@@ -885,11 +1075,12 @@
           <label class="f"><span>Business name</span><input name="company" type="text" autocomplete="organization" /></label>
           <label class="f"><span>Budget</span>
             <select name="budget">
-              <option>Landing page · ₹7,000</option>
-              <option>Starter · 5 pages · ₹13,000</option>
-              <option>Business · 10–15 pages · ₹28,000</option>
-              <option>Premium · school / e-com / brand · ₹48,000</option>
-              <option>AMC · hosting + updates · ₹3,000/mo</option>
+              <option>Landing · ₹7K–10K</option>
+              <option>Starter · 5 pages · ₹13K–16K</option>
+              <option>Business · 10–15 pages · ₹28K–32K</option>
+              <option>Premium · school / e-com / brand · ₹48K–55K</option>
+              <option>Custom build — let's talk</option>
+              <option>AMC · hosting + updates · ₹2,500/mo</option>
               <option>Not sure yet — please advise</option>
             </select>
           </label>
@@ -983,7 +1174,7 @@
       </details>
       <details data-reveal>
         <summary>Domain and hosting — who pays?</summary>
-        <p>You buy your domain directly (₹600–1,200/yr on GoDaddy / Hostinger — I'll guide you, no markup). Hosting is included on Vercel free tier for year 1. After that, either pay ~₹2,000/yr for hosting OR enrol in the AMC at ₹2,000/month and I cover hosting + small updates.</p>
+        <p>You buy your domain directly (₹600–1,200/yr on GoDaddy / Hostinger — I'll guide you, no markup). Hosting is included on Vercel free tier for year 1. After that, either pay ~₹2,000/yr for hosting OR enrol in the AMC at ₹2,500/month and I cover hosting + small updates.</p>
       </details>
       <details data-reveal>
         <summary>Can the site be in Hindi or my regional language?</summary>
@@ -1002,7 +1193,7 @@
 </section>
 
 <!-- Scroll progress bar -->
-<div class="scroll-progress" id="scroll-progress"></div>
+<div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
 
 <!-- FOOTER -->
 <footer>
