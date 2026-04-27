@@ -1,4 +1,4 @@
-# Divyansh Sood Studio — Website Copy
+# Divyansh Sood — Website Copy
 **Voice:** plain-spoken · direct · warm · trust-building. **Not** "premium studio" — written for an Indian small business owner / school admin who Googled you, doesn't speak agency-English, and wants to know in 10 seconds: *what does it cost, how fast, and can I trust this person?*
 
 **Buyer:** Indian SMEs, schools/coaching centres, clinics, boutique hotels, photographers, interior designers, CAs, salons. Budget ceiling: **₹50,000**. Lead source: **Google Maps cold calls + WhatsApp follow-up.**
@@ -237,7 +237,7 @@ WebSeek.ai · InHimalayas · Dharamshala Tours · Redline Moto · ChinkiZ · Mod
 
 ## 13 / FOOTER
 
-© 2026 — Divyansh Sood Studio · New Delhi · GSTIN on request
+© 2026 — Divyansh Sood · New Delhi · GSTIN on request
 **Right side:** WhatsApp · +91-XXXXX-XXXXX
 **Links:** SME landing page → · Email · Back to top ↑
 

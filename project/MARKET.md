@@ -1,4 +1,4 @@
-# Market Analysis — Divyansh Sood Studio
+# Market Analysis — Divyansh Sood
 **Q2 2026 · Positioning, pricing, and 90-day plan**
 *Grounded in your real client base: WebSeek.ai, InHimalayas, Dharamshala Tours, Redline Moto, ChinkiZ, Modern K.B.S.*
 
@@ -320,7 +320,7 @@ You have **zero sustainable distribution**. Fix in this order:
 - [ ] Write 4 tweets/week, one long-form LinkedIn post/month. Topic: what you shipped, in public, with numbers.
 - [ ] Read.cv profile live with the 6 case studies.
 - [ ] Add yourself to: Shopify Experts (India), Framer Partners, Next.js Showcase submissions, Awwwards nominations.
-- [ ] Create a Google Business Profile for "Divyansh Sood Studio, New Delhi" — yes, even for a digital studio. GEO works in your favour.
+- [ ] Create a Google Business Profile for "Divyansh Sood, New Delhi" — yes, even for a digital studio. GEO works in your favour.
 
 ### Month 2 — publish one asset that compounds
 Write ONE essay that ranks in AI search for 2+ years:
@@ -346,7 +346,7 @@ After every engagement, ask for:
 - 6 real screenshots of the client sites, self-hosted (replace thum.io URLs).
 - Collect the remaining client testimonials as quick WhatsApp voice notes → transcribe.
 - Formspree or Vercel function wired to the contact form (no more mailto).
-- Buy `divyansh.studio` if not owned. Set up email at Zoho (free).
+- Buy `divyanshsood.com` if not owned. Set up email at Zoho (free).
 
 **Weeks 3–4**
 - Publish Essay 1: *"Shipping a senior secondary school's website + admin panel in 7 days."* Post on LinkedIn, Twitter, Read.cv, Indian Hackers forum.
@@ -500,7 +500,7 @@ Equally important — these drain time and return near zero for solo Indian stud
 
 | Day | Morning (4h) | Afternoon (3h) | Evening (1h) |
 |-----|--------------|----------------|--------------|
-| **D-1** | Deploy `sme.html` at `divyansh.studio/sme`. Buy a ₹250 SIM if your existing number isn't business-ready. Replace `+91XXXXXXXXXX` everywhere. | Build the Google Maps target list (template below — 200 businesses). | Practise the script out loud 10 times. Record yourself once. |
+| **D-1** | Deploy `sme.html` at `divyanshsood.com/sme`. Buy a ₹250 SIM if your existing number isn't business-ready. Replace `+91XXXXXXXXXX` everywhere. | Build the Google Maps target list (template below — 200 businesses). | Practise the script out loud 10 times. Record yourself once. |
 | **D0** | 30 calls (10am–2pm). | 20 WhatsApp follow-ups + send sme.html link. | 1 video call if booked. |
 | **D1** | 30 calls. | Same. | First close attempt. |
 | **D2** | 30 calls. | Same. | Send GST invoice on first close. |
@@ -564,9 +564,9 @@ Aim: 200 entries in 90 minutes. You only need 100 to make this plan work.
 
 #### Opening (15s) — earn the next 75 seconds
 
-> *"Namaste / Hello sir/ma'am — yeh Divyansh hai, Divyansh Sood Studio se. Mai websites banata hoon — schools aur small businesses ke liye, Delhi NCR mein. Aap 90 seconds de sakte hain? Sirf ek baat keh ke phone rakh dunga — uske baad aap decide karo."*
+> *"Namaste / Hello sir/ma'am — yeh Divyansh hai, Divyansh Sood se. Mai websites banata hoon — schools aur small businesses ke liye, Delhi NCR mein. Aap 90 seconds de sakte hain? Sirf ek baat keh ke phone rakh dunga — uske baad aap decide karo."*
 
-> (English: "Hi sir/ma'am, this is Divyansh from Divyansh Sood Studio. I build websites for schools and small businesses across Delhi NCR. Can you give me 90 seconds? I'll say one thing and hang up — then you decide.")
+> (English: "Hi sir/ma'am, this is Divyansh from Divyansh Sood. I build websites for schools and small businesses across Delhi NCR. Can you give me 90 seconds? I'll say one thing and hang up — then you decide.")
 
 If they say no → "*Theek hai, dhanyavaad. WhatsApp kar dunga details, jab time ho dekh lena."* End call. Send the WhatsApp follow-up anyway.
 
@@ -598,7 +598,7 @@ End. Hang up. Move to next call.
 ### The WhatsApp follow-up message (send within 5 minutes of every call)
 
 ```
-Namaste [Name] — Divyansh from Divyansh Sood Studio.
+Namaste [Name] — Divyansh from Divyansh Sood.
 
 As discussed, here's a quick overview:
 
@@ -616,7 +616,7 @@ As discussed, here's a quick overview:
 • ChinkiZ Knitting Knife (600K+ YouTuber): https://chinkizknittingknife.com
 • Dharamshala Tours: https://dharamshalatours.in
 
-Full pricing & FAQ: https://divyansh.studio/sme.html
+Full pricing & FAQ: https://divyanshsood.com/sme.html
 
 If you want to start, reply "GO" and I'll share the GST invoice link.
 If you want a free 10-min video call first, share a time.

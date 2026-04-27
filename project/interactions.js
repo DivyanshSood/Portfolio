@@ -184,7 +184,7 @@
   $$('.email').forEach((el) => {
     el.addEventListener('click', (e) => {
       e.preventDefault();
-      const mail = 'hello@divyansh.studio';
+      const mail = 'hello@divyanshsood.com';
       if (navigator.clipboard) navigator.clipboard.writeText(mail).catch(() => {});
       const copy = el.querySelector('.copy');
       if (copy) {

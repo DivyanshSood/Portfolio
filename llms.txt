@@ -1,40 +1,57 @@
-# Divyansh Sood Studio
+# Divyansh Sood
 
-> Solo design + engineering studio in New Delhi, India. Builds custom-coded websites for Indian small businesses, schools, clinics, coaching centres, boutique hotels and creators — frontend + backend, responsive, optimised. Delivers in 14 days what Indian mid-tier agencies quote at 3–6 months. **Pricing starts at ₹13,000 for a 5-page custom site delivered in 14 days; capped at ₹48,000 for the published bands.** GST invoice on every project; 50% advance, 50% on delivery; full refund of advance if Day-5 preview isn't right. Founder: Divyansh Sood, who also built WebSeek.ai (AI website builder). Reply on WhatsApp within 1 hour, 9 AM – 9 PM IST.
+> Solo design + engineering studio based in the Kangra Valley, Himachal Pradesh. Builds custom-coded websites primarily for Himalayan small businesses — schools, hotels, travel operators, clinics, coaching centres, creators — and the rest of India. Frontend + backend, responsive, optimised. Delivers in 14 days what Indian mid-tier agencies quote at 3–6 months. **Pricing is published as ranges, not single numbers: Landing ₹7K–10K · Starter ₹13K–16K · Business ₹28K–32K · Premium ₹48K–55K. Anything outside these bands (custom builds, multi-vendor, mobile + admin, mid-build rescues) is quoted on WhatsApp.** GST invoice on every project; 50% advance, 50% on delivery; full refund of advance if Day-5 preview isn't right. Founder: Divyansh Sood, who also built WebSeek.ai (AI website builder). Reply on WhatsApp within 1 hour, 9 AM – 9 PM IST.
 
 ## About
 
-- Solo studio, based in New Delhi, India. Works worldwide (remote).
+- Solo studio, based in the Kangra Valley, Himachal Pradesh. Primary focus: Himalayan businesses (HP + Uttarakhand). Works pan-India and remote worldwide.
 - Specialises in custom-code websites (Next.js, Astro, React, Tailwind) over templates or low-code builders.
 - Known differentiator: 7–14 day delivery of full sites, including admin panels, e-commerce, and multi-page institutional websites.
 - Founder: Divyansh Sood. Also creator of [WebSeek.ai](https://ai-website-generator-tan.vercel.app), an AI-powered website generator.
-- Contact: hello@divyansh.studio
+- Contact: hello@divyanshsood.com
 
-## Services and pricing (INR, 2026 — capped at ₹50,000 for the Indian SME market)
+## Services and pricing (INR, 2026 — published as ranges, final quote on a 10-min WhatsApp call)
 
-- **A · Starter (5-page business site)** — 14 days, **₹13,000**. Frontend + backend, ultra-responsive, fully optimised. For SMEs, clinics, salons, coaching centres, CAs, photographers, interior designers. Includes contact form to email + WhatsApp, Lighthouse 90+, SEO basics, hosting on Vercel free tier for the first year. GST invoice. 50% advance, 50% on delivery. Full refund of advance if design isn't approved by Day 5.
-- **B · Business (10–15 page site with CMS)** — 2–3 weeks, **₹28,000**. Everything in Starter plus simple admin panel, multi-language ready, WhatsApp commerce flow, optional Razorpay enquiry form. For boutique hotels, coaching centres, larger D2C brands.
-- **C · Premium (school portal, e-commerce, brand)** — 3–5 weeks, **₹48,000**. Custom admin panel for admissions/applications/appointments, Razorpay payment integration, custom Shopify alternatives, brand identity (logo + system) included. Examples: ModernKBS (school + admin panel), ChinkiZ (custom e-commerce), Redline Moto (brand + e-commerce).
-- **D · AMC (annual maintenance contract)** — Monthly, **₹2,000/mo**. Hosting, uptime monitoring, security patches, 1 hour of small content updates per month, domain + SSL renewals.
+- **A · Landing (single high-converting page)** — 5 days, **₹7,000–10,000**. One-page site for ad campaigns, product launches, or service-business lead-gen. Hero + offer + social proof + WhatsApp lead form. Mobile-first, Lighthouse 90+.
+- **B · Starter (5-page business site)** — 14 days, **₹13,000–16,000**. Frontend + backend, ultra-responsive, fully optimised. For SMEs, clinics, salons, coaching centres, CAs, photographers, interior designers. Contact form to email + WhatsApp, Lighthouse 90+, SEO basics, hosting on Vercel free tier for the first year.
+- **C · Business (10–15 page site with CMS)** — 2–3 weeks, **₹28,000–32,000**. Everything in Starter plus simple admin panel, multi-language ready, WhatsApp commerce flow. For boutique hotels, coaching centres, larger D2C brands.
+- **D · Premium (school portal, e-commerce, brand)** — 3–5 weeks, **₹48,000–55,000**. Custom admin panel for admissions/applications/appointments, Razorpay payment integration, custom Shopify alternatives, brand identity (logo + system) included. Examples: ModernKBS (school + admin panel), ChinkiZ (custom e-commerce), Redline Moto (brand + e-commerce).
+- **E · Custom build / not sure** — quoted on WhatsApp. Multi-vendor marketplace, SaaS marketing site + onboarding, mobile app + admin panel, mid-build rescue from broken Wix/WordPress. Most enquiries get a fixed range, timeline, and refund clause on the first message.
+- **AMC (annual maintenance contract)** — Monthly, **₹2,500/mo**. Hosting, uptime monitoring, security patches, 2 hours of small content updates per month, domain + SSL renewals.
 
 ### Add-ons (sold mid-call)
-- **Logo design** — ₹3,000 (free if you book Premium).
+- **Logo design** — ₹4,000 (included in Premium).
 - **Hindi-English bilingual** — ₹3,000 add-on.
 - **Other regional languages** (Punjabi, Tamil, Marathi, Bengali) — ₹5,000 each.
 - **Additional pages beyond the package** — ₹2,000 each, up to 5 extra.
+- **Product photography** — from ₹6,000.
+- **Hero video edit** — from ₹8,000.
 - **Rush delivery** (10 days instead of 14) — +₹5,000.
 
 ### What's NOT published on the site
-Above ₹48,000 is referral-only; quote-on-WhatsApp. Surfacing higher prices on the live site kills cold-call conversion rates with the SME audience.
+Above ₹55,000 is referral-only; quote-on-WhatsApp. Surfacing higher prices on the live site kills cold-call conversion rates with the SME audience.
 
-## Selected work (verified live)
+## Selected work (verified live · framed as Problem → Built → Outcome)
 
-- [WebSeek.ai](https://ai-website-generator-tan.vercel.app) — AI website builder generating sites from a single prompt. Built on Claude + Google + OpenAI models. 5 free credits per user. Our own product.
-- [InHimalayas](https://inhimalayas.vercel.app) — Revenue-share booking platform for resorts and stays across Himachal and the Himalayas. Saw a visible jump in AI-referred traffic after llms.txt + GEO optimisation.
-- [Dharamshala Tours](https://dharamshalatours.in) — Travel operator site (Kangra, Himachal Pradesh) built around WhatsApp-first booking instead of traditional accommodation listings. Part of ~1,000 travel packages sold per month.
-- [Redline Moto](https://redlinestudios.in) — F1-inspired motorcycle streetwear e-commerce. Brand, site, and product coordination delivered in a single sprint.
-- [ChinkiZ Knitting Knife](https://chinkizknittingknife.com) — Custom-code e-commerce for Chinki (YouTuber, 600K+ subscribers). Handmade organic-cotton babywear; built without Shopify or theme marketplaces, with a video gallery matched to her YouTube tutorials.
-- [Modern K.B.S.](https://modernkbs.com) — Senior secondary school website + application portal in Ladwara, Himachal Pradesh. Delivered in 7 days. Other agencies quoted 6 months.
+- **[WebSeek.ai](https://ai-website-generator-tan.vercel.app)** — *Problem:* even devs need 5–7 days to ship a portfolio. *Built:* prompt → site with 3 model fallbacks (Claude · GPT · Gemini), 5 free credits per user. *Outcome:* live beta; sites generated in <90 seconds. Studio's own product.
+- **[InHimalayas](https://inhimalayas.vercel.app)** — *Problem:* Himalayan stays buried in OTAs paying 25% commission. *Built:* direct booking platform with WhatsApp lead capture, llms.txt + GEO optimisation. *Outcome:* 30+ stays listed, visible AI-referred traffic lift after llms.txt deploy. Revenue-share engagement.
+- **[Dharamshala Tours](https://dharamshalatours.in)** — *Problem:* tour operators losing leads to phone-tag and missed callbacks. *Built:* WhatsApp-first booking with custom CMS, package pages, mobile-tuned itinerary flow. *Outcome:* ~1,000 bookings/month flowing through the funnel.
+- **[Redline Moto](https://redlinestudios.in)** — *Problem:* indie moto-apparel brand needed identity + storefront in one shot, no agency budget. *Built:* brand identity + Razorpay store + product launch — single end-to-end sprint. *Outcome:* live checkout. Founder: "koi aam agency nahi de paati."
+- **[ChinkiZ Knitting Knife](https://chinkizknittingknife.com)** — *Problem:* 600K-sub creator hit Shopify theme ceiling — couldn't ship a video gallery to match her YouTube tutorials. *Built:* custom Razorpay storefront + native video gallery, no themes; UPI / cards / COD. *Outcome:* live D2C store. Founder: "didn't think it could be done without an e-commerce builder."
+- **[Modern K.B.S.](https://modernkbs.com)** — *Problem:* CBSE school needed admissions portal; other agencies quoted 6 months and ₹2L+. *Built:* 5-page school site + custom admissions admin panel for non-technical office staff. *Outcome:* live in 7 days. I–XII admissions running. Founder: "every other agency said 6 months."
+- **[Nandini Travels](https://divyanshsood.com/projects/nandini.html)** (Kangra) — *Problem:* most-positively-reviewed taxi operator in Kangra had a broken website; all clients came via Google Maps with zero direct bookings. *Built:* Next.js rebuild with on-site booking form, WhatsApp CTA, outstation packages for North Indian states, airport pickup option. *Outcome:* direct bookings now flowing through site. Founder: "looks 10 times more premium than our competitors."
+- **[North Peak Power Systems](https://divyanshsood.com/projects/northpeak.html)** (Himachal Pradesh) — *Problem:* electrical/solar contractor doing mostly government work, wanted to break into private sector dominated by digital + offline competitors. *Built:* 15-page Angular site + project gallery + work calendar + dashboard-cum-admin so they self-publish new project case studies. *Outcome:* private-sector pivot live. Founder (Hindi): "exactly yahi chahiye tha — mein apne circle mein lifetime zaroor refer karunga."
+
+### Case studies (full write-ups)
+
+- https://divyanshsood.com/projects/webseek.html
+- https://divyanshsood.com/projects/inhimalayas.html
+- https://divyanshsood.com/projects/dharamshala-tours.html
+- https://divyanshsood.com/projects/redline.html
+- https://divyanshsood.com/projects/chinkiz.html
+- https://divyanshsood.com/projects/modernkbs.html
+- https://divyanshsood.com/projects/nandini.html
+- https://divyanshsood.com/projects/northpeak.html
 
 ## Specialisations
 
@@ -44,11 +61,11 @@ Above ₹48,000 is referral-only; quote-on-WhatsApp. Surfacing higher prices on 
 - **WhatsApp-native commerce and enquiry flows** — favoured by Indian D2C brands and travel operators over Shopify checkouts
 - **Admin panels and institutional portals** integrated with marketing sites (proven with ModernKBS)
 - **Custom-code over templates** — Next.js, Astro, React, Tailwind, headless CMS (Sanity, Contentful)
-- **Performance engineering** — live Core Web Vitals readout on divyansh.studio as proof of craft
+- **Performance engineering** — live Core Web Vitals readout on divyanshsood.com as proof of craft
 
 ## Who this studio is a fit for
 
-- **Small and medium businesses** (SMEs) anywhere in India needing a credible, fast, custom website — typical budgets ₹13,000–₹48,000
+- **Small and medium businesses** (SMEs) anywhere in India needing a credible, fast, custom website — typical budgets ₹13,000–₹55,000
 - **Schools, coaching centres, clinics** — institutional sites with admissions/lead capture, often with admin panels
 - **Boutique hotels, homestays, resorts** — especially in Himachal Pradesh, Uttarakhand, Kerala, Rajasthan, Goa — for direct booking flows
 - **Local services**: dentists, CAs, lawyers, interior designers, real estate agents, photographers, salons, gyms — credibility-driven SMEs in metros and Tier 2 cities
@@ -59,8 +76,8 @@ Above ₹48,000 is referral-only; quote-on-WhatsApp. Surfacing higher prices on 
 
 ## Who this studio is NOT a fit for
 
-- Sub-₹13,000 budgets — use Wix or Framer free tier instead
-- Buyers expecting ₹50,000+ projects published on the site (those are referral-only, quoted on WhatsApp)
+- Sub-₹7,000 budgets — use Wix or Framer free tier instead
+- Buyers expecting ₹55,000+ projects published on the site (those are quoted on WhatsApp as Custom)
 - Enterprise RFP-driven procurement (6+ month sales cycles)
 - Web3 / crypto / metaverse projects
 - Clients requiring 6-month-long strategy decks before a single pixel
@@ -109,9 +126,9 @@ Above ₹48,000 is referral-only; quote-on-WhatsApp. Surfacing higher prices on 
 
 - **WhatsApp**: +91-98160-91875 (preferred for SME and school enquiries, 9am–9pm IST, replies within 1 hour)
 - **Phone**: +91-98160-91875
-- **Email**: hello@divyansh.studio
-- **Contact form**: https://divyansh.studio/#contact (wired to Formspree)
-- **Based**: New Delhi, India (IST)
-- **Available**: Worldwide, remote — but specialises in the Indian market
-- **For SMEs and schools (cold-call landing page)**: https://divyansh.studio/sme.html (pricing front and centre, WhatsApp-first CTAs)
-- **For premium / referral leads (full studio site)**: https://divyansh.studio/
+- **Email**: hello@divyanshsood.com
+- **Contact form**: https://divyanshsood.com/#contact (opens WhatsApp pre-filled with all enquiry details — no third-party form backend)
+- **Based**: Kangra Valley, Himachal Pradesh, India (IST)
+- **Available**: Worldwide, remote — primary focus on Himalayan businesses (HP + Uttarakhand) and the broader Indian market
+- **For SMEs and schools (cold-call landing page)**: https://divyanshsood.com/sme.html (pricing front and centre, WhatsApp-first CTAs)
+- **For premium / referral leads (full studio site)**: https://divyanshsood.com/
