@@ -93,10 +93,6 @@
     });
   });
 
-  // ---------- Pinned Process — step reveals based on progress ----------
-  const pinned = $('#process');
-  const bigSteps = pinned ? $$('[data-step-reveal]', pinned) : [];
-
   // ---------- Scroll progress bar ----------
   const scrollBar = $('#scroll-progress');
 
@@ -144,15 +140,6 @@
     }
 
     // (Old horizontal-scroll work section removed; cards use per-card image swipe instead)
-
-    // Pinned process — reveal each step as its centerline crosses viewport mid
-    if (bigSteps.length) {
-      bigSteps.forEach((s) => {
-        const r = s.getBoundingClientRect();
-        const mid = r.top + r.height / 2;
-        if (mid < vh * 0.75 && r.bottom > vh * 0.1) s.classList.add('in');
-      });
-    }
 
     // Scroll-linked hero scale/blur — lighter blur, gentler depth
     const heroEl = $('.hero');
