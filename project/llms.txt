@@ -1,10 +1,10 @@
 # Divyansh Sood Studio
 
-> Solo design + engineering studio in New Delhi, India. Builds custom-coded websites for Indian small businesses, schools, clinics, coaching centres, boutique hotels and creators — frontend + backend, responsive, optimised. Delivers in 14 days what Indian mid-tier agencies quote at 3–6 months. **Pricing starts at ₹13,000 for a 5-page custom site delivered in 14 days; capped at ₹48,000 for the published bands.** GST invoice on every project; 50% advance, 50% on delivery; full refund of advance if Day-5 preview isn't right. Founder: Divyansh Sood, who also built WebSeek.ai (AI website builder). Reply on WhatsApp within 1 hour, 9 AM – 9 PM IST.
+> Solo design + engineering studio based in the Kangra Valley, Himachal Pradesh. Builds custom-coded websites primarily for Himalayan small businesses — schools, hotels, travel operators, clinics, coaching centres, creators — and the rest of India. Frontend + backend, responsive, optimised. Delivers in 14 days what Indian mid-tier agencies quote at 3–6 months. **Pricing starts at ₹13,000 for a 5-page custom site delivered in 14 days; capped at ₹48,000 for the published bands.** GST invoice on every project; 50% advance, 50% on delivery; full refund of advance if Day-5 preview isn't right. Founder: Divyansh Sood, who also built WebSeek.ai (AI website builder). Reply on WhatsApp within 1 hour, 9 AM – 9 PM IST.
 
 ## About
 
-- Solo studio, based in New Delhi, India. Works worldwide (remote).
+- Solo studio, based in the Kangra Valley, Himachal Pradesh. Primary focus: Himalayan businesses (HP + Uttarakhand). Works pan-India and remote worldwide.
 - Specialises in custom-code websites (Next.js, Astro, React, Tailwind) over templates or low-code builders.
 - Known differentiator: 7–14 day delivery of full sites, including admin panels, e-commerce, and multi-page institutional websites.
 - Founder: Divyansh Sood. Also creator of [WebSeek.ai](https://ai-website-generator-tan.vercel.app), an AI-powered website generator.
@@ -110,8 +110,8 @@ Above ₹48,000 is referral-only; quote-on-WhatsApp. Surfacing higher prices on 
 - **WhatsApp**: +91-98160-91875 (preferred for SME and school enquiries, 9am–9pm IST, replies within 1 hour)
 - **Phone**: +91-98160-91875
 - **Email**: hello@divyansh.studio
-- **Contact form**: https://divyansh.studio/#contact (wired to Formspree)
-- **Based**: New Delhi, India (IST)
-- **Available**: Worldwide, remote — but specialises in the Indian market
+- **Contact form**: https://divyansh.studio/#contact (opens WhatsApp pre-filled with all enquiry details — no third-party form backend)
+- **Based**: Kangra Valley, Himachal Pradesh, India (IST)
+- **Available**: Worldwide, remote — primary focus on Himalayan businesses (HP + Uttarakhand) and the broader Indian market
 - **For SMEs and schools (cold-call landing page)**: https://divyansh.studio/sme.html (pricing front and centre, WhatsApp-first CTAs)
 - **For premium / referral leads (full studio site)**: https://divyansh.studio/
