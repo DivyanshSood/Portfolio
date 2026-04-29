@@ -1,0 +1,15 @@
+---
+import type { Project } from "../../data/projects-data";
+const { p } = Astro.props as { p: Project };
+---
+<section class="cs-next">
+  <div class="wrap">
+    <div class="row">
+      <div>
+        <div class="label">{p.nextLabel}</div>
+        <a class="name" href={`/projects/${p.nextSlug}`}>{p.nextName} <span class="arrow">→</span></a>
+      </div>
+      <a class="back-home" href="/#work">All projects</a>
+    </div>
+  </div>
+</section>

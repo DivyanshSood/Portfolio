@@ -1,0 +1,50 @@
+---
+const quotes = [
+  { av: "av-c", initial: "C", body: `"I did not think it could be achieved without going to e-commerce builders and only using custom code. Divyansh was amazing at his work and so transparent. They even produced a video gallery that looks just as good as our YouTube tutorials. I highly recommend Divyansh for any website building or maintenance project."`, who: "<strong>Chinki</strong> · Founder, ChinkiZ Knitting Knife", sig: "600K+ YouTube" },
+  { av: "av-m", initial: "M", body: `"Divyansh is an amazing developer. He understands the project and its scope, then proceeds with working his magic. He completed our website in under a week — every other agency we reached out to said it would take 6 months. Delivered in 7 days. Excited to work with him again."`, who: "<strong>Admin</strong> · Modern K.B.S., Ladwara", sig: "7-day delivery" },
+  { av: "av-i", initial: "I", body: `"Divyansh is amazing with his work. We are glad it worked out so fast and so well. Would recommend him to anyone who wants to own a website and run their agency."`, who: "<strong>Founder</strong> · InHimalayas", sig: "AI traffic lift" },
+  { av: "av-r", initial: "R", body: `"Bhai bhai bhai! Ye kya banal cheez bana dia. Itne time mein pura backend, frontend, design diya — koi aam agency nahi de paati!"`, who: "<strong>Founder</strong> · Redline Moto", sig: "Full stack · 1 sprint" },
+  { av: "av-n", initial: "N", body: `"The website is so beautiful — looks 10 times more premium than our competitors. We started getting direct bookings instead of losing them to Google Maps. Delighted to work with Divyansh."`, who: "<strong>Founder</strong> · Nandini Travels, Kangra", sig: "10× more premium" },
+  { av: "av-p", initial: "▲", body: `"Divyansh, exactly yahi chahiye tha. Humne pehle jisse karwaya tha vo sirf photos laga ke chala gaya. Tabse laga thumhe sahi developer keh ke buhthon krwaya — mein apne circle mein lifetime zaroor refer karunga."`, who: "<strong>Founder</strong> · North Peak Power Systems", sig: "Govt → private pivot" },
+];
+
+const logos = [
+  { d: "modernkbs", label: "Modern K.B.S." },
+  { d: "chinkiz", label: "ChinkiZ" },
+  { d: "redline", label: "Redline Moto" },
+  { d: "inhimalayas", label: "InHimalayas" },
+  { d: "dharamshala", label: "Dharamshala Tours" },
+  { d: "nandini", label: "Nandini Travels" },
+  { d: "northpeak", label: "North Peak" },
+  { d: "webseek", label: "WebSeek.ai" },
+];
+---
+<section class="testimonial" id="notes">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <div class="t-meta eyebrow">In their words</div>
+      <h2 class="t-h1">Client <span class="t-serif" style="color:var(--accent)">notes</span>.</h2>
+    </div>
+    <div class="quotes" data-stagger>
+      {quotes.map((q) => (
+        <figure class="quote-card" data-stagger-item>
+          <blockquote class="q-body">{q.body}</blockquote>
+          <figcaption class="q-foot">
+            <span class={`av ${q.av}`} aria-hidden="true">{q.initial}</span>
+            <span class="who" set:html={q.who}></span>
+            <span class="sig t-meta">{q.sig}</span>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+
+    <div class="logo-strip" data-reveal>
+      <div class="logo-strip-label t-meta">Trusted by</div>
+      <div class="logo-strip-row">
+        {logos.map((l) => (
+          <div class="logo-mark" data-logo={l.d}>{l.label}</div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

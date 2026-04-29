@@ -1,0 +1,26 @@
+---
+const faqs = [
+  { q: "What exactly do I get for ₹13,000?", a: "A custom-coded 5-page website (Home, About, Services, Gallery, Contact). Mobile-perfect. Lighthouse 90+. Contact form that sends every enquiry to your email AND your WhatsApp. Hosted free on Vercel for the first year. SEO basics (meta tags, sitemap, schema). 1 round of revisions. GST invoice. Delivered in 14 days from when you pay the advance." },
+  { q: "How does payment work? What if I don't like it?", a: "50% advance to start, 50% on delivery. UPI, NEFT, or Razorpay. GST invoice issued on first payment. If you don't like the design preview by Day 5 — full refund of advance, no questions, no friction." },
+  { q: "Domain and hosting — who pays?", a: "You buy your domain directly (₹600–1,200/yr on GoDaddy / Hostinger — I'll guide you, no markup). Hosting is included on Vercel free tier for year 1. After that, either pay ~₹2,000/yr for hosting OR enrol in the AMC at ₹2,500/month and I cover hosting + small updates." },
+  { q: "Can the site be in Hindi or my regional language?", a: "Yes. Hindi-English bilingual is a ₹3,000 add-on. Punjabi / Tamil / Marathi / Bengali / others — ₹5,000 each. You provide translations OR I work with a freelance translator at additional cost." },
+  { q: "I already have a Wix / WordPress site. Can you migrate?", a: "Yes. Migration from Wix / WordPress / Shopify to a custom site is included — no extra fee. I'll preserve your URLs and SEO so you don't lose Google ranking." },
+  { q: "How do I know you're real?", a: "Eight live client sites linked above (click each — they're real businesses). Four real founder testimonials, available on call. GST registration. Happy to do a 10-minute video call before you pay anything. Reply to me on WhatsApp at any number you find on the page — that's mine." },
+];
+---
+<section class="section" id="faq">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <div class="t-meta eyebrow">Common questions</div>
+      <h2 class="t-display">Before you <span class="t-serif" style="color:var(--accent)">ask</span>.</h2>
+    </div>
+    <div class="faq-list">
+      {faqs.map((f) => (
+        <details data-reveal>
+          <summary>{f.q}</summary>
+          <p>{f.a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,37 @@
+/* ============================================================
+   ── MARQUEE STRIP (between Work and Pricing) ────────────────
+   ============================================================ */
+
+.marquee {
+  border-top: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--hairline);
+  background: var(--ink-000);
+  overflow: hidden;
+  padding: 18px 0;
+  position: relative;
+}
+.marquee::before, .marquee::after {
+  content: '';
+  position: absolute; top: 0; bottom: 0; width: 80px;
+  z-index: 2;
+  pointer-events: none;
+}
+.marquee::before { left: 0; background: linear-gradient(90deg, var(--ink-000), transparent); }
+.marquee::after  { right: 0; background: linear-gradient(-90deg, var(--ink-000), transparent); }
+.marquee-track {
+  display: flex; align-items: center; gap: var(--s-5);
+  white-space: nowrap;
+  animation: marquee-scroll 42s linear infinite;
+}
+.marquee-item {
+  font-family: var(--f-display);
+  font-size: clamp(20px, 2.4vw, 32px);
+  font-weight: 500;
+  color: var(--bone-200);
+  letter-spacing: -0.02em;
+  flex-shrink: 0;
+}
+.marquee-dot { color: var(--accent); font-size: 8px; flex-shrink: 0; }
+@keyframes marquee-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) { .marquee-track { animation: none; } }
+

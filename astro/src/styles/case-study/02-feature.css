@@ -1,0 +1,23 @@
+/* ---- Featured image (right under hero) ---- */
+.cs-feature {
+  padding: var(--s-9) 0;
+  border-bottom: 1px solid var(--hairline);
+}
+.cs-feature .frame {
+  border-radius: var(--r-3);
+  overflow: hidden;
+  background: var(--ink-100);
+  box-shadow: var(--shadow-2);
+  position: relative;
+}
+.cs-feature .frame::after {
+  content: ''; position: absolute; inset: 0;
+  background-image: repeating-linear-gradient(135deg, rgba(255,255,255,0.04) 0 2px, transparent 2px 12px);
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+.cs-feature img {
+  width: 100%; height: auto;
+  display: block;
+}
+

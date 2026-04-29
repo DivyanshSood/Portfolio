@@ -1,0 +1,36 @@
+---
+import type { Project } from "../../data/projects-data";
+const { p } = Astro.props as { p: Project };
+const secondaryIsExternal = p.secondaryCtaHref.startsWith("http");
+---
+<header class="cs-hero">
+  <div class="cs-hero-aura"></div>
+  <div class="wrap">
+    <a class="cs-back" href="/#work">← All work</a>
+
+    <div class="cs-hero-meta">
+      <div class="field"><span class="label">Project</span><span class="val">{p.num} / {p.name}</span></div>
+      <div class="field"><span class="label">Year</span><span class="val">{p.year}</span></div>
+      <div class="field"><span class="label">Role</span><span class="val">{p.role}</span></div>
+      <div class="field"><span class="label">Stack</span><span class="val">{p.stackLine}</span></div>
+    </div>
+
+    <h1 class="cs-title" set:html={p.titleHTML} />
+
+    <div class="cs-sub">
+      <p class="lead"><span class="dash">—</span><Fragment set:html={p.lead} /></p>
+      <div class="cs-actions">
+        <a href={p.primaryCtaHref} class="btn btn-primary" target="_blank" rel="noopener">{p.primaryCtaLabel} <span class="arrow">↗</span></a>
+        <a href={p.secondaryCtaHref} class="btn btn-ghost" target={secondaryIsExternal ? '_blank' : undefined} rel={secondaryIsExternal ? 'noopener' : undefined}>{p.secondaryCtaLabel}</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="cs-feature">
+  <div class="wrap">
+    <div class="frame">
+      <img src={p.featureSrc} alt={p.featureAlt} loading="eager" />
+    </div>
+  </div>
+</section>

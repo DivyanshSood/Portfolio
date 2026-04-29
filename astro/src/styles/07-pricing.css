@@ -1,0 +1,191 @@
+/* ============================================================
+   ── PRICING GRID ─────────────────────────────────────────────
+   ============================================================ */
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--s-4);
+}
+@media (max-width: 1080px) { .pricing-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px)  { .pricing-grid { grid-template-columns: 1fr; gap: var(--s-3); } }
+
+.pcard {
+  position: relative;
+  display: flex; flex-direction: column;
+  padding: var(--s-5);
+  background: rgba(255, 255, 255, 0.025);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--r-3);
+  overflow: hidden;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 4px 24px rgba(0, 0, 0, 0.25);
+  transition: border-color .3s var(--ease-out), transform .3s var(--ease-out), background .3s var(--ease-out), box-shadow .3s var(--ease-out);
+}
+.pcard::before {
+  content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 1px;
+  background: var(--pcard-stripe, var(--hairline-2));
+  opacity: .6;
+  transition: opacity .3s var(--ease-out);
+}
+.pcard:hover { transform: translateY(-3px); border-color: rgba(255, 255, 255, 0.16); background: rgba(255, 255, 255, 0.045); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 16px 36px -18px rgba(0, 0, 0, 0.5); }
+.pcard:hover::before { opacity: 1; }
+
+/* Unified neutral palette — featured/custom keep the gold accent */
+.pcard-a,
+.pcard-c,
+.pcard-d        { --pcard-stripe: var(--bone-300); }
+.pcard-b        { --pcard-stripe: var(--accent); }
+
+.pcard-top { display: flex; align-items: center; gap: var(--s-3); margin-bottom: var(--s-3); }
+.pcard-num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px;
+  color: var(--pcard-stripe);
+  flex-shrink: 0;
+}
+.pcard-num svg { width: 100%; height: 100%; display: block; }
+.pcard-tier { color: var(--bone-400); }
+.pcard-title {
+  font-family: var(--f-display);
+  font-size: 18px; line-height: 1.25;
+  letter-spacing: -0.015em;
+  color: var(--bone-100);
+  margin: 0 0 var(--s-3);
+  font-weight: 500;
+  min-height: 44px;
+}
+
+.pcard-price {
+  display: flex; align-items: baseline; gap: 2px;
+  font-family: var(--f-display);
+  color: var(--bone-100);
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+}
+.pcard-cur { font-size: 20px; color: var(--bone-300); margin-right: 2px; }
+.pcard-amt { font-size: 32px; font-weight: 600; }
+.pcard-time { color: var(--pcard-stripe); margin-bottom: var(--s-4); }
+
+.pcard-blurb {
+  font-size: 13px; line-height: 1.55;
+  color: var(--bone-300);
+  margin: 0 0 var(--s-4);
+}
+.pcard-list {
+  list-style: none; padding: 0; margin: 0 0 var(--s-5);
+  display: flex; flex-direction: column; gap: 6px;
+  flex-grow: 1;
+}
+.pcard-list li {
+  font-size: 12.5px; line-height: 1.5;
+  color: var(--bone-200);
+  padding-left: 18px;
+  position: relative;
+}
+.pcard-list li::before {
+  content: '✓';
+  position: absolute; left: 0; top: 0;
+  color: var(--pcard-stripe);
+  font-size: 11px;
+  font-weight: 600;
+}
+.pcard-cta {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 14px;
+  font-family: var(--f-mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--pcard-stripe);
+  border: 1px solid var(--pcard-stripe);
+  border-radius: var(--r-full);
+  text-decoration: none;
+  transition: background .2s var(--ease-out), color .2s var(--ease-out);
+  width: fit-content;
+}
+.pcard-cta:hover { background: var(--pcard-stripe); color: var(--ink-050); }
+.pcard-cta .arrow { transition: transform .2s var(--ease-out); }
+.pcard-cta:hover .arrow { transform: translate(2px, -2px); }
+
+/* Featured card — Starter (B) */
+.pcard-featured {
+  background:
+    linear-gradient(180deg, rgba(232,198,140,0.08) 0%, rgba(232,198,140,0.02) 60%),
+    rgba(255, 255, 255, 0.025);
+  border-color: rgba(232,198,140,0.28);
+  box-shadow: inset 0 1px 0 rgba(232,198,140,0.12), 0 4px 24px rgba(0, 0, 0, 0.25);
+}
+.pcard-flag {
+  position: absolute; top: 12px; right: 12px;
+  padding: 3px 9px;
+  background: var(--accent);
+  color: var(--ink-050);
+  border-radius: var(--r-full);
+  font-weight: 600;
+}
+
+/* Custom-build card — same grid cell size as others, gold accent */
+.pcard-custom {
+  --pcard-stripe: var(--accent);
+  background:
+    radial-gradient(ellipse at top right, rgba(232,198,140,0.12) 0%, transparent 60%),
+    rgba(255, 255, 255, 0.025);
+  border-color: rgba(232,198,140,0.30);
+  box-shadow: inset 0 1px 0 rgba(232,198,140,0.10), 0 4px 24px rgba(0, 0, 0, 0.25);
+}
+
+/* AMC + Add-ons supporting strip */
+.pricing-secondary {
+  margin-top: var(--s-6);
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: var(--s-4);
+}
+@media (max-width: 760px) { .pricing-secondary { grid-template-columns: 1fr; } }
+.psec {
+  padding: var(--s-5);
+  background: var(--ink-050);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-3);
+}
+.psec-num { color: var(--bone-400); margin-bottom: var(--s-2); display: block; }
+.psec-title {
+  font-family: var(--f-display);
+  font-size: 16px;
+  color: var(--bone-100);
+  margin-bottom: var(--s-3);
+}
+.psec-price {
+  display: flex; align-items: baseline; gap: 4px;
+  margin-bottom: var(--s-3);
+}
+.psec-price > span:first-child {
+  font-family: var(--f-display);
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: -0.02em;
+}
+.psec-suffix { color: var(--bone-400); }
+.psec-list {
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.psec-list-2col {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px var(--s-4);
+}
+@media (max-width: 520px) { .psec-list-2col { grid-template-columns: 1fr; } }
+.psec-list li {
+  font-size: 13px;
+  color: var(--bone-200);
+  display: flex; justify-content: space-between; gap: var(--s-3);
+}
+.psec-list li span {
+  color: var(--bone-400);
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: .04em;
+}
+

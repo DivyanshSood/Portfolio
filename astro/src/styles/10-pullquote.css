@@ -1,0 +1,40 @@
+/* ============================================================
+   ── EDITORIAL PULL-QUOTE (between Stack and Testimonials) ───
+   ============================================================ */
+
+.pullquote {
+  padding: var(--s-9) 0;
+  border-top: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--hairline);
+  background:
+    radial-gradient(ellipse at center, rgba(232,198,140,0.04) 0%, transparent 70%),
+    var(--ink-000);
+  position: relative;
+}
+.pq {
+  max-width: 980px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+}
+.pq-mark {
+  font-size: clamp(80px, 12vw, 160px);
+  color: var(--accent);
+  opacity: 0.18;
+  line-height: 1;
+  position: absolute;
+  top: -40px; left: 50%; transform: translateX(-50%);
+  pointer-events: none;
+}
+.pq-text {
+  font-family: var(--f-display);
+  font-size: clamp(32px, 5.4vw, 72px);
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: var(--bone-100);
+  font-weight: 500;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+

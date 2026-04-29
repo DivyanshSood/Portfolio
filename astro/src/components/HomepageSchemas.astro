@@ -1,0 +1,9 @@
+---
+// All 4 JSON-LD blocks for the homepage. Imported once into Base.astro
+// so Base.astro stays focused on structural head/scripts.
+import { schemaLocalBusiness, schemaFAQ, schemaHowTo, schemaPerson } from "../data/schemas";
+---
+<script type="application/ld+json" is:inline set:html={JSON.stringify(schemaLocalBusiness)} />
+<script type="application/ld+json" is:inline set:html={JSON.stringify(schemaFAQ)} />
+<script type="application/ld+json" is:inline set:html={JSON.stringify(schemaHowTo)} />
+<script type="application/ld+json" is:inline set:html={JSON.stringify(schemaPerson)} />

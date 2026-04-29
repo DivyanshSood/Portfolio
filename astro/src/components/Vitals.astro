@@ -1,0 +1,34 @@
+---
+// Live Core Web Vitals readout shown in the footer. ~40 lines, no library.
+---
+<script is:inline>
+(function () {
+  var q = function (k) { return document.querySelector('[data-metric="' + k + '"]'); };
+  var fmt = function (n, unit) { return (n < 10 ? n.toFixed(2) : Math.round(n)) + unit; };
+  try {
+    var nav = performance.getEntriesByType('navigation')[0];
+    if (nav && q('ttfb')) q('ttfb').textContent = fmt(nav.responseStart, 'ms');
+  } catch (e) {}
+  try {
+    new PerformanceObserver(function (list) {
+      var entries = list.getEntries(); var last = entries[entries.length - 1];
+      if (q('lcp')) q('lcp').textContent = fmt(last.renderTime || last.loadTime || last.startTime, 'ms');
+    }).observe({ type: 'largest-contentful-paint', buffered: true });
+  } catch (e) {}
+  var cls = 0;
+  try {
+    new PerformanceObserver(function (list) {
+      list.getEntries().forEach(function (e) { if (!e.hadRecentInput) cls += e.value; });
+      if (q('cls')) q('cls').textContent = cls.toFixed(3);
+    }).observe({ type: 'layout-shift', buffered: true });
+  } catch (e) {}
+  var inp = 0;
+  try {
+    new PerformanceObserver(function (list) {
+      list.getEntries().forEach(function (e) {
+        if (e.duration > inp) { inp = e.duration; if (q('inp')) q('inp').textContent = fmt(inp, 'ms'); }
+      });
+    }).observe({ type: 'event', buffered: true, durationThreshold: 16 });
+  } catch (e) {}
+})();
+</script>

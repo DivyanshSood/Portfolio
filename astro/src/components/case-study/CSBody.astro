@@ -1,0 +1,33 @@
+---
+import type { Project } from "../../data/projects-data";
+const { p } = Astro.props as { p: Project };
+---
+<section class="cs-body">
+  <div class="wrap">
+    <div class="widget-stack">
+      {p.body.map((w) => {
+        const cls = `cs-widget${w.span2 ? ' span-2' : ''}`;
+        return (
+          <div class={cls}>
+            <div class="w-head">
+              <span class="w-tag">{w.tag}</span>
+              {w.title && <span class="w-title">{w.title}</span>}
+            </div>
+            {w.type === 'prose' && <p set:html={w.html} />}
+            {w.type === 'list' && (
+              <ul class="stack-list" style={w.oneCol ? 'grid-template-columns:1fr;' : undefined}>
+                {w.items!.map((item) => <li>{item}</li>)}
+              </ul>
+            )}
+            {w.type === 'quote' && (
+              <>
+                <div class="quote-block">{w.quote}</div>
+                {w.attribution && <p style="color:var(--bone-400);font-size:13px;margin-top:4px;">{w.attribution}</p>}
+              </>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</section>

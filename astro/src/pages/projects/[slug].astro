@@ -1,0 +1,33 @@
+---
+import { projects } from "../../data/projects-data";
+import type { Project } from "../../data/projects-data";
+import CaseStudyBase from "../../layouts/CaseStudyBase.astro";
+import CSHero from "../../components/case-study/CSHero.astro";
+import CSResults from "../../components/case-study/CSResults.astro";
+import CSBody from "../../components/case-study/CSBody.astro";
+import CSGallery from "../../components/case-study/CSGallery.astro";
+import CSNext from "../../components/case-study/CSNext.astro";
+import CSFooter from "../../components/case-study/CSFooter.astro";
+
+export function getStaticPaths() {
+  return projects.map((p) => ({ params: { slug: p.slug }, props: { project: p } }));
+}
+
+const { project: p } = Astro.props as { project: Project };
+const canonical = `https://divyanshsood.com/projects/${p.slug}.html`;
+---
+<CaseStudyBase
+  title={p.title}
+  description={p.description}
+  ogTitle={p.ogTitle}
+  ogDescription={p.ogDescription}
+  ogImage={p.ogImage}
+  canonical={canonical}
+>
+  <CSHero p={p} />
+  <CSResults p={p} />
+  <CSBody p={p} />
+  <CSGallery p={p} />
+  <CSNext p={p} />
+  <CSFooter />
+</CaseStudyBase>

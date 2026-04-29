@@ -1,0 +1,30 @@
+---
+const groups = [
+  { head: "Design", items: ["Custom layouts (no themes)", "Logo design (Premium)", "Brand palette & typography", "Mobile-first wireframes", "Day-5 preview & refund"], open: true },
+  { head: "Build", items: ["Custom-coded (Astro / Next.js)", "Lighthouse 90+ score", "SEO basics + Schema markup", "llms.txt for AI search", "WhatsApp + email forms"], open: false },
+  { head: "Content & Media", items: ["Copywriting guidance", "Image production (add-on)", "Hero video editing (add-on)", "Hindi / regional language", "Royalty-free stock setup"], open: false },
+  { head: "Launch & After", items: ["Domain & hosting setup", "Razorpay / UPI integration", "Google Business profile help", "30 days free fixes post-launch", "5-min video walkthrough"], open: false },
+];
+---
+<section class="section" id="included">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <div class="t-meta eyebrow">What's included · Every project</div>
+      <h2 class="t-display">A to Z. <span class="t-serif" style="color:var(--accent)">No surprises</span>.</h2>
+    </div>
+    <div class="incl-grid" data-stagger>
+      {groups.map((g) => (
+        <details class="incl-col" data-stagger-item open={g.open}>
+          <summary>
+            <span class="incl-head" set:html={g.head}></span>
+            <span class="incl-count">5 items</span>
+            <span class="exp-icon" aria-hidden="true"></span>
+          </summary>
+          <ul>
+            {g.items.map((item) => <li>{item}</li>)}
+          </ul>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

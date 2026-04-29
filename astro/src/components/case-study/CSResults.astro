@@ -1,0 +1,13 @@
+---
+import type { Project } from "../../data/projects-data";
+const { p } = Astro.props as { p: Project };
+---
+<section class="cs-results">
+  <div class="wrap">
+    <div class="row">
+      {p.metrics.map((m) => (
+        <div class="metric"><div class="v">{m.v}</div><div class="l">{m.l}</div></div>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,22 @@
+---
+// Dev-only tweaks panel. Loads React + Babel-in-browser only when ?tweaks=1
+// is present in the URL. Keeps the runtime cost zero for normal visitors.
+---
+<div id="tweaks-root"></div>
+<script is:inline>
+(function () {
+  if (!new URLSearchParams(location.search).has('tweaks')) return;
+  var S = [
+    { src: 'https://unpkg.com/react@18.3.1/umd/react.development.js' },
+    { src: 'https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js' },
+    { src: 'https://unpkg.com/@babel/standalone@7.29.0/babel.min.js' },
+    { src: '/tweaks-panel.jsx', type: 'text/babel' },
+    { src: '/tweaks.jsx', type: 'text/babel' }
+  ];
+  S.forEach(function (s) {
+    var el = document.createElement('script');
+    el.src = s.src; if (s.type) el.type = s.type;
+    document.body.appendChild(el);
+  });
+})();
+</script>

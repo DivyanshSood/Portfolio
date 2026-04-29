@@ -1,0 +1,103 @@
+---
+---
+<section class="section" id="contact">
+  <div class="wrap">
+    <div class="cta-block">
+      <div class="t-meta tiny" data-reveal>Ready when you are</div>
+      <h2 data-reveal data-reveal-delay="100">Let's get your<br>website <em>live</em>.</h2>
+
+      <div class="contact-quick" data-reveal data-reveal-delay="160">
+        <a href="https://wa.me/919816091875?text=Hi%20Divyansh,%20I%20want%20a%20website%20for%20my%20business." target="_blank" rel="noopener" class="contact-quick-btn whatsapp">
+          <span class="big">WhatsApp now</span>
+          <span class="small">Reply within 1h · 9am–9pm IST</span>
+        </a>
+        <a href="tel:+919816091875" class="contact-quick-btn phone">
+          <span class="big">📞 Call directly</span>
+          <span class="small">+91-98160-91875</span>
+        </a>
+      </div>
+
+      <p class="contact-or t-meta" data-reveal data-reveal-delay="200">— or fill the form below —</p>
+
+      <form class="contact-form" id="contact-form" data-reveal data-reveal-delay="240" novalidate>
+        <input type="text" name="_gotcha" style="display:none !important" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <div class="row-2">
+          <label class="f"><span>Your name</span><input name="name" type="text" autocomplete="name" required /></label>
+          <label class="f"><span>WhatsApp number</span><input name="phone" type="tel" autocomplete="tel" placeholder="+91 XXXXX XXXXX" required /></label>
+        </div>
+        <div class="row-2">
+          <label class="f"><span>Business name</span><input name="company" type="text" autocomplete="organization" /></label>
+          <label class="f"><span>Budget</span>
+            <select name="budget">
+              <option>Landing · ₹7K–10K</option>
+              <option>Starter · 5 pages · ₹13K–16K</option>
+              <option>Business · 10–15 pages · ₹28K–32K</option>
+              <option>Premium · school / e-com / brand · ₹48K–55K</option>
+              <option>Custom build — let's talk</option>
+              <option>AMC · hosting + updates · ₹2,500/mo</option>
+              <option>Not sure yet — please advise</option>
+            </select>
+          </label>
+        </div>
+        <label class="f"><span>Email <span style="opacity:.5;font-weight:400;">(optional)</span></span><input name="email" type="email" autocomplete="email" placeholder="you@yourbusiness.com" /></label>
+        <label class="f"><span>What do you want to build?</span><textarea name="project" rows="4" placeholder="One short paragraph. Add a link to your current site or competitor sites you like." required></textarea></label>
+        <div class="f-actions">
+          <button type="submit" class="btn btn-primary" id="form-submit-btn">Send on WhatsApp <span class="arrow">↗</span></button>
+          <a href="https://wa.me/919816091875?text=Hi%20Divyansh,%20I%20want%20a%20website%20for%20my%20business." target="_blank" rel="noopener" class="t-small" style="color:var(--bone-300)">or WhatsApp without form ↗</a>
+        </div>
+        <div id="form-status" class="form-status" hidden></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+(function () {
+  var form = document.getElementById('contact-form');
+  if (!form) return;
+  var status = document.getElementById('form-status');
+  var formLoadedAt = Date.now();
+  var WA_NUMBER = '919816091875';
+
+  function val(name) {
+    var el = form.querySelector('[name="' + name + '"]');
+    return el && el.value ? el.value.trim() : '';
+  }
+  function buildMessage() {
+    var lines = [
+      'Hi Divyansh — new enquiry from divyanshsood.com',
+      '',
+      'Name: ' + (val('name') || '—'),
+      'WhatsApp: ' + (val('phone') || '—'),
+      'Business: ' + (val('company') || '—'),
+      'Budget: ' + (val('budget') || '—'),
+    ];
+    if (val('email')) lines.push('Email: ' + val('email'));
+    lines.push('', 'Project:', val('project') || '—');
+    return lines.join('\n');
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (form.querySelector('[name="_gotcha"]').value) return;
+    if ((Date.now() - formLoadedAt) / 1000 < 3) {
+      status.hidden = false;
+      status.className = 'form-status form-status-err';
+      status.innerHTML = 'Hmm, that was too fast. Are you human? Please try again.';
+      return;
+    }
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+
+    var url = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(buildMessage());
+    try { localStorage.setItem('ds_last_enquiry', JSON.stringify({ at: Date.now(), msg: buildMessage() })); } catch (_) {}
+    if (window.gtag) gtag('event', 'generate_lead');
+
+    var win = window.open(url, '_blank', 'noopener');
+    if (!win) { window.location.href = url; }
+
+    status.hidden = false;
+    status.className = 'form-status form-status-ok';
+    status.innerHTML = '<strong>Opened WhatsApp.</strong> Tap send inside the chat to reach me. If nothing opened, <a href="' + url + '" target="_blank" rel="noopener">tap here</a>.';
+  });
+})();
+</script>

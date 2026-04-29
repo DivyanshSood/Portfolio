@@ -1,0 +1,37 @@
+/* ============================================================
+   ── Visual rhythm refresh ───────────────────────────────────
+   Pricing cards · case-study strips · bento stack ·
+   editorial pull-quote · marquee · logo strip ·
+   mountain scroll progress
+   ============================================================ */
+
+/* Subtle alternating section tint (kills the "everything's the same dark" feel) */
+.section-pricing { background: linear-gradient(180deg, rgba(232,198,140,0.025) 0%, transparent 60%); }
+.section-stack   { background: linear-gradient(180deg, rgba(20,20,26,0.6) 0%, transparent 100%); }
+
+/* ---- Case-study strip on work cards ---- */
+.case-strip {
+  display: flex; flex-direction: column; gap: 8px;
+  padding-top: var(--s-3);
+  border-top: 1px solid var(--hairline);
+}
+.case-line { display: grid; grid-template-columns: 78px 1fr; gap: var(--s-3); align-items: baseline; }
+.case-tag {
+  font-family: var(--f-mono);
+  font-size: 9px; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--bone-500);
+  padding: 3px 7px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-full);
+  width: fit-content;
+}
+.case-text { font-size: 13px; line-height: 1.5; color: var(--bone-200); }
+.case-line-out .case-tag { color: var(--accent); border-color: rgba(232,198,140,0.35); background: var(--accent-dim); }
+.case-line-out .case-text { color: var(--bone-100); }
+.case-text em { color: var(--accent); font-family: var(--f-serif); font-style: italic; font-weight: 400; }
+
+@media (max-width: 520px) {
+  .case-line { grid-template-columns: 64px 1fr; gap: 10px; }
+  .case-text { font-size: 12.5px; }
+}
+

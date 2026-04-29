@@ -1,0 +1,24 @@
+User-agent: *
+Allow: /
+
+# AI crawlers — explicitly allow (default for most, but explicit removes ambiguity)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+# Sitemap location
+Sitemap: https://divyanshsood.com/sitemap.xml
+
+# Machine-readable site summary for LLMs
+# https://divyanshsood.com/llms.txt

@@ -1,0 +1,52 @@
+---
+import "../styles/index.css";
+import "../styles/case-study.css";
+import AnalyticsHead from "../components/AnalyticsHead.astro";
+import TweaksLoader from "../components/TweaksLoader.astro";
+import Nav from "../components/Nav.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  ogTitle: string;
+  ogDescription: string;
+  ogImage: string;
+  canonical: string;
+}
+const { title, description, ogTitle, ogDescription, ogImage, canonical } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <AnalyticsHead />
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <meta name="theme-color" content="#0A0A0B" />
+  <link rel="canonical" href={canonical} />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230A0A0B'/%3E%3Ctext x='50%25' y='62%25' text-anchor='middle' font-family='Inter, sans-serif' font-weight='700' font-size='18' fill='%23E8C68C'%3ED%3C/text%3E%3C/svg%3E" />
+
+  <meta property="og:title" content={ogTitle} />
+  <meta property="og:description" content={ogDescription} />
+  <meta property="og:image" content={ogImage} />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://ik.imagekit.io" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+</head>
+<body>
+  <Nav />
+  <slot />
+
+  <div class="scroll-progress" id="scroll-progress"></div>
+
+  <TweaksLoader />
+
+  <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js" is:inline></script>
+  <script src="/interactions.js" is:inline></script>
+</body>
+</html>

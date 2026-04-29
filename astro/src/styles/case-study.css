@@ -1,0 +1,9 @@
+/* Case-study page styles. Imported by CaseStudyBase.astro on top of the
+   global stylesheet. Vite inlines the @imports at build time. */
+
+@import "./case-study/01-hero.css";
+@import "./case-study/02-feature.css";
+@import "./case-study/03-results.css";
+@import "./case-study/04-body.css";
+@import "./case-study/05-gallery.css";
+@import "./case-study/06-next.css";

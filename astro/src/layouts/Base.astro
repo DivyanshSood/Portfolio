@@ -1,0 +1,52 @@
+---
+import "../styles/index.css";
+import AnalyticsHead from "../components/AnalyticsHead.astro";
+import HeadMeta from "../components/HeadMeta.astro";
+import HomepageSchemas from "../components/HomepageSchemas.astro";
+import Vitals from "../components/Vitals.astro";
+import TweaksLoader from "../components/TweaksLoader.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonical?: string;
+}
+const {
+  title = "Website Developer from Himachal · Starting ₹7,000 · Live in 14 Days · Divyansh Sood",
+  description = "Custom-coded websites for SMEs, schools & creators — built from Kangra Valley, from ₹7,000, live in 14 days. GST invoice, 50% advance, refund by Day 5.",
+  canonical = "https://divyanshsood.com/",
+} = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <AnalyticsHead />
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+
+  <HeadMeta />
+  <HomepageSchemas />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://ik.imagekit.io" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+</head>
+<body>
+  <slot />
+
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
+  <Vitals />
+  <TweaksLoader />
+
+  <!-- Lenis smooth scroll -->
+  <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js" is:inline></script>
+  <!-- Page interactions -->
+  <script src="/interactions.js" is:inline></script>
+</body>
+</html>

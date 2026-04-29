@@ -1,0 +1,110 @@
+/* ============================================================
+   TESTIMONIAL AVATAR INITIALS
+   ============================================================ */
+.av {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--f-mono); font-size: 12px; font-weight: 600;
+  color: white;
+  letter-spacing: 0;
+  flex-shrink: 0;
+}
+.av-c { background: linear-gradient(135deg, #d99454, #8f6a3e); }
+.av-m { background: linear-gradient(135deg, #4d6b3e, #2a4220); }
+.av-i { background: linear-gradient(135deg, #3d5a80, #1a2030); }
+.av-r { background: linear-gradient(135deg, #a3522e, #5d2515); }
+
+/* ---- Tech Stack — list items (used in case study widgets) ---- */
+.stack-list { list-style: none; padding: 0 var(--s-5) var(--s-5); margin: 0; display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--hairline); padding-top: var(--s-4); }
+.stack-list li {
+  font-size: 13px; line-height: 1.55; color: var(--bone-300);
+  padding-left: 16px; position: relative;
+}
+.stack-list li::before {
+  content: '·'; position: absolute; left: 0; top: -2px;
+  color: var(--accent); font-weight: 700;
+}
+.stack-list li strong {
+  color: var(--bone-100); font-weight: 500;
+  font-family: var(--f-mono); font-size: 12px;
+  letter-spacing: -0.005em;
+}
+
+
+/* ---- Contact quick row (WhatsApp + Phone before form) ---- */
+.contact-quick {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: var(--s-4);
+  margin: var(--s-7) auto var(--s-5);
+  max-width: 640px;
+}
+.contact-quick-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: 22px 24px;
+  border-radius: var(--r-3, 16px);
+  text-decoration: none;
+  transition: transform .25s var(--ease-out), background .3s var(--ease-out);
+  text-align: center;
+}
+.contact-quick-btn .big {
+  font-family: var(--f-display); font-size: 19px; letter-spacing: -0.01em; font-weight: 600;
+}
+.contact-quick-btn .small {
+  font-family: var(--f-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; opacity: .8;
+}
+.contact-quick-btn.whatsapp { background: #25D366; color: #062b13; }
+.contact-quick-btn.phone { background: var(--bone-100); color: var(--ink-050); }
+.contact-quick-btn:hover { transform: translateY(-2px); }
+.contact-or {
+  text-align: center;
+  margin: var(--s-5) auto;
+  color: var(--bone-400);
+  letter-spacing: .14em;
+}
+@media (max-width: 640px) { .contact-quick { grid-template-columns: 1fr; } }
+
+/* ---- FAQ (replaces design system section) ---- */
+#faq .faq-list { max-width: 820px; margin: 0 auto; border-top: 1px solid var(--hairline); }
+#faq details {
+  border-bottom: 1px solid var(--hairline);
+  padding: var(--s-5) 0;
+  cursor: pointer;
+}
+#faq summary {
+  list-style: none;
+  font-family: var(--f-display);
+  font-size: clamp(18px, 1.6vw, 22px);
+  font-weight: 600; letter-spacing: -0.01em;
+  color: var(--bone-100);
+  display: flex; justify-content: space-between; align-items: center;
+  gap: var(--s-4);
+}
+#faq summary::after {
+  content: '+';
+  font-family: var(--f-mono); font-size: 22px;
+  color: var(--accent);
+  transition: transform .25s var(--ease-out);
+}
+#faq details[open] summary::after { transform: rotate(45deg); }
+#faq details p {
+  margin: var(--s-3) 0 0;
+  color: var(--bone-300);
+  font-size: 15px; line-height: 1.6;
+  max-width: 60ch;
+}
+
+/* ---- Live performance readout ---- */
+.perf {
+  display: flex; flex-wrap: wrap; gap: var(--s-5);
+  padding: var(--s-5) 0; margin-bottom: var(--s-5);
+  border-bottom: 1px solid var(--hairline);
+  font-variant-numeric: tabular-nums;
+}
+.perf .perf-label { color: var(--accent); }
+.perf .perf-metric { color: var(--bone-300); }
+.perf .perf-metric em { color: var(--bone-400); font-style: normal; margin-right: 6px; letter-spacing: .14em; }
+.perf .perf-metric span { color: var(--bone-100); }
+
+
+

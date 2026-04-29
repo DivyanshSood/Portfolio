@@ -1,0 +1,48 @@
+---
+import { work } from "../data/work-data";
+---
+<section class="work" id="work">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <div class="t-meta eyebrow">Selected Work · 8 live · more in build</div>
+      <h2 class="t-display">Real <span class="t-serif" style="color:var(--accent)">businesses</span>. Real revenue.</h2>
+    </div>
+
+    <div class="work-grid" data-stagger>
+      {work.map((p) => (
+        <a class="work-card" data-stagger-item href={p.href}>
+          <div class="work-media">
+            <div class="work-fade" data-fade>
+              {p.images.map((img) => (
+                <img loading="lazy" alt={img.alt} src={img.src} />
+              ))}
+            </div>
+            {p.images.length > 1 && (
+              <div class="work-dots" aria-hidden="true">
+                {p.images.map(() => <span></span>)}
+              </div>
+            )}
+          </div>
+          <div class="work-body">
+            <div class="work-row">
+              <div class="t-meta">{p.meta}</div>
+              <div class="work-pill">{p.pill}</div>
+            </div>
+            <h3 class="t-h2">{p.title}</h3>
+            <p class="work-blurb">{p.blurb}</p>
+            <div class="case-strip">
+              <div class="case-line"><span class="case-tag">Problem</span><span class="case-text">{p.case.problem}</span></div>
+              <div class="case-line"><span class="case-tag">Built</span><span class="case-text" set:html={p.case.built}></span></div>
+              <div class="case-line case-line-out"><span class="case-tag">Outcome</span><span class="case-text" set:html={p.case.outcome}></span></div>
+            </div>
+            <div class="work-kpis">
+              {p.kpis.map((k) => (
+                <div><strong>{k.v}</strong><span>{k.l}</span></div>
+              ))}
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,129 @@
+---
+// SVG strings kept inline to match current markup exactly.
+const customSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6L5.6 18.4"/></svg>`;
+const landingSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="1.5"/><line x1="9" y1="9" x2="15" y2="9"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg>`;
+const starterSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="10" x2="20" y2="10"/><line x1="4" y1="14" x2="20" y2="14"/><line x1="4" y1="18" x2="14" y2="18"/></svg>`;
+const businessSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="8" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/><rect x="13" y="13" width="8" height="8" rx="1"/></svg>`;
+const premiumSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 12l9 5 9-5"/><path d="M3 17l9 5 9-5"/></svg>`;
+---
+<section class="section section-pricing" id="engagements">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <h2 class="t-display">Pick a <span class="t-serif" style="color:var(--accent)">package</span>.</h2>
+    </div>
+
+    <div class="pricing-grid" data-stagger>
+      <article class="pcard pcard-custom" data-stagger-item>
+        <div class="pcard-flag t-meta">Custom</div>
+        <div class="pcard-top">
+          <span class="pcard-num" aria-hidden="true" set:html={customSvg}></span>
+          <span class="pcard-tier t-meta">Custom build</span>
+        </div>
+        <h3 class="pcard-title">Not sure which one?</h3>
+        <div class="pcard-price"><span class="pcard-amt">Quote</span></div>
+        <div class="pcard-time t-meta">In 10 min · 5-day refund</div>
+        <p class="pcard-blurb">Multi-vendor, SaaS, mid-build rescue, anything weirder than the standard tiers.</p>
+        <ul class="pcard-list">
+          <li>Multi-vendor marketplace</li>
+          <li>SaaS / app + admin panel</li>
+          <li>Mid-build rescue (Wix / WP)</li>
+        </ul>
+        <a class="pcard-cta" href="https://wa.me/919816091875?text=Hi%20Divyansh,%20I%20have%20a%20custom%20project.%20Quick%20description%3A" target="_blank" rel="noopener">Chat on WhatsApp <span class="arrow">↗</span></a>
+      </article>
+
+      <article class="pcard pcard-a" data-stagger-item>
+        <div class="pcard-top">
+          <span class="pcard-num" aria-hidden="true" set:html={landingSvg}></span>
+          <span class="pcard-tier t-meta">Landing</span>
+        </div>
+        <h3 class="pcard-title">Single high-converting page</h3>
+        <div class="pcard-price"><span class="pcard-cur">₹</span><span class="pcard-amt">7K–10K</span></div>
+        <div class="pcard-time t-meta">5 days · live URL</div>
+        <p class="pcard-blurb">For ad campaigns, product launches, lead-gen for service businesses.</p>
+        <ul class="pcard-list">
+          <li>Hero + offer + social proof + lead form</li>
+          <li>WhatsApp-first form</li>
+          <li>Mobile-first, Lighthouse 90+</li>
+        </ul>
+        <a class="pcard-cta" href="https://wa.me/919816091875?text=Hi%20Divyansh,%20I%20want%20the%20Landing%20package%20(%E2%82%B97-10K).%20My%20business%20is..." target="_blank" rel="noopener">Discuss on WhatsApp <span class="arrow">↗</span></a>
+      </article>
+
+      <article class="pcard pcard-b pcard-featured" data-stagger-item>
+        <div class="pcard-flag t-meta">Most picked</div>
+        <div class="pcard-top">
+          <span class="pcard-num" aria-hidden="true" set:html={starterSvg}></span>
+          <span class="pcard-tier t-meta">Starter</span>
+        </div>
+        <h3 class="pcard-title">5-page business site</h3>
+        <div class="pcard-price"><span class="pcard-cur">₹</span><span class="pcard-amt">13K–16K</span></div>
+        <div class="pcard-time t-meta">14 days · live URL</div>
+        <p class="pcard-blurb">Home, About, Services, Gallery, Contact. SMEs, clinics, salons, CAs, photographers.</p>
+        <ul class="pcard-list">
+          <li>Form → WhatsApp + email</li>
+          <li>Lighthouse 90+ on mobile</li>
+          <li>Free hosting · year 1</li>
+        </ul>
+        <a class="pcard-cta" href="https://wa.me/919816091875?text=Hi%20Divyansh,%20I%20want%20the%20Starter%20package%20(%E2%82%B913-16K).%20My%20business%20is..." target="_blank" rel="noopener">Discuss on WhatsApp <span class="arrow">↗</span></a>
+      </article>
+
+      <article class="pcard pcard-c" data-stagger-item>
+        <div class="pcard-top">
+          <span class="pcard-num" aria-hidden="true" set:html={businessSvg}></span>
+          <span class="pcard-tier t-meta">Business</span>
+        </div>
+        <h3 class="pcard-title">10–15 pages with CMS</h3>
+        <div class="pcard-price"><span class="pcard-cur">₹</span><span class="pcard-amt">28K–32K</span></div>
+        <div class="pcard-time t-meta">2–3 weeks · live URL</div>
+        <p class="pcard-blurb">Boutique hotels, coaching centres, larger D2C. Your team can update content.</p>
+        <ul class="pcard-list">
+          <li>Simple admin panel (no developer needed)</li>
+          <li>Hindi / regional language ready</li>
+          <li>WhatsApp commerce flow</li>
+        </ul>
+        <a class="pcard-cta" href="https://wa.me/919816091875?text=Hi%20Divyansh,%20I%20want%20the%20Business%20package%20(%E2%82%B928-32K).%20My%20business%20is..." target="_blank" rel="noopener">Discuss on WhatsApp <span class="arrow">↗</span></a>
+      </article>
+
+      <article class="pcard pcard-d" data-stagger-item>
+        <div class="pcard-top">
+          <span class="pcard-num" aria-hidden="true" set:html={premiumSvg}></span>
+          <span class="pcard-tier t-meta">Premium</span>
+        </div>
+        <h3 class="pcard-title">School portal · E-com · Brand</h3>
+        <div class="pcard-price"><span class="pcard-cur">₹</span><span class="pcard-amt">48K–55K</span></div>
+        <div class="pcard-time t-meta">3–5 weeks · live URL</div>
+        <p class="pcard-blurb">Like ModernKBS, ChinkiZ, Redline. Custom admin, Razorpay, full identity from scratch.</p>
+        <ul class="pcard-list">
+          <li>Custom admin / dashboard</li>
+          <li>Razorpay · UPI · COD</li>
+          <li>Logo &amp; identity included</li>
+        </ul>
+        <a class="pcard-cta" href="https://wa.me/919816091875?text=Hi%20Divyansh,%20I%20want%20the%20Premium%20package%20(%E2%82%B948-55K).%20My%20business%20is..." target="_blank" rel="noopener">Discuss on WhatsApp <span class="arrow">↗</span></a>
+      </article>
+    </div>
+
+    <div class="pricing-secondary" data-reveal>
+      <div class="psec psec-amc">
+        <div class="psec-num t-meta">+ AMC</div>
+        <div class="psec-title">Hosting, uptime, monthly updates</div>
+        <div class="psec-price"><span>₹2,500</span><span class="psec-suffix t-meta">/month</span></div>
+        <ul class="psec-list">
+          <li>Uptime monitoring · daily backups</li>
+          <li>2 hours of changes per month</li>
+          <li>Domain + SSL renewals handled</li>
+        </ul>
+      </div>
+      <div class="psec psec-addons">
+        <div class="psec-num t-meta">+ Add-ons</div>
+        <div class="psec-title">Logo · Copy · Photo · Video · Languages</div>
+        <ul class="psec-list psec-list-2col">
+          <li>Logo design <span>₹4,000</span></li>
+          <li>Hindi-English bilingual <span>₹3,000</span></li>
+          <li>Other language (Punjabi/Tamil/…) <span>₹5,000</span></li>
+          <li>Extra page beyond package <span>₹2,000</span></li>
+          <li>Product photography <span>from ₹6,000</span></li>
+          <li>Hero video edit <span>from ₹8,000</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

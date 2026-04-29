@@ -1,0 +1,59 @@
+/* ---- Gallery — preserves each image's natural aspect ratio ---- */
+.cs-gallery {
+  padding: var(--s-9) 0;
+  border-bottom: 1px solid var(--hairline);
+}
+.cs-gallery .head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  gap: var(--s-5); flex-wrap: wrap;
+  margin-bottom: var(--s-7);
+  padding-bottom: var(--s-5);
+  border-bottom: 1px solid var(--hairline);
+}
+.cs-gallery .head .label {
+  font-family: var(--f-mono); font-size: 11px; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--bone-400);
+  display: flex; align-items: center; gap: var(--s-2);
+}
+.cs-gallery .head .label::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent); box-shadow: 0 0 10px var(--accent);
+}
+.cs-gallery .head .note { color: var(--bone-400); font-family: var(--f-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
+
+/* CSS columns gives a clean masonry where each image keeps its natural
+   aspect ratio. Safari/Firefox/Chrome all balance columns the same way. */
+.cs-gallery .grid {
+  column-count: 2;
+  column-gap: var(--s-5);
+}
+.cs-gallery .grid .item {
+  break-inside: avoid;
+  margin: 0 0 var(--s-5);
+  border-radius: var(--r-3);
+  overflow: hidden;
+  background: var(--ink-100);
+  box-shadow: var(--shadow-2);
+  position: relative;
+  display: block;
+}
+.cs-gallery .grid .item::after {
+  content: ''; position: absolute; inset: 0;
+  background-image: repeating-linear-gradient(135deg, rgba(255,255,255,0.03) 0 2px, transparent 2px 12px);
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+.cs-gallery .grid img {
+  width: 100%; height: auto;
+  display: block;
+  transition: transform .8s var(--ease-out);
+}
+.cs-gallery .grid .item:hover img { transform: scale(1.015); }
+
+/* When a gallery has a single item, let it span the full column */
+.cs-gallery .grid.single { column-count: 1; }
+
+@media (max-width: 700px) {
+  .cs-gallery .grid { column-count: 1; }
+}
+

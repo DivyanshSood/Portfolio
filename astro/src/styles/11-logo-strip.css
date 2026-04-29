@@ -1,0 +1,37 @@
+/* ============================================================
+   ── CLIENT LOGO STRIP (after testimonials) ──────────────────
+   ============================================================ */
+
+.logo-strip {
+  margin-top: var(--s-8);
+  padding-top: var(--s-6);
+  border-top: 1px solid var(--hairline);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+  align-items: center;
+}
+.logo-strip-label {
+  color: var(--bone-500);
+}
+.logo-strip-row {
+  display: flex; flex-wrap: wrap;
+  align-items: center; justify-content: center;
+  gap: var(--s-4) var(--s-7);
+  width: 100%;
+}
+.logo-mark {
+  font-family: var(--f-display);
+  font-size: 18px; font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--bone-300);
+  opacity: 0.7;
+  transition: opacity .25s var(--ease-out), color .25s var(--ease-out);
+  filter: grayscale(1);
+}
+.logo-mark:hover { opacity: 1; color: var(--bone-100); filter: grayscale(0); }
+@media (max-width: 600px) {
+  .logo-strip-row { gap: var(--s-3) var(--s-5); }
+  .logo-mark { font-size: 15px; }
+}
+

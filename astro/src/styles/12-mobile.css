@@ -1,0 +1,80 @@
+/* ============================================================
+   ── MOBILE LAYOUT — horizontal swipe carousels ──────────────
+   ============================================================ */
+
+@media (max-width: 760px) {
+  /* Tighter section breathing room on phones */
+  .section { padding: var(--s-6) 0; }
+  .section-head { margin-bottom: var(--s-4); }
+
+  /* Work cards — horizontal swipe carousel
+     align-items: flex-start so each card sizes to its own content (varying KPI/copy length)
+     instead of stretching to match the tallest sibling, which creates dead space at the bottom of shorter cards. */
+  .work-grid {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    gap: var(--s-4);
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding: 4px var(--gutter) var(--s-2);
+    margin: 0 calc(var(--gutter) * -1);
+    scrollbar-width: none;
+  }
+  .work-grid::-webkit-scrollbar { display: none; }
+  .work-card,
+  .work-card-nopic {
+    flex: 0 0 86%;
+    min-width: 86%;
+    scroll-snap-align: start;
+  }
+  /* Pricing cards — horizontal swipe carousel */
+  .pricing-grid {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: var(--s-3);
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding: 4px var(--gutter) var(--s-2);
+    margin: 0 calc(var(--gutter) * -1);
+    scrollbar-width: none;
+  }
+  .pricing-grid::-webkit-scrollbar { display: none; }
+  .pcard {
+    flex: 0 0 84%;
+    min-width: 84%;
+    scroll-snap-align: start;
+    align-self: stretch;
+  }
+  .pcard .pcard-list { flex-grow: 1; }
+  /* Bento table: hide bento grid, show compact table on mobile */
+  .bento { display: none; }
+  .stack-table-mobile { display: block; }
+
+  /* Hero text — was clipping at 80px floor on small screens */
+  .t-mega { font-size: clamp(48px, 13vw, 96px); line-height: 0.92; }
+  .hero h1 { line-height: 0.95; }
+
+  /* Tighter hero KPIs */
+  .hero-kpis { margin-top: var(--s-5); }
+
+  /* Tighter "Under the hood" foot text */
+
+  /* Tighter pull-quote */
+  .pullquote { padding: var(--s-6) 0; }
+  /* Tighter testimonial section on phones */
+  .testimonial { padding: var(--s-7) var(--gutter); }
+}
+
+@media (max-width: 480px) {
+  .pcard-amt { font-size: 26px; }
+  .pcard-title { min-height: 0; }
+  .work-card,
+  .work-card-nopic { flex-basis: 88%; min-width: 88%; }
+  .pcard { flex-basis: 86%; min-width: 86%; }
+}

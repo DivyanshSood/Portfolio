@@ -1,0 +1,19 @@
+---
+import type { Project } from "../../data/projects-data";
+const { p } = Astro.props as { p: Project };
+---
+<section class="cs-gallery">
+  <div class="wrap">
+    <div class="head">
+      <span class="label">{p.galleryLabel}</span>
+      <span class="note">More shots coming soon</span>
+    </div>
+    <div class={`grid${p.gallerySingle ? ' single' : ''}`}>
+      {p.gallery.map((img) => (
+        <a class="item" href={img.src} target="_blank" rel="noopener">
+          <img src={img.src} alt={img.alt} loading="lazy" />
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,32 @@
+/* ---- Next-project nav ---- */
+.cs-next {
+  padding: var(--s-10) 0;
+  border-bottom: 1px solid var(--hairline);
+  background: linear-gradient(180deg, var(--ink-050), #0c0c0e);
+}
+.cs-next .row {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: var(--s-5); flex-wrap: wrap;
+}
+.cs-next .label {
+  font-family: var(--f-mono); font-size: 11px; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--bone-400);
+  margin-bottom: 8px;
+}
+.cs-next .name {
+  font-family: var(--f-display); font-size: clamp(32px, 4.5vw, 64px);
+  font-weight: 500; letter-spacing: -0.025em; line-height: 1;
+  color: var(--bone-100);
+  display: inline-flex; align-items: baseline; gap: 14px;
+  transition: color .3s var(--ease-out);
+}
+.cs-next .name:hover { color: var(--accent); }
+.cs-next .name .arrow { font-size: 0.6em; color: var(--accent); }
+.cs-next a.back-home {
+  font-family: var(--f-mono); font-size: 11px; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--bone-300);
+  padding: 12px 18px; border: 1px solid var(--hairline-2);
+  border-radius: var(--r-full);
+  transition: border-color .3s var(--ease-out), color .3s var(--ease-out);
+}
+.cs-next a.back-home:hover { border-color: var(--accent); color: var(--accent); }

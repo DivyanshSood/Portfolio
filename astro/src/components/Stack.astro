@@ -1,0 +1,114 @@
+---
+const tableRows = [
+  ["Frontend", "Astro · Next.js · React · Tailwind · Framer Motion"],
+  ["Backend", "Node · Vercel Fns · CF Workers · Supabase · Sanity · Resend · Clerk"],
+  ["Payments", "Razorpay · Stripe · UPI · COD · WhatsApp API"],
+  ["Hosting", "Vercel · Cloudflare Pages · R2 · WAF"],
+  ["SEO / AI", "JSON-LD · llms.txt · Sitemap · OpenGraph · Lighthouse 90+"],
+  ["AI tools", "Claude · GPT · Gemini · pgvector · Cursor"],
+];
+---
+<section class="section section-stack" id="stack">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <div class="t-meta eyebrow">Tech stack · Bento</div>
+      <h2 class="t-display">Under the <span class="t-serif" style="color:var(--accent)">hood</span>.</h2>
+      <p class="t-small" style="max-width: 640px; margin-top: var(--s-4); color: var(--bone-300);">Open, owned by you, chosen for the job — not the trend. No proprietary lock-in.</p>
+    </div>
+
+    <div class="stack-table-mobile">
+      <div class="st-wrap">
+        <table>
+          <thead><tr><th>Layer</th><th>Tech</th></tr></thead>
+          <tbody>
+            {tableRows.map(([layer, tech]) => (
+              <tr><td>{layer}</td><td>{tech}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="bento" data-stagger>
+      <details class="bento-tile bento-1" data-stagger-item open>
+        <summary>
+          <span class="bento-num t-meta">01 / Frontend</span>
+          <h3 class="bento-title">Astro · Next 15 · React 19 · Tailwind 4</h3>
+          <span class="exp-icon" aria-hidden="true"></span>
+        </summary>
+        <div class="bento-body">
+          <div class="bento-tags">
+            <span>Astro</span><span>Next.js</span><span>React</span><span>Tailwind</span><span>Framer Motion</span><span>Lenis</span>
+          </div>
+        </div>
+      </details>
+
+      <details class="bento-tile bento-2" data-stagger-item>
+        <summary>
+          <span class="bento-num t-meta">02 / Backend</span>
+          <h3 class="bento-title">Serverless · Postgres · Headless CMS</h3>
+          <span class="exp-icon" aria-hidden="true"></span>
+        </summary>
+        <div class="bento-body">
+          <div class="bento-tags">
+            <span>Node</span><span>Vercel Fns</span><span>CF Workers</span><span>Supabase</span><span>Sanity</span><span>Resend</span><span>Clerk</span>
+          </div>
+        </div>
+      </details>
+
+      <details class="bento-tile bento-3 bento-accent" data-stagger-item>
+        <summary>
+          <span class="bento-num t-meta">03 / Payments</span>
+          <h3 class="bento-title">Razorpay · Stripe · WhatsApp Business API</h3>
+          <span class="exp-icon" aria-hidden="true"></span>
+        </summary>
+        <div class="bento-body">
+          <p class="bento-blurb">India-first checkout (UPI · cards · NEFT · COD) for SMEs. International when needed.</p>
+          <div class="bento-tags">
+            <span>Razorpay</span><span>Stripe</span><span>WATI</span><span>Hydrogen</span><span>Medusa</span>
+          </div>
+        </div>
+      </details>
+
+      <details class="bento-tile bento-4" data-stagger-item>
+        <summary>
+          <span class="bento-num t-meta">04 / Hosting</span>
+          <h3 class="bento-title">Vercel · Cloudflare · CDN</h3>
+          <span class="exp-icon" aria-hidden="true"></span>
+        </summary>
+        <div class="bento-body">
+          <div class="bento-tags">
+            <span>Vercel</span><span>CF Pages</span><span>R2</span><span>Netlify</span><span>WAF</span>
+          </div>
+        </div>
+      </details>
+
+      <details class="bento-tile bento-5 bento-wide" data-stagger-item>
+        <summary>
+          <span class="bento-num t-meta">05 / SEO · GEO · AI search</span>
+          <h3 class="bento-title">JSON-LD schema · llms.txt · Lighthouse 90+</h3>
+          <span class="exp-icon" aria-hidden="true"></span>
+        </summary>
+        <div class="bento-body">
+          <p class="bento-blurb">Tuned for both Google rich results and LLM crawlers (Claude · GPT · Perplexity). This very page ships with 4 schema blocks, an <code>llms.txt</code>, and a sitemap.</p>
+          <div class="bento-tags">
+            <span>Schema.org</span><span>llms.txt</span><span>Sitemap</span><span>OpenGraph</span><span>Lighthouse CI</span>
+          </div>
+        </div>
+      </details>
+
+      <details class="bento-tile bento-6" data-stagger-item>
+        <summary>
+          <span class="bento-num t-meta">06 / AI tooling</span>
+          <h3 class="bento-title">Claude · GPT · Gemini + WebSeek.ai</h3>
+          <span class="exp-icon" aria-hidden="true"></span>
+        </summary>
+        <div class="bento-body">
+          <div class="bento-tags">
+            <span>Anthropic SDK</span><span>OpenAI SDK</span><span>pgvector</span><span>Pinecone</span><span>Cursor</span>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
