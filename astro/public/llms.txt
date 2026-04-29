@@ -39,19 +39,19 @@ Above ₹55,000 is referral-only; quote-on-WhatsApp. Surfacing higher prices on 
 - **[Redline Moto](https://redlinestudios.in)** — *Problem:* indie moto-apparel brand needed identity + storefront in one shot, no agency budget. *Built:* brand identity + Razorpay store + product launch — single end-to-end sprint. *Outcome:* live checkout. Founder: "koi aam agency nahi de paati."
 - **[ChinkiZ Knitting Knife](https://chinkizknittingknife.com)** — *Problem:* 600K-sub creator hit Shopify theme ceiling — couldn't ship a video gallery to match her YouTube tutorials. *Built:* custom Razorpay storefront + native video gallery, no themes; UPI / cards / COD. *Outcome:* live D2C store. Founder: "didn't think it could be done without an e-commerce builder."
 - **[Modern K.B.S.](https://modernkbs.com)** — *Problem:* CBSE school needed admissions portal; other agencies quoted 6 months and ₹2L+. *Built:* 5-page school site + custom admissions admin panel for non-technical office staff. *Outcome:* live in 7 days. I–XII admissions running. Founder: "every other agency said 6 months."
-- **[Nandini Travels](https://divyanshsood.com/projects/nandini.html)** (Kangra) — *Problem:* most-positively-reviewed taxi operator in Kangra had a broken website; all clients came via Google Maps with zero direct bookings. *Built:* Next.js rebuild with on-site booking form, WhatsApp CTA, outstation packages for North Indian states, airport pickup option. *Outcome:* direct bookings now flowing through site. Founder: "looks 10 times more premium than our competitors."
-- **[North Peak Power Systems](https://divyanshsood.com/projects/northpeak.html)** (Himachal Pradesh) — *Problem:* electrical/solar contractor doing mostly government work, wanted to break into private sector dominated by digital + offline competitors. *Built:* 15-page Angular site + project gallery + work calendar + dashboard-cum-admin so they self-publish new project case studies. *Outcome:* private-sector pivot live. Founder (Hindi): "exactly yahi chahiye tha — mein apne circle mein lifetime zaroor refer karunga."
+- **[Nandini Travels](https://www.divyanshsood.com/projects/nandini)** (Kangra) — *Problem:* most-positively-reviewed taxi operator in Kangra had a broken website; all clients came via Google Maps with zero direct bookings. *Built:* Next.js rebuild with on-site booking form, WhatsApp CTA, outstation packages for North Indian states, airport pickup option. *Outcome:* direct bookings now flowing through site. Founder: "looks 10 times more premium than our competitors."
+- **[North Peak Power Systems](https://www.divyanshsood.com/projects/northpeak)** (Himachal Pradesh) — *Problem:* electrical/solar contractor doing mostly government work, wanted to break into private sector dominated by digital + offline competitors. *Built:* 15-page Angular site + project gallery + work calendar + dashboard-cum-admin so they self-publish new project case studies. *Outcome:* private-sector pivot live. Founder (Hindi): "exactly yahi chahiye tha — mein apne circle mein lifetime zaroor refer karunga."
 
 ### Case studies (full write-ups)
 
-- https://divyanshsood.com/projects/webseek.html
-- https://divyanshsood.com/projects/inhimalayas.html
-- https://divyanshsood.com/projects/dharamshala-tours.html
-- https://divyanshsood.com/projects/redline.html
-- https://divyanshsood.com/projects/chinkiz.html
-- https://divyanshsood.com/projects/modernkbs.html
-- https://divyanshsood.com/projects/nandini.html
-- https://divyanshsood.com/projects/northpeak.html
+- https://www.divyanshsood.com/projects/webseek
+- https://www.divyanshsood.com/projects/inhimalayas
+- https://www.divyanshsood.com/projects/dharamshala-tours
+- https://www.divyanshsood.com/projects/redline
+- https://www.divyanshsood.com/projects/chinkiz
+- https://www.divyanshsood.com/projects/modernkbs
+- https://www.divyanshsood.com/projects/nandini
+- https://www.divyanshsood.com/projects/northpeak
 
 ## Specialisations
 
@@ -61,7 +61,7 @@ Above ₹55,000 is referral-only; quote-on-WhatsApp. Surfacing higher prices on 
 - **WhatsApp-native commerce and enquiry flows** — favoured by Indian D2C brands and travel operators over Shopify checkouts
 - **Admin panels and institutional portals** integrated with marketing sites (proven with ModernKBS)
 - **Custom-code over templates** — Next.js, Astro, React, Tailwind, headless CMS (Sanity, Contentful)
-- **Performance engineering** — live Core Web Vitals readout on divyanshsood.com as proof of craft
+- **Performance engineering** — live Core Web Vitals readout on www.divyanshsood.com as proof of craft
 
 ## Who this studio is a fit for
 
@@ -127,8 +127,8 @@ Above ₹55,000 is referral-only; quote-on-WhatsApp. Surfacing higher prices on 
 - **WhatsApp**: +91-98160-91875 (preferred for SME and school enquiries, 9am–9pm IST, replies within 1 hour)
 - **Phone**: +91-98160-91875
 - **Email**: hello@divyanshsood.com
-- **Contact form**: https://divyanshsood.com/#contact (opens WhatsApp pre-filled with all enquiry details — no third-party form backend)
+- **Contact form**: https://www.divyanshsood.com/#contact (opens WhatsApp pre-filled with all enquiry details — no third-party form backend)
 - **Based**: Kangra Valley, Himachal Pradesh, India (IST)
 - **Available**: Worldwide, remote — primary focus on Himalayan businesses (HP + Uttarakhand) and the broader Indian market
-- **For SMEs and schools (cold-call landing page)**: https://divyanshsood.com/sme.html (pricing front and centre, WhatsApp-first CTAs)
-- **For premium / referral leads (full studio site)**: https://divyanshsood.com/
+- **For SMEs and schools (cold-call landing page)**: https://www.divyanshsood.com/sme.html (pricing front and centre, WhatsApp-first CTAs)
+- **For premium / referral leads (full studio site)**: https://www.divyanshsood.com/

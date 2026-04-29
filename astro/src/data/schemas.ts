@@ -4,12 +4,12 @@
 export const schemaLocalBusiness = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
-  "@id": "https://divyanshsood.com/#business",
+  "@id": "https://www.divyanshsood.com/#business",
   "name": "Divyansh Sood",
-  "alternateName": "divyanshsood.com — Custom websites for Himalayan businesses",
-  "url": "https://divyanshsood.com/",
+  "alternateName": "www.divyanshsood.com — Custom websites for Himalayan businesses",
+  "url": "https://www.divyanshsood.com/",
   "image": "https://ik.imagekit.io/dn2zdxiu3/Portfolioprojectimages/divyansh.webp",
-  "logo": "https://divyanshsood.com/assets/og.jpg",
+  "logo": "https://www.divyanshsood.com/assets/og.jpg",
   "description": "Solo web design + development studio in the Kangra Valley, Himachal Pradesh. Custom-coded websites for Himalayan small businesses, schools, clinics, hotels and creators — and the rest of India. Delivered in 14 days, starting ₹13,000. GST invoice, 50% advance, full refund if not approved by Day 5.",
   "founder": { "@type": "Person", "name": "Divyansh Sood" },
   "telephone": "+919816091875",
@@ -107,9 +107,9 @@ export const schemaPerson = {
   "@type": "Person",
   "name": "Divyansh Sood",
   "jobTitle": "Web Designer & Developer",
-  "url": "https://divyanshsood.com/",
+  "url": "https://www.divyanshsood.com/",
   "image": "https://ik.imagekit.io/dn2zdxiu3/Portfolioprojectimages/divyansh.webp",
-  "worksFor": { "@type": "Organization", "name": "Divyansh Sood", "url": "https://divyanshsood.com/" },
+  "worksFor": { "@type": "Organization", "name": "Divyansh Sood", "url": "https://www.divyanshsood.com/" },
   "address": { "@type": "PostalAddress", "addressLocality": "Kangra Valley", "addressRegion": "Himachal Pradesh", "addressCountry": "IN" },
   "knowsAbout": ["Website Design", "Web Development", "Astro", "Next.js", "Tailwind CSS", "Razorpay", "WhatsApp Business API", "GEO Optimization", "LLM SEO", "School Website Development", "E-commerce Development"]
 };

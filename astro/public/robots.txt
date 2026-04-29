@@ -18,7 +18,7 @@ User-agent: ChatGPT-User
 Allow: /
 
 # Sitemap location
-Sitemap: https://divyanshsood.com/sitemap.xml
+Sitemap: https://www.divyanshsood.com/sitemap.xml
 
 # Machine-readable site summary for LLMs
-# https://divyanshsood.com/llms.txt
+# https://www.divyanshsood.com/llms.txt
