@@ -21,13 +21,13 @@ const logos = [
 ---
 <section class="testimonial" id="notes">
   <div class="wrap">
-    <div class="section-head" data-reveal>
+    <div class="section-head">
       <div class="t-meta eyebrow">In their words</div>
       <h2 class="t-h1">Client <span class="t-serif" style="color:var(--accent)">notes</span>.</h2>
     </div>
-    <div class="quotes" data-stagger>
+    <div class="quotes">
       {quotes.map((q) => (
-        <figure class="quote-card" data-stagger-item>
+        <figure class="quote-card">
           <blockquote class="q-body">{q.body}</blockquote>
           <figcaption class="q-foot">
             <span class={`av ${q.av}`} aria-hidden="true">{q.initial}</span>
@@ -38,7 +38,7 @@ const logos = [
       ))}
     </div>
 
-    <div class="logo-strip" data-reveal>
+    <div class="logo-strip">
       <div class="logo-strip-label t-meta">Trusted by</div>
       <div class="logo-strip-row">
         {logos.map((l) => (

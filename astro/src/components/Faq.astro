@@ -10,13 +10,13 @@ const faqs = [
 ---
 <section class="section" id="faq">
   <div class="wrap">
-    <div class="section-head" data-reveal>
+    <div class="section-head">
       <div class="t-meta eyebrow">Common questions</div>
       <h2 class="t-display">Before you <span class="t-serif" style="color:var(--accent)">ask</span>.</h2>
     </div>
     <div class="faq-list">
       {faqs.map((f) => (
-        <details data-reveal>
+        <details>
           <summary>{f.q}</summary>
           <p>{f.a}</p>
         </details>

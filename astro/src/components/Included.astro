@@ -8,13 +8,13 @@ const groups = [
 ---
 <section class="section" id="included">
   <div class="wrap">
-    <div class="section-head" data-reveal>
+    <div class="section-head">
       <div class="t-meta eyebrow">What's included · Every project</div>
       <h2 class="t-display">A to Z. <span class="t-serif" style="color:var(--accent)">No surprises</span>.</h2>
     </div>
-    <div class="incl-grid" data-stagger>
+    <div class="incl-grid">
       {groups.map((g) => (
-        <details class="incl-col" data-stagger-item open={g.open}>
+        <details class="incl-col" open={g.open}>
           <summary>
             <span class="incl-head" set:html={g.head}></span>
             <span class="incl-count">5 items</span>

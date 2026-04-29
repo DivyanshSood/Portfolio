@@ -3,14 +3,14 @@ import { work } from "../data/work-data";
 ---
 <section class="work" id="work">
   <div class="wrap">
-    <div class="section-head" data-reveal>
+    <div class="section-head">
       <div class="t-meta eyebrow">Selected Work · 8 live · more in build</div>
       <h2 class="t-display">Real <span class="t-serif" style="color:var(--accent)">businesses</span>. Real revenue.</h2>
     </div>
 
-    <div class="work-grid" data-stagger>
+    <div class="work-grid">
       {work.map((p) => (
-        <a class="work-card" data-stagger-item href={p.href}>
+        <a class="work-card" href={p.href}>
           <div class="work-media">
             <div class="work-fade" data-fade>
               {p.images.map((img) => (

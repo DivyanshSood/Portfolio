@@ -1,74 +1,11 @@
 /* ============================================================
-   Page interactions — Lenis smooth scroll + scroll-driven anims
+   Page interactions — work card image crossfade only
    ============================================================ */
 (function () {
-  // ---------- Smooth scroll ----------
-  let lenis = null;
-  if (window.Lenis) {
-    lenis = new Lenis({
-      duration: 1.25,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-      wheelMultiplier: 1.0,
-      touchMultiplier: 1.5,
-    });
-    function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-    requestAnimationFrame(raf);
-
-    // Respect reduced motion
-    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      lenis.destroy();
-      lenis = null;
-    }
-  }
-
-  const $  = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
-  const lerp = (a, b, t) => a + (b - a) * t;
-  const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
-
-  function onScroll(cb) {
-    if (lenis) lenis.on('scroll', cb);
-    else window.addEventListener('scroll', cb, { passive: true });
-  }
-
-  // ---------- Reveal-on-scroll (IntersectionObserver) ----------
-  const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach((e) => {
-      if (e.isIntersecting) {
-        const el = e.target;
-        const delay = parseInt(el.dataset.revealDelay || '0', 10);
-        setTimeout(() => el.classList.add('in'), delay);
-        revealObserver.unobserve(el);
-      }
-    });
-  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
-
-  $$('[data-reveal]').forEach((el) => revealObserver.observe(el));
-
-  // Staggered children
-  const staggerObserver = new IntersectionObserver((entries) => {
-    entries.forEach((e) => {
-      if (e.isIntersecting) {
-        const items = $$('[data-stagger-item]', e.target);
-        items.forEach((it, i) => setTimeout(() => it.classList.add('in'), i * 70));
-        staggerObserver.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-  $$('[data-stagger]').forEach((el) => staggerObserver.observe(el));
-
-  // Hero lines
-  const hero = $('.hero h1.reveal-lines');
-  if (hero) requestAnimationFrame(() => hero.classList.add('in'));
-
-  // ---------- Parallax (background slower than foreground) ----------
-  const parallaxEls = $$('[data-parallax]').map((el) => ({
-    el, speed: parseFloat(el.dataset.parallax) || 0.2,
-  }));
-
-  // ---------- Work card image fades — auto-rotating crossfade ----------
   const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Work card image fades — auto-rotating crossfade
   $$('[data-fade]').forEach((fade, fadeIdx) => {
     const imgs = $$('img', fade);
     const card = fade.closest('.work-card');
@@ -102,72 +39,11 @@
     }, { threshold: 0.35 });
     io.observe(fade);
 
-    // Tap a dot to jump
     dots.forEach((d, i) => {
       d.addEventListener('click', (e) => {
         e.preventDefault(); e.stopPropagation();
         setActive(i);
       });
-    });
-  });
-
-  // ---------- Scroll progress bar ----------
-  const scrollBar = $('#scroll-progress');
-
-
-  // ---------- Master scroll handler ----------
-  function update() {
-    const y = window.scrollY || window.pageYOffset;
-    const vh = window.innerHeight;
-    const docH = document.documentElement.scrollHeight - vh;
-
-    // Scroll progress bar
-    if (scrollBar) scrollBar.style.width = clamp(y / docH, 0, 1) * 100 + '%';
-
-    // (Nav stays static — no auto-hide)
-
-    // Parallax
-    for (const p of parallaxEls) {
-      const rect = p.el.getBoundingClientRect();
-      const centerDelta = (rect.top + rect.height / 2) - vh / 2;
-      const ty = -centerDelta * p.speed;
-      p.el.style.transform = `translate3d(0, ${ty.toFixed(2)}px, 0)`;
-    }
-
-    // (Old horizontal-scroll work section removed; cards use per-card image swipe instead)
-
-    // Scroll-linked hero scale/blur — lighter blur, gentler depth
-    const heroEl = $('.hero');
-    if (heroEl) {
-      const r = heroEl.getBoundingClientRect();
-      const p = clamp(-r.top / vh, 0, 1);
-      const h1 = heroEl.querySelector('h1');
-      if (h1) {
-        h1.style.transform = `translateZ(0) scale(${lerp(1, 0.96, p)})`;
-        h1.style.opacity = (1 - p * 0.55).toFixed(2);
-        h1.style.filter = `blur(${(p * 1.5).toFixed(2)}px)`;
-      }
-    }
-  }
-
-  onScroll(update);
-  window.addEventListener('resize', update);
-  update();
-  // Keep running via RAF too — handles non-lenis browsers more smoothly
-  function tick() { update(); requestAnimationFrame(tick); }
-  requestAnimationFrame(tick);
-
-
-  // ---------- Smooth anchor nav via Lenis ----------
-  $$('a[href^="#"]').forEach((a) => {
-    a.addEventListener('click', (e) => {
-      const id = a.getAttribute('href');
-      if (!id || id === '#') return;
-      const target = document.querySelector(id);
-      if (!target) return;
-      e.preventDefault();
-      if (lenis) lenis.scrollTo(target, { offset: -40, duration: 1.4 });
-      else target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
 })();

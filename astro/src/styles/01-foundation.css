@@ -68,11 +68,6 @@ html {
   overflow-x: clip;
   width: 100%;
 }
-/* When Lenis is active, it handles scrolling */
-html.lenis { height: auto; }
-html.lenis.lenis-smooth { scroll-behavior: auto !important; }
-html.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
-html.lenis.lenis-stopped { overflow: clip; }
 
 body {
   font-family: var(--f-sans);
@@ -296,11 +291,8 @@ img { max-width: 100%; display: block; }
 .hero .wrap { z-index: 2; }
 
 .hero h1 { margin-bottom: var(--s-7); position: relative; }
-.hero h1 .line { display: block; overflow: hidden; }
-.hero h1 .line-inner { display: inline-block; transform: translateY(110%); transition: transform 1.1s var(--ease-out); }
-.hero h1.in .line-inner { transform: translateY(0) !important; }
-.hero h1.in .line:nth-child(2) .line-inner { transition-delay: .1s; }
-.hero h1.in .line:nth-child(3) .line-inner { transition-delay: .2s; }
+.hero h1 .line { display: block; }
+.hero h1 .line-inner { display: inline-block; }
 
 .hero h1 .accent-word { font-family: var(--f-serif); font-style: italic; color: var(--accent); font-weight: 400; }
 
