@@ -1,0 +1,56 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Nav from '../../components/Nav.astro';
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const posts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+function formatDate(d: Date) {
+  return d.toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+---
+<Base
+  title="Blog · Divyansh Sood — Website Developer"
+  description="Practical guides on websites, SEO, and digital presence for small businesses in Himachal Pradesh and India."
+  canonical="https://www.divyanshsood.com/blog/"
+>
+  <Nav />
+  <main class="blog-index">
+    <div class="wrap">
+      <header class="blog-index-head">
+        <div class="t-meta eyebrow">Blog</div>
+        <h1 class="t-display">Guides &amp; notes on<br><span class="t-serif" style="color:var(--accent)">building online.</span></h1>
+        <p class="blog-index-sub">Practical writing on websites, SEO, and getting found — for businesses in Himachal Pradesh and beyond.</p>
+      </header>
+
+      {posts.length === 0 && (
+        <p class="blog-empty">Posts coming soon.</p>
+      )}
+
+      <ul class="blog-list">
+        {posts.map((post) => (
+          <li class="blog-card">
+            <a href={`/blog/${post.slug}/`} class="blog-card-inner">
+              <div class="blog-card-meta">
+                <time datetime={post.data.pubDate.toISOString()} class="blog-date t-mono">
+                  {formatDate(post.data.pubDate)}
+                </time>
+                {post.data.tags.length > 0 && (
+                  <div class="blog-tags">
+                    {post.data.tags.slice(0, 3).map(tag => (
+                      <span class="blog-tag">{tag}</span>
+                    ))}
+                  </div>
+                )}
+              </div>
+              <h2 class="blog-card-title">{post.data.title}</h2>
+              <p class="blog-card-desc">{post.data.description}</p>
+              <span class="blog-read-more">Read →</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </main>
+</Base>

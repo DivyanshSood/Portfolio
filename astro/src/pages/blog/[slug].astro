@@ -1,0 +1,59 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Nav from '../../components/Nav.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.slug }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+function formatDate(d: Date) {
+  return d.toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+---
+<Base
+  title={`${post.data.title} · Divyansh Sood`}
+  description={post.data.description}
+  canonical={`https://www.divyanshsood.com/blog/${post.slug}/`}
+>
+  <Nav />
+  <main class="blog-post">
+    <div class="wrap">
+      <div class="blog-post-back">
+        <a href="/blog/" class="back-link">← All posts</a>
+      </div>
+
+      <header class="blog-post-head">
+        <div class="blog-post-meta">
+          <time datetime={post.data.pubDate.toISOString()} class="blog-date t-mono">
+            {formatDate(post.data.pubDate)}
+          </time>
+          {post.data.tags.length > 0 && (
+            <div class="blog-tags">
+              {post.data.tags.map(tag => (
+                <span class="blog-tag">{tag}</span>
+              ))}
+            </div>
+          )}
+        </div>
+        <h1 class="blog-post-title">{post.data.title}</h1>
+        <p class="blog-post-desc">{post.data.description}</p>
+      </header>
+
+      <article class="blog-prose">
+        <Content />
+      </article>
+
+      <footer class="blog-post-footer">
+        <div class="blog-footer-inner">
+          <p>Need a website? I build fast, custom-coded sites for businesses in Himachal Pradesh — from ₹7,000, live in 14 days.</p>
+          <a href="https://wa.me/919816091875?text=Hi%20Divyansh,%20I%20want%20a%20website%20for%20my%20business." class="btn btn-primary" target="_blank" rel="noopener">WhatsApp now ↗</a>
+        </div>
+      </footer>
+    </div>
+  </main>
+</Base>
