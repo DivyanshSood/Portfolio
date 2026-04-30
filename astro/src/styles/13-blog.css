@@ -23,7 +23,7 @@
 }
 
 /* ---- Listing ---- */
-.blog-index { padding: calc(var(--s-9) + 24px) 0 var(--s-12); }
+.blog-index { padding-top: calc(var(--s-9) + 24px); padding-bottom: var(--s-11); }
 .blog-index-head { max-width: 640px; margin-bottom: var(--s-9); }
 .blog-index-head .eyebrow { margin-bottom: var(--s-4); }
 .blog-index-head h1 { margin-bottom: var(--s-4); }
@@ -42,7 +42,7 @@
 .blog-read-more { font-family: var(--f-mono); font-size: 12px; letter-spacing: .06em; color: var(--accent); text-transform: uppercase; }
 
 /* ---- Post ---- */
-.blog-post { padding: calc(var(--s-8) + 24px) 0 var(--s-12); }
+.blog-post { padding-top: calc(var(--s-8) + 24px); padding-bottom: var(--s-11); }
 .blog-post-back { margin-bottom: var(--s-6); }
 .back-link { font-family: var(--f-mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--bone-400); text-decoration: none; }
 .back-link:hover { color: var(--bone-100); }

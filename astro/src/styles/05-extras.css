@@ -94,6 +94,15 @@
   max-width: 60ch;
 }
 
+/* ---- Parallax shadow — cursor-driven depth ---- */
+[data-ps] { --ps-x: 0px; --ps-y: 0px; }
+h1[data-ps] {
+  filter: drop-shadow(var(--ps-x) var(--ps-y) 60px oklch(0.89 0.08 80 / 0.22));
+}
+@media (prefers-reduced-motion: reduce), (hover: none) {
+  h1[data-ps] { filter: none; }
+}
+
 /* ---- Live performance readout ---- */
 .perf {
   display: flex; flex-wrap: wrap; gap: var(--s-5);
