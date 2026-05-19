@@ -16,8 +16,8 @@
 .cs-hero-aura {
   position: absolute; inset: -20%;
   background:
-    radial-gradient(45% 35% at 18% 28%, oklch(0.89 0.08 80 / 0.16), transparent 60%),
-    radial-gradient(38% 28% at 82% 72%, oklch(0.55 0.1 30 / 0.18), transparent 70%);
+    radial-gradient(45% 35% at 18% 28%, oklch(0.46 0.26 274 / 0.07), transparent 60%),
+    radial-gradient(38% 28% at 82% 72%, oklch(0.70 0.18 320 / 0.07), transparent 70%);
   filter: blur(20px);
   pointer-events: none;
   z-index: 0;
@@ -57,8 +57,8 @@
 
 .cs-title {
   font-family: var(--f-display);
-  font-size: clamp(48px, 8vw, 112px);
-  font-weight: 500; letter-spacing: -0.035em; line-height: 0.94;
+  font-size: clamp(52px, 8.5vw, 116px);
+  font-weight: 400; letter-spacing: 0.02em; line-height: 0.95;
   margin-bottom: var(--s-6);
 }
 .cs-title em { font-family: var(--f-serif); font-style: italic; color: var(--accent); font-weight: 400; }

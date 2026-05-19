@@ -43,7 +43,7 @@ export const work: WorkCard[] = [
     meta: "02 · 2025 · TRAVEL · BOOKING",
     pill: "Revenue-share",
     title: "InHimalayas",
-    blurb: "Booking platform for Himalayan stays. Tuned for AI-search traffic.",
+    blurb: "Travel booking platform for stays and resorts. Tuned for AI-search traffic.",
     case: {
       problem: "Revenue-share travel brand needed a stays/resorts platform tuned for global travellers, not just India.",
       built: "Booking platform with llms.txt + GEO-optimisation built in from day one.",
@@ -141,11 +141,11 @@ export const work: WorkCard[] = [
   },
   {
     href: "/projects/nandini",
-    images: [{ src: "https://ik.imagekit.io/dn2zdxiu3/Portfolioprojectimages/nandinitravels/nandinitravels-1.webp", alt: "Nandini Travels — Kangra taxi operator homepage" }],
+    images: [{ src: "https://ik.imagekit.io/dn2zdxiu3/Portfolioprojectimages/nandinitravels/nandinitravels-1.webp", alt: "Nandini Travels — taxi operator homepage" }],
     meta: "07 · 2025 · TRAVEL · LOCAL",
     pill: "Direct bookings live",
     title: "Nandini Travels",
-    blurb: "Kangra's most-reviewed taxi operator. Rebuilt site, rebuilt funnel.",
+    blurb: "Most-reviewed taxi operator in the region. Rebuilt site, rebuilt funnel.",
     case: {
       problem: "Most-positively-reviewed taxi op in Kangra — but their website was down. All clients came via Google Maps; zero direct bookings.",
       built: "Next.js rebuild with on-site booking form, WhatsApp CTA, outstation packages for North Indian states, airport pickup option.",

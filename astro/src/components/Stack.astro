@@ -1,114 +1,72 @@
 ---
-const tableRows = [
-  ["Frontend", "Astro · Next.js · React · Tailwind · Framer Motion"],
-  ["Backend", "Node · Vercel Fns · CF Workers · Supabase · Sanity · Resend · Clerk"],
-  ["Payments", "Razorpay · Stripe · UPI · COD · WhatsApp API"],
-  ["Hosting", "Vercel · Cloudflare Pages · R2 · WAF"],
-  ["SEO / AI", "JSON-LD · llms.txt · Sitemap · OpenGraph · Lighthouse 90+"],
-  ["AI tools", "Claude · GPT · Gemini · pgvector · Cursor"],
+// Boring tech, loud results.
+// Bento layout: one dark hero cell explaining the philosophy + a chip tray,
+// supporting cells for hosting / payments / CMS / comms / i18n, and a
+// live-performance footer cell. Mobile collapses to a single column.
+
+const TECH = [
+  "Astro", "Next.js", "React", "TypeScript", "Tailwind",
+  "Sanity", "Supabase", "Razorpay", "Stripe", "Cloudflare",
+  "Vercel", "Resend",
 ];
 ---
-<section class="section section-stack" id="stack">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="t-meta eyebrow">Tech stack · Bento</div>
-      <h2 class="t-display">Under the <span class="t-serif" style="color:var(--accent)">hood</span>.</h2>
-      <p class="t-small" style="max-width: 640px; margin-top: var(--s-4); color: var(--bone-300);">Open, owned by you, chosen for the job — not the trend. No proprietary lock-in.</p>
-    </div>
+<section id="stack" class="stack-bento" aria-labelledby="stack-title">
+  <header class="sec-head">
+    <div class="sec-eyebrow"><span class="num">04</span><span>The Toolkit</span></div>
+    <h2 id="stack-title">Boring tech, <em>loud results.</em></h2>
+    <p>Astro, Next.js, Postgres. Not whatever shipped on Twitter last week.</p>
+  </header>
 
-    <div class="stack-table-mobile">
-      <div class="st-wrap">
-        <table>
-          <thead><tr><th>Layer</th><th>Tech</th></tr></thead>
-          <tbody>
-            {tableRows.map(([layer, tech]) => (
-              <tr><td>{layer}</td><td>{tech}</td></tr>
-            ))}
-          </tbody>
-        </table>
+  <div class="bento">
+    <article class="cell big">
+      <div class="cell-eye">Philosophy</div>
+      <h3>Use the <em>boring</em>, battle-tested ones.</h3>
+      <p>If your site has to outlive three rounds of "let's redesign", boring beats clever — every single time. Open standards, owned by you, zero lock-in.</p>
+      <div class="chip-tray" aria-label="Stack chips">
+        {TECH.map((t) => <span class="tech-chip">{t}</span>)}
       </div>
-    </div>
+    </article>
 
-    <div class="bento">
-      <details class="bento-tile bento-1" open>
-        <summary>
-          <span class="bento-num t-meta">01 / Frontend</span>
-          <h3 class="bento-title">Astro · Next 15 · React 19 · Tailwind 4</h3>
-          <span class="exp-icon" aria-hidden="true"></span>
-        </summary>
-        <div class="bento-body">
-          <div class="bento-tags">
-            <span>Astro</span><span>Next.js</span><span>React</span><span>Tailwind</span><span>Framer Motion</span><span>Lenis</span>
-          </div>
-        </div>
-      </details>
+    <article class="cell s1 tone-paprika">
+      <div class="cell-eye">Hosting</div>
+      <h3>Vercel · Cloudflare</h3>
+      <p>Edge-deployed everywhere. Bangalore in 0.9s. Brooklyn in 0.6s. Berlin in 0.7s.</p>
+    </article>
 
-      <details class="bento-tile bento-2">
-        <summary>
-          <span class="bento-num t-meta">02 / Backend</span>
-          <h3 class="bento-title">Serverless · Postgres · Headless CMS</h3>
-          <span class="exp-icon" aria-hidden="true"></span>
-        </summary>
-        <div class="bento-body">
-          <div class="bento-tags">
-            <span>Node</span><span>Vercel Fns</span><span>CF Workers</span><span>Supabase</span><span>Sanity</span><span>Resend</span><span>Clerk</span>
-          </div>
-        </div>
-      </details>
+    <article class="cell s2 tone-cream">
+      <div class="cell-eye">Payments</div>
+      <h3>₹ · $ · €</h3>
+      <p>Razorpay for India. Stripe for everyone else. UPI, cards, wallets — no PayPal arguments.</p>
+    </article>
 
-      <details class="bento-tile bento-3 bento-accent">
-        <summary>
-          <span class="bento-num t-meta">03 / Payments</span>
-          <h3 class="bento-title">Razorpay · Stripe · WhatsApp Business API</h3>
-          <span class="exp-icon" aria-hidden="true"></span>
-        </summary>
-        <div class="bento-body">
-          <p class="bento-blurb">India-first checkout (UPI · cards · NEFT · COD) for SMEs. International when needed.</p>
-          <div class="bento-tags">
-            <span>Razorpay</span><span>Stripe</span><span>WATI</span><span>Hydrogen</span><span>Medusa</span>
-          </div>
-        </div>
-      </details>
+    <article class="cell s3">
+      <div class="cell-eye">CMS</div>
+      <h3>Sanity · Notion</h3>
+      <p class="tight">Your team edits, not me.</p>
+    </article>
 
-      <details class="bento-tile bento-4">
-        <summary>
-          <span class="bento-num t-meta">04 / Hosting</span>
-          <h3 class="bento-title">Vercel · Cloudflare · CDN</h3>
-          <span class="exp-icon" aria-hidden="true"></span>
-        </summary>
-        <div class="bento-body">
-          <div class="bento-tags">
-            <span>Vercel</span><span>CF Pages</span><span>R2</span><span>Netlify</span><span>WAF</span>
-          </div>
-        </div>
-      </details>
+    <article class="cell s3">
+      <div class="cell-eye">Comms</div>
+      <h3>WhatsApp · Resend</h3>
+      <p class="tight">Forms route to your phone.</p>
+    </article>
 
-      <details class="bento-tile bento-5 bento-wide">
-        <summary>
-          <span class="bento-num t-meta">05 / SEO · GEO · AI search</span>
-          <h3 class="bento-title">JSON-LD schema · llms.txt · Lighthouse 90+</h3>
-          <span class="exp-icon" aria-hidden="true"></span>
-        </summary>
-        <div class="bento-body">
-          <p class="bento-blurb">Tuned for both Google rich results and LLM crawlers (Claude · GPT · Perplexity). This very page ships with 4 schema blocks, an <code>llms.txt</code>, and a sitemap.</p>
-          <div class="bento-tags">
-            <span>Schema.org</span><span>llms.txt</span><span>Sitemap</span><span>OpenGraph</span><span>Lighthouse CI</span>
-          </div>
-        </div>
-      </details>
+    <article class="cell s2 tone-forest">
+      <div class="cell-eye">SEO · AI</div>
+      <h3>Schema, sitemap, llms.txt.</h3>
+      <p>Structured data that Google + ChatGPT + Perplexity actually read. Your site shows up where buyers look.</p>
+    </article>
 
-      <details class="bento-tile bento-6">
-        <summary>
-          <span class="bento-num t-meta">06 / AI tooling</span>
-          <h3 class="bento-title">Claude · GPT · Gemini + WebSeek.ai</h3>
-          <span class="exp-icon" aria-hidden="true"></span>
-        </summary>
-        <div class="bento-body">
-          <div class="bento-tags">
-            <span>Anthropic SDK</span><span>OpenAI SDK</span><span>pgvector</span><span>Pinecone</span><span>Cursor</span>
-          </div>
-        </div>
-      </details>
-    </div>
+    <article class="cell s1 perf-cell">
+      <div class="cell-eye">Live performance · this page</div>
+      <div class="perf-line">
+        <span class="v" data-metric="lcp">1.1s</span><span class="lbl">LCP</span>
+        <span class="sep">·</span>
+        <span class="v" data-metric="cls">0.02</span><span class="lbl">CLS</span>
+        <span class="sep">·</span>
+        <span class="v" data-metric="inp">120ms</span><span class="lbl">INP</span>
+      </div>
+      <p>Median Core Web Vitals across every site in production.</p>
+    </article>
   </div>
 </section>

@@ -3,29 +3,23 @@ const items = [
   "CBSE School Portal",
   "D2C E-commerce",
   "600K Creator Storefront",
-  "Himalayan Booking Platform",
+  "Travel Booking Platform",
   "Tour Operator CMS",
   "Solar Contractor Dashboard",
   "Taxi Operator Rebuild",
   "Brand + Razorpay Storefront",
   "AI Website Generator",
+  "Live in 14 days",
 ];
-const sequence = [...items, "__live__", ...items, "__live__"];
+const sequence = [...items, ...items];
 ---
-<div class="marquee" aria-hidden="true">
-  <div class="marquee-track">
+<div class="mar-card reveal" aria-hidden="true">
+  <div class="mar-track">
     {sequence.map((item) => (
-      item === "__live__" ? (
-        <>
-          <span class="marquee-item t-serif" style="font-style:italic;">Live in 14 days.</span>
-          <span class="marquee-dot">●</span>
-        </>
-      ) : (
-        <>
-          <span class="marquee-item">{item}</span>
-          <span class="marquee-dot">●</span>
-        </>
-      )
+      <span class="mar-item">
+        {item}
+        <span class="sep">●</span>
+      </span>
     ))}
   </div>
 </div>

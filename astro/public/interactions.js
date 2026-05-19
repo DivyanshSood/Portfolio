@@ -1,28 +1,9 @@
 /* ============================================================
-   Page interactions — parallax shadows + work card crossfade
+   Page interactions — work card crossfade + magnetic CTA
    ============================================================ */
 (function () {
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
   const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  // Parallax shadows — cursor-driven depth (jaukia-style)
-  if (!reduceMotion && !window.matchMedia('(hover: none)').matches) {
-    let rafPS = null, mxPS = window.innerWidth / 2, myPS = window.innerHeight / 2;
-    document.addEventListener('mousemove', function (e) {
-      mxPS = e.clientX; myPS = e.clientY;
-      if (rafPS) return;
-      rafPS = requestAnimationFrame(function () {
-        rafPS = null;
-        var cx = window.innerWidth / 2, cy = window.innerHeight / 2;
-        var dx = (mxPS - cx) / cx, dy = (myPS - cy) / cy;
-        $$('[data-ps]').forEach(function (el) {
-          var s = +(el.dataset.ps) || 12;
-          el.style.setProperty('--ps-x', (-dx * s).toFixed(1) + 'px');
-          el.style.setProperty('--ps-y', (-dy * s).toFixed(1) + 'px');
-        });
-      });
-    });
-  }
 
   // Work card image fades — auto-rotating crossfade
   $$('[data-fade]').forEach((fade, fadeIdx) => {
@@ -65,4 +46,19 @@
       });
     });
   });
+
+  // Magnetic primary CTA — a single playful touch on the hero "See work" button.
+  // Brutalism is otherwise static; one moving thing is enough.
+  if (!reduceMotion && !window.matchMedia('(hover: none)').matches) {
+    $$('.btn-pri').forEach((el) => {
+      el.style.willChange = 'transform';
+      el.addEventListener('mousemove', (e) => {
+        const r = el.getBoundingClientRect();
+        const x = e.clientX - r.left - r.width / 2;
+        const y = e.clientY - r.top - r.height / 2;
+        el.style.transform = `translate(${(x * 0.15).toFixed(1)}px, ${(y * 0.18).toFixed(1)}px)`;
+      });
+      el.addEventListener('mouseleave', () => { el.style.transform = ''; });
+    });
+  }
 })();

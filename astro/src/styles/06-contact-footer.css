@@ -1,0 +1,97 @@
+/* ============================================================
+   CONTACT + FOOTER — two big WhatsApp/email tiles + socials row,
+   then the homepage footer band. Contact-tile borders stay brutalist;
+   glass tint comes from 07-glass.css.
+   ============================================================ */
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+@media (min-width: 720px) {
+  .contact-grid { grid-template-columns: 1fr 1fr; }
+}
+.contact-tile {
+  position: relative;
+  display: flex; flex-direction: column;
+  gap: 6px;
+  padding: 28px 26px 26px;
+  background: var(--card);
+  border: 1.5px solid var(--ink);
+  border-radius: 14px;
+  color: var(--ink);
+  text-decoration: none;
+  transition: transform 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out), background 0.25s var(--ease-out);
+}
+.contact-tile:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 6px 6px 0 0 var(--ink);
+}
+.contact-tile-accent {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--ink);
+}
+.contact-tile-accent:hover { background: var(--accent-deep); }
+.contact-tile-eyebrow {
+  font-family: var(--f-display);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+.contact-tile-big {
+  font-family: var(--f-display);
+  font-size: clamp(24px, 2.8vw, 34px);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1.0;
+  margin-top: 4px;
+}
+.contact-tile-arrow {
+  position: absolute;
+  top: 22px; right: 22px;
+  font-size: 18px;
+  font-weight: 600;
+  transition: transform 0.25s var(--ease-out);
+}
+.contact-tile:hover .contact-tile-arrow { transform: translate(3px, -3px); }
+
+section#contact .contact-socials {
+  margin-top: 20px;
+  background: transparent;
+  padding: 0;
+  display: flex; gap: 18px; flex-wrap: wrap;
+  border-top: 1px solid var(--hairline);
+  padding-top: 16px;
+}
+section#contact .contact-socials a {
+  color: var(--ink-3);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+section#contact .contact-socials a:hover { color: var(--accent); }
+
+/* Footer (homepage) ---------------------------------------- */
+.foot-new {
+  margin-top: 24px;
+  padding: 18px 0;
+  border-top: 1px solid var(--hairline);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.foot-new span, .foot-new a {
+  font-size: 11px; color: var(--ink-7);
+}
+.foot-new a:hover { color: var(--accent); }
+.foot-perf {
+  display: flex; gap: 14px; flex-wrap: wrap;
+  font-size: 11px; color: var(--ink-7);
+}
+.foot-perf em { font-style: normal; opacity: 0.7; margin-right: 4px; }

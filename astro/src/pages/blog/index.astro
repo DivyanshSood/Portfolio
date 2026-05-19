@@ -9,19 +9,47 @@ const posts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.
 function formatDate(d: Date) {
   return d.toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' });
 }
+
+const schemaCollection = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Blog · Divyansh Sood",
+  "description": "Practical guides on websites, SEO, and getting found online — for Indian businesses and founders.",
+  "url": "https://www.divyanshsood.com/blog/",
+  "author": { "@type": "Person", "name": "Divyansh Sood", "url": "https://www.divyanshsood.com/" },
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.divyanshsood.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://www.divyanshsood.com/blog/" }
+    ]
+  },
+  "hasPart": posts.map((post, i) => ({
+    "@type": "BlogPosting",
+    "position": i + 1,
+    "name": post.data.title,
+    "url": `https://www.divyanshsood.com/blog/${post.slug}/`,
+    "datePublished": post.data.pubDate.toISOString(),
+    "description": post.data.description
+  }))
+};
 ---
 <Base
-  title="Blog · Divyansh Sood — Website Developer"
-  description="Practical guides on websites, SEO, and digital presence for small businesses in Himachal Pradesh and India."
+  title="Blog · Divyansh Sood"
+  description="Practical guides on websites, SEO, and getting found online — for Indian businesses and founders."
   canonical="https://www.divyanshsood.com/blog/"
 >
+  <Fragment slot="head">
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(schemaCollection)} />
+  </Fragment>
+
   <Nav />
   <main class="blog-index">
     <div class="wrap">
       <header class="blog-index-head">
         <div class="t-meta eyebrow">Blog</div>
         <h1 class="t-display">Guides &amp; notes on<br><span class="t-serif" style="color:var(--accent)">building online.</span></h1>
-        <p class="blog-index-sub">Practical writing on websites, SEO, and getting found — for businesses in Himachal Pradesh and beyond.</p>
+        <p class="blog-index-sub">Practical writing on websites, SEO, and getting found — for Indian businesses and founders.</p>
       </header>
 
       {posts.length === 0 && (

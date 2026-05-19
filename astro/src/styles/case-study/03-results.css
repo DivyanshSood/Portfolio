@@ -2,7 +2,7 @@
 .cs-results {
   padding: var(--s-7) 0;
   border-bottom: 1px solid var(--hairline);
-  background: linear-gradient(180deg, rgba(232,198,140,0.04) 0%, transparent 100%);
+  background: linear-gradient(180deg, oklch(0.46 0.26 274 / 0.03) 0%, transparent 100%);
 }
 .cs-results .row {
   display: grid; grid-template-columns: repeat(4, 1fr);
@@ -15,11 +15,11 @@
 }
 .cs-results .metric .v {
   font-family: var(--f-display);
-  font-size: clamp(28px, 3vw, 40px);
-  font-weight: 600;
-  letter-spacing: -0.025em;
+  font-size: clamp(34px, 3.6vw, 50px);
+  font-weight: 400;
+  letter-spacing: 0.02em;
   color: var(--bone-100);
-  line-height: 1;
+  line-height: 1.0;
   font-variant-numeric: tabular-nums;
 }
 .cs-results .metric .l {

@@ -10,16 +10,59 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
+const canonical = `https://www.divyanshsood.com/blog/${post.slug}/`;
+const ogImage = "https://www.divyanshsood.com/assets/og.jpg";
 
 function formatDate(d: Date) {
   return d.toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' });
 }
+
+const schemaArticle = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": post.data.title,
+  "description": post.data.description,
+  "url": canonical,
+  "image": ogImage,
+  "datePublished": post.data.pubDate.toISOString(),
+  "dateModified": post.data.pubDate.toISOString(),
+  "author": {
+    "@type": "Person",
+    "name": "Divyansh Sood",
+    "url": "https://www.divyanshsood.com/",
+    "sameAs": ["https://github.com/DivyanshSood", "https://www.linkedin.com/in/divyansh-sood-023556151/"]
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Divyansh Sood",
+    "url": "https://www.divyanshsood.com/",
+    "logo": { "@type": "ImageObject", "url": ogImage }
+  },
+  "mainEntityOfPage": { "@type": "WebPage", "@id": canonical },
+  "keywords": post.data.tags.join(", "),
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home",  "item": "https://www.divyanshsood.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Blog",  "item": "https://www.divyanshsood.com/blog/" },
+      { "@type": "ListItem", "position": 3, "name": post.data.title, "item": canonical }
+    ]
+  }
+};
 ---
 <Base
   title={`${post.data.title} · Divyansh Sood`}
   description={post.data.description}
-  canonical={`https://www.divyanshsood.com/blog/${post.slug}/`}
+  canonical={canonical}
 >
+  <Fragment slot="head">
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content={ogImage} />
+    <meta property="article:published_time" content={post.data.pubDate.toISOString()} />
+    <meta property="article:author" content="Divyansh Sood" />
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(schemaArticle)} />
+  </Fragment>
+
   <Nav />
   <main class="blog-post">
     <div class="wrap">
@@ -50,8 +93,8 @@ function formatDate(d: Date) {
 
       <footer class="blog-post-footer">
         <div class="blog-footer-inner">
-          <p>Need a website? I build fast, custom-coded sites for businesses in Himachal Pradesh — live in 14 days.</p>
-          <a href="https://wa.me/919816091875?text=Hi%20Divyansh,%20I%20want%20a%20website%20for%20my%20business." class="btn btn-primary" target="_blank" rel="noopener">WhatsApp now ↗</a>
+          <p>Need a website that earns? Custom-coded, live in 14 days.</p>
+          <a href="https://wa.me/919816091875?text=Hi%20Divyansh,%20I%20want%20a%20website%20for%20my%20business." class="btn btn-primary" target="_blank" rel="noopener">WhatsApp me ↗</a>
         </div>
       </footer>
     </div>

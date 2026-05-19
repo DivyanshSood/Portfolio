@@ -1,26 +1,31 @@
 ---
+const sectors = [
+  "CBSE School", "600K Creator", "Tour Operator",
+  "Moto Brand", "Booking Platform", "Solar Contractor",
+];
 ---
-<section class="section" id="about">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="t-meta eyebrow">About · Founder</div>
-      <h2 class="t-display">Solo. <span class="t-serif" style="color:var(--accent)">On purpose.</span></h2>
-    </div>
-    <div class="about">
-      <div class="about-portrait">
-        <img class="portrait-img" src="https://ik.imagekit.io/dn2zdxiu3/Portfolioprojectimages/divyansh.webp" alt="Divyansh Sood — founder" loading="lazy" />
-        <div class="portrait-tag">DIVYANSH SOOD · FOUNDER</div>
-      </div>
-      <div class="about-copy">
-        <p class="big">From the Himalayas. Building <em>for</em> the Himalayas. Every site on this page — coded by me, in the Kangra Valley.</p>
+<section id="about" class="about-bare">
+  <div class="sec-head">
+    <h2>Solo. On purpose.</h2>
+    <p>One person · start to finish · anywhere in the world</p>
+  </div>
 
-        <ul class="about-bullets">
-          <li><strong>One brain, one builder.</strong> No agency middlemen.</li>
-          <li><strong>Shipped:</strong> a CBSE school, a 600K YouTuber, a Himachal tour op, a moto-apparel brand, a Himalayan booking platform.</li>
-          <li><strong>WhatsApp reply in 1 hour</strong> (9 AM–9 PM). GST invoice. Day-5 refund.</li>
-          <li><strong>Won't do:</strong> pitch decks, 6-month discovery, Wix theme builds.</li>
-        </ul>
-      </div>
+  <div class="about-bare-grid">
+    <figure class="about-portrait">
+      <img src="https://ik.imagekit.io/dn2zdxiu3/Portfolioprojectimages/divyansh.webp" alt="Divyansh Sood — independent web designer and developer" loading="lazy" />
+      <figcaption>
+        <strong>Divyansh Sood</strong>
+        <span>Independent web studio · India</span>
+      </figcaption>
+    </figure>
+
+    <div class="about-bare-text">
+      <p>Every site you see here — designed and built by me. From the first sketch to the deployed URL. One person, start to finish.</p>
+      <p>Independent web studio. Async-friendly, video calls when useful. Open to projects worldwide — half my clients aren't in India.</p>
+      <p class="about-built-for">
+        <span class="about-built-for-label">Built for</span>
+        {sectors.join(" · ")}
+      </p>
     </div>
   </div>
 </section>

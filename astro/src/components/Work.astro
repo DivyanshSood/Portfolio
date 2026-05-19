@@ -1,48 +1,29 @@
 ---
 import { work } from "../data/work-data";
+const featured = work.slice(0, 3);
 ---
-<section class="work" id="work">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="t-meta eyebrow">Selected Work · 8 live · more in build</div>
-      <h2 class="t-display">Real <span class="t-serif" style="color:var(--accent)">businesses</span>. Real revenue.</h2>
+<section id="work" class="work-strip-section">
+  <header class="strip-head">
+    <div>
+      <h2>Selected work.</h2>
+      <p>Three to start with · scroll for context</p>
     </div>
+    <a href="/work/" class="strip-more">See all {work.length}<span aria-hidden="true"> →</span></a>
+  </header>
 
-    <div class="work-grid">
-      {work.map((p) => (
-        <a class="work-card" href={p.href}>
-          <div class="work-media">
-            <div class="work-fade" data-fade>
-              {p.images.map((img) => (
-                <img loading="lazy" alt={img.alt} src={img.src} />
-              ))}
-            </div>
-            {p.images.length > 1 && (
-              <div class="work-dots" aria-hidden="true">
-                {p.images.map(() => <span></span>)}
-              </div>
-            )}
-          </div>
-          <div class="work-body">
-            <div class="work-row">
-              <div class="t-meta">{p.meta}</div>
-              <div class="work-pill">{p.pill}</div>
-            </div>
-            <h3 class="t-h2">{p.title}</h3>
-            <p class="work-blurb">{p.blurb}</p>
-            <div class="case-strip">
-              <div class="case-line"><span class="case-tag">Problem</span><span class="case-text">{p.case.problem}</span></div>
-              <div class="case-line"><span class="case-tag">Built</span><span class="case-text" set:html={p.case.built}></span></div>
-              <div class="case-line case-line-out"><span class="case-tag">Outcome</span><span class="case-text" set:html={p.case.outcome}></span></div>
-            </div>
-            <div class="work-kpis">
-              {p.kpis.map((k) => (
-                <div><strong>{k.v}</strong><span>{k.l}</span></div>
-              ))}
-            </div>
-          </div>
-        </a>
-      ))}
-    </div>
+  <div class="work-strip" data-strip>
+    {featured.map((p) => (
+      <a class="strip-item" href={p.href} aria-label={`${p.title} — ${p.blurb}`}>
+        <div class="strip-thumb">
+          <img loading="lazy" decoding="async" alt={p.images[0].alt} src={p.images[0].src} />
+        </div>
+        <div class="strip-meta">
+          <span class="strip-year">{p.meta}</span>
+          <span class="strip-pill">{p.pill}</span>
+        </div>
+        <h3 class="strip-title">{p.title}</h3>
+        <p class="strip-blurb">{p.blurb}</p>
+      </a>
+    ))}
   </div>
 </section>

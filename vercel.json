@@ -1,5 +1,30 @@
 {
   "buildCommand": "cd astro && npm run build",
   "outputDirectory": "astro/dist",
-  "installCommand": "cd astro && npm install"
+  "installCommand": "cd astro && npm install",
+  "redirects": [
+    { "source": "/Portfolio.html",                   "destination": "/",                         "permanent": true },
+    { "source": "/projects/webseek.html",            "destination": "/projects/webseek",         "permanent": true },
+    { "source": "/projects/inhimalayas.html",        "destination": "/projects/inhimalayas",     "permanent": true },
+    { "source": "/projects/dharamshala-tours.html",  "destination": "/projects/dharamshala-tours","permanent": true },
+    { "source": "/projects/redline.html",            "destination": "/projects/redline",         "permanent": true },
+    { "source": "/projects/chinkiz.html",            "destination": "/projects/chinkiz",         "permanent": true },
+    { "source": "/projects/modernkbs.html",          "destination": "/projects/modernkbs",       "permanent": true },
+    { "source": "/projects/northpeak.html",          "destination": "/projects/northpeak",       "permanent": true }
+  ],
+  "headers": [
+    {
+      "source": "/llms.txt",
+      "headers": [
+        { "key": "Content-Type",  "value": "text/plain; charset=utf-8" },
+        { "key": "Cache-Control", "value": "public, max-age=86400" }
+      ]
+    },
+    {
+      "source": "/sitemap.xml",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=86400" }
+      ]
+    }
+  ]
 }

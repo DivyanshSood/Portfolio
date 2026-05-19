@@ -6,30 +6,27 @@ export const schemaLocalBusiness = {
   "@type": "LocalBusiness",
   "@id": "https://www.divyanshsood.com/#business",
   "name": "Divyansh Sood",
-  "alternateName": "www.divyanshsood.com — Custom websites for Himalayan businesses",
+  "alternateName": "Divyansh Sood — Websites that earn.",
   "url": "https://www.divyanshsood.com/",
   "image": "https://ik.imagekit.io/dn2zdxiu3/Portfolioprojectimages/divyansh.webp",
   "logo": "https://www.divyanshsood.com/assets/og.jpg",
-  "description": "Solo web design + development studio in the Kangra Valley, Himachal Pradesh. Custom-coded websites for Himalayan small businesses, schools, clinics, hotels and creators — and the rest of India. Delivered in 14 days, starting ₹13,000. GST invoice, 50% advance, full refund if not approved by Day 5.",
+  "description": "Solo web design + development studio. Custom-coded websites for Indian businesses, schools, clinics, hotels and creators. Delivered in 14 days, starting ₹13,000. GST invoice, 50% advance, full refund if not approved by Day 5.",
   "founder": { "@type": "Person", "name": "Divyansh Sood" },
   "telephone": "+919816091875",
   "email": "hello@divyanshsood.com",
   "priceRange": "₹₹",
   "address": {
     "@type": "PostalAddress",
-    "addressLocality": "Kangra Valley",
-    "addressRegion": "Himachal Pradesh",
     "addressCountry": "IN"
   },
-  "geo": { "@type": "GeoCoordinates", "latitude": "32.0998", "longitude": "76.2691" },
   "areaServed": [
-    { "@type": "State", "name": "Himachal Pradesh" },
-    { "@type": "State", "name": "Uttarakhand" },
     { "@type": "Country", "name": "India" },
-    { "@type": "City", "name": "Dharamshala" },
-    { "@type": "City", "name": "Kangra" },
-    { "@type": "City", "name": "Shimla" },
-    { "@type": "City", "name": "Manali" }
+    { "@type": "Country", "name": "United States" },
+    { "@type": "Country", "name": "United Kingdom" },
+    { "@type": "Country", "name": "Germany" },
+    { "@type": "Country", "name": "United Arab Emirates" },
+    { "@type": "Country", "name": "Singapore" },
+    { "@type": "Country", "name": "Australia" }
   ],
   "openingHoursSpecification": {
     "@type": "OpeningHoursSpecification",
@@ -105,11 +102,86 @@ export const schemaHowTo = {
 export const schemaPerson = {
   "@context": "https://schema.org",
   "@type": "Person",
+  "@id": "https://www.divyanshsood.com/#person",
   "name": "Divyansh Sood",
-  "jobTitle": "Web Designer & Developer",
+  "givenName": "Divyansh",
+  "familyName": "Sood",
+  "jobTitle": "Independent Web Designer & Developer",
   "url": "https://www.divyanshsood.com/",
   "image": "https://ik.imagekit.io/dn2zdxiu3/Portfolioprojectimages/divyansh.webp",
-  "worksFor": { "@type": "Organization", "name": "Divyansh Sood", "url": "https://www.divyanshsood.com/" },
-  "address": { "@type": "PostalAddress", "addressLocality": "Kangra Valley", "addressRegion": "Himachal Pradesh", "addressCountry": "IN" },
-  "knowsAbout": ["Website Design", "Web Development", "Astro", "Next.js", "Tailwind CSS", "Razorpay", "WhatsApp Business API", "GEO Optimization", "LLM SEO", "School Website Development", "E-commerce Development"]
+  "worksFor": { "@type": "Organization", "name": "Divyansh Sood — Independent Web Studio", "url": "https://www.divyanshsood.com/" },
+  "address": { "@type": "PostalAddress", "addressCountry": "IN" },
+  "sameAs": [
+    "https://wa.me/919816091875",
+    "https://www.linkedin.com/in/divyansh-sood-023556151/",
+    "https://github.com/DivyanshSood"
+  ],
+  "knowsAbout": [
+    "Website Design", "Web Development", "Astro", "Next.js", "React", "TypeScript",
+    "Tailwind CSS", "Razorpay", "Stripe", "WhatsApp Business API",
+    "Generative Engine Optimization", "GEO", "LLM SEO", "Schema.org structured data",
+    "Core Web Vitals", "Sanity CMS", "Supabase", "Vercel", "Cloudflare Workers",
+    "School Website Development", "E-commerce Development", "Headless commerce",
+    "SaaS landing pages", "Booking platforms", "PWA"
+  ]
+};
+
+export const schemaWebSite = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "https://www.divyanshsood.com/#website",
+  "url": "https://www.divyanshsood.com/",
+  "name": "Divyansh Sood — Independent web studio",
+  "description": "Custom-coded websites that earn — designed, built and shipped by one person in 14 days.",
+  "inLanguage": "en",
+  "publisher": { "@id": "https://www.divyanshsood.com/#person" },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://www.divyanshsood.com/?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+};
+
+export const schemaProfessionalService = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "@id": "https://www.divyanshsood.com/#service",
+  "name": "Divyansh Sood — Web Design & Development",
+  "url": "https://www.divyanshsood.com/",
+  "image": "https://www.divyanshsood.com/assets/og.jpg",
+  "description": "Independent web designer + developer. Custom-coded websites delivered in 14 days. GST invoice, day-5 refund window, you keep the code.",
+  "provider": { "@id": "https://www.divyanshsood.com/#person" },
+  "serviceType": [
+    "Custom website design", "Web development", "Landing page design",
+    "E-commerce website development", "School portal development",
+    "Booking platform development", "SEO website optimization",
+    "Website redesign", "AMC website maintenance"
+  ],
+  "areaServed": [
+    { "@type": "Country", "name": "India" },
+    { "@type": "Country", "name": "United States" },
+    { "@type": "Country", "name": "United Kingdom" },
+    { "@type": "Country", "name": "Germany" },
+    { "@type": "Country", "name": "Singapore" },
+    { "@type": "Country", "name": "United Arab Emirates" },
+    { "@type": "Country", "name": "Australia" }
+  ],
+  "hasOfferCatalog": { "@id": "https://www.divyanshsood.com/#business" },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "5.0",
+    "bestRating": "5",
+    "ratingCount": "8",
+    "reviewCount": "6"
+  }
+};
+
+export const schemaBreadcrumb = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.divyanshsood.com/" },
+    { "@type": "ListItem", "position": 2, "name": "Work", "item": "https://www.divyanshsood.com/work/" },
+    { "@type": "ListItem", "position": 3, "name": "Blog", "item": "https://www.divyanshsood.com/blog/" }
+  ]
 };
