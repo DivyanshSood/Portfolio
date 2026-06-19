@@ -1,6 +1,5 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "cleanUrls": true,
   "redirects": [
     { "source": "/Portfolio.html", "destination": "/", "permanent": true },
     { "source": "/index.html", "destination": "/", "permanent": true },
@@ -22,7 +21,7 @@
       ]
     },
     {
-      "source": "/sitemap.xml",
+      "source": "/(sitemap-index.xml|sitemap-0.xml)",
       "headers": [
         { "key": "Content-Type", "value": "application/xml; charset=utf-8" },
         { "key": "Cache-Control", "value": "public, max-age=86400" }

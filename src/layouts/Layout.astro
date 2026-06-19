@@ -1,0 +1,133 @@
+---
+import "../styles/global.css";
+import BaseScripts from "../components/BaseScripts.astro";
+
+const FONTS =
+  "https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&family=Caveat:wght@600;700&display=swap";
+const FAVICON =
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230b0b0c'/%3E%3Ctext x='50' y='70' font-family='Arial,sans-serif' font-weight='900' font-size='56' fill='%23ffffff' text-anchor='middle'%3EDS%3C/text%3E%3Crect x='28' y='80' width='44' height='6' fill='%23ff4612'/%3E%3C/svg%3E";
+
+// Google Analytics 4 — loaded on production builds only (not local dev)
+const GA_ID = "G-51WG6025T0";
+const GA_INLINE = `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}');`;
+
+export interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  keywords?: string;
+  ogType?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogImage?: string;
+  ogImageW?: number;
+  ogImageH?: number;
+  ogLocale?: string;
+  imageAlt?: string;
+  jsonld?: string;
+  articlePublished?: string;
+  articleModified?: string;
+  tags?: string[];
+  preloadImage?: { href: string; srcset?: string; sizes?: string };
+}
+
+const {
+  title,
+  description,
+  canonical,
+  keywords,
+  ogType = "website",
+  ogTitle,
+  ogDescription,
+  ogImage = "https://ik.imagekit.io/dn2zdxiu3/Portfolioprojectimages/AiWebsitegenerator/AiWebsitegenerator-1.webp",
+  ogImageW = 1200,
+  ogImageH = 630,
+  ogLocale = "en_US",
+  imageAlt = "Divyansh Sood® Studio — custom-coded, conversion-focused websites",
+  jsonld,
+  articlePublished,
+  articleModified,
+  tags,
+  preloadImage,
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+    {
+      import.meta.env.PROD && (
+        <Fragment>
+          <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} />
+          <script is:inline set:html={GA_INLINE} />
+        </Fragment>
+      )
+    }
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {keywords && <meta name="keywords" content={keywords} />}
+    <meta name="author" content="Divyansh Sood" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1" />
+    <meta name="theme-color" content="#0b0b0c" />
+    <meta name="apple-mobile-web-app-title" content="Divyansh Sood" />
+    <link rel="canonical" href={canonical} />
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content="Divyansh Sood® Studio" />
+    <meta property="og:title" content={ogTitle ?? title} />
+    <meta property="og:description" content={ogDescription ?? description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content={String(ogImageW)} />
+    <meta property="og:image:height" content={String(ogImageH)} />
+    <meta property="og:image:alt" content={imageAlt} />
+    <meta property="og:locale" content={ogLocale} />
+    {articlePublished && <meta property="article:published_time" content={articlePublished} />}
+    {articleModified && <meta property="article:modified_time" content={articleModified} />}
+    {(tags ?? []).map((t) => <meta property="article:tag" content={t} />)}
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={ogTitle ?? title} />
+    <meta name="twitter:description" content={ogDescription ?? description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={imageAlt} />
+
+    <link rel="icon" href={FAVICON} />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://ik.imagekit.io" crossorigin />
+    {
+      preloadImage && (
+        <link
+          rel="preload"
+          as="image"
+          href={preloadImage.href}
+          imagesrcset={preloadImage.srcset}
+          imagesizes={preloadImage.sizes}
+          fetchpriority="high"
+        />
+      )
+    }
+    <link rel="preload" as="style" href={FONTS} onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href={FONTS} /></noscript>
+
+    {jsonld && <script type="application/ld+json" is:inline set:html={jsonld} />}
+  </head>
+  <body>
+    <div id="ds-root">
+      <div id="ds-cursor" aria-hidden="true"></div>
+      <slot />
+    </div>
+
+    <BaseScripts />
+  </body>
+</html>

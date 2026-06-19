@@ -1,0 +1,13 @@
+/* ===========================================================================
+   Divyansh Sood® Studio — global design system (barrel).
+   Split into focused partials; imported in cascade order. Edit the partials,
+   not this file.
+     base.css         reset · root · cursor · nav · buttons · footer · reveal
+     case-study.css   /projects/<slug> (cs-*)
+     blog.css         /blog + /blog/<slug> (post-* / blog-*)
+     responsive.css   breakpoints + mobile / multi-viewport hardening (last)
+   =========================================================================== */
+@import "./base.css";
+@import "./case-study.css";
+@import "./blog.css";
+@import "./responsive.css";

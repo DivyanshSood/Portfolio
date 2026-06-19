@@ -1,0 +1,43 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import Hero from "../components/home/Hero.astro";
+import About from "../components/home/About.astro";
+import Work from "../components/home/Work.astro";
+import Services from "../components/home/Services.astro";
+import Stats from "../components/home/Stats.astro";
+import Faq from "../components/home/Faq.astro";
+import Pricing from "../components/home/Pricing.astro";
+import Testimonials from "../components/home/Testimonials.astro";
+import Updates from "../components/home/Updates.astro";
+import Contact from "../components/home/Contact.astro";
+import HomeScripts from "../components/home/HomeScripts.astro";
+import { homeJsonLd } from "../lib/home-schema.mjs";
+
+const SITE = "https://www.divyanshsood.com";
+const jsonld = homeJsonLd(SITE);
+---
+
+<Layout
+  title="Divyansh Sood® Studio — Independent web design & development"
+  description="Divyansh Sood — independent web designer & developer building custom-coded, conversion-focused websites, stores and web apps for businesses worldwide. Strategy, design and engineering under one roof. Live in 3–4 weeks."
+  canonical={`${SITE}/`}
+  keywords="Divyansh Sood, web designer, web developer, custom website developer, Next.js developer, Astro developer, conversion-focused websites, ecommerce website developer, SEO web developer, AI website builder"
+  ogDescription="Custom-coded websites that turn attention into outcomes. Strategy → Design → Build."
+  jsonld={jsonld}
+>
+  <Nav kicker="Design & dev studio" />
+
+  <Hero />
+  <About />
+  <Work />
+  <Services />
+  <Stats />
+  <Faq />
+  <Pricing />
+  <Testimonials />
+  <Updates />
+  <Contact />
+</Layout>
+
+<HomeScripts />

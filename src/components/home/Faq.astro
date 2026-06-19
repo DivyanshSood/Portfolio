@@ -1,0 +1,33 @@
+---
+// FAQ accordion. `home-section` is a responsive hook (mobile side-padding).
+// Toggling is wired in HomeScripts.astro via the data-faqtog / data-faqbody attrs.
+---
+
+<section class="home-section" style="position:sticky;top:0;z-index:1;background:#efece6;color:#0b0b0c;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:90px 30px;">
+  <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;opacity:.55;border-bottom:1px solid rgba(0,0,0,.14);padding-bottom:14px;margin-bottom:60px;">
+    <span>(FAQ — 05)</span><span>Before we get started</span>
+  </div>
+  <div class="g-2" style="display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;">
+    <h2 data-reveal style="margin:0;font-weight:900;font-size:clamp(46px,7vw,116px);line-height:.86;letter-spacing:-.04em;text-transform:uppercase;">Before we get started.</h2>
+    <div>
+      <p style="margin:0 0 36px;font-size:17px;line-height:1.6;max-width:440px;">A few things clients ask most often. Still wondering about something? <span style="opacity:.62;">Send it over and I'll answer within a day.</span></p>
+      <div style="border-top:1px solid rgba(0,0,0,.16);">
+        <button type="button" data-cursor data-faqtog="0" aria-expanded="false" style="display:flex;align-items:center;justify-content:space-between;gap:20px;padding:22px 2px;cursor:pointer;width:100%;background:none;border:0;color:inherit;font:inherit;text-align:left;"><span style="font-weight:700;font-size:17px;">Do you write the copy, or do we?</span><span style="font-size:22px;color:var(--accent,#ff4612);display:inline-block;transition:transform .35s cubic-bezier(.2,.8,.2,1);" data-faqicon="0" aria-hidden="true">+</span></button>
+        <div style="overflow:hidden;max-height:0;opacity:0;transition:max-height .55s cubic-bezier(.2,.8,.2,1),opacity .4s ease;" data-faqbody="0"><p style="margin:0;padding:0 2px 22px;font-size:15px;line-height:1.6;opacity:.7;max-width:520px;">Either works. I can write conversion-focused copy tailored to your brand and goals, or polish and structure content you provide. Most projects are a collaboration.</p></div>
+      </div>
+      <div style="border-top:1px solid rgba(0,0,0,.16);">
+        <button type="button" data-cursor data-faqtog="1" aria-expanded="false" style="display:flex;align-items:center;justify-content:space-between;gap:20px;padding:22px 2px;cursor:pointer;width:100%;background:none;border:0;color:inherit;font:inherit;text-align:left;"><span style="font-weight:700;font-size:17px;">What happens after launch?</span><span style="font-size:22px;color:var(--accent,#ff4612);display:inline-block;transition:transform .35s cubic-bezier(.2,.8,.2,1);" data-faqicon="1" aria-hidden="true">+</span></button>
+        <div style="overflow:hidden;max-height:0;opacity:0;transition:max-height .55s cubic-bezier(.2,.8,.2,1),opacity .4s ease;" data-faqbody="1"><p style="margin:0;padding:0 2px 22px;font-size:15px;line-height:1.6;opacity:.7;max-width:520px;">You get a tidy handover, documentation, and 30 days of free support. From there we can set up an ongoing retainer to keep improving results.</p></div>
+      </div>
+      <div style="border-top:1px solid rgba(0,0,0,.16);">
+        <button type="button" data-cursor data-faqtog="2" aria-expanded="false" style="display:flex;align-items:center;justify-content:space-between;gap:20px;padding:22px 2px;cursor:pointer;width:100%;background:none;border:0;color:inherit;font:inherit;text-align:left;"><span style="font-weight:700;font-size:17px;">How long does a project take?</span><span style="font-size:22px;color:var(--accent,#ff4612);display:inline-block;transition:transform .35s cubic-bezier(.2,.8,.2,1);" data-faqicon="2" aria-hidden="true">+</span></button>
+        <div style="overflow:hidden;max-height:0;opacity:0;transition:max-height .55s cubic-bezier(.2,.8,.2,1),opacity .4s ease;" data-faqbody="2"><p style="margin:0;padding:0 2px 22px;font-size:15px;line-height:1.6;opacity:.7;max-width:520px;">Most projects go live in about 3–4 weeks. I take on a limited number at once so yours always has my full attention.</p></div>
+      </div>
+      <div style="border-top:1px solid rgba(0,0,0,.16);border-bottom:1px solid rgba(0,0,0,.16);">
+        <button type="button" data-cursor data-faqtog="3" aria-expanded="false" style="display:flex;align-items:center;justify-content:space-between;gap:20px;padding:22px 2px;cursor:pointer;width:100%;background:none;border:0;color:inherit;font:inherit;text-align:left;"><span style="font-weight:700;font-size:17px;">What if I'm not happy with the result?</span><span style="font-size:22px;color:var(--accent,#ff4612);display:inline-block;transition:transform .35s cubic-bezier(.2,.8,.2,1);" data-faqicon="3" aria-hidden="true">+</span></button>
+        <div style="overflow:hidden;max-height:0;opacity:0;transition:max-height .55s cubic-bezier(.2,.8,.2,1),opacity .4s ease;" data-faqbody="3"><p style="margin:0;padding:0 2px 22px;font-size:15px;line-height:1.6;opacity:.7;max-width:520px;">We work in clear milestones with revision rounds at each. You always know where things stand, and nothing ships until you're genuinely happy with it.</p></div>
+      </div>
+      <a href="#contact" data-cursor style="display:inline-flex;align-items:center;gap:9px;margin-top:30px;background:#0b0b0c;color:#fff;text-decoration:none;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:14px 22px;border-radius:2px;font-weight:700;">Ask a question <span>↗</span></a>
+    </div>
+  </div>
+</section>

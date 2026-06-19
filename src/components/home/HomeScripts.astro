@@ -1,0 +1,99 @@
+---
+// Homepage interactivity (inlined, no framework): hero load-in, the services +
+// FAQ accordions, and the contact form → WhatsApp deep-link. Targets elements
+// by data-* attribute so it works regardless of how the sections are composed.
+---
+
+<script is:inline>
+  (function () {
+    var root = document.getElementById("ds-root");
+    if (!root) return;
+
+    /* hero load reveal */
+    var riseEls = root.querySelectorAll("[data-rise]");
+    riseEls.forEach(function (el) {
+      var d = parseFloat(el.getAttribute("data-rise") || "0");
+      el.style.opacity = "0";
+      el.style.transform = "translateY(26px)";
+      el.style.transition =
+        "opacity .85s cubic-bezier(.2,.8,.2,1), transform .85s cubic-bezier(.2,.8,.2,1)";
+      setTimeout(function () {
+        el.style.opacity = "1";
+        el.style.transform = "none";
+      }, 120 + d * 1000);
+    });
+    setTimeout(function () {
+      riseEls.forEach(function (el) {
+        el.style.opacity = "1";
+        el.style.transform = "none";
+      });
+    }, 2400);
+
+    /* accordions */
+    var svc = -1,
+      faq = -1;
+    function syncAccordion() {
+      root.querySelectorAll("[data-svcbody]").forEach(function (el) {
+        var open = Number(el.getAttribute("data-svcbody")) === svc;
+        el.style.maxHeight = open ? "460px" : "0px";
+        el.style.opacity = open ? "1" : "0";
+      });
+      root.querySelectorAll("[data-svcicon]").forEach(function (el) {
+        el.style.transform = Number(el.getAttribute("data-svcicon")) === svc ? "rotate(45deg)" : "rotate(0deg)";
+      });
+      root.querySelectorAll("[data-svctog]").forEach(function (el) {
+        el.setAttribute("aria-expanded", Number(el.getAttribute("data-svctog")) === svc ? "true" : "false");
+      });
+      root.querySelectorAll("[data-faqbody]").forEach(function (el) {
+        var open = Number(el.getAttribute("data-faqbody")) === faq;
+        el.style.maxHeight = open ? "320px" : "0px";
+        el.style.opacity = open ? "1" : "0";
+      });
+      root.querySelectorAll("[data-faqicon]").forEach(function (el) {
+        el.style.transform = Number(el.getAttribute("data-faqicon")) === faq ? "rotate(45deg)" : "rotate(0deg)";
+      });
+      root.querySelectorAll("[data-faqtog]").forEach(function (el) {
+        el.setAttribute("aria-expanded", Number(el.getAttribute("data-faqtog")) === faq ? "true" : "false");
+      });
+    }
+    root.querySelectorAll("[data-svctog]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        var i = Number(el.getAttribute("data-svctog"));
+        svc = svc === i ? -1 : i;
+        syncAccordion();
+      });
+    });
+    root.querySelectorAll("[data-faqtog]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        var i = Number(el.getAttribute("data-faqtog"));
+        faq = faq === i ? -1 : i;
+        syncAccordion();
+      });
+    });
+    syncAccordion();
+
+    /* contact form -> WhatsApp */
+    var form = document.getElementById("ds-contact-form");
+    if (form) {
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        function val(id) {
+          var n = document.getElementById(id);
+          return n ? n.value.trim() : "";
+        }
+        var name = val("cf-name"),
+          email = val("cf-email"),
+          msg = val("cf-msg");
+        var nw = document.getElementById("cf-new");
+        var lines = [];
+        lines.push("Hi Divyansh, I’d like to start a project.");
+        if (name) lines.push("Name: " + name);
+        if (email) lines.push("Email: " + email);
+        if (msg) lines.push("Project: " + msg);
+        if (nw && nw.checked) lines.push("I need a brand-new website.");
+        var text = encodeURIComponent(lines.join("\n"));
+        window.open("https://wa.me/919816091875?text=" + text, "_blank", "noopener");
+      });
+    }
+  })();
+</script>

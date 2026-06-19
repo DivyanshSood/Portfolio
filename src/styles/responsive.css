@@ -1,0 +1,91 @@
+/* ===========================================================================
+   Responsive layer.
+   Part 1 — existing breakpoints (ported verbatim from the original global.css).
+   Part 2 — additive mobile / multi-viewport hardening. These rules only take
+            effect on small screens (or notched / touch devices) and never
+            alter the desktop look: they are keyed off small-screen media
+            queries and helper classes that carry no desktop styling.
+   =========================================================================== */
+
+/* ----------------------------- PART 1 — existing ----------------------------- */
+@media (max-width:1024px){ .g-4{grid-template-columns:1fr 1fr !important;} }
+@media (max-width:980px){.blog-grid{grid-template-columns:1fr 1fr;}}
+@media (max-width:860px){
+  .nav-links{display:none;}
+  .g-split,.g-2,.g-3,.g-foot{grid-template-columns:1fr !important;}
+  .price-inner{min-width:680px;}
+  h1,h2{word-break:break-word;}
+  .cs-body,.cs-glance,.cs-gallery,.cs-gallery.single,.cs-foot .grid{grid-template-columns:1fr;}
+  .cs-card.span2{grid-column:auto;}
+  .cs-metrics{grid-template-columns:1fr 1fr;}
+  .cs-list{grid-template-columns:1fr;}
+}
+@media (max-width:760px){#ds-cursor{display:none;}}
+@media (max-width:620px){
+  .g-4{grid-template-columns:1fr !important;}
+  .blog-grid{grid-template-columns:1fr;}
+  .eyebrow{gap:4px 14px;font-size:9px;}
+  .post-next{flex-direction:column;align-items:flex-start;}
+}
+@media (max-width:560px){
+  .cs-hero{padding-top:120px;}
+  .cs-eyebrow{gap:4px 14px;font-size:9px;}
+  .cs-eyebrow span{flex:1 1 auto;word-break:break-word;}
+  .cs-cta-row{flex-direction:column;align-items:stretch;}
+  .cs-endcta .cs-cta-row{align-items:stretch;}
+  .btn{justify-content:center;}
+  .cs-next{padding:24px 22px;}
+}
+
+/* ------------------ PART 2 — mobile / multi-viewport hardening ------------------ */
+
+/* Never allow accidental sideways scrolling on small screens. */
+html,body{max-width:100%;}
+
+/* Notch / safe-area: keep the fixed nav clear of rounded corners & camera cut-outs
+   (only adds inset on devices that actually report one; desktop is unchanged). */
+@supports (padding:max(0px)){
+  #ds-nav{
+    padding-left:max(30px,env(safe-area-inset-left));
+    padding-right:max(30px,env(safe-area-inset-right));
+  }
+}
+
+/* Mobile browser chrome (URL bar) eats into 100vh; svh measures the *visible*
+   viewport so the hero and its scroll cue are never clipped on phones. */
+@supports (min-height:100svh){
+  #top{min-height:100svh !important;}
+}
+
+/* Remove the grey tap-flash on touch devices for a cleaner press state. */
+@media (pointer:coarse){
+  a,button{-webkit-tap-highlight-color:transparent;}
+}
+
+/* Tablet / phablet: keep the 4-up "by the numbers" tiles from getting too narrow. */
+@media (max-width:560px){
+  .cs-metrics{grid-template-columns:1fr 1fr;}
+}
+
+/* Selected-work rows: let long project names wrap instead of forcing a sideways
+   overflow, and tighten the column gap so the meta columns still fit on phones. */
+@media (max-width:640px){
+  .work-row{gap:14px !important;}
+  .work-name{min-width:0;overflow-wrap:anywhere;}
+}
+
+/* Small phones: trim oversized side padding so content keeps breathing room. */
+@media (max-width:480px){
+  .home-section{padding-left:20px !important;padding-right:20px !important;}
+  .hero-card{padding-left:24px !important;padding-right:24px !important;}
+}
+@media (max-width:360px){
+  .hero-card{padding-left:18px !important;padding-right:18px !important;}
+}
+
+/* ------------------------------ reduced motion (last) ------------------------------ */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;}
+  *{animation-duration:.001ms !important;transition-duration:.001ms !important;}
+  [data-reveal]{opacity:1 !important;transform:none !important;}
+}

@@ -1,0 +1,22 @@
+---
+export interface Props {
+  kicker?: string;
+}
+const { kicker = "Design & dev studio" } = Astro.props;
+---
+
+<nav id="ds-nav">
+  <div style="display:flex;align-items:center;gap:14px;">
+    <a href="/" class="brand">DIVYANSH&nbsp;SOOD<sup style="font-size:9px;top:-.7em;">®</sup></a>
+    <span class="kicker">{kicker}</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:30px;">
+    <div class="nav-links">
+      <a href="/#work">Works</a>
+      <a href="/blog/">Blog</a>
+      <a href="/#about">About</a>
+      <a href="/#contact">Contact</a>
+    </div>
+    <a href="/#contact" data-cursor class="nav-cta">Start a project <span aria-hidden="true">↗</span></a>
+  </div>
+</nav>

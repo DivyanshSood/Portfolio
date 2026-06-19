@@ -1,0 +1,74 @@
+---
+// Services accordion. `home-section` is a responsive hook (mobile side-padding).
+// Toggling is wired in HomeScripts.astro via the data-svctog / data-svcbody attrs.
+---
+
+<section id="services" class="home-section" style="position:relative;z-index:2;background:#0b0b0c;color:#fff;padding:30px 30px 110px;border-top:1px solid rgba(255,255,255,.14);">
+  <div class="g-split" style="display:grid;grid-template-columns:.8fr 1.2fr;gap:48px;margin-bottom:80px;">
+    <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;opacity:.55;">(Services — 03)<br /><span style="opacity:.7;">Strategy → Design → Build</span></div>
+    <h3 data-reveal style="margin:0;font-weight:700;font-size:clamp(26px,3.6vw,50px);line-height:1.12;letter-spacing:-.02em;">Every project starts with understanding how your customers make decisions — and what's stopping them from making one right now.</h3>
+  </div>
+
+  <div>
+    <div style="border-top:1px solid rgba(255,255,255,.14);">
+      <button type="button" data-cursor data-svctog="0" aria-expanded="false" style="display:flex;align-items:center;justify-content:space-between;padding:30px 4px;cursor:pointer;width:100%;background:none;border:0;color:inherit;font:inherit;text-align:left;">
+        <span style="font-weight:800;font-size:clamp(24px,3.4vw,44px);letter-spacing:-.02em;">Strategy &amp; Research</span>
+        <span style="font-size:30px;font-weight:300;color:var(--accent,#ff4612);display:inline-block;transition:transform .35s cubic-bezier(.2,.8,.2,1);" data-svcicon="0" aria-hidden="true">+</span>
+      </button>
+      <div style="overflow:hidden;max-height:0;opacity:0;transition:max-height .55s cubic-bezier(.2,.8,.2,1),opacity .4s ease;" data-svcbody="0">
+        <div class="g-3" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:34px;padding:4px 4px 34px;">
+          <p style="margin:0;font-size:15px;line-height:1.6;opacity:.7;grid-column:span 2;max-width:560px;">We audit your current customer journey, identify the moments where users lose confidence or drop off, then map a clear path from first click to conversion — grounded in real behaviour, not guesses.</p>
+          <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:.6;"><div style="opacity:.62;margin-bottom:6px;">Starts from</div><div style="font-size:22px;color:var(--accent,#ff4612);letter-spacing:0;">₹2,00,000</div></div>
+        </div>
+      </div>
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,.14);">
+      <button type="button" data-cursor data-svctog="1" aria-expanded="false" style="display:flex;align-items:center;justify-content:space-between;padding:30px 4px;cursor:pointer;width:100%;background:none;border:0;color:inherit;font:inherit;text-align:left;">
+        <span style="font-weight:800;font-size:clamp(24px,3.4vw,44px);letter-spacing:-.02em;">Design &amp; Prototyping</span>
+        <span style="font-size:30px;font-weight:300;color:var(--accent,#ff4612);display:inline-block;transition:transform .35s cubic-bezier(.2,.8,.2,1);" data-svcicon="1" aria-hidden="true">+</span>
+      </button>
+      <div style="overflow:hidden;max-height:0;opacity:0;transition:max-height .55s cubic-bezier(.2,.8,.2,1),opacity .4s ease;" data-svcbody="1">
+        <div class="g-3" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:34px;padding:4px 4px 34px;">
+          <p style="margin:0;font-size:15px;line-height:1.6;opacity:.7;grid-column:span 2;max-width:560px;">High-fidelity interface design and clickable prototypes. You see exactly how it looks and feels before a single line of code is written — typography, motion, states, the lot.</p>
+          <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:.6;"><div style="opacity:.62;margin-bottom:6px;">Starts from</div><div style="font-size:22px;color:var(--accent,#ff4612);letter-spacing:0;">₹3,90,000</div></div>
+        </div>
+      </div>
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,.14);">
+      <button type="button" data-cursor data-svctog="2" aria-expanded="false" style="display:flex;align-items:center;justify-content:space-between;padding:30px 4px;cursor:pointer;width:100%;background:none;border:0;color:inherit;font:inherit;text-align:left;">
+        <span style="font-weight:800;font-size:clamp(24px,3.4vw,44px);letter-spacing:-.02em;">Development</span>
+        <span style="font-size:30px;font-weight:300;color:var(--accent,#ff4612);display:inline-block;transition:transform .35s cubic-bezier(.2,.8,.2,1);" data-svcicon="2" aria-hidden="true">+</span>
+      </button>
+      <div style="overflow:hidden;max-height:0;opacity:0;transition:max-height .55s cubic-bezier(.2,.8,.2,1),opacity .4s ease;" data-svcbody="2">
+        <div class="g-3" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:34px;padding:4px 4px 34px;">
+          <p style="margin:0;font-size:15px;line-height:1.6;opacity:.7;grid-column:span 2;max-width:560px;">Fast, accessible, search-friendly front-ends built to last — React, Next.js, Astro, or headless. Pixel-accurate to the design, smooth on every device, easy for your team to update.</p>
+          <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:.6;"><div style="opacity:.62;margin-bottom:6px;">Starts from</div><div style="font-size:22px;color:var(--accent,#ff4612);letter-spacing:0;">₹5,40,000</div></div>
+        </div>
+      </div>
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,.14);">
+      <button type="button" data-cursor data-svctog="3" aria-expanded="false" style="display:flex;align-items:center;justify-content:space-between;padding:30px 4px;cursor:pointer;width:100%;background:none;border:0;color:inherit;font:inherit;text-align:left;">
+        <span style="font-weight:800;font-size:clamp(24px,3.4vw,44px);letter-spacing:-.02em;">Support &amp; Growth</span>
+        <span style="font-size:30px;font-weight:300;color:var(--accent,#ff4612);display:inline-block;transition:transform .35s cubic-bezier(.2,.8,.2,1);" data-svcicon="3" aria-hidden="true">+</span>
+      </button>
+      <div style="overflow:hidden;max-height:0;opacity:0;transition:max-height .55s cubic-bezier(.2,.8,.2,1),opacity .4s ease;" data-svcbody="3">
+        <div class="g-3" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:34px;padding:4px 4px 34px;">
+          <p style="margin:0;font-size:15px;line-height:1.6;opacity:.7;grid-column:span 2;max-width:560px;">Ongoing iteration once you're live — A/B tests, new pages, performance tuning and monthly reporting. Your site keeps improving instead of slowly going stale.</p>
+          <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:.6;"><div style="opacity:.62;margin-bottom:6px;">Starts from</div><div style="font-size:22px;color:var(--accent,#ff4612);letter-spacing:0;">₹99,000<span style="font-size:11px;opacity:.6;">/mo</span></div></div>
+        </div>
+      </div>
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,.14);border-bottom:1px solid rgba(255,255,255,.14);">
+      <button type="button" data-cursor data-svctog="4" aria-expanded="false" style="display:flex;align-items:center;justify-content:space-between;padding:30px 4px;cursor:pointer;width:100%;background:none;border:0;color:inherit;font:inherit;text-align:left;">
+        <span style="font-weight:800;font-size:clamp(24px,3.4vw,44px);letter-spacing:-.02em;">SEO</span>
+        <span style="font-size:30px;font-weight:300;color:var(--accent,#ff4612);display:inline-block;transition:transform .35s cubic-bezier(.2,.8,.2,1);" data-svcicon="4" aria-hidden="true">+</span>
+      </button>
+      <div style="overflow:hidden;max-height:0;opacity:0;transition:max-height .55s cubic-bezier(.2,.8,.2,1),opacity .4s ease;" data-svcbody="4">
+        <div class="g-3" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:34px;padding:4px 4px 34px;">
+          <p style="margin:0;font-size:15px;line-height:1.6;opacity:.7;grid-column:span 2;max-width:560px;">Technical and on-page SEO baked in from day one — clean markup, fast loads, structured data and content that actually ranks for the terms your buyers search.</p>
+          <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:.6;"><div style="opacity:.62;margin-bottom:6px;">Starts from</div><div style="font-size:22px;color:var(--accent,#ff4612);letter-spacing:0;">₹1,50,000</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

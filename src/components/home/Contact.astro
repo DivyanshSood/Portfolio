@@ -1,0 +1,62 @@
+---
+// Contact form + homepage footer. `home-section` is a responsive hook (mobile
+// side-padding). The form submit is wired to WhatsApp in HomeScripts.astro.
+---
+
+<section id="contact" class="home-section" style="position:relative;z-index:2;background:#0b0b0c;color:#fff;padding:80px 30px 0;border-top:1px solid rgba(255,255,255,.14);">
+  <div class="g-split" style="display:grid;grid-template-columns:.9fr 1.4fr;gap:60px;padding-bottom:80px;">
+    <div>
+      <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;opacity:.55;margin-bottom:30px;">(Contact — 08)</div>
+      <div style="border:1px solid rgba(255,255,255,.14);border-radius:3px;padding:20px;margin-bottom:34px;max-width:320px;">
+        <div style="width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#ff4612,#7a1e00);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:#fff;margin-bottom:14px;">DS</div>
+        <p style="margin:0;font-size:14px;line-height:1.55;opacity:.8;">"I'll personally review your brief and get back to you within two hours."</p>
+      </div>
+      <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.62;margin-bottom:6px;">Contact</div>
+      <a href="tel:+919816091875" data-cursor style="display:block;font-weight:700;font-size:22px;letter-spacing:-.01em;margin-bottom:18px;color:#fff;text-decoration:none;">+91 98160 91875</a>
+      <a href="mailto:hello@divyanshsood.com" data-cursor style="font-family:'Space Mono',monospace;font-size:13px;opacity:.8;color:#fff;text-decoration:none;">hello@divyanshsood.com</a>
+      <div style="margin-top:22px;display:flex;gap:20px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;">
+        <a href="https://wa.me/919816091875" target="_blank" rel="noopener" data-cursor style="color:#fff;text-decoration:none;opacity:.8;">WhatsApp ↗</a>
+        <a href="https://github.com/DivyanshSood" target="_blank" rel="noopener" data-cursor style="color:#fff;text-decoration:none;opacity:.8;">GitHub ↗</a>
+        <a href="https://www.linkedin.com/in/divyansh-sood-023556151/" target="_blank" rel="noopener" data-cursor style="color:#fff;text-decoration:none;opacity:.8;">LinkedIn ↗</a>
+      </div>
+    </div>
+    <div>
+      <h2 style="margin:0 0 36px;font-weight:900;font-size:clamp(52px,8vw,140px);line-height:.84;letter-spacing:-.04em;text-transform:uppercase;">Start a<br />project.</h2>
+      <form id="ds-contact-form">
+        <div class="g-2" style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;">
+          <input id="cf-name" type="text" placeholder="Your name" name="name" autocomplete="name" aria-label="Your name" style="background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.25);color:#fff;font-family:'Space Mono',monospace;font-size:13px;padding:14px 2px;outline:none;" />
+          <input id="cf-email" type="email" placeholder="Email address" name="email" autocomplete="email" aria-label="Email address" style="background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.25);color:#fff;font-family:'Space Mono',monospace;font-size:13px;padding:14px 2px;outline:none;" />
+        </div>
+        <input id="cf-msg" type="text" placeholder="Tell me about your project" name="message" aria-label="Tell me about your project" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.25);color:#fff;font-family:'Space Mono',monospace;font-size:13px;padding:14px 2px;outline:none;margin-bottom:26px;" />
+        <label style="display:flex;align-items:center;gap:10px;font-family:'Space Mono',monospace;font-size:12px;opacity:.7;margin-bottom:28px;cursor:pointer;"><input id="cf-new" type="checkbox" style="position:absolute;opacity:0;width:0;height:0;" /><span class="cf-box" style="width:16px;height:16px;border:1px solid rgba(255,255,255,.4);border-radius:2px;display:inline-block;flex:0 0 auto;transition:background .2s ease,border-color .2s ease;"></span> I need a brand-new website</label>
+        <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
+          <button type="submit" data-cursor style="background:var(--accent,#ff4612);color:#fff;border:none;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;padding:15px 28px;border-radius:2px;cursor:pointer;">Send message ↗</button>
+          <span style="font-family:'Space Mono',monospace;font-size:11px;opacity:.6;max-width:240px;">By submitting you agree to the Terms &amp; Privacy Policy.</span>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="g-foot" style="border-top:1px solid rgba(255,255,255,.14);padding:46px 0;display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;">
+    <div>
+      <div style="font-family:'Archivo';font-weight:900;font-size:34px;letter-spacing:-.04em;margin-bottom:18px;">DIVYANSH SOOD<sup style="font-size:13px;top:-1em;">®</sup></div>
+      <div style="font-family:'Caveat',cursive;font-weight:700;font-size:40px;color:var(--accent,#ff4612);transform:rotate(-6deg);transform-origin:left;">Divyansh Sood</div>
+    </div>
+    <div style="font-family:'Space Mono',monospace;font-size:13px;line-height:2.1;">
+      <div style="font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.6;margin-bottom:10px;">Navigate</div>
+      <a href="#top" style="color:#fff;text-decoration:none;display:block;opacity:.8;">Home</a>
+      <a href="#about" style="color:#fff;text-decoration:none;display:block;opacity:.8;">About</a>
+      <a href="#work" style="color:#fff;text-decoration:none;display:block;opacity:.8;">Works</a>
+      <a href="#contact" style="color:#fff;text-decoration:none;display:block;opacity:.8;">Contact</a>
+      <a href="/blog/" style="color:#fff;text-decoration:none;display:block;opacity:.8;">Blog</a>
+    </div>
+    <div style="font-family:'Space Mono',monospace;font-size:13px;line-height:1.9;">
+      <div style="font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.6;margin-bottom:10px;">Studio</div>
+      <div style="opacity:.8;">India ·<br />Worldwide</div>
+      <div style="margin-top:16px;display:flex;gap:16px;opacity:.8;"><a href="https://github.com/DivyanshSood" target="_blank" rel="noopener" style="color:#fff;text-decoration:none;">GitHub ↗</a><a href="https://www.linkedin.com/in/divyansh-sood-023556151/" target="_blank" rel="noopener" style="color:#fff;text-decoration:none;">LinkedIn ↗</a></div>
+    </div>
+  </div>
+  <div style="border-top:1px solid rgba(255,255,255,.14);padding:20px 0;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;opacity:.62;">
+    <span>© 2026 Divyansh Sood Studio</span><span>Designed &amp; built with intent</span><a href="#top" data-cursor style="color:#fff;text-decoration:none;">Back to top ↑</a>
+  </div>
+</section>

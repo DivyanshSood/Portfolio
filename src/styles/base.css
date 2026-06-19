@@ -1,0 +1,58 @@
+/* ===========================================================================
+   Base design system — reset, root, custom cursor, shared nav, buttons,
+   shared footer, scroll-reveal. Imported first via global.css.
+   =========================================================================== */
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+html,body{margin:0;padding:0;}
+body{background:#0b0b0c;color:#fff;font-family:'Archivo',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+#ds-root{--accent:#ff4612;position:relative;overflow-x:hidden;}
+::selection{background:var(--accent);color:#fff;}
+a{color:inherit;}
+img{display:block;max-width:100%;}
+section{position:relative;}
+.mono{font-family:'Space Mono',monospace;}
+.wrap{max-width:1180px;margin:0 auto;padding:0 30px;}
+.narrow{max-width:760px;}
+
+/* keyframes (homepage) */
+@keyframes ds-rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+@keyframes ds-marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes ds-marq-r{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+@keyframes ds-bounce{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(7px);opacity:1}}
+
+/* custom cursor */
+#ds-cursor{position:fixed;top:0;left:0;width:34px;height:34px;border:1.5px solid #fff;border-radius:50%;pointer-events:none;z-index:9999;mix-blend-mode:difference;transition:width .25s ease,height .25s ease,background .25s ease;will-change:transform;}
+#ds-cursor.big{width:74px;height:74px;background:#fff;}
+
+/* homepage utilities */
+.imgfill{background-size:cover;background-position:center;background-repeat:no-repeat;}
+#cf-new:checked + .cf-box{background:var(--accent);border-color:var(--accent);}
+.price-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+
+/* nav (shared) */
+#ds-nav{position:fixed;top:0;left:0;width:100%;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:16px 30px;transition:background .4s ease,border-color .4s ease,backdrop-filter .4s ease;border-bottom:1px solid transparent;}
+#ds-nav .brand{font-weight:900;font-size:19px;letter-spacing:-.04em;color:#fff;text-decoration:none;}
+#ds-nav .kicker{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.6;border-left:1px solid rgba(255,255,255,.25);padding-left:14px;}
+.nav-links{display:flex;gap:26px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;}
+.nav-links a{color:#fff;text-decoration:none;opacity:.85;}
+.nav-cta{display:inline-flex;align-items:center;gap:9px;background:var(--accent);color:#0b0b0c;text-decoration:none;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:11px 18px;border-radius:2px;font-weight:700;}
+
+/* buttons (shared) */
+.btn{display:inline-flex;align-items:center;gap:9px;text-decoration:none;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:14px 22px;border-radius:2px;font-weight:700;}
+.btn-primary{background:var(--accent);color:#0b0b0c;}
+.btn-ghost{border:1px solid rgba(255,255,255,.3);color:#fff;}
+
+/* shared footer (cs-foot) */
+.cs-foot{border-top:1px solid rgba(255,255,255,.14);}
+.cs-foot .grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;padding:46px 0;}
+.cs-foot .word{font-weight:900;font-size:34px;letter-spacing:-.04em;margin-bottom:14px;}
+.cs-foot .sig{font-family:'Caveat',cursive;font-weight:700;font-size:40px;color:var(--accent);transform:rotate(-6deg);transform-origin:left;}
+.cs-foot .col{font-family:'Space Mono',monospace;font-size:13px;line-height:2;}
+.cs-foot .col .h,.cs-foot .h{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.62;margin-bottom:10px;}
+.cs-foot .col a{color:#fff;text-decoration:none;display:block;opacity:.82;}
+.cs-foot .bar{border-top:1px solid rgba(255,255,255,.14);padding:20px 0;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;opacity:.62;}
+
+/* scroll reveal */
+[data-reveal]{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.8,.2,1),transform .8s cubic-bezier(.2,.8,.2,1);}

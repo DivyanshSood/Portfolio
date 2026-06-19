@@ -1,0 +1,38 @@
+---
+// Pricing table. `home-section` is a responsive hook (mobile side-padding);
+// the table itself scrolls horizontally on small screens via .price-scroll.
+---
+
+<section class="home-section" style="position:relative;z-index:2;background:#0b0b0c;color:#fff;padding:90px 30px 100px;">
+  <div class="g-2" style="display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:end;margin-bottom:60px;">
+    <div data-reveal>
+      <p style="margin:0;font-weight:600;font-size:clamp(20px,2.4vw,30px);line-height:1.3;letter-spacing:-.01em;max-width:520px;">"The hardest part of building a website isn't the code — it's knowing what to leave out. Every element here earns its place."</p>
+      <div style="margin-top:16px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;opacity:.55;">— Divyansh, on the process</div>
+    </div>
+    <h2 data-reveal style="margin:0;font-weight:900;font-size:clamp(56px,9vw,150px);line-height:.86;letter-spacing:-.04em;text-transform:uppercase;text-align:right;">Pricing.</h2>
+  </div>
+
+  <div class="price-scroll" style="border-top:1px solid rgba(255,255,255,.16);">
+   <div class="price-inner">
+    <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:20px;padding:26px 4px;align-items:end;border-bottom:1px solid rgba(255,255,255,.14);">
+      <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.62;">(Pricing — 06) Plans</div>
+      <div><div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:.55;margin-bottom:8px;">Foundation</div><div style="font-weight:800;font-size:30px;letter-spacing:-.02em;">₹3,90,000</div></div>
+      <div><div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent,#ff4612);margin-bottom:8px;">Growth ★</div><div style="font-weight:800;font-size:30px;letter-spacing:-.02em;">₹7,90,000</div></div>
+      <div><div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:.55;margin-bottom:8px;">Scale</div><div style="font-weight:800;font-size:30px;letter-spacing:-.02em;">₹14,90,000</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:20px;padding:18px 4px;border-bottom:1px solid rgba(255,255,255,.1);font-size:14px;"><span style="opacity:.75;">Strategy &amp; behavioural audit</span><span style="color:var(--accent,#ff4612);">✓</span><span style="color:var(--accent,#ff4612);">✓</span><span style="color:var(--accent,#ff4612);">✓</span></div>
+    <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:20px;padding:18px 4px;border-bottom:1px solid rgba(255,255,255,.1);font-size:14px;"><span style="opacity:.75;">Number of pages</span><span style="opacity:.6;">Up to 6</span><span style="opacity:.6;">Up to 12</span><span style="opacity:.6;">Unlimited</span></div>
+    <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:20px;padding:18px 4px;border-bottom:1px solid rgba(255,255,255,.1);font-size:14px;"><span style="opacity:.75;">Conversion wireframes</span><span style="color:var(--accent,#ff4612);">✓</span><span style="color:var(--accent,#ff4612);">✓</span><span style="color:var(--accent,#ff4612);">✓</span></div>
+    <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:20px;padding:18px 4px;border-bottom:1px solid rgba(255,255,255,.1);font-size:14px;"><span style="opacity:.75;">Copywriting support</span><span style="opacity:.6;">Basic</span><span style="opacity:.6;">Advanced</span><span style="opacity:.6;">Advanced + reports</span></div>
+    <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:20px;padding:18px 4px;border-bottom:1px solid rgba(255,255,255,.1);font-size:14px;"><span style="opacity:.75;">A/B testing setup</span><span style="opacity:.3;">—</span><span style="color:var(--accent,#ff4612);">✓</span><span style="color:var(--accent,#ff4612);">✓</span></div>
+    <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:20px;padding:18px 4px;border-bottom:1px solid rgba(255,255,255,.1);font-size:14px;"><span style="opacity:.75;">Timeline</span><span style="opacity:.6;">3–4 weeks</span><span style="opacity:.6;">4–6 weeks</span><span style="opacity:.6;">Custom</span></div>
+    <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:20px;padding:18px 4px;border-bottom:1px solid rgba(255,255,255,.14);font-size:14px;"><span style="opacity:.75;">Ongoing support</span><span style="opacity:.6;">30 days</span><span style="opacity:.6;">90 days</span><span style="opacity:.6;">Retainer</span></div>
+    <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:20px;padding:26px 4px 0;">
+      <span></span>
+      <a href="#contact" data-cursor style="text-align:center;border:1px solid rgba(255,255,255,.3);color:#fff;text-decoration:none;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:13px;border-radius:2px;">Get started</a>
+      <a href="#contact" data-cursor style="text-align:center;background:var(--accent,#ff4612);color:#fff;text-decoration:none;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:13px;border-radius:2px;font-weight:700;">Get started</a>
+      <a href="#contact" data-cursor style="text-align:center;border:1px solid rgba(255,255,255,.3);color:#fff;text-decoration:none;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:13px;border-radius:2px;">Get started</a>
+    </div>
+   </div>
+  </div>
+</section>
