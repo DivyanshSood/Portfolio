@@ -1,28 +1,37 @@
 {
-  "buildCommand": "cd astro && npm run build",
-  "outputDirectory": "astro/dist",
-  "installCommand": "cd astro && npm install",
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "cleanUrls": true,
   "redirects": [
-    { "source": "/Portfolio.html",                   "destination": "/",                         "permanent": true },
-    { "source": "/projects/webseek.html",            "destination": "/projects/webseek",         "permanent": true },
-    { "source": "/projects/inhimalayas.html",        "destination": "/projects/inhimalayas",     "permanent": true },
-    { "source": "/projects/dharamshala-tours.html",  "destination": "/projects/dharamshala-tours","permanent": true },
-    { "source": "/projects/redline.html",            "destination": "/projects/redline",         "permanent": true },
-    { "source": "/projects/chinkiz.html",            "destination": "/projects/chinkiz",         "permanent": true },
-    { "source": "/projects/modernkbs.html",          "destination": "/projects/modernkbs",       "permanent": true },
-    { "source": "/projects/northpeak.html",          "destination": "/projects/northpeak",       "permanent": true }
+    { "source": "/Portfolio.html", "destination": "/", "permanent": true },
+    { "source": "/index.html", "destination": "/", "permanent": true },
+    { "source": "/projects/webseek.html", "destination": "/projects/webseek", "permanent": true },
+    { "source": "/projects/inhimalayas.html", "destination": "/projects/inhimalayas", "permanent": true },
+    { "source": "/projects/dharamshala-tours.html", "destination": "/projects/dharamshala-tours", "permanent": true },
+    { "source": "/projects/redline.html", "destination": "/projects/redline", "permanent": true },
+    { "source": "/projects/chinkiz.html", "destination": "/projects/chinkiz", "permanent": true },
+    { "source": "/projects/modernkbs.html", "destination": "/projects/modernkbs", "permanent": true },
+    { "source": "/projects/nandini.html", "destination": "/projects/nandini", "permanent": true },
+    { "source": "/projects/northpeak.html", "destination": "/projects/northpeak", "permanent": true }
   ],
   "headers": [
     {
       "source": "/llms.txt",
       "headers": [
-        { "key": "Content-Type",  "value": "text/plain; charset=utf-8" },
+        { "key": "Content-Type", "value": "text/plain; charset=utf-8" },
         { "key": "Cache-Control", "value": "public, max-age=86400" }
       ]
     },
     {
       "source": "/sitemap.xml",
       "headers": [
+        { "key": "Content-Type", "value": "application/xml; charset=utf-8" },
+        { "key": "Cache-Control", "value": "public, max-age=86400" }
+      ]
+    },
+    {
+      "source": "/robots.txt",
+      "headers": [
+        { "key": "Content-Type", "value": "text/plain; charset=utf-8" },
         { "key": "Cache-Control", "value": "public, max-age=86400" }
       ]
     }
