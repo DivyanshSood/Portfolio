@@ -52,3 +52,4 @@ Divyansh Sood is a web designer and developer based in Himachal Pradesh, India, 
 - LinkedIn: https://www.linkedin.com/in/divyansh-sood-023556151/
 - Website: https://www.divyanshsood.com
 - Blog: https://www.divyanshsood.com/blog/
+- RSS feed: https://www.divyanshsood.com/rss.xml

@@ -11,6 +11,12 @@ const FAVICON =
 const GA_ID = "G-51WG6025T0";
 const GA_INLINE = `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}');`;
 
+// Search-engine ownership verification — rendered only when the env var is set
+// in Vercel (Project → Settings → Environment Variables). Lets you register the
+// site with Bing Webmaster (also powers DuckDuckGo/Yahoo/Ecosia) and Yandex.
+const BING_VERIFY = import.meta.env.BING_SITE_VERIFICATION;
+const YANDEX_VERIFY = import.meta.env.YANDEX_VERIFICATION;
+
 export interface Props {
   title: string;
   description: string;
@@ -75,6 +81,8 @@ const {
     <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1" />
     <meta name="theme-color" content="#0b0b0c" />
     <meta name="apple-mobile-web-app-title" content="Divyansh Sood" />
+    {BING_VERIFY && <meta name="msvalidate.01" content={BING_VERIFY} />}
+    {YANDEX_VERIFY && <meta name="yandex-verification" content={YANDEX_VERIFY} />}
     <link rel="canonical" href={canonical} />
 
     <meta property="og:type" content={ogType} />
@@ -101,6 +109,7 @@ const {
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
+    <link rel="alternate" type="application/rss+xml" title="Divyansh Sood® Studio — Journal" href="/rss.xml" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
