@@ -1,6 +1,7 @@
 ---
 title: "Your Landing Page Doesn't Have a Traffic Problem"
 description: "Before you spend more on ads, look at what happens after the click. Most landing pages leak conversions in the same five places — all of them fixable without a single extra visitor."
+coverImage: "/blog/landing-page-conversion-not-traffic.jpg"
 pubDate: 2026-05-02
 tags: ["conversion", "landing page", "design", "performance", "CRO"]
 ---

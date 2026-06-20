@@ -15,12 +15,26 @@
   .g-split,.g-2,.g-3,.g-foot{grid-template-columns:1fr !important;}
   .price-inner{min-width:680px;}
   h1,h2{word-break:break-word;}
+  /* Case study: collapse every multi-column grid down to a single column. */
   .cs-body,.cs-glance,.cs-gallery,.cs-gallery.single,.cs-foot .grid{grid-template-columns:1fr;}
   .cs-card.span2{grid-column:auto;}
   .cs-metrics{grid-template-columns:1fr 1fr;}
   .cs-list{grid-template-columns:1fr;}
+  /* Tighter vertical rhythm + drop the inner cell borders that double up against
+     the container edge once "At a glance" is a single stacked column. */
+  .cs-sec{padding:52px 0;}
+  .cs-sec-head{margin-bottom:28px;}
+  .cs-glance div{border-right:0;}
+  .cs-glance div:last-child{border-bottom:0;}
 }
 @media (max-width:760px){#ds-cursor{display:none;}}
+@media (max-width:640px){
+  /* Phones: pull card / metric padding in so copy keeps its side margins, and let
+     long "next project" names wrap instead of forcing sideways overflow. */
+  .cs-card{padding:24px 22px;}
+  .cs-metric{padding:22px 18px;}
+  .cs-next .name{overflow-wrap:anywhere;}
+}
 @media (max-width:620px){
   .g-4{grid-template-columns:1fr !important;}
   .blog-grid{grid-template-columns:1fr;}
@@ -28,9 +42,14 @@
   .post-next{flex-direction:column;align-items:flex-start;}
 }
 @media (max-width:560px){
-  .cs-hero{padding-top:120px;}
-  .cs-eyebrow{gap:4px 14px;font-size:9px;}
-  .cs-eyebrow span{flex:1 1 auto;word-break:break-word;}
+  .cs-hero{padding:120px 0 44px;}
+  .cs-feature{margin-top:30px;}
+  .cs-sec{padding:46px 0;}
+  .cs-sec-head{margin-bottom:24px;}
+  /* Eyebrow: sit the three meta chips to the left and wrap naturally rather than
+     letting space-between stretch them unevenly across a narrow row. */
+  .cs-eyebrow{justify-content:flex-start;gap:4px 14px;font-size:9px;}
+  .cs-eyebrow span{flex:0 1 auto;word-break:break-word;}
   .cs-cta-row{flex-direction:column;align-items:stretch;}
   .cs-endcta .cs-cta-row{align-items:stretch;}
   .btn{justify-content:center;}
@@ -62,25 +81,61 @@ html,body{max-width:100%;}
   a,button{-webkit-tap-highlight-color:transparent;}
 }
 
-/* Tablet / phablet: keep the 4-up "by the numbers" tiles from getting too narrow. */
+/* Phone nav: inline links are already hidden at this width, leaving the wordmark
+   + tagline on the left and the CTA on the right. Scale the logo, tagline and CTA
+   down so everything stays on ONE line; the tagline keeps a min-width:0 + ellipsis
+   safety net so it can never wrap or shove the button off-screen on tiny phones. */
 @media (max-width:560px){
-  .cs-metrics{grid-template-columns:1fr 1fr;}
+  #ds-nav{gap:12px;}
+  #ds-nav > div:first-child{flex-wrap:nowrap;min-width:0;gap:9px;align-items:center;}
+  #ds-nav > div:last-child{flex:none;gap:0;}
+  #ds-nav .brand{font-size:clamp(13px,4vw,18px);white-space:nowrap;flex:none;}
+  #ds-nav .kicker{font-size:8px;letter-spacing:.1em;padding-left:9px;min-width:0;flex:1 1 auto;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  #ds-nav .nav-cta{font-size:9px;letter-spacing:.07em;padding:9px 12px;white-space:nowrap;flex:none;}
 }
 
-/* Selected-work rows: let long project names wrap instead of forcing a sideways
-   overflow, and tighten the column gap so the meta columns still fit on phones. */
+/* Hero: on phones the cursive signature drops into the gap below the wordmark.
+   Snug it up + give the intro paragraph extra top clearance so they never overlap,
+   and tighten the discipline row so "Design / Development / Strategy" stays tidy. */
 @media (max-width:640px){
-  .work-row{gap:14px !important;}
-  .work-name{min-width:0;overflow-wrap:anywhere;}
+  .hero-sig{font-size:40px !important;right:0 !important;bottom:-36px !important;}
+  .hero-meta{margin-top:58px !important;}
+  .hero-disciplines{gap:8px 16px !important;}
 }
 
-/* Small phones: trim oversized side padding so content keeps breathing room. */
+/* Selected-work rows on phones: drop the rigid 4-column grid (which crushed the
+   project name into mid-word breaks) and re-flow to a stacked editorial layout —
+   number + year on the top line, the name full-width below, category beneath it. */
+@media (max-width:640px){
+  .work-row{
+    grid-template-columns:1fr auto !important;
+    column-gap:14px !important;row-gap:8px !important;
+    align-items:baseline !important;
+    padding:22px 4px !important;
+  }
+  .work-row > :first-child{grid-area:1 / 1;}                        /* number   */
+  .work-row > :nth-child(4){grid-area:1 / 2;justify-self:end;}      /* year ↗   */
+  .work-row .work-name{grid-area:2 / 1 / 3 / 3;min-width:0;overflow-wrap:break-word;font-size:clamp(30px,8.5vw,46px) !important;}
+  .work-row > :nth-child(3){grid-area:3 / 1 / 4 / 3;}               /* category */
+}
+
+/* Small phones: trim oversized side padding so content keeps breathing room.
+   `.wrap` is the case-study / blog / footer container — tightening it here gives
+   those pages the same comfortable phone margins as the homepage sections. */
 @media (max-width:480px){
   .home-section{padding-left:20px !important;padding-right:20px !important;}
   .hero-card{padding-left:24px !important;padding-right:24px !important;}
+  .wrap{padding-left:20px;padding-right:20px;}
+  #ds-nav{padding-left:20px;padding-right:20px;}
+}
+@supports (padding:max(0px)){
+  @media (max-width:480px){
+    #ds-nav{padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right));}
+  }
 }
 @media (max-width:360px){
   .hero-card{padding-left:18px !important;padding-right:18px !important;}
+  .wrap{padding-left:16px;padding-right:16px;}
 }
 
 /* ------------------------------ reduced motion (last) ------------------------------ */

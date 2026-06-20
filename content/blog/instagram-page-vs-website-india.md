@@ -1,6 +1,7 @@
 ---
 title: "Why Your Instagram Page Isn't a Website — And What That Costs You"
 description: "Most Indian SMBs run their business from Instagram DMs and think that's enough. Here's what that model actually costs in leads, Google visibility, and long-term business control."
+coverImage: "/blog/instagram-page-vs-website-india.jpg"
 pubDate: 2026-04-05
 tags: ["Instagram", "web development", "lead generation", "India"]
 ---

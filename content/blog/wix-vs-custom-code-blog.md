@@ -1,6 +1,7 @@
 ---
 title: "Wix vs. Custom Code: What ₹13,000 Actually Gets You"
 description: "A straight comparison: what Wix actually gives a small Indian business versus a ₹13,000 custom-coded site — performance, SEO, lead capture, and real cost over 3 years."
+coverImage: "/blog/wix-vs-custom-code-blog.jpg"
 pubDate: 2025-12-15
 tags: ["Wix", "web development", "pricing", "India"]
 ---

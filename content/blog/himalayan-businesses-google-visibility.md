@@ -1,6 +1,7 @@
 ---
 title: "Why Small Travel Businesses Get Ignored by Google — And How to Fix It"
 description: "Why small hotels, homestays, and tour operators are structurally invisible on Google — and the specific fixes that shift bookings from aggregators to direct."
+coverImage: "/blog/himalayan-businesses-google-visibility.jpg"
 pubDate: 2025-11-01
 tags: ["small business", "SEO", "travel", "Google", "direct bookings"]
 ---

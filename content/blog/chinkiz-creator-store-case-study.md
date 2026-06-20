@@ -1,6 +1,7 @@
 ---
 title: "How a 600K YouTuber Sold Handmade Products Online Without Shopify"
 description: "Chinki had 600,000 YouTube subscribers and a creator store problem Shopify couldn't solve. A case study in custom-coded D2C — video gallery, Razorpay COD, zero templates."
+coverImage: "/blog/chinkiz-creator-store-case-study.jpg"
 pubDate: 2026-03-20
 tags: ["case study", "creator economy", "D2C", "Shopify alternative"]
 ---

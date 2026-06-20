@@ -1,6 +1,7 @@
 ---
 title: "Page Speed Is a Brand Statement"
 description: "A slow site doesn't just rank worse — it tells every visitor something about how you run your business. Why performance is a premium signal, and how fast 'fast' actually has to be."
+coverImage: "/blog/page-speed-is-a-brand-statement.jpg"
 pubDate: 2026-04-20
 tags: ["performance", "Core Web Vitals", "brand", "custom code", "SEO"]
 ---

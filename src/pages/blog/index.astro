@@ -74,7 +74,13 @@ const jsonld = JSON.stringify({
         {
           posts.map((p) => (
             <a class="blog-card" href={`/blog/${p.id}/`} data-cursor data-reveal>
-              <div class="thumb" style={`background:${gradient(p.id)};`} />
+              <div class="thumb">
+                {p.data.coverImage ? (
+                  <img src={p.data.coverImage} alt="" width="640" height="400" loading="lazy" decoding="async" />
+                ) : (
+                  <span class="thumb-grad" style={`background:${gradient(p.id)}`} />
+                )}
+              </div>
               <div class="pad">
                 <span class="date">
                   {fmtDate(p.data.pubDate)} · {p.data.tags[0] || "Notes"}

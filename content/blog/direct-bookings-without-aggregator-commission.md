@@ -1,6 +1,7 @@
 ---
 title: "How to Get Direct Bookings Without Paying Aggregator Commission"
 description: "MakeMyTrip and Booking.com take 15–25% of every booking they send you. Here's how Himalayan travel businesses escape that dependency — and keep the margin they've already earned."
+coverImage: "/blog/direct-bookings-without-aggregator-commission.jpg"
 pubDate: 2026-04-20
 tags: ["direct bookings", "himalayan businesses", "travel", "Himachal Pradesh"]
 ---

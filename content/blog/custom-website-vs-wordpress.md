@@ -1,6 +1,7 @@
 ---
 title: "Custom Website vs WordPress: Which Is Better for Your Business?"
 description: "The honest answer on custom code vs. WordPress for Indian small businesses — what WordPress actually ships, where it fails on speed and SEO, and when custom is worth it."
+coverImage: "/blog/custom-website-vs-wordpress.jpg"
 pubDate: 2026-01-05
 tags: ["WordPress", "web development", "India", "SEO"]
 ---

@@ -1,6 +1,7 @@
 ---
 title: "What Is llms.txt — And Why Your Business Website Needs One in 2025"
 description: "What llms.txt is, why AI tools like ChatGPT and Perplexity use it to find businesses, and why most Indian websites are invisible to this growing search channel."
+coverImage: "/blog/what-is-llms-txt-blog.jpg"
 pubDate: 2025-12-01
 tags: ["AI search", "llms.txt", "SEO", "web development"]
 ---

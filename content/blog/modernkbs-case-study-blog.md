@@ -1,6 +1,7 @@
 ---
 title: "A School Needed a Website and an Admissions Portal. Every Agency Said 6 Months. We Did It in 7 Days."
 description: "Modern K.B.S. School in Himachal Pradesh needed a website and working admissions portal simultaneously. Every agency quoted 6 months. A case study in what's actually possible with custom code."
+coverImage: "/blog/modernkbs-case-study-blog.jpg"
 pubDate: 2026-02-20
 tags: ["case study", "Himachal Pradesh", "school", "admissions portal"]
 ---

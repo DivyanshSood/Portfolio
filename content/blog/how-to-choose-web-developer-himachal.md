@@ -1,6 +1,7 @@
 ---
 title: "How to Choose a Website Developer in India (Without Getting Burned)"
 description: "What to ask, what the red flags look like, and what good website work actually costs — a practical guide for Indian business owners hiring a web developer."
+coverImage: "/blog/how-to-choose-web-developer-himachal.jpg"
 pubDate: 2026-02-05
 tags: ["web development", "hiring", "freelancer", "India", "small business"]
 ---

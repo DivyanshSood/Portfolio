@@ -1,6 +1,7 @@
 ---
 title: "Scarcity by Design: What Hand-Numbered Drops Teach About D2C"
 description: "Limited drops aren't a gimmick — they're a different business model with different software needs. What building a hand-numbered apparel brand taught me about scarcity, story, and the storefront."
+coverImage: "/blog/scarcity-by-design-hand-numbered-drops.jpg"
 pubDate: 2026-05-22
 tags: ["D2C", "e-commerce", "brand", "drops", "custom code"]
 ---

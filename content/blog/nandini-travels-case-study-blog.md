@@ -1,6 +1,7 @@
 ---
 title: "How a Taxi Business in Kangra Moved from Google Maps to Direct Website Bookings"
 description: "Nandini Travels was the most-reviewed taxi operator in Kangra — and had zero direct bookings. Here's how a WhatsApp-first website changed that within weeks."
+coverImage: "/blog/nandini-travels-case-study-blog.jpg"
 pubDate: 2025-10-15
 tags: ["case study", "Himachal Pradesh", "taxi", "direct bookings"]
 ---

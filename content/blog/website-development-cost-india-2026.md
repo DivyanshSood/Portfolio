@@ -1,6 +1,7 @@
 ---
 title: "Website Development Cost in India (2026 Guide)"
 description: "Real website development costs in India for 2026 — from ₹7,000 landing pages to ₹1,50,000 custom apps, with honest guidance on what's worth paying for."
+coverImage: "/blog/website-development-cost-india-2026.jpg"
 pubDate: 2026-01-20
 tags: ["web development", "pricing", "India"]
 ---

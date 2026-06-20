@@ -18,7 +18,7 @@ const { Content } = await render(entry);
 
 const post = entry.data;
 const canonical = `${SITE}/blog/${entry.id}/`;
-const ogImage = post.coverImage || DEFAULT_OG;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
 const primaryTag = post.tags[0] || "Notes";
 const readMins = readingTime(entry.body);
 
@@ -64,8 +64,8 @@ const jsonld = JSON.stringify({
   ogType="article"
   ogTitle={post.title}
   ogImage={ogImage}
-  ogImageW={1600}
-  ogImageH={1000}
+  ogImageW={1200}
+  ogImageH={750}
   articlePublished={iso(post.pubDate)}
   articleModified={iso(post.updatedDate || post.pubDate)}
   tags={post.tags}
@@ -88,6 +88,14 @@ const jsonld = JSON.stringify({
         </div>
       </div>
     </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img src={post.coverImage} alt={post.title} width="1200" height="750" fetchpriority="high" decoding="async" />
+        </figure>
+      </div>
+    )}
 
     <article class="wrap narrow post-body">
       <Content />

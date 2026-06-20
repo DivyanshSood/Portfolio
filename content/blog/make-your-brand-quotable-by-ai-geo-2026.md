@@ -1,6 +1,7 @@
 ---
 title: "How to Make Your Brand Quotable by AI (GEO in 2026)"
 description: "Search is splitting in two: links and answers. Most brands are invisible in the answer half. Here's how to make ChatGPT, Claude, Gemini and Perplexity cite you accurately."
+coverImage: "/blog/make-your-brand-quotable-by-ai-geo-2026.jpg"
 pubDate: 2026-06-02
 tags: ["GEO", "AI search", "SEO", "llms.txt", "brand"]
 ---

@@ -1,6 +1,7 @@
 ---
 title: "Why Most Indian Business Websites Don't Generate a Single Lead"
 description: "Six reasons most Indian business websites produce zero enquiries — and none of them are expensive to fix. A practical audit for clinic owners, tour operators, and service businesses."
+coverImage: "/blog/why-indian-websites-dont-generate-leads.jpg"
 pubDate: 2025-11-15
 tags: ["web development", "lead generation", "India", "SEO"]
 ---

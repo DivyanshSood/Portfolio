@@ -27,7 +27,8 @@ const main = renderProjectMain(p);
     function sync() {
       root.querySelectorAll("[data-faqbody]").forEach(function (el) {
         var open = Number(el.getAttribute("data-faqbody")) === faq;
-        el.style.maxHeight = open ? "360px" : "0px";
+        // Use the real content height so long answers never clip on narrow phones.
+        el.style.maxHeight = open ? el.scrollHeight + "px" : "0px";
         el.style.opacity = open ? "1" : "0";
       });
       root.querySelectorAll("[data-faqicon]").forEach(function (el) {
@@ -43,6 +44,13 @@ const main = renderProjectMain(p);
         faq = faq === i ? -1 : i;
         sync();
       });
+    });
+    // Re-measure the open answer after a resize/rotate so it keeps its full height.
+    var rt;
+    window.addEventListener("resize", function () {
+      if (faq < 0) return;
+      clearTimeout(rt);
+      rt = setTimeout(sync, 120);
     });
     sync();
   })();

@@ -1,6 +1,7 @@
 ---
 title: "Google Business Profile vs. Website: What Indian Businesses Actually Need"
 description: "A Google Business Profile gets you on the map. A website converts the people who find you there. Here's what each does, where each fails, and why most businesses need both."
+coverImage: "/blog/google-business-profile-vs-website-himachal.jpg"
 pubDate: 2026-04-28
 tags: ["Google Business Profile", "local SEO", "web development", "small business", "India"]
 ---

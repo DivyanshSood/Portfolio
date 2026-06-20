@@ -1,6 +1,7 @@
 ---
 title: "How I Get Website Clients Without Paid Ads"
 description: "Every client on my portfolio came through without a single rupee in paid advertising. Here's exactly how — from portfolio strategy to referrals to content that pre-qualifies."
+coverImage: "/blog/how-i-get-clients-without-paid-ads.jpg"
 pubDate: 2026-03-05
 tags: ["freelancing", "web development", "client acquisition", "Himachal Pradesh"]
 ---

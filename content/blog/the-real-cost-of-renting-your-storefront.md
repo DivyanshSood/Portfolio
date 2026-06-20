@@ -1,6 +1,7 @@
 ---
 title: "The Real Cost of Renting Your Storefront"
 description: "Monthly SaaS plans feel cheap because the bill is small and the cost is invisible. Here's what you actually pay over three years when your storefront is rented, not owned."
+coverImage: "/blog/the-real-cost-of-renting-your-storefront.jpg"
 pubDate: 2026-06-10
 tags: ["e-commerce", "ownership", "custom code", "D2C", "SaaS"]
 ---

@@ -1,6 +1,7 @@
 ---
 title: "Designing a Storefront That Feels Like the Brand, Not a Theme"
 description: "Anyone can install a theme and drop in a logo. Building a storefront that actually feels like your brand is a different craft. Here's what separates a branded store from a decorated template."
+coverImage: "/blog/storefront-that-feels-like-the-brand.jpg"
 pubDate: 2026-03-12
 tags: ["brand", "e-commerce", "design", "D2C", "custom code"]
 ---

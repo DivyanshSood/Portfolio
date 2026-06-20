@@ -1,6 +1,7 @@
 ---
 title: "Why Premium Brands Are Leaving Shopify for Custom Code"
 description: "Shopify is brilliant for getting a store live fast. But the brands that want to feel like a brand keep hitting the same theme-shaped ceiling — here's where custom code wins and where it doesn't."
+coverImage: "/blog/why-premium-brands-leave-shopify.jpg"
 pubDate: 2026-06-18
 tags: ["D2C", "Shopify", "e-commerce", "brand", "custom code"]
 ---

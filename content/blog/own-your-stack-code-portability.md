@@ -1,6 +1,7 @@
 ---
 title: "Own Your Stack: Why Code Portability Is a Business Asset"
 description: "The question that reveals whether you own your website or just rent access to it: if your developer vanished tomorrow, could anyone else pick it up? Here's why portability is leverage."
+coverImage: "/blog/own-your-stack-code-portability.jpg"
 pubDate: 2026-04-08
 tags: ["ownership", "custom code", "lock-in", "business", "web development"]
 ---

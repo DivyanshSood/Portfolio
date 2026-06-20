@@ -1,6 +1,7 @@
 ---
 title: "Custom Code vs Webflow for Funded Startups"
 description: "Webflow gets you a beautiful marketing site fast. But there's a point where it starts taxing your team and your roadmap. Here's how funded startups should decide between Webflow and custom code."
+coverImage: "/blog/custom-code-vs-webflow-for-startups.jpg"
 pubDate: 2026-05-12
 tags: ["startups", "Webflow", "custom code", "Next.js", "SaaS"]
 ---
