@@ -11,11 +11,12 @@ const FAVICON =
 const GA_ID = "G-51WG6025T0";
 const GA_INLINE = `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}');`;
 
-// Search-engine ownership verification — rendered only when the env var is set
-// in Vercel (Project → Settings → Environment Variables). Lets you register the
-// site with Bing Webmaster (also powers DuckDuckGo/Yahoo/Ecosia) and Yandex.
+// Search-engine ownership verification (public tokens — fine to ship in source).
+// Yandex is verified with the baked-in default below; Bing renders only when its
+// env var is set in Vercel (or import the site from Google Search Console, which
+// needs no meta tag). Bing Webmaster also powers DuckDuckGo/Yahoo/Ecosia.
 const BING_VERIFY = import.meta.env.BING_SITE_VERIFICATION;
-const YANDEX_VERIFY = import.meta.env.YANDEX_VERIFICATION;
+const YANDEX_VERIFY = import.meta.env.YANDEX_VERIFICATION ?? "f949199876a945f6";
 
 export interface Props {
   title: string;
