@@ -8,11 +8,7 @@ import Stats from "../components/home/Stats.astro";
 import Testimonials from "../components/home/Testimonials.astro";
 import Pricing from "../components/home/Pricing.astro";
 import Contact from "../components/home/Contact.astro";
-
-// Motion layer
-import FilmGrain from "../components/motion/FilmGrain.astro";
 import GiantText from "../components/motion/GiantText.astro";
-import MotionController from "../components/motion/MotionController.astro";
 
 import HomeScripts from "../components/home/HomeScripts.astro";
 import { homeJsonLd } from "../lib/home-schema.mjs";
@@ -29,7 +25,7 @@ const jsonld = homeJsonLd(SITE);
   ogDescription="Built from the Himalayas. Shipping for the world. Custom-coded sites in 3–4 weeks. From $3,000."
   jsonld={jsonld}
 >
-  <Nav kicker="Himalayas → Worldwide" />
+  <Nav kicker="Design & dev studio from the Himalayas" />
 
   {/* ---------- 01 · Hero ---------- */}
   <Hero />
@@ -37,7 +33,7 @@ const jsonld = homeJsonLd(SITE);
   {/* ---------- 02 · About + WhyMe (founder story) ---------- */}
   <About />
 
-  {/* ---------- 03 · Selected Work (top 3 of 9, signature horizontal scroll) ---------- */}
+  {/* ---------- 03 · Selected Work (top 3 of 9) ---------- */}
   <HorizontalScrollWork />
 
   {/* ---------- 04 · Results / Stats ---------- */}
@@ -59,12 +55,6 @@ const jsonld = homeJsonLd(SITE);
 
   {/* ---------- 08 · Contact ---------- */}
   <Contact />
-
-  {/* ---------- Film grain overlay (fixed, on top) ---------- */}
-  <FilmGrain />
-
-  {/* ---------- GSAP / ScrollTrigger orchestrator ---------- */}
-  <MotionController />
 </Layout>
 
 <HomeScripts />

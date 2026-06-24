@@ -1,7 +1,7 @@
 ---
-// Homepage interactivity (inlined, no framework): hero load-in, the services +
-// FAQ accordions. Contact form is handled by the shared contact-form.js
-// module imported below.
+// Homepage interactivity (inlined, no framework): the services + FAQ
+// accordions. Hero load-reveal animations removed (no motion site-wide).
+// Contact form is handled by the shared contact-form.js module imported below.
 ---
 
 <script is:inline>
@@ -9,25 +9,11 @@
     var root = document.getElementById("ds-root");
     if (!root) return;
 
-    /* hero load reveal */
-    var riseEls = root.querySelectorAll("[data-rise]");
-    riseEls.forEach(function (el) {
-      var d = parseFloat(el.getAttribute("data-rise") || "0");
-      el.style.opacity = "0";
-      el.style.transform = "translateY(26px)";
-      el.style.transition =
-        "opacity .85s cubic-bezier(.2,.8,.2,1), transform .85s cubic-bezier(.2,.8,.2,1)";
-      setTimeout(function () {
-        el.style.opacity = "1";
-        el.style.transform = "none";
-      }, 120 + d * 1000);
+    /* Make any [data-rise] elements visible immediately — no fade-in stagger. */
+    root.querySelectorAll("[data-rise]").forEach(function (el) {
+      el.style.opacity = "1";
+      el.style.transform = "none";
     });
-    setTimeout(function () {
-      riseEls.forEach(function (el) {
-        el.style.opacity = "1";
-        el.style.transform = "none";
-      });
-    }, 2400);
 
     /* accordions */
     var svc = -1,

@@ -3,23 +3,158 @@ import { CALENDLY_URL } from "../lib/site.mjs";
 export interface Props {
   kicker?: string;
 }
-const { kicker = "Design & dev studio" } = Astro.props;
+const { kicker = "Design & dev studio from the Himalayas" } = Astro.props;
 ---
 
 <nav id="ds-nav">
-  <div style="display:flex;align-items:center;gap:14px;">
-    <a href="/" class="brand">DIVYANSH&nbsp;SOOD<sup style="font-size:9px;top:-.7em;">®</sup></a>
+  <div class="nav-left">
+    <a href="/" class="brand">DIVYANSH&nbsp;SOOD<sup>®</sup></a>
+    <span class="nav-divider" aria-hidden="true"></span>
     <span class="kicker">{kicker}</span>
   </div>
-  <div style="display:flex;align-items:center;gap:30px;">
+  <div class="nav-right">
     <div class="nav-links">
       <a href="/#work">Works</a>
-      <a href="/results">Results</a>
-      <a href="/about">About</a>
-      <a href="/website-audit">Audit</a>
       <a href="/blog/">Blog</a>
+      <a href="/about">About</a>
       <a href="/#contact">Contact</a>
     </div>
-    <a href={CALENDLY_URL} target="_blank" rel="noopener" data-cursor class="nav-cta">Book a call <span aria-hidden="true">↗</span></a>
+    <a href={CALENDLY_URL} target="_blank" rel="noopener" class="nav-cta">
+      <span class="nav-cta-dot" aria-hidden="true"></span>
+      Start a project
+    </a>
   </div>
 </nav>
+
+<style>
+  /* The Mattis-style top nav: brand + tagline on the left, primary links and
+     a single pill CTA on the right. Sits over the hero as a transparent strip
+     so the portrait photo shows through. */
+  #ds-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 18px 32px;
+    background: transparent;
+    border-bottom: 1px solid transparent;
+  }
+
+  .nav-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+  }
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    flex: none;
+  }
+
+  #ds-nav .brand {
+    font-weight: 900;
+    font-size: 17px;
+    letter-spacing: -0.035em;
+    color: #fff;
+    text-decoration: none;
+    line-height: 1;
+    white-space: nowrap;
+    flex: none;
+  }
+  #ds-nav .brand sup {
+    font-size: 9px;
+    top: -0.7em;
+    font-weight: 700;
+  }
+
+  .nav-divider {
+    display: inline-block;
+    width: 1px;
+    height: 14px;
+    background: rgba(255, 255, 255, 0.28);
+    flex: none;
+  }
+
+  #ds-nav .kicker {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.7);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 26px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .nav-links a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.85;
+    padding: 6px 0;
+  }
+  .nav-links a:hover { opacity: 1; }
+
+  .nav-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    background: var(--accent, #ff4612);
+    color: #0b0b0c;
+    text-decoration: none;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 11px 18px 11px 16px;
+    border-radius: 999px;
+    font-weight: 700;
+    white-space: nowrap;
+    flex: none;
+  }
+  .nav-cta-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #0b0b0c;
+    flex: none;
+  }
+
+  /* Tablet — keep all links visible but tighten spacing. */
+  @media (max-width: 860px) {
+    #ds-nav { padding: 14px 18px; gap: 12px; }
+    .nav-links { display: none; }
+    .nav-right { gap: 0; }
+    .nav-cta { font-size: 10px; padding: 10px 14px; }
+  }
+
+  /* Phones — scale everything down to one line; tagline may ellipsize. */
+  @media (max-width: 560px) {
+    #ds-nav { gap: 10px; padding: 12px 14px; }
+    .nav-left { flex: 1 1 auto; gap: 9px; }
+    #ds-nav .brand { font-size: 14px; }
+    .nav-divider { display: none; }
+    #ds-nav .kicker { font-size: 8px; letter-spacing: 0.1em; }
+  }
+  @media (max-width: 420px) {
+    #ds-nav .kicker { display: none; }
+    .nav-cta { font-size: 9px; padding: 9px 12px; letter-spacing: 0.08em; }
+  }
+</style>

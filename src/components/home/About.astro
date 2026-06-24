@@ -11,24 +11,24 @@ const reasons = [
   {
     n: "01",
     t: "6 months → 7 days",
-    d: "I win the impossible timelines. Modern K.B.S. needed an admissions portal before the next school cycle. Other agencies quoted 6 months. I shipped in 7. Same scope, custom code, real admin panel."
+    d: "Modern K.B.S. needed an admissions portal before the next cycle. Others quoted 6 months. I shipped in 7."
   },
   {
     n: "02",
     t: "You own every line",
-    d: "Next.js for Modern K.B.S.'s portal — office staff runs it, no developer needed. Astro for the marketing sites that load in under a second. Yours forever, no monthly tax, no builder lock-in."
+    d: "Next.js where it counts. Astro where it converts. No monthly tax, no builder lock-in."
   },
   {
     n: "03",
     t: "I run my own product",
-    d: "An AI website builder, live with real users. I make the same calls you do — speed, ownership, ROI, runway. 9 of my last 9 clients are still clients."
+    d: "An AI site builder, live with real users. I make the same calls you do. 9 of 9 retained."
   },
 ];
 ---
 
-<section id="about" class="home-section" style="position:relative;z-index:2;background:#e8e8e8;color:#0b0b0c;padding:96px 30px 84px;">
+<section id="about" class="home-section" style="position:relative;z-index:2;background:#e8e8e8;color:#0b0b0c;padding:64px 30px 56px;">
   <Frame label="About" index="01" note="Built from the Himalayas · Shipping for the world" tag="2026 ©" tone="light">
-    <h2 data-reveal class="about-h2">Three things I do<br />that most agencies<br /><span style="color:var(--accent,#ff4612);">won't.</span></h2>
+    <h2 data-reveal class="about-h2">Three things I do<br />that <span style="color:var(--accent,#ff4612);">agencies won't.</span></h2>
 
     <div class="about-top">
       {HAS_FOUNDER_PHOTO ? (
@@ -41,8 +41,8 @@ const reasons = [
       )}
 
       <div class="about-intro" data-reveal>
-        <p class="about-lead">I'm Divyansh. I run a 1-person studio from a small town in Himachal Pradesh, India — no agency floor, no account managers. Just me, designing and building websites for founders who'd rather hire a person than a shop.</p>
-        <p class="about-body">20+ products live since 2022. Most in 3–4 weeks. Every one custom-coded (no Shopify, no Webflow, no page-builder markup), conversion-led, and built to last longer than the trend that prompted it. 9 of 9 last clients retained.</p>
+        <p class="about-lead">I'm Divyansh — a 1-person studio in Himachal Pradesh. No agency floor, no account managers. Just me, building sites for founders who'd rather hire a person than a shop.</p>
+        <p class="about-body">20+ products live since 2022. Most in 3–4 weeks. All custom-coded, conversion-led, built to last. 9 of 9 last clients retained.</p>
 
         {/* Worldwide merge — the audit told us to fold the Worldwide section
             into About. Compact, single-line: IST hours + the three timezones a
@@ -75,11 +75,11 @@ const reasons = [
 
 <style>
   .about-h2 {
-    margin: 0 0 clamp(36px, 5vw, 56px);
+    margin: 0 0 clamp(24px, 3vw, 36px);
     font-weight: 900;
-    font-size: clamp(54px, 9.5vw, 150px);
-    line-height: 0.88;
-    letter-spacing: -0.04em;
+    font-size: clamp(40px, 6vw, 80px);
+    line-height: 0.92;
+    letter-spacing: -0.035em;
     text-transform: uppercase;
   }
 
@@ -89,12 +89,12 @@ const reasons = [
     grid-template-columns: 0.78fr 1.22fr;
     gap: clamp(28px, 4vw, 56px);
     align-items: stretch;
-    margin-bottom: clamp(36px, 5vw, 64px);
+    margin-bottom: clamp(28px, 4vw, 44px);
   }
   .about-photo {
     width: 100%;
     height: 100%;
-    min-height: 460px;
+    min-height: 360px;
     border-radius: 10px;
     border: 1px solid rgba(0, 0, 0, 0.18);
     background-color: #ffffff;
@@ -131,15 +131,15 @@ const reasons = [
   .about-intro { display: flex; flex-direction: column; }
   .about-lead {
     margin: 0;
-    font-size: clamp(18px, 2vw, 21px);
-    line-height: 1.5;
+    font-size: clamp(17px, 1.7vw, 19px);
+    line-height: 1.45;
     font-weight: 600;
     max-width: 620px;
   }
   .about-body {
-    margin: 18px 0 0;
-    font-size: 16px;
-    line-height: 1.62;
+    margin: 12px 0 0;
+    font-size: 15px;
+    line-height: 1.55;
     max-width: 620px;
     opacity: 0.84;
   }
@@ -149,7 +149,7 @@ const reasons = [
     gap: 16px;
     flex-wrap: wrap;
     margin-top: auto;
-    padding-top: 26px;
+    padding-top: 18px;
     font-size: 10px;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -159,15 +159,15 @@ const reasons = [
     display: flex;
     flex-wrap: wrap;
     gap: 14px;
-    margin-top: 22px;
+    margin-top: 16px;
   }
 
   /* Merged-from-Worldwide single line. Kept compact so it doesn't add a
      visible "section" — it just sits between the body paragraph and the
      credit, giving a foreign prospect the timezone answer in 1 line. */
   .about-worldwide {
-    margin: 18px 0 0;
-    padding: 10px 0 12px;
+    margin: 14px 0 0;
+    padding: 8px 0 10px;
     border-top: 1px dashed rgba(0, 0, 0, 0.18);
     font-size: 11px;
     letter-spacing: 0.06em;
@@ -183,23 +183,21 @@ const reasons = [
   .about-reasons {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
+    gap: 14px;
     margin-top: 0;
   }
   .about-reason {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    min-height: 240px;
-    padding: 28px 26px 26px;
+    gap: 10px;
+    min-height: 160px;
+    padding: 22px 22px 22px;
     background: #ffffff;
     border: 1px solid rgba(0, 0, 0, 0.18);
     border-radius: 10px;
-    transition: border-color .3s ease, transform .3s cubic-bezier(.2,.8,.2,1);
   }
   .about-reason:hover {
     border-color: rgba(0, 0, 0, 0.4);
-    transform: translateY(-3px);
   }
   .about-reason-n {
     font-size: 11px;
@@ -210,15 +208,15 @@ const reasons = [
   .about-reason-t {
     margin: 0;
     font-weight: 800;
-    font-size: clamp(17px, 1.5vw, 19px);
+    font-size: clamp(16px, 1.4vw, 18px);
     letter-spacing: -0.01em;
     line-height: 1.22;
     color: #0b0b0c;
   }
   .about-reason-d {
     margin: 0;
-    font-size: 14.5px;
-    line-height: 1.62;
+    font-size: 13.5px;
+    line-height: 1.55;
     opacity: 0.78;
   }
 
