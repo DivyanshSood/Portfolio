@@ -3,7 +3,9 @@ title: "Your Landing Page Doesn't Have a Traffic Problem"
 description: "Before you spend more on ads, look at what happens after the click. Most landing pages leak conversions in the same five places — all of them fixable without a single extra visitor."
 coverImage: "/blog/landing-page-conversion-not-traffic.jpg"
 pubDate: 2026-05-02
+updatedDate: 2026-05-02
 tags: ["conversion", "landing page", "design", "performance", "CRO"]
+audience: "international"
 ---
 
 When sales are slow, the instinct is to buy more traffic. More ads, more spend, more clicks.
@@ -82,6 +84,4 @@ Fix the page first. Then every rupee you spend on traffic is worth roughly doubl
 
 ---
 
-*I'm Divyansh Sood — I build fast, custom-coded pages designed to convert, not just to look good. 9 live builds. WhatsApp reply in under an hour.*
-
-*[See the work →](https://www.divyanshsood.com/#work) · [Start on WhatsApp →](https://wa.me/919816091875)*
+*I'm Divyansh Sood — I build landing pages that fix the leak before any extra ad spend goes in. 9 live builds since 2022. If your conversion rate is below 2% and you suspect the page is the bottleneck, not the traffic, [email me](mailto:hello@divyanshsood.com) with your URL — I'll tell you the three things I'd ship first.*

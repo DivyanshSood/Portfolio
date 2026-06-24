@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="WebSeek.ai — AI website builder">
+  <defs>
+    <linearGradient id="cardSurface" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#26262a"/>
+      <stop offset="50%" stop-color="#16161a"/>
+      <stop offset="100%" stop-color="#08080a"/>
+    </linearGradient>
+    <linearGradient id="bevelTop" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0.55"/>
+      <stop offset="8%" stop-color="#000000" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="bevelBottom" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="92%" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.16"/>
+    </linearGradient>
+    <linearGradient id="topCatch" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#ffffff" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="orangeMat" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ff6a3c"/>
+      <stop offset="50%" stop-color="#ff4612"/>
+      <stop offset="100%" stop-color="#b82800"/>
+    </linearGradient>
+    <linearGradient id="whiteMat" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#cfcfcf"/>
+    </linearGradient>
+    <filter id="dropShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="12"/>
+      <feOffset dx="0" dy="12"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.7"/></feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+      <feOffset dx="0" dy="3"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.55"/></feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="nodeEmboss" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="1.5"/>
+      <feOffset dx="0" dy="2"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.7"/></feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Solid dark background -->
+  <rect width="512" height="512" fill="#0b0b0c"/>
+
+  <!-- Card with heavy drop shadow -->
+  <g filter="url(#dropShadow)">
+    <rect x="48" y="48" width="416" height="416" rx="96" fill="url(#cardSurface)"/>
+  </g>
+  <!-- Top bevel inner shadow + bottom highlight -->
+  <rect x="48" y="48" width="416" height="416" rx="96" fill="url(#bevelTop)"/>
+  <rect x="48" y="48" width="416" height="416" rx="96" fill="url(#bevelBottom)"/>
+  <!-- Top edge light catch -->
+  <rect x="80" y="48" width="352" height="1.5" rx="0.75" fill="url(#topCatch)"/>
+  <!-- Subtle border -->
+  <rect x="48.5" y="48.5" width="415" height="415" rx="95.5" fill="none" stroke="#ffffff" stroke-opacity="0.1" stroke-width="1"/>
+
+  <!-- Network connections (engraved look) -->
+  <g stroke="#0a0a0c" stroke-opacity="0.85" stroke-width="2.4" fill="none" stroke-linecap="round" filter="url(#nodeEmboss)">
+    <line x1="148" y1="172" x2="220" y2="206"/>
+    <line x1="148" y1="172" x2="200" y2="252"/>
+    <line x1="220" y1="206" x2="180" y2="296"/>
+    <line x1="220" y1="206" x2="280" y2="252"/>
+    <line x1="200" y1="252" x2="180" y2="296"/>
+    <line x1="200" y1="252" x2="280" y2="252"/>
+    <line x1="280" y1="252" x2="324" y2="296"/>
+    <line x1="180" y1="296" x2="252" y2="320"/>
+    <line x1="252" y1="320" x2="324" y2="296"/>
+  </g>
+  <g stroke="#ffffff" stroke-opacity="0.18" stroke-width="1" fill="none" stroke-linecap="round">
+    <line x1="148" y1="172" x2="220" y2="206"/>
+    <line x1="148" y1="172" x2="200" y2="252"/>
+    <line x1="220" y1="206" x2="180" y2="296"/>
+    <line x1="220" y1="206" x2="280" y2="252"/>
+    <line x1="200" y1="252" x2="180" y2="296"/>
+    <line x1="200" y1="252" x2="280" y2="252"/>
+    <line x1="280" y1="252" x2="324" y2="296"/>
+    <line x1="180" y1="296" x2="252" y2="320"/>
+    <line x1="252" y1="320" x2="324" y2="296"/>
+  </g>
+
+  <!-- Network nodes (raised beads) -->
+  <g filter="url(#nodeEmboss)">
+    <circle cx="148" cy="172" r="6" fill="url(#whiteMat)"/>
+    <circle cx="220" cy="206" r="7" fill="url(#whiteMat)"/>
+    <circle cx="200" cy="252" r="6" fill="url(#whiteMat)"/>
+    <circle cx="180" cy="296" r="5" fill="url(#whiteMat)"/>
+    <circle cx="252" cy="320" r="6" fill="url(#whiteMat)"/>
+    <!-- Orange center node -->
+    <circle cx="280" cy="252" r="10" fill="url(#orangeMat)"/>
+    <circle cx="324" cy="296" r="7" fill="url(#whiteMat)"/>
+  </g>
+
+  <!-- Browser wireframe (engraved bevel panel) -->
+  <g transform="translate(266 300)" filter="url(#softShadow)">
+    <rect x="0" y="0" width="170" height="120" rx="14" fill="url(#whiteMat)" stroke="#888888" stroke-opacity="0.5" stroke-width="1.4"/>
+    <line x1="0" y1="22" x2="170" y2="22" stroke="#888888" stroke-opacity="0.6" stroke-width="1"/>
+    <circle cx="14" cy="11" r="2.8" fill="#888888"/>
+    <circle cx="26" cy="11" r="2.8" fill="#888888"/>
+    <circle cx="38" cy="11" r="2.8" fill="#ff4612"/>
+    <!-- hero block (orange accent) -->
+    <rect x="14" y="36" width="142" height="30" rx="5" fill="url(#orangeMat)" stroke="#7a1d04" stroke-opacity="0.4" stroke-width="1"/>
+    <!-- content rows -->
+    <rect x="14" y="76" width="86" height="4" rx="2" fill="#888888"/>
+    <rect x="14" y="86" width="106" height="4" rx="2" fill="#888888"/>
+    <rect x="14" y="96" width="66" height="4" rx="2" fill="#888888"/>
+    <!-- side block -->
+    <rect x="118" y="76" width="38" height="32" rx="4" fill="#a0a0a0" stroke="#666666" stroke-opacity="0.6" stroke-width="0.8"/>
+  </g>
+</svg>

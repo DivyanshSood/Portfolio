@@ -1,0 +1,16 @@
+---
+// Slim CTA ribbon that surfaces the existing /website-audit offer on the
+// homepage (no duplicate page). Accent band echoing the Stats treatment.
+// `home-section` is the responsive hook (mobile side-padding).
+---
+
+<section class="home-section" style="position:relative;z-index:2;background:var(--accent,#ff4612);color:#0b0b0c;padding:42px 30px;">
+  <div class="g-split" style="display:grid;grid-template-columns:1.5fr auto;gap:28px;align-items:center;">
+    <div>
+      <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;opacity:.65;margin-bottom:10px;">(Free — first step)</div>
+      <h2 data-reveal style="margin:0 0 8px;font-weight:900;font-size:clamp(26px,3.6vw,46px);line-height:1;letter-spacing:-.03em;text-transform:uppercase;">Not sure where to start? Get a free audit.</h2>
+      <p style="margin:0;font-size:15px;line-height:1.5;max-width:560px;opacity:.82;">Send your URL — I'll record the biggest conversion, speed and SEO wins on your current site. No charge, no obligation.</p>
+    </div>
+    <a href="/website-audit" data-cursor style="justify-self:start;white-space:nowrap;background:#0b0b0c;color:#fff;text-decoration:none;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;padding:16px 26px;border-radius:2px;">Get my free audit <span aria-hidden="true">↗</span></a>
+  </div>
+</section>

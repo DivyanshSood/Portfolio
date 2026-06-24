@@ -1,0 +1,421 @@
+---
+// Horizontal scroll work section — the signature scroll interaction.
+// Vertical scroll progress drives a translateX on the inner track so users
+// scroll vertically and the cards slide horizontally (Mattis-style sticky
+// h-scroll). Cards render as substantive feature cards: number, name, lede,
+// animated metric block, and a per-project CTA. A 3-dot progress strip at the
+// bottom updates as you scroll through.
+//
+// Reduced-motion users see the same content but without the pin/scrub — the
+// track becomes a normal horizontal scroll strip.
+import Frame from "../home/Frame.astro";
+
+const projects = [
+  {
+    n: "01",
+    slug: "/projects/modernkbs",
+    name: "Modern K.B.S.",
+    lede: "Every other agency said 6 months. I shipped in 7 days. A CBSE school in Ladwara with an admissions portal that office staff runs without calling a developer.",
+    metric: "6 → 7",
+    metricLabel: "MONTHS → DAYS",
+    stack: "Next.js · Admin panel",
+    tag: "School · Web app",
+    year: "2024",
+    bg: "linear-gradient(135deg, #0f1218 0%, #1a2030 60%, #0f1218 100%)",
+    accent: "#7a8fa6",
+    thumbMark: "M",
+  },
+  {
+    n: "02",
+    slug: "/projects/chinkiz",
+    name: "ChinkiZ Knitting Knife",
+    lede: "A 600K-subscriber YouTuber tried two e-commerce builders. Both fought the way her audience shops. We built a custom storefront where the video sits next to the buy button.",
+    metric: "600K",
+    metricLabel: "YOUTUBE SUBSCRIBERS",
+    stack: "Next.js · Razorpay · COD",
+    tag: "Creator · D2C",
+    year: "2024",
+    bg: "linear-gradient(135deg, #14101a 0%, #2a1828 60%, #14101a 100%)",
+    accent: "#e8a4a4",
+    thumbMark: "C",
+  },
+  {
+    n: "03",
+    slug: "/projects/webseek",
+    name: "WebSeek.ai",
+    lede: "Every AI website builder on the market produces the same generic marketing page. We built the opposite: one prompt, custom-coded output, model picker for Claude, GPT and Gemini.",
+    metric: "1 → live",
+    metricLabel: "PROMPT → SITE",
+    stack: "Astro · Three AI models",
+    tag: "AI product",
+    year: "2026",
+    bg: "linear-gradient(135deg, #16110e 0%, #2a1814 60%, #16110e 100%)",
+    accent: "#ff4612",
+    thumbMark: "W",
+  },
+];
+---
+
+<section class="ds-h-work" id="work" data-h-work aria-label="Selected work — scroll horizontally">
+  <div class="ds-h-work-pin">
+    <div class="ds-h-work-meta">
+      <span class="mono">(Selected work — 02)</span>
+      <span class="mono ds-h-work-hint">Scroll →</span>
+    </div>
+
+    <Frame label="Works" index="02" note="3 of 9 — every project below is a real client" tone="dark">
+      <h2 data-heading-reveal class="ds-h-work-title">
+        The work, in scroll.
+      </h2>
+
+      <div class="ds-h-work-track" data-h-work-track>
+        {projects.map((p) => (
+          <article class="ds-h-work-card" style={`background:${p.bg};--accent:${p.accent};`}>
+            <header class="ds-h-work-head">
+              <span class="ds-h-work-num mono">{p.n}</span>
+              <span class="ds-h-work-tag mono">{p.tag} · {p.year}</span>
+            </header>
+
+            <h3 class="ds-h-work-name">{p.name}</h3>
+
+            <div class="ds-h-work-thumb">
+              <div class="ds-h-work-thumb-grid" />
+              <div class="ds-h-work-thumb-mark" data-h-work-mark>{p.thumbMark}</div>
+              <div class="ds-h-work-thumb-glow" />
+            </div>
+
+            <p class="ds-h-work-lede">{p.lede}</p>
+
+            <div class="ds-h-work-metric">
+              <span class="ds-h-work-metric-num">{p.metric}</span>
+              <span class="ds-h-work-metric-label mono">{p.metricLabel}</span>
+            </div>
+
+            <footer class="ds-h-work-foot">
+              <span class="ds-h-work-stack mono">{p.stack}</span>
+              <a class="ds-h-work-link mono" href={p.slug} data-cursor data-cursor-label="View case">
+                View case <span aria-hidden="true">↗</span>
+              </a>
+            </footer>
+          </article>
+        ))}
+
+        <a href="/results" class="ds-h-work-card ds-h-work-card-cta" data-cursor data-cursor-label="See all">
+          <span class="ds-h-work-cta-line mono">See all</span>
+          <span class="ds-h-work-cta-big">9 case studies<br /><span class="ds-h-work-cta-big-sub">+ results</span> ↗</span>
+          <span class="ds-h-work-cta-sub mono">Each one a real client, a real outcome.</span>
+        </a>
+      </div>
+
+      <div class="ds-h-work-progress" aria-hidden="true">
+        <span class="ds-h-work-dot is-active" data-h-progress-dot></span>
+        <span class="ds-h-work-dot" data-h-progress-dot></span>
+        <span class="ds-h-work-dot" data-h-progress-dot></span>
+        <span class="ds-h-work-dot ds-h-work-dot-cta" data-h-progress-dot></span>
+        <span class="ds-h-work-progress-bar"><span class="ds-h-work-progress-fill" data-h-progress-fill></span></span>
+      </div>
+    </Frame>
+  </div>
+</section>
+
+<style>
+  .ds-h-work {
+    position: relative;
+    width: 100%;
+    height: 480vh; /* pinning distance — scroll-through length */
+    background: #0b0b0c;
+  }
+  .ds-h-work-pin {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .ds-h-work-meta {
+    position: absolute;
+    top: 22px;
+    left: 30px;
+    right: 30px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    opacity: 0.55;
+    z-index: 5;
+    pointer-events: none;
+  }
+  .ds-h-work-hint {
+    animation: ds-h-bounce 1.6s ease-in-out infinite;
+  }
+  @keyframes ds-h-bounce {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(6px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ds-h-work-hint { animation: none; }
+  }
+
+  .ds-h-work-title {
+    margin: 0 0 28px;
+    font-weight: 900;
+    font-size: clamp(38px, 5.6vw, 86px);
+    line-height: 0.92;
+    letter-spacing: -0.035em;
+    text-transform: uppercase;
+  }
+
+  .ds-h-work-track {
+    display: flex;
+    gap: 28px;
+    padding: 0 30px;
+    width: max-content;
+    will-change: transform;
+  }
+  .ds-h-work-card {
+    flex: 0 0 78vw;
+    max-width: 920px;
+    height: 64vh;
+    max-height: 620px;
+    min-height: 460px;
+    border-radius: 6px;
+    padding: 30px 32px;
+    display: grid;
+    grid-template-rows: auto auto 1fr auto auto auto;
+    gap: 16px;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.7);
+  }
+  @media (min-width: 1100px) {
+    .ds-h-work-card { flex: 0 0 60vw; }
+  }
+
+  .ds-h-work-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+  .ds-h-work-num {
+    color: var(--accent);
+    font-weight: 700;
+    letter-spacing: 0.18em;
+  }
+
+  .ds-h-work-name {
+    margin: 0;
+    font-weight: 900;
+    font-size: clamp(32px, 4.6vw, 60px);
+    line-height: 0.92;
+    letter-spacing: -0.035em;
+    text-transform: uppercase;
+    max-width: 18ch;
+  }
+
+  /* Thumbnail area — signature mark over a subtle grid + accent glow */
+  .ds-h-work-thumb {
+    position: relative;
+    width: 100%;
+    height: 14vh;
+    min-height: 110px;
+    max-height: 160px;
+    border-radius: 3px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .ds-h-work-thumb-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 36px 36px;
+  }
+  .ds-h-work-thumb-mark {
+    position: relative;
+    z-index: 2;
+    font-family: "Archivo", sans-serif;
+    font-weight: 900;
+    font-size: clamp(64px, 9vw, 130px);
+    line-height: 1;
+    color: var(--accent);
+    opacity: 0.9;
+    text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+  }
+  .ds-h-work-thumb-glow {
+    position: absolute;
+    width: 70%;
+    height: 200%;
+    background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 30%, transparent), transparent 70%);
+    z-index: 1;
+    filter: blur(20px);
+  }
+
+  .ds-h-work-lede {
+    margin: 0;
+    font-size: clamp(13.5px, 1.25vw, 16px);
+    line-height: 1.55;
+    opacity: 0.82;
+    font-weight: 500;
+    max-width: 56ch;
+  }
+
+  /* Metric — the "proof line" that ties to the studio's promise */
+  .ds-h-work-metric {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    padding: 14px 0 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  .ds-h-work-metric-num {
+    font-family: "Archivo", sans-serif;
+    font-weight: 900;
+    font-size: clamp(36px, 4.2vw, 56px);
+    line-height: 1;
+    letter-spacing: -0.035em;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+  }
+  .ds-h-work-metric-label {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    opacity: 0.65;
+  }
+
+  .ds-h-work-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.85;
+  }
+  .ds-h-work-stack { opacity: 0.65; }
+  .ds-h-work-link {
+    color: #fff;
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 3px;
+    font-weight: 700;
+    transition: color 0.2s ease;
+  }
+  .ds-h-work-link:hover { color: var(--accent); }
+
+  /* CTA card */
+  .ds-h-work-card-cta {
+    align-content: center;
+    text-align: center;
+    background: var(--accent, #ff4612) !important;
+    color: #0b0b0c !important;
+    text-decoration: none;
+    cursor: pointer;
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+  .ds-h-work-cta-line {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0.78;
+  }
+  .ds-h-work-cta-big {
+    font-weight: 900;
+    font-size: clamp(40px, 6vw, 90px);
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+  }
+  .ds-h-work-cta-big-sub {
+    font-size: 0.55em;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .ds-h-work-cta-sub {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    max-width: 28ch;
+  }
+
+  /* Progress strip — 4 dots (3 cards + 1 CTA), with a fill bar that grows */
+  .ds-h-work-progress {
+    position: absolute;
+    bottom: 28px;
+    left: 30px;
+    right: 30px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    z-index: 6;
+    font-family: "Space Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+  }
+  .ds-h-work-dot {
+    width: 26px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.18);
+    transition: background 0.35s ease, width 0.35s ease;
+  }
+  .ds-h-work-dot.is-active {
+    background: var(--accent, #ff4612);
+    width: 44px;
+  }
+  .ds-h-work-dot-cta.is-active { background: var(--accent, #ff4612); }
+  .ds-h-work-progress-bar {
+    flex: 1;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin-left: 10px;
+    position: relative;
+    overflow: hidden;
+  }
+  .ds-h-work-progress-fill {
+    position: absolute;
+    inset: 0;
+    width: 0;
+    background: var(--accent, #ff4612);
+    transition: width 0.2s linear;
+  }
+
+  /* Mobile — shorter pin, simpler cards */
+  @media (max-width: 720px) {
+    .ds-h-work { height: 380vh; }
+    .ds-h-work-card {
+      flex: 0 0 86vw;
+      height: 68vh;
+      min-height: 480px;
+      padding: 22px 22px;
+      gap: 12px;
+    }
+    .ds-h-work-thumb { height: 12vh; min-height: 90px; }
+    .ds-h-work-lede { font-size: 13px; }
+    .ds-h-work-progress { bottom: 18px; left: 16px; right: 16px; gap: 8px; }
+    .ds-h-work-dot { width: 18px; }
+    .ds-h-work-dot.is-active { width: 30px; }
+  }
+</style>

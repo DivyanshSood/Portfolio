@@ -1,97 +1,103 @@
 ---
 // Site-wide runtime (inlined, no framework), shared by every page via Layout:
+//   • Lenis smooth scroll (only on fine pointers + no reduced-motion)
 //   • scroll-reveal for [data-reveal] (respects reduced-motion)
-//   • the custom cursor on fine-pointer devices
 //   • the nav background/blur state on scroll
+//   • drives gsap/ScrollTrigger progress when Lenis is the scroller
 ---
 
-<script is:inline>
-  (function () {
-    var root = document.getElementById("ds-root");
-    if (!root) return;
-    var reduce = window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+<script>
+  import Lenis from "lenis";
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-    /* scroll reveal */
+  gsap.registerPlugin(ScrollTrigger);
+
+  const root = document.getElementById("ds-root");
+  if (!root) {
+    // noop — root required
+  } else {
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const fine = window.matchMedia("(pointer: fine)").matches;
+
+    /* ---------------- Lenis smooth scroll ---------------- */
+    let lenis: Lenis | null = null;
+    if (!reduce && fine) {
+      lenis = new Lenis({
+        duration: 1.15,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // expoOut-ish
+        smoothWheel: true,
+        wheelMultiplier: 1.0,
+        touchMultiplier: 1.4,
+      });
+
+      // Feed Lenis into ScrollTrigger so GSAP triggers track the smoothed scroll
+      lenis.on("scroll", ScrollTrigger.update);
+      gsap.ticker.add((time) => {
+        lenis!.raf(time * 1000);
+      });
+      gsap.ticker.lagSmoothing(0);
+    }
+
+    /* ---------------- Scroll reveal (kept from v1) ---------------- */
     try {
       if (reduce) {
-        root.querySelectorAll("[data-reveal]").forEach(function (el) {
-          el.style.opacity = "1";
-          el.style.transform = "none";
+        root.querySelectorAll("[data-reveal]").forEach((el) => {
+          (el as HTMLElement).style.opacity = "1";
+          (el as HTMLElement).style.transform = "none";
         });
       } else {
-        var io = new IntersectionObserver(
-          function (ents) {
-            ents.forEach(function (e) {
+        const io = new IntersectionObserver(
+          (ents) => {
+            ents.forEach((e) => {
               if (e.isIntersecting) {
-                e.target.style.opacity = "1";
-                e.target.style.transform = "none";
+                (e.target as HTMLElement).style.opacity = "1";
+                (e.target as HTMLElement).style.transform = "none";
                 io.unobserve(e.target);
               }
             });
           },
           { threshold: 0.12, rootMargin: "0px 0px -6% 0px" }
         );
-        root.querySelectorAll("[data-reveal]").forEach(function (el) {
+        root.querySelectorAll("[data-reveal]").forEach((el) => {
           io.observe(el);
         });
       }
-    } catch (e) {
-      root.querySelectorAll("[data-reveal]").forEach(function (el) {
-        el.style.opacity = "1";
-        el.style.transform = "none";
+    } catch {
+      root.querySelectorAll("[data-reveal]").forEach((el) => {
+        (el as HTMLElement).style.opacity = "1";
+        (el as HTMLElement).style.transform = "none";
       });
     }
 
-    /* custom cursor — fine pointers only */
-    var cur = document.getElementById("ds-cursor");
-    var fine = window.matchMedia("(pointer:fine)").matches;
-    if (cur && !fine) cur.style.display = "none";
-    if (fine && cur) {
-      root.querySelectorAll("a,button,[data-cursor]").forEach(function (el) {
-        el.addEventListener("mouseenter", function () {
-          cur.classList.add("big");
-        });
-        el.addEventListener("mouseleave", function () {
-          cur.classList.remove("big");
-        });
-      });
-      var tx = innerWidth / 2,
-        ty = innerHeight / 2,
-        cx = tx,
-        cy = ty;
-      addEventListener(
-        "mousemove",
-        function (e) {
-          tx = e.clientX;
-          ty = e.clientY;
-        },
-        { passive: true }
-      );
-      (function tick() {
-        cx += (tx - cx) * 0.2;
-        cy += (ty - cy) * 0.2;
-        cur.style.transform = "translate(" + cx + "px," + cy + "px) translate(-50%,-50%)";
-        requestAnimationFrame(tick);
-      })();
-    }
-
-    /* nav scroll state */
-    var nav = document.getElementById("ds-nav");
+    /* ---------------- Nav scroll state ---------------- */
+    const nav = document.getElementById("ds-nav");
     function onScroll() {
       if (!nav) return;
-      if (scrollY > 40) {
-        nav.style.background = "rgba(11,11,12,.82)";
-        nav.style.backdropFilter = "blur(10px)";
-        nav.style.webkitBackdropFilter = "blur(10px)";
-        nav.style.borderBottomColor = "rgba(255,255,255,.12)";
+      if (window.scrollY > 40) {
+        (nav as HTMLElement).style.background = "rgba(11,11,12,.82)";
+        (nav as HTMLElement).style.backdropFilter = "blur(10px)";
+        (nav as HTMLElement).style.webkitBackdropFilter = "blur(10px)";
+        (nav as HTMLElement).style.borderBottomColor = "rgba(255,255,255,.12)";
       } else {
-        nav.style.background = "transparent";
-        nav.style.backdropFilter = "none";
-        nav.style.webkitBackdropFilter = "none";
-        nav.style.borderBottomColor = "transparent";
+        (nav as HTMLElement).style.background = "transparent";
+        (nav as HTMLElement).style.backdropFilter = "none";
+        (nav as HTMLElement).style.webkitBackdropFilter = "none";
+        (nav as HTMLElement).style.borderBottomColor = "transparent";
       }
     }
-    addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
-  })();
+
+    /* ---------------- Recompute ScrollTrigger on resize ---------------- */
+    let rt: number | undefined;
+    window.addEventListener(
+      "resize",
+      () => {
+        if (rt) clearTimeout(rt);
+        rt = window.setTimeout(() => ScrollTrigger.refresh(), 180);
+      },
+      { passive: true }
+    );
+  }
 </script>

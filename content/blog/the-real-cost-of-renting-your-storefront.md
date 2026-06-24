@@ -3,7 +3,9 @@ title: "The Real Cost of Renting Your Storefront"
 description: "Monthly SaaS plans feel cheap because the bill is small and the cost is invisible. Here's what you actually pay over three years when your storefront is rented, not owned."
 coverImage: "/blog/the-real-cost-of-renting-your-storefront.jpg"
 pubDate: 2026-06-10
+updatedDate: 2026-06-10
 tags: ["e-commerce", "ownership", "custom code", "D2C", "SaaS"]
+audience: "d2c-brand"
 ---
 
 The most expensive word in your tech stack is *monthly*.
@@ -81,6 +83,6 @@ For a brand past validation, the answer is usually obvious the moment you actual
 
 ---
 
-*I'm Divyansh Sood — I build custom-coded storefronts and web apps you own outright. 9 live builds. WhatsApp reply in under an hour.*
+*I'm Divyansh Sood. I build storefronts that flip the rent-vs-own math inside 18 months for any D2C brand doing meaningful volume. 9 live builds since 2022 — including [ChinkiZ Knitting Knife](https://www.divyanshsood.com/projects/chinkiz), a 600K-subscriber YouTuber's creator store built on a video gallery that no template offered.*
 
-*[See the work →](https://www.divyanshsood.com/#work) · [Start on WhatsApp →](https://wa.me/919816091875)*
+*If you've been quietly watching your monthly stack compound and want a straight quote on what ownership would cost you, [email me](mailto:hello@divyanshsood.com) — I'll send you the math for your actual numbers.*

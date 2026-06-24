@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="North Peak Power Systems — solar contractor portal">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="35%" r="80%">
+      <stop offset="0%" stop-color="#1c1c1e"/>
+      <stop offset="100%" stop-color="#0b0b0c"/>
+    </radialGradient>
+    <linearGradient id="glassFill" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.22"/>
+      <stop offset="50%" stop-color="#ffffff" stop-opacity="0.07"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.13"/>
+    </linearGradient>
+    <linearGradient id="topHighlight" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#ffffff" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="redGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ff4612" stop-opacity="0.7"/>
+      <stop offset="60%" stop-color="#ff4612" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#ff4612" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="sunCore" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
+      <stop offset="60%" stop-color="#ff4612" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#ff4612" stop-opacity="0.3"/>
+    </radialGradient>
+    <filter id="bigBlur" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="22"/>
+    </filter>
+    <filter id="dropShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="8"/>
+      <feOffset dx="0" dy="6"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.55"/></feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="512" height="512" fill="url(#bg)"/>
+
+  <!-- Red glow behind sun -->
+  <circle cx="256" cy="200" r="160" fill="url(#redGlow)" filter="url(#bigBlur)"/>
+
+  <!-- Glass panel -->
+  <g filter="url(#dropShadow)">
+    <rect x="56" y="56" width="400" height="400" rx="92" fill="url(#glassFill)" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1.5"/>
+  </g>
+
+  <!-- Top edge highlight -->
+  <rect x="80" y="56" width="352" height="2.5" rx="1.25" fill="url(#topHighlight)"/>
+
+  <!-- Sun rays -->
+  <g stroke="#ffffff" stroke-opacity="0.55" stroke-width="2.2" stroke-linecap="round">
+    <line x1="256" y1="120" x2="256" y2="138"/>
+    <line x1="186" y1="142" x2="198" y2="156"/>
+    <line x1="326" y1="142" x2="314" y2="156"/>
+    <line x1="156" y1="200" x2="174" y2="200"/>
+    <line x1="356" y1="200" x2="338" y2="200"/>
+    <line x1="186" y1="258" x2="198" y2="244"/>
+    <line x1="326" y1="258" x2="314" y2="244"/>
+  </g>
+
+  <!-- Sun core -->
+  <circle cx="256" cy="200" r="32" fill="url(#sunCore)"/>
+  <circle cx="256" cy="200" r="32" fill="none" stroke="#ffffff" stroke-opacity="0.5" stroke-width="1.4"/>
+
+  <!-- Solar panel grid -->
+  <g transform="translate(256 322)">
+    <rect x="-114" y="-44" width="228" height="88" rx="8" fill="#ffffff" fill-opacity="0.12" stroke="#ffffff" stroke-opacity="0.55" stroke-width="1.8"/>
+    <!-- Vertical dividers -->
+    <line x1="-76" y1="-44" x2="-76" y2="44" stroke="#ffffff" stroke-opacity="0.4" stroke-width="1.2"/>
+    <line x1="-38" y1="-44" x2="-38" y2="44" stroke="#ffffff" stroke-opacity="0.4" stroke-width="1.2"/>
+    <line x1="0" y1="-44" x2="0" y2="44" stroke="#ffffff" stroke-opacity="0.4" stroke-width="1.2"/>
+    <line x1="38" y1="-44" x2="38" y2="44" stroke="#ffffff" stroke-opacity="0.4" stroke-width="1.2"/>
+    <line x1="76" y1="-44" x2="76" y2="44" stroke="#ffffff" stroke-opacity="0.4" stroke-width="1.2"/>
+    <!-- Horizontal divider -->
+    <line x1="-114" y1="0" x2="114" y2="0" stroke="#ffffff" stroke-opacity="0.4" stroke-width="1.2"/>
+    <!-- Cell highlights -->
+    <rect x="-110" y="-40" width="30" height="36" rx="3" fill="#ff4612" fill-opacity="0.18"/>
+    <rect x="80" y="-40" width="30" height="36" rx="3" fill="#ff4612" fill-opacity="0.18"/>
+    <rect x="-110" y="4" width="30" height="36" rx="3" fill="#ff4612" fill-opacity="0.18"/>
+    <rect x="80" y="4" width="30" height="36" rx="3" fill="#ff4612" fill-opacity="0.18"/>
+    <!-- Stand -->
+    <line x1="-50" y1="44" x2="-58" y2="74" stroke="#ffffff" stroke-opacity="0.55" stroke-width="2"/>
+    <line x1="50" y1="44" x2="58" y2="74" stroke="#ffffff" stroke-opacity="0.55" stroke-width="2"/>
+  </g>
+
+  <!-- Mountain silhouette behind -->
+  <path d="M 56 392 L 130 340 L 180 380 L 232 332 L 290 388 L 340 348 L 396 392 Z" fill="#ffffff" fill-opacity="0.05"/>
+  <path d="M 56 392 L 130 340 L 180 380 L 232 332 L 290 388 L 340 348 L 396 392" fill="none" stroke="#ffffff" stroke-opacity="0.3" stroke-width="1.4"/>
+</svg>

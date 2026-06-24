@@ -3,7 +3,9 @@ title: "Own Your Stack: Why Code Portability Is a Business Asset"
 description: "The question that reveals whether you own your website or just rent access to it: if your developer vanished tomorrow, could anyone else pick it up? Here's why portability is leverage."
 coverImage: "/blog/own-your-stack-code-portability.jpg"
 pubDate: 2026-04-08
+updatedDate: 2026-04-08
 tags: ["ownership", "custom code", "lock-in", "business", "web development"]
+audience: "international"
 ---
 
 Here's a question that tells you more about your website than any design review:
@@ -65,6 +67,4 @@ You wouldn't run your business from a building you can be evicted from on a whim
 
 ---
 
-*I'm Divyansh Sood — I build custom-coded sites you own outright, handed over with the code and the keys. 9 live builds. WhatsApp reply in under an hour.*
-
-*[See the work →](https://www.divyanshsood.com/#work) · [Start on WhatsApp →](https://wa.me/919816091875)*
+*I'm Divyansh Sood. Every project I ship comes with the code in your repo, a written handover, and the keys — including the option to never speak to me again. 9 live builds since 2022. If portability is something your team has been burned on before, [email me](mailto:hello@divyanshsood.com) — I read every brief personally.*

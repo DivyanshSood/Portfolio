@@ -1,0 +1,119 @@
+---
+// ScrollZoomReveal — media frame that springs up from a smaller scale as it
+// scrolls into view, with a label row (©/caption) and a centered play button.
+// Recreated from the Framer "ScrollZoomRevel" component. Animation is driven by
+// GSAP/ScrollTrigger in MotionController via the [data-zoom-reveal] hook.
+
+export interface Props {
+  src: string; // poster / still image (or video frame)
+  alt?: string;
+  leftText?: string; // e.g. "©2026"
+  rightText?: string; // e.g. "Showreel"
+  buttonText?: string;
+  buttonLink?: string;
+  maxWidth?: string; // frame max width, default matches Framer 658px
+}
+
+const {
+  src,
+  alt = "",
+  leftText = "©2026",
+  rightText = "Showreel",
+  buttonText = "Play showreel",
+  buttonLink = "#",
+  maxWidth = "658px",
+} = Astro.props;
+
+const external = buttonLink.startsWith("http");
+---
+
+<div class="ds-zoom" data-zoom-reveal>
+  <div class="ds-zoom-frame" data-zoom-target style={`max-width:${maxWidth};`}>
+    <img src={src} alt={alt} class="ds-zoom-img" loading="lazy" decoding="async" />
+    <div class="ds-zoom-labels mono">
+      <span>{leftText}</span>
+      <span>{rightText}</span>
+    </div>
+    <a
+      href={buttonLink}
+      class="ds-zoom-play"
+      data-cursor
+      target={external ? "_blank" : undefined}
+      rel={external ? "noopener" : undefined}
+    >
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"
+        ><path d="M8 5v14l11-7L8 5Z" fill="currentColor"></path></svg
+      >
+      <span>{buttonText}</span>
+    </a>
+  </div>
+</div>
+
+<style>
+  .ds-zoom {
+    display: flex;
+    justify-content: center;
+    padding: 60px 30px;
+  }
+  .ds-zoom-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 658 / 456;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #1a1a1c;
+    will-change: transform;
+  }
+  .ds-zoom-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .ds-zoom-labels {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 18px 20px;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #fff;
+    mix-blend-mode: difference; /* readable over any image */
+    z-index: 2;
+  }
+  .ds-zoom-play {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #0d0412;
+    color: #fff;
+    font-family: "Space Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 13px 20px;
+    border-radius: 2px;
+    text-decoration: none;
+    z-index: 3;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+  .ds-zoom-play:hover {
+    background: var(--accent);
+    color: #0b0b0c;
+  }
+  .ds-zoom-play svg {
+    width: 13px;
+    height: 13px;
+    flex: none;
+  }
+</style>

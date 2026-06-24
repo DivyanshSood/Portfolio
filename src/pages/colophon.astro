@@ -1,0 +1,155 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import { CALENDLY_URL } from "../lib/site.mjs";
+
+const SITE = "https://www.divyanshsood.com";
+const canonical = `${SITE}/colophon`;
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": `${canonical}#page`,
+      url: canonical,
+      name: "Colophon — Divyansh Sood® Studio",
+      description:
+        "How this site is built — Astro 5, self-hosted fonts, GSAP, Lenis, and the design decisions behind it. Useful for developers and curious buyers.",
+      isPartOf: { "@id": `${SITE}/#website` },
+      about: { "@id": `${SITE}/#studio` },
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Colophon", item: canonical },
+      ],
+    },
+  ],
+});
+
+// Stack & decisions — written for two audiences: a developer evaluating the
+// build quality, and a curious founder wondering what they're paying for.
+const stack = [
+  { name: "Astro 5", role: "Static-site framework", note: "Outputs to Vercel as a serverless static build. Sub-second LCP, near-zero JS by default." },
+  { name: "GSAP + ScrollTrigger", role: "Motion", note: "Drives the h-scroll work section and the rise-on-scroll reveals. Disabled under prefers-reduced-motion." },
+  { name: "Lenis", role: "Smooth scroll", note: "Wired into GSAP's ticker so all ScrollTriggers track the smoothed scroll. Touch devices fall back to native scroll." },
+  { name: "TypeScript", role: "Typed data layer", note: "Project case-study content lives in src/lib/projects/data.mjs so the JSON-LD schema and the rendered HTML can never drift." },
+  { name: "Self-hosted WOFF2", role: "Typography", note: "Archivo, Space Mono, Caveat — latin subset only, served from /fonts/. Preloaded for the hero weight." },
+  { name: "ImageKit CDN", role: "Images", note: "Responsive srcset + tr=w-N,q-70 transforms on every project screenshot. /blog covers too." },
+  { name: "Vercel", role: "Hosting", note: "Static output, edge-cached. Auto-indexnow ping after each build." },
+];
+
+const decisions = [
+  { q: "Why Astro over Next for the marketing site?", a: "Marketing pages don't need a server runtime. Astro ships zero JS by default and lets me opt into islands only where motion needs them — saves ~150KB vs. shipping React for content." },
+  { q: "Why no Tailwind?", a: "Design system is small enough (one base.css + 3 partials, ~370 lines) that utility-first would cost more in tokens than it saves. I use scoped <style> blocks per Astro component instead." },
+  { q: "Why is analytics gated behind a consent banner?", a: "GDPR/CCPA. I removed the pre-consent GA/M scripts from the Layout; CookieConsent injects them only after the visitor clicks Accept. Until then, the only request is the one to load the page." },
+  { q: "Why no Google Fonts CDN?", a: "Render-blocking third-party + privacy leak. Self-hosted WOFF2 in /public/fonts/ cuts first-paint and stops shipping visitor IPs to Google before consent." },
+  { q: "Why a Hindi quote in the Redline case study + an English gloss?", a: "The original Hindi keeps the line warm for Indian readers. A 'Translation:' underneath keeps a US/UK prospect from bouncing off an untranslated quote. The gloss is opt-out, not opt-in — both lines ship." },
+];
+---
+<Layout
+  title="Colophon — how this site is built · Divyansh Sood® Studio"
+  description="How divyanshsood.com is built — Astro 5, self-hosted fonts, GSAP + Lenis, and the design decisions behind it. Useful for developers and curious buyers."
+  canonical={canonical}
+  keywords="Divyansh Sood portfolio stack, Astro 5 site, custom web design tooling, colophon"
+  ogTitle="Colophon — how this site is built"
+  ogDescription="Astro 5 · GSAP · self-hosted fonts · the decisions behind the build."
+  jsonld={jsonld}
+>
+  <Nav kicker="Colophon" />
+
+  <main>
+    <header class="cs-hero">
+      <div class="cs-hero-bg" aria-hidden="true"></div>
+      <div class="wrap">
+        <div class="cs-eyebrow">
+          <span>Colophon</span><span>How this site is built</span><span>Updated 2026-06</span>
+        </div>
+        <h1 class="cs-domain">Colophon<span class="arrow">↗</span></h1>
+        <p class="cs-h1">The short version: <span class="tail">Astro 5, self-hosted fonts, GSAP for motion, zero third-party requests before consent.</span></p>
+        <p class="cs-lead">If a developer lands here, they're probably sizing me up before they reach out. If a founder lands here, they're wondering what they're paying for. Both pages are welcome — the answers below are the same.</p>
+        <div class="cs-cta-row">
+          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener" data-cursor>Book a 15-min intro <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost" href="/about" data-cursor>About the studio</a>
+        </div>
+      </div>
+    </header>
+
+    <section class="cs-sec" aria-labelledby="stack-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="stack-h">The stack</h2>
+          <span class="mono">What runs on this site</span>
+        </div>
+        <div class="cs-glance" data-reveal>
+          {stack.map((s) => (
+            <div>
+              <dt>{s.role}</dt>
+              <dd><strong>{s.name}</strong> — {s.note}</dd>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="decisions-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="decisions-h">Decisions, briefly</h2>
+          <span class="mono">Things you'd ask in a call</span>
+        </div>
+        <div class="cs-body" data-reveal>
+          {decisions.map((d, i) => (
+            <div class="cs-card">
+              <span class="cs-tag">({String(i + 1).padStart(2, "0")}) {d.q}</span>
+              <p>{d.a}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="credits-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="credits-h">Credits &amp; tools</h2>
+          <span class="mono">Things I leaned on</span>
+        </div>
+        <div class="cs-body" data-reveal>
+          <div class="cs-card">
+            <span class="cs-tag">Photography</span>
+            <p>Hero + about photos by me, on a Pixel 8 Pro in Himachal Pradesh. No stock. No AI-generated faces.</p>
+          </div>
+          <div class="cs-card">
+            <span class="cs-tag">Typography</span>
+            <p><strong>Archivo</strong> (display &amp; body, OmniType), <strong>Space Mono</strong> (mono eyebrows, Colophon Foundry), <strong>Caveat</strong> (signature, Impallari Type). Self-hosted, latin subset, served from <code>/fonts/</code>.</p>
+          </div>
+          <div class="cs-card">
+            <span class="cs-tag">Icons</span>
+            <p>Hand-drawn SVG, inline — no icon font, no third-party icon CDN. Two-tone system: ink + accent.</p>
+          </div>
+          <div class="cs-card">
+            <span class="cs-tag">Search &amp; crawl</span>
+            <p>Yandex Webmaster (verified), Bing Webmaster (env-gated), Google Search Console (imported, no meta tag needed). Sitemap via @astrojs/sitemap. IndexNow ping after each build.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-endcta">
+      <div class="wrap">
+        <h2>Working on something similar?</h2>
+        <p>I build sites like this one — custom-coded, motion-led, conversion-focused, shipped in weeks. Tell me what you're shipping.</p>
+        <div class="cs-cta-row" style="justify-content:center;">
+          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener" data-cursor>Book a 15-min intro <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost" href="/#work" data-cursor>See the work</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>

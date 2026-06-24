@@ -1,38 +1,233 @@
 ---
-// Homepage hero. `hero-card` is a responsive hook (mobile side-padding only).
+// Homepage hero — one clean fold: identity, a single concise value line, and the
+// primary CTA. Location/independent/availability each appear once (topbar +
+// corner mark) so nothing repeats. "Built from the Himalayas" is the brand spine.
+import { CALENDLY_URL } from "../../lib/site.mjs";
 ---
 
-<section id="top" style="position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#0b0b0c;">
-  <div style="position:absolute;inset:0;width:100%;height:100%;background:radial-gradient(90% 70% at 72% 18%, rgba(255,70,18,.22), transparent 55%),radial-gradient(60% 55% at 18% 92%, rgba(255,70,18,.10), transparent 60%),linear-gradient(180deg,#161618 0%,#0b0b0c 72%);"></div>
-  <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,11,12,.72) 0%,rgba(11,11,12,.35) 35%,rgba(11,11,12,.55) 100%);"></div>
-  <div style="position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 50%,transparent 40%,rgba(11,11,12,.6) 100%);"></div>
+<section id="top" class="ds-hero">
+  <div class="ds-hero-bg"></div>
 
-  <div class="hero-card" style="position:relative;z-index:3;width:min(820px,90vw);padding:40px 46px 34px;">
-    <div style="position:absolute;top:-9px;left:-9px;width:18px;height:18px;border-top:1.5px solid rgba(255,255,255,.5);border-left:1.5px solid rgba(255,255,255,.5);"></div>
-    <div style="position:absolute;top:-9px;right:-9px;width:18px;height:18px;border-top:1.5px solid rgba(255,255,255,.5);border-right:1.5px solid rgba(255,255,255,.5);"></div>
-    <div style="position:absolute;bottom:-9px;left:-9px;width:18px;height:18px;border-bottom:1.5px solid rgba(255,255,255,.5);border-left:1.5px solid rgba(255,255,255,.5);"></div>
-    <div style="position:absolute;bottom:-9px;right:-9px;width:18px;height:18px;border-bottom:1.5px solid rgba(255,255,255,.5);border-right:1.5px solid rgba(255,255,255,.5);"></div>
+  <div class="hero-card">
+    <div class="hero-corner hero-corner-tl"></div>
+    <div class="hero-corner hero-corner-tr"></div>
+    <div class="hero-corner hero-corner-bl"></div>
+    <div class="hero-corner hero-corner-br"></div>
 
-    <div data-rise="0.05" style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;opacity:.7;border-bottom:1px solid rgba(255,255,255,.18);padding-bottom:14px;margin-bottom:22px;">
-      <span>Est. 2022</span><span>Portfolio — Vol. 02</span><span>Available for work</span>
+    <div data-rise="0.05" class="hero-topbar mono">
+      <span>Est. 2022</span><span>Independent studio</span><span>Open for 2026</span>
     </div>
 
-    <div data-rise="0.16" style="position:relative;">
-      <h1 style="margin:0;font-weight:900;font-size:clamp(54px,8vw,118px);line-height:.86;letter-spacing:-.035em;text-transform:uppercase;">DIVYANSH<br />SOOD<sup style="font-size:.16em;top:-1.7em;font-weight:700;">®</sup> <span style="font-weight:600;font-size:.2em;letter-spacing:.04em;vertical-align:super;opacity:.8;">STUDIO</span></h1>
-      <div class="hero-sig" style="position:absolute;right:-6px;bottom:-46px;font-family:'Caveat',cursive;font-weight:700;font-size:clamp(46px,7vw,86px);color:var(--accent,#ff4612);transform:rotate(-7deg);line-height:1;pointer-events:none;">Divyansh Sood</div>
+    <div data-rise="0.16" class="hero-namewrap">
+      <h1 class="hero-name">DIVYANSH<br />SOOD<sup>®</sup> <span class="hero-studio">STUDIO</span></h1>
+      <div class="hero-sig" aria-hidden="true">Divyansh Sood</div>
     </div>
 
-    <div data-rise="0.3" class="hero-meta" style="display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap;margin-top:30px;">
-      <p style="margin:0;max-width:300px;font-family:'Space Mono',monospace;font-size:11px;line-height:1.7;letter-spacing:.02em;opacity:.72;">I design and build websites that turn attention into outcomes — strategy, interface, and engineering under one roof. Currently taking on a handful of projects for 2026.</p>
-      <a href="https://github.com/DivyanshSood" target="_blank" rel="noopener" data-cursor style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;opacity:.7;white-space:nowrap;color:#fff;text-decoration:none;">@divyansh ↗</a>
+    <p data-rise="0.22" class="hero-brandline" style="margin:24px 0 0;max-width:560px;font-weight:700;font-size:clamp(16px,1.7vw,21px);line-height:1.32;letter-spacing:-.005em;color:var(--accent,#ff4612);">Built from the Himalayas.<br /><span style="color:#fff;">Shipping for the world.</span></p>
+
+    {/* Result-first hook — the school's "6 months → 7 days" story, surfacing the
+        single best proof point above the fold instead of burying it 3 sections
+        down. The transformation ("6 months → 7 days") is the accent number; the
+        line below explains what it means. */}
+    <p data-rise="0.3" class="hero-proofline" style="margin:18px 0 0;max-width:540px;font-weight:600;font-size:clamp(17px,1.85vw,23px);line-height:1.32;letter-spacing:-.012em;color:#fff;">
+      Last year I built a school site in <span style="color:var(--accent,#ff4612);font-weight:800;">7 days</span>. <span style="opacity:.7;">Other agencies had quoted</span> <span style="opacity:.7;text-decoration:line-through;text-decoration-color:rgba(255,255,255,.4);">6 months</span><span style="opacity:.7;">.</span>
+    </p>
+
+    <p data-rise="0.36" class="hero-meta-p" style="margin:14px 0 0;max-width:480px;font-family:'Space Mono',monospace;font-size:12px;line-height:1.75;letter-spacing:.02em;opacity:.82;">Most marketing sites &amp; MVPs ship in <strong style="color:#fff;">3–4 weeks</strong>. From <strong style="color:#fff;">$3,000</strong> — custom code, no builders, you own every line.</p>
+
+    <div data-rise="0.42" class="hero-disciplines">
+      <span>Web</span><span class="hero-slash">/</span><span>App</span><span class="hero-slash">/</span><span class="hero-disciplines-dim">Store</span>
     </div>
 
-    <div data-rise="0.42" class="hero-disciplines" style="display:flex;gap:40px;flex-wrap:wrap;margin-top:28px;padding-top:18px;border-top:1px solid rgba(255,255,255,.18);font-weight:700;font-size:clamp(13px,1.4vw,16px);letter-spacing:.04em;text-transform:uppercase;">
-      <span>Design</span><span style="opacity:.35;">/</span><span>Development</span><span style="opacity:.35;">/</span><span style="opacity:.6;">Strategy</span>
+    <div data-rise="0.52" class="hero-cta">
+      <a href={CALENDLY_URL} target="_blank" rel="noopener" data-cursor data-cursor-label="Book call" class="btn btn-primary">Book a 15-min intro <span aria-hidden="true">↗</span></a>
+      <a href="#work" data-cursor data-cursor-label="Jump" class="btn btn-ghost">See the work</a>
     </div>
   </div>
 
-  <div style="position:absolute;left:30px;bottom:24px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.55;z-index:3;">Scroll to explore</div>
-  <div style="position:absolute;left:50%;bottom:22px;transform:translateX(-50%);z-index:3;font-size:18px;animation:ds-bounce 1.8s infinite;opacity:.7;">↓</div>
-  <div style="position:absolute;right:30px;bottom:24px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.55;z-index:3;">01 — 13</div>
+  <div class="hero-corner-mark mono">Built in Himachal Pradesh · IST +5:30</div>
+  <a href="#work" class="hero-corner-arrow" aria-label="Scroll to work">↓</a>
+  <div class="hero-corner-page mono">01 — 07</div>
 </section>
+
+<style>
+  .ds-hero {
+    position: relative;
+    min-height: 100vh;          /* fallback for older browsers */
+    min-height: 100svh;         /* small viewport height — avoids mobile chrome jump */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: #0b0b0c;
+  }
+  .hero-card {
+    position: relative;
+    z-index: 3;
+    width: min(820px, 90vw);
+    padding: 40px 46px 34px;
+  }
+  .hero-namewrap { position: relative; }
+
+  .ds-hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(90% 70% at 72% 18%, rgba(255, 70, 18, 0.22), transparent 55%),
+      radial-gradient(60% 55% at 18% 92%, rgba(255, 70, 18, 0.1), transparent 60%),
+      linear-gradient(180deg, #161618 0%, #0b0b0c 72%);
+    z-index: 1;
+  }
+  .ds-hero-bg::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(11, 11, 12, 0.72) 0%, rgba(11, 11, 12, 0.35) 35%, rgba(11, 11, 12, 0.55) 100%);
+  }
+  .ds-hero-bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(120% 90% at 50% 50%, transparent 40%, rgba(11, 11, 12, 0.6) 100%);
+  }
+
+  .hero-corner {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid rgba(255, 255, 255, 0.5);
+  }
+  .hero-corner-tl { top: -9px; left: -9px; border-right: 0; border-bottom: 0; }
+  .hero-corner-tr { top: -9px; right: -9px; border-left: 0; border-bottom: 0; }
+  .hero-corner-bl { bottom: -9px; left: -9px; border-right: 0; border-top: 0; }
+  .hero-corner-br { bottom: -9px; right: -9px; border-left: 0; border-top: 0; }
+
+  .hero-topbar {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+    padding-bottom: 14px;
+    margin-bottom: 22px;
+  }
+
+  .hero-name {
+    margin: 0;
+    font-weight: 900;
+    font-size: clamp(54px, 8vw, 118px);
+    line-height: 0.86;
+    letter-spacing: -0.035em;
+    text-transform: uppercase;
+  }
+  .hero-name sup {
+    font-size: 0.16em;
+    top: -1.7em;
+    font-weight: 700;
+  }
+  .hero-studio {
+    font-weight: 600;
+    font-size: 0.2em;
+    letter-spacing: 0.04em;
+    vertical-align: super;
+    opacity: 0.8;
+  }
+
+  .hero-sig {
+    position: absolute;
+    right: -6px;
+    bottom: -46px;
+    font-family: "Caveat", cursive;
+    font-weight: 700;
+    font-size: clamp(46px, 7vw, 86px);
+    color: var(--accent, #ff4612);
+    transform: rotate(-7deg);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .hero-disciplines {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-top: 64px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+    font-weight: 700;
+    font-size: clamp(13px, 1.4vw, 16px);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .hero-slash { opacity: 0.35; }
+  .hero-disciplines-dim { opacity: 0.6; }
+
+  .hero-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 30px;
+  }
+
+  .hero-corner-mark,
+  .hero-corner-arrow,
+  .hero-corner-page {
+    position: absolute;
+    font-family: "Space Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0.55;
+    z-index: 3;
+  }
+  .hero-corner-mark { left: 30px; bottom: 24px; }
+  .hero-corner-page { right: 30px; bottom: 24px; }
+  .hero-corner-arrow {
+    left: 50%;
+    bottom: 22px;
+    transform: translateX(-50%);
+    font-size: 18px;
+    animation: ds-bounce 1.8s infinite;
+    opacity: 0.7;
+    font-family: inherit;
+    text-decoration: none;
+    color: #fff;
+  }
+
+  /* Tablet / small laptop — the card centres comfortably */
+  @media (max-width: 720px) {
+    .ds-hero {
+      align-items: flex-start;          /* top-align so tall content never clips */
+      padding: 78px 0 64px;             /* clear the fixed nav + bottom corner marks */
+    }
+    .hero-card { width: 92vw; padding: 26px 20px 26px; }
+    .hero-name { font-size: clamp(38px, 12vw, 72px); }
+    .hero-topbar { font-size: 9px; gap: 8px 10px; padding-bottom: 12px; margin-bottom: 18px; }
+    .hero-disciplines { gap: 20px; font-size: 12px; margin-top: 56px; padding-top: 16px; }
+    /* clearance for the signature flourish (responsive.css tightens this further ≤640) */
+    .hero-cta { margin-top: 24px; }
+    .hero-corner-mark { font-size: 8.5px; left: 16px; bottom: 16px; max-width: 62vw; }
+    .hero-corner-page { display: none; }
+    .hero-corner-arrow { bottom: 14px; }
+  }
+
+  /* Phones — paragraph spans the column; CTAs stack full-width for easy taps */
+  @media (max-width: 480px) {
+    .hero-meta-p { max-width: 100%; }
+    .hero-cta .btn { flex: 1 1 100%; justify-content: center; }
+  }
+
+  /* Very small phones — keep the whole fold on one screen */
+  @media (max-width: 360px) {
+    .ds-hero { padding-top: 72px; }
+    .hero-card { padding: 22px 16px 22px; }
+    .hero-topbar span:nth-child(2) { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-corner-arrow { animation: none; }
+  }
+</style>

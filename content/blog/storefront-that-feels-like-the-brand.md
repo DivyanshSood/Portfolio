@@ -3,7 +3,9 @@ title: "Designing a Storefront That Feels Like the Brand, Not a Theme"
 description: "Anyone can install a theme and drop in a logo. Building a storefront that actually feels like your brand is a different craft. Here's what separates a branded store from a decorated template."
 coverImage: "/blog/storefront-that-feels-like-the-brand.jpg"
 pubDate: 2026-03-12
+updatedDate: 2026-03-12
 tags: ["brand", "e-commerce", "design", "D2C", "custom code"]
+audience: "d2c-brand"
 ---
 
 Two stores can sell the same product at the same price and feel completely different.
@@ -63,6 +65,6 @@ It rarely adds up. Brands are built on purpose, one decision at a time.
 
 ---
 
-*I'm Divyansh Sood — I build custom-coded storefronts that feel like the brand, not the template. 9 live builds, including [CultXberserk](https://www.divyanshsood.com/projects/cultxberserk), [Redline Studios](https://www.divyanshsood.com/projects/redline) and [ChinkiZ](https://www.divyanshsood.com/projects/chinkiz).*
+*I'm Divyansh Sood. I build storefronts where motion, rhythm, detail and coherence all carry the brand — none of it inherited from a theme. 9 live builds since 2022: [CultXberserk](https://www.divyanshsood.com/projects/cultxberserk) for the lore and the seal at the C7 vertebra, [Redline Studios](https://www.divyanshsood.com/projects/redline) for the racing DNA in every loading state, [ChinkiZ](https://www.divyanshsood.com/projects/chinkiz) for the video that lives next to the buy button.*
 
-*[See the work →](https://www.divyanshsood.com/#work) · [Start on WhatsApp →](https://wa.me/919816091875)*
+*If your brand has a detail someone would screenshot and send to a friend — and a theme keeps fighting it — [email me](mailto:hello@divyanshsood.com). I read every brief personally.*

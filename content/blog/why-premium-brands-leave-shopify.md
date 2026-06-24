@@ -3,7 +3,9 @@ title: "Why Premium Brands Are Leaving Shopify for Custom Code"
 description: "Shopify is brilliant for getting a store live fast. But the brands that want to feel like a brand keep hitting the same theme-shaped ceiling — here's where custom code wins and where it doesn't."
 coverImage: "/blog/why-premium-brands-leave-shopify.jpg"
 pubDate: 2026-06-18
+updatedDate: 2026-06-18
 tags: ["D2C", "Shopify", "e-commerce", "brand", "custom code"]
+audience: "d2c-brand"
 ---
 
 Shopify is the right call for most stores. Let me say that first, because what follows isn't a Shopify takedown.
@@ -79,6 +81,6 @@ That ceiling is the moment to go custom.
 
 ---
 
-*I'm Divyansh Sood — I design and build custom-coded storefronts for brands that refuse to look templated. 9 live builds, including [CultXberserk](https://www.divyanshsood.com/projects/cultxberserk) and [Redline Studios](https://www.divyanshsood.com/projects/redline).*
+*I'm Divyansh Sood. I build custom-coded storefronts for premium brands whose pitch depends on feeling different — including [CultXberserk](https://www.divyanshsood.com/projects/cultxberserk) (Berserk-inspired, hand-numbered 0001 to 0666) and [Redline Studios](https://www.divyanshsood.com/projects/redline) (motorcycle apparel with racing DNA in every loading state). 9 live builds since 2022.*
 
-*[See the work →](https://www.divyanshsood.com/#work) · [Start on WhatsApp →](https://wa.me/919816091875)*
+*If your brand has outgrown the theme-shaped ceiling and you want to talk headless commerce, [email me](mailto:hello@divyanshsood.com) — I read every brief personally.*

@@ -3,7 +3,9 @@ title: "How I Get Website Clients Without Paid Ads"
 description: "Every client on my portfolio came through without a single rupee in paid advertising. Here's exactly how — from portfolio strategy to referrals to content that pre-qualifies."
 coverImage: "/blog/how-i-get-clients-without-paid-ads.jpg"
 pubDate: 2026-03-05
+updatedDate: 2026-03-05
 tags: ["freelancing", "web development", "client acquisition", "Himachal Pradesh"]
+audience: "indian-smb"
 ---
 
 I've never run a Google Ad. Never boosted an Instagram post. Never paid for a lead.
@@ -124,4 +126,4 @@ Just work that earns trust, delivered to the right people, in the right places.
 
 ---
 
-*I'm Divyansh Sood — solo web developer, Kangra Valley. If you're a small business in India that needs a site that actually earns leads, [WhatsApp me](https://wa.me/919816091875). I'll reply within the hour.*
+*I'm Divyansh Sood — solo web developer, Kangra Valley. Custom-coded websites for Indian small businesses; most clients come from referrals and organic search, never a paid ad. If you're a small business in India that needs a site that earns leads, [WhatsApp me](https://wa.me/919816091875) — I'll reply within the hour.*

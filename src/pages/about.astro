@@ -1,0 +1,275 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import { CALENDLY_URL, FOUNDER_PHOTO, FOUNDER_PHOTO_ALT, HAS_FOUNDER_PHOTO } from "../lib/site.mjs";
+
+const SITE = "https://www.divyanshsood.com";
+const canonical = `${SITE}/about`;
+
+const WA = "https://wa.me/919816091875?text=Hi%20Divyansh,%20I%20saw%20your%20about%20page%20and%20want%20to%20talk.";
+
+// Snapshot stats — keep the copy honest, update both here and the homepage if any change.
+const stats = [
+  { v: "20+", l: "Products shipped" },
+  { v: "2022", l: "First launch" },
+  { v: "1", l: "Person, end to end" },
+  { v: "9/9", l: "Last clients still clients" },
+];
+
+const skills = [
+  { t: "Web design", d: "The design that ships, not the one that wins a Figma community award. I design in code, on a real URL — Nandini Travels' homepage was a real Astro build before it was a Figma file. The bookings started coming in within a week." },
+  { t: "Web development", d: "Next.js for Modern K.B.S.'s admission portal — shipped in 7 days, office staff runs it. Astro for marketing sites that load in under a second. React, Angular, Supabase for the bigger builds. I work in code, not in builders — so the next developer picks it up clean." },
+  { t: "AI features", d: "Claude, GPT, Gemini — whichever fits the job. I run my own AI product on all three, so when I integrate AI for a client, I'm reusing shipped code, not testing on their dime." },
+  { t: "Strategy & copy", d: "What the homepage should say, in what order, to whom. Most projects want it, and it usually makes the biggest difference." },
+];
+
+const milestones = [
+  { year: "2022", t: "The first ship", d: "First paying website. A local school wanted better than their Google Sites page. I took the brief on a Sunday, learned Next.js the same week, delivered in ten days. I've been working out of Himachal ever since." },
+  { year: "2023", t: "Going full-time solo", d: "Closed the side projects, went independent. Hired zero people. Took on 8 sites that year — e-commerce, travel, education, creator brands." },
+  { year: "2024", t: "WebSeek.ai ships", d: "Built and launched my own AI website generator — running it as a real product with real users, not a portfolio toy. Now I think about every build the way a founder does." },
+  { year: "2025", t: "Modern K.B.S. in 7 days", d: "Admissions portal + admin panel for a school cycle other agencies quoted at six months. Shipped in seven days. The case study people keep referring back to." },
+  { year: "2026", t: "Now", d: "Solo studio out of Himachal Pradesh. Limited projects at a time. Async across time zones, calls in yours. 9 of my last 9 clients still working with me." },
+];
+
+const principles = [
+  { n: "01", t: "Start from the decision, not the design", d: "Most sites are designed to look good. I design to make a decision easier — yours, your buyer's, whoever the page is for." },
+  { n: "02", t: "Own the code, own the future", d: "No monthly tax to a platform. No lock-in that makes the next dev rebuild from scratch. You hold the keys, anyone can pick it up when I'm done." },
+  { n: "03", t: "Ship like a founder, not an agency", d: "I run my own product. So I make the same calls you do: speed, ownership, ROI, runway. Decisions move in days, not committee weeks." },
+  { n: "04", t: "Premium work, honest pricing", d: "My overhead is a laptop in the Himalayas. You get agency-grade custom code at a price that respects what you actually need." },
+];
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "AboutPage",
+      "@id": `${canonical}#page`,
+      url: canonical,
+      name: "About Divyansh Sood — solo web designer & developer",
+      description:
+        "Divyansh Sood runs a 1-person studio out of Himachal Pradesh, India — custom-coded websites, stores and web apps for founders worldwide.",
+      isPartOf: { "@id": `${SITE}/#website` },
+      about: { "@type": "Person", name: "Divyansh Sood" },
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "About", item: canonical },
+      ],
+    },
+    {
+      "@type": "Person",
+      "@id": `${SITE}/#person`,
+      name: "Divyansh Sood",
+      jobTitle: "Web designer & developer",
+      description:
+        "Solo studio in Himachal Pradesh, India. Custom-coded websites, stores, web apps and AI features for founders worldwide. 20+ products shipped since 2022.",
+      url: canonical,
+      knowsAbout: [
+        "Web design",
+        "Web development",
+        "Next.js",
+        "React",
+        "Astro",
+        "Supabase",
+        "AI integration",
+        "Conversion-focused design",
+      ],
+      sameAs: [
+        "https://github.com/DivyanshSood",
+        "https://www.linkedin.com/in/divyansh-sood-023556151/",
+      ],
+    },
+  ],
+});
+---
+
+<Layout
+  title="About Divyansh Sood — solo web designer & developer from the Himalayas"
+  description="Solo web designer and developer running a 1-person studio from Himachal Pradesh, India. Custom-coded marketing sites, stores, web apps and AI features for founders worldwide."
+  canonical={canonical}
+  keywords="Divyansh Sood about, solo web developer, Himachal Pradesh web designer, freelance Next.js developer, custom website developer India, founder web developer"
+  ogTitle="About Divyansh Sood — solo studio, built from the Himalayas"
+  ogDescription="1 person, 20+ products shipped since 2022, custom-coded marketing sites and web apps for founders worldwide."
+  jsonld={jsonld}
+>
+  <Nav kicker="About the studio" />
+
+  <main>
+    <header class="cs-hero">
+      <div class="cs-hero-bg" aria-hidden="true"></div>
+      <div class="wrap">
+        <div class="cs-eyebrow">
+          <span>About</span><span>Solo studio · Himalayas</span><span>2022 — 2026</span>
+        </div>
+        <h1 style="margin:14px 0 0;font-weight:900;font-size:clamp(40px,7.5vw,104px);line-height:.9;letter-spacing:-.035em;text-transform:uppercase;">Built from<br />the <span style="color:var(--accent);">Himalayas.</span><br />Shipping for the world.</h1>
+        <p class="cs-lead">I'm Divyansh Sood — a 1-person web studio out of a small town in Himachal Pradesh, India. Custom-coded marketing sites, stores, web apps and AI features for founders worldwide. Twenty-plus products shipped since 2022. No agency floor, no account managers, just me.</p>
+        <div class="cs-cta-row">
+          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener" data-cursor>Book a 15-min intro <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost" href={WA} target="_blank" rel="noopener" data-cursor>Message on WhatsApp</a>
+        </div>
+        <div class="cs-meta">
+          <span>Solo · Design + Build</span><span>Himachal Pradesh · India</span><span>IST +5:30 · Overlap with US / UK / Gulf</span>
+        </div>
+      </div>
+    </header>
+
+    {/* ---------- Founder card ---------- */}
+    <section class="cs-sec" aria-labelledby="founder-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="founder-h">The founder</h2>
+          <span class="mono">One person, end to end</span>
+        </div>
+
+        <div style="display:grid;grid-template-columns:0.78fr 1.22fr;gap:clamp(28px,4vw,56px);align-items:stretch;" data-reveal>
+          {HAS_FOUNDER_PHOTO ? (
+            <div
+              class="imgfill"
+              style={`background-image:url('${FOUNDER_PHOTO}');border:1px solid rgba(255,255,255,.16);border-radius:10px;min-height:460px;background-color:#d0d0d0;`}
+              role="img"
+              aria-label={FOUNDER_PHOTO_ALT}
+            ></div>
+          ) : (
+            <div
+              style="min-height:460px;border:1px solid rgba(255,255,255,.16);border-radius:10px;background:radial-gradient(120% 90% at 30% 10%, rgba(255,70,18,0.4), transparent 55%),linear-gradient(160deg,#1b1b1d,#0b0b0c);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;aspect-ratio:4/5;"
+              aria-label={FOUNDER_PHOTO_ALT}
+              role="img"
+            >
+              <span style="font-family:'Archivo';font-weight:900;font-size:clamp(64px,12vw,120px);letter-spacing:-.05em;color:#fff;opacity:.9;">DS</span>
+              <span style="position:absolute;bottom:14px;left:0;right:0;text-align:center;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#fff;opacity:.5;">Founder photo</span>
+            </div>
+          )}
+
+          <div style="display:flex;flex-direction:column;">
+            <p style="margin:0;font-size:clamp(18px,2vw,21px);line-height:1.5;font-weight:600;max-width:620px;">I'm Divyansh. I run a 1-person studio from a small town in Himachal Pradesh, India — no agency floor, no account managers, just me, designing and building websites for founders who care about outcomes, not theme marketplaces.</p>
+            <p style="margin:18px 0 0;font-size:16px;line-height:1.62;max-width:620px;opacity:.84;">Twenty-plus products shipped since 2022 — marketing sites, web apps, stores, dashboards, and my own AI product. Most in 3–4 weeks. Every one custom-coded, conversion-led, built to last longer than the trend that prompted it. IST working hours (10am–7pm) overlap with US mornings, UK afternoons and Gulf evenings — calls in your zone, async when you want it.</p>
+
+            <div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:auto;padding-top:26px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;opacity:.62;">
+              <span>Divyansh Sood — founder</span>
+              <span>Himachal · India · IST +5:30</span>
+            </div>
+
+            <div style="display:flex;flex-wrap:wrap;gap:14px;margin-top:22px;">
+              <a href={CALENDLY_URL} target="_blank" rel="noopener" data-cursor class="btn btn-primary">Book a 15-min intro <span aria-hidden="true">↗</span></a>
+              <a href="/#work" data-cursor class="btn btn-ghost">See the work</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* ---------- Numbers ---------- */}
+    <section class="cs-sec" aria-labelledby="num-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="num-h">By the numbers</h2>
+          <span class="mono">Snapshot</span>
+        </div>
+        <div class="cs-metrics" data-reveal>
+          {stats.map((m) => (
+            <div class="cs-metric"><span class="cs-metric-v">{m.v}</span><span class="cs-metric-l">{m.l}</span></div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* ---------- What I do ---------- */}
+    <section class="cs-sec" aria-labelledby="what-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="what-h">What I actually do</h2>
+          <span class="mono">The skillset</span>
+        </div>
+        <div class="cs-body" data-reveal>
+          {skills.map((s) => (
+            <div class="cs-card">
+              <span class="cs-tag">{s.t}</span>
+              <h2 class="cs-card-h2">{s.d}</h2>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* ---------- Principles ---------- */}
+    <section class="cs-sec" aria-labelledby="why-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="why-h">How I think about the work</h2>
+          <span class="mono">Four principles</span>
+        </div>
+        <div class="cs-body" data-reveal>
+          {principles.map((p) => (
+            <div class="cs-card">
+              <span class="cs-tag">({p.n}) {p.t}</span>
+              <h2 class="cs-card-h2">{p.d}</h2>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* ---------- Journey / Timeline ---------- */}
+    <section class="cs-sec" aria-labelledby="journey-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="journey-h">The journey so far</h2>
+          <span class="mono">2022 — Now</span>
+        </div>
+
+        <div data-reveal style="border:1px solid rgba(255,255,255,.14);border-radius:10px;overflow:hidden;">
+          {milestones.map((m, i) => (
+            <div style={`display:grid;grid-template-columns:120px 1fr;gap:24px;padding:26px 28px;${i === 0 ? "" : "border-top:1px solid rgba(255,255,255,.12);"}`}>
+              <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;opacity:.7;padding-top:4px;">{m.year}</div>
+              <div>
+                <h3 style="margin:0 0 8px;font-weight:800;font-size:clamp(18px,1.8vw,22px);letter-spacing:-.01em;">{m.t}</h3>
+                <p style="margin:0;font-size:15.5px;line-height:1.62;opacity:.84;max-width:62ch;">{m.d}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* ---------- Working with me ---------- */}
+    <section class="cs-sec" aria-labelledby="workwith-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="workwith-h">Working with me looks like</h2>
+          <span class="mono">What to expect</span>
+        </div>
+        <div class="cs-body" data-reveal>
+          <div class="cs-card">
+            <span class="cs-tag">A short call</span>
+            <h2 class="cs-card-h2">15 minutes, then an honest answer. Tell me what you're building and where it's stuck. I'll tell you whether I'm the right person for it — and if I'm not, who I'd point you toward. No sales script, no pressure.</h2>
+          </div>
+          <div class="cs-card">
+            <span class="cs-tag">A clear plan</span>
+            <h2 class="cs-card-h2">Fixed scope, real milestones. Within a couple of days you get a written plan with phases, deliverables and dates. You always know what's shipping next and where the budget is going.</h2>
+          </div>
+          <div class="cs-card span2">
+            <span class="cs-tag">A working build</span>
+            <h2 class="cs-card-h2">Live link from week one, not a deck. You'll see a working build early — usually by week two — and review it on a real staging link on your phone. No slideshows, no surprises, no agency handoffs.</h2>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* ---------- End CTA ---------- */}
+    <section class="cs-endcta">
+      <div class="wrap">
+        <h2>Want to work together?</h2>
+        <p>Tell me what you're shipping. I'll come back with a clear path from brief to launch — and an honest timeline.</p>
+        <div class="cs-cta-row" style="justify-content:center;">
+          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener" data-cursor>Book a 15-min intro <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost" href={WA} target="_blank" rel="noopener" data-cursor>Message on WhatsApp</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>

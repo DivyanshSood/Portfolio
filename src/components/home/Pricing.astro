@@ -1,38 +1,274 @@
 ---
-// Pricing table. `home-section` is a responsive hook (mobile side-padding);
-// the table itself scrolls horizontally on small screens via .price-scroll.
+// Pricing — three clean USD tiers, Himalayas-positioned. "Best for" line
+// replaces the generic blurb so a US/UK buyer can self-select in 5 seconds.
+// The comparison table below the cards makes the difference between tiers
+// explicit — useful for cold-email / ad traffic that lands here directly.
+import Frame from "./Frame.astro";
+const plans = [
+  {
+    name: "Foundation",
+    price: "$3,000",
+    blurb: "Everything you need to launch a serious site.",
+    bestFor: "Your first site — or your first site that actually converts.",
+    features: ["Up to 6 pages", "Strategy & behavioural audit", "Conversion wireframes", "Live in 3–4 weeks", "30 days of support"],
+    featured: false,
+  },
+  {
+    name: "Growth",
+    price: "$6,000",
+    blurb: "The plan most international founders pick.",
+    bestFor: "Sites that need to keep improving after launch — not just go live and decay.",
+    features: ["Up to 12 pages", "Everything in Foundation", "A/B testing setup", "Advanced copywriting", "90 days of support"],
+    featured: true,
+  },
+  {
+    name: "Scale",
+    price: "$12,000",
+    blurb: "Web apps, stores, dashboards.",
+    bestFor: "Ongoing product work, not a one-off project. The team that comes back for the second build is always the team that wins.",
+    features: ["Unlimited pages", "Everything in Growth", "Monthly reporting", "Custom timeline (6–10 wks)", "Ongoing retainer"],
+    featured: false,
+  },
+];
+
+// Comparison rows — what changes between tiers, made explicit. Plain ✓ / — so
+// the buyer can scan in 10 seconds without reading the plan copy twice.
+// `note` overrides the cell when the answer isn't a binary yes/no.
+const compareRows = [
+  {
+    label: "Pages",
+    cells: ["Up to 6", "Up to 12", "Unlimited"],
+  },
+  {
+    label: "Custom-coded (no builders)",
+    cells: [true, true, true],
+  },
+  {
+    label: "Strategy & behavioural audit",
+    cells: [true, true, true],
+  },
+  {
+    label: "Conversion wireframes",
+    cells: [true, true, true],
+  },
+  {
+    label: "A/B testing setup",
+    cells: [false, true, true],
+  },
+  {
+    label: "Advanced copywriting",
+    cells: [false, true, true],
+  },
+  {
+    label: "Admin panel / dashboard",
+    cells: ["Add-on", "Add-on", "Included"],
+  },
+  {
+    label: "E-commerce / payments integration",
+    cells: ["Add-on", "Add-on", "Included"],
+  },
+  {
+    label: "Monthly reporting",
+    cells: [false, false, true],
+  },
+  {
+    label: "Ongoing retainer",
+    cells: [false, false, true],
+  },
+  {
+    label: "Post-launch support",
+    cells: ["30 days", "90 days", "Monthly"],
+  },
+  {
+    label: "Timeline to live",
+    cells: ["3–4 wks", "4–6 wks", "6–10 wks"],
+  },
+];
 ---
 
 <section class="home-section" style="position:relative;z-index:2;background:#0b0b0c;color:#fff;padding:90px 30px 100px;">
-  <div class="g-2" style="display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:end;margin-bottom:60px;">
+  <Frame label="Pricing" index="06" note="Plans" tag="USD · every project scoped to you" tone="dark">
+  <div class="g-2" style="display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:end;margin-bottom:50px;">
     <div data-reveal>
       <p style="margin:0;font-weight:600;font-size:clamp(20px,2.4vw,30px);line-height:1.3;letter-spacing:-.01em;max-width:520px;">"The hardest part of building a website isn't the code — it's knowing what to leave out. Every element here earns its place."</p>
-      <div style="margin-top:16px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;opacity:.55;">— Divyansh, on the process</div>
+      <div style="margin-top:16px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;opacity:.55;">— Divyansh, from the studio in Himachal Pradesh</div>
     </div>
     <h2 data-reveal style="margin:0;font-weight:900;font-size:clamp(56px,9vw,150px);line-height:.86;letter-spacing:-.04em;text-transform:uppercase;text-align:right;">Pricing.</h2>
   </div>
 
-  <div class="price-scroll" style="border-top:1px solid rgba(255,255,255,.16);">
-   <div class="price-inner">
-    <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:20px;padding:26px 4px;align-items:end;border-bottom:1px solid rgba(255,255,255,.14);">
-      <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.62;">(Pricing — 06) Plans</div>
-      <div><div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:.55;margin-bottom:8px;">Foundation</div><div style="font-weight:800;font-size:30px;letter-spacing:-.02em;">₹55,000</div></div>
-      <div><div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent,#ff4612);margin-bottom:8px;">Growth ★</div><div style="font-weight:800;font-size:30px;letter-spacing:-.02em;">₹95,000</div></div>
-      <div><div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:.55;margin-bottom:8px;">Scale</div><div style="font-weight:800;font-size:30px;letter-spacing:-.02em;">₹1,50,000</div></div>
-    </div>
-    <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:20px;padding:18px 4px;border-bottom:1px solid rgba(255,255,255,.1);font-size:14px;"><span style="opacity:.75;">Strategy &amp; behavioural audit</span><span style="color:var(--accent,#ff4612);">✓</span><span style="color:var(--accent,#ff4612);">✓</span><span style="color:var(--accent,#ff4612);">✓</span></div>
-    <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:20px;padding:18px 4px;border-bottom:1px solid rgba(255,255,255,.1);font-size:14px;"><span style="opacity:.75;">Number of pages</span><span style="opacity:.6;">Up to 6</span><span style="opacity:.6;">Up to 12</span><span style="opacity:.6;">Unlimited</span></div>
-    <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:20px;padding:18px 4px;border-bottom:1px solid rgba(255,255,255,.1);font-size:14px;"><span style="opacity:.75;">Conversion wireframes</span><span style="color:var(--accent,#ff4612);">✓</span><span style="color:var(--accent,#ff4612);">✓</span><span style="color:var(--accent,#ff4612);">✓</span></div>
-    <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:20px;padding:18px 4px;border-bottom:1px solid rgba(255,255,255,.1);font-size:14px;"><span style="opacity:.75;">Copywriting support</span><span style="opacity:.6;">Basic</span><span style="opacity:.6;">Advanced</span><span style="opacity:.6;">Advanced + reports</span></div>
-    <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:20px;padding:18px 4px;border-bottom:1px solid rgba(255,255,255,.1);font-size:14px;"><span style="opacity:.75;">A/B testing setup</span><span style="opacity:.3;">—</span><span style="color:var(--accent,#ff4612);">✓</span><span style="color:var(--accent,#ff4612);">✓</span></div>
-    <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:20px;padding:18px 4px;border-bottom:1px solid rgba(255,255,255,.1);font-size:14px;"><span style="opacity:.75;">Timeline</span><span style="opacity:.6;">3–4 weeks</span><span style="opacity:.6;">4–6 weeks</span><span style="opacity:.6;">Custom</span></div>
-    <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:20px;padding:18px 4px;border-bottom:1px solid rgba(255,255,255,.14);font-size:14px;"><span style="opacity:.75;">Ongoing support</span><span style="opacity:.6;">30 days</span><span style="opacity:.6;">90 days</span><span style="opacity:.6;">Retainer</span></div>
-    <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:20px;padding:26px 4px 0;">
-      <span></span>
-      <a href="#contact" data-cursor style="text-align:center;border:1px solid rgba(255,255,255,.3);color:#fff;text-decoration:none;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:13px;border-radius:2px;">Get started</a>
-      <a href="#contact" data-cursor style="text-align:center;background:var(--accent,#ff4612);color:#fff;text-decoration:none;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:13px;border-radius:2px;font-weight:700;">Get started</a>
-      <a href="#contact" data-cursor style="text-align:center;border:1px solid rgba(255,255,255,.3);color:#fff;text-decoration:none;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:13px;border-radius:2px;">Get started</a>
-    </div>
-   </div>
+  <div class="g-3" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:22px;align-items:stretch;">
+    {plans.map((pl) => (
+      <div
+        data-reveal
+        style={`display:flex;flex-direction:column;border:1px solid ${pl.featured ? "var(--accent,#ff4612)" : "rgba(255,255,255,.16)"};border-radius:10px;padding:30px 26px;background:${pl.featured ? "linear-gradient(180deg,rgba(255,70,18,.12),transparent)" : "linear-gradient(180deg,rgba(255,255,255,.03),transparent)"};`}
+      >
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+          <span style={`font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;${pl.featured ? "color:var(--accent,#ff4612);" : "opacity:.6;"}`}>{pl.name}{pl.featured ? " ★" : ""}</span>
+          {pl.featured && <span style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--accent,#ff4612);color:var(--accent,#ff4612);border-radius:999px;padding:4px 9px;">Most picked</span>}
+        </div>
+        <div style="font-weight:800;font-size:clamp(34px,4.4vw,46px);letter-spacing:-.03em;line-height:1;">from {pl.price}</div>
+        <p style="margin:14px 0 6px;font-size:15px;line-height:1.5;font-weight:600;opacity:.92;">{pl.blurb}</p>
+        <p style="margin:0 0 22px;font-size:12.5px;line-height:1.5;opacity:.55;font-style:italic;">Best for: {pl.bestFor}</p>
+        <ul style="list-style:none;margin:0 0 28px;padding:0;display:flex;flex-direction:column;gap:11px;">
+          {pl.features.map((f) => (
+            <li style="display:flex;align-items:flex-start;gap:10px;font-size:14px;line-height:1.45;">
+              <span style="color:var(--accent,#ff4612);flex:none;">✓</span><span style="opacity:.85;">{f}</span>
+            </li>
+          ))}
+        </ul>
+        <a
+          href="#contact"
+          data-cursor
+          style={`margin-top:auto;text-align:center;text-decoration:none;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:14px;border-radius:2px;${pl.featured ? "background:var(--accent,#ff4612);color:#fff;font-weight:700;" : "border:1px solid rgba(255,255,255,.3);color:#fff;"}`}
+        >Get started</a>
+      </div>
+    ))}
   </div>
+
+  <p style="margin:26px 4px 0;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.04em;line-height:1.6;opacity:.5;max-width:680px;"><span style="color:#fff;opacity:.92;">Projects start at $3,000.</span> Prices are starting points in USD — every project is quoted to its real scope on a short call. Built from a small town in Himachal Pradesh, India — low overhead, honest pricing. Marketing sites &amp; MVPs in 3–4 weeks; larger builds, 6–10. <a href="/website-audit" data-cursor style="color:var(--accent,#ff4612);text-decoration:underline;">Want a free audit of your current site first? ↗</a><br /><br />Indian SMB? The same scope in ₹ is roughly ₹13K–55K — see the <a href="/blog/website-development-cost-india-2026" data-cursor style="color:var(--accent,#ff4612);text-decoration:underline;">2026 India cost guide ↗</a> for what each plan includes locally.</p>
+
+  {/* Comparison table — for buyers who land here directly from a cold email or
+      ad and want to scan the tiers without re-reading the card copy. Renders
+      the actual deltas: Foundation strips down, Growth adds ongoing
+      optimisation, Scale adds the platform layer + retainer. */}
+  <div class="ds-price-compare" data-reveal>
+    <div class="ds-price-compare-head">
+      <h3 class="ds-price-compare-title">Side by side — what's actually in each plan.</h3>
+      <span class="ds-price-compare-note mono">For a buyer who wants to scan the differences in 30 seconds.</span>
+    </div>
+    <div class="ds-price-scroll" role="region" aria-label="Plan comparison" tabindex="0">
+      <table class="ds-price-table">
+        <thead>
+          <tr>
+            <th scope="col"><span class="ds-price-sr">Feature</span></th>
+            {plans.map((pl) => (
+              <th scope="col" class={pl.featured ? "is-featured" : ""}>
+                <span class="ds-price-th-name">{pl.name}</span>
+                <span class="ds-price-th-from">from {pl.price}</span>
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {compareRows.map((row) => (
+            <tr>
+              <th scope="row" class="ds-price-row-label">{row.label}</th>
+              {row.cells.map((cell, i) => (
+                <td class={plans[i].featured ? "is-featured" : ""}>
+                  {cell === true ? (
+                    <span class="ds-price-yes" aria-label="Included">✓</span>
+                  ) : cell === false ? (
+                    <span class="ds-price-no" aria-label="Not included">—</span>
+                  ) : (
+                    <span class="ds-price-note">{cell}</span>
+                  )}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  </Frame>
 </section>
+
+<style>
+  /* Comparison table — kept in the same section so a buyer who lands here from
+     a cold email / paid ad can scan tiers without re-reading card copy.
+     Wrapped in `.ds-price-scroll` so it overflows gracefully on narrow screens
+     instead of breaking the page layout. */
+  .ds-price-compare { margin-top: 60px; border-top: 1px solid rgba(255,255,255,.14); padding-top: 40px; }
+  .ds-price-compare-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; margin-bottom: 28px; }
+  .ds-price-compare-title { margin: 0; font-weight: 800; font-size: clamp(22px, 2.4vw, 30px); letter-spacing: -0.02em; max-width: 28ch; }
+  .ds-price-compare-note { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.55; }
+
+  .ds-price-sr {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden;
+    clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+  }
+
+  .ds-price-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border: 1px solid rgba(255,255,255,.16);
+    border-radius: 12px;
+  }
+  /* Subtle fade on the right edge signals more content — only when the table
+     actually overflows. JS could toggle this; for now it sits on at narrow
+     viewports and fades gracefully. */
+  .ds-price-scroll { background: linear-gradient(180deg, rgba(255,255,255,.02), transparent); }
+
+  .ds-price-table {
+    width: 100%;
+    min-width: 720px;
+    border-collapse: collapse;
+    font-size: 14.5px;
+  }
+  .ds-price-table thead th {
+    text-align: left;
+    padding: 22px 22px 18px;
+    border-bottom: 1px solid rgba(255,255,255,.18);
+    vertical-align: bottom;
+    background: rgba(255,255,255,.03);
+  }
+  .ds-price-table thead th:first-child { background: transparent; }
+  .ds-price-th-name {
+    display: block;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.78;
+    margin-bottom: 6px;
+  }
+  .ds-price-th-from {
+    display: block;
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: -0.01em;
+  }
+  .ds-price-table thead th.is-featured .ds-price-th-name { color: var(--accent,#ff4612); opacity: 1; }
+
+  .ds-price-table tbody tr { border-bottom: 1px solid rgba(255,255,255,.08); }
+  .ds-price-table tbody tr:last-child { border-bottom: none; }
+  .ds-price-table tbody th,
+  .ds-price-table tbody td {
+    padding: 14px 22px;
+    text-align: left;
+    vertical-align: middle;
+  }
+  .ds-price-row-label {
+    font-weight: 600;
+    font-size: 14px;
+    opacity: 0.86;
+    width: 38%;
+  }
+  .ds-price-table tbody td { text-align: center; font-size: 14px; opacity: 0.92; }
+  .ds-price-table tbody td.is-featured {
+    background: rgba(255,70,18,.06);
+    border-left: 1px solid rgba(255,70,18,.18);
+    border-right: 1px solid rgba(255,70,18,.18);
+  }
+  .ds-price-yes {
+    display: inline-block;
+    width: 22px; height: 22px; line-height: 22px;
+    border-radius: 50%;
+    background: rgba(255,70,18,.16);
+    color: var(--accent,#ff4612);
+    font-weight: 800;
+    font-size: 13px;
+  }
+  .ds-price-no { opacity: 0.35; font-size: 18px; line-height: 1; }
+  .ds-price-note {
+    font-family: 'Space Mono', monospace;
+    font-size: 11.5px;
+    letter-spacing: 0.04em;
+    opacity: 0.82;
+  }
+
+  @media (max-width: 720px) {
+    .ds-price-compare { margin-top: 40px; padding-top: 28px; }
+    .ds-price-compare-title { font-size: 19px; }
+  }
+</style>

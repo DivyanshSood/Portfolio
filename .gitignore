@@ -18,3 +18,7 @@ node_modules/
 dist/
 .vercel/
 .astro/
+
+# Dev-session preview screenshots (not source — throwaway dev artifacts)
+preview-*.png
+preview-tame-*.png

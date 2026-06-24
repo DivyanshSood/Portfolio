@@ -3,14 +3,17 @@ import Layout from "../layouts/Layout.astro";
 import Nav from "../components/Nav.astro";
 import Hero from "../components/home/Hero.astro";
 import About from "../components/home/About.astro";
-import Work from "../components/home/Work.astro";
-import Services from "../components/home/Services.astro";
+import HorizontalScrollWork from "../components/motion/HorizontalScrollWork.astro";
 import Stats from "../components/home/Stats.astro";
-import Faq from "../components/home/Faq.astro";
-import Pricing from "../components/home/Pricing.astro";
 import Testimonials from "../components/home/Testimonials.astro";
-import Updates from "../components/home/Updates.astro";
+import Pricing from "../components/home/Pricing.astro";
 import Contact from "../components/home/Contact.astro";
+
+// Motion layer
+import FilmGrain from "../components/motion/FilmGrain.astro";
+import GiantText from "../components/motion/GiantText.astro";
+import MotionController from "../components/motion/MotionController.astro";
+
 import HomeScripts from "../components/home/HomeScripts.astro";
 import { homeJsonLd } from "../lib/home-schema.mjs";
 
@@ -19,25 +22,49 @@ const jsonld = homeJsonLd(SITE);
 ---
 
 <Layout
-  title="Divyansh Sood® Studio — Independent web design & development"
-  description="Divyansh Sood — independent web designer & developer building custom-coded, conversion-focused websites, stores and web apps for businesses worldwide. Strategy, design and engineering under one roof. Live in 3–4 weeks."
+  title="Divyansh Sood® Studio — Built from the Himalayas. Shipping for the world."
+  description="Independent web designer & developer in Himachal Pradesh, India — custom-coded, conversion-focused websites, stores and web apps for founders worldwide. 7 days vs 6 months quoted. Marketing sites & MVPs in 3–4 weeks; larger builds, 6–10."
   canonical={`${SITE}/`}
-  keywords="Divyansh Sood, web designer, web developer, custom website developer, Next.js developer, Astro developer, conversion-focused websites, ecommerce website developer, SEO web developer, AI website builder"
-  ogDescription="Custom-coded websites that turn attention into outcomes. Strategy → Design → Build."
+  keywords="Divyansh Sood, web designer, web developer, custom website developer, Next.js developer, Astro developer, conversion-focused websites, ecommerce website developer, SEO web developer, AI website builder, Himachal Pradesh, India web studio"
+  ogDescription="Built from the Himalayas. Shipping for the world. Custom-coded sites in 3–4 weeks. From $3,000."
   jsonld={jsonld}
 >
-  <Nav kicker="Design & dev studio" />
+  <Nav kicker="Himalayas → Worldwide" />
 
+  {/* ---------- 01 · Hero ---------- */}
   <Hero />
+
+  {/* ---------- 02 · About + WhyMe (founder story) ---------- */}
   <About />
-  <Work />
-  <Services />
+
+  {/* ---------- 03 · Selected Work (top 3 of 9, signature horizontal scroll) ---------- */}
+  <HorizontalScrollWork />
+
+  {/* ---------- 04 · Results / Stats ---------- */}
   <Stats />
-  <Faq />
-  <Pricing />
+
+  {/* ---------- 05 · Testimonials (3 with context) ---------- */}
   <Testimonials />
-  <Updates />
+
+  {/* ---------- 06 · Pricing ---------- */}
+  <Pricing />
+
+  {/* ---------- 07 · Closing CTA ---------- */}
+  <GiantText
+    lines={["Let's", "build."]}
+    align="center"
+    theme="accent"
+    meta="(01 — Next step)"
+  />
+
+  {/* ---------- 08 · Contact ---------- */}
   <Contact />
+
+  {/* ---------- Film grain overlay (fixed, on top) ---------- */}
+  <FilmGrain />
+
+  {/* ---------- GSAP / ScrollTrigger orchestrator ---------- */}
+  <MotionController />
 </Layout>
 
 <HomeScripts />

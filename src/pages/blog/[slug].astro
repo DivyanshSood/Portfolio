@@ -21,6 +21,10 @@ const canonical = `${SITE}/blog/${entry.id}/`;
 const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
 const primaryTag = post.tags[0] || "Notes";
 const readMins = readingTime(entry.body);
+// Show "Last updated" only when the post has been revised past its publish date.
+// Equal dates would be noise — the eyebrow already shows pubDate.
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
 
 const jsonld = JSON.stringify({
   "@context": "https://schema.org",
@@ -79,6 +83,7 @@ const jsonld = JSON.stringify({
         <div class="eyebrow">
           <span>{primaryTag}</span>
           <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
           <span>{readMins} min read</span>
         </div>
         <h1 class="post-title">{post.title}</h1>
@@ -111,14 +116,42 @@ const jsonld = JSON.stringify({
 
     <section class="post-foot-cta">
       <div class="wrap narrow">
-        <h2>Want results like these?</h2>
-        <p>Custom-coded, conversion-focused websites — live in about 3–4 weeks. Tell me what you're building.</p>
-        <div class="cta-row">
-          <a class="btn btn-primary" href="https://wa.me/919816091875" target="_blank" rel="noopener" data-cursor
-            >Start on WhatsApp <span aria-hidden="true">↗</span></a
-          >
-          <a class="btn btn-ghost" href="/#work" data-cursor>See the work</a>
-        </div>
+        {post.audience === "indian-smb" ? (
+          <>
+            <h2>Working on something in India?</h2>
+            <p>If a post here matches what you're building, send me the brief. WhatsApp reply in under an hour, 9 AM–9 PM IST — I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="https://wa.me/919816091875" target="_blank" rel="noopener" data-cursor
+                >Message me on WhatsApp <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work" data-cursor>See the work</a>
+            </div>
+          </>
+        ) : post.audience === "d2c-brand" ? (
+          <>
+            <h2>Building a brand a theme can't carry?</h2>
+            <p>If your store has a model that off-the-shelf builders fight — hand-numbered drops, creator commerce, premium D2C — tell me about it. I read every brief personally.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com" data-cursor
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work" data-cursor>See the work</a>
+            </div>
+          </>
+        ) : (
+          <>
+            <h2>Working on something similar?</h2>
+            <p>If a post here matches what you're building, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com" data-cursor
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="https://calendly.com/divyanshsood/intro-call" target="_blank" rel="noopener" data-cursor
+                >Book a 15-min intro <span aria-hidden="true">↗</span></a
+              >
+            </div>
+          </>
+        )}
       </div>
     </section>
   </main>

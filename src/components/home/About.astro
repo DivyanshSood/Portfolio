@@ -1,32 +1,231 @@
 ---
-// About / intro. `home-section` is a responsive hook (mobile side-padding only).
+// Founder story + 3 conflict-first reasons. Wrapped in the shared <Frame> so it
+// carries the hero card's corner-tick language. Layout: a balanced photo / intro
+// top row, then the three reasons as a full-width 3-up row. Reason cards use the
+// same solid white / bordered language as the Testimonials figures so the two
+// light-section frames read as one system. `home-section` = mobile padding.
+import Frame from "./Frame.astro";
+import { CALENDLY_URL, FOUNDER_PHOTO, FOUNDER_PHOTO_ALT, HAS_FOUNDER_PHOTO } from "../../lib/site.mjs";
+
+const reasons = [
+  {
+    n: "01",
+    t: "6 months → 7 days",
+    d: "I win the impossible timelines. Modern K.B.S. needed an admissions portal before the next school cycle. Other agencies quoted 6 months. I shipped in 7. Same scope, custom code, real admin panel."
+  },
+  {
+    n: "02",
+    t: "You own every line",
+    d: "Next.js for Modern K.B.S.'s portal — office staff runs it, no developer needed. Astro for the marketing sites that load in under a second. Yours forever, no monthly tax, no builder lock-in."
+  },
+  {
+    n: "03",
+    t: "I run my own product",
+    d: "An AI website builder, live with real users. I make the same calls you do — speed, ownership, ROI, runway. 9 of my last 9 clients are still clients."
+  },
+];
 ---
 
-<section id="about" class="home-section" style="position:sticky;top:0;z-index:1;background:#efece6;color:#0b0b0c;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:96px 30px 70px;">
-  <div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;opacity:.55;border-bottom:1px solid rgba(0,0,0,.14);padding-bottom:14px;margin-bottom:60px;">
-    <span>(About — 01)</span><span>Independent design &amp; development</span><span>2026 ©</span>
-  </div>
-  <div class="g-split" style="display:grid;grid-template-columns:1.3fr .9fr;gap:48px;align-items:end;">
-    <div data-reveal>
-      <h2 style="margin:0;font-weight:900;font-size:clamp(58px,11vw,170px);line-height:.84;letter-spacing:-.04em;text-transform:uppercase;">I<br />BUILD<br />WEBSITES.</h2>
-      <p style="margin:30px 0 0;font-size:16px;line-height:1.6;font-weight:500;max-width:480px;">I'm <strong>Divyansh Sood</strong> — an independent web designer &amp; developer based in Himachal Pradesh, India, working with clients worldwide. Every site is custom-coded (no page-builder templates) and starts from how your customers actually make decisions — then design, engineering and SEO follow, all under one roof. Most projects go live in about 3–4 weeks.</p>
-      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:22px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.04em;">
-        <span style="border:1px solid rgba(0,0,0,.22);border-radius:999px;padding:7px 13px;">React</span>
-        <span style="border:1px solid rgba(0,0,0,.22);border-radius:999px;padding:7px 13px;">Next.js</span>
-        <span style="border:1px solid rgba(0,0,0,.22);border-radius:999px;padding:7px 13px;">Astro</span>
-        <span style="border:1px solid rgba(0,0,0,.22);border-radius:999px;padding:7px 13px;">Angular</span>
-        <span style="border:1px solid rgba(0,0,0,.22);border-radius:999px;padding:7px 13px;">Tailwind</span>
-        <span style="border:1px solid rgba(0,0,0,.22);border-radius:999px;padding:7px 13px;">Supabase</span>
-        <span style="border:1px solid rgba(0,0,0,.22);border-radius:999px;padding:7px 13px;">Razorpay</span>
-        <span style="border:1px solid rgba(0,0,0,.22);border-radius:999px;padding:7px 13px;">Headless CMS</span>
+<section id="about" class="home-section" style="position:relative;z-index:2;background:#e8e8e8;color:#0b0b0c;padding:96px 30px 84px;">
+  <Frame label="About" index="01" note="Built from the Himalayas · Shipping for the world" tag="2026 ©" tone="light">
+    <h2 data-reveal class="about-h2">Three things I do<br />that most agencies<br /><span style="color:var(--accent,#ff4612);">won't.</span></h2>
+
+    <div class="about-top">
+      {HAS_FOUNDER_PHOTO ? (
+        <div class="about-photo imgfill" data-reveal style={`background-image:url('${FOUNDER_PHOTO}');`} role="img" aria-label={FOUNDER_PHOTO_ALT}></div>
+      ) : (
+        <div class="about-photo about-photo-fallback" data-reveal aria-label={FOUNDER_PHOTO_ALT} role="img">
+          <span class="about-photo-mono">DS</span>
+          <span class="about-photo-cap">Founder photo</span>
+        </div>
+      )}
+
+      <div class="about-intro" data-reveal>
+        <p class="about-lead">I'm Divyansh. I run a 1-person studio from a small town in Himachal Pradesh, India — no agency floor, no account managers. Just me, designing and building websites for founders who'd rather hire a person than a shop.</p>
+        <p class="about-body">20+ products live since 2022. Most in 3–4 weeks. Every one custom-coded (no Shopify, no Webflow, no page-builder markup), conversion-led, and built to last longer than the trend that prompted it. 9 of 9 last clients retained.</p>
+
+        {/* Worldwide merge — the audit told us to fold the Worldwide section
+            into About. Compact, single-line: IST hours + the three timezones a
+            foreign founder actually cares about. */}
+        <p class="about-worldwide mono" aria-label="Worldwide collaboration">
+          <span style="color:var(--accent,#ff4612);">↗</span>&nbsp;Async across US&nbsp;·&nbsp;UK&nbsp;·&nbsp;Gulf&nbsp;·&nbsp;Australia · <span style="opacity:.7;">IST 10am–7pm — US mornings, UK afternoons, Gulf evenings</span>
+        </p>
+
+        <div class="about-credit mono">
+          <span>Divyansh Sood — founder</span><span>Himachal · India · IST +5:30</span>
+        </div>
+
+        <div class="about-cta">
+          <a href={CALENDLY_URL} target="_blank" rel="noopener" data-cursor class="btn btn-primary">Book a 15-min intro <span aria-hidden="true">↗</span></a>
+          <a href="/#work" data-cursor class="btn btn-ghost btn-ghost-ink">See the work</a>
+        </div>
       </div>
     </div>
-    <div data-reveal>
-      <p style="margin:0 0 26px;font-size:18px;line-height:1.55;font-weight:500;max-width:380px;">Websites moving forward feel <span style="opacity:.62;">precise, natural, and impossible to overthink.</span> Every pixel earns its place — built for speed, clarity, and conversion.</p>
-      <div class="imgfill" style="width:100%;aspect-ratio:16/10;border-radius:6px;background-image:url('https://ik.imagekit.io/dn2zdxiu3/Portfolioprojectimages/AiWebsitegenerator/AiWebsitegenerator-2.webp');"></div>
-      <div style="display:flex;justify-content:space-between;margin-top:16px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.55;">
-        <span>↳ See the work</span><span>Showreel ●</span>
-      </div>
+
+    <div class="about-reasons">
+      {reasons.map((r) => (
+        <div class="ds-tile" data-reveal>
+          <span class="ds-tile-num">({r.n}) · {r.t}</span>
+          <h2 class="cs-card-h2 about-reason-d">{r.d}</h2>
+        </div>
+      ))}
     </div>
-  </div>
+  </Frame>
 </section>
+
+<style>
+  .about-h2 {
+    margin: 0 0 clamp(36px, 5vw, 56px);
+    font-weight: 900;
+    font-size: clamp(54px, 9.5vw, 150px);
+    line-height: 0.88;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+  }
+
+  /* Top row — photo anchor + intro. Balanced so the photo never strands a gap. */
+  .about-top {
+    display: grid;
+    grid-template-columns: 0.78fr 1.22fr;
+    gap: clamp(28px, 4vw, 56px);
+    align-items: stretch;
+    margin-bottom: clamp(36px, 5vw, 64px);
+  }
+  .about-photo {
+    width: 100%;
+    height: 100%;
+    min-height: 460px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.18);
+    background-color: #ffffff;
+  }
+  /* Light fallback so a missing photo doesn't drop a dark block on a light section. */
+  .about-photo-fallback {
+    background:
+      radial-gradient(120% 90% at 30% 10%, rgba(255, 70, 18, 0.12), transparent 55%),
+      linear-gradient(160deg, #f4f4f4, #e0e0e0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4 / 5;
+  }
+  .about-photo-mono {
+    font-family: "Archivo";
+    font-weight: 900;
+    font-size: clamp(64px, 12vw, 120px);
+    letter-spacing: -0.05em;
+    color: #0b0b0c;
+    opacity: 0.18;
+  }
+  .about-photo-cap {
+    position: absolute;
+    bottom: 14px; left: 0; right: 0;
+    text-align: center;
+    font-family: "Space Mono", monospace;
+    font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: #0b0b0c; opacity: 0.45;
+  }
+
+  .about-intro { display: flex; flex-direction: column; }
+  .about-lead {
+    margin: 0;
+    font-size: clamp(18px, 2vw, 21px);
+    line-height: 1.5;
+    font-weight: 600;
+    max-width: 620px;
+  }
+  .about-body {
+    margin: 18px 0 0;
+    font-size: 16px;
+    line-height: 1.62;
+    max-width: 620px;
+    opacity: 0.84;
+  }
+  .about-credit {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: auto;
+    padding-top: 26px;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.55;
+  }
+  .about-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 22px;
+  }
+
+  /* Merged-from-Worldwide single line. Kept compact so it doesn't add a
+     visible "section" — it just sits between the body paragraph and the
+     credit, giving a foreign prospect the timezone answer in 1 line. */
+  .about-worldwide {
+    margin: 18px 0 0;
+    padding: 10px 0 12px;
+    border-top: 1px dashed rgba(0, 0, 0, 0.18);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    line-height: 1.5;
+    color: #0b0b0c;
+    max-width: 620px;
+  }
+  /* ghost button reads on the light grey section */
+  .btn-ghost-ink { border-color: rgba(0, 0, 0, 0.32); color: #0b0b0c; }
+
+  /* Reasons — 3-up row, solid white cards with the same border language as the
+     Testimonials figures so both light-section frames read as one system. */
+  .about-reasons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-top: 0;
+  }
+  .about-reason {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 240px;
+    padding: 28px 26px 26px;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.18);
+    border-radius: 10px;
+    transition: border-color .3s ease, transform .3s cubic-bezier(.2,.8,.2,1);
+  }
+  .about-reason:hover {
+    border-color: rgba(0, 0, 0, 0.4);
+    transform: translateY(-3px);
+  }
+  .about-reason-n {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent, #ff4612);
+  }
+  .about-reason-t {
+    margin: 0;
+    font-weight: 800;
+    font-size: clamp(17px, 1.5vw, 19px);
+    letter-spacing: -0.01em;
+    line-height: 1.22;
+    color: #0b0b0c;
+  }
+  .about-reason-d {
+    margin: 0;
+    font-size: 14.5px;
+    line-height: 1.62;
+    opacity: 0.78;
+  }
+
+  @media (max-width: 860px) {
+    .about-top { grid-template-columns: 1fr; gap: 26px; margin-bottom: 32px; }
+    .about-photo { height: auto; min-height: 0; aspect-ratio: 4 / 5; }
+    .about-credit { margin-top: 24px; }
+    .about-reasons { grid-template-columns: 1fr; gap: 14px; }
+  }
+</style>

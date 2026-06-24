@@ -3,7 +3,9 @@ title: "How to Make Your Brand Quotable by AI (GEO in 2026)"
 description: "Search is splitting in two: links and answers. Most brands are invisible in the answer half. Here's how to make ChatGPT, Claude, Gemini and Perplexity cite you accurately."
 coverImage: "/blog/make-your-brand-quotable-by-ai-geo-2026.jpg"
 pubDate: 2026-06-02
+updatedDate: 2026-06-02
 tags: ["GEO", "AI search", "SEO", "llms.txt", "brand"]
+audience: "international"
 ---
 
 A growing share of your future customers will never see your website before they decide to trust you.
@@ -68,6 +70,4 @@ You can be the source instead. The brands that structure their facts now will be
 
 ---
 
-*I'm Divyansh Sood — I build custom-coded sites with SEO, AEO and GEO baked in from day one. 9 live builds, all shipping llms.txt and structured data.*
-
-*[See the work →](https://www.divyanshsood.com/#work) · [Start on WhatsApp →](https://wa.me/919816091875)*
+*I'm Divyansh Sood. I build sites with SEO, AEO and GEO wired in from the first line of code — llms.txt, JSON-LD graph, server-rendered content, schema on every page that earns it. 9 live builds since 2022. If your brand should be in the answer when AI tools get asked about your category, [email me](mailto:hello@divyanshsood.com) — I'll tell you within a day where the gap is.*

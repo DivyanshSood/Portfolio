@@ -1,0 +1,143 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import { CALENDLY_URL, GOOGLE_REVIEWS_URL } from "../lib/site.mjs";
+
+const SITE = "https://www.divyanshsood.com";
+const canonical = `${SITE}/privacy`;
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": `${canonical}#page`,
+      url: canonical,
+      name: "Privacy — Divyansh Sood® Studio",
+      description: "What divyanshsood.com collects, what it doesn't, who it shares with, and how to opt out.",
+      isPartOf: { "@id": `${SITE}/#website` },
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Privacy", item: canonical },
+      ],
+    },
+  ],
+});
+
+// Plain-English summary at the top, detail in the body. Matches the actual
+// runtime behaviour: GA + YM are gated behind consent, no third-party ad
+// scripts, no IP capture beyond what the CDN does on its own.
+const sections = [
+  {
+    h: "What runs when you arrive",
+    p: "Until you click \"Accept analytics\", the only request your browser makes to a third party is the one to fetch this site itself. No Google Analytics, no Yandex Metrica, no third-party pixels, no ad scripts. After Accept, see \"Analytics\" below.",
+  },
+  {
+    h: "Cookies",
+    p: "One cookie of our own: ds-cookie-consent, set when you choose Accept or Decline. It remembers your choice for one year so the banner doesn't show again. No third-party cookies. No advertising cookies.",
+  },
+  {
+    h: "Analytics",
+    p: "When you click Accept, the site loads Google Analytics 4 (with IP anonymisation enabled) and Yandex Metrica (without session replay or clickmap). They record page views, country-level geolocation, and referrer. Yandex-verified domain only — not loaded for any other site that hotlinks these scripts. To opt out, clear ds-cookie-consent from localStorage and click Decline on the next visit, or use your browser's Do Not Track signal.",
+  },
+  {
+    h: "What I don't collect",
+    p: "No name. No email. No phone. No payment info. This site is a portfolio — the only way to contact me is to send a message yourself, via the Calendly link, email, or WhatsApp (the channels are visible at the bottom of every page).",
+  },
+  {
+    h: "Hosting & CDN",
+    p: "Pages are served by Vercel (static files at the edge). Project images are served by ImageKit, an image CDN. Both will log your IP for the duration of the request as part of normal operation; I don't see those logs unless I debug a specific incident.",
+  },
+  {
+    h: "Reviews",
+    p: "The \"Read our Google reviews\" link goes to our public Google Business Profile. Loading that page is governed by Google's privacy policy, not mine.",
+  },
+  {
+    h: "Your rights (GDPR / CCPA)",
+    p: "If you're in the EU, UK, or California, you can ask what data we hold about you and have it deleted. We hold nothing tied to your identity — the analytics data is pseudonymous (a random client ID + IP-prefix only). For a verifiable request, email hello@divyanshsood.com.",
+  },
+  {
+    h: "Changes",
+    p: "If anything here changes materially, I'll update the date at the top of this page. The site does not have a comment system or a mailing list, so there is no in-product way to notify you.",
+  },
+];
+---
+<Layout
+  title="Privacy — what divyanshsood.com collects · Divyansh Sood® Studio"
+  description="What divyanshsood.com collects (and doesn't). Cookies, analytics gated behind consent, no third-party ads. Plain English, GDPR/CCPA."
+  canonical={canonical}
+  keywords="Divyansh Sood privacy, cookie policy, GDPR portfolio, CCPA web developer"
+  ogTitle="Privacy — plain English, no dark patterns"
+  ogDescription="What this site collects, what it doesn't, and how to opt out."
+  jsonld={jsonld}
+>
+  <Nav kicker="Privacy" />
+
+  <main>
+    <header class="cs-hero">
+      <div class="cs-hero-bg" aria-hidden="true"></div>
+      <div class="wrap">
+        <div class="cs-eyebrow">
+          <span>Privacy</span><span>Plain English, no dark patterns</span><span>Updated 2026-06</span>
+        </div>
+        <h1 class="cs-domain">Privacy.<span class="arrow">↗</span></h1>
+        <p class="cs-h1">The short version: <span class="tail">analytics only run after you click Accept, I never sell anything to anyone, and there's no third-party ad script on the page.</span></p>
+        <p class="cs-lead">If you want the full policy, the section-by-section breakdown is below. If you want to change your choice right now, the "Cookies" link in the footer reopens the banner.</p>
+        <div class="cs-cta-row">
+          <a class="btn btn-primary" href="#ds-cookie-settings" data-cookie-settings data-cursor>Open cookie settings</a>
+          <a class="btn btn-ghost" href={CALENDLY_URL} target="_blank" rel="noopener" data-cursor>Get in touch instead</a>
+        </div>
+      </div>
+    </header>
+
+    <section class="cs-sec" aria-labelledby="summary-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="summary-h">In 30 seconds</h2>
+          <span class="mono">TL;DR</span>
+        </div>
+        <div class="cs-body" data-reveal>
+          <div class="cs-card span2">
+            <span class="cs-tag">The one-line answer</span>
+            <p>This site is a portfolio. It does not collect personal data from visitors. The only thing it records is anonymous page-view counts, and only if you click "Accept analytics" on the cookie banner — which appears on first visit. That's it.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="detail-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="detail-h">Section by section</h2>
+          <span class="mono">Full policy</span>
+        </div>
+        <div class="cs-body" data-reveal>
+          {sections.map((s, i) => (
+            <div class={"cs-card" + (i % 4 === 0 ? " span2" : "")}>
+              <span class="cs-tag">({String(i + 1).padStart(2, "0")})</span>
+              <h2 class="cs-card-h2">{s.h}</h2>
+              <p>{s.p}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-endcta">
+      <div class="wrap">
+        <h2>Still have questions?</h2>
+        <p>If something on this page is unclear, or you want a verifiable data request under GDPR / CCPA, email <a href="mailto:hello@divyanshsood.com" style="color:var(--accent,#ff4612);text-decoration:underline;">hello@divyanshsood.com</a> — I reply personally within a couple of hours during IST working hours.</p>
+        <div class="cs-cta-row" style="justify-content:center;">
+          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener" data-cursor>Book a 15-min intro <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost" href={GOOGLE_REVIEWS_URL} target="_blank" rel="noopener" data-cursor>Read our Google reviews ↗</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>

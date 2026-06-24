@@ -3,7 +3,9 @@ title: "Custom Website vs WordPress: Which Is Better for Your Business?"
 description: "The honest answer on custom code vs. WordPress for Indian small businesses — what WordPress actually ships, where it fails on speed and SEO, and when custom is worth it."
 coverImage: "/blog/custom-website-vs-wordpress.jpg"
 pubDate: 2026-01-05
+updatedDate: 2026-01-05
 tags: ["WordPress", "web development", "India", "SEO"]
+audience: "indian-smb"
 ---
 
 WordPress powers 43% of the internet. That's a real statistic, and it gets quoted constantly — usually by someone trying to sell you a WordPress site.
@@ -155,6 +157,6 @@ You don't need a heavier tool. You need the right one.
 
 ---
 
-*Looking at your options for a business website? [WhatsApp me](https://wa.me/919816091875) — I'll tell you in 10 minutes what makes sense for your specific situation, no obligation.*
+*I'm Divyansh, solo developer out of Kangra Valley. Custom-coded websites for Indian small businesses — schools, tour operators, clinics, local brands. WhatsApp reply in under an hour, 9 AM–9 PM IST. If you're weighing WordPress against a custom build, [WhatsApp me your scope](https://wa.me/919816091875) and I'll tell you within a day what makes sense for your specific business.*
 
-*Or see what custom-built looks like in practice: [8 live client sites →](https://www.divyanshsood.com/#work)*
+*See what custom-built looks like in practice: [9 live client sites →](https://www.divyanshsood.com/#work)*

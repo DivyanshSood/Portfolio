@@ -3,7 +3,9 @@ title: "Wix vs. Custom Code: What ₹13,000 Actually Gets You"
 description: "A straight comparison: what Wix actually gives a small Indian business versus a ₹13,000 custom-coded site — performance, SEO, lead capture, and real cost over 3 years."
 coverImage: "/blog/wix-vs-custom-code-blog.jpg"
 pubDate: 2025-12-15
+updatedDate: 2025-12-15
 tags: ["Wix", "web development", "pricing", "India"]
+audience: "indian-smb"
 ---
 
 Every week, someone messages me with the same question:
@@ -111,6 +113,6 @@ That's the difference. That's what ₹13,000 gets you.
 
 ---
 
-*Want to see it in practice? Look at [Dharamshala Tours](https://www.divyanshsood.com/projects/dharamshala-tours) — WhatsApp-first, custom CMS, ~1,000 bookings/month. Or [Nandini Travels](https://www.divyanshsood.com/projects/nandini) — rebuilt from a broken site to direct bookings in under 2 weeks.*
+*I'm Divyansh, solo developer out of Kangra Valley. Custom-coded websites for Indian small businesses — from ₹13,000, live in 14 days. WhatsApp reply in under an hour, 9 AM–9 PM IST. [Drop me a message](https://wa.me/919816091875) and I'll tell you within a day whether a custom build makes sense for what you're running — or point you at someone who'd be a better fit if it doesn't.*
 
-*If you're ready to stop renting and start owning — [WhatsApp me](https://wa.me/919816091875). Reply in under an hour, 9 AM–9 PM IST.*
+*See real examples: [Dharamshala Tours](https://www.divyanshsood.com/projects/dharamshala-tours) — WhatsApp-first, custom CMS, ~1,000 bookings/month. [Nandini Travels](https://www.divyanshsood.com/projects/nandini) — rebuilt from a broken site to direct bookings in under 2 weeks.*

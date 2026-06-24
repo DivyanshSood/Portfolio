@@ -1,0 +1,231 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import { CALENDLY_URL } from "../lib/site.mjs";
+
+const SITE = "https://www.divyanshsood.com";
+const canonical = `${SITE}/website-audit`;
+
+const checks = [
+  { t: "Conversion path", d: "Where the friction is. I click through your buyers' path and flag the page where it shows up." },
+  { t: "Page speed", d: "Lighthouse on a throttled 4G phone, not on your office wifi. Most of your traffic is on phones." },
+  { t: "Mobile UX", d: "How the site feels at 11pm with one thumb. That's when most of your buyers actually decide." },
+  { t: "SEO & AI visibility", d: "Whether Google and ChatGPT can find you and quote you. Cheap to set up right now." },
+  { t: "Trust & credibility", d: "Whether a stranger would buy from you in 30 seconds. Logos, proof, polish — the parts that earn a yes." },
+  { t: "Message clarity", d: "5-second test. I show the homepage to someone who hasn't heard of you. If they can't say what you do out loud, we have a clarity gap." },
+];
+
+const faqs = [
+  { q: "Is the free audit really free?", a: "Yes. No upsell, no calendar chasing. Send a URL, get a Loom. I'll mention the deep dive once if it makes sense." },
+  { q: "How fast do I get it?", a: "Free: 3–4 days. Deep dive: within a week plus a 30-min call. I keep a small buffer so I can deliver on time." },
+  { q: "Do I have to hire you afterwards?", a: "Up to you. Take the findings to whoever. I'll be glad to implement, glad if you don't — both work." },
+];
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "@id": `${canonical}#service`,
+      name: "Website audit",
+      serviceType: "Website conversion, SEO & performance audit",
+      provider: { "@id": `${SITE}/#person` },
+      areaServed: [{ "@type": "Country", name: "India" }, { "@type": "Place", name: "Worldwide" }],
+      description:
+        "A free quick website audit (walkthrough of the biggest wins) plus an optional paid deep-dive teardown covering conversion, SEO, performance and UX, for founders worldwide.",
+      url: canonical,
+      offers: [
+        { "@type": "Offer", name: "Free quick audit", price: "0", priceCurrency: "USD" },
+        { "@type": "Offer", name: "Deep-dive audit", price: "250", priceCurrency: "USD" },
+      ],
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Website audit", item: canonical },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+    },
+  ],
+});
+---
+
+<Layout
+  title="Free website audit — Divyansh Sood® Studio"
+  description="Get a free walkthrough of the biggest conversion, speed and SEO wins on your website — plus an optional paid deep-dive teardown. For founders worldwide. Send your URL."
+  canonical={canonical}
+  keywords="free website audit, website conversion audit, website teardown, SEO audit, page speed audit, UX audit, website review, Divyansh Sood"
+  ogTitle="Free website audit — find what's costing you customers"
+  ogDescription="A free walkthrough of the biggest conversion, speed and SEO wins on your site — plus an optional deep-dive teardown."
+  jsonld={jsonld}
+>
+  <Nav kicker="Website audit" />
+
+  <main>
+    <header class="cs-hero">
+      <div class="cs-hero-bg" aria-hidden="true"></div>
+      <div class="wrap">
+        <div class="cs-eyebrow">
+          <span>Website audit</span><span>Free + deep-dive</span><span>2026</span>
+        </div>
+        <h1 style="margin:14px 0 0;font-weight:900;font-size:clamp(38px,7vw,96px);line-height:.9;letter-spacing:-.035em;text-transform:uppercase;">Is your site<br />costing you <span style="color:var(--accent);">customers?</span></h1>
+        <p class="cs-lead">Most sites leak revenue in the same few places — a slow first load, a fuzzy message, a buy button that hides. Send me your URL and I'll show you exactly where, and what I'd fix first.</p>
+        <div class="cs-cta-row">
+          <a class="btn btn-primary" href="#audit-form" data-cursor>Get my free audit ↓</a>
+          <a class="btn btn-ghost" href={CALENDLY_URL} target="_blank" rel="noopener" data-cursor>Book a call instead</a>
+        </div>
+      </div>
+    </header>
+
+    <section class="cs-sec" aria-labelledby="tiers-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="tiers-h">Two ways to get audited</h2>
+          <span class="mono">Free or deep</span>
+        </div>
+        <div class="cs-body" data-reveal>
+          <div class="cs-card">
+            <span class="cs-tag">Free · 3–4 days · Quick audit</span>
+            <h2 class="cs-card-h2">Send a URL. 3–4 day turnaround. A 5-min Loom of the 3–5 highest-impact fixes — what's broken, what I'd change, what I'd leave alone. Yours to keep.</h2>
+            <div style="margin-top:18px;font-weight:900;font-size:clamp(28px,4vw,44px);letter-spacing:-.03em;color:var(--accent);">$0</div>
+          </div>
+          <div class="cs-card">
+            <span class="cs-tag">Deep dive · within a week · Full teardown + strategy call</span>
+            <h2 class="cs-card-h2">Written teardown across conversion, SEO, speed, UX. 30-min call. Hand the fix list to any developer — me, your in-house team, whoever. Up to you.</h2>
+            <div style="margin-top:18px;font-weight:900;font-size:clamp(28px,4vw,44px);letter-spacing:-.03em;color:var(--accent);">from $250</div>
+            <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener" data-cursor style="margin-top:20px;">Book the deep dive <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="look-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="look-h">What I look at</h2>
+          <span class="mono">Six lenses</span>
+        </div>
+        <div class="cs-body" data-reveal>
+          {checks.map((c) => (
+            <div class="cs-card">
+              <span class="cs-tag">{c.t}</span>
+              <h2 class="cs-card-h2">{c.d}</h2>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="proof-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="proof-h">It works in practice</h2>
+          <span class="mono">From a real rebuild</span>
+        </div>
+        <figure class="cs-card cs-quote span2" data-reveal>
+          <span class="cs-tag">In their words</span>
+          <blockquote>"The website is so beautiful — looks 10 times more premium than our competitors. We started getting direct bookings instead of losing them to Google Maps."</blockquote>
+          <figcaption>— Founder, Nandini Travels</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="cs-sec" id="audit-form" aria-labelledby="form-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="form-h">Get your free audit</h2>
+          <span class="mono">Takes 30 seconds</span>
+        </div>
+        <form id="ds-audit-form" data-reveal style="max-width:620px;border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:30px;background:linear-gradient(180deg,rgba(255,255,255,.03),transparent);">
+          <label for="au-url" style="display:block;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.6;margin-bottom:8px;">Your website URL *</label>
+          <input id="au-url" type="url" required placeholder="https://yourwebsite.com" autocomplete="url" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.25);color:#fff;font-family:'Space Mono',monospace;font-size:14px;padding:12px 2px;outline:none;margin-bottom:24px;" />
+          <label for="au-email" style="display:block;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.6;margin-bottom:8px;">Email</label>
+          <input id="au-email" type="email" placeholder="So I can send the teardown" autocomplete="email" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.25);color:#fff;font-family:'Space Mono',monospace;font-size:14px;padding:12px 2px;outline:none;margin-bottom:24px;" />
+          <label for="au-goal" style="display:block;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.6;margin-bottom:8px;">What should this site do better? (optional)</label>
+          <input id="au-goal" type="text" placeholder="More leads, faster load, more sales…" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.25);color:#fff;font-family:'Space Mono',monospace;font-size:14px;padding:12px 2px;outline:none;margin-bottom:30px;" />
+          <button type="submit" class="btn btn-primary" data-cursor>Get my free audit <span aria-hidden="true">↗</span></button>
+          <p style="margin:18px 0 0;font-family:'Space Mono',monospace;font-size:11px;line-height:1.6;opacity:.5;">Sends your details to me on WhatsApp — no spam, no list.</p>
+        </form>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="faq-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="faq-h">Frequently asked</h2>
+          <span class="mono">About the audit</span>
+        </div>
+        <div class="cs-faq">
+          {faqs.map((f, i) => (
+            <div class="cs-faq-row">
+              <button class="cs-faq-q" data-faqtog={i} aria-expanded="false" aria-controls={`faq-audit-${i}`}>
+                <span>{f.q}</span><span class="cs-faq-icon" data-faqicon={i} aria-hidden="true">+</span>
+              </button>
+              <div class="cs-faq-a" id={`faq-audit-${i}`} data-faqbody={i}><p>{f.a}</p></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-endcta">
+      <div class="wrap">
+        <h2>Prefer to just talk it through?</h2>
+        <p>Book a 15-minute slot. We'll pull up your site live. I'll tell you what I'd fix first, free, and you decide on the rest.</p>
+        <div class="cs-cta-row" style="justify-content:center;">
+          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener" data-cursor>Book an intro call <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost" href="/#work" data-cursor>See the work</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<script is:inline>
+  (function () {
+    var root = document.getElementById("ds-root");
+    if (!root) return;
+
+    /* faq accordion */
+    var faq = -1;
+    function sync() {
+      root.querySelectorAll("[data-faqbody]").forEach(function (el) {
+        var open = Number(el.getAttribute("data-faqbody")) === faq;
+        el.style.maxHeight = open ? el.scrollHeight + "px" : "0px";
+        el.style.opacity = open ? "1" : "0";
+      });
+      root.querySelectorAll("[data-faqicon]").forEach(function (el) {
+        el.style.transform = Number(el.getAttribute("data-faqicon")) === faq ? "rotate(45deg)" : "rotate(0deg)";
+      });
+      root.querySelectorAll("[data-faqtog]").forEach(function (el) {
+        el.setAttribute("aria-expanded", Number(el.getAttribute("data-faqtog")) === faq ? "true" : "false");
+      });
+    }
+    root.querySelectorAll("[data-faqtog]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        var i = Number(el.getAttribute("data-faqtog"));
+        faq = faq === i ? -1 : i;
+        sync();
+      });
+    });
+    var rt;
+    window.addEventListener("resize", function () {
+      if (faq < 0) return;
+      clearTimeout(rt);
+      rt = setTimeout(sync, 120);
+    });
+    sync();
+  })();
+</script>
+
+<script>
+  import initContactForms from "../scripts/contact-form.js";
+  initContactForms();
+</script>

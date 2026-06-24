@@ -3,7 +3,9 @@ title: "How a Taxi Business in Kangra Moved from Google Maps to Direct Website B
 description: "Nandini Travels was the most-reviewed taxi operator in Kangra — and had zero direct bookings. Here's how a WhatsApp-first website changed that within weeks."
 coverImage: "/blog/nandini-travels-case-study-blog.jpg"
 pubDate: 2025-10-15
+updatedDate: 2025-10-15
 tags: ["case study", "Himachal Pradesh", "taxi", "direct bookings"]
+audience: "indian-smb"
 ---
 
 Nandini Travels had something most businesses spend years trying to build.
@@ -107,4 +109,6 @@ You need both. And right now, most local businesses in Himachal only have one.
 
 *Want to see the live site? [Nandini Travels →](https://www.divyanshsood.com/projects/nandini)*
 
-*Running a taxi, travel, or tour business in Himachal Pradesh? [WhatsApp me](https://wa.me/919816091875) — I'll tell you in 10 minutes what your site needs.*
+*I'm Divyansh, solo developer out of Kangra Valley. I build direct-booking websites for taxi services, tour operators and travel businesses across Himachal and India — WhatsApp-first, mobile-first, with route-specific pages that rank on Google.*
+
+*Running a taxi, travel, or tour business in Himachal Pradesh? [WhatsApp me](https://wa.me/919816091875) — I'll tell you within a day what your site needs.*

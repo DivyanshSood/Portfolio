@@ -3,7 +3,9 @@ title: "Page Speed Is a Brand Statement"
 description: "A slow site doesn't just rank worse — it tells every visitor something about how you run your business. Why performance is a premium signal, and how fast 'fast' actually has to be."
 coverImage: "/blog/page-speed-is-a-brand-statement.jpg"
 pubDate: 2026-04-20
+updatedDate: 2026-04-20
 tags: ["performance", "Core Web Vitals", "brand", "custom code", "SEO"]
+audience: "international"
 ---
 
 Imagine walking into a boutique where the door sticks, the lights flicker for a second, and the rack you want slides open half a beat late.
@@ -72,6 +74,4 @@ Fast is a feeling. Premium brands can't afford to feel slow.
 
 ---
 
-*I'm Divyansh Sood — I build custom-coded sites that hit Lighthouse 90+ on mobile by default. 9 live builds. WhatsApp reply in under an hour.*
-
-*[See the work →](https://www.divyanshsood.com/#work) · [Start on WhatsApp →](https://wa.me/919816091875)*
+*I'm Divyansh Sood. Every site I ship hits Lighthouse 90+ on a mid-range Android on mobile data — not because it's technically impressive, because it's the floor for a site that converts. 9 live builds. If a premium brand is reading this and seeing themselves in the "sluggish site contradicts the pitch" problem, [book a 15-min intro](https://calendly.com/divyanshsood/intro-call) and I'll tell you what your current numbers actually are.*

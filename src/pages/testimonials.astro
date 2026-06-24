@@ -1,0 +1,109 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import { CALENDLY_URL, GOOGLE_REVIEWS_URL } from "../lib/site.mjs";
+
+const SITE = "https://www.divyanshsood.com";
+const canonical = `${SITE}/testimonials`;
+
+// Every quote here is real and already used in case studies / homepage schema.
+const reviews = [
+  { quote: "The website is so beautiful — looks 10 times more premium than our competitors. We started getting direct bookings instead of losing them to Google Maps.", who: "Founder", org: "Nandini Travels · Kangra", slug: "nandini" },
+  { quote: "Every other agency said 6 months. Delivered in 7 days.", who: "Admin", org: "Modern K.B.S. · Ladwara", slug: "modernkbs" },
+  { quote: "I did not think it could be achieved without going to e-commerce builders and only using custom code.", who: "Chinki, Founder", org: "ChinkiZ Knitting Knife · 600K+ subs", slug: "chinkiz" },
+  { quote: "Divyansh is amazing with his work. We are glad it worked out so fast and so well.", who: "Founder", org: "InHimalayas", slug: "inhimalayas" },
+  { quote: "Exactly what we wanted. I will refer Divyansh within my circle for life.", who: "Founder", org: "North Peak Power Systems", slug: "northpeak" },
+  { quote: "Incredible — no ordinary agency could have delivered this.", who: "Founder", org: "Redline Studios", slug: "redline" },
+];
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "@id": `${canonical}#page`,
+      url: canonical,
+      name: "Testimonials — Divyansh Sood® Studio",
+      description: "What clients say about working with Divyansh Sood — founders of travel, e-commerce, education and creator brands.",
+      isPartOf: { "@id": `${SITE}/#website` },
+      about: { "@id": `${SITE}/#studio` },
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Testimonials", item: canonical },
+      ],
+    },
+    ...reviews.map((r) => ({
+      "@type": "Review",
+      reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5", worstRating: "1" },
+      author: { "@type": "Organization", name: r.org.split(" · ")[0] },
+      itemReviewed: { "@id": `${SITE}/#studio` },
+      reviewBody: r.quote,
+    })),
+  ],
+});
+---
+
+<Layout
+  title="Testimonials — what clients say · Divyansh Sood® Studio"
+  description="What clients say about working with Divyansh Sood — from a school admin to a 600K-subscriber creator and a Kangra taxi operator. Real words from real founders worldwide."
+  canonical={canonical}
+  keywords="Divyansh Sood reviews, web designer testimonials, client testimonials, web developer reviews, freelance web designer reviews"
+  ogTitle="Testimonials — what clients say"
+  ogDescription="Real words from real founders — travel, e-commerce, education and creator brands."
+  jsonld={jsonld}
+>
+  <Nav kicker="Testimonials" />
+
+  <main>
+    <header class="cs-hero">
+      <div class="cs-hero-bg" aria-hidden="true"></div>
+      <div class="wrap">
+        <div class="cs-eyebrow">
+          <span>Testimonials</span><span>In their own words</span><span>2022—2026</span>
+        </div>
+        <h1 style="margin:14px 0 0;font-weight:900;font-size:clamp(38px,7vw,96px);line-height:.9;letter-spacing:-.035em;text-transform:uppercase;">What clients <span style="color:var(--accent);">actually say.</span></h1>
+        <p class="cs-lead">No stock quotes, no invented names. These are real founders — a school admin, a 600K-subscriber creator, a taxi operator — describing what changed after we shipped.</p>
+        <div class="cs-cta-row">
+          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener" data-cursor>Book an intro call <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost" href={GOOGLE_REVIEWS_URL} target="_blank" rel="noopener" data-cursor>Read our Google reviews ↗</a>
+          <a class="btn btn-ghost" href="/results" data-cursor>See the results</a>
+        </div>
+      </div>
+    </header>
+
+    <section class="cs-sec" aria-labelledby="rev-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="rev-h">Every word is real</h2>
+          <span class="mono">Six clients</span>
+        </div>
+        <div class="cs-body" data-reveal>
+          {reviews.map((r) => (
+            <figure class="cs-card cs-quote" style="margin:0;">
+              <span class="cs-tag">{r.org.split(" · ")[0]}</span>
+              <blockquote>"{r.quote}"</blockquote>
+              <figcaption>— {r.who}, {r.org} · <a href={`/projects/${r.slug}`} data-cursor>case study →</a></figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-endcta">
+      <div class="wrap">
+        <h2>Be the next one.</h2>
+        <p>Custom-coded, no builder lock-in, most projects live in 3–4 weeks. Tell me what you're building and I'll tell you within a day if it's a fit.</p>
+        <div class="cs-cta-row" style="justify-content:center;">
+          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener" data-cursor>Book an intro call <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost" href="/#work" data-cursor>See all work</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>

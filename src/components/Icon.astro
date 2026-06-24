@@ -1,0 +1,58 @@
+---
+// Icon — single inline-SVG icon component. Icons inherit `currentColor` and
+// scale with `size`, so they pick up the site's accent / text colors for free
+// and add zero network requests.
+//
+// To add an icon: paste its SVG path/contents (24×24 viewBox, stroke-based) as
+// a new entry in `icons` below. From Framer: right-click a vector → Copy SVG,
+// then drop the inner markup here under a kebab-case name.
+
+export interface Props {
+  name: string;
+  size?: number | string; // px number or any CSS length
+  stroke?: number;
+  class?: string;
+  label?: string; // accessible name; omit for decorative icons (aria-hidden)
+}
+
+const { name, size = 18, stroke = 2, class: cls = "", label } = Astro.props;
+
+const icons: Record<string, string> = {
+  // On-brand arrow used across the site's CTAs (replaces the ↗ glyph).
+  "arrow-up-right": '<path d="M7 17 17 7M17 7H8M17 7v9" />',
+  // Paste more Framer icons here, e.g.:
+  // "star": '<path d="..." />',
+};
+
+const body = icons[name] ?? "";
+const px = typeof size === "number" ? `${size}px` : size;
+---
+
+{
+  body && (
+    <svg
+      class={`ds-icon ${cls}`}
+      width={px}
+      height={px}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width={stroke}
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      role={label ? "img" : undefined}
+      aria-label={label}
+      aria-hidden={label ? undefined : "true"}
+    >
+      <Fragment set:html={body} />
+    </svg>
+  )
+}
+
+<style>
+  .ds-icon {
+    display: inline-block;
+    flex: none;
+    vertical-align: middle;
+  }
+</style>

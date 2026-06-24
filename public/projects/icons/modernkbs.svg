@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Modern K.B.S. — school platform + admin panel">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="35%" r="80%">
+      <stop offset="0%" stop-color="#1c1c1e"/>
+      <stop offset="100%" stop-color="#0b0b0c"/>
+    </radialGradient>
+    <linearGradient id="glassFill" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.22"/>
+      <stop offset="50%" stop-color="#ffffff" stop-opacity="0.07"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.13"/>
+    </linearGradient>
+    <linearGradient id="topHighlight" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#ffffff" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="redGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ff4612" stop-opacity="0.65"/>
+      <stop offset="60%" stop-color="#ff4612" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#ff4612" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="bigBlur" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="22"/>
+    </filter>
+    <filter id="dropShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="8"/>
+      <feOffset dx="0" dy="6"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.55"/></feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="512" height="512" fill="url(#bg)"/>
+
+  <!-- Red glow behind building -->
+  <circle cx="256" cy="270" r="130" fill="url(#redGlow)" filter="url(#bigBlur)"/>
+
+  <!-- Glass panel -->
+  <g filter="url(#dropShadow)">
+    <rect x="56" y="56" width="400" height="400" rx="92" fill="url(#glassFill)" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1.5"/>
+  </g>
+
+  <!-- Top edge highlight -->
+  <rect x="80" y="56" width="352" height="2.5" rx="1.25" fill="url(#topHighlight)"/>
+
+  <!-- Graduation cap (top, floating) -->
+  <g transform="translate(256 150)">
+    <!-- Mortarboard top -->
+    <polygon points="-58,0 0,-22 58,0 0,22" fill="#ffffff" fill-opacity="0.85"/>
+    <!-- Cap base -->
+    <path d="M -38 8 Q -38 28 0 32 Q 38 28 38 8 L 38 18 L 0 28 L -38 18 Z" fill="#ffffff" fill-opacity="0.7"/>
+    <!-- Tassel -->
+    <line x1="58" y1="0" x2="74" y2="22" stroke="#ff4612" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="74" cy="22" r="4" fill="#ff4612"/>
+    <line x1="74" y1="22" x2="78" y2="34" stroke="#ff4612" stroke-width="2" stroke-linecap="round"/>
+  </g>
+
+  <!-- School building: pediment + columns + base -->
+  <g transform="translate(256 290)">
+    <!-- Pediment (triangular roof) -->
+    <polygon points="-110,0 110,0 0,-58" fill="#ffffff" fill-opacity="0.18" stroke="#ffffff" stroke-opacity="0.55" stroke-width="2" stroke-linejoin="round"/>
+    <!-- Architrave -->
+    <rect x="-118" y="0" width="236" height="12" fill="#ffffff" fill-opacity="0.22" stroke="#ffffff" stroke-opacity="0.5" stroke-width="1.6"/>
+    <!-- Columns -->
+    <g fill="#ffffff" fill-opacity="0.16" stroke="#ffffff" stroke-opacity="0.5" stroke-width="1.4">
+      <rect x="-104" y="14" width="22" height="100"/>
+      <rect x="-58" y="14" width="22" height="100"/>
+      <rect x="-12" y="14" width="24" height="100"/>
+      <rect x="36" y="14" width="22" height="100"/>
+      <rect x="82" y="14" width="22" height="100"/>
+    </g>
+    <!-- Column capitals -->
+    <g fill="#ffffff" fill-opacity="0.3">
+      <rect x="-108" y="14" width="30" height="6"/>
+      <rect x="-62" y="14" width="30" height="6"/>
+      <rect x="-15" y="14" width="30" height="6"/>
+      <rect x="33" y="14" width="30" height="6"/>
+      <rect x="79" y="14" width="30" height="6"/>
+    </g>
+    <!-- Stylobate (base steps) -->
+    <rect x="-126" y="114" width="252" height="14" rx="2" fill="#ffffff" fill-opacity="0.22" stroke="#ffffff" stroke-opacity="0.5" stroke-width="1.6"/>
+    <rect x="-134" y="128" width="268" height="10" rx="2" fill="#ffffff" fill-opacity="0.18" stroke="#ffffff" stroke-opacity="0.4" stroke-width="1.4"/>
+    <!-- Door (red accent) -->
+    <rect x="-12" y="60" width="24" height="54" rx="2" fill="#ff4612" fill-opacity="0.85"/>
+  </g>
+</svg>

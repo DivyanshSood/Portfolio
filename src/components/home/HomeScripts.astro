@@ -1,7 +1,7 @@
 ---
 // Homepage interactivity (inlined, no framework): hero load-in, the services +
-// FAQ accordions, and the contact form → WhatsApp deep-link. Targets elements
-// by data-* attribute so it works regardless of how the sections are composed.
+// FAQ accordions. Contact form is handled by the shared contact-form.js
+// module imported below.
 ---
 
 <script is:inline>
@@ -71,29 +71,10 @@
       });
     });
     syncAccordion();
-
-    /* contact form -> WhatsApp */
-    var form = document.getElementById("ds-contact-form");
-    if (form) {
-      form.addEventListener("submit", function (e) {
-        e.preventDefault();
-        function val(id) {
-          var n = document.getElementById(id);
-          return n ? n.value.trim() : "";
-        }
-        var name = val("cf-name"),
-          email = val("cf-email"),
-          msg = val("cf-msg");
-        var nw = document.getElementById("cf-new");
-        var lines = [];
-        lines.push("Hi Divyansh, I’d like to start a project.");
-        if (name) lines.push("Name: " + name);
-        if (email) lines.push("Email: " + email);
-        if (msg) lines.push("Project: " + msg);
-        if (nw && nw.checked) lines.push("I need a brand-new website.");
-        var text = encodeURIComponent(lines.join("\n"));
-        window.open("https://wa.me/919816091875?text=" + text, "_blank", "noopener");
-      });
-    }
   })();
+</script>
+
+<script>
+  import initContactForms from "../../scripts/contact-form.js";
+  initContactForms();
 </script>

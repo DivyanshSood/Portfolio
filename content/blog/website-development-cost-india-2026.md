@@ -3,7 +3,9 @@ title: "Website Development Cost in India (2026 Guide)"
 description: "Real website development costs in India for 2026 — from ₹7,000 landing pages to ₹1,50,000 custom apps, with honest guidance on what's worth paying for."
 coverImage: "/blog/website-development-cost-india-2026.jpg"
 pubDate: 2026-01-20
+updatedDate: 2026-01-20
 tags: ["web development", "pricing", "India"]
+audience: "indian-smb"
 ---
 
 "How much does a website cost in India?"
@@ -191,4 +193,8 @@ Know what you need. Ask the right questions. Judge the work by its output.
 
 ---
 
-*Have a specific project in mind? [WhatsApp me](https://wa.me/919816091875) and I'll give you a straight quote in 10 minutes — no discovery call, no proposal deck.*
+*I'm Divyansh, solo developer out of Kangra Valley. Landing page ₹7K, 5-page business site ₹13–16K, school or D2C ₹48–55K. GST invoice on first payment, 50/50 schedule, Day-5 design preview with full refund if you don't like what you see.*
+
+*If you're an international founder (US/UK/EU/Australia), the same scope starts at $3,000 USD — see the [homepage pricing](/#pricing) for the Foundation, Growth and Scale plans.*
+
+*[WhatsApp me your scope](https://wa.me/919816091875) and I'll give you a straight quote in 10 minutes — no discovery call, no proposal deck.*

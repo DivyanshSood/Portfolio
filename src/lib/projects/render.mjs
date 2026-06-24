@@ -28,11 +28,27 @@ function imgFigure(item, { lcp = false, ratio = "16 / 10", cls = "" } = {}) {
       </figure>`;
 }
 
+// Phone-framed screenshot (only used when a project supplies `mobileShots`).
+function mobileFigure(item) {
+  return `<figure style="margin:0;flex:none;width:clamp(170px,42vw,250px);aspect-ratio:9 / 19.5;border:9px solid #16161a;border-radius:32px;overflow:hidden;background:#16161a;box-shadow:0 28px 60px -34px rgba(0,0,0,.7);">
+        <img src="${esc(tr(item.src, 420))}" srcset="${esc(srcset(item.src))}" sizes="(max-width:860px) 50vw, 250px"
+             width="420" height="910" alt="${esc(item.alt)}" loading="lazy" decoding="async"
+             style="width:100%;height:100%;object-fit:cover;display:block;">
+      </figure>`;
+}
+
 function bodyCard(w) {
   if (w.type === "quote") {
+    // Optional `gloss` renders an English translation right under a non-English
+    // quote so a foreign prospect isn't stranded on a Hindi/Hinglish line.
+    // Set `glossLabel` to override the default "Translation:".
+    const gloss = w.gloss
+      ? `<p class="cs-quote-gloss"><span class="cs-quote-gloss-l">${esc(w.glossLabel || "Translation")}:</span> <span class="cs-quote-gloss-t">${esc(w.gloss)}</span></p>`
+      : "";
     return `<figure class="cs-card cs-quote${w.span2 ? " span2" : ""}">
           <span class="cs-tag">${esc(w.tag)}</span>
-          <blockquote>${esc(w.quote)}</blockquote>
+          <blockquote lang="${esc(w.lang || "en")}">${esc(w.quote)}</blockquote>
+          ${gloss}
           ${w.attribution ? `<figcaption>${esc(w.attribution)}</figcaption>` : ""}
         </figure>`;
   }
@@ -45,7 +61,7 @@ function bodyCard(w) {
   }
   return `<div class="cs-card${w.span2 ? " span2" : ""}">
           <span class="cs-tag">${esc(w.tag)}</span>
-          ${w.title ? `<h3>${w.title}</h3>` : ""}
+          ${w.title ? `<h2 class="cs-card-h2">${w.title}</h2>` : ""}
           <p>${w.html}</p>
         </div>`;
 }
@@ -251,6 +267,22 @@ export function renderProjectMain(p) {
       </div>
     </section>
 
+    ${
+      p.mobileShots && p.mobileShots.length
+        ? `<section class="cs-sec" aria-labelledby="mobile-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="mobile-h">On mobile</h2>
+          <span class="mono">Where most visitors land</span>
+        </div>
+        <div data-reveal style="display:flex;gap:22px;overflow-x:auto;padding:6px 0 12px;-webkit-overflow-scrolling:touch;">
+        ${p.mobileShots.map(mobileFigure).join("\n        ")}
+        </div>
+      </div>
+    </section>`
+        : ""
+    }
+
     <section class="cs-sec" aria-labelledby="faq-h">
       <div class="wrap">
         <div class="cs-sec-head">
@@ -275,7 +307,7 @@ export function renderProjectMain(p) {
     <section class="cs-endcta">
       <div class="wrap">
         <h2>Want one like this?</h2>
-        <p>Custom-coded, conversion-focused, live in about 3–4 weeks. Tell me what you're building.</p>
+        <p>Same brief, different scale. Tell me what you're building and I'll tell you within a day if it's a fit.</p>
         <div class="cs-cta-row" style="justify-content:center;">
           <a class="btn btn-primary" href="${esc(p.waHref)}" target="_blank" rel="noopener" data-cursor>Build something similar <span aria-hidden="true">↗</span></a>
           <a class="btn btn-ghost" href="/#work" data-cursor>See all work</a>

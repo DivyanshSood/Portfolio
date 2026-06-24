@@ -3,7 +3,9 @@ title: "What Is llms.txt — And Why Your Business Website Needs One in 2025"
 description: "What llms.txt is, why AI tools like ChatGPT and Perplexity use it to find businesses, and why most Indian websites are invisible to this growing search channel."
 coverImage: "/blog/what-is-llms-txt-blog.jpg"
 pubDate: 2025-12-01
+updatedDate: 2026-06-24
 tags: ["AI search", "llms.txt", "SEO", "web development"]
+audience: "international"
 ---
 
 There's a new kind of search happening right now, and most Indian business websites are completely invisible to it.
@@ -11,6 +13,8 @@ There's a new kind of search happening right now, and most Indian business websi
 Not invisible to Google. Invisible to ChatGPT. To Perplexity. To Claude. To every AI assistant that hundreds of millions of people now use to find businesses, compare services, and make purchase decisions.
 
 A file called `llms.txt` is one of the simplest ways to fix that. Most developers haven't implemented it yet. Almost none in India are talking about it.
+
+> **Updated June 2026:** the predictions in this post from late 2025 have largely held. Adoption has crept up — mostly in the developer-tooling and SaaS corners, almost not at all on Indian SMB sites. The playbook below is unchanged; the gap has widened for the businesses that ignored it.
 
 Here's what it is, why it matters, and what happens to businesses that ignore it.
 
@@ -153,6 +157,6 @@ Every site I build has it from day one. It takes thirty minutes to implement cor
 
 ---
 
-*Building a website that works for both Google and AI search? [WhatsApp me](https://wa.me/919816091875) — I'll tell you what your current site is missing.*
+*I'm Divyansh Sood. Every site I ship comes with `llms.txt` at the root, server-rendered content, schema on every page that earns it, and a Lighthouse score above 90 on mobile. 9 live builds. If your business should be in the answer when AI tools get asked about your category and isn't, [email me](mailto:hello@divyanshsood.com) — I'll tell you where the gap is in plain terms.*
 
 *See how GEO was built into InHimalayas from day one: [InHimalayas case study →](https://www.divyanshsood.com/projects/inhimalayas)*

@@ -27,7 +27,6 @@
   .cs-glance div{border-right:0;}
   .cs-glance div:last-child{border-bottom:0;}
 }
-@media (max-width:760px){#ds-cursor{display:none;}}
 @media (max-width:640px){
   /* Phones: pull card / metric padding in so copy keeps its side margins, and let
      long "next project" names wrap instead of forcing sideways overflow. */

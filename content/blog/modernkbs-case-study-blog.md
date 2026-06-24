@@ -3,7 +3,9 @@ title: "A School Needed a Website and an Admissions Portal. Every Agency Said 6 
 description: "Modern K.B.S. School in Himachal Pradesh needed a website and working admissions portal simultaneously. Every agency quoted 6 months. A case study in what's actually possible with custom code."
 coverImage: "/blog/modernkbs-case-study-blog.jpg"
 pubDate: 2026-02-20
+updatedDate: 2026-02-20
 tags: ["case study", "Himachal Pradesh", "school", "admissions portal"]
+audience: "indian-smb"
 ---
 
 Modern K.B.S. is a CBSE school in Ladwara, Himachal Pradesh.
@@ -114,4 +116,6 @@ That's the shift a good website makes. From reactive — answering the same ques
 
 *Modern K.B.S. live site: [view project →](https://www.divyanshsood.com/projects/modernkbs)*
 
-*Running a school, coaching centre, or institution in Himachal Pradesh that needs a website built right — and fast? [WhatsApp me](https://wa.me/919816091875). I'll give you a clear picture of what's possible and what it costs, in one conversation.*
+*I'm Divyansh, solo developer out of Kangra Valley. I build school websites and admissions portals for institutions across Himachal and India — custom-coded, mobile-first, with an admin panel your office staff can run without calling a developer.*
+
+*Running a school, coaching centre, or institution that needs a website built right — and fast? [WhatsApp me](https://wa.me/919816091875). I'll give you a clear picture of what's possible and what it costs, in one conversation.*

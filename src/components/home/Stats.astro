@@ -1,17 +1,186 @@
 ---
-// Results / stats band. `home-section` is a responsive hook (mobile side-padding).
+// Results / stats band. Three skeuomorphic stat cards on a dark stage —
+// site-orange raised tiles with a hard Y2K offset shadow, inset highlights
+// for the pressed/plastic feel, and a halftone dot texture for the comic
+// edge. No glassmorphism, no radial glow — just ink, paper, and offset depth.
+import Frame from "./Frame.astro";
+// Stat cards. Each label carries a denominator so a sceptical buyer can't
+// dismiss the number as soft — "9 of 9 retained since 2022" lands harder
+// than "98% retention". Kept short enough to fit on a single tile.
+const stats = [
+  {
+    target: "20", suffix: "+", decimals: "0", display: "20+",
+    label: "Products live since 2022",
+    sub: "9 with full case studies · the rest under NDA",
+  },
+  {
+    target: "1.5", prefix: "<", suffix: "s", decimals: "1", display: "<1.5s",
+    label: "LCP on real 4G",
+    sub: "Every site I ship, measured — not promised",
+  },
+  {
+    target: "9", suffix: " / 9", decimals: "0", display: "9/9",
+    label: "Last 9 clients retained",
+    sub: "The first one is still with me after 3+ years",
+  },
+];
 ---
 
-<section class="home-section" style="position:relative;z-index:2;background:var(--accent,#ff4612);color:#0b0b0c;padding:80px 30px;overflow:hidden;">
-  <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;opacity:.65;margin-bottom:50px;">
-    <span>(Results — 04)</span><span>By the numbers</span>
-  </div>
-  <div class="g-split" style="display:grid;grid-template-columns:1fr 1.4fr;gap:50px;align-items:start;">
-    <div style="display:flex;flex-direction:column;gap:40px;">
-      <div data-reveal><div style="font-weight:900;font-size:clamp(50px,7vw,96px);line-height:.9;letter-spacing:-.03em;">20+</div><div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:.7;margin-top:8px;">Projects shipped<br />since 2022</div></div>
-      <div data-reveal><div style="font-weight:900;font-size:clamp(50px,7vw,96px);line-height:.9;letter-spacing:-.03em;">3.2s</div><div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:.7;margin-top:8px;">Faster average<br />load time</div></div>
-      <div data-reveal><div style="font-weight:900;font-size:clamp(50px,7vw,96px);line-height:.9;letter-spacing:-.03em;">98%</div><div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:.7;margin-top:8px;">Client<br />retention</div></div>
-    </div>
-    <h2 data-reveal style="margin:0;font-weight:900;font-size:clamp(44px,7.5vw,128px);line-height:.86;letter-spacing:-.04em;text-transform:uppercase;text-align:right;">Every result here started with a problem worth solving.</h2>
+<section class="home-section ds-results">
+  <div class="ds-results-inner">
+    <Frame label="Results" index="04" note="By the numbers" tone="dark">
+      <h2 data-reveal data-heading-reveal class="ds-results-title">
+        Every result here started with a<br />
+        <span class="ds-results-accent">problem worth solving.</span>
+      </h2>
+
+      <div class="ds-results-grid">
+        {stats.map((s) => (
+          <article class="ds-stat" data-reveal>
+            <span class="ds-stat-noise" aria-hidden="true"></span>
+            <div
+              class="ds-stat-num"
+              data-counter={s.target}
+              data-counter-target={s.target}
+              data-counter-prefix={s.prefix ?? ""}
+              data-counter-suffix={s.suffix ?? ""}
+              data-counter-decimals={s.decimals}
+            >{s.display}</div>
+            <div class="ds-stat-label mono">{s.label}</div>
+            <div class="ds-stat-sub mono">{s.sub}</div>
+          </article>
+        ))}
+      </div>
+    </Frame>
   </div>
 </section>
+
+<style>
+  .ds-results-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+
+  .ds-results-title {
+    margin: 0 0 56px;
+    font-weight: 900;
+    font-size: clamp(34px, 5.2vw, 76px);
+    line-height: 0.98;
+    letter-spacing: -0.03em;
+    max-width: 16ch;
+    color: #fff;
+  }
+
+  /* Highlight-marker style: black text on a solid orange tile, with its own
+     hard offset shadow. Reads like a yellow marker, but in brand orange. */
+  .ds-results-accent {
+    color: #0b0b0c;
+    background: var(--accent, #ff4612);
+    padding: 0.02em 0.22em 0.06em;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    box-shadow: 5px 5px 0 0 #0b0b0c;
+    display: inline-block;
+  }
+
+  .ds-results-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+
+  /* -------- Stat card -------------------------------------------------
+     Skeuomorphic Y2K tile:
+       - solid brand-orange face
+       - chunky black border (comic outline)
+       - hard 8px black offset (Y2K depth, no blur)
+       - inset white highlight on top + inset black shadow on bottom
+         (the classic pressed-plastic skeuomorphic read)
+       - halftone dot pattern (manga / comic texture)
+  --------------------------------------------------------------------- */
+  .ds-stat {
+    position: relative;
+    background: var(--accent, #ff4612);
+    color: #0b0b0c;
+    border: 2.5px solid #0b0b0c;
+    border-radius: 4px;
+    padding: 38px 30px 28px;
+    box-shadow:
+      8px 8px 0 0 #0b0b0c,
+      inset 0 3px 0 rgba(255, 255, 255, 0.38),
+      inset 0 -5px 0 rgba(0, 0, 0, 0.20);
+    transition: transform 0.25s cubic-bezier(.2, .8, .2, 1),
+                box-shadow 0.25s cubic-bezier(.2, .8, .2, 1);
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  /* Y2K halftone / manga screentone */
+  .ds-stat-noise {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(11, 11, 12, 0.11) 1px, transparent 1.5px);
+    background-size: 7px 7px;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+    z-index: 0;
+  }
+
+  /* Tactile hover: lift further off the page */
+  .ds-stat:hover {
+    transform: translate(-3px, -3px);
+    box-shadow:
+      11px 11px 0 0 #0b0b0c,
+      inset 0 3px 0 rgba(255, 255, 255, 0.45),
+      inset 0 -5px 0 rgba(0, 0, 0, 0.24);
+  }
+
+  /* Hanko / 印章 seal dropped — kept the rest of the skeuomorphic Y2K tile */
+
+  .ds-stat-num {
+    position: relative;
+    z-index: 1;
+    font-weight: 900;
+    font-size: clamp(48px, 6vw, 84px);
+    line-height: 0.86;
+    letter-spacing: -0.03em;
+    color: #0b0b0c;
+    font-variant-numeric: tabular-nums;
+    /* Y2K comic emboss: subtle white offset for an ink-on-glossy-stock feel */
+    text-shadow: 1.5px 1.5px 0 rgba(255, 255, 255, 0.45);
+  }
+
+  .ds-stat-label {
+    position: relative;
+    z-index: 1;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #0b0b0c;
+    margin-top: 18px;
+    line-height: 1.5;
+    opacity: 0.78;
+  }
+  .ds-stat-sub {
+    position: relative;
+    z-index: 1;
+    font-size: 10.5px;
+    letter-spacing: 0.04em;
+    color: #0b0b0c;
+    margin-top: 6px;
+    line-height: 1.5;
+    opacity: 0.55;
+    /* don't uppercase the sub — it's a normal sentence that needs to read */
+    text-transform: none;
+    max-width: 24ch;
+  }
+
+  @media (max-width: 760px) {
+    .ds-results { padding: 80px 24px 72px; }
+    .ds-results-title { margin-bottom: 38px; }
+    .ds-results-grid { grid-template-columns: 1fr; gap: 20px; }
+    .ds-stat { padding: 32px 26px 24px; }
+  }
+</style>

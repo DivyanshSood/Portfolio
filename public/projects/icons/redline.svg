@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Redline Studios — streetwear apparel brand">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="35%" r="80%">
+      <stop offset="0%" stop-color="#1c1c1e"/>
+      <stop offset="100%" stop-color="#0b0b0c"/>
+    </radialGradient>
+    <linearGradient id="glassFill" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.22"/>
+      <stop offset="50%" stop-color="#ffffff" stop-opacity="0.07"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.13"/>
+    </linearGradient>
+    <linearGradient id="topHighlight" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#ffffff" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="stripeGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ff4612" stop-opacity="0.95"/>
+      <stop offset="50%" stop-color="#ff4612" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#ff4612" stop-opacity="0.95"/>
+    </linearGradient>
+    <radialGradient id="redGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ff4612" stop-opacity="0.75"/>
+      <stop offset="60%" stop-color="#ff4612" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#ff4612" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="bigBlur" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="24"/>
+    </filter>
+    <filter id="dropShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="8"/>
+      <feOffset dx="0" dy="6"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.55"/></feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="512" height="512" fill="url(#bg)"/>
+
+  <!-- Red glow behind stripe -->
+  <circle cx="256" cy="260" r="170" fill="url(#redGlow)" filter="url(#bigBlur)"/>
+
+  <!-- Glass panel -->
+  <g filter="url(#dropShadow)">
+    <rect x="56" y="56" width="400" height="400" rx="92" fill="url(#glassFill)" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1.5"/>
+  </g>
+
+  <!-- Top edge highlight -->
+  <rect x="80" y="56" width="352" height="2.5" rx="1.25" fill="url(#topHighlight)"/>
+
+  <!-- Subtle track lines (perspective grid) -->
+  <g stroke="#ffffff" stroke-opacity="0.18" stroke-width="1" fill="none">
+    <line x1="92" y1="180" x2="420" y2="180"/>
+    <line x1="92" y1="220" x2="420" y2="220"/>
+    <line x1="92" y1="280" x2="420" y2="280"/>
+    <line x1="92" y1="340" x2="420" y2="340"/>
+    <line x1="92" y1="400" x2="420" y2="400"/>
+  </g>
+  <g stroke="#ffffff" stroke-opacity="0.14" stroke-width="1" fill="none">
+    <line x1="160" y1="120" x2="100" y2="420"/>
+    <line x1="220" y1="120" x2="200" y2="420"/>
+    <line x1="256" y1="120" x2="256" y2="420"/>
+    <line x1="292" y1="120" x2="312" y2="420"/>
+    <line x1="352" y1="120" x2="412" y2="420"/>
+  </g>
+
+  <!-- The racing S-stripe (main symbol) -->
+  <path d="M 132 132
+           C 232 168, 332 168, 412 224
+           C 332 280, 232 280, 132 336
+           L 132 372
+           C 232 316, 332 316, 412 260
+           C 332 204, 232 204, 132 168 Z"
+        fill="url(#stripeGrad)"/>
+  <!-- Inner highlight on stripe -->
+  <path d="M 140 140
+           C 234 174, 326 174, 404 226
+           L 404 230
+           C 326 180, 234 180, 140 148 Z"
+        fill="#ffffff" fill-opacity="0.45"/>
+  <!-- Edge outline -->
+  <path d="M 132 132
+           C 232 168, 332 168, 412 224
+           C 332 280, 232 280, 132 336
+           L 132 372
+           C 232 316, 332 316, 412 260
+           C 332 204, 232 204, 132 168 Z"
+        fill="none" stroke="#ffffff" stroke-opacity="0.55" stroke-width="1.6" stroke-linejoin="round"/>
+
+  <!-- End caps -->
+  <circle cx="132" cy="150" r="6" fill="#ffffff" fill-opacity="0.85"/>
+  <circle cx="132" cy="354" r="6" fill="#ffffff" fill-opacity="0.85"/>
+  <circle cx="412" cy="242" r="6" fill="#ffffff" fill-opacity="0.85"/>
+</svg>

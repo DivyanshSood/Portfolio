@@ -1,0 +1,212 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import { CALENDLY_URL, GOOGLE_REVIEWS_URL } from "../lib/site.mjs";
+
+const SITE = "https://www.divyanshsood.com";
+const canonical = `${SITE}/agencies`;
+const WA = "https://wa.me/919816091875?text=Hi%20Divyansh,%20I%20run%20an%20agency%20and%20I'm%20looking%20for%20a%20build%20partner.";
+
+const offers = [
+  { t: "Overflow capacity", d: "When your team is buried and a client needs the build in two weeks, I pick up the work and run with it. Your PM doesn't have to onboard me twice." },
+  { t: "White-label builds", d: "Your client sees your brand end to end. Your NDA, your Slack handle, your contract." },
+  { t: "Design-to-code", d: "Figma at 9am your time, real URL by EOD. I design in code, not in handoff, so what you review is what ships." },
+  { t: "Specialist stacks", d: "The work in-house teams would rather hand off — custom storefronts, web apps, headless rebuilds, AI features." },
+];
+
+const how = [
+  { n: "01", t: "You keep the client", d: "Everything routes through you. If your client emails me directly, I send them back to you. You keep the relationship and the margin." },
+  { n: "02", t: "One clear brief", d: "Within 48 hours: what I can ship, what I'd cut, what it costs. In writing. If the fit's off, I'll tell you." },
+  { n: "03", t: "Build in milestones", d: "A staging link every Friday. You see what's done, what's next, what to bill against." },
+  { n: "04", t: "Clean handoff", d: "Repo, README, a Loom walking through the architecture. Then I'm available whenever the next project comes." },
+];
+
+const faqs = [
+  { q: "Do you truly white-label?", a: "Yes — across the Figma file, the git commits, the invoice. Your client sees one name: yours." },
+  { q: "What do you charge agencies?", a: "Project-based or a day rate. Keener than my direct rate because you bring the brief, the client, and the PM." },
+  { q: "Who owns the code?", a: "Your client's. 100%. Signed IP transfer with the final invoice." },
+  { q: "How do we communicate across time zones?", a: "Whatever tool you already use. I take your 7am call when it has to be 7am." },
+];
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "@id": `${canonical}#service`,
+      name: "White-label web development for agencies",
+      serviceType: "White-label & overflow web development",
+      provider: { "@id": `${SITE}/#person` },
+      areaServed: [{ "@type": "Country", name: "India" }, { "@type": "Place", name: "Worldwide" }],
+      description:
+        "White-label and overflow web development for design and marketing agencies worldwide — custom-coded websites, stores, web apps and AI features built under your brand, NDA-friendly, you own the code.",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "For agencies", item: canonical },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+    },
+  ],
+});
+---
+
+<Layout
+  title="White-label web development for agencies — Divyansh Sood® Studio"
+  description="A reliable white-label build partner for design and marketing agencies worldwide. Overflow capacity, design-to-code and full custom builds under your brand — NDA-friendly, you own the code, live in 3–4 weeks."
+  canonical={canonical}
+  keywords="white-label web development, agency build partner, overflow web developer, subcontract web developer, design to code, white label developer for agencies, Divyansh Sood"
+  ogTitle="White-label web development for agencies"
+  ogDescription="Overflow capacity and full custom builds under your brand. NDA-friendly, you own the code, on time."
+  jsonld={jsonld}
+>
+  <Nav kicker="For agencies" />
+
+  <main>
+    <header class="cs-hero">
+      <div class="cs-hero-bg" aria-hidden="true"></div>
+      <div class="wrap">
+        <div class="cs-eyebrow">
+          <span>For agencies</span><span>White-label · overflow</span><span>2026</span>
+        </div>
+        <h1 style="margin:14px 0 0;font-weight:900;font-size:clamp(38px,7vw,96px);line-height:.9;letter-spacing:-.035em;text-transform:uppercase;">Your build partner<br /><span style="color:var(--accent);">behind the scenes.</span></h1>
+        <p class="cs-lead">When your pipeline outgrows your team, I'm the senior developer who ships under your brand — custom-coded, NDA-friendly, with everything routed through you. Design and marketing agencies worldwide use me as overflow capacity and as the partner for the builds their in-house team would rather hand off.</p>
+        <div class="cs-cta-row">
+          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener" data-cursor>Book a partner call <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost" href={WA} target="_blank" rel="noopener" data-cursor>Message on WhatsApp</a>
+        </div>
+        <div class="cs-meta">
+          <span>Under your brand · NDA-friendly</span><span>Async across 5 time zones</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="cs-sec" aria-labelledby="offer-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="offer-h">How agencies use me</h2>
+          <span class="mono">The offering</span>
+        </div>
+        <div class="cs-body" data-reveal>
+          {offers.map((o) => (
+            <div class="cs-card">
+              <span class="cs-tag">{o.t}</span>
+              <h2 class="cs-card-h2">{o.d}</h2>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="how-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="how-h">How we'd work together</h2>
+          <span class="mono">You stay in front</span>
+        </div>
+        <div class="cs-body" data-reveal>
+          {how.map((s) => (
+            <div class="cs-card">
+              <span class="cs-tag">({s.n}) {s.t}</span>
+              <h2 class="cs-card-h2">{s.d}</h2>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="proof-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="proof-h">Reliable, on the record</h2>
+          <span class="mono">Track record</span>
+        </div>
+        <div class="cs-metrics" data-reveal>
+          <div class="cs-metric"><span class="cs-metric-v">20+</span><span class="cs-metric-l">Projects shipped since 2022</span></div>
+          <div class="cs-metric"><span class="cs-metric-v">7 days</span><span class="cs-metric-l">Fastest full site delivered</span></div>
+          <div class="cs-metric"><span class="cs-metric-v">3–4 wks</span><span class="cs-metric-l">Typical time to live</span></div>
+          <div class="cs-metric"><span class="cs-metric-v">98%</span><span class="cs-metric-l">Client retention</span></div>
+        </div>
+        <figure class="cs-card cs-quote span2" data-reveal style="margin-top:22px;">
+          <span class="cs-tag">North Peak Power</span>
+          <blockquote>"Exactly what we wanted. I will refer Divyansh within my circle for life."</blockquote>
+          <figcaption>— Founder, North Peak Power · <a href="/testimonials" data-cursor>more proof →</a> · <a href={GOOGLE_REVIEWS_URL} target="_blank" rel="noopener" data-cursor>Google reviews ↗</a></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="faq-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="faq-h">Frequently asked</h2>
+          <span class="mono">For partners</span>
+        </div>
+        <div class="cs-faq">
+          {faqs.map((f, i) => (
+            <div class="cs-faq-row">
+              <button class="cs-faq-q" data-faqtog={i} aria-expanded="false" aria-controls={`faq-agency-${i}`}>
+                <span>{f.q}</span><span class="cs-faq-icon" data-faqicon={i} aria-hidden="true">+</span>
+              </button>
+              <div class="cs-faq-a" id={`faq-agency-${i}`} data-faqbody={i}><p>{f.a}</p></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-endcta">
+      <div class="wrap">
+        <h2>Need a build partner?</h2>
+        <p>Send a brief. If it's a fit, I'll quote within 48 hours. If it isn't, I'll point you at someone who'd be a better fit.</p>
+        <div class="cs-cta-row" style="justify-content:center;">
+          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener" data-cursor>Book a partner call <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost" href="/#work" data-cursor>See the work</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<script is:inline>
+  (function () {
+    var root = document.getElementById("ds-root");
+    if (!root) return;
+    var faq = -1;
+    function sync() {
+      root.querySelectorAll("[data-faqbody]").forEach(function (el) {
+        var open = Number(el.getAttribute("data-faqbody")) === faq;
+        el.style.maxHeight = open ? el.scrollHeight + "px" : "0px";
+        el.style.opacity = open ? "1" : "0";
+      });
+      root.querySelectorAll("[data-faqicon]").forEach(function (el) {
+        el.style.transform = Number(el.getAttribute("data-faqicon")) === faq ? "rotate(45deg)" : "rotate(0deg)";
+      });
+      root.querySelectorAll("[data-faqtog]").forEach(function (el) {
+        el.setAttribute("aria-expanded", Number(el.getAttribute("data-faqtog")) === faq ? "true" : "false");
+      });
+    }
+    root.querySelectorAll("[data-faqtog]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        var i = Number(el.getAttribute("data-faqtog"));
+        faq = faq === i ? -1 : i;
+        sync();
+      });
+    });
+    var rt;
+    window.addEventListener("resize", function () {
+      if (faq < 0) return;
+      clearTimeout(rt);
+      rt = setTimeout(sync, 120);
+    });
+    sync();
+  })();
+</script>

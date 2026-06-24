@@ -1,4 +1,5 @@
 ---
+import { CALENDLY_URL } from "../lib/site.mjs";
 export interface Props {
   kicker?: string;
 }
@@ -13,10 +14,12 @@ const { kicker = "Design & dev studio" } = Astro.props;
   <div style="display:flex;align-items:center;gap:30px;">
     <div class="nav-links">
       <a href="/#work">Works</a>
+      <a href="/results">Results</a>
+      <a href="/about">About</a>
+      <a href="/website-audit">Audit</a>
       <a href="/blog/">Blog</a>
-      <a href="/#about">About</a>
       <a href="/#contact">Contact</a>
     </div>
-    <a href="/#contact" data-cursor class="nav-cta">Start a project <span aria-hidden="true">↗</span></a>
+    <a href={CALENDLY_URL} target="_blank" rel="noopener" data-cursor class="nav-cta">Book a call <span aria-hidden="true">↗</span></a>
   </div>
 </nav>

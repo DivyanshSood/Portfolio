@@ -1,16 +1,20 @@
 ---
 // Contact form + homepage footer. `home-section` is a responsive hook (mobile
 // side-padding). The form submit is wired to WhatsApp in HomeScripts.astro.
+import Frame from "./Frame.astro";
+import { CALENDLY_URL } from "../../lib/site.mjs";
 ---
 
 <section id="contact" class="home-section" style="position:relative;z-index:2;background:#0b0b0c;color:#fff;padding:80px 30px 0;border-top:1px solid rgba(255,255,255,.14);">
-  <div class="g-split" style="display:grid;grid-template-columns:.9fr 1.4fr;gap:60px;padding-bottom:80px;">
+  <Frame label="Contact" index="08" note="India · Worldwide" tone="dark">
+  <div class="g-split" style="display:grid;grid-template-columns:.9fr 1.4fr;gap:60px;padding-bottom:20px;">
     <div>
-      <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;opacity:.55;margin-bottom:30px;">(Contact — 08)</div>
-      <div style="border:1px solid rgba(255,255,255,.14);border-radius:3px;padding:20px;margin-bottom:34px;max-width:320px;">
+      <div style="border:1px solid rgba(255,255,255,.14);border-radius:3px;padding:20px;margin-bottom:22px;max-width:320px;">
         <div style="width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#ff4612,#7a1e00);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:#fff;margin-bottom:14px;">DS</div>
         <p style="margin:0;font-size:14px;line-height:1.55;opacity:.8;">"I'll personally review your brief and get back to you within two hours."</p>
       </div>
+      <a href={CALENDLY_URL} target="_blank" rel="noopener" data-cursor class="btn btn-primary" style="margin-bottom:14px;">Book an intro call <span aria-hidden="true">↗</span></a>
+      <p style="margin:0 0 30px;font-family:'Space Mono',monospace;font-size:11px;line-height:1.6;opacity:.55;max-width:300px;">Prefer to talk first? Grab a 15-minute slot — your time zone, no commitment.</p>
       <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.62;margin-bottom:6px;">Contact</div>
       <a href="tel:+919816091875" data-cursor style="display:block;font-weight:700;font-size:22px;letter-spacing:-.01em;margin-bottom:18px;color:#fff;text-decoration:none;">+91 98160 91875</a>
       <a href="mailto:hello@divyanshsood.com" data-cursor style="font-family:'Space Mono',monospace;font-size:13px;opacity:.8;color:#fff;text-decoration:none;">hello@divyanshsood.com</a>
@@ -36,8 +40,9 @@
       </form>
     </div>
   </div>
+  </Frame>
 
-  <div class="g-foot" style="border-top:1px solid rgba(255,255,255,.14);padding:46px 0;display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;">
+  <div class="g-foot" style="margin-top:40px;border-top:1px solid rgba(255,255,255,.14);padding:46px 0;display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;">
     <div>
       <div style="font-family:'Archivo';font-weight:900;font-size:34px;letter-spacing:-.04em;margin-bottom:18px;">DIVYANSH SOOD<sup style="font-size:13px;top:-1em;">®</sup></div>
       <div style="font-family:'Caveat',cursive;font-weight:700;font-size:40px;color:var(--accent,#ff4612);transform:rotate(-6deg);transform-origin:left;">Divyansh Sood</div>
@@ -53,10 +58,16 @@
     <div style="font-family:'Space Mono',monospace;font-size:13px;line-height:1.9;">
       <div style="font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.6;margin-bottom:10px;">Studio</div>
       <div style="opacity:.8;">India ·<br />Worldwide</div>
-      <div style="margin-top:16px;display:flex;gap:16px;opacity:.8;"><a href="https://github.com/DivyanshSood" target="_blank" rel="noopener" style="color:#fff;text-decoration:none;">GitHub ↗</a><a href="https://www.linkedin.com/in/divyansh-sood-023556151/" target="_blank" rel="noopener" style="color:#fff;text-decoration:none;">LinkedIn ↗</a></div>
+      <div style="margin-top:16px;display:flex;gap:16px;opacity:.8;flex-wrap:wrap;"><a href="https://github.com/DivyanshSood" target="_blank" rel="noopener" style="color:#fff;text-decoration:none;">GitHub ↗</a><a href="https://www.linkedin.com/in/divyansh-sood-023556151/" target="_blank" rel="noopener" style="color:#fff;text-decoration:none;">LinkedIn ↗</a><a href="/portfolio.pdf" target="_blank" rel="noopener" data-cursor style="color:#fff;text-decoration:none;">Portfolio PDF ↗</a></div>
     </div>
   </div>
   <div style="border-top:1px solid rgba(255,255,255,.14);padding:20px 0;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;opacity:.62;">
-    <span>© 2026 Divyansh Sood Studio</span><span>Designed &amp; built with intent</span><a href="#top" data-cursor style="color:#fff;text-decoration:none;">Back to top ↑</a>
+    <span>© 2026 Divyansh Sood Studio</span>
+    <span style="display:inline-flex;gap:14px;flex-wrap:wrap;">
+      <a href="/privacy" data-cursor style="color:#fff;text-decoration:none;">Privacy</a>
+      <a href="#ds-cookie-settings" data-cookie-settings data-cursor style="color:#fff;text-decoration:none;">Cookies</a>
+      <a href="/colophon" data-cursor style="color:#fff;text-decoration:none;">Colophon</a>
+    </span>
+    <a href="#top" data-cursor style="color:#fff;text-decoration:none;">Back to top ↑</a>
   </div>
 </section>

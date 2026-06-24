@@ -3,7 +3,9 @@ title: "Custom Code vs Webflow for Funded Startups"
 description: "Webflow gets you a beautiful marketing site fast. But there's a point where it starts taxing your team and your roadmap. Here's how funded startups should decide between Webflow and custom code."
 coverImage: "/blog/custom-code-vs-webflow-for-startups.jpg"
 pubDate: 2026-05-12
+updatedDate: 2026-05-12
 tags: ["startups", "Webflow", "custom code", "Next.js", "SaaS"]
+audience: "international"
 ---
 
 Webflow is genuinely good. This isn't the usual "no-code is fake" argument.
@@ -82,6 +84,4 @@ If it's part of the product — or it's about to be — every month you delay go
 
 ---
 
-*I'm Divyansh Sood — I build custom-coded sites and web apps in React, Next.js and Astro. 9 live builds, including the AI product [WebSeek.ai](https://www.divyanshsood.com/projects/webseek).*
-
-*[See the work →](https://www.divyanshsood.com/#work) · [Start on WhatsApp →](https://wa.me/919816091875)*
+*I'm Divyansh Sood — I build custom-coded marketing sites and web apps for funded startups in React, Next.js and Astro. 9 live builds, including [WebSeek.ai](https://www.divyanshsood.com/projects/webseek), where the marketing surface and product share one codebase. If you're at the Webflow-or-custom decision point, [book a 15-min intro](https://calendly.com/divyanshsood/intro-call) — I'll tell you honestly which way I'd go for your specific case.*

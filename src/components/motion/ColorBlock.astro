@@ -1,0 +1,41 @@
+---
+// Wraps a section so the page background smoothly transitions as the
+// section enters/leaves the viewport. Each ColorBlock declares a target
+// color; ScrollTrigger crossfades a fixed overlay to that color.
+
+export interface Props {
+  bg?: "dark" | "light" | "accent" | "ink";
+  height?: string;
+  flush?: boolean; // if true, no padding (used for full-bleed split sections)
+}
+
+const { bg = "dark", height, flush = false } = Astro.props;
+
+const bgColor =
+  bg === "light"
+    ? "#ededed"
+    : bg === "accent"
+    ? "var(--accent, #ff4612)"
+    : bg === "ink"
+    ? "#0f1416"
+    : "#0b0b0c";
+---
+
+<div
+  class="ds-colorblock"
+  data-colorblock
+  data-colorblock-bg={bg}
+  style={`background:${bgColor};${height ? `min-height:${height};` : ""}${flush ? "" : "padding:80px 30px;"}`}
+>
+  <slot />
+</div>
+
+<style>
+  .ds-colorblock {
+    position: relative;
+    width: 100%;
+    color: #fff;
+  }
+  .ds-colorblock[data-colorblock-bg="light"] { color: #0b0b0c; }
+  .ds-colorblock[data-colorblock-bg="accent"] { color: #0b0b0c; }
+</style>

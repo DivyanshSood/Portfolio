@@ -3,7 +3,9 @@ title: "Scarcity by Design: What Hand-Numbered Drops Teach About D2C"
 description: "Limited drops aren't a gimmick — they're a different business model with different software needs. What building a hand-numbered apparel brand taught me about scarcity, story, and the storefront."
 coverImage: "/blog/scarcity-by-design-hand-numbered-drops.jpg"
 pubDate: 2026-05-22
+updatedDate: 2026-05-22
 tags: ["D2C", "e-commerce", "brand", "drops", "custom code"]
+audience: "d2c-brand"
 ---
 
 There are two ways to sell apparel online.
@@ -65,6 +67,6 @@ The brands that win at the premium end aren't selling better cotton. They're sel
 
 ---
 
-*I'm Divyansh Sood — I build custom-coded storefronts for brands with a model that doesn't fit a template. 9 live builds, including [CultXberserk](https://www.divyanshsood.com/projects/cultxberserk).*
+*I'm Divyansh Sood. I built [CultXberserk](https://www.divyanshsood.com/projects/cultxberserk) — a hand-numbered apparel label where every garment carries an individual identity, never restocks, and earns the "limited" tag by actually meaning it. The custom storefront had to do unit-level inventory, drop state, and provenance that off-the-shelf stores simply don't model. 9 live builds since 2022.*
 
-*[See the work →](https://www.divyanshsood.com/#work) · [Start on WhatsApp →](https://wa.me/919816091875)*
+*If your brand is a real drop model — or you want to build one — [email me](mailto:hello@divyanshsood.com). I'll tell you within a day whether custom code is worth it or whether a headless Shopify setup gets you there cheaper.*

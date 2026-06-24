@@ -3,7 +3,9 @@ title: "Why Your Instagram Page Isn't a Website — And What That Costs You"
 description: "Most Indian SMBs run their business from Instagram DMs and think that's enough. Here's what that model actually costs in leads, Google visibility, and long-term business control."
 coverImage: "/blog/instagram-page-vs-website-india.jpg"
 pubDate: 2026-04-05
+updatedDate: 2026-04-05
 tags: ["Instagram", "web development", "lead generation", "India"]
+audience: "indian-smb"
 ---
 
 You built 8,000 followers. Posted 400 Reels. Replied to every DM.
@@ -112,6 +114,6 @@ You don't need to choose between Instagram and a website. You need both — doin
 
 ---
 
-*I build websites for small businesses in Himachal Pradesh and across India — starting at ₹13,000, live in 14 days, custom-coded with WhatsApp-first lead capture.*
+*I'm Divyansh, solo developer out of Kangra Valley. I build websites for small businesses in Himachal Pradesh and across India — starting at ₹13,000, live in 14 days, custom-coded with WhatsApp-first lead capture.*
 
-*[WhatsApp me](https://wa.me/919816091875) — I'll look at your Instagram and tell you what a website would add.*
+*[WhatsApp me](https://wa.me/919816091875) — I'll look at your Instagram, tell you within a day what a website would add, and if it doesn't make sense for your stage, I'll say so.*

@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="CultXberserk — Berserk-inspired apparel brand">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="35%" r="80%">
+      <stop offset="0%" stop-color="#1c1c1e"/>
+      <stop offset="100%" stop-color="#0b0b0c"/>
+    </radialGradient>
+    <linearGradient id="glassFill" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.22"/>
+      <stop offset="50%" stop-color="#ffffff" stop-opacity="0.07"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.13"/>
+    </linearGradient>
+    <linearGradient id="topHighlight" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#ffffff" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="bladeGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.92"/>
+      <stop offset="60%" stop-color="#ffffff" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#ff4612" stop-opacity="0.5"/>
+    </linearGradient>
+    <linearGradient id="guardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ff4612"/>
+      <stop offset="100%" stop-color="#7a1d04"/>
+    </linearGradient>
+    <radialGradient id="redGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ff4612" stop-opacity="0.7"/>
+      <stop offset="60%" stop-color="#ff4612" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#ff4612" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="bigBlur" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="22"/>
+    </filter>
+    <filter id="dropShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="8"/>
+      <feOffset dx="0" dy="6"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.55"/></feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="512" height="512" fill="url(#bg)"/>
+
+  <!-- Red glow behind sword -->
+  <ellipse cx="256" cy="270" rx="170" ry="150" fill="url(#redGlow)" filter="url(#bigBlur)"/>
+
+  <!-- Glass panel -->
+  <g filter="url(#dropShadow)">
+    <rect x="56" y="56" width="400" height="400" rx="92" fill="url(#glassFill)" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1.5"/>
+  </g>
+
+  <!-- Top edge highlight -->
+  <rect x="80" y="56" width="352" height="2.5" rx="1.25" fill="url(#topHighlight)"/>
+
+  <!-- Sword (vertical, slightly rotated) -->
+  <g transform="rotate(-12 256 256)">
+    <!-- Blade -->
+    <polygon points="248,108 264,108 274,348 238,348" fill="url(#bladeGrad)" stroke="#ffffff" stroke-opacity="0.5" stroke-width="1.4" stroke-linejoin="round"/>
+    <!-- Center fuller line -->
+    <line x1="256" y1="120" x2="256" y2="340" stroke="#ffffff" stroke-opacity="0.5" stroke-width="1"/>
+    <!-- Cross guard -->
+    <rect x="216" y="332" width="80" height="22" rx="4" fill="url(#guardGrad)" stroke="#ffffff" stroke-opacity="0.55" stroke-width="1.4"/>
+    <!-- Grip -->
+    <rect x="244" y="354" width="24" height="60" rx="3" fill="#ffffff" fill-opacity="0.55" stroke="#ffffff" stroke-opacity="0.5" stroke-width="1.4"/>
+    <!-- Grip wrap lines -->
+    <line x1="246" y1="362" x2="266" y2="362" stroke="#0b0b0c" stroke-opacity="0.45" stroke-width="1.6"/>
+    <line x1="246" y1="376" x2="266" y2="376" stroke="#0b0b0c" stroke-opacity="0.45" stroke-width="1.6"/>
+    <line x1="246" y1="390" x2="266" y2="390" stroke="#0b0b0c" stroke-opacity="0.45" stroke-width="1.6"/>
+    <line x1="246" y1="404" x2="266" y2="404" stroke="#0b0b0c" stroke-opacity="0.45" stroke-width="1.6"/>
+    <!-- Pommel -->
+    <circle cx="256" cy="424" r="14" fill="url(#guardGrad)" stroke="#ffffff" stroke-opacity="0.55" stroke-width="1.4"/>
+  </g>
+
+  <!-- Brand of Sacrifice (eye symbol) on blade center -->
+  <g transform="translate(256 218)">
+    <!-- Eye outline -->
+    <path d="M -34 0 Q 0 -22 34 0 Q 0 22 -34 0 Z" fill="none" stroke="#ff4612" stroke-width="2.4" stroke-linejoin="round"/>
+    <!-- Iris -->
+    <circle r="11" fill="none" stroke="#ff4612" stroke-width="2.4"/>
+    <!-- Pupil -->
+    <circle r="4" fill="#ff4612"/>
+    <!-- Slash through eye -->
+    <line x1="-40" y1="14" x2="40" y2="-14" stroke="#ff4612" stroke-width="3" stroke-linecap="round"/>
+  </g>
+
+  <!-- Behelit-like marks (subtle red scratches) -->
+  <g stroke="#ff4612" stroke-opacity="0.4" stroke-width="1.6" stroke-linecap="round">
+    <line x1="120" y1="380" x2="160" y2="408"/>
+    <line x1="100" y1="350" x2="138" y2="376"/>
+    <line x1="392" y1="120" x2="368" y2="148"/>
+    <line x1="412" y1="148" x2="378" y2="174"/>
+  </g>
+</svg>

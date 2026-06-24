@@ -3,7 +3,9 @@ title: "Google Business Profile vs. Website: What Indian Businesses Actually Nee
 description: "A Google Business Profile gets you on the map. A website converts the people who find you there. Here's what each does, where each fails, and why most businesses need both."
 coverImage: "/blog/google-business-profile-vs-website-himachal.jpg"
 pubDate: 2026-04-28
+updatedDate: 2026-04-28
 tags: ["Google Business Profile", "local SEO", "web development", "small business", "India"]
+audience: "indian-smb"
 ---
 
 I get this question every few weeks.
@@ -94,6 +96,6 @@ If you have both but they're mediocre: the website is almost always the more urg
 
 ---
 
-*I build websites for Indian businesses — service providers, travel operators, schools, D2C brands, creators. Custom-coded, mobile-first, WhatsApp-integrated, live in 14 days.*
+*I'm Divyansh, solo developer out of Kangra Valley. I build websites for Indian service businesses, travel operators, schools, D2C brands and creators — custom-coded, mobile-first, WhatsApp-integrated, live in 14 days.*
 
-*[See the work →](https://www.divyanshsood.com/#work) · [WhatsApp me →](https://wa.me/919816091875)*
+*If your business has a Google Business Profile but no website — or vice versa — [WhatsApp me](https://wa.me/919816091875) and I'll tell you within a day what to fix first.*

@@ -3,7 +3,9 @@ title: "How a 600K YouTuber Sold Handmade Products Online Without Shopify"
 description: "Chinki had 600,000 YouTube subscribers and a creator store problem Shopify couldn't solve. A case study in custom-coded D2C — video gallery, Razorpay COD, zero templates."
 coverImage: "/blog/chinkiz-creator-store-case-study.jpg"
 pubDate: 2026-03-20
+updatedDate: 2026-03-20
 tags: ["case study", "creator economy", "D2C", "Shopify alternative"]
+audience: "d2c-brand"
 ---
 
 Chinki had 600,000 subscribers on YouTube and a problem most creators never solve.
@@ -115,4 +117,6 @@ Custom code is how you build a store that's actually yours.
 
 *See the live store: [ChinkiZ Knitting Knife →](https://www.divyanshsood.com/projects/chinkiz)*
 
-*Building a creator store or D2C brand? [WhatsApp me](https://wa.me/919816091875) — I'll tell you what makes sense for your audience and your product.*
+*I'm Divyansh Sood. I build creator stores and D2C storefronts that put the content next to the buy button — custom video galleries, Razorpay + COD, brand motion that doesn't fight the platform. 9 live builds since 2022.*
+
+*Building a creator store or a brand whose model doesn't fit Shopify? [Email me](mailto:hello@divyanshsood.com) — I'll tell you within a day what makes sense for your audience and your product, no obligation either way.*

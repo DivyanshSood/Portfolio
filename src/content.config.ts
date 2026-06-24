@@ -11,6 +11,9 @@ const blog = defineCollection({
     updatedDate: z.coerce.date().optional(),
     coverImage: z.string().optional(),
     tags: z.array(z.string()).default([]),
+    // Drives the closing footer + post-template CTA copy + channel choice
+    // (email/Calendly for international & d2c-brand, WhatsApp for indian-smb).
+    audience: z.enum(["international", "indian-smb", "d2c-brand"]).default("international"),
     draft: z.coerce.boolean().optional(),
   }),
 });

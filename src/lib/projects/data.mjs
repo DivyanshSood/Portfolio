@@ -46,6 +46,11 @@ export const projects = [
       { src: "https://ik.imagekit.io/dn2zdxiu3/Portfolioprojectimages/AiWebsitegenerator/AiWebsitegenerator-2.webp", alt: "WebSeek.ai — model picker" },
       { src: "https://ik.imagekit.io/dn2zdxiu3/Portfolioprojectimages/AiWebsitegenerator/AiWebsitegenerator-3.webp", alt: "WebSeek.ai — output preview" },
     ],
+    // Mobile screenshots — paste phone-sized image URLs here and a framed "On
+    // mobile" gallery renders on this case study. Leave [] and nothing shows.
+    // Any project below can use the same field, e.g.:
+    //   mobileShots: [{ src: "https://ik.imagekit.io/.../mobile-1.webp", alt: "… on a phone" }],
+    mobileShots: [],
     faq: [
       { q: "What is WebSeek.ai?", a: "WebSeek.ai is an AI website generator built by Divyansh Sood Studio. You give it one prompt in any language and it returns a custom-coded website, with a model picker for Claude, GPT or Gemini." },
       { q: "Is WebSeek.ai free to try?", a: "Yes — every new user gets 5 free credits while the product is in active iteration. The output is ownable HTML, not locked inside a SaaS editor." },
@@ -96,11 +101,11 @@ export const projects = [
       { q: "How was it optimised for AI search?", a: "It ships with an llms.txt file and JSON-LD structured data so AI assistants can quote the inventory accurately — which drove a measurable lift in AI-referred traffic within weeks." },
       { q: "What stack does InHimalayas run on?", a: "Astro on Vercel, with llms.txt + JSON-LD for GEO and a revenue-share back-end the founder can update without touching code." },
     ],
-    next: { slug: "dharamshala-tours", name: "Dharamshala Tours", label: "Next · 03" },
+    next: { slug: "modernkbs", name: "Modern K.B.S.", label: "Next · 03" },
   },
   {
     slug: "dharamshala-tours",
-    num: "03", name: "Dharamshala Tours", category: "Travel · CMS", year: "2025",
+    num: "09", name: "Dharamshala Tours", category: "Travel · CMS", year: "2025",
     liveUrl: "https://dharamshalatours.in",
     domain: "dharamshalatours.in",
     headline: "Dharamshala Tours", headlineTail: "— WhatsApp-first travel",
@@ -141,11 +146,11 @@ export const projects = [
       { q: "How do customers book a trip?", a: "Every package page ends in a one-tap WhatsApp deep link with the package pre-filled, because most conversion happens on WhatsApp. The site is part of roughly 1,000 packages booked each month." },
       { q: "Can the team add new packages themselves?", a: "Yes — a headless CMS lets the team publish a new monsoon or winter itinerary without waiting on a developer." },
     ],
-    next: { slug: "redline", name: "Redline Studios", label: "Next · 04" },
+    next: { slug: "webseek", name: "WebSeek.ai", label: "Back to · 01" },
   },
   {
     slug: "redline",
-    num: "04", name: "Redline Studios", category: "Brand · E-commerce", year: "2025",
+    num: "06", name: "Redline Studios", category: "Brand · E-commerce", year: "2025",
     liveUrl: "https://redlinestudios.in",
     domain: "redlinestudios.in",
     headline: "Redline Studios", headlineTail: "— apparel storefront",
@@ -172,6 +177,11 @@ export const projects = [
         html: `Not a Shopify theme dressed up in red and black. Something where every easing curve, loading state and product reveal carries the brand's <em>racing DNA</em>.` },
       { tag: "Founder, in 3 words", type: "quote",
         quote: `"Bhai bhai bhai! Ye kya banal cheez bana dia."`,
+        // Gloss keeps the warmth of the original Hindi/Hinglish line for
+        // Indian readers, while the English underneath makes the line
+        // land for a US/UK prospect who doesn't read Devanagari.
+        gloss: `"Bro bro bro! What a thing you've built."`,
+        lang: "hi",
         attribution: "— Founder, Redline Studios" },
       { tag: "Stack", type: "list", items: ["Next.js", "Razorpay", "Custom motion", "Brand identity"] },
       { span2: true, tag: "What we shipped", title: "Brand + backend + frontend, one sprint", type: "prose",
@@ -187,7 +197,7 @@ export const projects = [
       { q: "Was the store built on Shopify?", a: "No. It is a custom Next.js storefront with zero Shopify themes, integrated with Razorpay for UPI, cards and cash on delivery." },
       { q: "How long did it take?", a: "Brand identity, backend, frontend and design were all delivered in a single sprint." },
     ],
-    next: { slug: "chinkiz", name: "ChinkiZ Knitting Knife", label: "Next · 05" },
+    next: { slug: "cultxberserk", name: "CultXberserk", label: "Next · 07" },
   },
   {
     slug: "chinkiz",
@@ -233,11 +243,11 @@ export const projects = [
       { q: "Does the store use Shopify or a website builder?", a: "No. It is fully custom-coded in Next.js with Razorpay payments — zero Shopify themes and zero builder lock-in, so the owner keeps full code ownership." },
       { q: "How does the owner add products?", a: "A custom admin panel lets her add a product the way she'd add a video — title, thumbnail, done — with a video gallery that mirrors her YouTube grid." },
     ],
-    next: { slug: "modernkbs", name: "Modern K.B.S.", label: "Next · 06" },
+    next: { slug: "redline", name: "Redline Studios", label: "Next · 06" },
   },
   {
     slug: "modernkbs",
-    num: "06", name: "Modern K.B.S.", category: "Institutional", year: "2024",
+    num: "03", name: "Modern K.B.S.", category: "Web App · Admin", year: "2024",
     liveUrl: "https://modernkbs.com",
     domain: "modernkbs.com",
     headline: "Modern K.B.S.", headlineTail: "— school site + admin panel",
@@ -279,11 +289,11 @@ export const projects = [
       { q: "How long did the build take?", a: "Seven days — where other agencies had quoted six months and a recurring SaaS fee." },
       { q: "Who runs the admin panel?", a: "Office staff, not developers. The dashboard was designed with zero learning curve so any staffer can update content and process admissions without calling a developer." },
     ],
-    next: { slug: "nandini", name: "Nandini Travels", label: "Next · 07" },
+    next: { slug: "northpeak", name: "North Peak Power Systems", label: "Next · 04" },
   },
   {
     slug: "nandini",
-    num: "07", name: "Nandini Travels", category: "Travel · Local", year: "2025",
+    num: "08", name: "Nandini Travels", category: "Travel · Local", year: "2025",
     liveUrl: "https://www.nandinitravel.com/",
     domain: "nandinitravel.com",
     headline: "Nandini Travels", headlineTail: "— Kangra taxi operator",
@@ -324,11 +334,11 @@ export const projects = [
       { q: "Why did the site need rebuilding?", a: "Every booking used to arrive through Google Maps and the old site was down, so the operator owned no funnel. After the rebuild, direct bookings now flow through the site." },
       { q: "What did the founder say about the result?", a: "“The website is so beautiful — looks 10 times more premium than our competitors. We started getting direct bookings instead of losing them to Google Maps.”" },
     ],
-    next: { slug: "northpeak", name: "North Peak Power Systems", label: "Next · 08" },
+    next: { slug: "dharamshala-tours", name: "Dharamshala Tours", label: "Next · 09" },
   },
   {
     slug: "northpeak",
-    num: "08", name: "North Peak Power Systems", category: "Infra · Dashboard", year: "2025",
+    num: "04", name: "North Peak Power Systems", category: "Infra · Dashboard", year: "2025",
     liveUrl: "https://northpeakpowersystems.vercel.app/",
     domain: "northpeakpowersystems.vercel.app",
     headline: "North Peak Power Systems", headlineTail: "— solar contractor portal",
@@ -370,11 +380,11 @@ export const projects = [
       { q: "Can the team publish new projects without a developer?", a: "Yes — a dashboard-cum-admin, designed for a non-technical operator, lets the team upload new project case studies and update the gallery themselves." },
       { q: "What framework was used?", a: "Angular, across all 15 pages, with a custom admin dashboard." },
     ],
-    next: { slug: "cultxberserk", name: "CultXberserk", label: "Next · 09" },
+    next: { slug: "chinkiz", name: "ChinkiZ Knitting Knife", label: "Next · 05" },
   },
   {
     slug: "cultxberserk",
-    num: "09", name: "CultXberserk", category: "Brand · D2C", year: "2026",
+    num: "07", name: "CultXberserk", category: "Brand · D2C", year: "2026",
     liveUrl: "https://cultxberserk.com",
     domain: "cultxberserk.com",
     headline: "CultXberserk", headlineTail: "— Berserk-inspired apparel",
@@ -416,6 +426,6 @@ export const projects = [
       { q: "Was the store built on Shopify?", a: "No. It is a custom Next.js storefront with ImageKit-optimised imagery and a bespoke drop system — zero Shopify themes, so the brand keeps full code ownership." },
       { q: "What makes the drops exclusive?", a: "Every garment is hand-numbered from 0001 to 0666 across 13 designs and is never reprinted, and each carries a 'Brand of Sacrifice' seal sewn into the neckline at the C7 vertebra." },
     ],
-    next: { slug: "webseek", name: "WebSeek.ai", label: "Back to · 01" },
+    next: { slug: "nandini", name: "Nandini Travels", label: "Next · 08" },
   },
 ];

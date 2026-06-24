@@ -3,7 +3,9 @@ title: "Why Most Indian Business Websites Don't Generate a Single Lead"
 description: "Six reasons most Indian business websites produce zero enquiries — and none of them are expensive to fix. A practical audit for clinic owners, tour operators, and service businesses."
 coverImage: "/blog/why-indian-websites-dont-generate-leads.jpg"
 pubDate: 2025-11-15
+updatedDate: 2025-11-15
 tags: ["web development", "lead generation", "India", "SEO"]
+audience: "indian-smb"
 ---
 
 There are millions of business websites in India that have never generated a single enquiry.
@@ -168,4 +170,4 @@ If you find problems — they're fixable. Most of them in a day.
 
 ---
 
-*If you'd rather have someone fix them properly: [WhatsApp me](https://wa.me/919816091875). I'll look at your current site and tell you honestly what's costing you leads — before you spend a rupee.*
+*I'm Divyansh, solo developer out of Kangra Valley. I've rebuilt a dozen Indian SMB sites that weren't generating leads — most of the fixes weren't expensive. [WhatsApp me your URL](https://wa.me/919816091875) and I'll tell you honestly what's costing you enquiries, before you spend a rupee.*

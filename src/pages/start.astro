@@ -1,0 +1,198 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import { CALENDLY_URL, GOOGLE_REVIEWS_URL, PROJECT_MIN_USD } from "../lib/site.mjs";
+
+const SITE = "https://www.divyanshsood.com";
+const canonical = `${SITE}/start`;
+
+// Same real figures used on /results and the homepage.
+const metrics = [
+  { v: "20+", l: "Projects shipped since 2022" },
+  { v: "3–4 wks", l: "Typical time to live" },
+  { v: "98%", l: "Client retention" },
+  { v: "Async", l: "Across 4 time zones" },
+];
+
+// What happens after the form is sent — sets expectations for cold traffic.
+const steps = [
+  { n: "01", t: "You send this", d: "The form below. Two minutes. The budget field is the only one I'd ask you to be honest on." },
+  { n: "02", t: "I reply, personally", d: "A reply from me, usually within two hours. Real me, not an autoresponder." },
+  { n: "03", t: "A short call", d: "15 minutes. I'll ask hard questions so we both know it's a fit." },
+  { n: "04", t: "A clear quote", d: "Quote with phases, dates, price. We shape it together before anything starts." },
+];
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "ContactPage",
+      "@id": `${canonical}#page`,
+      url: canonical,
+      name: "Start a project — Divyansh Sood® Studio",
+      description:
+        "Tell Divyansh Sood about your project — a few qualifying questions and you'll get a personal reply, usually within a couple of hours. Custom-coded websites, stores and web apps for founders worldwide.",
+      isPartOf: { "@id": `${SITE}/#website` },
+      about: { "@id": `${SITE}/#studio` },
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Start a project", item: canonical },
+      ],
+    },
+  ],
+});
+---
+
+<Layout
+  title="Start a project — Divyansh Sood® Studio"
+  description="Got my message? Here's the 2-minute version. Tell me about your project and get a personal reply within hours — custom-coded websites, stores and web apps for founders worldwide. Projects from $3,000."
+  canonical={canonical}
+  keywords="hire web developer, start a website project, custom website quote, web developer inquiry, freelance web developer, Divyansh Sood"
+  ogTitle="Start a project — let's build something that works"
+  ogDescription="A few quick questions and a personal reply within hours. Custom-coded, live in 3–4 weeks, you own the code."
+  jsonld={jsonld}
+>
+  <Nav kicker="Start a project" />
+
+  <main>
+    <header class="cs-hero">
+      <div class="cs-hero-bg" aria-hidden="true"></div>
+      <div class="wrap">
+        <div class="cs-eyebrow">
+          <span>Let's talk</span><span>From my note to you</span><span>2026</span>
+        </div>
+        <h1 style="margin:14px 0 0;font-weight:900;font-size:clamp(38px,7vw,96px);line-height:.9;letter-spacing:-.035em;text-transform:uppercase;">You got my message.<br /><span style="color:var(--accent);">Here's the short version.</span></h1>
+        <p class="cs-lead">I'm Divyansh — I design and build custom-coded websites, stores and web apps for founders worldwide. If your site could be working harder, this page tells you exactly how I'd help and how to start. No agency, no handoffs — you talk to the person who actually builds it.</p>
+        <div class="cs-cta-row">
+          <a class="btn btn-primary" href="#start-form" data-cursor>Tell me about your project ↓</a>
+          <a class="btn btn-ghost" href={CALENDLY_URL} target="_blank" rel="noopener" data-cursor>Book a call instead</a>
+        </div>
+        <div class="cs-meta">
+          <span>Solo · Design + Build</span><span>Live in 3–4 weeks · You own the code</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="cs-sec" aria-labelledby="num-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="num-h">Why it's worth two minutes</h2>
+          <span class="mono">Since 2022</span>
+        </div>
+        <div class="cs-metrics" data-reveal>
+          {metrics.map((m) => (
+            <div class="cs-metric"><span class="cs-metric-v">{m.v}</span><span class="cs-metric-l">{m.l}</span></div>
+          ))}
+        </div>
+        <figure class="cs-card cs-quote span2" data-reveal style="margin-top:22px;">
+          <span class="cs-tag">Modern K.B.S.</span>
+          <blockquote>"Every other agency said 6 months. Delivered in 7 days."</blockquote>
+          <figcaption>— Admin, Modern K.B.S. · <a href="/testimonials" data-cursor>more proof →</a> · <a href={GOOGLE_REVIEWS_URL} target="_blank" rel="noopener" data-cursor>Google reviews ↗</a></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="how-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="how-h">What happens after you hit send</h2>
+          <span class="mono">No pressure</span>
+        </div>
+        <div class="cs-body" data-reveal>
+          {steps.map((s) => (
+            <div class="cs-card">
+              <span class="cs-tag">({s.n}) {s.t}</span>
+              <h2 class="cs-card-h2">{s.d}</h2>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" id="start-form" aria-labelledby="form-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="form-h">Tell me about your project</h2>
+          <span class="mono">Takes 2 minutes</span>
+        </div>
+        <form id="ds-start-form" data-reveal style="max-width:680px;border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:30px;background:linear-gradient(180deg,rgba(255,255,255,.03),transparent);">
+          <div class="g-2" style="display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:24px;">
+            <div>
+              <label for="st-name" style="display:block;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.6;margin-bottom:8px;">Your name *</label>
+              <input id="st-name" type="text" required placeholder="Jane Founder" autocomplete="name" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.25);color:#fff;font-family:'Space Mono',monospace;font-size:14px;padding:12px 2px;outline:none;" />
+            </div>
+            <div>
+              <label for="st-email" style="display:block;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.6;margin-bottom:8px;">Email *</label>
+              <input id="st-email" type="email" required placeholder="you@company.com" autocomplete="email" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.25);color:#fff;font-family:'Space Mono',monospace;font-size:14px;padding:12px 2px;outline:none;" />
+            </div>
+          </div>
+
+          <label for="st-company" style="display:block;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.6;margin-bottom:8px;">Company or current website</label>
+          <input id="st-company" type="text" placeholder="company.com (optional)" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.25);color:#fff;font-family:'Space Mono',monospace;font-size:14px;padding:12px 2px;outline:none;margin-bottom:24px;" />
+
+          <div class="g-2" style="display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:24px;">
+            <div>
+              <label for="st-type" style="display:block;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.6;margin-bottom:8px;">What do you need? *</label>
+              <select id="st-type" required style="width:100%;background:#0b0b0c;border:none;border-bottom:1px solid rgba(255,255,255,.25);color:#fff;font-family:'Space Mono',monospace;font-size:14px;padding:12px 2px;outline:none;">
+                <option value="">Select one…</option>
+                <option>New website</option>
+                <option>Web app / SaaS / MVP</option>
+                <option>E-commerce store</option>
+                <option>Redesign or rebuild</option>
+                <option>Something else</option>
+              </select>
+            </div>
+            <div>
+              <label for="st-budget" style="display:block;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.6;margin-bottom:8px;">Budget (USD) *</label>
+              <select id="st-budget" required style="width:100%;background:#0b0b0c;border:none;border-bottom:1px solid rgba(255,255,255,.25);color:#fff;font-family:'Space Mono',monospace;font-size:14px;padding:12px 2px;outline:none;">
+                <option value="">Select a range…</option>
+                <option>Not sure yet</option>
+                <option>$3,000 – $5,000</option>
+                <option>$5,000 – $10,000</option>
+                <option>$10,000 – $25,000</option>
+                <option>$25,000+</option>
+              </select>
+            </div>
+          </div>
+
+          <label for="st-timeline" style="display:block;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.6;margin-bottom:8px;">Timeline</label>
+          <select id="st-timeline" style="width:100%;background:#0b0b0c;border:none;border-bottom:1px solid rgba(255,255,255,.25);color:#fff;font-family:'Space Mono',monospace;font-size:14px;padding:12px 2px;outline:none;margin-bottom:24px;">
+            <option value="">When do you want it live?</option>
+            <option>As soon as possible</option>
+            <option>Within 1 month</option>
+            <option>1–3 months</option>
+            <option>Just exploring</option>
+          </select>
+
+          <label for="st-msg" style="display:block;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.6;margin-bottom:8px;">Anything else?</label>
+          <textarea id="st-msg" rows="3" placeholder="One line on what you're building and what success looks like." style="width:100%;background:transparent;border:1px solid rgba(255,255,255,.18);border-radius:6px;color:#fff;font-family:'Space Mono',monospace;font-size:14px;padding:12px;outline:none;margin-bottom:24px;resize:vertical;"></textarea>
+
+          <button type="submit" class="btn btn-primary" data-cursor>Send it to Divyansh <span aria-hidden="true">↗</span></button>
+          <p style="margin:18px 0 0;font-family:'Space Mono',monospace;font-size:11px;line-height:1.6;opacity:.5;">Goes to my inbox. No list. If the budget's off, I'll tell you before we book a call. (WhatsApp: <a href="https://wa.me/919816091875" target="_blank" rel="noopener" data-cursor style="color:var(--accent,#ff4612);text-decoration:underline;">+91 98160 91875 ↗</a>)</p>
+        </form>
+      </div>
+    </section>
+
+    <section class="cs-endcta">
+      <div class="wrap">
+        <h2>Rather just talk?</h2>
+        <p>Book a 15-minute slot. I'll ask a lot of questions — that's how we both find out if it's a fit.</p>
+        <div class="cs-cta-row" style="justify-content:center;">
+          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener" data-cursor>Book an intro call <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost" href="/results" data-cursor>See the results first</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<script>
+  import initContactForms from "../scripts/contact-form.js";
+  initContactForms();
+</script>

@@ -1,0 +1,33 @@
+---
+// Shared section frame — the hero card's signature treatment (a bordered block
+// with four L-shaped corner ticks + a standardized mono header bar), made
+// reusable so every homepage section reads as one intentional system.
+//
+// `tone` picks the border/ink contrast for the section's background. Drop the
+// section's content as children; keep the owning <section> (id, background,
+// data-colorblock hooks) on the outside.
+interface Props {
+  label: string;            // left mono label, e.g. "About"
+  index: string;            // section number, e.g. "01"
+  note?: string;            // middle mono note
+  tag?: string;             // right mono mark, e.g. "2026 ©"
+  tone?: "light" | "dark" | "accent";
+  class?: string;           // extra classes on the frame
+}
+const { label, index, note, tag, tone = "dark", class: klass } = Astro.props;
+---
+
+<div class:list={["ds-frame", `ds-frame-${tone}`, klass]}>
+  <span class="ds-tick ds-tick-tl"></span>
+  <span class="ds-tick ds-tick-tr"></span>
+  <span class="ds-tick ds-tick-bl"></span>
+  <span class="ds-tick ds-tick-br"></span>
+
+  <div class="ds-frame-bar" data-reveal>
+    <span>({label} — {index})</span>
+    {note && <span class="ds-frame-note">{note}</span>}
+    {tag && <span class="ds-frame-tag">{tag}</span>}
+  </div>
+
+  <slot />
+</div>

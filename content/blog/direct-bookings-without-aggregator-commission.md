@@ -3,7 +3,9 @@ title: "How to Get Direct Bookings Without Paying Aggregator Commission"
 description: "MakeMyTrip and Booking.com take 15–25% of every booking they send you. Here's how Himalayan travel businesses escape that dependency — and keep the margin they've already earned."
 coverImage: "/blog/direct-bookings-without-aggregator-commission.jpg"
 pubDate: 2026-04-20
+updatedDate: 2026-04-20
 tags: ["direct bookings", "himalayan businesses", "travel", "Himachal Pradesh"]
+audience: "indian-smb"
 ---
 
 A guesthouse in Kasol does ₹6,00,000 in bookings per season.
@@ -141,6 +143,6 @@ The aggregator isn't going anywhere. But your dependence on them doesn't have to
 
 ---
 
-*I build websites for Himalayan travel businesses — homestays, trekking operators, taxi services, guesthouses. Custom-coded, mobile-first, WhatsApp-first. Live in 14 days.*
+*I'm Divyansh, solo developer out of Kangra Valley. I build direct-booking websites for Himalayan homestays, trekking operators, taxi services and guesthouses — custom-coded, mobile-first, WhatsApp-first, live in 14 days.*
 
-*[WhatsApp me](https://wa.me/919816091875) — I'll tell you what a direct-booking site would save your property annually.*
+*[WhatsApp me your current commission number](https://wa.me/919816091875) and I'll tell you within a day what a direct-booking site would save your property annually.*

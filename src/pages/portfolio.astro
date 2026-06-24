@@ -1,0 +1,142 @@
+---
+/* ===========================================================================
+   Portfolio one-pager — print-ready PDF source. Rendered as HTML at /portfolio
+   so it can be viewed in the browser AND piped to PDF via Chrome headless.
+
+   Print CSS lives at the bottom: A4 / Letter, ~12pt body, no nav / footer /
+   sticky-book / cookie banner. Two-column signature work tiles on the page,
+   stacks on Letter. Run `npm run pdf:portfolio` to regenerate the .pdf.
+   =========================================================================== */
+import "../styles/portfolio-print.css";
+import { CALENDLY_URL, PROJECT_MIN_USD } from "../lib/site.mjs";
+import { projects } from "../lib/projects/data.mjs";
+
+const SITE = "https://www.divyanshsood.com";
+const canonical = `${SITE}/portfolio`;
+const today = new Date().toISOString().slice(0, 10);
+
+// Pick the projects that have a public liveUrl — i.e. ships we can name.
+// Keeps the one-pager honest: nothing here that I can't link out to.
+const featured = projects
+  .filter((p) => p.liveUrl && p.year)
+  .sort((a, b) => Number(b.year) - Number(a.year))
+  .slice(0, 6);
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": `${canonical}#page`,
+  url: canonical,
+  name: "Portfolio one-pager — Divyansh Sood® Studio",
+  description: "Print-ready one-page portfolio summary. Custom-coded, conversion-led sites shipped for real clients.",
+  isPartOf: { "@id": `${SITE}/#website` },
+});
+---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Portfolio — Divyansh Sood® Studio</title>
+    <meta name="description" content="Print-ready one-pager — what Divyansh Sood ships, who he's shipped for, and how to start." />
+    <link rel="canonical" href={canonical} />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/archivo-900.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/archivo-700.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/space-mono-400.woff2" crossorigin />
+    {jsonld && <script type="application/ld+json" set:html={jsonld} />}
+  </head>
+  <body class="ds-portfolio-print">
+    <header class="ds-pf-hero">
+      <div class="ds-pf-hero-left">
+        <div class="ds-pf-brand">DIVYANSH&nbsp;SOOD<sup>®</sup></div>
+        <div class="ds-pf-eyebrow mono">Solo studio · Himachal Pradesh · 2022—{new Date().getFullYear()}</div>
+        <h1 class="ds-pf-h1">Custom-coded websites for founders who'd rather hire a person than a shop.</h1>
+        <p class="ds-pf-lead">Last year I built a school site in 7 days. Other agencies quoted 6 months. That's the kind of timeline I win — most marketing sites &amp; MVPs ship in 3–4 weeks. From {PROJECT_MIN_USD}. You own every line.</p>
+      </div>
+      <aside class="ds-pf-hero-right">
+        <dl class="ds-pf-stats">
+          <div><dt>Products live since 2022</dt><dd>20+</dd></div>
+          <div><dt>Last 9 clients retained</dt><dd>9/9</dd></div>
+          <div><dt>Average LCP on shipped sites</dt><dd>&lt;1.5s</dd></div>
+          <div><dt>Solo, design + build</dt><dd>1 person</dd></div>
+        </dl>
+      </aside>
+    </header>
+
+    <section class="ds-pf-section">
+      <h2 class="ds-pf-h2">Selected work</h2>
+      <div class="ds-pf-grid">
+        {featured.map((p) => (
+          <article class="ds-pf-tile">
+            <div class="ds-pf-tile-head">
+              <span class="ds-pf-tile-num mono">{p.num}</span>
+              <span class="ds-pf-tile-year mono">{p.year}</span>
+            </div>
+            <h3 class="ds-pf-tile-h">
+              <a href={p.liveUrl} target="_blank" rel="noopener">{p.name} ↗</a>
+            </h3>
+            <p class="ds-pf-tile-cat mono">{p.category}</p>
+            <p class="ds-pf-tile-d">{p.lead}</p>
+            <p class="ds-pf-tile-stack mono">{p.stackLine}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="ds-pf-section ds-pf-three-up">
+      <h2 class="ds-pf-h2">What I do</h2>
+      <div class="ds-pf-grid">
+        <div class="ds-pf-tile">
+          <h3 class="ds-pf-tile-h">Marketing sites</h3>
+          <p>Astro or Next.js. Sub-second LCP, designed in code on a real URL by day three.</p>
+        </div>
+        <div class="ds-pf-tile">
+          <h3 class="ds-pf-tile-h">Stores</h3>
+          <p>Custom storefronts with Razorpay or Stripe. No Shopify, no theme marketplaces, no builder lock-in.</p>
+        </div>
+        <div class="ds-pf-tile">
+          <h3 class="ds-pf-tile-h">Web apps</h3>
+          <p>Admin panels, dashboards, admissions portals, booking flows. Shipped in custom code, run by the client's own team.</p>
+        </div>
+        <div class="ds-pf-tile">
+          <h3 class="ds-pf-tile-h">AI features</h3>
+          <p>Claude, GPT, Gemini integrations. I run my own AI product (WebSeek.ai) on all three.</p>
+        </div>
+        <div class="ds-pf-tile">
+          <h3 class="ds-pf-tile-h">Conversion copy</h3>
+          <p>Homepage / pricing / landing-page copy written to the words your buyers actually type.</p>
+        </div>
+        <div class="ds-pf-tile">
+          <h3 class="ds-pf-tile-h">Ongoing retainer</h3>
+          <p>Monthly billing, no contract. Most clients keep me on for 6–12 months after launch.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="ds-pf-section ds-pf-section-bar">
+      <div class="ds-pf-bar-grid">
+        <div>
+          <div class="ds-pf-bar-label mono">Book a 15-min intro</div>
+          <div class="ds-pf-bar-value">calendly.com/divyanshsood/intro-call</div>
+        </div>
+        <div>
+          <div class="ds-pf-bar-label mono">Email</div>
+          <div class="ds-pf-bar-value">hello@divyanshsood.com</div>
+        </div>
+        <div>
+          <div class="ds-pf-bar-label mono">WhatsApp</div>
+          <div class="ds-pf-bar-value">+91 98160 91875</div>
+        </div>
+        <div>
+          <div class="ds-pf-bar-label mono">Studio</div>
+          <div class="ds-pf-bar-value">Himachal Pradesh, India · IST +5:30</div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="ds-pf-foot">
+      <span>divyanshsood.com/portfolio</span>
+      <span>Generated {today} · for prospective clients</span>
+    </footer>
+  </body>
+</html>

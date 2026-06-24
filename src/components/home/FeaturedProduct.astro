@@ -1,0 +1,46 @@
+---
+// Flagship product spotlight — WebSeek.ai. Sits above the Selected Work list to
+// give the studio's own SaaS/AI bet top billing. `home-section` = mobile padding.
+const LIVE = "https://ai-website-generator-tan.vercel.app";
+const metrics = [
+  { v: "3", l: "AI models, one app" },
+  { v: "1", l: "Prompt → live site" },
+  { v: "Any", l: "Language in" },
+  { v: "5", l: "Free credits" },
+];
+---
+
+<section id="flagship" class="home-section" style="position:relative;z-index:2;background:#0b0b0c;color:#fff;padding:96px 30px;border-top:1px solid rgba(255,255,255,.14);">
+  <div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;opacity:.55;border-bottom:1px solid rgba(255,255,255,.14);padding-bottom:14px;margin-bottom:54px;">
+    <span>(Flagship — B)</span><span>My own product · live beta</span>
+  </div>
+
+  <div class="g-split" style="display:grid;grid-template-columns:1.05fr .95fr;gap:54px;align-items:center;">
+    <div data-reveal>
+      <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent,#ff4612);margin-bottom:18px;">My own product · WebSeek.ai</div>
+      <h2 style="margin:0;font-weight:900;font-size:clamp(38px,6vw,86px);line-height:.9;letter-spacing:-.035em;text-transform:uppercase;">One prompt.<br />Any language.<br /><span style="color:var(--accent,#ff4612);">A real site.</span></h2>
+      <p style="margin:24px 0 0;font-size:16px;line-height:1.62;max-width:520px;opacity:.86;">I don't only build for clients — I ship my own products. <strong style="color:#fff;">WebSeek.ai</strong> is my bet on where web building goes next: one prompt to a custom-coded site, with a Claude / GPT / Gemini model picker. Live beta, 5 free credits.</p>
+
+      <div class="g-4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:34px;">
+        {metrics.map((m) => (
+          <div>
+            <div style="font-weight:900;font-size:clamp(28px,3.4vw,42px);letter-spacing:-.03em;color:var(--accent,#ff4612);">{m.v}</div>
+            <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;opacity:.66;margin-top:6px;line-height:1.4;">{m.l}</div>
+          </div>
+        ))}
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:14px;margin-top:36px;">
+        <a href={LIVE} target="_blank" rel="noopener" data-cursor class="btn btn-primary">Try it live <span aria-hidden="true">↗</span></a>
+        <a href="/projects/webseek" data-cursor class="btn btn-ghost">Read the case study</a>
+      </div>
+    </div>
+
+    <a href="/projects/webseek" data-reveal data-cursor style="display:block;text-decoration:none;">
+      <div class="imgfill" style="width:100%;aspect-ratio:16/11;border-radius:10px;border:1px solid rgba(255,255,255,.14);background-image:url('https://ik.imagekit.io/dn2zdxiu3/Portfolioprojectimages/AiWebsitegenerator/AiWebsitegenerator-1.webp?tr=w-900,q-72');box-shadow:0 30px 80px -40px rgba(255,70,18,.5);"></div>
+      <div style="display:flex;justify-content:space-between;margin-top:14px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;opacity:.55;color:#fff;">
+        <span>↳ Inside the build</span><span>Case study 01</span>
+      </div>
+    </a>
+  </div>
+</section>

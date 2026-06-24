@@ -3,6 +3,20 @@
    shared footer, scroll-reveal. Imported first via global.css.
    =========================================================================== */
 
+/* Self-hosted fonts — Archivo (display + body), Space Mono (mono eyebrows),
+   Caveat (handwritten signature). Latin subset only (English-language site).
+   WOFF2 lives in /public/fonts/. Regenerate via scripts/self-host-fonts.py. */
+@font-face{font-family:'Archivo';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/archivo-400.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+@font-face{font-family:'Archivo';font-style:normal;font-weight:500;font-display:swap;src:url('/fonts/archivo-500.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+@font-face{font-family:'Archivo';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/archivo-600.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+@font-face{font-family:'Archivo';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/archivo-700.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+@font-face{font-family:'Archivo';font-style:normal;font-weight:800;font-display:swap;src:url('/fonts/archivo-800.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+@font-face{font-family:'Archivo';font-style:normal;font-weight:900;font-display:swap;src:url('/fonts/archivo-900.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+@font-face{font-family:'Space Mono';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/space-mono-400.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+@font-face{font-family:'Space Mono';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/space-mono-700.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+@font-face{font-family:'Caveat';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/caveat-600.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+@font-face{font-family:'Caveat';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/caveat-700.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+
 *{box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 html,body{margin:0;padding:0;}
@@ -18,13 +32,7 @@ section{position:relative;}
 
 /* keyframes (homepage) */
 @keyframes ds-rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
-@keyframes ds-marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-@keyframes ds-marq-r{from{transform:translateX(-50%)}to{transform:translateX(0)}}
 @keyframes ds-bounce{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(7px);opacity:1}}
-
-/* custom cursor */
-#ds-cursor{position:fixed;top:0;left:0;width:34px;height:34px;border:1.5px solid #fff;border-radius:50%;pointer-events:none;z-index:9999;mix-blend-mode:difference;transition:width .25s ease,height .25s ease,background .25s ease;will-change:transform;}
-#ds-cursor.big{width:74px;height:74px;background:#fff;}
 
 /* homepage utilities */
 .imgfill{background-size:cover;background-position:center;background-repeat:no-repeat;}
@@ -43,6 +51,9 @@ section{position:relative;}
 .btn{display:inline-flex;align-items:center;gap:9px;text-decoration:none;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:14px 22px;border-radius:2px;font-weight:700;}
 .btn-primary{background:var(--accent);color:#0b0b0c;}
 .btn-ghost{border:1px solid rgba(255,255,255,.3);color:#fff;}
+/* modern button (Framer ModernButton): dark pill, fills accent on hover */
+.btn-modern{background:#0d0412;color:#fff;border:1px solid rgba(255,255,255,.14);transition:background .3s ease,color .3s ease,border-color .3s ease;}
+.btn-modern:hover{background:var(--accent);color:#0b0b0c;border-color:var(--accent);}
 
 /* shared footer (cs-foot) */
 .cs-foot{border-top:1px solid rgba(255,255,255,.14);}
@@ -56,3 +67,133 @@ section{position:relative;}
 
 /* scroll reveal */
 [data-reveal]{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.8,.2,1),transform .8s cubic-bezier(.2,.8,.2,1);}
+
+/* ===========================================================================
+   Section frame — the hero's corner-tick "card" treatment, made reusable so
+   every homepage section reads as one system: a bordered block with four
+   L-shaped corner ticks and a standardized mono header bar. `tone` sets the
+   border/ink contrast against the section background. See Frame.astro.
+   =========================================================================== */
+.ds-frame{position:relative;border:1px solid var(--frame-line,rgba(255,255,255,.16));border-radius:14px;padding:clamp(26px,3.4vw,46px) clamp(20px,3vw,44px) clamp(34px,4vw,52px);}
+.ds-frame-dark{--frame-line:rgba(255,255,255,.16);--frame-ink:#fff;}
+.ds-frame-light{--frame-line:rgba(0,0,0,.16);--frame-ink:#0b0b0c;}
+.ds-frame-accent{--frame-line:rgba(11,11,12,.30);--frame-ink:#0b0b0c;}
+
+/* corner ticks — float just outside the border, like the hero card */
+.ds-tick{position:absolute;width:16px;height:16px;border:1.5px solid var(--frame-ink,#fff);opacity:.5;pointer-events:none;}
+.ds-tick-tl{top:-8px;left:-8px;border-right:0;border-bottom:0;}
+.ds-tick-tr{top:-8px;right:-8px;border-left:0;border-bottom:0;}
+.ds-tick-bl{bottom:-8px;left:-8px;border-right:0;border-top:0;}
+.ds-tick-br{bottom:-8px;right:-8px;border-left:0;border-top:0;}
+
+/* standardized mono header bar */
+.ds-frame-bar{display:flex;justify-content:space-between;align-items:baseline;gap:14px;flex-wrap:wrap;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--frame-ink,#fff);opacity:.62;border-bottom:1px solid var(--frame-line,rgba(255,255,255,.16));padding-bottom:14px;margin-bottom:clamp(30px,4vw,48px);}
+.ds-frame-bar .ds-frame-note{opacity:.9;}
+.ds-frame-bar .ds-frame-tag{opacity:.7;}
+
+@media (max-width:560px){
+  .ds-frame{border-radius:12px;}
+  .ds-tick{width:12px;height:12px;}
+  .ds-tick-tl{top:-6px;left:-6px;}
+  .ds-tick-tr{top:-6px;right:-6px;}
+  .ds-tick-bl{bottom:-6px;left:-6px;}
+  .ds-tick-br{bottom:-6px;right:-6px;}
+  .ds-frame-bar{font-size:9px;gap:8px 12px;}
+}
+
+/* ===========================================================================
+   Logo wall — fixed-tile grid sized so dropping a real logo PNG/SVG in
+   (see CLIENT_LOGOS in lib/site.mjs) doesn't reflow anything. Wordmark
+   fallback shares the same dimensions, so the wall always reads as a system,
+   never as missing content. Designed for the light "Clients" frame.
+   =========================================================================== */
+.ds-logo-wall{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:12px;
+  margin-top:50px;
+}
+.ds-logo-tile{
+  height:78px;
+  border:1px solid rgba(0,0,0,.14);
+  background:#ffffff;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:14px 16px;
+  transition:border-color .3s ease, transform .3s ease;
+  overflow:hidden;
+}
+.ds-logo-tile:hover{
+  border-color:rgba(0,0,0,.34);
+  transform:translateY(-2px);
+}
+.ds-logo-link,
+.ds-logo-wordmark{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  height:100%;
+  text-decoration:none;
+  color:#0b0b0c;
+}
+.ds-logo-link img{
+  max-width:100%;
+  max-height:100%;
+  width:auto;
+  height:auto;
+  object-fit:contain;
+  filter:grayscale(1) opacity(.78);
+  transition:filter .3s ease;
+}
+.ds-logo-tile:hover .ds-logo-link img{ filter:grayscale(0) opacity(1); }
+
+/* Wordmark fallback — designed text wordmarks so the wall reads as logos,
+   not as missing images. Same baseline across all tiles via grid-baseline. */
+.ds-logo-wordmark{
+  gap:8px;
+  font-family:'Archivo',sans-serif;
+  font-weight:900;
+  font-size:14px;
+  letter-spacing:-.025em;
+  line-height:1;
+  white-space:nowrap;
+  text-align:center;
+}
+.ds-logo-symbol{
+  font-size:11px;
+  color:var(--accent,#ff4612);
+  flex:none;
+}
+.ds-logo-name{
+  display:inline-block;
+  /* Truncate to keep tile clean even when brand name is long */
+  max-width:100%;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+/* Subtle visual variety so the wall doesn't feel templated — accent bar
+   under one of the five slot positions. */
+.ds-logo-wm-0 .ds-logo-symbol{ color:#0b0b0c; }
+.ds-logo-wm-1 .ds-logo-name{ font-style:italic; letter-spacing:-.04em; }
+.ds-logo-wm-2 .ds-logo-name{ text-transform:uppercase; font-size:12px; letter-spacing:.02em; }
+.ds-logo-wm-3 .ds-logo-name{ font-weight:800; }
+.ds-logo-wm-4 .ds-logo-symbol{ font-size:14px; }
+
+.ds-logo-note{
+  margin:18px 0 0;
+  font-size:10px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  opacity:.5;
+  color:#0b0b0c;
+}
+
+@media (max-width:1080px){ .ds-logo-wall{ grid-template-columns:repeat(4,1fr); } }
+@media (max-width:640px){
+  .ds-logo-wall{ grid-template-columns:repeat(2,1fr); }
+  .ds-logo-tile{ height:64px; padding:10px 12px; }
+  .ds-logo-wordmark{ font-size:12px; }
+}

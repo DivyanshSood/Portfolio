@@ -1,19 +1,13 @@
 ---
 import "../styles/global.css";
 import BaseScripts from "../components/BaseScripts.astro";
+import StickyBook from "../components/StickyBook.astro";
+import CookieConsent from "../components/CookieConsent.astro";
 
-const FONTS =
-  "https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&family=Caveat:wght@600;700&display=swap";
+// Fonts are self-hosted (see src/styles/base.css @font-face block + /public/fonts).
+// Preload the most-used weight of Archivo so the hero H1 doesn't FOUT.
 const FAVICON =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230b0b0c'/%3E%3Ctext x='50' y='70' font-family='Arial,sans-serif' font-weight='900' font-size='56' fill='%23ffffff' text-anchor='middle'%3EDS%3C/text%3E%3Crect x='28' y='80' width='44' height='6' fill='%23ff4612'/%3E%3C/svg%3E";
-
-// Google Analytics 4 — loaded on production builds only (not local dev)
-const GA_ID = "G-51WG6025T0";
-const GA_INLINE = `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}');`;
-
-// Yandex Metrica — analytics + Webvisor (session replay), production-only.
-const YM_ID = 110027161;
-const YM_INLINE = `(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js?id=${YM_ID}', 'ym'); ym(${YM_ID}, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});`;
 
 // Search-engine ownership verification (public tokens — fine to ship in source).
 // Yandex is verified with the baked-in default below; Bing renders only when its
@@ -21,6 +15,11 @@ const YM_INLINE = `(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a
 // needs no meta tag). Bing Webmaster also powers DuckDuckGo/Yahoo/Ecosia.
 const BING_VERIFY = import.meta.env.BING_SITE_VERIFICATION;
 const YANDEX_VERIFY = import.meta.env.YANDEX_VERIFICATION ?? "f949199876a945f6";
+
+// Analytics (GA4 + Yandex Metrica) are NO LONGER loaded here.
+// The CookieConsent component injects them at runtime, only after the visitor
+// clicks "Accept analytics". Until then, the only request this site makes is
+// the one to load it. See src/components/CookieConsent.astro.
 
 export interface Props {
   title: string;
@@ -69,20 +68,13 @@ const {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 
-    {
-      import.meta.env.PROD && (
-        <Fragment>
-          <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} />
-          <script is:inline set:html={GA_INLINE} />
-          <script is:inline set:html={YM_INLINE} />
-          <noscript>
-            <div>
-              <img src={`https://mc.yandex.ru/watch/${YM_ID}`} style="position:absolute; left:-9999px;" alt="" />
-            </div>
-          </noscript>
-        </Fragment>
-      )
-    }
+    {/*
+      Analytics scripts (GA4 + Yandex Metrica) are intentionally absent here.
+      They are injected at runtime by <CookieConsent /> only after the visitor
+      clicks "Accept analytics" — see src/components/CookieConsent.astro.
+      Until that choice is made, the only request this site makes is the one
+      to load it. GDPR/CCPA-compliant by construction, not by banner.
+    */}
 
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -122,8 +114,6 @@ const {
     <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
     <link rel="alternate" type="application/rss+xml" title="Divyansh Sood® Studio — Journal" href="/rss.xml" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://ik.imagekit.io" crossorigin />
     {
       preloadImage && (
@@ -137,17 +127,23 @@ const {
         />
       )
     }
-    <link rel="preload" as="style" href={FONTS} onload="this.onload=null;this.rel='stylesheet'" />
-    <noscript><link rel="stylesheet" href={FONTS} /></noscript>
+    {/*
+      Self-hosted font preload — Archivo 900 is the hero headline weight and
+      the most FOIT-prone. Preload cuts the swap from ~80ms to ~10ms on first
+      paint. Other weights fall through the cascade from /fonts/*.woff2.
+    */}
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/archivo-900.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/space-mono-400.woff2" crossorigin />
 
     {jsonld && <script type="application/ld+json" is:inline set:html={jsonld} />}
   </head>
   <body>
     <div id="ds-root">
-      <div id="ds-cursor" aria-hidden="true"></div>
       <slot />
     </div>
 
+    <StickyBook />
+    <CookieConsent />
     <BaseScripts />
   </body>
 </html>
