@@ -1,0 +1,235 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+
+const slug = "the-real-cost-of-renting-your-storefront";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+const next = POSTS[(idx + 1) % POSTS.length];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
+      publisher: {
+        "@type": "Organization",
+        "@id": `${SITE}/#studio`,
+        name: "Divyansh Sood® Studio",
+        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
+      },
+      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      wordCount: 725,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+  ],
+});
+---
+
+<Layout
+  title={`${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  jsonld={jsonld}
+>
+  <Nav kicker="Journal" />
+  <main>
+    <header class="post-hero">
+      <div class="post-hero-bg" aria-hidden="true"></div>
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img src={post.coverImage} alt={post.title} width="1200" height="750" fetchpriority="high" decoding="async" />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+      <p>The most expensive word in your tech stack is <em>monthly</em>.</p>
+<p>Not because any single bill is large. Because monthly costs hide. ₹2,599 here, ₹999 there, an app at ₹1,500 — none of it triggers the part of your brain that resists a big number. So it never gets questioned. And it compounds for as long as you’re in business.</p>
+<p>Let me make the invisible visible.</p>
+<hr>
+<h2 id="what-youre-actually-renting">What you’re actually renting</h2>
+<p>When your store runs on a hosted builder plus apps, you’re renting four separate things:</p>
+<ol>
+<li><strong>The platform</strong> — the right to keep your store online</li>
+<li><strong>The features</strong> — apps for reviews, bundles, fields, upsells, popups</li>
+<li><strong>The theme</strong> — sometimes one-time, often subscription for updates</li>
+<li><strong>The lock-in</strong> — the cost, in time and risk, of ever leaving</li>
+</ol>
+<p>The first three show up on a card statement. The fourth is the one that actually traps you, and it never appears on any invoice.</p>
+<hr>
+<h2 id="the-three-year-math">The three-year math</h2>
+<p>Here’s a realistic mid-tier setup for a growing D2C brand:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Line item</th><th>Monthly</th><th>3-year total</th></tr></thead><tbody><tr><td>Platform plan</td><td>₹2,600</td><td>₹93,600</td></tr><tr><td>6 apps (avg ₹1,200 each)</td><td>₹7,200</td><td>₹2,59,200</td></tr><tr><td>Premium theme updates</td><td>₹400</td><td>₹14,400</td></tr><tr><td>Transaction fees (beyond gateway)</td><td>varies</td><td>₹50,000+</td></tr><tr><td><strong>Total</strong></td><td><strong>~₹10,200</strong></td><td><strong>~₹4,17,000</strong></td></tr></tbody></table>
+<p>Four lakh rupees over three years — and at the end of it, you own nothing. Stop paying and the store goes dark. You can’t take the theme, the app logic, or the custom fields with you.</p>
+<p>A custom-coded storefront inverts this. You pay once to build, then hosting is ₹0–₹6,000/year because a custom site is just files on a fast CDN. The asset is yours. There’s no monthly feature rent because the features are in your code.</p>
+<hr>
+<h2 id="but-i-dont-have-the-build-budget">”But I don’t have the build budget”</h2>
+<p>Fair. This is the real tension, so let me be honest about it.</p>
+<p>If you’re pre-revenue or still finding product-market fit, <strong>rent.</strong> Speed and flexibility are worth more than ownership when you don’t yet know what you’re building. A hosted builder is the correct call.</p>
+<p>The mistake is staying in rent mode out of habit once you’re past that. Once you have steady revenue and a brand worth protecting, the monthly stack quietly becomes more expensive than owning — and you keep paying it because the bill is small enough to ignore.</p>
+<p>The crossover is usually earlier than founders think. Run your own numbers above. If your three-year rent total is north of ₹3 lakh, a custom build often pays for itself inside 18 months — and then keeps paying.</p>
+<hr>
+<h2 id="ownership-is-also-leverage">Ownership is also leverage</h2>
+<p>The financial case is the obvious one. The strategic case is bigger.</p>
+<p>When you own your code:</p>
+<ul>
+<li><strong>No platform can change your business overnight.</strong> No surprise pricing tier, no deprecated app, no “we’re sunsetting this feature.”</li>
+<li><strong>You can build the thing nobody else has.</strong> The drop mechanic, the configurator, the loyalty logic — none of it waits on whether an app exists.</li>
+<li><strong>You can leave any developer, not any platform.</strong> Custom code is readable by any competent engineer. That’s portability, which is freedom.</li>
+</ul>
+<p>When we built <a href="https://www.divyanshsood.com/projects/chinkiz">ChinkiZ Knitting Knife</a> for a 600K-subscriber creator, the whole point was a video gallery and admin panel that no builder offered. Owning the code meant the store could be exactly her, not the nearest template.</p>
+<hr>
+<h2 id="the-question-to-sit-with">The question to sit with</h2>
+<p>Look at your last card statement and add up every recurring charge tied to your store. Multiply by 36.</p>
+<p>Then ask: <em>if I’m going to spend that much over three years anyway, would I rather rent something I’ll never own — or own something I’ll never have to rent again?</em></p>
+<p>For a brand past validation, the answer is usually obvious the moment you actually do the multiplication.</p>
+<hr>
+<p><em>I’m Divyansh Sood. I build storefronts that flip the rent-vs-own math inside 18 months for any D2C brand doing meaningful volume. 9 live builds since 2022 — including <a href="https://www.divyanshsood.com/projects/chinkiz">ChinkiZ Knitting Knife</a>, a 600K-subscriber YouTuber’s creator store built on a video gallery that no template offered.</em></p>
+<p><em>If you’ve been quietly watching your monthly stack compound and want a straight quote on what ownership would cost you, <a href="mailto:hello@divyanshsood.com">email me</a> — I’ll send you the math for your actual numbers.</em></p>
+      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </article>
+
+    <section class="wrap narrow" aria-label="Keep reading">
+      <a class="post-next" href={`/blog/${next.slug}/`}>
+        <span><span class="label">Read next</span><br /><span class="name">{next.title}</span></span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </section>
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        {post.audience === "indian-smb" ? (
+          <>
+            <h2>Working on something in India?</h2>
+            <p>If a post here matches what you're building, send me the brief. WhatsApp reply in under an hour, 9 AM–9 PM IST — I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="https://wa.me/919816091875" target="_blank" rel="noopener"
+                >Message me on WhatsApp <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : post.audience === "d2c-brand" ? (
+          <>
+            <h2>Building a brand a theme can't carry?</h2>
+            <p>If your store has a model that off-the-shelf builders fight — hand-numbered drops, creator commerce, premium D2C — tell me about it. I read every brief personally.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : (
+          <>
+            <h2>Working on something similar?</h2>
+            <p>If a post here matches what you're building, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="https://calendly.com/sood-divyansh007/30min" target="_blank" rel="noopener"
+                >Book a 15-min intro <span aria-hidden="true">↗</span></a
+              >
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

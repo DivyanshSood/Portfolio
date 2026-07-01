@@ -4,13 +4,15 @@ import Nav from "../components/Nav.astro";
 import Hero from "../components/home/Hero.astro";
 import About from "../components/home/About.astro";
 import HorizontalScrollWork from "../components/motion/HorizontalScrollWork.astro";
-import Stats from "../components/home/Stats.astro";
 import Testimonials from "../components/home/Testimonials.astro";
+import Process from "../components/home/Process.astro";
 import Pricing from "../components/home/Pricing.astro";
+import Faq from "../components/home/Faq.astro";
 import Contact from "../components/home/Contact.astro";
-import GiantText from "../components/motion/GiantText.astro";
+import ClosingCta from "../components/home/ClosingCta.astro";
 
 import HomeScripts from "../components/home/HomeScripts.astro";
+import MotionController from "../components/motion/MotionController.astro";
 import { homeJsonLd } from "../lib/home-schema.mjs";
 
 const SITE = "https://www.divyanshsood.com";
@@ -19,12 +21,31 @@ const jsonld = homeJsonLd(SITE);
 
 <Layout
   title="Divyansh Sood® Studio — Built from the Himalayas. Shipping for the world."
-  description="Independent web designer & developer in Himachal Pradesh, India — custom-coded, conversion-focused websites, stores and web apps for founders worldwide. 7 days vs 6 months quoted. Marketing sites & MVPs in 3–4 weeks; larger builds, 6–10."
+  description="Independent web developer in Himachal Pradesh, India — custom-coded, conversion-focused websites, stores and web apps for founders worldwide. 7 days vs 6 months quoted. Marketing sites & MVPs in 3–4 weeks; larger builds, 6–10."
   canonical={`${SITE}/`}
-  keywords="Divyansh Sood, web designer, web developer, custom website developer, Next.js developer, Astro developer, conversion-focused websites, ecommerce website developer, SEO web developer, AI website builder, Himachal Pradesh, India web studio"
+  keywords="Divyansh Sood, web developer, custom website developer, Next.js developer, Astro developer, conversion-focused websites, ecommerce website developer, SEO web developer, AI website builder, Himachal Pradesh, India web studio"
   ogDescription="Built from the Himalayas. Shipping for the world. Custom-coded sites in 3–4 weeks. From $3,000."
   jsonld={jsonld}
 >
+  {/* Synchronous, render-blocking: arm scroll-reveal before first paint so
+      there is no flash of un-hidden content. Skips when the visitor prefers
+      reduced motion. A 3s failsafe reveals everything if the motion bundle
+      never runs. */}
+  <Fragment slot="head">
+    <script is:inline>
+      (function () {
+        try {
+          if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+          var d = document.documentElement;
+          d.classList.add("motion");
+          setTimeout(function () {
+            if (!d.classList.contains("motion-ready")) d.classList.add("motion-fallback");
+          }, 3000);
+        } catch (e) {}
+      })();
+    </script>
+  </Fragment>
+
   <Nav kicker="Design & dev studio from the Himalayas" />
 
   {/* ---------- 01 · Hero ---------- */}
@@ -36,25 +57,24 @@ const jsonld = homeJsonLd(SITE);
   {/* ---------- 03 · Selected Work (top 3 of 9) ---------- */}
   <HorizontalScrollWork />
 
-  {/* ---------- 04 · Results / Stats ---------- */}
-  <Stats />
-
-  {/* ---------- 05 · Testimonials (3 with context) ---------- */}
+  {/* ---------- 04 · Testimonials (3 with context) ---------- */}
   <Testimonials />
+
+  {/* ---------- 05 · Process (how it works — 5 steps) ---------- */}
+  <Process />
 
   {/* ---------- 06 · Pricing ---------- */}
   <Pricing />
 
-  {/* ---------- 07 · Closing CTA ---------- */}
-  <GiantText
-    lines={["Let's", "build."]}
-    align="center"
-    theme="accent"
-    meta="(01 — Next step)"
-  />
+  {/* ---------- 07 · FAQ (before-we-start objections) ---------- */}
+  <Faq />
 
-  {/* ---------- 08 · Contact ---------- */}
+  {/* ---------- 08 · Closing CTA (orange) + WebGL liquid-metal blob ---------- */}
+  <ClosingCta />
+
+  {/* ---------- 09 · Contact ---------- */}
   <Contact />
 </Layout>
 
 <HomeScripts />
+<MotionController />

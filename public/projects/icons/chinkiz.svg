@@ -21,12 +21,12 @@
     <radialGradient id="yarnGrad" cx="40%" cy="40%" r="60%">
       <stop offset="0%" stop-color="#ffffff" stop-opacity="0.85"/>
       <stop offset="50%" stop-color="#ffffff" stop-opacity="0.4"/>
-      <stop offset="100%" stop-color="#ff4612" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#ff1f1f" stop-opacity="0.5"/>
     </radialGradient>
     <radialGradient id="redGlow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#ff4612" stop-opacity="0.65"/>
-      <stop offset="60%" stop-color="#ff4612" stop-opacity="0.18"/>
-      <stop offset="100%" stop-color="#ff4612" stop-opacity="0"/>
+      <stop offset="0%" stop-color="#ff1f1f" stop-opacity="0.65"/>
+      <stop offset="60%" stop-color="#ff1f1f" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#ff1f1f" stop-opacity="0"/>
     </radialGradient>
     <filter id="bigBlur" x="-100%" y="-100%" width="300%" height="300%">
       <feGaussianBlur stdDeviation="22"/>
@@ -62,7 +62,7 @@
     <!-- Pointed tip -->
     <polygon points="252,120 260,120 256,108" fill="#ffffff" fill-opacity="0.9"/>
     <!-- Cap end -->
-    <rect x="248" y="356" width="16" height="22" rx="4" fill="#ff4612"/>
+    <rect x="248" y="356" width="16" height="22" rx="4" fill="#ff1f1f"/>
   </g>
 
   <!-- Needle 2 (top-right to bottom-left) -->
@@ -86,6 +86,6 @@
   <circle cx="256" cy="256" r="56" fill="none" stroke="#0b0b0c" stroke-opacity="0.35" stroke-width="2"/>
 
   <!-- Trailing yarn thread (red accent) -->
-  <path d="M 296 290 Q 340 320 372 296 Q 396 280 410 308" fill="none" stroke="#ff4612" stroke-width="3.5" stroke-linecap="round"/>
-  <circle cx="410" cy="308" r="3" fill="#ff4612"/>
+  <path d="M 296 290 Q 340 320 372 296 Q 396 280 410 308" fill="none" stroke="#ff1f1f" stroke-width="3.5" stroke-linecap="round"/>
+  <circle cx="410" cy="308" r="3" fill="#ff1f1f"/>
 </svg>

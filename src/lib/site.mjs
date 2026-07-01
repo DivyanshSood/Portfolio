@@ -8,17 +8,18 @@
                           monogram placeholder renders instead — nothing breaks.
    =========================================================================== */
 
-// TODO(divyansh): replace with your real Calendly link, e.g.
-//   "https://calendly.com/divyanshsood/intro-call"
-export const CALENDLY_URL = "https://calendly.com/divyanshsood/intro-call";
+export const CALENDLY_URL = "https://calendly.com/sood-divyansh007/30min";
 
 // Opens the scheduler in a new tab. Kept here so every CTA stays in sync.
 export const BOOK_LABEL = "Book an intro call";
 
-// Founder photo. Local fallback at /divyansh-photo.jpg; swap to an ImageKit
-// URL (same host as the project images) once you've uploaded a re-crop there
-// for a smaller responsive payload.
-export const FOUNDER_PHOTO = "/divyansh-photo.jpg";
+// Founder photos, hosted on ImageKit (same account as the project images).
+// `?tr=f-auto,q-90` lets ImageKit auto-serve WebP/AVIF at ~90 quality for a
+// smaller responsive payload. FOUNDER_PHOTO is the hero portrait (direct gaze);
+// FOUNDER_PHOTO_ABOUT is the editorial three-quarter shot used on /about.
+const IK = "https://ik.imagekit.io/dn2zdxiu3/Portfolioprojectimages/My%20images";
+export const FOUNDER_PHOTO = `${IK}/ChatGPT%20Image%20Jun%2023,%202026,%2008_08_33%20PM.jpg?tr=f-auto,q-90`;
+export const FOUNDER_PHOTO_ABOUT = `${IK}/ChatGPT%20Image%20Jun%2024,%202026,%2006_26_44%20AM.png?tr=f-auto,q-90`;
 export const FOUNDER_PHOTO_ALT =
   "Divyansh Sood — founder, Divyansh Sood® Studio, Himachal Pradesh, India";
 
@@ -52,6 +53,16 @@ export const HAS_CLIENT_LOGOS = CLIENT_LOGOS.some((l) => l.src.trim().length > 0
    AggregateRating schema) because those numbers aren't verifiable from here.
 --------------------------------------------------------------------------- */
 export const GOOGLE_REVIEWS_URL = "https://share.google/x2v3pvXR9RIjYF1z0";
+
+/* ---------------------------------------------------------------------------
+   Google Business Profile / Maps. GOOGLE_MAPS_URL is the shareable place link
+   used for visible "find me on Maps" links. GBP_CID is the listing's Customer
+   ID; GOOGLE_MAPS_CID_URL is the canonical cid-based map URL used in structured
+   data (hasMap + sameAs) so search engines tie the site to the real listing.
+--------------------------------------------------------------------------- */
+export const GOOGLE_MAPS_URL = "https://maps.app.goo.gl/ACwV9EfEteWVoTD49";
+export const GBP_CID = "6503761533006416527";
+export const GOOGLE_MAPS_CID_URL = `https://www.google.com/maps?cid=${GBP_CID}`;
 
 /* Lowest project price we'll take on — kept here so the pricing copy and the
    inquiry-form budget options stay in sync. Repositioned for international

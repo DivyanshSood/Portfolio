@@ -1,0 +1,229 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+
+const slug = "how-i-get-clients-without-paid-ads";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+const next = POSTS[(idx + 1) % POSTS.length];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
+      publisher: {
+        "@type": "Organization",
+        "@id": `${SITE}/#studio`,
+        name: "Divyansh Sood® Studio",
+        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
+      },
+      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      wordCount: 1268,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+  ],
+});
+---
+
+<Layout
+  title={`${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  jsonld={jsonld}
+>
+  <Nav kicker="Journal" />
+  <main>
+    <header class="post-hero">
+      <div class="post-hero-bg" aria-hidden="true"></div>
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img src={post.coverImage} alt={post.title} width="1200" height="750" fetchpriority="high" decoding="async" />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+      <p>I’ve never run a Google Ad. Never boosted an Instagram post. Never paid for a lead.</p>
+<p>Every client on my portfolio — the tour operator doing 1,000 bookings a month, the 600K YouTuber, the school that needed a site in 7 days — came through without a single rupee in paid advertising.</p>
+<p>I’m not saying ads are bad. I’m saying I haven’t needed them yet. And here’s exactly why.</p>
+<hr>
+<h2 id="1-the-work-does-the-talking--but-only-if-people-can-see-it">1. The work does the talking — but only if people can see it</h2>
+<p>This sounds obvious. It isn’t.</p>
+<p>Most freelancers do good work and then hide it. It lives in a client’s Google Drive, behind a login, or in a ZIP file sent over email. Nobody sees it except the client.</p>
+<p>Every project I complete is live on the web, linked from my portfolio, with the client’s name, real outcomes, and real numbers attached. ~1,000 bookings/month. 7-day delivery vs. 6-month agency quotes. 10× more premium than competitors.</p>
+<p>Those numbers aren’t marketing copy I made up. They’re what the founders told me. And when a potential client reads them, they’re not reading <em>my</em> claims about myself — they’re reading what real business owners said after the work was done.</p>
+<p>That’s a different kind of trust. Ads can’t buy it.</p>
+<p><strong>What this means in practice:</strong> Every project should end with a case study. Even a short one. Problem, what you built, outcome. Three paragraphs. Link it from your portfolio. That page compounds over time — it gets indexed by Google, shared by the client, and read by the next person considering hiring you.</p>
+<hr>
+<h2 id="2-referrals-are-a-system-not-luck">2. Referrals are a system, not luck</h2>
+<p>Two of my clients have explicitly said, on record, that they’ll refer me to everyone they know.</p>
+<p>One founder said it in Hindi: <em>“mein apne circle mein lifetime zaroor refer karunga.”</em> Another said she’d recommend me to anyone looking for website work. These aren’t just nice things people say — they’re statements made after a specific experience that earned them.</p>
+<p>What created that experience?</p>
+<ul>
+<li><strong>Delivering faster than promised.</strong> If I say 14 days, I aim for 10. The gap between expectation and delivery is where trust is made.</li>
+<li><strong>Being reachable.</strong> WhatsApp reply in under an hour, 9 AM to 9 PM. Not a ticket system. Not “we’ll get back to you in 2 business days.” A real person responding in real time.</li>
+<li><strong>No surprises on price.</strong> Fixed packages, GST invoice, 50% advance. The client knows exactly what they’re paying and when before a single line of code is written.</li>
+<li><strong>Leaving them capable, not dependent.</strong> Every project ends with a 5-minute walkthrough video. For clients with admin panels, I train their staff to use it. A client who feels empowered talks about you differently than one who feels locked in.</li>
+</ul>
+<p>Referrals aren’t luck. They’re what happens when you consistently close the gap between what clients fear (getting overcharged, ghosted, delivered something broken) and what they actually experience.</p>
+<hr>
+<h2 id="3-my-own-website-is-the-best-ad-i-have">3. My own website is the best ad I have</h2>
+<p>Every technique I use for clients — fast load times, Lighthouse 90+, schema markup, WhatsApp CTA, llms.txt for AI search — is running on my own portfolio right now.</p>
+<p>When a potential client searches for a website developer in Himachal Pradesh, my site needs to show up. And when they land on it, it needs to load fast, look sharp, and make contacting me as frictionless as possible.</p>
+<p>A developer with a slow, broken, or template-based portfolio is like a barber with a bad haircut. The portfolio <em>is</em> the pitch. It demonstrates in real time what you’d build for someone else.</p>
+<p>This also means I eat my own cooking. If I’m telling clients that Lighthouse 90+ matters, my own site has to hit it. If I’m telling them WhatsApp-first lead capture converts better than contact forms, my own site has to prove it. It does.</p>
+<hr>
+<h2 id="4-niche-beats-volume">4. Niche beats volume</h2>
+<p>I don’t market to everyone. I market to Indian businesses — specifically small and medium businesses in Himachal Pradesh and nearby states — who have no website, or a broken one, and need something live fast.</p>
+<p>That’s a specific person. And when I write, I write to that person.</p>
+<p>A generic “I build websites” freelancer is competing with every developer on Upwork and Fiverr. A developer who specifically says “I build fast, custom-coded websites for Himalayan businesses, live in 14 days, starting ₹7,000” — that person is competing with almost nobody.</p>
+<p>Niching down feels like leaving money on the table. It’s actually the opposite. It means the right clients find you faster, trust you quicker, and refer you to people exactly like themselves.</p>
+<hr>
+<h2 id="5-being-present-where-clients-already-are">5. Being present where clients already are</h2>
+<p>My clients are not on LinkedIn job boards. They’re on WhatsApp, in local business groups, asking friends for recommendations, and occasionally Googling for a developer in their area.</p>
+<p>So that’s where I am.</p>
+<ul>
+<li><strong>WhatsApp number on every page</strong> — not buried in the footer, on every CTA.</li>
+<li><strong>Google Business profile</strong> — for local search visibility in Kangra and Dharamshala.</li>
+<li><strong>GitHub</strong> — for developers and technical founders evaluating my stack.</li>
+<li><strong>LinkedIn</strong> — for slightly larger businesses and institutional clients.</li>
+<li><strong>Referral from past clients</strong> — which loops back to point 2.</li>
+</ul>
+<p>None of this is complicated. Most of it is just showing up consistently in the places your clients actually look.</p>
+<hr>
+<h2 id="6-content-that-answers-real-questions">6. Content that answers real questions</h2>
+<p>This blog is part of the strategy.</p>
+<p>When a business owner in Mandi is wondering whether to use Wix or hire a developer, I want a page on my site that answers that question thoroughly and honestly. When a taxi operator in Kangra is wondering why their Google Maps reviews aren’t converting to bookings, I want a post they can find.</p>
+<p>That content does three things. It ranks on Google over time. It builds trust before a client ever reaches out. And it pre-qualifies — someone who reads a detailed post and still messages me already understands what I do and why it costs what it costs. The sales conversation is shorter.</p>
+<p>I’m not publishing daily. I’m publishing selectively — pieces that answer real objections, explain real outcomes, and speak directly to the person I’m trying to reach.</p>
+<hr>
+<h2 id="what-im-not-doing">What I’m not doing</h2>
+<p>No cold email. No Instagram DMs. No Upwork bids. No listing on Justdial.</p>
+<p>Not because those channels don’t work — they might — but because everything above already works, and doing more things poorly is worse than doing fewer things well.</p>
+<p>If I’m ever at a point where referrals slow down and organic search isn’t enough, I’ll revisit paid ads. But the bar for that is: existing channels have genuinely maxed out. Not: ads seem easier.</p>
+<hr>
+<h2 id="the-actual-playbook-short-version">The actual playbook, short version</h2>
+<ol>
+<li>Build things that are worth showing. Show them.</li>
+<li>Deliver in a way that makes clients want to talk about you.</li>
+<li>Make your own site the proof of everything you claim.</li>
+<li>Serve a specific person, not everyone.</li>
+<li>Be findable where that person already looks.</li>
+<li>Write content that answers what they’re already wondering.</li>
+</ol>
+<p>That’s it. No funnel software. No ad spend. No growth hacking.</p>
+<p>Just work that earns trust, delivered to the right people, in the right places.</p>
+<hr>
+<p><em>I’m Divyansh Sood — solo web developer, Kangra Valley. Custom-coded websites for Indian small businesses; most clients come from referrals and organic search, never a paid ad. If you’re a small business in India that needs a site that earns leads, <a href="https://wa.me/919816091875">WhatsApp me</a> — I’ll reply within the hour.</em></p>
+      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </article>
+
+    <section class="wrap narrow" aria-label="Keep reading">
+      <a class="post-next" href={`/blog/${next.slug}/`}>
+        <span><span class="label">Read next</span><br /><span class="name">{next.title}</span></span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </section>
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        {post.audience === "indian-smb" ? (
+          <>
+            <h2>Working on something in India?</h2>
+            <p>If a post here matches what you're building, send me the brief. WhatsApp reply in under an hour, 9 AM–9 PM IST — I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="https://wa.me/919816091875" target="_blank" rel="noopener"
+                >Message me on WhatsApp <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : post.audience === "d2c-brand" ? (
+          <>
+            <h2>Building a brand a theme can't carry?</h2>
+            <p>If your store has a model that off-the-shelf builders fight — hand-numbered drops, creator commerce, premium D2C — tell me about it. I read every brief personally.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : (
+          <>
+            <h2>Working on something similar?</h2>
+            <p>If a post here matches what you're building, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="https://calendly.com/sood-divyansh007/30min" target="_blank" rel="noopener"
+                >Book a 15-min intro <span aria-hidden="true">↗</span></a
+              >
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

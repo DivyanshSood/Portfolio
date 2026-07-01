@@ -1,0 +1,208 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+
+const slug = "google-business-profile-vs-website-himachal";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+const next = POSTS[(idx + 1) % POSTS.length];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
+      publisher: {
+        "@type": "Organization",
+        "@id": `${SITE}/#studio`,
+        name: "Divyansh Sood® Studio",
+        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
+      },
+      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      wordCount: 987,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+  ],
+});
+---
+
+<Layout
+  title={`${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  jsonld={jsonld}
+>
+  <Nav kicker="Journal" />
+  <main>
+    <header class="post-hero">
+      <div class="post-hero-bg" aria-hidden="true"></div>
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img src={post.coverImage} alt={post.title} width="1200" height="750" fetchpriority="high" decoding="async" />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+      <p>I get this question every few weeks.</p>
+<p>A tour operator. A clinic. A carpentry shop. They’ve claimed their Google Business Profile, they’re showing up on Google Maps, they’re getting some calls — and they’re wondering: <em>do I actually need a website too?</em></p>
+<p>The answer is yes. But the more useful answer is understanding what each one does — and where each one fails.</p>
+<hr>
+<h2 id="what-a-google-business-profile-actually-does">What a Google Business Profile actually does</h2>
+<p>A Google Business Profile is a listing. Think of it as a structured entry in Google’s local database: your business name, category, address, phone number, hours, photos, and reviews — displayed when someone searches for you by name or finds you in a local map search.</p>
+<p>It is powerful for exactly one thing: <strong>being found when someone is already looking for something near a specific location.</strong></p>
+<p>When someone opens Google Maps and types “clinic near me” — your GBP is what shows up. If your profile is complete, has good photos, and has recent positive reviews, you rank higher. The person calls. Or taps for directions. Or visits.</p>
+<p>For discovery in local search — particularly map-based search — a GBP is the most important single thing a physical business can have. More valuable than any amount of Instagram followers. More directly tied to walk-in traffic and phone calls than almost any other digital asset.</p>
+<p><strong>So: claim it, complete it, photograph it, collect reviews on it. That part is not optional.</strong></p>
+<hr>
+<h2 id="where-a-google-business-profile-stops">Where a Google Business Profile stops</h2>
+<p>A GBP is a listing. It can show someone your hours and your phone number. It cannot:</p>
+<ul>
+<li>Tell a complex story about your services</li>
+<li>Show a portfolio of your past work</li>
+<li>Let someone book directly without calling</li>
+<li>Rank for long-tail searches like “custom web developer with admin panel” or “D2C storefront Razorpay integration”</li>
+<li>Capture leads from people who are researching and not yet ready to call</li>
+<li>Work for service businesses with no physical location</li>
+<li>Rank in AI-powered search results (ChatGPT, Perplexity, Claude)</li>
+</ul>
+<p>The moment a customer’s question goes beyond “where are you and when are you open” — your GBP can’t answer it. Your website can.</p>
+<hr>
+<h2 id="what-a-website-actually-does">What a website actually does</h2>
+<p>A website is infrastructure. It can do things a GBP cannot:</p>
+<p><strong>Rank for intent-based searches.</strong> “Best custom web developer for school portal.” “WhatsApp commerce website India.” “Tax accountant Pune who understands startups.” These searches happen before someone opens Maps. They’re driven by intent, not geography. Only your website can rank for them.</p>
+<p><strong>Convert researchers into customers.</strong> Someone who found you on Google Maps calls. Someone who finds you through search, reads about your work, sees your prices, reads client testimonials, and then fills out a form — that person is warmer, more qualified, and more likely to become a long-term client.</p>
+<p><strong>Capture leads passively.</strong> A well-built website with a WhatsApp integration captures enquiries at 11 PM when you’re asleep. A GBP shows your phone number. The calls stop when you stop answering.</p>
+<p><strong>Build trust at scale.</strong> For a ₹28,000 engagement — a business website, a school portal, a D2C storefront — customers need to see more than a Google listing to commit. A professional website is the signal that you take your own business seriously.</p>
+<p><strong>Rank in AI search.</strong> Increasingly, potential customers are asking AI assistants — ChatGPT, Perplexity, Claude — for recommendations. These tools synthesise information from websites. A GBP doesn’t appear in an AI-generated recommendation. A well-structured website does.</p>
+<hr>
+<h2 id="the-practical-breakdown-by-business-type">The practical breakdown by business type</h2>
+<p><strong>Physical retail, restaurants, salons, clinics:</strong> Your GBP does the heaviest lifting — foot traffic, map discovery, calls. You still need a website for credibility, service pages, and online booking. Priority: GBP first, website second.</p>
+<p><strong>Service businesses (contractors, accountants, lawyers, coaches, developers, designers):</strong> Your website is the primary asset. There’s no location-based walk-in traffic. Clients find you through search, referrals, or your portfolio — all of which require a website to convert. Priority: website first, GBP second.</p>
+<p><strong>Travel operators, homestays, tour companies:</strong> Both matter equally. GBP for map discovery and reviews. Website for booking funnels, package pages, WhatsApp integration, and AI-search visibility. Priority: build both simultaneously.</p>
+<p><strong>D2C brands and e-commerce:</strong> Your website <em>is</em> your business. GBP is largely irrelevant unless you have a physical showroom. Priority: website only.</p>
+<hr>
+<h2 id="the-common-mistake">The common mistake</h2>
+<p>Most businesses treat a GBP as a substitute for a website because it’s free and faster to set up.</p>
+<p>That works until it doesn’t. The GBP gets the phone ringing. But if the caller asks to “see some examples of your work” or “check your prices online” or “book without calling” — and you have no website — you’ve already lost a percentage of those leads.</p>
+<p>The two tools complement each other. A GBP drives discovery. A website converts the discovered.</p>
+<hr>
+<h2 id="how-to-prioritise">How to prioritise</h2>
+<p>If you have neither: claim your GBP first this week. It’s free and takes 30 minutes. Start collecting reviews.</p>
+<p>If you have a GBP but no website: get a website. Even a well-built 5-page custom site at ₹13,000–16,000 pays for itself if it converts two or three enquiries that would otherwise have gone to a competitor with a website.</p>
+<p>If you have a website but no GBP: claim it today. Add 20 real photos. Ask your last ten satisfied clients for reviews. It costs nothing and the search benefit is immediate.</p>
+<p>If you have both but they’re mediocre: the website is almost always the more urgent fix. A slow, template-looking website undermines the credibility that your GBP reviews are building.</p>
+<hr>
+<p><em>I’m Divyansh, solo developer out of Kangra Valley. I build websites for Indian service businesses, travel operators, schools, D2C brands and creators — custom-coded, mobile-first, WhatsApp-integrated, live in 14 days.</em></p>
+<p><em>If your business has a Google Business Profile but no website — or vice versa — <a href="https://wa.me/919816091875">WhatsApp me</a> and I’ll tell you within a day what to fix first.</em></p>
+      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </article>
+
+    <section class="wrap narrow" aria-label="Keep reading">
+      <a class="post-next" href={`/blog/${next.slug}/`}>
+        <span><span class="label">Read next</span><br /><span class="name">{next.title}</span></span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </section>
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        {post.audience === "indian-smb" ? (
+          <>
+            <h2>Working on something in India?</h2>
+            <p>If a post here matches what you're building, send me the brief. WhatsApp reply in under an hour, 9 AM–9 PM IST — I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="https://wa.me/919816091875" target="_blank" rel="noopener"
+                >Message me on WhatsApp <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : post.audience === "d2c-brand" ? (
+          <>
+            <h2>Building a brand a theme can't carry?</h2>
+            <p>If your store has a model that off-the-shelf builders fight — hand-numbered drops, creator commerce, premium D2C — tell me about it. I read every brief personally.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : (
+          <>
+            <h2>Working on something similar?</h2>
+            <p>If a post here matches what you're building, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="https://calendly.com/sood-divyansh007/30min" target="_blank" rel="noopener"
+                >Book a 15-min intro <span aria-hidden="true">↗</span></a
+              >
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

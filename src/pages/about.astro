@@ -2,10 +2,10 @@
 import Layout from "../layouts/Layout.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
-import { CALENDLY_URL, FOUNDER_PHOTO, FOUNDER_PHOTO_ALT, HAS_FOUNDER_PHOTO } from "../lib/site.mjs";
+import { CALENDLY_URL, FOUNDER_PHOTO_ABOUT, FOUNDER_PHOTO_ALT, HAS_FOUNDER_PHOTO } from "../lib/site.mjs";
 
 const SITE = "https://www.divyanshsood.com";
-const canonical = `${SITE}/about`;
+const canonical = `${SITE}/about/`;
 
 const WA = "https://wa.me/919816091875?text=Hi%20Divyansh,%20I%20saw%20your%20about%20page%20and%20want%20to%20talk.";
 
@@ -46,7 +46,7 @@ const jsonld = JSON.stringify({
       "@type": "AboutPage",
       "@id": `${canonical}#page`,
       url: canonical,
-      name: "About Divyansh Sood — solo web designer & developer",
+      name: "About Divyansh Sood — solo web developer",
       description:
         "Divyansh Sood runs a 1-person studio out of Himachal Pradesh, India — custom-coded websites, stores and web apps for founders worldwide.",
       isPartOf: { "@id": `${SITE}/#website` },
@@ -63,7 +63,7 @@ const jsonld = JSON.stringify({
       "@type": "Person",
       "@id": `${SITE}/#person`,
       name: "Divyansh Sood",
-      jobTitle: "Web designer & developer",
+      jobTitle: "Web developer",
       description:
         "Solo studio in Himachal Pradesh, India. Custom-coded websites, stores, web apps and AI features for founders worldwide. 20+ products shipped since 2022.",
       url: canonical,
@@ -87,10 +87,10 @@ const jsonld = JSON.stringify({
 ---
 
 <Layout
-  title="About Divyansh Sood — solo web designer & developer from the Himalayas"
-  description="Solo web designer and developer running a 1-person studio from Himachal Pradesh, India. Custom-coded marketing sites, stores, web apps and AI features for founders worldwide."
+  title="About Divyansh Sood — solo web developer from the Himalayas"
+  description="Solo web developer running a 1-person studio from Himachal Pradesh, India. Custom-coded marketing sites, stores, web apps and AI features for founders worldwide."
   canonical={canonical}
-  keywords="Divyansh Sood about, solo web developer, Himachal Pradesh web designer, freelance Next.js developer, custom website developer India, founder web developer"
+  keywords="Divyansh Sood about, solo web developer, Himachal Pradesh web developer, freelance Next.js developer, custom website developer India, founder web developer"
   ogTitle="About Divyansh Sood — solo studio, built from the Himalayas"
   ogDescription="1 person, 20+ products shipped since 2022, custom-coded marketing sites and web apps for founders worldwide."
   jsonld={jsonld}
@@ -107,8 +107,8 @@ const jsonld = JSON.stringify({
         <h1 style="margin:14px 0 0;font-weight:900;font-size:clamp(40px,7.5vw,104px);line-height:.9;letter-spacing:-.035em;text-transform:uppercase;">Built from<br />the <span style="color:var(--accent);">Himalayas.</span><br />Shipping for the world.</h1>
         <p class="cs-lead">I'm Divyansh Sood — a 1-person web studio out of a small town in Himachal Pradesh, India. Custom-coded marketing sites, stores, web apps and AI features for founders worldwide. Twenty-plus products shipped since 2022. No agency floor, no account managers, just me.</p>
         <div class="cs-cta-row">
-          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener" data-cursor>Book a 15-min intro <span aria-hidden="true">↗</span></a>
-          <a class="btn btn-ghost" href={WA} target="_blank" rel="noopener" data-cursor>Message on WhatsApp</a>
+          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book a 15-min intro <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost" href={WA} target="_blank" rel="noopener">Message on WhatsApp</a>
         </div>
         <div class="cs-meta">
           <span>Solo · Design + Build</span><span>Himachal Pradesh · India</span><span>IST +5:30 · Overlap with US / UK / Gulf</span>
@@ -124,17 +124,17 @@ const jsonld = JSON.stringify({
           <span class="mono">One person, end to end</span>
         </div>
 
-        <div style="display:grid;grid-template-columns:0.78fr 1.22fr;gap:clamp(28px,4vw,56px);align-items:stretch;" data-reveal>
+        <div class="about-founder" data-reveal>
           {HAS_FOUNDER_PHOTO ? (
             <div
-              class="imgfill"
-              style={`background-image:url('${FOUNDER_PHOTO}');border:1px solid rgba(255,255,255,.16);border-radius:10px;min-height:460px;background-color:#d0d0d0;`}
+              class="imgfill about-founder-photo"
+              style={`background-image:url('${FOUNDER_PHOTO_ABOUT}');background-color:#d0d0d0;`}
               role="img"
               aria-label={FOUNDER_PHOTO_ALT}
             ></div>
           ) : (
             <div
-              style="min-height:460px;border:1px solid rgba(255,255,255,.16);border-radius:10px;background:radial-gradient(120% 90% at 30% 10%, rgba(255,70,18,0.4), transparent 55%),linear-gradient(160deg,#1b1b1d,#0b0b0c);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;aspect-ratio:4/5;"
+              style="min-height:460px;border:1px solid rgba(255,255,255,.16);border-radius:10px;background:radial-gradient(120% 90% at 30% 10%, rgba(255, 31, 31,0.4), transparent 55%),linear-gradient(160deg,#1b1b1d,#0b0b0c);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;aspect-ratio:4/5;"
               aria-label={FOUNDER_PHOTO_ALT}
               role="img"
             >
@@ -153,8 +153,8 @@ const jsonld = JSON.stringify({
             </div>
 
             <div style="display:flex;flex-wrap:wrap;gap:14px;margin-top:22px;">
-              <a href={CALENDLY_URL} target="_blank" rel="noopener" data-cursor class="btn btn-primary">Book a 15-min intro <span aria-hidden="true">↗</span></a>
-              <a href="/#work" data-cursor class="btn btn-ghost">See the work</a>
+              <a href={CALENDLY_URL} target="_blank" rel="noopener" class="btn btn-primary">Book a 15-min intro <span aria-hidden="true">↗</span></a>
+              <a href="/portfolio" class="btn btn-ghost">See the work</a>
             </div>
           </div>
         </div>
@@ -220,17 +220,17 @@ const jsonld = JSON.stringify({
           <span class="mono">2022 — Now</span>
         </div>
 
-        <div data-reveal style="border:1px solid rgba(255,255,255,.14);border-radius:10px;overflow:hidden;">
-          {milestones.map((m, i) => (
-            <div style={`display:grid;grid-template-columns:120px 1fr;gap:24px;padding:26px 28px;${i === 0 ? "" : "border-top:1px solid rgba(255,255,255,.12);"}`}>
-              <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;opacity:.7;padding-top:4px;">{m.year}</div>
-              <div>
-                <h3 style="margin:0 0 8px;font-weight:800;font-size:clamp(18px,1.8vw,22px);letter-spacing:-.01em;">{m.t}</h3>
-                <p style="margin:0;font-size:15.5px;line-height:1.62;opacity:.84;max-width:62ch;">{m.d}</p>
+        <ol class="about-time" data-reveal>
+          {milestones.map((m) => (
+            <li class="about-time-row">
+              <div class="about-time-year">{m.year}</div>
+              <div class="about-time-body">
+                <h3 class="about-time-t">{m.t}</h3>
+                <p class="about-time-d">{m.d}</p>
               </div>
-            </div>
+            </li>
           ))}
-        </div>
+        </ol>
       </div>
     </section>
 
@@ -264,12 +264,154 @@ const jsonld = JSON.stringify({
         <h2>Want to work together?</h2>
         <p>Tell me what you're shipping. I'll come back with a clear path from brief to launch — and an honest timeline.</p>
         <div class="cs-cta-row" style="justify-content:center;">
-          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener" data-cursor>Book a 15-min intro <span aria-hidden="true">↗</span></a>
-          <a class="btn btn-ghost" href={WA} target="_blank" rel="noopener" data-cursor>Message on WhatsApp</a>
+          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book a 15-min intro <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost" href={WA} target="_blank" rel="noopener">Message on WhatsApp</a>
         </div>
       </div>
     </section>
   </main>
 
   <Footer />
+
+  <style>
+    /* ============================================================
+       About page — UI polish (scoped). Matches the homepage's bold
+       editorial black + red language. Copy is unchanged; layout,
+       type scale and interaction only.
+       ============================================================ */
+
+    /* Roomier rhythm + bigger, more editorial section headings. */
+    main .cs-sec { padding: clamp(58px, 7vw, 108px) 0; }
+    main .cs-sec-head { align-items: flex-end; margin-bottom: clamp(30px, 4vw, 52px); }
+    main .cs-sec-head h2 {
+      font-weight: 900;
+      font-size: clamp(30px, 4.8vw, 68px);
+      line-height: 0.96;
+      letter-spacing: -0.035em;
+      text-transform: uppercase;
+    }
+    main .cs-sec-head .mono { opacity: 0.5; }
+
+    /* Hero: tighten the lead and add a hairline accent under the eyebrow. */
+    main .cs-hero { padding-top: clamp(120px, 16vw, 160px); }
+    main .cs-lead { max-width: 64ch; font-size: clamp(17px, 1.7vw, 21px); }
+
+    /* ---- By the numbers → borderless giant figures with hairlines ---- */
+    main .cs-metrics {
+      gap: 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.16);
+    }
+    main .cs-metric {
+      border: 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 0;
+      background: none;
+      padding: clamp(22px, 3vw, 34px) 22px clamp(22px, 3vw, 34px) 0;
+    }
+    main .cs-metric-v { font-size: clamp(40px, 6vw, 88px); line-height: 0.88; }
+    main .cs-metric-l { margin-top: 12px; }
+    @media (min-width: 721px) {
+      main .cs-metric { border-right: 1px solid rgba(255, 255, 255, 0.1); padding-left: clamp(20px, 2.4vw, 34px); }
+      main .cs-metric:first-child { padding-left: 0; }
+      main .cs-metric:last-child { border-right: 0; }
+    }
+
+    /* ---- Cards: subtle lift + accent edge on hover ---- */
+    main .cs-card {
+      border-radius: 10px;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-color 0.3s ease, background 0.3s ease;
+    }
+    main .cs-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255, 31, 31, 0.55);
+      background: linear-gradient(180deg, rgba(255, 31, 31, 0.07), transparent);
+    }
+
+    /* ---- Founder card: framed, hover-zoom photo ---- */
+    main .about-founder {
+      display: grid;
+      grid-template-columns: 0.78fr 1.22fr;
+      gap: clamp(28px, 4vw, 56px);
+      /* Top-align so the photo keeps its own fixed aspect ratio instead of being
+         stretched to the text height (which changed the crop per viewport). */
+      align-items: start;
+    }
+    main .about-founder-photo {
+      position: relative;
+      /* Fixed 4:5 frame → `cover` shows the SAME region of the portrait at every
+         viewport width, so the face is never cropped differently. */
+      aspect-ratio: 4 / 5;
+      min-height: 0;
+      /* Bias the crop toward the top-centre where the face sits. */
+      background-position: center 26%;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
+      transform-origin: center;
+    }
+    main .about-founder:hover .about-founder-photo { border-color: rgba(255, 31, 31, 0.5); }
+
+    /* ---- Journey → a real vertical timeline with an accent rail + nodes ---- */
+    main .about-time {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      position: relative;
+    }
+    main .about-time::before {
+      content: "";
+      position: absolute;
+      left: 7px;
+      top: 10px;
+      bottom: 10px;
+      width: 2px;
+      background: linear-gradient(180deg, var(--accent, #ff1f1f), rgba(255, 31, 31, 0.12));
+    }
+    main .about-time-row {
+      position: relative;
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      gap: clamp(18px, 3vw, 40px);
+      padding: 0 0 clamp(28px, 3.5vw, 44px) 34px;
+    }
+    main .about-time-row:last-child { padding-bottom: 0; }
+    main .about-time-row::before {
+      content: "";
+      position: absolute;
+      left: 1px;
+      top: 5px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #0b0b0c;
+      border: 2px solid var(--accent, #ff1f1f);
+      box-shadow: 0 0 0 4px rgba(11, 11, 12, 1);
+    }
+    main .about-time-year {
+      font-family: "Space Mono", monospace;
+      font-size: clamp(15px, 1.6vw, 20px);
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: var(--accent, #ff1f1f);
+      padding-top: 2px;
+    }
+    main .about-time-t {
+      margin: 0 0 8px;
+      font-weight: 800;
+      font-size: clamp(18px, 1.9vw, 24px);
+      letter-spacing: -0.015em;
+    }
+    main .about-time-d { margin: 0; font-size: 15.5px; line-height: 1.62; opacity: 0.84; max-width: 62ch; }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 720px) {
+      main .about-founder { grid-template-columns: 1fr; }
+      main .about-founder-photo { max-width: 420px; }
+      main .cs-metrics { grid-template-columns: 1fr 1fr; }
+      main .about-time-row { grid-template-columns: 1fr; gap: 4px; }
+      main .about-time-year { padding-top: 0; }
+    }
+  </style>
 </Layout>

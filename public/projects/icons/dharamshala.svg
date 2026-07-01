@@ -16,12 +16,12 @@
     </linearGradient>
     <linearGradient id="bubbleGrad" x1="0%" y1="0%" x2="0%" y2="100%">
       <stop offset="0%" stop-color="#ff7a4a"/>
-      <stop offset="100%" stop-color="#ff4612"/>
+      <stop offset="100%" stop-color="#ff1f1f"/>
     </linearGradient>
     <radialGradient id="redGlow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#ff4612" stop-opacity="0.7"/>
-      <stop offset="60%" stop-color="#ff4612" stop-opacity="0.2"/>
-      <stop offset="100%" stop-color="#ff4612" stop-opacity="0"/>
+      <stop offset="0%" stop-color="#ff1f1f" stop-opacity="0.7"/>
+      <stop offset="60%" stop-color="#ff1f1f" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#ff1f1f" stop-opacity="0"/>
     </radialGradient>
     <filter id="bigBlur" x="-100%" y="-100%" width="300%" height="300%">
       <feGaussianBlur stdDeviation="22"/>
@@ -65,7 +65,7 @@
   <!-- Mountain scene inside screen -->
   <g transform="translate(190 192)">
     <!-- Sky tint -->
-    <rect x="0" y="0" width="132" height="80" rx="6" fill="#ff4612" fill-opacity="0.18"/>
+    <rect x="0" y="0" width="132" height="80" rx="6" fill="#ff1f1f" fill-opacity="0.18"/>
     <!-- Back peak -->
     <polygon points="20,80 70,12 110,80" fill="#ffffff" fill-opacity="0.75"/>
     <!-- Snow cap -->

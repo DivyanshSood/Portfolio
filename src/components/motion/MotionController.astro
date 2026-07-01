@@ -1,48 +1,100 @@
 ---
 // MotionController — orchestrates every GSAP/ScrollTrigger animation on the
-// homepage. Lives at the bottom of <body> so it can rely on all DOM nodes
-// being present. Respects prefers-reduced-motion.
+// homepage, driven by Lenis smooth scroll. Lives at the bottom of <body> so it
+// can rely on all DOM nodes being present. Strictly respects
+// prefers-reduced-motion: when set, it reveals everything and adds no motion.
 //
-// Bundles GSAP from npm (Vite/Astro handles the chunk), so no CDN dependency.
+// Bundles GSAP + Lenis from npm (Vite/Astro handles the chunk) — no CDN.
 ---
 
 <script>
   import { gsap } from "gsap";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
+  import Lenis from "lenis";
 
   gsap.registerPlugin(ScrollTrigger);
 
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const docEl = document.documentElement;
 
   if (reduce) {
-    // No animations: just make sure hidden states are visible.
+    // No animation: ensure every motion target is fully visible.
     document
-      .querySelectorAll<HTMLElement>("[data-rise], [data-reveal], .ds-giant-line")
+      .querySelectorAll<HTMLElement>("[data-reveal], [data-heading-reveal], .ds-giant-line, [data-zoom-target]")
       .forEach((el) => {
         el.style.opacity = "1";
         el.style.transform = "none";
       });
+    docEl.classList.add("motion-fallback");
   } else {
-    initMotion();
+    boot();
   }
 
-  function initMotion() {
+  function boot() {
+    initSmoothScroll();
+    initReveal();
     initGiantText();
     initParallax();
     initStatCounters();
-    initColorBlocks();
     initSectionHeadings();
-    initHorizontalWork();
     initZoomReveal();
+    // Recalculate once fonts/images settle, then mark ready (cancels failsafe).
+    ScrollTrigger.refresh();
+    docEl.classList.add("motion-ready");
+    window.addEventListener("load", () => ScrollTrigger.refresh());
   }
 
-  /* ---------- Scroll zoom reveal (Framer ScrollZoomRevel) ------------ */
+  /* ---------- Lenis smooth scroll, driven by GSAP's ticker --------------- */
+  function initSmoothScroll() {
+    const lenis = new Lenis({
+      duration: 1.1,
+      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+    });
+    lenis.on("scroll", ScrollTrigger.update);
+    gsap.ticker.add((time) => lenis.raf(time * 1000));
+    gsap.ticker.lagSmoothing(0);
+    // Expose for anchor links / programmatic scroll (e.g. progress dots).
+    (window as any).__lenis = lenis;
+
+    // Smooth in-page anchor jumps through Lenis.
+    document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((a) => {
+      a.addEventListener("click", (e) => {
+        const id = a.getAttribute("href");
+        if (!id || id === "#" || id.length < 2) return;
+        const target = document.querySelector(id);
+        if (!target) return;
+        e.preventDefault();
+        lenis.scrollTo(target as HTMLElement, { offset: -10 });
+      });
+    });
+  }
+
+  /* ---------- Generic scroll reveal (data-reveal) ----------------------- */
+  function initReveal() {
+    const items = gsap.utils.toArray<HTMLElement>("[data-reveal]");
+    if (!items.length) return;
+    gsap.set(items, { opacity: 0, y: 28 });
+    ScrollTrigger.batch(items, {
+      start: "top 90%",
+      onEnter: (batch) =>
+        gsap.to(batch, {
+          opacity: 1,
+          y: 0,
+          duration: 0.9,
+          ease: "power3.out",
+          stagger: 0.07,
+          overwrite: true,
+        }),
+    });
+  }
+
+  /* ---------- Scroll zoom reveal (Framer ScrollZoomReveal) -------------- */
   function initZoomReveal() {
     const items = gsap.utils.toArray<HTMLElement>("[data-zoom-reveal]");
     items.forEach((item) => {
       const target = item.querySelector<HTMLElement>("[data-zoom-target]");
       if (!target) return;
-      // spring-like settle (stiffness 90 / damping 25 / mass 0.6 ≈ slight overshoot)
       gsap.from(target, {
         scale: 0.62,
         opacity: 0,
@@ -57,11 +109,12 @@
     });
   }
 
-  /* ---------- Giant text reveals -------------------------------------- */
+  /* ---------- Giant text reveals --------------------------------------- */
   function initGiantText() {
     const sections = gsap.utils.toArray<HTMLElement>("[data-giant-text]");
     sections.forEach((section) => {
       const lines = section.querySelectorAll<HTMLElement>(".ds-giant-line");
+      if (!lines.length) return;
       gsap.set(lines, { yPercent: 110, opacity: 0 });
       gsap.to(lines, {
         yPercent: 0,
@@ -71,7 +124,7 @@
         stagger: 0.08,
         scrollTrigger: {
           trigger: section,
-          start: "top 70%",
+          start: "top 75%",
           end: "bottom 40%",
           toggleActions: "play none none reverse",
         },
@@ -79,7 +132,7 @@
     });
   }
 
-  /* ---------- Parallax images ---------------------------------------- */
+  /* ---------- Parallax images ------------------------------------------ */
   function initParallax() {
     const wraps = gsap.utils.toArray<HTMLElement>("[data-parallax]");
     wraps.forEach((wrap) => {
@@ -92,18 +145,13 @@
         {
           yPercent: speed * 50,
           ease: "none",
-          scrollTrigger: {
-            trigger: wrap,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: true,
-          },
+          scrollTrigger: { trigger: wrap, start: "top bottom", end: "bottom top", scrub: true },
         }
       );
     });
   }
 
-  /* ---------- Stat counters ------------------------------------------ */
+  /* ---------- Stat counters -------------------------------------------- */
   function initStatCounters() {
     const counters = gsap.utils.toArray<HTMLElement>("[data-counter]");
     counters.forEach((el) => {
@@ -116,11 +164,7 @@
         v: target,
         duration: 2.2,
         ease: "power3.out",
-        scrollTrigger: {
-          trigger: el,
-          start: "top 80%",
-          toggleActions: "play none none reverse",
-        },
+        scrollTrigger: { trigger: el, start: "top 85%", toggleActions: "play none none none" },
         onUpdate: () => {
           el.textContent = prefix + obj.v.toFixed(decimals) + suffix;
         },
@@ -128,125 +172,7 @@
     });
   }
 
-  /* ---------- Horizontal scroll work (signature scroll piece) ------ */
-  function initHorizontalWork() {
-    const sections = gsap.utils.toArray<HTMLElement>("[data-h-work]");
-    sections.forEach((section) => {
-      const track = section.querySelector<HTMLElement>("[data-h-work-track]");
-      if (!track) return;
-      const dots = gsap.utils.toArray<HTMLElement>("[data-h-progress-dot]", section);
-      const fill = section.querySelector<HTMLElement>("[data-h-progress-fill]");
-      const getDistance = () => track.scrollWidth - window.innerWidth;
-
-      // Per-card parallax on the signature mark — the big letter M/C/W on each
-      // card. Each mark drifts at its own speed relative to the h-scroll so the
-      // marks feel layered, not pasted on. Driven off the same ScrollTrigger
-      // instance as the track so refreshes stay in sync.
-      const marks = gsap.utils.toArray<HTMLElement>("[data-h-work-mark]", section);
-
-      const st = gsap.to(track, {
-        x: () => -getDistance(),
-        ease: "none",
-        scrollTrigger: {
-          trigger: section,
-          start: "top top",
-          end: () => "+=" + getDistance(),
-          pin: true,
-          scrub: 0.6,
-          invalidateOnRefresh: true,
-          anticipatePin: 1,
-          onUpdate: (self) => {
-            const p = self.progress;
-            // Map scroll progress 0→1 to 4 stops (3 cards + 1 CTA card).
-            const idx = Math.min(dots.length - 1, Math.floor(p * dots.length * 0.999));
-            dots.forEach((dot, i) => dot.classList.toggle("is-active", i === idx));
-            if (fill) fill.style.width = (p * 100).toFixed(2) + "%";
-            // Parallax the marks: each card's mark gets a phase offset so they
-            // breathe at different points in the scroll. Translate the mark
-            // from -28px (early) to +28px (late) within its own window.
-            marks.forEach((mark, i) => {
-              const local = Math.max(0, Math.min(1, p * marks.length - i));
-              const eased = (local - 0.5) * 56; // -28..+28
-              mark.style.transform = `translateY(${eased.toFixed(2)}px)`;
-            });
-          },
-        },
-      });
-
-      // Make the dots clickable — clicking jumps the scroll to that card.
-      dots.forEach((dot, i) => {
-        dot.addEventListener("click", () => {
-          const total = dots.length;
-          const targetProgress = (i + 0.5) / total;
-          const scrollTarget =
-            st.scrollTrigger!.start +
-            (st.scrollTrigger!.end - st.scrollTrigger!.start) * targetProgress;
-          window.scrollTo({ top: scrollTarget, behavior: "smooth" });
-        });
-        dot.style.cursor = "pointer";
-        dot.setAttribute("role", "button");
-        dot.setAttribute("aria-label", `Go to card ${i + 1}`);
-      });
-    });
-  }
-
-  /* ---------- Work row stagger (vertical list reveal) --------------- */
-  function initWorkRows() {
-    const rows = gsap.utils.toArray<HTMLElement>(".work-row");
-    if (!rows.length) return;
-    gsap.set(rows, { opacity: 0, y: 30 });
-    ScrollTrigger.batch(rows, {
-      start: "top 85%",
-      onEnter: (batch) =>
-        gsap.to(batch, {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: "power3.out",
-          stagger: 0.06,
-        }),
-      onEnterBack: (batch) =>
-        gsap.to(batch, {
-          opacity: 1,
-          y: 0,
-          duration: 0.6,
-          ease: "power3.out",
-          stagger: 0.04,
-        }),
-    });
-  }
-
-  /* ---------- Color block crossfades --------------------------------- */
-  function initColorBlocks() {
-    const blocks = gsap.utils.toArray<HTMLElement>("[data-colorblock]");
-    blocks.forEach((block) => {
-      const bg = block.dataset.colorblockBg || "dark";
-      const color =
-        bg === "light"
-          ? "#ededed"
-          : bg === "accent"
-          ? "#ff4612"
-          : bg === "ink"
-          ? "#0f1416"
-          : "#0b0b0c";
-      gsap.fromTo(
-        block,
-        { backgroundColor: "#0b0b0c" },
-        {
-          backgroundColor: color,
-          ease: "none",
-          scrollTrigger: {
-            trigger: block,
-            start: "top 80%",
-            end: "top 30%",
-            scrub: true,
-          },
-        }
-      );
-    });
-  }
-
-  /* ---------- Section heading word reveal ---------------------------- */
+  /* ---------- Section heading reveal ----------------------------------- */
   function initSectionHeadings() {
     const headings = gsap.utils.toArray<HTMLElement>("[data-heading-reveal]");
     headings.forEach((h) => {
@@ -255,11 +181,7 @@
         opacity: 0,
         duration: 1,
         ease: "power3.out",
-        scrollTrigger: {
-          trigger: h,
-          start: "top 85%",
-          toggleActions: "play none none reverse",
-        },
+        scrollTrigger: { trigger: h, start: "top 88%", toggleActions: "play none none reverse" },
       });
     });
   }

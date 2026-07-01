@@ -1,0 +1,203 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+
+const slug = "why-premium-brands-leave-shopify";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+const next = POSTS[(idx + 1) % POSTS.length];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
+      publisher: {
+        "@type": "Organization",
+        "@id": `${SITE}/#studio`,
+        name: "Divyansh Sood® Studio",
+        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
+      },
+      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      wordCount: 758,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+  ],
+});
+---
+
+<Layout
+  title={`${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  jsonld={jsonld}
+>
+  <Nav kicker="Journal" />
+  <main>
+    <header class="post-hero">
+      <div class="post-hero-bg" aria-hidden="true"></div>
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img src={post.coverImage} alt={post.title} width="1200" height="750" fetchpriority="high" decoding="async" />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+      <p>Shopify is the right call for most stores. Let me say that first, because what follows isn’t a Shopify takedown.</p>
+<p>If you’re validating a product, testing demand, or running a catalogue of hundreds of SKUs with complex logistics — Shopify is the fastest, most reliable way to be selling by Friday. Nothing custom touches it on time-to-first-sale.</p>
+<p>But there’s a specific kind of brand that keeps outgrowing it. The ones whose whole reason to exist is that they <em>don’t</em> look like everyone else. And for them, the theme is the ceiling.</p>
+<hr>
+<h2 id="the-theme-is-the-ceiling">The theme is the ceiling</h2>
+<p>A Shopify theme is a set of opinions someone else had about how a store should feel. You can change colours, fonts, section order. You cannot easily change the <em>feel</em> — the easing curves, the way a product reveals itself, the rhythm of how the story unfolds as you scroll.</p>
+<p>For a commodity product, none of that matters. People want the price and the buy button.</p>
+<p>For a premium brand, that <em>is</em> the product. When we built <a href="https://www.divyanshsood.com/projects/cultxberserk">CultXberserk</a> — a Berserk-inspired apparel label — the entire pitch was lore. Japanese lettering, a “Brand of Sacrifice” seal at the neckline, hand-numbered drops that are never reprinted. You cannot express that in a theme. The storytelling and the storefront had to be the same object.</p>
+<p>Same story with <a href="https://www.divyanshsood.com/projects/redline">Redline Studios</a>: a motorcycle-apparel brand where every loading state and product reveal had to carry racing DNA. A theme dressed in red and black is not that.</p>
+<hr>
+<h2 id="where-shopify-actually-starts-costing-you">Where Shopify actually starts costing you</h2>
+<p>The sticker price isn’t where it hurts. It’s the slow accumulation.</p>
+<p><strong>App rent.</strong> The features you assumed were “the platform” are usually apps — reviews, bundles, upsells, custom fields, a decent mega-menu. Each is ₹500–₹3,000/month. Five apps and you’re renting ₹10,000+/month for functionality you never own.</p>
+<p><strong>Performance tax.</strong> Every app injects its own JavaScript. A heavily-apped Shopify store on mobile routinely lands in the 40s–60s on Lighthouse. That’s not a vanity score — it’s slower checkouts and weaker Google rankings, forever.</p>
+<p><strong>The sameness.</strong> A trained eye spots a Shopify theme in two seconds. If your brand charges a premium <em>because</em> it feels rare, looking like the same Dawn theme as ten thousand other stores quietly undercuts the price you’re trying to defend.</p>
+<hr>
+<h2 id="where-shopify-wins--and-you-should-stay">Where Shopify wins — and you should stay</h2>
+<p>I move brands off Shopify when it’s right. I also tell plenty to stay. You should stay when:</p>
+<ul>
+<li>You have <strong>hundreds of SKUs</strong> with variants, inventory sync, and warehouse integrations</li>
+<li>You need <strong>multi-currency, multi-region tax and fulfilment</strong> handled for you</li>
+<li>Your team is <strong>non-technical and self-managing</strong> the catalogue daily</li>
+<li>You’re <strong>still finding product-market fit</strong> and speed of iteration beats everything</li>
+</ul>
+<p>Shopify’s checkout, fraud handling, and payment reliability are genuinely excellent. Rebuilding those from scratch is rarely worth it.</p>
+<hr>
+<h2 id="what-custom-actually-means-here">What “custom” actually means here</h2>
+<p>Custom doesn’t have to mean rebuilding checkout. The smartest version is often a <strong>headless</strong> setup: keep Shopify’s checkout and inventory as the engine, build a custom Next.js storefront on top.</p>
+<p>You get:</p>
+<ul>
+<li>A storefront that looks like nothing else, because it’s yours</li>
+<li>Lighthouse 90+ on mobile by default — only the code the page needs</li>
+<li>Brand-led motion, narrative, and product reveals with no theme fighting you</li>
+<li>Full code ownership — any developer can read and continue it</li>
+<li>llms.txt and structured data baked in, so AI answer engines quote your brand correctly</li>
+</ul>
+<p>The checkout stays boring and reliable. The brand experience stops being boring.</p>
+<hr>
+<h2 id="the-honest-test">The honest test</h2>
+<p>Ask one question: <strong>is the way my store feels part of what I’m selling?</strong></p>
+<p>If the answer is no — you sell on price, speed, or selection — stay on a clean Shopify theme and put your energy into product and ads.</p>
+<p>If the answer is yes — the feel <em>is</em> the premium — then a theme is the single biggest thing capping your brand, and you already know it. You’ve felt it every time you tried to make the store match the vision in your head and the builder said no.</p>
+<p>That ceiling is the moment to go custom.</p>
+<hr>
+<p><em>I’m Divyansh Sood. I build custom-coded storefronts for premium brands whose pitch depends on feeling different — including <a href="https://www.divyanshsood.com/projects/cultxberserk">CultXberserk</a> (Berserk-inspired, hand-numbered 0001 to 0666) and <a href="https://www.divyanshsood.com/projects/redline">Redline Studios</a> (motorcycle apparel with racing DNA in every loading state). 9 live builds since 2022.</em></p>
+<p><em>If your brand has outgrown the theme-shaped ceiling and you want to talk headless commerce, <a href="mailto:hello@divyanshsood.com">email me</a> — I read every brief personally.</em></p>
+      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </article>
+
+    <section class="wrap narrow" aria-label="Keep reading">
+      <a class="post-next" href={`/blog/${next.slug}/`}>
+        <span><span class="label">Read next</span><br /><span class="name">{next.title}</span></span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </section>
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        {post.audience === "indian-smb" ? (
+          <>
+            <h2>Working on something in India?</h2>
+            <p>If a post here matches what you're building, send me the brief. WhatsApp reply in under an hour, 9 AM–9 PM IST — I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="https://wa.me/919816091875" target="_blank" rel="noopener"
+                >Message me on WhatsApp <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : post.audience === "d2c-brand" ? (
+          <>
+            <h2>Building a brand a theme can't carry?</h2>
+            <p>If your store has a model that off-the-shelf builders fight — hand-numbered drops, creator commerce, premium D2C — tell me about it. I read every brief personally.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : (
+          <>
+            <h2>Working on something similar?</h2>
+            <p>If a post here matches what you're building, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="https://calendly.com/sood-divyansh007/30min" target="_blank" rel="noopener"
+                >Book a 15-min intro <span aria-hidden="true">↗</span></a
+              >
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

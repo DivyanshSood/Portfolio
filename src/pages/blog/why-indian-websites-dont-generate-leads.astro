@@ -1,0 +1,247 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+
+const slug = "why-indian-websites-dont-generate-leads";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+const next = POSTS[(idx + 1) % POSTS.length];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
+      publisher: {
+        "@type": "Organization",
+        "@id": `${SITE}/#studio`,
+        name: "Divyansh Sood® Studio",
+        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
+      },
+      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      wordCount: 1648,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+  ],
+});
+---
+
+<Layout
+  title={`${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  jsonld={jsonld}
+>
+  <Nav kicker="Journal" />
+  <main>
+    <header class="post-hero">
+      <div class="post-hero-bg" aria-hidden="true"></div>
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img src={post.coverImage} alt={post.title} width="1200" height="750" fetchpriority="high" decoding="async" />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+      <p>There are millions of business websites in India that have never generated a single enquiry.</p>
+<p>Not because the business is bad. Not because nobody is searching. Because the website was built to exist — not to earn.</p>
+<p>I see this constantly. A clinic in Ludhiana. A tour operator in Manali. A CA firm in Chandigarh. A salon in Dharamshala. Good businesses, real customers, and a website sitting there doing nothing — costing hosting fees every year, showing up on business cards, and producing zero inbound leads.</p>
+<p>Here’s why that happens. Every reason is fixable.</p>
+<hr>
+<h2 id="1-the-contact-form-goes-nowhere-useful">1. The contact form goes nowhere useful</h2>
+<p>This is the most common failure and the easiest to miss.</p>
+<p>Someone visits your site at 11 PM. They want to book a tour, ask about pricing, or check availability. They fill out your contact form — name, phone number, message — and hit submit.</p>
+<p>What happens next?</p>
+<p>On most Indian business websites: the form sends an email to an inbox that gets checked twice a week. Or to a Gmail account that filters it as spam. Or to a developer’s email who set it up two years ago and forgot to change it. Or, worst of all, nowhere — the form submits and disappears into the void.</p>
+<p>The customer doesn’t hear back. They move on. They book with someone else.</p>
+<p>The fix is not complicated: every form submission should trigger an instant WhatsApp message to the business owner’s phone. Not an email. WhatsApp — where you’re already active, already reading messages, already capable of replying in five minutes.</p>
+<p>India runs on WhatsApp. Your lead capture should too.</p>
+<hr>
+<h2 id="2-it-loads-too-slowly-on-mobile">2. It loads too slowly on mobile</h2>
+<p>Your customer is on a phone. Probably a mid-range Android. Possibly on a 4G connection that drops to 3G in a basement or a hill town.</p>
+<p>Your website has a full-screen video background, three font imports, an image slider, a Google Maps embed, and a WhatsApp floating button widget loaded from a third-party CDN.</p>
+<p>On a MacBook Pro on Wi-Fi, it looks great. On a Redmi Note in Shimla, it takes nine seconds to load.</p>
+<p>Nine seconds. The customer has already pressed the back button and opened a competitor’s site by second four.</p>
+<p>Google has a name for the scores that measure this: Core Web Vitals. Largest Contentful Paint, Cumulative Layout Shift, Interaction to Next Paint. They measure exactly how fast and stable a page feels on a real device on a real connection.</p>
+<p>A Lighthouse score below 70 on mobile is not a design problem. It’s a revenue problem. Slow pages rank lower on Google, convert worse when they do get traffic, and create a first impression of a business that can’t be bothered.</p>
+<p>Every site I build scores 90+ on mobile at launch. Not because it’s technically impressive — because it’s the minimum standard for a site that actually works.</p>
+<hr>
+<h2 id="3-nobody-can-figure-out-what-you-do-in-the-first-five-seconds">3. Nobody can figure out what you do in the first five seconds</h2>
+<p>A visitor lands on your homepage. The first thing they see is a rotating slider with three stock photos of handshakes and the words: <em>“Welcome to XYZ Solutions — Your Trusted Partner in Growth.”</em></p>
+<p>What do you do? Who is this for? What should I do next?</p>
+<p>They don’t know. And they won’t stay to find out.</p>
+<p>This is the above-the-fold problem. Everything visible before a visitor scrolls — your headline, your subheadline, your primary call to action — needs to answer three questions instantly:</p>
+<p><strong>What do you do?</strong> In plain language. Not “solutions.” Not “services.” What, specifically.</p>
+<p><strong>Who is it for?</strong> “Taxi service from Kangra airport to Dharamshala and Dalhousie” is clearer than “transportation services across HP.”</p>
+<p><strong>What should I do next?</strong> One action. WhatsApp us. Book now. Call this number. One. Not five.</p>
+<p>Most Indian business websites fail this test in the first line. The homepage headline is the business name, a tagline nobody understands, or a generic welcome message that tells the visitor nothing.</p>
+<p>Your headline is not where you put your brand voice. It’s where you tell someone who just arrived — in five words or fewer — whether they’re in the right place.</p>
+<hr>
+<h2 id="4-theres-no-reason-to-contact-you-right-now">4. There’s no reason to contact you right now</h2>
+<p>Someone visits your site. They read the services page. They think “this seems okay.” They close the tab and go back to whatever they were doing.</p>
+<p>Two weeks later they’ve forgotten your business exists.</p>
+<p>This is not a traffic problem. This is a conversion problem — the gap between “this person found your site” and “this person contacted you.”</p>
+<p>The gap closes with urgency and clarity. Not fake urgency — “OFFER ENDS TODAY!!!” — but real, specific reasons to act now rather than later.</p>
+<p>For a tour operator: <em>“Peak season bookings for June–July filling fast. WhatsApp to check availability.”</em></p>
+<p>For a contractor: <em>“Taking 3 new projects in May. Inquiry now to hold a slot.”</em></p>
+<p>For a school: <em>“Admissions for 2026–27 close March 31.”</em></p>
+<p>This is not manipulation. It’s honest communication about your actual availability. If you’re genuinely busy, say so. Scarcity that’s real converts — and builds trust rather than eroding it.</p>
+<p>The second part of this is friction. Every step between “I want to contact this business” and “I have sent a message” costs you some percentage of conversions.</p>
+<p>A WhatsApp button that opens a pre-filled message — <em>“Hi, I want to enquire about [service]”</em> — has near-zero friction. A contact form with seven fields, a CAPTCHA, and a three-day email response time has enormous friction. The conversion rate difference is not small.</p>
+<hr>
+<h2 id="5-google-cant-find-it">5. Google can’t find it</h2>
+<p>A website that nobody visits generates no leads. That’s not a website problem — it’s a visibility problem.</p>
+<p>Most Indian business websites are invisible on Google because:</p>
+<p><strong>No one thought about keywords.</strong> The services page says “We provide high quality services to our valued clients.” Google has no idea what you do. A potential customer searching “wedding photographer Chandigarh” or “solar installation Shimla” will never find you.</p>
+<p><strong>No local SEO setup.</strong> For businesses with a physical location or service area, local SEO is the highest-ROI work on the site. Google Business Profile, NAP consistency (Name, Address, Phone — identical across every page and listing), and local schema markup (a piece of code that tells Google your business name, category, location, and hours in structured format) — most Indian business websites have none of this.</p>
+<p><strong>No sitemap submitted to Search Console.</strong> Google can crawl your site, but if you’ve never told it the site exists through Search Console, crawling can take months. Five minutes of setup accelerates this dramatically.</p>
+<p><strong>The site was never indexed.</strong> Go to Google and type <code>site:yourwebsite.com</code>. If nothing comes up — Google has never indexed a single page of your site. It’s invisible to every search in India and the world.</p>
+<p>These are not advanced technical problems. They’re basics that most website developers skip because the client doesn’t know to ask for them and they take an extra hour to do.</p>
+<hr>
+<h2 id="6-it-was-built-for-the-owner-not-the-customer">6. It was built for the owner, not the customer</h2>
+<p>This is the subtlest problem and the hardest to fix after the fact.</p>
+<p>Most business websites are built to satisfy the owner’s vision of their business — what they want to say about themselves, what they’re proud of, what they think is important.</p>
+<p>The customer doesn’t care about any of that until they’ve answered their own questions first.</p>
+<p>The customer’s questions, in order:</p>
+<ol>
+<li>Is this the right type of business for what I need?</li>
+<li>Do they serve my area / my situation?</li>
+<li>Can I afford this?</li>
+<li>Are they trustworthy?</li>
+<li>How do I contact them?</li>
+</ol>
+<p>Most business websites answer question 4 at length (testimonials, about us, company history) before ever addressing questions 1, 2, and 3. The customer bounces before they reach the trust-building content because they haven’t yet confirmed this is even relevant to them.</p>
+<p>Structure your site in the order your customer thinks, not the order you’re proud of:</p>
+<p><strong>What you do → Who it’s for → What it costs (or at least the range) → Why trust you → How to contact you.</strong></p>
+<p>That sequence converts. The reverse doesn’t.</p>
+<hr>
+<h2 id="the-common-thread">The common thread</h2>
+<p>Every failure above comes from the same root cause: the website was built to be <em>present</em>, not to <em>perform</em>.</p>
+<p>A website that exists — registered domain, a few pages, a contact form that may or may not work — is not the same as a website that earns. The gap between them is not expensive to close. It requires intention, not budget.</p>
+<p>Fast load time. Clear headline. WhatsApp-first lead capture. Basic local SEO. A contact flow with zero friction. Content structured for the customer, not the owner.</p>
+<p>That’s the entire list. None of it is complicated. All of it is skipped, constantly, by developers who are optimising for delivery speed rather than business outcomes.</p>
+<hr>
+<h2 id="what-to-check-on-your-own-site-right-now">What to check on your own site right now</h2>
+<p>Run through this in ten minutes:</p>
+<ul>
+<li>Go to <a href="https://pagespeed.web.dev">pagespeed.web.dev</a> and test your homepage on mobile. Below 70 — your site is losing you leads every day.</li>
+<li>Read your homepage headline out loud. Does it say exactly what you do and who it’s for? Or is it a tagline?</li>
+<li>Fill out your own contact form. Where does it go? How long does a reply take?</li>
+<li>Type <code>site:yourwebsite.com</code> in Google. Are your pages indexed?</li>
+<li>Open your site on a Redmi or equivalent mid-range Android. Does it feel fast?</li>
+</ul>
+<p>If you find problems — they’re fixable. Most of them in a day.</p>
+<hr>
+<p><em>I’m Divyansh, solo developer out of Kangra Valley. I’ve rebuilt a dozen Indian SMB sites that weren’t generating leads — most of the fixes weren’t expensive. <a href="https://wa.me/919816091875">WhatsApp me your URL</a> and I’ll tell you honestly what’s costing you enquiries, before you spend a rupee.</em></p>
+      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </article>
+
+    <section class="wrap narrow" aria-label="Keep reading">
+      <a class="post-next" href={`/blog/${next.slug}/`}>
+        <span><span class="label">Read next</span><br /><span class="name">{next.title}</span></span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </section>
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        {post.audience === "indian-smb" ? (
+          <>
+            <h2>Working on something in India?</h2>
+            <p>If a post here matches what you're building, send me the brief. WhatsApp reply in under an hour, 9 AM–9 PM IST — I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="https://wa.me/919816091875" target="_blank" rel="noopener"
+                >Message me on WhatsApp <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : post.audience === "d2c-brand" ? (
+          <>
+            <h2>Building a brand a theme can't carry?</h2>
+            <p>If your store has a model that off-the-shelf builders fight — hand-numbered drops, creator commerce, premium D2C — tell me about it. I read every brief personally.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : (
+          <>
+            <h2>Working on something similar?</h2>
+            <p>If a post here matches what you're building, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="https://calendly.com/sood-divyansh007/30min" target="_blank" rel="noopener"
+                >Book a 15-min intro <span aria-hidden="true">↗</span></a
+              >
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

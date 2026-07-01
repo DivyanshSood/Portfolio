@@ -21,17 +21,42 @@
 html{scroll-behavior:auto;}
 html,body{margin:0;padding:0;}
 body{background:#0b0b0c;color:#fff;font-family:'Archivo',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
-#ds-root{--accent:#ff4612;position:relative;overflow-x:hidden;}
+#ds-root{--accent:#ff1f1f;position:relative;overflow-x:hidden;}
 ::selection{background:var(--accent);color:#fff;}
 a{color:inherit;}
+/* Keyboard focus ring — on-brand accent, shown only for keyboard nav (not on
+   mouse click). Covers links, buttons and interactive cards site-wide. */
+:where(a,button,input,textarea,select,[tabindex]):focus-visible{
+  outline:2px solid var(--accent,#ff1f1f);
+  outline-offset:3px;
+  border-radius:2px;
+}
 img{display:block;max-width:100%;}
 section{position:relative;}
 .mono{font-family:'Space Mono',monospace;}
 .wrap{max-width:1180px;margin:0 auto;padding:0 30px;}
 .narrow{max-width:760px;}
 
-/* Motion disabled site-wide — no keyframes, no transitions. */
-*,*::before,*::after{transition:none !important;animation:none !important;}
+/* ---------------------------------------------------------------------------
+   Motion. Enabled site-wide; the homepage opts into scroll-reveal by adding
+   `.motion` to <html> in a synchronous head script (so reveal targets are
+   hidden BEFORE first paint — no flash). MotionController animates them in via
+   GSAP + Lenis smooth scroll. Honour prefers-reduced-motion strictly.
+   --------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    transition-duration:.01ms !important;
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    scroll-behavior:auto !important;
+  }
+}
+
+/* Lenis smooth-scroll (class is added to <html> by Lenis at runtime). */
+html.lenis,html.lenis body{height:auto;}
+.lenis.lenis-smooth{scroll-behavior:auto !important;}
+.lenis.lenis-smooth [data-lenis-prevent]{overscroll-behavior:contain;}
+.lenis.lenis-stopped{overflow:hidden;}
 
 /* homepage utilities */
 .imgfill{background-size:cover;background-position:center;background-repeat:no-repeat;}
@@ -48,9 +73,21 @@ section{position:relative;}
 .btn-modern{background:#0d0412;color:#fff;border:1px solid rgba(255,255,255,.14);}
 .btn-modern:hover{background:var(--accent);color:#0b0b0c;border-color:var(--accent);}
 
+/* ---------------------------------------------------------------------------
+   Shared text link — underlined mono label + arrow that nudges on hover. Border
+   uses currentColor so it adapts to the section (black on orange, white on
+   black via .ds-link-light). The arrow lives in a <span>. No box, no button.
+   --------------------------------------------------------------------------- */
+.ds-link{display:inline-flex;align-items:center;gap:8px;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:inherit;text-decoration:none;border-bottom:1.5px solid currentColor;padding-bottom:4px;}
+.ds-link span{display:inline-block;transition:transform .3s cubic-bezier(.16,1,.3,1);}
+.ds-link:hover span{transform:translate(3px,-3px);}
+.ds-link-soft{font-weight:400;border-bottom-color:color-mix(in srgb,currentColor 40%,transparent);}
+.ds-link-light{color:#fff;}
+.ds-link-light:hover{color:var(--accent,#ff1f1f);}
+
 /* shared footer (cs-foot) */
 .cs-foot{border-top:1px solid rgba(255,255,255,.14);}
-.cs-foot .grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;padding:46px 0;}
+.cs-foot .grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;padding:46px 0;}
 .cs-foot .word{font-weight:900;font-size:34px;letter-spacing:-.04em;margin-bottom:14px;}
 .cs-foot .sig{font-family:'Caveat',cursive;font-weight:700;font-size:40px;color:var(--accent);transform:rotate(-6deg);transform-origin:left;}
 .cs-foot .col{font-family:'Space Mono',monospace;font-size:13px;line-height:2;}
@@ -58,8 +95,18 @@ section{position:relative;}
 .cs-foot .col a{color:#fff;text-decoration:none;display:block;opacity:.82;}
 .cs-foot .bar{border-top:1px solid rgba(255,255,255,.14);padding:20px 0;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;opacity:.62;}
 
-/* scroll reveal — disabled site-wide, kept as no-op so legacy markup is safe */
+/* ---------------------------------------------------------------------------
+   Scroll-reveal. Visible by default (no-JS / inner pages / reduced motion).
+   On the homepage, `html.motion` pre-hides reveal targets before paint; GSAP
+   animates them in. `.motion-fallback` (added by a head-script timeout) reveals
+   everything if the motion bundle ever fails to run.
+   --------------------------------------------------------------------------- */
 [data-reveal]{opacity:1;transform:none;}
+html.motion [data-reveal]{opacity:0;transform:translateY(28px);will-change:opacity,transform;}
+html.motion-fallback [data-reveal]{opacity:1;transform:none;}
+@media (prefers-reduced-motion: reduce){
+  html.motion [data-reveal]{opacity:1;transform:none;}
+}
 
 /* ===========================================================================
    Section frame — the hero's corner-tick "card" treatment, made reusable so
@@ -154,7 +201,7 @@ section{position:relative;}
 }
 .ds-logo-symbol{
   font-size:11px;
-  color:var(--accent,#ff4612);
+  color:var(--accent,#ff1f1f);
   flex:none;
 }
 .ds-logo-name{

@@ -1,0 +1,219 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+
+const slug = "chinkiz-creator-store-case-study";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+const next = POSTS[(idx + 1) % POSTS.length];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
+      publisher: {
+        "@type": "Organization",
+        "@id": `${SITE}/#studio`,
+        name: "Divyansh Sood® Studio",
+        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
+      },
+      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      wordCount: 1301,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+  ],
+});
+---
+
+<Layout
+  title={`${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  jsonld={jsonld}
+>
+  <Nav kicker="Journal" />
+  <main>
+    <header class="post-hero">
+      <div class="post-hero-bg" aria-hidden="true"></div>
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img src={post.coverImage} alt={post.title} width="1200" height="750" fetchpriority="high" decoding="async" />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+      <p>Chinki had 600,000 subscribers on YouTube and a problem most creators never solve.</p>
+<p>She’d spent years building an audience around knitting and craft tutorials. People watched her work, trusted her taste, bought the materials she recommended. The demand was there. But her products — handmade, her own, the kind of thing her audience had been asking about for months — had nowhere to go.</p>
+<p>The obvious answer was Shopify. Or WooCommerce. Or Meesho. Some builder, some platform, some place you paste your products in and call it a store.</p>
+<p>She didn’t want that. And she was right not to.</p>
+<hr>
+<h2 id="the-problem-with-off-the-shelf-stores-for-creators">The problem with off-the-shelf stores for creators</h2>
+<p>Shopify is a great product. For the right business.</p>
+<p>A creator store is not the right business for it. Here’s why:</p>
+<p>Chinki’s audience doesn’t experience her through a product catalogue. They experience her through tutorials — 20-minute videos of her hands working through a pattern, explaining technique, showing the finished piece. The relationship between her content and her products is inseparable. A product page with a photo, a price, and an Add to Cart button misses the entire reason someone would buy from her in the first place.</p>
+<p>Shopify themes are built for products. They’re not built for the kind of trust that a creator builds over years of consistent content. You can customise them up to a point — change colours, rearrange sections, install apps — but the underlying logic is always “catalogue first.” There’s no native way to make a tutorial video as central to the buying experience as a product image.</p>
+<p>Beyond the experience problem: Shopify starts at ₹1,500–2,000/month before you add transaction fees, plugin costs, and the premium theme you’ll inevitably need to make it look less generic. For a creator just starting to monetise directly, that’s a meaningful ongoing cost on top of a platform that still doesn’t look like <em>her</em>.</p>
+<hr>
+<h2 id="what-we-built-instead">What we built instead</h2>
+<p>The brief was clear: a D2C store that felt like Chinki’s channel, not like a generic e-commerce site.</p>
+<p><strong>Custom video gallery — the centrepiece.</strong> Every product is paired with the tutorial that demonstrates it. Not a YouTube embed dropped into a product description. A native, custom-built gallery that mirrors the aesthetic and rhythm of her tutorials — the way the content actually lives on her channel. A visitor doesn’t just see the product. They see it being made.</p>
+<p>This matters commercially. A customer who watches a 3-minute tutorial before purchasing understands the product, trusts the maker, and is dramatically less likely to return it. The video gallery isn’t a design flourish — it’s a conversion tool.</p>
+<p><strong>Razorpay checkout — all three rails.</strong> UPI, cards, and cash on delivery. Not because every Indian creator needs COD — but because Chinki’s audience includes people who’ve been watching her for two years in small towns across India, on phones, buying their first thing online. Removing payment friction for that audience is the difference between a sale and an abandoned cart.</p>
+<p><strong>Zero themes used.</strong> Every layout decision was made for this store and this creator. The type, the spacing, the way products are grouped — none of it came from a template file. The result is a store that looks unmistakably like Chinki’s content rather than unmistakably like a Shopify install.</p>
+<p><strong>No proprietary lock-in.</strong> Chinki owns the code. If she wants to add a new product type, a subscription, a course — the foundation supports it. She’s not building on rented land.</p>
+<hr>
+<h2 id="what-chinki-said-after-launch">What Chinki said after launch</h2>
+<blockquote>
+<p><em>“I did not think it could be achieved without going to e-commerce builders and only using custom code. Divyansh was amazing at his work and so transparent. They even produced a video gallery that looks just as good as our YouTube tutorials. I highly recommend Divyansh for any website building or maintenance project.”</em></p>
+</blockquote>
+<p>That first line is the one worth sitting with: <em>“I did not think it could be achieved.”</em></p>
+<p>That’s a reasonable assumption for most creators. The entire ecosystem of creator monetisation tools — Shopify, Gumroad, Patreon, Stan Store — is built on the premise that you use their platform and adapt your brand to it. Custom code as an option barely comes up.</p>
+<p>But custom code is exactly what lets a store feel like the creator who runs it. Not a creator who happens to sell on a platform that also hosts ten thousand other sellers.</p>
+<hr>
+<h2 id="the-broader-point-for-indian-creators">The broader point for Indian creators</h2>
+<p>India’s creator economy is large, growing, and deeply underserved by the existing D2C infrastructure.</p>
+<p>Most Indian creators with 100K+ subscribers are monetising through:</p>
+<ul>
+<li>Brand deals (platform-dependent, brand-controlled)</li>
+<li>AdSense (demonetised at any time, algorithm-dependent)</li>
+<li>Affiliate links (low margin, someone else’s product)</li>
+</ul>
+<p>Direct-to-consumer — your own product, your own store, your own customer relationship — is the most durable monetisation model available. No algorithm decides your income. No brand can pull a deal. The customer relationship is yours.</p>
+<p>The barrier has always been: building a store that actually reflects the creator’s identity, not a generic storefront with their logo on it.</p>
+<p>That barrier is solvable. ChinkiZ proves it.</p>
+<hr>
+<h2 id="what-a-creator-store-actually-needs">What a creator store actually needs</h2>
+<p>Based on this build — and the thinking behind it — here’s what separates a creator store from a generic e-commerce site:</p>
+<p><strong>Content-commerce integration.</strong> Your tutorials, your process, your story — these aren’t marketing copy. They’re the reason someone buys from you instead of a cheaper alternative on Amazon. The store needs to carry that.</p>
+<p><strong>Mobile-first by default.</strong> Your audience discovered you on their phone, watches your content on their phone, and will buy on their phone. A store optimised for desktop is a store optimised for the wrong device.</p>
+<p><strong>Simple, trusted checkout.</strong> UPI and COD in India. No redirects, no confusing payment flows. One tap to WhatsApp if they have a question before buying.</p>
+<p><strong>Brand consistency.</strong> Every visual decision — font, colour, spacing, photography style — should feel continuous with your channel. A visitor moving from a YouTube tutorial to your store should feel like they stayed in the same world.</p>
+<p><strong>Owned infrastructure.</strong> Not Shopify’s servers. Not Etsy’s algorithm. Your code, your hosting, your customer data. The business is yours.</p>
+<hr>
+<h2 id="what-this-costs">What this costs</h2>
+<p>A creator store like ChinkiZ — custom-coded, video gallery, Razorpay with COD, full brand consistency — falls in the ₹48,000–55,000 range.</p>
+<p>Shopify’s comparable plan runs ₹18,000–24,000/year ongoing, plus ₹2,000–8,000 in apps to get close to this feature set, plus transaction fees on every sale, plus the cost of a premium theme. Over three years, the custom store is comparable in cost — and you own it outright by the end.</p>
+<p>For a creator with an engaged audience actively asking where they can buy your products — the custom store pays for itself fast.</p>
+<hr>
+<h2 id="the-lesson">The lesson</h2>
+<p>Platforms are built for scale, not for specificity.</p>
+<p>Shopify works well when you need to move fast, have a generic product, and don’t have an existing audience relationship to protect. It’s the right tool for that job.</p>
+<p>For a creator who’s spent years building trust through content — trust that is the actual reason someone would choose your handmade product over a cheaper one on Amazon — the store needs to carry that trust, not dilute it.</p>
+<p>Custom code is how you build a store that’s actually yours.</p>
+<hr>
+<p><em>See the live store: <a href="https://www.divyanshsood.com/projects/chinkiz">ChinkiZ Knitting Knife →</a></em></p>
+<p><em>I’m Divyansh Sood. I build creator stores and D2C storefronts that put the content next to the buy button — custom video galleries, Razorpay + COD, brand motion that doesn’t fight the platform. 9 live builds since 2022.</em></p>
+<p><em>Building a creator store or a brand whose model doesn’t fit Shopify? <a href="mailto:hello@divyanshsood.com">Email me</a> — I’ll tell you within a day what makes sense for your audience and your product, no obligation either way.</em></p>
+      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </article>
+
+    <section class="wrap narrow" aria-label="Keep reading">
+      <a class="post-next" href={`/blog/${next.slug}/`}>
+        <span><span class="label">Read next</span><br /><span class="name">{next.title}</span></span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </section>
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        {post.audience === "indian-smb" ? (
+          <>
+            <h2>Working on something in India?</h2>
+            <p>If a post here matches what you're building, send me the brief. WhatsApp reply in under an hour, 9 AM–9 PM IST — I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="https://wa.me/919816091875" target="_blank" rel="noopener"
+                >Message me on WhatsApp <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : post.audience === "d2c-brand" ? (
+          <>
+            <h2>Building a brand a theme can't carry?</h2>
+            <p>If your store has a model that off-the-shelf builders fight — hand-numbered drops, creator commerce, premium D2C — tell me about it. I read every brief personally.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : (
+          <>
+            <h2>Working on something similar?</h2>
+            <p>If a post here matches what you're building, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="https://calendly.com/sood-divyansh007/30min" target="_blank" rel="noopener"
+                >Book a 15-min intro <span aria-hidden="true">↗</span></a
+              >
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

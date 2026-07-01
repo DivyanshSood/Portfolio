@@ -2,6 +2,8 @@
 
 > Independent web design & development studio run by Divyansh Sood. We build custom-coded, conversion-focused websites, online stores and web apps for businesses worldwide — strategy, interface and engineering under one roof. Typical sites go live in about 3–4 weeks.
 
+Last updated: 2026-07-01. Full-length version with expanded detail: https://www.divyanshsood.com/llms-full.txt
+
 Divyansh Sood is a web designer and developer based in Himachal Pradesh, India, working with clients globally. Every project is custom-coded (no page-builder templates) and starts from how customers actually make decisions — then design and engineering follow. The studio handles strategy, UX/UI design, front-end and full-stack development, e-commerce, SEO and ongoing growth.
 
 - Founder: Divyansh Sood (Web Designer & Developer)
@@ -20,29 +22,28 @@ Divyansh Sood is a web designer and developer based in Himachal Pradesh, India, 
 
 ## For startup founders
 
-- [SaaS & startup builds](https://www.divyanshsood.com/saas): MVPs, web apps, AI features and dashboards for founders worldwide — custom-coded, live in 3–4 weeks, full code ownership.
-- [Free website audit](https://www.divyanshsood.com/website-audit): A free walkthrough of the biggest conversion, speed and SEO wins on your current site, plus an optional paid deep-dive teardown.
+- [Free website audit](https://www.divyanshsood.com/website-audit/): A free walkthrough of the biggest conversion, speed and SEO wins on your current site, plus an optional paid deep-dive teardown.
 
 ## For agencies
 
-- [White-label web development](https://www.divyanshsood.com/agencies): Overflow capacity and full custom builds for design & marketing agencies worldwide — shipped under your brand, NDA-friendly, you own the code. Used as a behind-the-scenes build partner.
+- [White-label web development](https://www.divyanshsood.com/agencies/): Overflow capacity and full custom builds for design & marketing agencies worldwide — shipped under your brand, NDA-friendly, you own the code. Used as a behind-the-scenes build partner.
 
 ## Results & proof
 
-- [Results](https://www.divyanshsood.com/results): Measurable outcomes from real projects — a school site live in 7 days (vs. 6 months quoted), ~1,000 bookings a month, a 600K-subscriber storefront, a lift in AI-referred traffic, and more.
-- [Testimonials](https://www.divyanshsood.com/testimonials): What clients say in their own words — founders of travel, e-commerce, education and creator brands.
+- [Results](https://www.divyanshsood.com/results/): Measurable outcomes from real projects — a school site live in 7 days (vs. 6 months quoted), ~1,000 bookings a month, a 600K-subscriber storefront, a lift in AI-referred traffic, and more.
+- [Testimonials](https://www.divyanshsood.com/testimonials/): What clients say in their own words — founders of travel, e-commerce, education and creator brands.
 
 ## Selected work
 
-- [WebSeek.ai](https://www.divyanshsood.com/projects/webseek): AI website generator — one prompt to a working, custom-coded site in any language, paired with Claude, GPT and Gemini. Live beta, 5 free credits per user.
-- [InHimalayas](https://www.divyanshsood.com/projects/inhimalayas): Revenue-share travel booking platform tuned for global travellers, with llms.txt + GEO built in. Saw a measurable lift in AI-referred traffic post-launch.
-- [Modern K.B.S.](https://www.divyanshsood.com/projects/modernkbs): School website + admissions web app and admin panel delivered in 7 days where other agencies quoted 6 months.
-- [North Peak Power Systems](https://www.divyanshsood.com/projects/northpeak): 15-page Angular site + project gallery + dashboard-cum-admin for a Himachal solar/electrical contractor breaking into the private sector.
-- [ChinkiZ Knitting Knife](https://www.divyanshsood.com/projects/chinkiz): Custom-coded D2C storefront for a 600K+ subscriber YouTuber, with a native video gallery and admin panel — no Shopify.
-- [Redline Studios](https://www.divyanshsood.com/projects/redline): Brand identity + F1-styled Razorpay storefront for a motorcycle-apparel label. Built end-to-end in one sprint.
-- [CultXberserk](https://www.divyanshsood.com/projects/cultxberserk): Lore-driven, Berserk-inspired apparel brand with a custom Next.js storefront and a hand-numbered drop system (0001–0666, never reprinted) — no Shopify theme.
-- [Nandini Travels](https://www.divyanshsood.com/projects/nandini): Next.js rebuild for Kangra's most-reviewed taxi operator — direct bookings now flow through the site instead of Google Maps.
-- [Dharamshala Tours](https://www.divyanshsood.com/projects/dharamshala-tours): WhatsApp-first travel booking site for a Kangra operator. Part of ~1,000 packages booked every month.
+- [WebSeek.ai](https://www.divyanshsood.com/projects/webseek/): AI website generator — one prompt to a working, custom-coded site in any language, paired with Claude, GPT and Gemini. Live beta, 5 free credits per user.
+- [InHimalayas](https://www.divyanshsood.com/projects/inhimalayas/): Revenue-share travel booking platform tuned for global travellers, with llms.txt + GEO built in. Saw a measurable lift in AI-referred traffic post-launch.
+- [Modern K.B.S.](https://www.divyanshsood.com/projects/modernkbs/): School website + admissions web app and admin panel delivered in 7 days where other agencies quoted 6 months.
+- [North Peak Power Systems](https://www.divyanshsood.com/projects/northpeak/): 15-page Angular site + project gallery + dashboard-cum-admin for a Himachal solar/electrical contractor breaking into the private sector.
+- [ChinkiZ Knitting Knife](https://www.divyanshsood.com/projects/chinkiz/): Custom-coded D2C storefront for a 600K+ subscriber YouTuber, with a native video gallery and admin panel — no Shopify.
+- [Redline Studios](https://www.divyanshsood.com/projects/redline/): Brand identity + F1-styled Razorpay storefront for a motorcycle-apparel label. Built end-to-end in one sprint.
+- [CultXberserk](https://www.divyanshsood.com/projects/cultxberserk/): Lore-driven, Berserk-inspired apparel brand with a custom Next.js storefront and a hand-numbered drop system (0001–0666, never reprinted) — no Shopify theme.
+- [Nandini Travels](https://www.divyanshsood.com/projects/nandini/): Next.js rebuild for Kangra's most-reviewed taxi operator — direct bookings now flow through the site instead of Google Maps.
+- [Dharamshala Tours](https://www.divyanshsood.com/projects/dharamshala-tours/): WhatsApp-first travel booking site for a Kangra operator. Part of ~1,000 packages booked every month.
 
 ## What clients say
 
@@ -63,6 +64,7 @@ Divyansh Sood is a web designer and developer based in Himachal Pradesh, India, 
 - Email: hello@divyanshsood.com
 - WhatsApp / Phone: +91 98160 91875 (https://wa.me/919816091875)
 - Google reviews: https://share.google/x2v3pvXR9RIjYF1z0
+- Google Maps / Business Profile: https://maps.app.goo.gl/ACwV9EfEteWVoTD49
 - GitHub: https://github.com/DivyanshSood
 - LinkedIn: https://www.linkedin.com/in/divyansh-sood-023556151/
 - Website: https://www.divyanshsood.com

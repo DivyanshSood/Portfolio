@@ -5,7 +5,7 @@ import Footer from "../components/Footer.astro";
 import { CALENDLY_URL } from "../lib/site.mjs";
 
 const SITE = "https://www.divyanshsood.com";
-const canonical = `${SITE}/website-audit`;
+const canonical = `${SITE}/website-audit/`;
 
 const checks = [
   { t: "Conversion path", d: "Where the friction is. I click through your buyers' path and flag the page where it shows up." },
@@ -76,8 +76,8 @@ const jsonld = JSON.stringify({
         <h1 style="margin:14px 0 0;font-weight:900;font-size:clamp(38px,7vw,96px);line-height:.9;letter-spacing:-.035em;text-transform:uppercase;">Is your site<br />costing you <span style="color:var(--accent);">customers?</span></h1>
         <p class="cs-lead">Most sites leak revenue in the same few places — a slow first load, a fuzzy message, a buy button that hides. Send me your URL and I'll show you exactly where, and what I'd fix first.</p>
         <div class="cs-cta-row">
-          <a class="btn btn-primary" href="#audit-form" data-cursor>Get my free audit ↓</a>
-          <a class="btn btn-ghost" href={CALENDLY_URL} target="_blank" rel="noopener" data-cursor>Book a call instead</a>
+          <a class="btn btn-primary" href="#audit-form">Get my free audit ↓</a>
+          <a class="btn btn-ghost" href={CALENDLY_URL} target="_blank" rel="noopener">Book a call instead</a>
         </div>
       </div>
     </header>
@@ -98,7 +98,7 @@ const jsonld = JSON.stringify({
             <span class="cs-tag">Deep dive · within a week · Full teardown + strategy call</span>
             <h2 class="cs-card-h2">Written teardown across conversion, SEO, speed, UX. 30-min call. Hand the fix list to any developer — me, your in-house team, whoever. Up to you.</h2>
             <div style="margin-top:18px;font-weight:900;font-size:clamp(28px,4vw,44px);letter-spacing:-.03em;color:var(--accent);">from $250</div>
-            <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener" data-cursor style="margin-top:20px;">Book the deep dive <span aria-hidden="true">↗</span></a>
+            <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener" style="margin-top:20px;">Book the deep dive <span aria-hidden="true">↗</span></a>
           </div>
         </div>
       </div>
@@ -148,8 +148,73 @@ const jsonld = JSON.stringify({
           <input id="au-email" type="email" placeholder="So I can send the teardown" autocomplete="email" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.25);color:#fff;font-family:'Space Mono',monospace;font-size:14px;padding:12px 2px;outline:none;margin-bottom:24px;" />
           <label for="au-goal" style="display:block;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.6;margin-bottom:8px;">What should this site do better? (optional)</label>
           <input id="au-goal" type="text" placeholder="More leads, faster load, more sales…" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.25);color:#fff;font-family:'Space Mono',monospace;font-size:14px;padding:12px 2px;outline:none;margin-bottom:30px;" />
-          <button type="submit" class="btn btn-primary" data-cursor>Get my free audit <span aria-hidden="true">↗</span></button>
+          <button type="submit" class="btn btn-primary">Get my free audit <span aria-hidden="true">↗</span></button>
           <p style="margin:18px 0 0;font-family:'Space Mono',monospace;font-size:11px;line-height:1.6;opacity:.5;">Sends your details to me on WhatsApp — no spam, no list.</p>
+        </form>
+      </div>
+    </section>
+
+    <section class="cs-sec" id="start-form" aria-labelledby="start-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="start-h">Skip the audit — start a project</h2>
+          <span class="mono">Already sold? Two minutes</span>
+        </div>
+        <p class="au-start-lead">Know you want a new build, not a teardown? Tell me the shape of it and you'll get a personal reply — usually within a couple of hours, from me, not an autoresponder.</p>
+        <form id="ds-start-form" data-reveal class="au-project-form">
+          <div class="au-grid2">
+            <div>
+              <label for="st-name" class="au-label">Your name *</label>
+              <input id="st-name" type="text" required placeholder="Jane Founder" autocomplete="name" class="au-input" />
+            </div>
+            <div>
+              <label for="st-email" class="au-label">Email *</label>
+              <input id="st-email" type="email" required placeholder="you@company.com" autocomplete="email" class="au-input" />
+            </div>
+          </div>
+
+          <label for="st-company" class="au-label">Company or current website</label>
+          <input id="st-company" type="text" placeholder="company.com (optional)" class="au-input au-mb" />
+
+          <div class="au-grid2">
+            <div>
+              <label for="st-type" class="au-label">What do you need? *</label>
+              <select id="st-type" required class="au-input au-select">
+                <option value="">Select one…</option>
+                <option>New website</option>
+                <option>Web app / SaaS / MVP</option>
+                <option>E-commerce store</option>
+                <option>Redesign or rebuild</option>
+                <option>Something else</option>
+              </select>
+            </div>
+            <div>
+              <label for="st-budget" class="au-label">Budget (USD) *</label>
+              <select id="st-budget" required class="au-input au-select">
+                <option value="">Select a range…</option>
+                <option>Not sure yet</option>
+                <option>$3,000 – $5,000</option>
+                <option>$5,000 – $10,000</option>
+                <option>$10,000 – $25,000</option>
+                <option>$25,000+</option>
+              </select>
+            </div>
+          </div>
+
+          <label for="st-timeline" class="au-label">Timeline</label>
+          <select id="st-timeline" class="au-input au-select au-mb">
+            <option value="">When do you want it live?</option>
+            <option>As soon as possible</option>
+            <option>Within 1 month</option>
+            <option>1–3 months</option>
+            <option>Just exploring</option>
+          </select>
+
+          <label for="st-msg" class="au-label">Anything else?</label>
+          <textarea id="st-msg" rows="3" placeholder="One line on what you're building and what success looks like." class="au-textarea"></textarea>
+
+          <button type="submit" class="btn btn-primary">Send it to Divyansh <span aria-hidden="true">↗</span></button>
+          <p class="au-formnote">Goes to my inbox. No list. If the budget's off, I'll tell you before we book a call. (WhatsApp: <a href="https://wa.me/919816091875" target="_blank" rel="noopener">+91 98160 91875 ↗</a>)</p>
         </form>
       </div>
     </section>
@@ -178,14 +243,113 @@ const jsonld = JSON.stringify({
         <h2>Prefer to just talk it through?</h2>
         <p>Book a 15-minute slot. We'll pull up your site live. I'll tell you what I'd fix first, free, and you decide on the rest.</p>
         <div class="cs-cta-row" style="justify-content:center;">
-          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener" data-cursor>Book an intro call <span aria-hidden="true">↗</span></a>
-          <a class="btn btn-ghost" href="/#work" data-cursor>See the work</a>
+          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book an intro call <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost" href="/portfolio">See the work</a>
         </div>
       </div>
     </section>
   </main>
 
   <Footer />
+
+  <style>
+    /* ============================================================
+       Website audit — UI polish (scoped). Bold editorial black + red
+       to match About / Results / Portfolio, plus the merged
+       'start a project' qualifying form (moved here from /start).
+       ============================================================ */
+    main .cs-sec { padding: clamp(58px, 7vw, 108px) 0; }
+    main .cs-hero { padding-top: clamp(120px, 16vw, 160px); }
+    main .cs-lead { max-width: 64ch; font-size: clamp(17px, 1.7vw, 21px); }
+    main .cs-sec-head { align-items: flex-end; margin-bottom: clamp(30px, 4vw, 52px); }
+    main .cs-sec-head h2 {
+      font-weight: 900;
+      font-size: clamp(28px, 4.6vw, 64px);
+      line-height: 0.98;
+      letter-spacing: -0.035em;
+      text-transform: uppercase;
+    }
+    main .cs-sec-head .mono { opacity: 0.5; }
+
+    /* Cards: interactive lift + accent edge on hover. */
+    main .cs-card {
+      border-radius: 10px;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, background 0.3s ease;
+    }
+    main .cs-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255, 31, 31, 0.5);
+      background: linear-gradient(180deg, rgba(255, 31, 31, 0.06), transparent);
+    }
+    main .cs-quote:hover { transform: none; }
+
+    /* ---- Merged 'start a project' qualifying form ---- */
+    main .au-start-lead {
+      max-width: 60ch;
+      margin: 0 0 26px;
+      font-size: clamp(15px, 1.5vw, 17px);
+      line-height: 1.6;
+      opacity: 0.82;
+    }
+    main .au-project-form {
+      max-width: 680px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 12px;
+      padding: clamp(24px, 3vw, 32px);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent);
+    }
+    main .au-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-bottom: 22px; }
+    main .au-label {
+      display: block;
+      font-family: "Space Mono", monospace;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      opacity: 0.6;
+      margin-bottom: 8px;
+    }
+    main .au-input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+      color: #fff;
+      font-family: "Space Mono", monospace;
+      font-size: 14px;
+      padding: 12px 2px;
+      outline: none;
+    }
+    main .au-input:focus { border-bottom-color: var(--accent, #ff1f1f); }
+    main .au-select { background: #0b0b0c; }
+    main .au-mb { margin-bottom: 22px; }
+    main .au-textarea {
+      width: 100%;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 6px;
+      color: #fff;
+      font-family: "Space Mono", monospace;
+      font-size: 14px;
+      padding: 12px;
+      outline: none;
+      margin: 0 0 24px;
+      resize: vertical;
+    }
+    main .au-textarea:focus { border-color: var(--accent, #ff1f1f); }
+    main .au-formnote {
+      margin: 18px 0 0;
+      font-family: "Space Mono", monospace;
+      font-size: 11px;
+      line-height: 1.6;
+      opacity: 0.5;
+    }
+    main .au-formnote a { color: var(--accent, #ff1f1f); text-decoration: underline; }
+
+    @media (max-width: 620px) {
+      main .au-grid2 { grid-template-columns: 1fr; gap: 0; }
+      main .au-grid2 > div { margin-bottom: 22px; }
+    }
+  </style>
 </Layout>
 
 <script is:inline>

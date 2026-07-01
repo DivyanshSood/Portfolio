@@ -9,8 +9,14 @@ export default defineConfig({
   trailingSlash: "ignore",
   output: "static",
   adapter: vercel(),
+  // /start was merged into /website-audit (its qualifying form now lives there).
+  redirects: {
+    "/start": "/website-audit",
+  },
   integrations: [
     sitemap({
+      // The print-only PDF source is noindexed — keep it out of the sitemap too.
+      filter: (page) => !page.includes("/portfolio-pdf"),
       // Freshness + crawl-priority hints honoured by Bing, Yandex & others.
       serialize(item) {
         const path = new URL(item.url).pathname;

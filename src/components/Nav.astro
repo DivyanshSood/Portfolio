@@ -9,12 +9,10 @@ const { kicker = "Design & dev studio from the Himalayas" } = Astro.props;
 <nav id="ds-nav">
   <div class="nav-left">
     <a href="/" class="brand">DIVYANSH&nbsp;SOOD<sup>®</sup></a>
-    <span class="nav-divider" aria-hidden="true"></span>
-    <span class="kicker">{kicker}</span>
   </div>
   <div class="nav-right">
-    <div class="nav-links">
-      <a href="/#work">Works</a>
+    <div class="nav-links" id="nav-menu">
+      <a href="/portfolio">Portfolio</a>
       <a href="/blog/">Blog</a>
       <a href="/about">About</a>
       <a href="/#contact">Contact</a>
@@ -23,6 +21,9 @@ const { kicker = "Design & dev studio from the Himalayas" } = Astro.props;
       <span class="nav-cta-dot" aria-hidden="true"></span>
       Start a project
     </a>
+    <button type="button" class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
 
@@ -116,7 +117,7 @@ const { kicker = "Design & dev studio from the Himalayas" } = Astro.props;
     display: inline-flex;
     align-items: center;
     gap: 9px;
-    background: var(--accent, #ff4612);
+    background: var(--accent, #ff1f1f);
     color: #0b0b0c;
     text-decoration: none;
     font-family: 'Space Mono', monospace;
@@ -137,17 +138,73 @@ const { kicker = "Design & dev studio from the Himalayas" } = Astro.props;
     flex: none;
   }
 
-  /* Tablet — keep all links visible but tighten spacing. */
+  /* Hamburger — hidden on desktop, shown ≤860px. 44×44 touch target. */
+  .nav-toggle {
+    display: none;
+    width: 44px;
+    height: 44px;
+    margin: -8px -8px -8px 4px;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    flex: none;
+  }
+  .nav-toggle span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: #fff;
+    border-radius: 2px;
+    transition: transform 0.3s ease, opacity 0.2s ease;
+  }
+  #ds-nav.is-open .nav-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  #ds-nav.is-open .nav-toggle span:nth-child(2) { opacity: 0; }
+  #ds-nav.is-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* Tablet & phones — collapse the links into a toggled dropdown panel so
+     Works/Blog/About/Contact stay reachable (they used to just vanish). */
   @media (max-width: 860px) {
-    #ds-nav { padding: 14px 18px; gap: 12px; }
-    .nav-links { display: none; }
-    .nav-right { gap: 0; }
-    .nav-cta { font-size: 10px; padding: 10px 14px; }
+    #ds-nav { padding: 12px 18px; gap: 12px; }
+    .nav-right { gap: 12px; }
+    .nav-toggle { display: flex; }
+
+    .nav-links {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      background: #0b0b0c;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 6px 18px 14px;
+      font-size: 14px;
+      letter-spacing: 0.1em;
+      opacity: 0;
+      transform: translateY(-8px);
+      pointer-events: none;
+      transition: opacity 0.24s ease, transform 0.24s ease;
+    }
+    #ds-nav.is-open .nav-links { opacity: 1; transform: none; pointer-events: auto; }
+    .nav-links a {
+      padding: 15px 2px;
+      opacity: 0.92;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .nav-links a:last-child { border-bottom: 0; }
+    .nav-cta { font-size: 10px; padding: 11px 15px; }
   }
 
-  /* Phones — scale everything down to one line; tagline may ellipsize. */
+  /* Phones — scale everything down; tagline may ellipsize. */
   @media (max-width: 560px) {
-    #ds-nav { gap: 10px; padding: 12px 14px; }
+    #ds-nav { gap: 10px; padding: 11px 14px; }
     .nav-left { flex: 1 1 auto; gap: 9px; }
     #ds-nav .brand { font-size: 14px; }
     .nav-divider { display: none; }
@@ -155,6 +212,38 @@ const { kicker = "Design & dev studio from the Himalayas" } = Astro.props;
   }
   @media (max-width: 420px) {
     #ds-nav .kicker { display: none; }
-    .nav-cta { font-size: 9px; padding: 9px 12px; letter-spacing: 0.08em; }
+    .nav-cta { font-size: 9px; padding: 10px 12px; letter-spacing: 0.08em; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nav-links, .nav-toggle span { transition: none; }
   }
 </style>
+
+<script>
+  // Mobile nav: toggle the dropdown panel. Closes on link click, Escape, or an
+  // outside tap so it never traps the user.
+  (function () {
+    const nav = document.getElementById("ds-nav");
+    const toggle = nav?.querySelector(".nav-toggle") as HTMLButtonElement | null;
+    if (!nav || !toggle) return;
+    const set = (open: boolean) => {
+      nav.classList.toggle("is-open", open);
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    };
+    toggle.addEventListener("click", (e) => {
+      e.stopPropagation();
+      set(!nav.classList.contains("is-open"));
+    });
+    nav.querySelectorAll(".nav-links a").forEach((a) =>
+      a.addEventListener("click", () => set(false))
+    );
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") set(false);
+    });
+    document.addEventListener("click", (e) => {
+      if (nav.classList.contains("is-open") && !nav.contains(e.target as Node)) set(false);
+    });
+  })();
+</script>

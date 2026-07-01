@@ -1,0 +1,198 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+
+const slug = "scarcity-by-design-hand-numbered-drops";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+const next = POSTS[(idx + 1) % POSTS.length];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
+      publisher: {
+        "@type": "Organization",
+        "@id": `${SITE}/#studio`,
+        name: "Divyansh Sood® Studio",
+        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
+      },
+      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      wordCount: 690,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+  ],
+});
+---
+
+<Layout
+  title={`${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  jsonld={jsonld}
+>
+  <Nav kicker="Journal" />
+  <main>
+    <header class="post-hero">
+      <div class="post-hero-bg" aria-hidden="true"></div>
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img src={post.coverImage} alt={post.title} width="1200" height="750" fetchpriority="high" decoding="async" />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+      <p>There are two ways to sell apparel online.</p>
+<p>One: stock deep, restock forever, compete on availability and price. The store’s job is to never be out of your size.</p>
+<p>Two: make a fixed number, number each one, never make it again. The store’s job is to make you feel you’ll miss it.</p>
+<p>Those are not the same business with different marketing. They’re different businesses — and they need different software. I learned exactly how different building <a href="https://www.divyanshsood.com/projects/cultxberserk">CultXberserk</a>, a Berserk-inspired label where every garment is hand-numbered 0001 to 0666 and never reprinted.</p>
+<hr>
+<h2 id="scarcity-only-works-if-its-real">Scarcity only works if it’s real</h2>
+<p>The fastest way to kill a drop brand is fake scarcity. “Only 3 left!” countdown timers that reset on refresh. “Limited edition” that quietly restocks next month. Customers smell it instantly, and the moment they do, the premium evaporates.</p>
+<p>Real scarcity is a constraint you actually honour:</p>
+<ul>
+<li>A fixed run, stated up front — 666 units, not “limited”</li>
+<li>A visible number on the product itself — 0042 of 0666</li>
+<li>A public commitment to never reprint, and then keeping it</li>
+</ul>
+<p>That last one is a business decision, not a design one. You are deliberately leaving money on the table on the best-sellers. That’s the cost of the model — and it’s exactly what makes the model work.</p>
+<hr>
+<h2 id="the-story-has-to-live-next-to-the-buy-button">The story has to live next to the buy button</h2>
+<p>For a commodity store, the product page is specs and a price. For a drop brand, the product page is where the <em>meaning</em> gets made.</p>
+<p>CultXberserk’s tees carry a “Brand of Sacrifice” seal sewn into the neckline at the C7 vertebra — a reference to the manga’s lore, not decoration. That detail only sells if the page <em>tells</em> you it’s there and why it matters. The lore, the numbering, the origin — all of it has to sit inches from the add-to-cart, not buried in a separate “about” page nobody visits.</p>
+<p>This is the part themes get wrong. They treat the product page as a transaction. A drop brand needs it to be a small piece of theatre.</p>
+<hr>
+<h2 id="what-the-software-actually-has-to-do">What the software actually has to do</h2>
+<p>Hand-numbered drops break assumptions baked into off-the-shelf stores:</p>
+<ul>
+<li><strong>Unit-level identity.</strong> Not “200 in stock” but 200 <em>distinct, numbered</em> items. Inventory has to track individuals, not just a count.</li>
+<li><strong>Drop state, not just stock state.</strong> Upcoming, live, sold out, archived — and the page should look different in each, building anticipation before and prestige after.</li>
+<li><strong>No restock logic.</strong> Sold out means sold out, permanently. The “notify me when back” flow that every store assumes? You have to deliberately remove it.</li>
+<li><strong>Provenance.</strong> Buyers of numbered goods want proof — which number they got, when, that it’s authentic.</li>
+</ul>
+<p>None of that is a standard app. It’s why drop brands so often end up custom: the model itself is custom.</p>
+<hr>
+<h2 id="what-this-teaches-every-d2c-brand">What this teaches every D2C brand</h2>
+<p>You don’t have to sell 666 units to use what makes drops work:</p>
+<ol>
+<li><strong>Make a real promise and keep it.</strong> Manufactured urgency is a tax on trust. A constraint you actually honour is a moat.</li>
+<li><strong>Sell the meaning, not just the object.</strong> The most defensible premium is the story only you can tell.</li>
+<li><strong>Let the model shape the software.</strong> If your brand idea is genuinely different, an off-the-shelf store will quietly sand it back into something ordinary.</li>
+</ol>
+<p>The brands that win at the premium end aren’t selling better cotton. They’re selling a feeling of rarity and belonging — and they build every pixel of the storefront to protect it.</p>
+<hr>
+<p><em>I’m Divyansh Sood. I built <a href="https://www.divyanshsood.com/projects/cultxberserk">CultXberserk</a> — a hand-numbered apparel label where every garment carries an individual identity, never restocks, and earns the “limited” tag by actually meaning it. The custom storefront had to do unit-level inventory, drop state, and provenance that off-the-shelf stores simply don’t model. 9 live builds since 2022.</em></p>
+<p><em>If your brand is a real drop model — or you want to build one — <a href="mailto:hello@divyanshsood.com">email me</a>. I’ll tell you within a day whether custom code is worth it or whether a headless Shopify setup gets you there cheaper.</em></p>
+      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </article>
+
+    <section class="wrap narrow" aria-label="Keep reading">
+      <a class="post-next" href={`/blog/${next.slug}/`}>
+        <span><span class="label">Read next</span><br /><span class="name">{next.title}</span></span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </section>
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        {post.audience === "indian-smb" ? (
+          <>
+            <h2>Working on something in India?</h2>
+            <p>If a post here matches what you're building, send me the brief. WhatsApp reply in under an hour, 9 AM–9 PM IST — I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="https://wa.me/919816091875" target="_blank" rel="noopener"
+                >Message me on WhatsApp <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : post.audience === "d2c-brand" ? (
+          <>
+            <h2>Building a brand a theme can't carry?</h2>
+            <p>If your store has a model that off-the-shelf builders fight — hand-numbered drops, creator commerce, premium D2C — tell me about it. I read every brief personally.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : (
+          <>
+            <h2>Working on something similar?</h2>
+            <p>If a post here matches what you're building, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="https://calendly.com/sood-divyansh007/30min" target="_blank" rel="noopener"
+                >Book a 15-min intro <span aria-hidden="true">↗</span></a
+              >
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

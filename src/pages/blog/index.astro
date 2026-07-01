@@ -1,12 +1,11 @@
 ---
-import { getCollection } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import Nav from "../../components/Nav.astro";
 import Footer from "../../components/Footer.astro";
-import { SITE, DEFAULT_OG, fmtDate, readingTime, gradient, orderPosts } from "../../lib/blog.mjs";
+import { SITE, DEFAULT_OG, fmtDate, gradient, POSTS } from "../../lib/blog.mjs";
 
 const canonical = `${SITE}/blog/`;
-const posts = orderPosts(await getCollection("blog"));
+const posts = POSTS;
 
 const jsonld = JSON.stringify({
   "@context": "https://schema.org",
@@ -26,8 +25,8 @@ const jsonld = JSON.stringify({
       itemListElement: posts.map((p, i) => ({
         "@type": "ListItem",
         position: i + 1,
-        url: `${SITE}/blog/${p.id}/`,
-        name: p.data.title,
+        url: `${SITE}/blog/${p.slug}/`,
+        name: p.title,
       })),
     },
     {
@@ -73,21 +72,21 @@ const jsonld = JSON.stringify({
       <div class="blog-grid">
         {
           posts.map((p) => (
-            <a class="blog-card" href={`/blog/${p.id}/`} data-cursor data-reveal>
+            <a class="blog-card" href={`/blog/${p.slug}/`} data-reveal>
               <div class="thumb">
-                {p.data.coverImage ? (
-                  <img src={p.data.coverImage} alt="" width="640" height="400" loading="lazy" decoding="async" />
+                {p.coverImage ? (
+                  <img src={p.coverImage} alt={p.title} width="640" height="400" loading="lazy" decoding="async" />
                 ) : (
-                  <span class="thumb-grad" style={`background:${gradient(p.id)}`} />
+                  <span class="thumb-grad" style={`background:${gradient(p.slug)}`} />
                 )}
               </div>
               <div class="pad">
                 <span class="date">
-                  {fmtDate(p.data.pubDate)} · {p.data.tags[0] || "Notes"}
+                  {fmtDate(p.pubDate)} · {p.tags[0] || "Notes"}
                 </span>
-                <span class="ttl">{p.data.title}</span>
-                <span class="desc">{p.data.description}</span>
-                <span class="read">Read · {readingTime(p.body)} min →</span>
+                <span class="ttl">{p.title}</span>
+                <span class="desc">{p.description}</span>
+                <span class="read">Read · {p.readMins} min →</span>
               </div>
             </a>
           ))

@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 /* ===========================================================================
-   Regenerate /portfolio.pdf from the live /portfolio page.
+   Regenerate /portfolio.pdf from the print-only /portfolio-pdf page.
    Uses headless Chrome (installed on this Mac) to print to A4.
-   Run after `npm run build` so the page exists in /dist/client/portfolio/.
+   (/portfolio is now the browsable HTML portfolio; /portfolio-pdf is the
+   print source, noindexed, kept separate so the PDF stays clean.)
+   Run after `npm run build` so the page exists in /dist/client/portfolio-pdf/.
    =========================================================================== */
 
 import { spawnSync } from "node:child_process";
@@ -12,12 +14,12 @@ import { dirname, resolve } from "node:path";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
-const DIST_HTML = resolve(ROOT, "dist/client/portfolio/index.html");
+const DIST_HTML = resolve(ROOT, "dist/client/portfolio-pdf/index.html");
 const OUT = resolve(ROOT, "public/portfolio.pdf");
 
 if (!existsSync(DIST_HTML)) {
   console.error(
-    "!! dist/client/portfolio/index.html not found. Run `npm run build` first."
+    "!! dist/client/portfolio-pdf/index.html not found. Run `npm run build` first."
   );
   process.exit(1);
 }

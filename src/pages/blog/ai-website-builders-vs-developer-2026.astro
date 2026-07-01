@@ -1,0 +1,224 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+
+const slug = "ai-website-builders-vs-developer-2026";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+const next = POSTS[(idx + 1) % POSTS.length];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
+      publisher: {
+        "@type": "Organization",
+        "@id": `${SITE}/#studio`,
+        name: "Divyansh Sood® Studio",
+        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
+      },
+      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      wordCount: 734,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+  ],
+});
+---
+
+<Layout
+  title={`${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  jsonld={jsonld}
+>
+  <Nav kicker="Journal" />
+  <main>
+    <header class="post-hero">
+      <div class="post-hero-bg" aria-hidden="true"></div>
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img src={post.coverImage} alt={post.title} width="1200" height="750" fetchpriority="high" decoding="async" />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+      <p>I’m in an unusual spot to write this. I build websites by hand for clients — and I also build <a href="https://www.divyanshsood.com/projects/webseek">WebSeek.ai</a>, an AI website generator that turns one prompt into a custom-coded site.</p>
+<p>So I have no incentive to tell you AI tools are bad. They’re not. I bet on them. But I’d be lying if I said they’re the right answer for everything, and the honest version is more useful to you than a sales pitch from either side.</p>
+<p>Here’s where AI builders genuinely win, and where a human is still worth the money.</p>
+<hr>
+<h2 id="what-ai-builders-are-genuinely-great-at">What AI builders are genuinely great at</h2>
+<p>The progress is real, and pretending otherwise is just gatekeeping. Use AI when:</p>
+<ul>
+<li>You need <strong>something live today</strong> and can’t wait three weeks</li>
+<li>You’re <strong>testing an idea</strong> and the site is disposable</li>
+<li>The budget is <strong>genuinely small</strong> and the alternative is nothing</li>
+<li>You want a <strong>first draft to react to</strong> — it’s far easier to edit than to start from blank</li>
+<li>It’s a <strong>personal project, event page, or simple brochure</strong> with no complex logic</li>
+</ul>
+<p>For these, an AI builder isn’t a compromise — it’s the correct, efficient choice. Paying a developer for a weekend event page is overkill.</p>
+<p>WebSeek exists precisely for this slice: one prompt, any language, custom-coded output you actually own — not stuck in a SaaS editor. That last part matters, and most builders get it wrong.</p>
+<hr>
+<h2 id="where-ai-quietly-costs-you-more">Where AI quietly costs you more</h2>
+<p>The trouble is that AI output looks finished. It’s confident, it’s polished, and that’s exactly what hides the gaps. The cost shows up later:</p>
+<p><strong>It optimises for “looks done,” not “does the job.”</strong> AI makes pages that <em>look</em> like websites. Whether the structure actually moves a specific customer toward a specific action — that’s strategy, and strategy comes from understanding your business, not from a prompt.</p>
+<p><strong>The generic ceiling.</strong> AI is trained on what already exists, so it regresses toward the average. For a brand whose whole point is <em>not</em> being average — <a href="https://www.divyanshsood.com/projects/cultxberserk">CultXberserk</a>, <a href="https://www.divyanshsood.com/projects/redline">Redline Studios</a> — “competent and generic” is a failure, not a win.</p>
+<p><strong>The last 20%.</strong> AI gets you 80% of the way fast. The last 20% — the edge cases, the integration that has to be exactly right, the performance pass, the accessibility — is most of the actual work, and it’s where AI tends to stall and confidently produce subtly wrong code.</p>
+<p><strong>It doesn’t own the outcome.</strong> When the contact form silently fails or the payment integration drops orders, the AI doesn’t care and can’t be called. A developer is accountable. That accountability is a large part of what you’re paying for.</p>
+<hr>
+<h2 id="the-decision-in-one-table">The decision, in one table</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>If you need…</th><th>Use</th></tr></thead><tbody><tr><td>Live today, small budget, disposable</td><td>AI builder</td></tr><tr><td>A first draft to iterate on</td><td>AI builder, then a human</td></tr><tr><td>Conversion-driven business site</td><td>Human developer</td></tr><tr><td>A brand that must feel distinct</td><td>Human developer</td></tr><tr><td>Payments, auth, real integrations</td><td>Human developer</td></tr><tr><td>Something you’ll run for years</td><td>Human developer</td></tr></tbody></table>
+<hr>
+<h2 id="the-combination-most-people-miss">The combination most people miss</h2>
+<p>This isn’t actually AI <em>versus</em> human. The best workflow is AI <em>and</em> human — and it’s how I work.</p>
+<p>AI for speed: scaffolding, first drafts, boilerplate, killing the blank page. Human for the parts that decide whether it works: strategy, brand, the difficult 20%, and accountability for the result.</p>
+<p>A developer who refuses to touch AI in 2026 is slower than they should be. An AI tool with no human judgment behind it produces confident, average, unaccountable work. The win is in the overlap.</p>
+<p>So the real question isn’t “AI or developer.” It’s: <em>is this site disposable, or does it have to work?</em></p>
+<p>If it’s disposable, let AI rip. If it has to work — to convert, to carry a brand, to handle money, to last — get a human, ideally one who uses AI to move faster on everything except the judgment.</p>
+<hr>
+<p><em>I’m Divyansh Sood — solo web designer and developer shipping from Himachal Pradesh. I build sites by hand, and I also built <a href="https://www.divyanshsood.com/projects/webseek">WebSeek.ai</a>, the AI website generator this post is about. 9 live builds since 2022. If your team is weighing AI tools against hiring a developer, <a href="mailto:hello@divyanshsood.com">email me</a> — I’ll tell you within a day where I think each one fits.</em></p>
+      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </article>
+
+    <section class="wrap narrow" aria-label="Keep reading">
+      <a class="post-next" href={`/blog/${next.slug}/`}>
+        <span><span class="label">Read next</span><br /><span class="name">{next.title}</span></span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </section>
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        {post.audience === "indian-smb" ? (
+          <>
+            <h2>Working on something in India?</h2>
+            <p>If a post here matches what you're building, send me the brief. WhatsApp reply in under an hour, 9 AM–9 PM IST — I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="https://wa.me/919816091875" target="_blank" rel="noopener"
+                >Message me on WhatsApp <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : post.audience === "d2c-brand" ? (
+          <>
+            <h2>Building a brand a theme can't carry?</h2>
+            <p>If your store has a model that off-the-shelf builders fight — hand-numbered drops, creator commerce, premium D2C — tell me about it. I read every brief personally.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : (
+          <>
+            <h2>Working on something similar?</h2>
+            <p>If a post here matches what you're building, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="https://calendly.com/sood-divyansh007/30min" target="_blank" rel="noopener"
+                >Book a 15-min intro <span aria-hidden="true">↗</span></a
+              >
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

@@ -5,7 +5,7 @@ import Footer from "../components/Footer.astro";
 import { CALENDLY_URL, GOOGLE_REVIEWS_URL } from "../lib/site.mjs";
 
 const SITE = "https://www.divyanshsood.com";
-const canonical = `${SITE}/privacy`;
+const canonical = `${SITE}/privacy/`;
 
 const jsonld = JSON.stringify({
   "@context": "https://schema.org",
@@ -88,8 +88,8 @@ const sections = [
         <p class="cs-h1">The short version: <span class="tail">analytics only run after you click Accept, I never sell anything to anyone, and there's no third-party ad script on the page.</span></p>
         <p class="cs-lead">If you want the full policy, the section-by-section breakdown is below. If you want to change your choice right now, the "Cookies" link in the footer reopens the banner.</p>
         <div class="cs-cta-row">
-          <a class="btn btn-primary" href="#ds-cookie-settings" data-cookie-settings data-cursor>Open cookie settings</a>
-          <a class="btn btn-ghost" href={CALENDLY_URL} target="_blank" rel="noopener" data-cursor>Get in touch instead</a>
+          <a class="btn btn-primary" href="#ds-cookie-settings" data-cookie-settings>Open cookie settings</a>
+          <a class="btn btn-ghost" href={CALENDLY_URL} target="_blank" rel="noopener">Get in touch instead</a>
         </div>
       </div>
     </header>
@@ -130,10 +130,10 @@ const sections = [
     <section class="cs-endcta">
       <div class="wrap">
         <h2>Still have questions?</h2>
-        <p>If something on this page is unclear, or you want a verifiable data request under GDPR / CCPA, email <a href="mailto:hello@divyanshsood.com" style="color:var(--accent,#ff4612);text-decoration:underline;">hello@divyanshsood.com</a> — I reply personally within a couple of hours during IST working hours.</p>
+        <p>If something on this page is unclear, or you want a verifiable data request under GDPR / CCPA, email <a href="mailto:hello@divyanshsood.com" style="color:var(--accent,#ff1f1f);text-decoration:underline;">hello@divyanshsood.com</a> — I reply personally within a couple of hours during IST working hours.</p>
         <div class="cs-cta-row" style="justify-content:center;">
-          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener" data-cursor>Book a 15-min intro <span aria-hidden="true">↗</span></a>
-          <a class="btn btn-ghost" href={GOOGLE_REVIEWS_URL} target="_blank" rel="noopener" data-cursor>Read our Google reviews ↗</a>
+          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book a 15-min intro <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost" href={GOOGLE_REVIEWS_URL} target="_blank" rel="noopener">Read our Google reviews ↗</a>
         </div>
       </div>
     </section>

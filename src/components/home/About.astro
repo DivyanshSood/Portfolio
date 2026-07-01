@@ -1,229 +1,200 @@
 ---
-// Founder story + 3 conflict-first reasons. Wrapped in the shared <Frame> so it
-// carries the hero card's corner-tick language. Layout: a balanced photo / intro
-// top row, then the three reasons as a full-width 3-up row. Reason cards use the
-// same solid white / bordered language as the Testimonials figures so the two
-// light-section frames read as one system. `home-section` = mobile padding.
-import Frame from "./Frame.astro";
-import { CALENDLY_URL, FOUNDER_PHOTO, FOUNDER_PHOTO_ALT, HAS_FOUNDER_PHOTO } from "../../lib/site.mjs";
+// About — rebuilt as a full-bleed ORANGE editorial block in the Mattis
+// "Strategy before pixels" language (p2–3): mono micro-labels across the top, a
+// giant right-aligned heading, body copy left, a borderless B&W portrait with
+// parallax, and the three reasons as a hairline-divided list. No frames, no
+// container cards. Copy is unchanged. `home-section` keeps the mobile padding.
+import { CALENDLY_URL } from "../../lib/site.mjs";
 
 const reasons = [
   {
     n: "01",
-    t: "6 months → 7 days",
-    d: "Modern K.B.S. needed an admissions portal before the next cycle. Others quoted 6 months. I shipped in 7."
+    t: "Weeks, not quarters",
+    d: "Agencies scope in months. I scope tight and ship in weeks — so your site starts earning sooner, not 'next quarter'.",
   },
   {
     n: "02",
     t: "You own every line",
-    d: "Next.js where it counts. Astro where it converts. No monthly tax, no builder lock-in."
+    d: "The right tool for the job, not a builder's template. No monthly tax, no lock-in — you keep the code.",
   },
   {
     n: "03",
     t: "I run my own product",
-    d: "An AI site builder, live with real users. I make the same calls you do. 9 of 9 retained."
+    d: "I don't only build for clients — I run my own live product, with real users. So I make the same calls on your site I'd make on mine.",
   },
 ];
 ---
 
-<section id="about" class="home-section" style="position:relative;z-index:2;background:#e8e8e8;color:#0b0b0c;padding:64px 30px 56px;">
-  <Frame label="About" index="01" note="Built from the Himalayas · Shipping for the world" tag="2026 ©" tone="light">
-    <h2 data-reveal class="about-h2">Three things I do<br />that <span style="color:var(--accent,#ff4612);">agencies won't.</span></h2>
+<section id="about" class="home-section ds-about">
+  <div class="ds-about-inner">
+    {/* Top mono micro-labels */}
+    <div class="ds-about-labels mono" data-reveal>
+      <span>(About — 01)</span>
+      <span class="ds-about-labels-mid">How I work differently</span>
+      <span>2026 ©</span>
+    </div>
 
-    <div class="about-top">
-      {HAS_FOUNDER_PHOTO ? (
-        <div class="about-photo imgfill" data-reveal style={`background-image:url('${FOUNDER_PHOTO}');`} role="img" aria-label={FOUNDER_PHOTO_ALT}></div>
-      ) : (
-        <div class="about-photo about-photo-fallback" data-reveal aria-label={FOUNDER_PHOTO_ALT} role="img">
-          <span class="about-photo-mono">DS</span>
-          <span class="about-photo-cap">Founder photo</span>
-        </div>
-      )}
-
-      <div class="about-intro" data-reveal>
-        <p class="about-lead">I'm Divyansh — a 1-person studio in Himachal Pradesh. No agency floor, no account managers. Just me, building sites for founders who'd rather hire a person than a shop.</p>
-        <p class="about-body">20+ products live since 2022. Most in 3–4 weeks. All custom-coded, conversion-led, built to last. 9 of 9 last clients retained.</p>
-
-        {/* Worldwide merge — the audit told us to fold the Worldwide section
-            into About. Compact, single-line: IST hours + the three timezones a
-            foreign founder actually cares about. */}
-        <p class="about-worldwide mono" aria-label="Worldwide collaboration">
-          <span style="color:var(--accent,#ff4612);">↗</span>&nbsp;Async across US&nbsp;·&nbsp;UK&nbsp;·&nbsp;Gulf&nbsp;·&nbsp;Australia · <span style="opacity:.7;">IST 10am–7pm — US mornings, UK afternoons, Gulf evenings</span>
+    {/* Heading right, body left */}
+    <div class="ds-about-top">
+      <div class="ds-about-body">
+        <p class="ds-about-lead" data-reveal>
+          I'm Divyansh — a 1-person studio in Himachal Pradesh. No agency floor,
+          no account managers. Just me, building sites for founders who'd rather
+          hire a person than a shop.
         </p>
-
-        <div class="about-credit mono">
-          <span>Divyansh Sood — founder</span><span>Himachal · India · IST +5:30</span>
-        </div>
-
-        <div class="about-cta">
-          <a href={CALENDLY_URL} target="_blank" rel="noopener" data-cursor class="btn btn-primary">Book a 15-min intro <span aria-hidden="true">↗</span></a>
-          <a href="/#work" data-cursor class="btn btn-ghost btn-ghost-ink">See the work</a>
+        <p class="ds-about-world mono" data-reveal aria-label="Worldwide collaboration">
+          ↗ Async across US · UK · Gulf · Australia
+          <span class="ds-about-world-dim">— IST 10am–7pm · US mornings, UK afternoons, Gulf evenings</span>
+        </p>
+        <div class="ds-about-links" data-reveal>
+          <a href={CALENDLY_URL} target="_blank" rel="noopener" class="ds-link">
+            Book a 15-min intro <span aria-hidden="true">↗</span>
+          </a>
+          <a href="/#work" class="ds-link ds-link-soft">
+            See the work <span aria-hidden="true">↗</span>
+          </a>
         </div>
       </div>
+
+      <h2 class="ds-about-h2" data-reveal>
+        Three things<br />I do that<br /><span class="ds-about-h2-em">agencies won't.</span>
+      </h2>
     </div>
 
-    <div class="about-reasons">
-      {reasons.map((r) => (
-        <div class="ds-tile" data-reveal>
-          <span class="ds-tile-num">({r.n}) · {r.t}</span>
-          <h2 class="cs-card-h2 about-reason-d">{r.d}</h2>
-        </div>
-      ))}
-    </div>
-  </Frame>
+    {/* Reasons — full-width hairline list */}
+    <ol class="ds-about-reasons">
+        {reasons.map((r) => (
+          <li class="ds-about-reason" data-reveal>
+            <div class="ds-about-reason-head">
+              <span class="ds-about-reason-n mono">{r.n}</span>
+              <h3 class="ds-about-reason-t">{r.t}</h3>
+            </div>
+            <p class="ds-about-reason-d">{r.d}</p>
+          </li>
+        ))}
+      </ol>
+  </div>
 </section>
 
 <style>
-  .about-h2 {
-    margin: 0 0 clamp(24px, 3vw, 36px);
-    font-weight: 900;
-    font-size: clamp(40px, 6vw, 80px);
-    line-height: 0.92;
-    letter-spacing: -0.035em;
-    text-transform: uppercase;
-  }
-
-  /* Top row — photo anchor + intro. Balanced so the photo never strands a gap. */
-  .about-top {
-    display: grid;
-    grid-template-columns: 0.78fr 1.22fr;
-    gap: clamp(28px, 4vw, 56px);
-    align-items: stretch;
-    margin-bottom: clamp(28px, 4vw, 44px);
-  }
-  .about-photo {
-    width: 100%;
-    height: 100%;
-    min-height: 360px;
-    border-radius: 10px;
-    border: 1px solid rgba(0, 0, 0, 0.18);
-    background-color: #ffffff;
-  }
-  /* Light fallback so a missing photo doesn't drop a dark block on a light section. */
-  .about-photo-fallback {
-    background:
-      radial-gradient(120% 90% at 30% 10%, rgba(255, 70, 18, 0.12), transparent 55%),
-      linear-gradient(160deg, #f4f4f4, #e0e0e0);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .ds-about {
     position: relative;
-    overflow: hidden;
-    aspect-ratio: 4 / 5;
-  }
-  .about-photo-mono {
-    font-family: "Archivo";
-    font-weight: 900;
-    font-size: clamp(64px, 12vw, 120px);
-    letter-spacing: -0.05em;
+    z-index: 2;
+    background: var(--accent, #ff1f1f);
     color: #0b0b0c;
-    opacity: 0.18;
+    padding: clamp(64px, 9vw, 132px) 30px clamp(60px, 8vw, 120px);
+    overflow: hidden;
+    --snum-ink: rgba(11, 11, 12, 0.16);
   }
-  .about-photo-cap {
-    position: absolute;
-    bottom: 14px; left: 0; right: 0;
-    text-align: center;
-    font-family: "Space Mono", monospace;
-    font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase;
-    color: #0b0b0c; opacity: 0.45;
-  }
+  .ds-about-inner { position: relative; z-index: 1; max-width: 1180px; margin: 0 auto; }
 
-  .about-intro { display: flex; flex-direction: column; }
-  .about-lead {
-    margin: 0;
-    font-size: clamp(17px, 1.7vw, 19px);
-    line-height: 1.45;
-    font-weight: 600;
-    max-width: 620px;
-  }
-  .about-body {
-    margin: 12px 0 0;
-    font-size: 15px;
-    line-height: 1.55;
-    max-width: 620px;
-    opacity: 0.84;
-  }
-  .about-credit {
+  /* Top mono labels */
+  .ds-about-labels {
     display: flex;
     justify-content: space-between;
-    gap: 16px;
+    gap: 14px;
     flex-wrap: wrap;
-    margin-top: auto;
-    padding-top: 18px;
     font-size: 10px;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    opacity: 0.55;
-  }
-  .about-cta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 14px;
-    margin-top: 16px;
-  }
-
-  /* Merged-from-Worldwide single line. Kept compact so it doesn't add a
-     visible "section" — it just sits between the body paragraph and the
-     credit, giving a foreign prospect the timezone answer in 1 line. */
-  .about-worldwide {
-    margin: 14px 0 0;
-    padding: 8px 0 10px;
-    border-top: 1px dashed rgba(0, 0, 0, 0.18);
-    font-size: 11px;
-    letter-spacing: 0.06em;
-    line-height: 1.5;
     color: #0b0b0c;
-    max-width: 620px;
+    opacity: 0.7;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(11, 11, 12, 0.28);
+    margin-bottom: clamp(36px, 5vw, 64px);
   }
-  /* ghost button reads on the light grey section */
-  .btn-ghost-ink { border-color: rgba(0, 0, 0, 0.32); color: #0b0b0c; }
+  .ds-about-labels-mid { opacity: 0.9; }
 
-  /* Reasons — 3-up row, solid white cards with the same border language as the
-     Testimonials figures so both light-section frames read as one system. */
-  .about-reasons {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
-    margin-top: 0;
-  }
-  .about-reason {
+  /* Centred intro — heading on top, body beneath, all centre-aligned. */
+  .ds-about-top {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    min-height: 160px;
-    padding: 22px 22px 22px;
-    background: #ffffff;
-    border: 1px solid rgba(0, 0, 0, 0.18);
-    border-radius: 10px;
+    align-items: center;
+    text-align: center;
+    gap: clamp(26px, 4vw, 52px);
+    margin-bottom: clamp(48px, 7vw, 100px);
   }
-  .about-reason:hover {
-    border-color: rgba(0, 0, 0, 0.4);
-  }
-  .about-reason-n {
-    font-size: 11px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--accent, #ff4612);
-  }
-  .about-reason-t {
+  .ds-about-h2 {
+    order: -1;
     margin: 0;
-    font-weight: 800;
-    font-size: clamp(16px, 1.4vw, 18px);
-    letter-spacing: -0.01em;
-    line-height: 1.22;
+    text-align: center;
+    font-weight: 900;
+    font-size: clamp(42px, 7vw, 116px);
+    line-height: 0.88;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
     color: #0b0b0c;
   }
-  .about-reason-d {
-    margin: 0;
-    font-size: 13.5px;
-    line-height: 1.55;
-    opacity: 0.78;
+  /* Emphasis stays in the 2-colour palette: black text knocked out as an
+     outline so it reads as a separate beat without a third hue. */
+  .ds-about-h2-em {
+    -webkit-text-stroke: 2px #0b0b0c;
+    color: transparent;
   }
 
-  @media (max-width: 860px) {
-    .about-top { grid-template-columns: 1fr; gap: 26px; margin-bottom: 32px; }
-    .about-photo { height: auto; min-height: 0; aspect-ratio: 4 / 5; }
-    .about-credit { margin-top: 24px; }
-    .about-reasons { grid-template-columns: 1fr; gap: 14px; }
+  .ds-about-body { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 18px; padding-top: 8px; }
+  .ds-about-lead {
+    margin: 0 auto;
+    font-size: clamp(19px, 2vw, 26px);
+    line-height: 1.4;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    max-width: 34ch;
+  }
+  .ds-about-world {
+    margin: 6px auto 0;
+    padding-top: 14px;
+    border-top: 1px solid rgba(11, 11, 12, 0.28);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    line-height: 1.6;
+    max-width: 52ch;
+  }
+  .ds-about-world-dim { opacity: 0.62; }
+
+  .ds-about-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 26px; margin-top: 8px; }
+
+  /* Reasons — full-width hairline list, each row two columns */
+  .ds-about-reasons {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid rgba(11, 11, 12, 0.28);
+  }
+  .ds-about-reason {
+    display: grid;
+    grid-template-columns: 0.95fr 1.05fr;
+    gap: clamp(14px, 4vw, 56px);
+    align-items: baseline;
+    padding: clamp(22px, 2.6vw, 34px) 0;
+    border-bottom: 1px solid rgba(11, 11, 12, 0.28);
+  }
+  .ds-about-reason-head {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+  }
+  .ds-about-reason-n { font-size: 12px; letter-spacing: 0.12em; opacity: 0.6; }
+  .ds-about-reason-t {
+    margin: 0;
+    font-weight: 800;
+    font-size: clamp(22px, 2.6vw, 34px);
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    color: #fff;
+  }
+  .ds-about-reason-d {
+    margin: 0;
+    font-size: clamp(14px, 1.1vw, 16px);
+    line-height: 1.55;
+    max-width: 52ch;
+    opacity: 0.82;
+  }
+  @media (max-width: 900px) {
+    .ds-about-top { gap: 30px; }
+    .ds-about-reason { grid-template-columns: 1fr; gap: 10px; }
+  }
+  @media (max-width: 560px) {
+    .ds-about-h2-em { -webkit-text-stroke-width: 1.4px; }
   }
 </style>

@@ -5,7 +5,7 @@ import Footer from "../components/Footer.astro";
 import { CALENDLY_URL, GOOGLE_REVIEWS_URL } from "../lib/site.mjs";
 
 const SITE = "https://www.divyanshsood.com";
-const canonical = `${SITE}/testimonials`;
+const canonical = `${SITE}/testimonials/`;
 
 // Every quote here is real and already used in case studies / homepage schema.
 const reviews = [
@@ -51,7 +51,7 @@ const jsonld = JSON.stringify({
   title="Testimonials — what clients say · Divyansh Sood® Studio"
   description="What clients say about working with Divyansh Sood — from a school admin to a 600K-subscriber creator and a Kangra taxi operator. Real words from real founders worldwide."
   canonical={canonical}
-  keywords="Divyansh Sood reviews, web designer testimonials, client testimonials, web developer reviews, freelance web designer reviews"
+  keywords="Divyansh Sood reviews, client testimonials, web developer reviews, freelance web developer reviews"
   ogTitle="Testimonials — what clients say"
   ogDescription="Real words from real founders — travel, e-commerce, education and creator brands."
   jsonld={jsonld}
@@ -68,9 +68,9 @@ const jsonld = JSON.stringify({
         <h1 style="margin:14px 0 0;font-weight:900;font-size:clamp(38px,7vw,96px);line-height:.9;letter-spacing:-.035em;text-transform:uppercase;">What clients <span style="color:var(--accent);">actually say.</span></h1>
         <p class="cs-lead">No stock quotes, no invented names. These are real founders — a school admin, a 600K-subscriber creator, a taxi operator — describing what changed after we shipped.</p>
         <div class="cs-cta-row">
-          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener" data-cursor>Book an intro call <span aria-hidden="true">↗</span></a>
-          <a class="btn btn-ghost" href={GOOGLE_REVIEWS_URL} target="_blank" rel="noopener" data-cursor>Read our Google reviews ↗</a>
-          <a class="btn btn-ghost" href="/results" data-cursor>See the results</a>
+          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book an intro call <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost" href={GOOGLE_REVIEWS_URL} target="_blank" rel="noopener">Read our Google reviews ↗</a>
+          <a class="btn btn-ghost" href="/results">See the results</a>
         </div>
       </div>
     </header>
@@ -81,12 +81,16 @@ const jsonld = JSON.stringify({
           <h2 id="rev-h">Every word is real</h2>
           <span class="mono">Six clients</span>
         </div>
-        <div class="cs-body" data-reveal>
+        <div class="tm-grid" data-reveal>
           {reviews.map((r) => (
-            <figure class="cs-card cs-quote" style="margin:0;">
+            <figure class="tm-card">
+              <span class="tm-mark" aria-hidden="true">"</span>
               <span class="cs-tag">{r.org.split(" · ")[0]}</span>
-              <blockquote>"{r.quote}"</blockquote>
-              <figcaption>— {r.who}, {r.org} · <a href={`/projects/${r.slug}`} data-cursor>case study →</a></figcaption>
+              <blockquote class="tm-quote">{r.quote}</blockquote>
+              <figcaption class="tm-cap">
+                <span class="tm-who">{r.who}, {r.org}</span>
+                <a href={`/projects/${r.slug}`} class="tm-link">Case study →</a>
+              </figcaption>
             </figure>
           ))}
         </div>
@@ -98,12 +102,113 @@ const jsonld = JSON.stringify({
         <h2>Be the next one.</h2>
         <p>Custom-coded, no builder lock-in, most projects live in 3–4 weeks. Tell me what you're building and I'll tell you within a day if it's a fit.</p>
         <div class="cs-cta-row" style="justify-content:center;">
-          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener" data-cursor>Book an intro call <span aria-hidden="true">↗</span></a>
-          <a class="btn btn-ghost" href="/#work" data-cursor>See all work</a>
+          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book an intro call <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost" href="/portfolio">See all work</a>
         </div>
       </div>
     </section>
   </main>
 
   <Footer />
+
+  <style>
+    /* ============================================================
+       Testimonials — UI polish (scoped). Editorial black + red to
+       match About / Results / Portfolio; quote cards with a cursive
+       mark, hover lift and a lead card that spans the row.
+       ============================================================ */
+    main .cs-sec { padding: clamp(58px, 7vw, 108px) 0; }
+    main .cs-hero { padding-top: clamp(120px, 16vw, 160px); }
+    main .cs-lead { max-width: 64ch; font-size: clamp(17px, 1.7vw, 21px); }
+    main .cs-sec-head { align-items: flex-end; margin-bottom: clamp(30px, 4vw, 52px); }
+    main .cs-sec-head h2 {
+      font-weight: 900;
+      font-size: clamp(30px, 4.8vw, 68px);
+      line-height: 0.96;
+      letter-spacing: -0.035em;
+      text-transform: uppercase;
+    }
+    main .cs-sec-head .mono { opacity: 0.5; }
+
+    main .tm-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    main .tm-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 12px;
+      padding: 30px 26px 24px;
+      overflow: hidden;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, background 0.3s ease;
+    }
+    main .tm-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255, 31, 31, 0.5);
+      background: linear-gradient(180deg, rgba(255, 31, 31, 0.06), transparent);
+    }
+    /* First quote reads as the lead — spans two columns. */
+    main .tm-card:first-child { grid-column: span 2; }
+    main .tm-mark {
+      position: absolute;
+      top: 2px; right: 20px;
+      font-family: "Caveat", cursive;
+      font-size: 130px;
+      line-height: 1;
+      color: var(--accent, #ff1f1f);
+      opacity: 0.16;
+      pointer-events: none;
+    }
+    main .tm-card .cs-tag { position: relative; margin-bottom: 16px; }
+    main .tm-quote {
+      position: relative;
+      margin: 0 0 22px;
+      font-weight: 700;
+      font-size: clamp(18px, 1.7vw, 22px);
+      line-height: 1.38;
+      letter-spacing: -0.015em;
+      flex: 1;
+    }
+    main .tm-card:first-child .tm-quote { font-size: clamp(22px, 2.6vw, 34px); line-height: 1.3; }
+    main .tm-cap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255, 255, 255, 0.14);
+    }
+    main .tm-who {
+      font-family: "Space Mono", monospace;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      opacity: 0.66;
+    }
+    main .tm-link {
+      font-family: "Space Mono", monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent, #ff1f1f);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    main .tm-link:hover { text-decoration: underline; }
+
+    @media (max-width: 860px) {
+      main .tm-grid { grid-template-columns: 1fr 1fr; }
+      main .tm-card:first-child { grid-column: span 2; }
+    }
+    @media (max-width: 560px) {
+      main .tm-grid { grid-template-columns: 1fr; }
+      main .tm-card:first-child { grid-column: auto; }
+    }
+  </style>
 </Layout>

@@ -1,29 +1,21 @@
 ---
 // Site-wide runtime (inlined, no framework), shared by every page via Layout.
-// Motion is disabled site-wide: no Lenis, no scroll-reveal IO, no nav
-// background scroll-state, no custom cursor follow. Only the static nav
-// background state and the resize handler remain.
+// Reveal/scroll motion is owned by the homepage's MotionController; here we only
+// drive the shared nav's scroll-state background (transparent at the very top,
+// a subtle dark bar once the page has scrolled past the hero).
 ---
 
 <script>
-  const root = document.getElementById("ds-root");
-  if (root) {
-    /* ---------------- Nav static background ---------------- */
-    // No scroll listener — the nav stays at its base appearance everywhere.
-    const nav = document.getElementById("ds-nav");
-    if (nav) {
-      nav.style.background = "transparent";
-      nav.style.backdropFilter = "none";
-      nav.style.webkitBackdropFilter = "none";
-      nav.style.borderBottomColor = "transparent";
-    }
-
-    /* ---------------- Force every [data-reveal] visible ---------------- */
-    // Anything previously hidden waiting for IntersectionObserver is now
-    // shown immediately (no fade-in stagger, no opacity:0 starting point).
-    root.querySelectorAll<HTMLElement>("[data-reveal]").forEach((el) => {
-      el.style.opacity = "1";
-      el.style.transform = "none";
-    });
+  const nav = document.getElementById("ds-nav");
+  if (nav) {
+    const onScroll = () => {
+      const scrolled = window.scrollY > 40;
+      nav.style.background = scrolled ? "rgba(11,11,12,.72)" : "transparent";
+      nav.style.backdropFilter = scrolled ? "blur(10px) saturate(140%)" : "none";
+      (nav.style as any).webkitBackdropFilter = scrolled ? "blur(10px) saturate(140%)" : "none";
+      nav.style.borderBottomColor = scrolled ? "rgba(255,255,255,.08)" : "transparent";
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
   }
 </script>

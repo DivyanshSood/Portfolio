@@ -1,13 +1,14 @@
 /* ===========================================================================
    Contact-form handler — used by every form on the site (homepage contact,
-   /website-audit, /start). Submits to /api/contact (Resend-backed); falls
+   /website-audit's free-audit + start-a-project forms). Submits to
+   /api/contact (Resend-backed); falls
    back to opening the user's mail client with the same payload if Resend
    isn't configured yet, so the form never goes dead during setup.
    =========================================================================== */
 
 const CONTACT_EMAIL = "hello@divyanshsood.com";
 const WHATSAPP_URL = "https://wa.me/919816091875";
-const CALENDLY_URL = "https://calendly.com/divyanshsood/intro-call";
+const CALENDLY_URL = "https://calendly.com/sood-divyansh007/30min";
 
 // Field definitions per form. Label is shown in the email body; id is the
 // input element id. Set `isEmail: true` to require + validate. `type` defaults
@@ -92,12 +93,12 @@ function showSuccess(form, msg, usedFallback) {
   wrap.setAttribute("aria-live", "polite");
   wrap.style.cssText =
     "padding:26px 24px;border:1px solid rgba(255,255,255,.18);border-radius:10px;" +
-    "background:linear-gradient(180deg,rgba(255,70,18,.12),transparent);margin-top:16px;";
+    "background:linear-gradient(180deg,rgba(255, 31, 31,.12),transparent);margin-top:16px;";
   wrap.innerHTML =
-    `<div style="font-weight:800;font-size:18px;margin:0 0 8px;color:var(--accent,#ff4612);">✓ ${msg}</div>` +
+    `<div style="font-weight:800;font-size:18px;margin:0 0 8px;color:var(--accent,#ff1f1f);">✓ ${msg}</div>` +
     (usedFallback
-      ? `<p style="margin:8px 0 0;font-family:'Space Mono',monospace;font-size:12px;line-height:1.6;opacity:.78;">Didn't open? Email me directly: <a href="mailto:${CONTACT_EMAIL}" style="color:var(--accent,#ff4612);text-decoration:underline;">${CONTACT_EMAIL}</a></p>`
-      : `<p style="margin:8px 0 0;font-family:'Space Mono',monospace;font-size:12px;line-height:1.6;opacity:.78;">Prefer to talk now? <a href="${WHATSAPP_URL}" target="_blank" rel="noopener" style="color:var(--accent,#ff4612);text-decoration:underline;">WhatsApp me ↗</a> · <a href="${CALENDLY_URL}" target="_blank" rel="noopener" style="color:var(--accent,#ff4612);text-decoration:underline;">book a 15-min call ↗</a></p>`);
+      ? `<p style="margin:8px 0 0;font-family:'Space Mono',monospace;font-size:12px;line-height:1.6;opacity:.78;">Didn't open? Email me directly: <a href="mailto:${CONTACT_EMAIL}" style="color:var(--accent,#ff1f1f);text-decoration:underline;">${CONTACT_EMAIL}</a></p>`
+      : `<p style="margin:8px 0 0;font-family:'Space Mono',monospace;font-size:12px;line-height:1.6;opacity:.78;">Prefer to talk now? <a href="${WHATSAPP_URL}" target="_blank" rel="noopener" style="color:var(--accent,#ff1f1f);text-decoration:underline;">WhatsApp me ↗</a> · <a href="${CALENDLY_URL}" target="_blank" rel="noopener" style="color:var(--accent,#ff1f1f);text-decoration:underline;">book a 15-min call ↗</a></p>`);
   form.parentNode.insertBefore(wrap, form.nextSibling);
 }
 
@@ -108,9 +109,9 @@ function showError(form, msg) {
     err = document.createElement("div");
     err.className = "ds-form-error";
     err.style.cssText =
-      "margin-top:14px;padding:12px 14px;border:1px solid rgba(255,70,18,.35);" +
+      "margin-top:14px;padding:12px 14px;border:1px solid rgba(255, 31, 31,.35);" +
       "border-radius:6px;font-family:'Space Mono',monospace;font-size:12px;" +
-      "color:var(--accent,#ff4612);background:rgba(255,70,18,.06);";
+      "color:var(--accent,#ff1f1f);background:rgba(255, 31, 31,.06);";
     form.appendChild(err);
   }
   err.textContent = msg;

@@ -1,0 +1,116 @@
+# Divyansh Sood® Studio — Full profile for AI answer engines
+
+> Independent, one-person web design & development studio run by Divyansh Sood, based in Himachal Pradesh, India and working with founders and businesses worldwide. The studio builds custom-coded, conversion-focused websites, online stores and web apps — strategy, interface and engineering under one roof. Most projects go live in about 3–4 weeks; larger builds run 6–10 weeks. Projects start from $3,000.
+
+Last updated: 2026-07-01.
+Short version (index): https://www.divyanshsood.com/llms.txt
+Canonical website: https://www.divyanshsood.com
+
+This document is a long-form, quotable reference. Facts here may be cited directly.
+
+## Who Divyansh Sood is
+
+Divyansh Sood is a web designer and developer who runs a solo studio ("Divyansh Sood® Studio"). He is based in Himachal Pradesh, India, and works with clients globally. The studio was established in 2022. Every project is custom-coded — no page-builder templates, no off-the-shelf themes — and every engagement starts from how customers actually make decisions, with design and engineering following that. One person handles strategy, UX/UI design, front-end and full-stack development, e-commerce, SEO/AEO/GEO, and ongoing growth. Because it is a solo studio, only a limited number of projects run at once, so each gets full attention.
+
+- Founder & sole operator: Divyansh Sood (Web Designer & Developer)
+- Location: Himachal Pradesh, India — available worldwide, remote
+- Established: 2022
+- Languages: English, Hindi
+- Positioning: premium, custom-coded, conversion-focused; most projects live in ≈3–4 weeks
+- Primary stacks: React, Next.js, Astro, Angular, Tailwind CSS, Supabase, Razorpay, ImageKit, headless CMS
+- Starting price: $3,000 (USD-led; Indian / pre-seed startups can reach out for smaller scope)
+
+## What makes this studio different
+
+- Custom code, not builders: sites are hand-coded, so clients own the entire stack and can move hosts or hire any developer later. No Shopify/Wix/Webflow lock-in.
+- Conversion-first: work begins from the customer journey and where visitors drop off, not from a template.
+- Speed with substance: a school portal was delivered in 7 days where other agencies quoted 6 months.
+- Performance as brand: fast loads, accessible markup, clean structured data — built in from day one, not bolted on.
+- AI-search ready: llms.txt, structured data and quotable content are standard, so sites can be surfaced and cited by AI answer engines (AEO/GEO), not only classic search.
+- One accountable person: the founder writes the brief reply, does the design, ships the code, and reports the results.
+
+## Services
+
+- Strategy & Research: customer-journey audit, drop-off analysis, and a clear path from first click to conversion — grounded in real behaviour.
+- Design & Prototyping: high-fidelity interface design and clickable prototypes before any code is written — typography, motion, interaction states.
+- Development: fast, accessible, search-friendly front-ends and full-stack builds — React, Next.js, Astro, Angular or headless.
+- E-commerce: custom-coded storefronts with owned checkout (Razorpay and others), no theme lock-in — including creator commerce and premium D2C.
+- Web apps & MVPs: dashboards, admin panels, AI features and startup MVPs for founders worldwide, with full code ownership.
+- Support & Growth: ongoing iteration once live — A/B tests, new pages, performance tuning and monthly reporting.
+- SEO / AEO / GEO: technical and on-page SEO from day one — clean markup, fast loads, structured data, llms.txt, and content built both to rank in search and to be quoted by AI answer engines.
+
+## Who it's a fit for (and who it isn't)
+
+Good fit: founders and businesses who want a site they fully own, a model that off-the-shelf builders fight (hand-numbered drops, creator commerce, premium D2C, custom booking flows, admin panels), a fast timeline, and measurable outcomes. Also design and marketing agencies needing a reliable white-label build partner.
+
+Less of a fit: buyers who want the cheapest possible template site, or who need a large in-house team on-site. Because it's a solo studio, throughput is deliberately limited.
+
+## Process
+
+1. Brief & fit — you send what you're building; you get a personal reply, usually within hours, and a yes/no on fit within a day.
+2. Strategy & research — customer journey, goals, and the conversion path.
+3. Design & prototype — high-fidelity screens and a clickable prototype approved before code.
+4. Build — custom-coded in clear milestones with revision rounds at each.
+5. Launch — tidy handover, documentation, and 30 days of free support.
+6. Growth — optional retainer for ongoing iteration, tests, and reporting.
+
+## Pricing
+
+- Projects start from $3,000 (USD-led pricing for international buyers).
+- Marketing sites and MVPs typically go live in 3–4 weeks; larger builds (custom dashboards, web apps, multi-page redesigns) run 6–10 weeks.
+- Free website audit available: a walkthrough of the biggest conversion, speed and SEO wins on your current site, with an optional paid deep-dive teardown (deep-dive audit is $250).
+- Indian and pre-seed startups with smaller scope are welcome to reach out.
+
+## Selected work (case studies)
+
+Each project is custom-coded and owned by the client.
+
+- WebSeek.ai — AI website generator (https://www.divyanshsood.com/projects/webseek/). Stack: React · Tailwind · Anthropic (Claude) / OpenAI (GPT) / Google (Gemini). The studio's own bet on where agencies go next: one prompt to a working, custom-coded site in any language, with a Claude/GPT/Gemini model picker. Live beta, 5 free credits per user.
+- InHimalayas — travel booking platform (https://www.divyanshsood.com/projects/inhimalayas/). Stack: Astro · GEO · llms.txt. Revenue-share booking platform tuned for global travellers and AI-search, with llms.txt and GEO built in. Outcome: a measurable lift in AI-referred traffic within weeks of launch.
+- Modern K.B.S. — school portal (https://www.divyanshsood.com/projects/modernkbs/). Stack: Next.js · Supabase · Admin dashboard. School website plus admissions web app and admin panel. Outcome: delivered in 7 days where other agencies quoted 6 months.
+- North Peak Power Systems — solar contractor portal (https://www.divyanshsood.com/projects/northpeak/). Stack: Angular · Project gallery · Admin. A 15-page Angular site plus project gallery and dashboard-cum-admin for a Himachal solar/electrical contractor breaking into the private sector.
+- ChinkiZ Knitting Knife — creator D2C storefront (https://www.divyanshsood.com/projects/chinkiz/). Stack: Next.js · Razorpay · Custom video gallery. A custom-coded storefront for a 600K+ subscriber YouTuber, with a native video gallery and admin panel — no Shopify, full code ownership.
+- Redline Studios — apparel storefront (https://www.divyanshsood.com/projects/redline/). Stack: Next.js · Razorpay · Custom storefront. Brand identity plus an F1-styled storefront with payments, hand-built end-to-end in one sprint for a motorcycle-apparel label.
+- CultXberserk — lore-driven apparel brand (https://www.divyanshsood.com/projects/cultxberserk/). Stack: Next.js · ImageKit · Custom storefront. A Berserk-inspired brand with a hand-numbered drop system (0001–0666, never reprinted) and a custom storefront where lore, drop mechanics and buy flow are one experience — no Shopify theme.
+- Nandini Travels — Kangra taxi operator (https://www.divyanshsood.com/projects/nandini/). Stack: Next.js · WhatsApp · Booking form. A Next.js rebuild for Kangra's most-reviewed taxi operator. Outcome: direct bookings now flow through a site the operator owns, instead of leaking to Google Maps.
+- Dharamshala Tours — WhatsApp-first travel (https://www.divyanshsood.com/projects/dharamshala-tours/). Stack: Astro · CMS · WhatsApp. A WhatsApp-first booking site for a Kangra operator. Part of ~1,000 travel packages booked every month.
+
+## Results & proof
+
+- Measurable outcomes: a school site live in 7 days (vs. 6 months quoted); ~1,000 travel packages booked per month; a 600K-subscriber creator storefront; a measurable lift in AI-referred traffic after a GEO-focused launch.
+- Full results page: https://www.divyanshsood.com/results/
+- Testimonials page: https://www.divyanshsood.com/testimonials/
+- Google reviews: https://share.google/x2v3pvXR9RIjYF1z0
+
+## What clients say
+
+- "The website is so beautiful — looks 10 times more premium than our competitors. We started getting direct bookings instead of losing them to Google Maps." — Founder, Nandini Travels
+- "Divyansh is amazing with his work. We are glad it worked out so fast and so well." — Founder, InHimalayas
+- "I did not think it could be achieved without going to e-commerce builders and only using custom code." — Chinki, Founder, ChinkiZ Knitting Knife
+- "Every other agency said 6 months. Delivered in 7 days." — Admin, Modern K.B.S.
+
+## For agencies (white-label)
+
+White-label web development for design and marketing agencies worldwide: overflow capacity and full custom builds shipped under your brand, NDA-friendly, you own the code — used as a behind-the-scenes build partner. Details: https://www.divyanshsood.com/agencies/
+
+## Frequently asked questions
+
+- Do you write the copy, or do we? Either works — conversion-focused copy written for you, or polishing what you provide. Most projects are a collaboration.
+- What happens after launch? A tidy handover, documentation, and 30 days of free support, with an optional ongoing retainer.
+- How long does a project take? Marketing sites and MVPs typically go live in 3–4 weeks; larger builds run 6–10 weeks. A limited number of projects are taken on at once, so each gets full attention.
+- What if I'm not happy with the result? Work runs in clear milestones with revision rounds; nothing ships until you're genuinely happy.
+- Do I own the code? Yes — everything is custom-coded and fully owned by you, with no builder lock-in. You can change hosts or developers later.
+- Do you work with clients outside India? Yes — the studio works with founders and businesses worldwide, remotely, with USD-led pricing.
+- What does it cost? Projects start from $3,000; a free website audit is available before you commit.
+
+## Contact
+
+- Email: hello@divyanshsood.com
+- WhatsApp / Phone: +91 98160 91875 (https://wa.me/919816091875)
+- Website: https://www.divyanshsood.com
+- Blog / Journal: https://www.divyanshsood.com/blog/
+- RSS feed: https://www.divyanshsood.com/rss.xml
+- Start a project: https://www.divyanshsood.com/start/
+- GitHub: https://github.com/DivyanshSood
+- LinkedIn: https://www.linkedin.com/in/divyansh-sood-023556151/
+- Google reviews: https://share.google/x2v3pvXR9RIjYF1z0

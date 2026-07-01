@@ -1,0 +1,215 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+
+const slug = "nandini-travels-case-study-blog";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+const next = POSTS[(idx + 1) % POSTS.length];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
+      publisher: {
+        "@type": "Organization",
+        "@id": `${SITE}/#studio`,
+        name: "Divyansh Sood® Studio",
+        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
+      },
+      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      wordCount: 986,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+  ],
+});
+---
+
+<Layout
+  title={`${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  jsonld={jsonld}
+>
+  <Nav kicker="Journal" />
+  <main>
+    <header class="post-hero">
+      <div class="post-hero-bg" aria-hidden="true"></div>
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img src={post.coverImage} alt={post.title} width="1200" height="750" fetchpriority="high" decoding="async" />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+      <p>Nandini Travels had something most businesses spend years trying to build.</p>
+<p>They were the <strong>most positively reviewed taxi operator in Kangra</strong> on Google Maps. Real reviews. Real customers. Real trust — built over years of showing up on time, knowing the mountain roads, and treating passengers like people.</p>
+<p>And they had no website.</p>
+<p>Well — they had one. It just didn’t work.</p>
+<hr>
+<h2 id="the-problem-google-maps-is-not-a-business-asset">The problem: Google Maps is not a business asset</h2>
+<p>Here’s what was happening before we worked together:</p>
+<p>A traveller lands in Dharamshala. Needs a taxi to Manali, or Dalhousie, or the airport. They search Google. Nandini Travels shows up — five stars, dozens of reviews, clearly the best option in Kangra.</p>
+<p>They click the listing. No website. Or a broken one.</p>
+<p>So they scroll down. Find a competitor with a working site — maybe fewer reviews, maybe worse service. But they have a booking form, a phone number, a page that looks like a real business.</p>
+<p><strong>That’s who gets the booking.</strong></p>
+<p>Nandini Travels was doing the hard work of earning trust through great service. Google Maps was showing that trust to the right people at the right moment. But there was no bridge between a customer’s intent and an actual booking. Every lead leaked before it could convert.</p>
+<p>This is a common trap for local businesses in Himachal. You build a reputation offline. Google amplifies it. But without a website, you’re just making it easier for your competitors to steal customers who were already looking for you.</p>
+<hr>
+<h2 id="what-we-built">What we built</h2>
+<p>The goal wasn’t just “a website.” It was a direct booking funnel — something that takes a customer from Google search to WhatsApp conversation in as few taps as possible.</p>
+<p><strong>Next.js rebuild from scratch.</strong> Not a template. Not WordPress. A fast, custom-coded site built for mobile — because 90% of travellers searching for a Kangra taxi are on their phones, often on patchy hill-station networks.</p>
+<p><strong>WhatsApp CTA on every page.</strong> Not buried in a contact form at the bottom. Front and centre. One tap → conversation with the founder. That’s how taxi bookings work in India — nobody fills out a form and waits for an email. They want to talk, confirm the price, and book in five minutes.</p>
+<p><strong>Outstation package pages.</strong> Kangra to Manali. Kangra to Shimla. Kangra to Chandigarh. Kangra to Delhi. Each route got its own section with pricing context, estimated time, and a direct booking prompt. These pages do two things: they give customers the information they need to make a decision, and they give Google specific, indexable content to rank for route-based searches.</p>
+<p><strong>Airport pickup page.</strong> Gaggal Airport (Kangra Airport) is small but growing. Travellers flying in are high-intent — they need a taxi the moment they land. A dedicated airport pickup page captures that search before competitors do.</p>
+<p><strong>On-site booking form.</strong> For customers who prefer to submit details upfront — name, date, pickup point, destination. Every submission routes directly to WhatsApp so nothing sits in an inbox overnight.</p>
+<hr>
+<h2 id="what-changed-after-launch">What changed after launch</h2>
+<p>The founder’s words:</p>
+<blockquote>
+<p><em>“The website is so beautiful — looks 10 times more premium than our competitors. We started getting direct bookings instead of losing them to Google Maps.”</em></p>
+</blockquote>
+<p>That last line is the one that matters.</p>
+<p>Direct bookings mean the customer came to <em>their</em> site, not a competitor’s. It means no aggregator taking a cut. It means the founder controls the conversation from the first message.</p>
+<p>Before: Google Maps → competitor’s site → competitor’s booking.</p>
+<p>After: Google Maps → Nandini Travels site → Nandini Travels WhatsApp → confirmed booking.</p>
+<p>Same customer. Same intent. Completely different outcome — because there was finally a place for that customer to land.</p>
+<hr>
+<h2 id="the-seo-angle">The SEO angle</h2>
+<p>Google Maps reviews build local trust. But Google Search — the kind that happens before someone opens Maps — rewards websites.</p>
+<p>When someone searches <em>“taxi from Kangra to Manali”</em> or <em>“Dharamshala airport pickup”</em>, Google isn’t showing them a Maps listing. It’s showing them web pages. Pages with the right keywords, the right structure, the right schema markup telling Google: this is a local taxi service, this is their service area, this is their phone number.</p>
+<p>Without a website, you’re invisible to that entire category of search. That’s not a small slice — it’s everyone who searches before they even open Maps.</p>
+<p>The Nandini Travels rebuild was optimised for both: local SEO schema for the business itself, and content pages targeting the specific routes and services customers actually search for. Two channels, one site.</p>
+<hr>
+<h2 id="what-this-looks-like-for-other-local-businesses-in-himachal">What this looks like for other local businesses in Himachal</h2>
+<p>Nandini Travels is not a unique case. I see the same pattern constantly across Kangra, Dharamshala, Kullu, and Mandi:</p>
+<ul>
+<li>Great service, built over years</li>
+<li>Strong Google Maps presence</li>
+<li>Broken or missing website</li>
+<li>Leads going to competitors with worse reputations but better digital presence</li>
+</ul>
+<p>If that’s your business — the fix is not complicated. You don’t need a 15-page site. You don’t need a custom admin panel. You need a fast, mobile-first website with one job: turn the trust you’ve already earned into a booking.</p>
+<p>That’s exactly what we built for Nandini Travels. It took under two weeks from brief to live URL.</p>
+<hr>
+<h2 id="the-lesson">The lesson</h2>
+<p>Google Maps is a discovery tool. It gets customers to raise their hand.</p>
+<p>Your website is a conversion tool. It’s what turns that raised hand into a confirmed booking.</p>
+<p>You need both. And right now, most local businesses in Himachal only have one.</p>
+<hr>
+<p><em>Want to see the live site? <a href="https://www.divyanshsood.com/projects/nandini">Nandini Travels →</a></em></p>
+<p><em>I’m Divyansh, solo developer out of Kangra Valley. I build direct-booking websites for taxi services, tour operators and travel businesses across Himachal and India — WhatsApp-first, mobile-first, with route-specific pages that rank on Google.</em></p>
+<p><em>Running a taxi, travel, or tour business in Himachal Pradesh? <a href="https://wa.me/919816091875">WhatsApp me</a> — I’ll tell you within a day what your site needs.</em></p>
+      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </article>
+
+    <section class="wrap narrow" aria-label="Keep reading">
+      <a class="post-next" href={`/blog/${next.slug}/`}>
+        <span><span class="label">Read next</span><br /><span class="name">{next.title}</span></span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </section>
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        {post.audience === "indian-smb" ? (
+          <>
+            <h2>Working on something in India?</h2>
+            <p>If a post here matches what you're building, send me the brief. WhatsApp reply in under an hour, 9 AM–9 PM IST — I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="https://wa.me/919816091875" target="_blank" rel="noopener"
+                >Message me on WhatsApp <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : post.audience === "d2c-brand" ? (
+          <>
+            <h2>Building a brand a theme can't carry?</h2>
+            <p>If your store has a model that off-the-shelf builders fight — hand-numbered drops, creator commerce, premium D2C — tell me about it. I read every brief personally.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : (
+          <>
+            <h2>Working on something similar?</h2>
+            <p>If a post here matches what you're building, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="https://calendly.com/sood-divyansh007/30min" target="_blank" rel="noopener"
+                >Book a 15-min intro <span aria-hidden="true">↗</span></a
+              >
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

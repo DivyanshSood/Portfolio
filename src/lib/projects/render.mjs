@@ -122,7 +122,7 @@ export function jsonLd(p) {
       "@id": `${SITE}/#person`,
       name: "Divyansh Sood",
       url: `${SITE}/`,
-      jobTitle: "Web Designer & Developer",
+      jobTitle: "Web Developer",
     },
     {
       "@type": "FAQPage",
@@ -199,12 +199,12 @@ export function renderProjectMain(p) {
           <span>${esc(p.name)} · ${esc(p.category)}</span>
           <span>${esc(p.year)}</span>
         </div>
-        <a class="cs-domain" href="${esc(p.liveUrl)}" target="_blank" rel="noopener" data-cursor>${esc(p.domain)}<span class="arrow" aria-hidden="true">↗</span></a>
+        <a class="cs-domain" href="${esc(p.liveUrl)}" target="_blank" rel="noopener">${esc(p.domain)}<span class="arrow" aria-hidden="true">↗</span></a>
         <h1 class="cs-h1">${esc(p.headline)} <span class="tail">${esc(p.headlineTail)}</span></h1>
         <p class="cs-lead">${p.lead}</p>
         <div class="cs-cta-row">
-          <a class="btn btn-primary" href="${esc(p.liveUrl)}" target="_blank" rel="noopener" data-cursor>Open live site <span aria-hidden="true">↗</span></a>
-          <a class="btn btn-ghost" href="${esc(p.waHref)}" target="_blank" rel="noopener" data-cursor>Build something similar</a>
+          <a class="btn btn-primary" href="${esc(p.liveUrl)}" target="_blank" rel="noopener">Open live site <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost" href="${esc(p.waHref)}" target="_blank" rel="noopener">Build something similar</a>
         </div>
         <div class="cs-meta">
           <span>${esc(p.role)}</span><span>${esc(p.stackLine)}</span>
@@ -224,7 +224,7 @@ export function renderProjectMain(p) {
         </div>
         <dl class="cs-glance">
           <div><dt>Client</dt><dd>${esc(p.name)}</dd></div>
-          <div><dt>Live site</dt><dd><a href="${esc(p.liveUrl)}" target="_blank" rel="noopener" data-cursor>${esc(p.domain)} ↗</a></dd></div>
+          <div><dt>Live site</dt><dd><a href="${esc(p.liveUrl)}" target="_blank" rel="noopener">${esc(p.domain)} ↗</a></dd></div>
           <div><dt>Year</dt><dd>${esc(p.year)}</dd></div>
           <div><dt>Role</dt><dd>${esc(p.role)}</dd></div>
           <div><dt>Stack</dt><dd>${esc(p.stackLine)}</dd></div>
@@ -297,7 +297,7 @@ export function renderProjectMain(p) {
 
     <section class="cs-sec" aria-label="Project navigation">
       <div class="wrap">
-        <a class="cs-next" href="/projects/${esc(p.next.slug)}" data-cursor>
+        <a class="cs-next" href="/projects/${esc(p.next.slug)}">
           <span><span class="label">${esc(p.next.label)}</span><br><span class="name">${esc(p.next.name)}</span></span>
           <span class="arrow" aria-hidden="true">→</span>
         </a>
@@ -309,8 +309,8 @@ export function renderProjectMain(p) {
         <h2>Want one like this?</h2>
         <p>Same brief, different scale. Tell me what you're building and I'll tell you within a day if it's a fit.</p>
         <div class="cs-cta-row" style="justify-content:center;">
-          <a class="btn btn-primary" href="${esc(p.waHref)}" target="_blank" rel="noopener" data-cursor>Build something similar <span aria-hidden="true">↗</span></a>
-          <a class="btn btn-ghost" href="/#work" data-cursor>See all work</a>
+          <a class="btn btn-primary" href="${esc(p.waHref)}" target="_blank" rel="noopener">Build something similar <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost" href="/#work">See all work</a>
         </div>
       </div>
     </section>

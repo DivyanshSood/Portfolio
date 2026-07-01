@@ -20,7 +20,7 @@
     </linearGradient>
     <linearGradient id="orangeMat" x1="0%" y1="0%" x2="0%" y2="100%">
       <stop offset="0%" stop-color="#ff6a3c"/>
-      <stop offset="50%" stop-color="#ff4612"/>
+      <stop offset="50%" stop-color="#ff1f1f"/>
       <stop offset="100%" stop-color="#b82800"/>
     </linearGradient>
     <linearGradient id="whiteMat" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -113,7 +113,7 @@
     <line x1="0" y1="22" x2="170" y2="22" stroke="#888888" stroke-opacity="0.6" stroke-width="1"/>
     <circle cx="14" cy="11" r="2.8" fill="#888888"/>
     <circle cx="26" cy="11" r="2.8" fill="#888888"/>
-    <circle cx="38" cy="11" r="2.8" fill="#ff4612"/>
+    <circle cx="38" cy="11" r="2.8" fill="#ff1f1f"/>
     <!-- hero block (orange accent) -->
     <rect x="14" y="36" width="142" height="30" rx="5" fill="url(#orangeMat)" stroke="#7a1d04" stroke-opacity="0.4" stroke-width="1"/>
     <!-- content rows -->

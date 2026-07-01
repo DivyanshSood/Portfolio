@@ -1,0 +1,268 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+
+const slug = "direct-bookings-without-aggregator-commission";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+const next = POSTS[(idx + 1) % POSTS.length];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
+      publisher: {
+        "@type": "Organization",
+        "@id": `${SITE}/#studio`,
+        name: "Divyansh Sood® Studio",
+        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
+      },
+      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      wordCount: 1337,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+  ],
+});
+---
+
+<Layout
+  title={`${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  jsonld={jsonld}
+>
+  <Nav kicker="Journal" />
+  <main>
+    <header class="post-hero">
+      <div class="post-hero-bg" aria-hidden="true"></div>
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img src={post.coverImage} alt={post.title} width="1200" height="750" fetchpriority="high" decoding="async" />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+      <p>A guesthouse in Kasol does ₹6,00,000 in bookings per season.</p>
+<p>MakeMyTrip sent them ₹2,40,000 of it — and took ₹48,000 back in commission. Booking.com sent another ₹1,80,000 — and took ₹36,000. Between the two platforms, the guesthouse paid ₹84,000 in commission for the privilege of being found online.</p>
+<p>₹84,000. Per season. On a property that does everything right — clean rooms, good food, real reviews, returning guests.</p>
+<p>The aggregators didn’t run the property. They didn’t train the staff. They didn’t clean the rooms or cook the meals. They built a website, listed the property, and collected ₹84,000 for the finding.</p>
+<p>That money used to belong to the guesthouse. It doesn’t have to stay with MakeMyTrip.</p>
+<hr>
+<h2 id="why-himalayan-travel-businesses-ended-up-here">Why Himalayan travel businesses ended up here</h2>
+<p>It wasn’t careless. It was rational, at the time.</p>
+<p>MakeMyTrip and Booking.com offered instant visibility to the entire country. Sign up, list your property, get bookings. No website needed. No SEO knowledge required. For a guesthouse owner in Kasol who had a great product and zero digital presence, the aggregator was the only viable path.</p>
+<p>And it worked — the bookings came. So the dependency deepened. More properties listed. Higher commissions. More reliance on a platform that now controls the customer relationship, the pricing display, the cancellation policies, and the review system that determines whether you’re visible or invisible on their platform.</p>
+<p>Ten years of this, and the pattern is set. The aggregator is where the bookings come from. The property owner doesn’t have a direct relationship with the customer — MakeMyTrip does.</p>
+<p>Breaking this isn’t quick. But it’s not as hard as most property owners think.</p>
+<hr>
+<h2 id="the-commission-math-made-concrete">The commission math, made concrete</h2>
+<p>Before the fix, let’s be clear on what’s at stake.</p>
+<p><strong>At 15% commission (typical for smaller operators):</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Annual bookings via aggregator</th><th>Commission paid</th></tr></thead><tbody><tr><td>₹3,00,000</td><td>₹45,000</td></tr><tr><td>₹6,00,000</td><td>₹90,000</td></tr><tr><td>₹12,00,000</td><td>₹1,80,000</td></tr></tbody></table>
+<p><strong>At 25% commission (common on Booking.com for prominent listings):</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Annual bookings via aggregator</th><th>Commission paid</th></tr></thead><tbody><tr><td>₹3,00,000</td><td>₹75,000</td></tr><tr><td>₹6,00,000</td><td>₹1,50,000</td></tr><tr><td>₹12,00,000</td><td>₹3,00,000</td></tr></tbody></table>
+<p>Shifting 30% of bookings from aggregator to direct — a realistic target in 18 months — saves ₹27,000–45,000/year at the ₹6L scale. A website that earns direct bookings costs less than one year of the commission you’re currently paying.</p>
+<hr>
+<h2 id="what-direct-bookings-actually-require">What direct bookings actually require</h2>
+<p>Three things. In this order.</p>
+<p><strong>1. A website Google can find.</strong></p>
+<p>The aggregator’s advantage is visibility. They rank on Google for every search a traveller makes — “homestay near Bir Billing,” “budget guesthouse Kasol,” “camp Spiti Valley September.” You don’t, because you have no website.</p>
+<p>The first job of a website built for direct bookings is to rank for the searches your customers are already making. That means fast load times (Google rewards speed), specific pages for your key offerings — one page per major package or stay type, not a generic “rooms” page — and schema markup that tells Google your exact location, category, and contact details.</p>
+<p>This is achievable without a marketing budget. It requires a well-built website and a few months of patience.</p>
+<p><strong>2. A WhatsApp-first booking funnel.</strong></p>
+<p>Indian travellers don’t book the way Europeans book. They don’t always fill out a form, enter card details, and confirm automatically. They want to ask a question first. <em>“Is the road to Chitkul open in October?” “Do you do pickup from Shimla bus stand?” “Can we get a discount for 5 people?”</em></p>
+<p>A website that routes these questions to your WhatsApp — instantly, with no friction — captures this behaviour. The visitor sees a package they like, hits “WhatsApp to enquire,” and opens a pre-filled message to your number. You reply in five minutes. The booking happens in the conversation.</p>
+<p>This is exactly how Nandini Travels in Kangra converted. Most-reviewed taxi operator in their area, zero direct bookings before we rebuilt their site. After the WhatsApp-first funnel went live, direct enquiries started flowing within weeks.</p>
+<p><strong>3. A reason to bypass the aggregator.</strong></p>
+<p>A guest who has already found you on MakeMyTrip and visits your website directly needs a reason to book there instead. The reasons are simple and real:</p>
+<ul>
+<li>No platform booking fee (you can make this explicit: <em>“Book direct — no middleman fees”</em>)</li>
+<li>Direct communication before and after the stay</li>
+<li>Flexibility on dates or customisation that an aggregator’s rigid form can’t accommodate</li>
+<li>The chance to ask questions and get answers from the actual host</li>
+</ul>
+<p>You don’t need to undercut your aggregator pricing. You need to make the direct booking experience feel better — more personal, more flexible, more responsive.</p>
+<hr>
+<h2 id="the-specific-setup">The specific setup</h2>
+<p>Here’s what a direct-booking-optimised website for a Himalayan property actually needs:</p>
+<p><strong>Homepage:</strong> Your property name, location, type (homestay / guesthouse / camp / hotel), a real photo of the place, and a visible “WhatsApp to Book” button above the fold. No slideshow. No autoplay video. Fast.</p>
+<p><strong>Package and room pages:</strong> One page per major offering. A 2-bed room and a family suite are different pages. A Spiti trek and a Kinnaur circuit are different pages. Each page targets the specific search query a customer would use. Each has its own WhatsApp contact button.</p>
+<p><strong>Local SEO setup:</strong> Google Business Profile claimed and fully filled. Name, address, phone number — identical across your website, GBP, and every other listing. Reviews collected systematically. At least 20 real photos uploaded.</p>
+<p><strong>Schema markup:</strong> JSON-LD structured data that tells Google you’re a hotel / homestay / tour operator at a specific location with specific contact details. Takes an hour to implement. Improves local search visibility immediately.</p>
+<p><strong>WhatsApp pre-filled messages:</strong> Every contact button opens WhatsApp with a message pre-filled — <em>“Hi, I want to enquire about [package name].”</em> The guest doesn’t have to type. You know exactly what they’re asking about. The conversion starts faster.</p>
+<hr>
+<h2 id="the-timeline">The timeline</h2>
+<p><strong>Month 1:</strong> Website live. Google Business Profile updated. First organic enquiries.</p>
+<p><strong>Month 3:</strong> Google begins ranking the site for specific searches. Organic traffic grows.</p>
+<p><strong>Month 6:</strong> A meaningful percentage of bookings arriving direct. Referral loop begins — guests who booked direct have a better experience and are more likely to return direct.</p>
+<p><strong>Month 12–18:</strong> 25–35% of bookings arriving direct. Aggregator dependency halved. Commission savings in five figures annually.</p>
+<p>This is not overnight. Aggregator platforms built their rankings over years. You are building yours. But every week your site exists and is indexed, your organic presence compounds. The aggregator’s is not.</p>
+<hr>
+<h2 id="what-youre-not-doing">What you’re not doing</h2>
+<p>You’re not delisting from aggregators.</p>
+<p>That would be suicidal in the short term. The aggregators still send real bookings from customers you’d never reach otherwise — people who don’t know your property exists and discovered it on a platform they trust.</p>
+<p>The goal is not to replace the aggregator. It’s to reduce your dependency — to shift the balance from 80% aggregator / 20% direct to 50/50 or better. Every percentage point of direct bookings is margin you keep.</p>
+<hr>
+<h2 id="the-window-right-now">The window right now</h2>
+<p>Most Himalayan properties have not done this. Most still have no website, or one built five years ago that loads in twelve seconds and has no WhatsApp button.</p>
+<p>That is your advantage right now. The search rankings for “homestay near Bir” or “guesthouse Kasol” are not yet competitive for individual property websites — they’re dominated by aggregators, and there’s space for properties to appear alongside them.</p>
+<p>That space fills up. Not quickly, but it fills. The properties that build their direct presence now will have a year or two of compounding advantage before the space becomes contested.</p>
+<p>The aggregator isn’t going anywhere. But your dependence on them doesn’t have to be permanent.</p>
+<hr>
+<p><em>I’m Divyansh, solo developer out of Kangra Valley. I build direct-booking websites for Himalayan homestays, trekking operators, taxi services and guesthouses — custom-coded, mobile-first, WhatsApp-first, live in 14 days.</em></p>
+<p><em><a href="https://wa.me/919816091875">WhatsApp me your current commission number</a> and I’ll tell you within a day what a direct-booking site would save your property annually.</em></p>
+      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </article>
+
+    <section class="wrap narrow" aria-label="Keep reading">
+      <a class="post-next" href={`/blog/${next.slug}/`}>
+        <span><span class="label">Read next</span><br /><span class="name">{next.title}</span></span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </section>
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        {post.audience === "indian-smb" ? (
+          <>
+            <h2>Working on something in India?</h2>
+            <p>If a post here matches what you're building, send me the brief. WhatsApp reply in under an hour, 9 AM–9 PM IST — I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="https://wa.me/919816091875" target="_blank" rel="noopener"
+                >Message me on WhatsApp <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : post.audience === "d2c-brand" ? (
+          <>
+            <h2>Building a brand a theme can't carry?</h2>
+            <p>If your store has a model that off-the-shelf builders fight — hand-numbered drops, creator commerce, premium D2C — tell me about it. I read every brief personally.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : (
+          <>
+            <h2>Working on something similar?</h2>
+            <p>If a post here matches what you're building, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="https://calendly.com/sood-divyansh007/30min" target="_blank" rel="noopener"
+                >Book a 15-min intro <span aria-hidden="true">↗</span></a
+              >
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

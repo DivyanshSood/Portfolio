@@ -1,0 +1,293 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+
+const slug = "custom-website-vs-wordpress";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+const next = POSTS[(idx + 1) % POSTS.length];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
+      publisher: {
+        "@type": "Organization",
+        "@id": `${SITE}/#studio`,
+        name: "Divyansh Sood® Studio",
+        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
+      },
+      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      wordCount: 1401,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+  ],
+});
+---
+
+<Layout
+  title={`${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  jsonld={jsonld}
+>
+  <Nav kicker="Journal" />
+  <main>
+    <header class="post-hero">
+      <div class="post-hero-bg" aria-hidden="true"></div>
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img src={post.coverImage} alt={post.title} width="1200" height="750" fetchpriority="high" decoding="async" />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+      <p>WordPress powers 43% of the internet. That’s a real statistic, and it gets quoted constantly — usually by someone trying to sell you a WordPress site.</p>
+<p>It’s also a statistic that tells you almost nothing about whether WordPress is the right choice for <em>your</em> business.</p>
+<p>Let me give you the honest version. Not the “WordPress is dead” take, and not the “WordPress is all you need” take. Just what actually matters when you’re a small or medium business in India deciding where to put your website.</p>
+<hr>
+<h2 id="wordpress-is-not-what-most-people-think-it-is">WordPress is not what most people think it is</h2>
+<p>When most Indian SMEs get a “WordPress website,” here’s what they’re actually getting:</p>
+<p>A theme — usually Astra, OceanWP, or something from ThemeForest — installed on a shared hosting plan, customised with Elementor or WPBakery, with six to fifteen plugins running in the background handling contact forms, SEO, caching, security, image compression, and backups.</p>
+<p>That’s not really a website. That’s a stack of other people’s software, assembled by a developer, that you now have to maintain indefinitely.</p>
+<p>WordPress the software is open-source and genuinely powerful. But WordPress as it’s typically delivered to small businesses in India is a very different thing.</p>
+<hr>
+<h2 id="the-real-problems-with-wordpress-for-small-businesses">The real problems with WordPress for small businesses</h2>
+<p><strong>Speed — the one that hurts most</strong></p>
+<p>A WordPress site with Elementor, a premium theme, WooCommerce, and eight plugins is loading code written by dozens of different teams who have never talked to each other. Every plugin adds its own CSS, its own JavaScript, its own database queries.</p>
+<p>The result: slow pages. Especially on mobile. Especially on Indian mobile networks.</p>
+<p>Google’s Core Web Vitals — the scores that directly influence your search ranking — suffer on most WordPress setups unless you hire a specialist just to optimise the stack. That’s a problem on top of a problem.</p>
+<p>A custom-coded site ships only the code it needs. Nothing extra. Lighthouse 90+ on mobile is the baseline, not a bonus.</p>
+<p><strong>Security — the maintenance you didn’t sign up for</strong></p>
+<p>WordPress is the most hacked CMS in the world. Not because it’s badly built — because it’s everywhere, which makes it a target.</p>
+<p>Every plugin is a potential vulnerability. Plugins need updates. Themes need updates. WordPress core needs updates. If you miss an update — or if a plugin you’re using has a zero-day vulnerability before a patch is released — your site can be compromised.</p>
+<p>I’ve seen this firsthand with clients who came to me mid-crisis. Pharma spam injected into a school website. A hotel site redirecting to gambling pages. Malware in a contact form plugin. All real, all WordPress.</p>
+<p>A custom-coded site has no plugin ecosystem to exploit. The attack surface is dramatically smaller.</p>
+<p><strong>You don’t own the logic</strong></p>
+<p>When your site is built on Elementor, the layout lives in Elementor’s proprietary database format. If Elementor changes how it works — or you want to move to a different page builder, or your developer leaves and nobody knows how Elementor works — you’re starting over.</p>
+<p>Custom code is just code. Any developer can read it, edit it, and continue from where the last one stopped. No proprietary lock-in.</p>
+<p><strong>The “cheap” WordPress site isn’t cheap</strong></p>
+<p>A freelancer builds your WordPress site for ₹8,000–15,000. Sounds affordable.</p>
+<p>Then:</p>
+<ul>
+<li>Hosting: ₹3,000–8,000/year on a plan fast enough to matter</li>
+<li>Premium theme: ₹4,000–8,000 (one-time, but needs renewal for updates)</li>
+<li>Premium plugins: ₹2,000–10,000/year depending on what you need</li>
+<li>Developer for updates and fixes: ₹1,000–3,000 each time something breaks</li>
+<li>Security plugin subscription: ₹3,000–5,000/year</li>
+</ul>
+<p>Over three years, a typical small business WordPress setup costs ₹40,000–80,000. And the site still looks like a theme, still loads slowly on mobile, and still needs someone to maintain it.</p>
+<hr>
+<h2 id="where-wordpress-genuinely-wins">Where WordPress genuinely wins</h2>
+<p>I’m not going to pretend WordPress has no place. It does.</p>
+<p><strong>Content-heavy sites.</strong> If you’re a media publication, a blog network, or a news site publishing 20 articles a week, WordPress’s content management is genuinely excellent. The editor is mature, the taxonomy system is flexible, and the ecosystem of SEO plugins (Yoast, RankMath) is hard to match.</p>
+<p><strong>Sites that need a large plugin ecosystem.</strong> Membership sites, LMS platforms, complex WooCommerce setups with advanced inventory — WordPress has plugins for edge cases that would take weeks to build from scratch.</p>
+<p><strong>Teams that want to self-manage everything.</strong> If your internal team knows WordPress, is comfortable with updates, and wants full control without calling a developer for every change — WordPress is a reasonable choice.</p>
+<p><strong>Budget is genuinely zero.</strong> If you need something live today and have ₹0 to spend, WordPress on free hosting is better than nothing.</p>
+<p>For most Indian SMEs — a tour operator, a clinic, a school, a local service business, a D2C brand — none of these apply.</p>
+<hr>
+<h2 id="what-custom-code-actually-means">What custom code actually means</h2>
+<p>“Custom code” sounds expensive and complicated. It doesn’t have to be.</p>
+<p>For a 5-page business website, custom code means:</p>
+<ul>
+<li>Built with Astro or Next.js — modern frameworks used by companies like Vercel, Shopify, and thousands of production apps</li>
+<li>Tailwind CSS for styling — clean, consistent, fast to write</li>
+<li>No plugins, no theme bloat, no database for a site that doesn’t need one</li>
+<li>WhatsApp-first contact form built in natively</li>
+<li>Lighthouse 90+ on mobile by default</li>
+<li>JSON-LD schema and llms.txt for both Google and AI search engines</li>
+<li>Your code, on your server, owned entirely by you</li>
+</ul>
+<p>This is what every site I build starts from. It’s not overcomplicated engineering — it’s just building exactly what the site needs, and nothing it doesn’t.</p>
+<hr>
+<h2 id="the-honest-comparison">The honest comparison</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th></th><th>WordPress (typical SME setup)</th><th>Custom Code</th></tr></thead><tbody><tr><td>Initial cost</td><td>₹8K–15K</td><td>₹13K–32K</td></tr><tr><td>3-year total cost</td><td>₹40K–80K</td><td>₹13K–32K + ₹6K hosting</td></tr><tr><td>Mobile Lighthouse score</td><td>50–75 (typical)</td><td>90+</td></tr><tr><td>Security risk</td><td>High (plugin vulnerabilities)</td><td>Low</td></tr><tr><td>You own the code</td><td>Partially</td><td>Fully</td></tr><tr><td>Looks like a template</td><td>Often</td><td>Never</td></tr><tr><td>Needs ongoing maintenance</td><td>Yes — plugins, updates, backups</td><td>Minimal</td></tr><tr><td>AI search ready (llms.txt)</td><td>Plugin needed, inconsistent</td><td>Built in</td></tr><tr><td>WhatsApp lead flow</td><td>Plugin needed</td><td>Built in</td></tr></tbody></table>
+<hr>
+<h2 id="the-question-to-actually-ask">The question to actually ask</h2>
+<p>Not “WordPress or custom?” — that’s the wrong frame.</p>
+<p>The right question is: <strong>what does my website need to do, and what’s the simplest, fastest, most durable way to build it?</strong></p>
+<p>If the answer is “show my services, build trust, and get customers to contact me on WhatsApp” — that’s a 5-page custom site. No CMS needed. No plugins. Live in 14 days.</p>
+<p>If the answer is “publish 50 articles a month and manage a membership programme” — that’s WordPress, built carefully, maintained properly.</p>
+<p>Most small businesses in India fall into the first category and get sold the second. That’s the mismatch that costs them time, money, and Google rankings for years.</p>
+<hr>
+<h2 id="a-real-example">A real example</h2>
+<p>Modern K.B.S., a school in Ladwara, came to me needing a website and an admissions portal simultaneously. Every other agency quoted 6 months.</p>
+<p>I built a custom 5-page site with an integrated admin panel — so their office staff could manage admissions content without calling a developer. Delivered in 7 days.</p>
+<p>WordPress with the right plugins could have done something similar. But it would have been slower to load, harder to secure, and dependent on a plugin that the school’s staff would need training on, and that could break with any update.</p>
+<p>Custom code: built exactly for the task, handed over with a walkthrough video, and done.</p>
+<hr>
+<h2 id="the-bottom-line">The bottom line</h2>
+<p>WordPress is a tool. Like any tool, it’s right for some jobs and wrong for others.</p>
+<p>For most Indian SMEs who need a fast, secure, lead-generating website — custom code is simpler, cheaper over time, and better on every metric that matters to Google.</p>
+<p>You don’t need a heavier tool. You need the right one.</p>
+<hr>
+<p><em>I’m Divyansh, solo developer out of Kangra Valley. Custom-coded websites for Indian small businesses — schools, tour operators, clinics, local brands. WhatsApp reply in under an hour, 9 AM–9 PM IST. If you’re weighing WordPress against a custom build, <a href="https://wa.me/919816091875">WhatsApp me your scope</a> and I’ll tell you within a day what makes sense for your specific business.</em></p>
+<p><em>See what custom-built looks like in practice: <a href="https://www.divyanshsood.com/#work">9 live client sites →</a></em></p>
+      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </article>
+
+    <section class="wrap narrow" aria-label="Keep reading">
+      <a class="post-next" href={`/blog/${next.slug}/`}>
+        <span><span class="label">Read next</span><br /><span class="name">{next.title}</span></span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </section>
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        {post.audience === "indian-smb" ? (
+          <>
+            <h2>Working on something in India?</h2>
+            <p>If a post here matches what you're building, send me the brief. WhatsApp reply in under an hour, 9 AM–9 PM IST — I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="https://wa.me/919816091875" target="_blank" rel="noopener"
+                >Message me on WhatsApp <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : post.audience === "d2c-brand" ? (
+          <>
+            <h2>Building a brand a theme can't carry?</h2>
+            <p>If your store has a model that off-the-shelf builders fight — hand-numbered drops, creator commerce, premium D2C — tell me about it. I read every brief personally.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : (
+          <>
+            <h2>Working on something similar?</h2>
+            <p>If a post here matches what you're building, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="https://calendly.com/sood-divyansh007/30min" target="_blank" rel="noopener"
+                >Book a 15-min intro <span aria-hidden="true">↗</span></a
+              >
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

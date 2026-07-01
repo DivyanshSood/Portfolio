@@ -1,265 +1,232 @@
 ---
-// Selected work — 3 project cards in a static grid (motion disabled
-// site-wide, so the signature horizontal-scroll pin is replaced with a
-// straightforward 3-up grid). Each card carries the same Mattis-style
-// corner-bracketed "frame" so the section reads as one system with the
-// hero.
-import Frame from "../home/Frame.astro";
+// Selected work — a compact "insight" of 4 projects (no horizontal scroll).
+// An editorial numbered index list: each project is a full-width row with an
+// oversized name on the left and its result metric + case-study cue on the
+// right, hairlines between. No screenshots on the home page (images live on
+// each case study) and nothing is hover-gated, so it reads the same on mobile.
+// Links to the full portfolio.
+import { projects } from "../../lib/projects/data.mjs";
 
-const projects = [
-  {
-    n: "01",
-    slug: "/projects/modernkbs",
-    name: "Modern K.B.S.",
-    lede: "Every other agency said 6 months. I shipped in 7 days. A CBSE school in Ladwara with an admissions portal that office staff runs without calling a developer.",
-    metric: "6 → 7",
-    metricLabel: "MONTHS → DAYS",
-    stack: "Next.js · Admin panel",
-    tag: "School · Web app",
-    year: "2024",
-    bg: "linear-gradient(135deg, #0f1218 0%, #1a2030 60%, #0f1218 100%)",
-    accent: "#7a8fa6",
-    thumbMark: "M",
-  },
-  {
-    n: "02",
-    slug: "/projects/chinkiz",
-    name: "ChinkiZ Knitting Knife",
-    lede: "A 600K-subscriber YouTuber tried two e-commerce builders. Both fought the way her audience shops. We built a custom storefront where the video sits next to the buy button.",
-    metric: "600K",
-    metricLabel: "YOUTUBE SUBSCRIBERS",
-    stack: "Next.js · Razorpay · COD",
-    tag: "Creator · D2C",
-    year: "2024",
-    bg: "linear-gradient(135deg, #14101a 0%, #2a1828 60%, #14101a 100%)",
-    accent: "#e8a4a4",
-    thumbMark: "C",
-  },
-  {
-    n: "03",
-    slug: "/projects/webseek",
-    name: "WebSeek.ai",
-    lede: "Every AI website builder on the market produces the same generic marketing page. We built the opposite: one prompt, custom-coded output, model picker for Claude, GPT and Gemini.",
-    metric: "1 → live",
-    metricLabel: "PROMPT → SITE",
-    stack: "Astro · Three AI models",
-    tag: "AI product",
-    year: "2026",
-    bg: "linear-gradient(135deg, #16110e 0%, #2a1814 60%, #16110e 100%)",
-    accent: "#ff4612",
-    thumbMark: "W",
-  },
+// Homepage-only presentational copy (result chip + meta line) keyed by slug.
+// The canonical slug + name come from the single project source (data.mjs) so
+// they can never drift from the case studies.
+const featured = [
+  { slug: "webseek",           metric: "1 → live",  meta: "AI product · 2026 · Astro · 3 AI models" },
+  { slug: "modernkbs",         metric: "6 → 7",     meta: "School · Web app · 2024 · Next.js + admin" },
+  { slug: "dharamshala-tours", metric: "1,000/mo",  meta: "Travel booking · 2025 · self-serve CMS" },
+  { slug: "redline",           metric: "1 sprint",  meta: "Brand + e-commerce · 2025 · Razorpay" },
 ];
+const bySlug = Object.fromEntries(projects.map((p) => [p.slug, p]));
+const items = featured.map((f, i) => ({
+  n: String(i + 1).padStart(2, "0"),
+  slug: `/projects/${f.slug}`,
+  name: bySlug[f.slug].name,
+  metric: f.metric,
+  meta: f.meta,
+}));
 ---
 
-<section class="ds-h-work" id="work" aria-label="Selected work">
-  <div class="ds-h-work-pin">
-    <Frame label="Works" index="02" note="3 of 9 — every project below is a real client" tone="dark">
-      <h2 class="ds-h-work-title">
-        The work, in scroll.
-      </h2>
+<section class="ds-work" id="work" aria-label="Selected work">
+  <div class="ds-work-inner">
+    {/* Top mono label bar */}
+    <div class="ds-work-bar mono" data-reveal>
+      <span>(Works — 02)</span>
+      <span class="ds-work-bar-mid">A glimpse — 4 of 9 selected builds</span>
+      <span>2026 ©</span>
+    </div>
 
-      <div class="ds-h-work-track">
-        {projects.map((p) => (
-          <article class="ds-h-work-card" style={`background:${p.bg};--accent:${p.accent};`}>
-            <header class="ds-h-work-head">
-              <span class="ds-h-work-num mono">{p.n}</span>
-              <span class="ds-h-work-tag mono">{p.tag} · {p.year}</span>
-            </header>
+    <div class="ds-work-head">
+      <h2 class="ds-work-title" data-reveal>Selected<br />work.</h2>
+      <a href="/portfolio" class="ds-link ds-link-light ds-work-head-link" data-reveal>
+        See all 9 projects <span aria-hidden="true">→</span>
+      </a>
+    </div>
 
-            <h3 class="ds-h-work-name">{p.name}</h3>
-
-            <div class="ds-h-work-thumb">
-              <div class="ds-h-work-thumb-grid" />
-              <div class="ds-h-work-thumb-mark">{p.thumbMark}</div>
-              <div class="ds-h-work-thumb-glow" />
-            </div>
-
-            <p class="ds-h-work-lede">{p.lede}</p>
-
-            <div class="ds-h-work-metric">
-              <span class="ds-h-work-metric-num">{p.metric}</span>
-              <span class="ds-h-work-metric-label mono">{p.metricLabel}</span>
-            </div>
-
-            <footer class="ds-h-work-foot">
-              <span class="ds-h-work-stack mono">{p.stack}</span>
-              <a class="ds-h-work-link mono" href={p.slug}>
-                View case <span aria-hidden="true">↗</span>
-              </a>
-            </footer>
-          </article>
-        ))}
-      </div>
-    </Frame>
+    <div class="ds-work-list" data-reveal>
+      {items.map((p) => (
+        <a class="ds-work-row" href={p.slug}>
+          <span class="ds-work-num mono">{p.n}</span>
+          <span class="ds-work-main">
+            <span class="ds-work-name">{p.name}</span>
+            <span class="ds-work-tags mono">{p.meta}</span>
+          </span>
+          <span class="ds-work-metric mono">{p.metric}</span>
+          <span class="ds-work-cta mono">
+            <span class="ds-work-cta-text">Case study</span>
+            <span class="ds-work-cta-arrow" aria-hidden="true">↗</span>
+          </span>
+        </a>
+      ))}
+    </div>
   </div>
 </section>
 
 <style>
-  .ds-h-work {
-    position: relative;
-    width: 100%;
-    background: #0b0b0c;
-    padding: 60px 30px;
-  }
-  .ds-h-work-pin {
-    position: relative;
-    width: 100%;
-    max-width: 1280px;
-    margin: 0 auto;
-  }
-
-  .ds-h-work-title {
-    margin: 0 0 28px;
-    font-weight: 900;
-    font-size: clamp(38px, 5.6vw, 86px);
-    line-height: 0.92;
-    letter-spacing: -0.035em;
-    text-transform: uppercase;
-  }
-
-  .ds-h-work-track {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 22px;
-  }
-  .ds-h-work-card {
-    display: grid;
-    grid-template-rows: auto auto 1fr auto auto auto;
-    gap: 16px;
-    padding: 26px 26px;
-    border-radius: 6px;
-    color: #fff;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.7);
-    min-height: 540px;
-  }
-
-  .ds-h-work-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    font-size: 11px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    opacity: 0.6;
-  }
-  .ds-h-work-num {
-    color: var(--accent);
-    font-weight: 700;
-    letter-spacing: 0.18em;
-  }
-
-  .ds-h-work-name {
-    margin: 0;
-    font-weight: 900;
-    font-size: clamp(28px, 3.4vw, 44px);
-    line-height: 0.94;
-    letter-spacing: -0.035em;
-    text-transform: uppercase;
-  }
-
-  .ds-h-work-thumb {
-    position: relative;
-    width: 100%;
-    height: 140px;
-    border-radius: 3px;
-    overflow: hidden;
-    background: rgba(255, 255, 255, 0.025);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .ds-h-work-thumb-grid {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-    background-size: 36px 36px;
-  }
-  .ds-h-work-thumb-mark {
+  .ds-work {
     position: relative;
     z-index: 2;
-    font-family: "Archivo", sans-serif;
-    font-weight: 900;
-    font-size: clamp(64px, 9vw, 130px);
-    line-height: 1;
-    color: var(--accent);
-    opacity: 0.9;
-    text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+    background: #0b0b0c;
+    color: #fff;
+    padding: clamp(64px, 8vw, 120px) 30px clamp(64px, 8vw, 120px);
   }
-  .ds-h-work-thumb-glow {
-    position: absolute;
-    width: 70%;
-    height: 200%;
-    background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 30%, transparent), transparent 70%);
-    z-index: 1;
-    filter: blur(20px);
-  }
+  .ds-work-inner { position: relative; z-index: 1; max-width: 1180px; margin: 0 auto; }
 
-  .ds-h-work-lede {
-    margin: 0;
-    font-size: clamp(13.5px, 1.25vw, 16px);
-    line-height: 1.55;
-    opacity: 0.82;
-    font-weight: 500;
-  }
-
-  .ds-h-work-metric {
-    display: flex;
-    align-items: baseline;
-    gap: 16px;
-    padding: 14px 0 8px;
-    border-top: 1px solid rgba(255, 255, 255, 0.12);
-  }
-  .ds-h-work-metric-num {
-    font-family: "Archivo", sans-serif;
-    font-weight: 900;
-    font-size: clamp(28px, 3.4vw, 44px);
-    line-height: 1;
-    letter-spacing: -0.035em;
-    color: var(--accent);
-    font-variant-numeric: tabular-nums;
-  }
-  .ds-h-work-metric-label {
-    font-size: 10px;
-    letter-spacing: 0.18em;
-    opacity: 0.65;
-  }
-
-  .ds-h-work-foot {
+  .ds-work-bar {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding-top: 12px;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-    font-size: 10.5px;
-    letter-spacing: 0.12em;
+    gap: 14px;
+    flex-wrap: wrap;
+    font-size: 10px;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    opacity: 0.85;
+    color: rgba(255, 255, 255, 0.6);
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+    margin-bottom: clamp(34px, 4vw, 56px);
   }
-  .ds-h-work-stack { opacity: 0.65; }
-  .ds-h-work-link {
-    color: #fff;
-    text-decoration: none;
-    border-bottom: 1px solid var(--accent);
-    padding-bottom: 3px;
-    font-weight: 700;
-  }
-  .ds-h-work-link:hover { color: var(--accent); }
+  .ds-work-bar-mid { color: rgba(255, 255, 255, 0.8); }
 
-  @media (max-width: 980px) {
-    .ds-h-work-track { grid-template-columns: 1fr; }
-    .ds-h-work-card { min-height: auto; }
+  .ds-work-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-bottom: clamp(36px, 4.5vw, 64px);
   }
+  .ds-work-title {
+    margin: 0;
+    font-weight: 900;
+    font-size: clamp(46px, 8vw, 124px);
+    line-height: 0.86;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+    color: var(--accent, #ff1f1f);
+  }
+  .ds-work-head-link { margin-bottom: 10px; }
+
+  /* Editorial index list — each project is a full-width row. Big name on the
+     left, result metric + case-study cue on the right, hairlines between.
+     Reads the same on desktop and mobile (it just stacks). No hover-gated
+     content: the metric and CTA are always visible. */
+  .ds-work-list { border-top: 1px solid rgba(255, 255, 255, 0.16); }
+
+  .ds-work-row {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas: "num main metric" "num main cta";
+    align-items: center;
+    column-gap: clamp(18px, 3vw, 44px);
+    text-decoration: none;
+    color: #fff;
+    padding: clamp(24px, 3.2vw, 40px) 0;
+    padding-left: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+    transition: padding-left 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  /* Accent rail slides in from the left on hover/focus. */
+  .ds-work-row::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--accent, #ff1f1f);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  @media (hover: hover) {
+    .ds-work-row:hover { padding-left: clamp(14px, 1.6vw, 26px); }
+    .ds-work-row:hover::before { transform: scaleY(1); }
+  }
+  .ds-work-row:focus-visible {
+    outline: none;
+    padding-left: clamp(14px, 1.6vw, 26px);
+  }
+  .ds-work-row:focus-visible::before { transform: scaleY(1); }
+
+  .ds-work-num {
+    grid-area: num;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    color: rgba(255, 255, 255, 0.4);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .ds-work-main { grid-area: main; min-width: 0; }
+  .ds-work-name {
+    display: block;
+    margin: 0;
+    font-weight: 900;
+    font-size: clamp(30px, 5vw, 68px);
+    letter-spacing: -0.035em;
+    line-height: 0.94;
+    text-transform: uppercase;
+    transition: color 0.25s ease;
+  }
+  .ds-work-tags {
+    display: block;
+    margin-top: 12px;
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+  }
+  .ds-work-row:hover .ds-work-name,
+  .ds-work-row:focus-visible .ds-work-name { color: var(--accent, #ff1f1f); }
+
+  /* Result metric — the proof, right-aligned as a bold red figure. */
+  .ds-work-metric {
+    grid-area: metric;
+    justify-self: end;
+    text-align: right;
+    font-weight: 700;
+    font-size: clamp(15px, 1.5vw, 20px);
+    letter-spacing: 0.01em;
+    color: var(--accent, #ff1f1f);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .ds-work-cta {
+    grid-area: cta;
+    justify-self: end;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+    transition: color 0.25s ease;
+  }
+  .ds-work-row:hover .ds-work-cta,
+  .ds-work-row:focus-visible .ds-work-cta { color: rgba(255, 255, 255, 0.85); }
+  .ds-work-cta-arrow {
+    color: var(--accent, #ff1f1f);
+    font-weight: 700;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .ds-work-row:hover .ds-work-cta-arrow,
+  .ds-work-row:focus-visible .ds-work-cta-arrow { transform: translate(3px, -3px); }
+
+  /* ≤720px: number + metric share the top line, name below, meta + CTA under. */
   @media (max-width: 720px) {
-    .ds-h-work { padding: 40px 16px; }
-    .ds-h-work-card { padding: 22px 22px; gap: 12px; }
-    .ds-h-work-thumb { height: 110px; }
-    .ds-h-work-lede { font-size: 13px; }
+    .ds-work-row {
+      grid-template-columns: auto 1fr;
+      grid-template-areas:
+        "num metric"
+        "main main"
+        "cta cta";
+      row-gap: 12px;
+      align-items: center;
+    }
+    .ds-work-num { align-self: center; }
+    .ds-work-metric { justify-self: end; align-self: center; }
+    .ds-work-cta { justify-self: start; margin-top: 4px; }
   }
 </style>

@@ -1,0 +1,203 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+
+const slug = "landing-page-conversion-not-traffic";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+const next = POSTS[(idx + 1) % POSTS.length];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
+      publisher: {
+        "@type": "Organization",
+        "@id": `${SITE}/#studio`,
+        name: "Divyansh Sood® Studio",
+        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
+      },
+      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      wordCount: 734,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+  ],
+});
+---
+
+<Layout
+  title={`${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  jsonld={jsonld}
+>
+  <Nav kicker="Journal" />
+  <main>
+    <header class="post-hero">
+      <div class="post-hero-bg" aria-hidden="true"></div>
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img src={post.coverImage} alt={post.title} width="1200" height="750" fetchpriority="high" decoding="async" />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+      <p>When sales are slow, the instinct is to buy more traffic. More ads, more spend, more clicks.</p>
+<p>But traffic is the most expensive lever you can pull, and usually the wrong one first. If your page converts at 1% and you double traffic, you’ve doubled your ad bill to keep the same leak. Fix the page to 2% and you’ve doubled revenue for free — and <em>then</em> the ads work twice as hard.</p>
+<p>Here’s where pages actually leak, in the order they cost you the most.</p>
+<hr>
+<h2 id="1-it-loads-too-slowly-to-matter">1. It loads too slowly to matter</h2>
+<p>This is the leak nobody sees because it happens before anyone’s looking.</p>
+<p>On mobile, a meaningful share of visitors abandon before a slow page even renders. They tapped your ad, waited two seconds, saw nothing, and left. You paid for that click and got a bounce.</p>
+<p>A custom-built page should hit Lighthouse 90+ on mobile as a baseline. If yours is in the 50s — common on heavy builders and plugin-stacked sites — speed <em>is</em> your conversion problem, and no headline rewrite fixes it. Test yours at <a href="https://pagespeed.web.dev">pagespeed.web.dev</a> before you touch anything else.</p>
+<hr>
+<h2 id="2-the-first-screen-doesnt-say-what-this-is">2. The first screen doesn’t say what this is</h2>
+<p>You have about five seconds. In that window a visitor decides: <em>am I in the right place?</em></p>
+<p>Most hero sections fail it. They lead with a clever tagline, a brand mood, or “Welcome to [company].” The visitor still doesn’t know what you do or whether it’s for them.</p>
+<p>The hero needs three things, fast:</p>
+<ul>
+<li><strong>What it is</strong> — in plain language, not a metaphor</li>
+<li><strong>Who it’s for</strong> — so the right person feels seen</li>
+<li><strong>One obvious next action</strong> — a single primary button</li>
+</ul>
+<p>If a stranger can’t tell what you offer from the first screen alone, the headline is the leak. Not the traffic.</p>
+<hr>
+<h2 id="3-there-are-too-many-things-to-do">3. There are too many things to do</h2>
+<p>Every link is an exit. A landing page with a full nav, five CTAs, social icons, and a newsletter popup is offering a dozen ways to leave and one way to convert.</p>
+<p>Strong pages are ruthless. One primary action, repeated. Secondary paths demoted or removed. The more focused the page, the higher it converts — counterintuitive until you watch session recordings of people clicking everything <em>except</em> the button.</p>
+<hr>
+<h2 id="4-the-call-to-action-creates-friction">4. The call-to-action creates friction</h2>
+<p>People convert in the channel they already trust. For a huge range of businesses in India, that channel is WhatsApp — not a six-field form that emails an inbox nobody checks.</p>
+<p>When we rebuilt <a href="https://www.divyanshsood.com/projects/nandini">Nandini Travels</a>, the unlock wasn’t traffic — they had plenty. It was giving every package a one-tap WhatsApp CTA with the details pre-filled. Bookings that used to leak to Google Maps started flowing through a site they own.</p>
+<p>Match the CTA to how your customer actually wants to reach you. A frictionless WhatsApp tap beats a “perfect” form almost every time.</p>
+<hr>
+<h2 id="5-theres-no-reason-to-believe-you">5. There’s no reason to believe you</h2>
+<p>A page can be fast, clear, and focused — and still not convert, because the visitor has no reason to trust you yet.</p>
+<p>Proof closes the gap: a real testimonial with a real name, a number you can stand behind, logos, a live result. <a href="https://www.divyanshsood.com/projects/modernkbs">Modern K.B.S.</a> converts on one line — “every other agency said 6 months; delivered in 7 days.” Specific, verifiable, and worth more than a paragraph of adjectives.</p>
+<p>Vague claims (“trusted by many,” “industry-leading”) are invisible. Specific proof is what flips a maybe into a yes.</p>
+<hr>
+<h2 id="the-order-that-actually-works">The order that actually works</h2>
+<p>Before you raise the ad budget, run the page through this:</p>
+<ul>
+<li>✓ Lighthouse 90+ on mobile</li>
+<li>✓ A stranger knows what you do from the first screen</li>
+<li>✓ One primary action, distractions removed</li>
+<li>✓ CTA in the channel your customer trusts (often WhatsApp)</li>
+<li>✓ Specific, believable proof above the fold</li>
+</ul>
+<p>Fix the page first. Then every rupee you spend on traffic is worth roughly double — because you’re no longer paying to fill a bucket with a hole in it.</p>
+<hr>
+<p><em>I’m Divyansh Sood — I build landing pages that fix the leak before any extra ad spend goes in. 9 live builds since 2022. If your conversion rate is below 2% and you suspect the page is the bottleneck, not the traffic, <a href="mailto:hello@divyanshsood.com">email me</a> with your URL — I’ll tell you the three things I’d ship first.</em></p>
+      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </article>
+
+    <section class="wrap narrow" aria-label="Keep reading">
+      <a class="post-next" href={`/blog/${next.slug}/`}>
+        <span><span class="label">Read next</span><br /><span class="name">{next.title}</span></span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </section>
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        {post.audience === "indian-smb" ? (
+          <>
+            <h2>Working on something in India?</h2>
+            <p>If a post here matches what you're building, send me the brief. WhatsApp reply in under an hour, 9 AM–9 PM IST — I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="https://wa.me/919816091875" target="_blank" rel="noopener"
+                >Message me on WhatsApp <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : post.audience === "d2c-brand" ? (
+          <>
+            <h2>Building a brand a theme can't carry?</h2>
+            <p>If your store has a model that off-the-shelf builders fight — hand-numbered drops, creator commerce, premium D2C — tell me about it. I read every brief personally.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : (
+          <>
+            <h2>Working on something similar?</h2>
+            <p>If a post here matches what you're building, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="https://calendly.com/sood-divyansh007/30min" target="_blank" rel="noopener"
+                >Book a 15-min intro <span aria-hidden="true">↗</span></a
+              >
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

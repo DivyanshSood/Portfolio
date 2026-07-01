@@ -1,0 +1,237 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+
+const slug = "how-to-choose-web-developer-himachal";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+const next = POSTS[(idx + 1) % POSTS.length];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
+      publisher: {
+        "@type": "Organization",
+        "@id": `${SITE}/#studio`,
+        name: "Divyansh Sood® Studio",
+        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
+      },
+      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      wordCount: 1142,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+  ],
+});
+---
+
+<Layout
+  title={`${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  jsonld={jsonld}
+>
+  <Nav kicker="Journal" />
+  <main>
+    <header class="post-hero">
+      <div class="post-hero-bg" aria-hidden="true"></div>
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img src={post.coverImage} alt={post.title} width="1200" height="750" fetchpriority="high" decoding="async" />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+      <p>Most business owners make the same mistake when hiring a web developer.</p>
+<p>They ask: <em>“how much does it cost?”</em> — and choose the cheapest option.</p>
+<p>Six months later they have a WordPress site that loads in nine seconds, a contact form that goes nowhere, zero Google rankings, and a developer who stopped replying after the final payment cleared.</p>
+<p>Here’s what to look for instead.</p>
+<hr>
+<h2 id="1-ask-for-live-urls--not-screenshots">1. Ask for live URLs — not screenshots</h2>
+<p>Every developer has a portfolio. Screenshots, mockup images, Behance pages.</p>
+<p>Screenshots prove nothing. They can be someone else’s work, a fake project, or a site that looked good in design but performs terribly in production.</p>
+<p>Ask for live URLs. Three minimum. Then:</p>
+<ul>
+<li>Open each one on your phone — not your laptop</li>
+<li>Time how long it takes to load</li>
+<li>Try the contact form or booking button</li>
+<li>Check if it looks like a template or genuinely custom</li>
+<li>Search <code>site:thatwebsite.com</code> in Google to see if it’s indexed</li>
+</ul>
+<p>If a developer can’t give you three live URLs of real client sites — move on.</p>
+<hr>
+<h2 id="2-test-the-mobile-performance-yourself">2. Test the mobile performance yourself</h2>
+<p>Go to <a href="https://pagespeed.web.dev">pagespeed.web.dev</a>. Paste the URL of any site the developer built. Run the mobile test.</p>
+<p>A score of 90 or above on mobile: fast, stable, built with performance in mind.</p>
+<p>A score below 70 — where most WordPress + Elementor builds land — means the site is actively harming its Google rankings and losing visitors on slow connections.</p>
+<p>If the developer’s own portfolio site scores below 80 on mobile, you have all the information you need.</p>
+<hr>
+<h2 id="3-understand-what-youre-actually-buying">3. Understand what you’re actually buying</h2>
+<p>“Website” covers an enormous range of actual deliverables. Be specific.</p>
+<p>Ask:</p>
+<p><strong>Is this a custom design or a template?</strong> Custom means designed specifically for your business. Template means a bought or free theme with your name and photos dropped in. Templates look like templates — which signals to every visitor that you didn’t invest in your business’s digital presence.</p>
+<p><strong>Who writes the code?</strong> A developer who builds custom sites writes HTML, CSS, and JavaScript by hand (or uses modern frameworks like Astro or Next.js). A developer who “builds websites” might be installing WordPress and dragging blocks around. Both produce a website. The performance, security, and longevity are completely different.</p>
+<p><strong>Where is it hosted?</strong> You should know — and ideally control — where your site lives. If the answer is “on our servers,” ask what happens when you want to move. Your site and your data should be portable.</p>
+<p><strong>What happens after delivery?</strong> 30 days of free bug fixes is standard. After that — what’s the process for changes? Who do you call if the site goes down?</p>
+<hr>
+<h2 id="4-check-if-they-understand-leads--not-just-design">4. Check if they understand leads — not just design</h2>
+<p>A website that looks beautiful and generates zero enquiries is a decoration, not a business tool.</p>
+<p>Ask any developer: <em>“How will this website generate leads for my business?”</em></p>
+<p>Listen for specifics. WhatsApp integration. Contact form routing. Call-to-action placement. Local SEO setup — Google Business Profile, schema markup, sitemap. Mobile-first design because your customers are on phones.</p>
+<p>If the answer is focused entirely on how it will look — colours, fonts, animations — and says nothing about how it will perform, you’re about to pay for a brochure.</p>
+<p>For most Indian B2C businesses — taxi services, tour operators, clinics, coaches, contractors — enquiries start on WhatsApp. A website without a direct, frictionless WhatsApp CTA is leaving leads on the table from day one.</p>
+<hr>
+<h2 id="5-the-pricing-red-flags">5. The pricing red flags</h2>
+<p><strong>Too cheap.</strong> A complete business website for ₹3,000–5,000 is a template install. There is no version of custom design, custom code, WhatsApp integration, and SEO setup that costs ₹3,000. It’s either a free theme, outsourced at a markup, or the developer plans to disappear after payment.</p>
+<p><strong>Too expensive without justification.</strong> A 5-page business website doesn’t cost ₹2,00,000 from a freelancer. If the quote is high, ask exactly what’s included — pages, functionality, design process, timeline. Sometimes it’s justified. Often it’s just agency overhead you’re paying for.</p>
+<p><strong>No ballpark given without seeing “requirements” first.</strong> For a standard business website, any experienced developer should give you a range in the first conversation. Refusing to do so usually means pricing will be adjusted based on what they think you’ll pay.</p>
+<p>Honest ranges for 2026:</p>
+<ul>
+<li>Landing page: ₹7,000–10,000</li>
+<li>5-page business site: ₹13,000–16,000</li>
+<li>Site with CMS / admin panel: ₹28,000–32,000</li>
+<li>E-commerce / school portal / brand: ₹48,000–55,000</li>
+</ul>
+<hr>
+<h2 id="6-the-payment-and-refund-structure-tells-you-a-lot">6. The payment and refund structure tells you a lot</h2>
+<p>A professional developer works on a clear split: advance to start, balance on delivery. Standard is 50/50.</p>
+<p>More importantly — what happens if you don’t like the work?</p>
+<p>A developer confident in their work offers a refund window. I offer a Day-5 design preview: if you don’t like what you see, full refund of the advance, no questions. That’s a professional putting their confidence in writing.</p>
+<p>100% upfront with no refund policy tells you something about how they think about accountability.</p>
+<p>Ask for a GST invoice. A developer issuing proper invoices is operating as a real business. One who only accepts cash with no documentation is not.</p>
+<hr>
+<h2 id="7-ongoing-relationship-not-one-time-transaction">7. Ongoing relationship, not one-time transaction</h2>
+<p>A website is infrastructure you’ll need to update, fix, and improve over time.</p>
+<p>The developer you hire is also the person you’ll call when something breaks before a peak season, when you need a new page for a new service, or when Google updates something and you need someone to diagnose it.</p>
+<p>Ask: <em>“Are you available after delivery? What’s your typical response time?”</em></p>
+<p>A developer who replies on WhatsApp within an hour during business hours — and says so explicitly — is someone you can rely on. A “send an email and we’ll get back to you” system is not a working relationship.</p>
+<hr>
+<h2 id="the-short-checklist">The short checklist</h2>
+<p>Before you pay anyone to build your website:</p>
+<ul>
+<li>✓ Seen 3+ live URLs of their actual work</li>
+<li>✓ Tested mobile Lighthouse score on at least one — 80+</li>
+<li>✓ Confirmed: custom design or template?</li>
+<li>✓ Asked how the site will generate leads, not just how it looks</li>
+<li>✓ Understood hosting, ownership, and portability</li>
+<li>✓ Confirmed refund policy and payment structure</li>
+<li>✓ Tested their response time — WhatsApp them and see how fast they reply</li>
+<li>✓ GST invoice available</li>
+</ul>
+<p>If you can check all eight, you’re hiring with your eyes open.</p>
+<hr>
+<p><em>I’m Divyansh, solo developer out of Kangra Valley. Custom-coded websites for Indian small businesses. Most clients come from referrals, never a paid ad.</em></p>
+<p><em>If you’re a small business in India comparing quotes right now, <a href="https://wa.me/919816091875">WhatsApp me your scope</a> — I’ll tell you within a day what a fair number looks like and what red flags to watch for in the others.</em></p>
+      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </article>
+
+    <section class="wrap narrow" aria-label="Keep reading">
+      <a class="post-next" href={`/blog/${next.slug}/`}>
+        <span><span class="label">Read next</span><br /><span class="name">{next.title}</span></span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </section>
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        {post.audience === "indian-smb" ? (
+          <>
+            <h2>Working on something in India?</h2>
+            <p>If a post here matches what you're building, send me the brief. WhatsApp reply in under an hour, 9 AM–9 PM IST — I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="https://wa.me/919816091875" target="_blank" rel="noopener"
+                >Message me on WhatsApp <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : post.audience === "d2c-brand" ? (
+          <>
+            <h2>Building a brand a theme can't carry?</h2>
+            <p>If your store has a model that off-the-shelf builders fight — hand-numbered drops, creator commerce, premium D2C — tell me about it. I read every brief personally.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : (
+          <>
+            <h2>Working on something similar?</h2>
+            <p>If a post here matches what you're building, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="https://calendly.com/sood-divyansh007/30min" target="_blank" rel="noopener"
+                >Book a 15-min intro <span aria-hidden="true">↗</span></a
+              >
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

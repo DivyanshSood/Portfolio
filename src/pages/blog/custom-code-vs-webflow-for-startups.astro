@@ -1,0 +1,239 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+
+const slug = "custom-code-vs-webflow-for-startups";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+const next = POSTS[(idx + 1) % POSTS.length];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
+      publisher: {
+        "@type": "Organization",
+        "@id": `${SITE}/#studio`,
+        name: "Divyansh Sood® Studio",
+        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
+      },
+      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      wordCount: 717,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+  ],
+});
+---
+
+<Layout
+  title={`${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  jsonld={jsonld}
+>
+  <Nav kicker="Journal" />
+  <main>
+    <header class="post-hero">
+      <div class="post-hero-bg" aria-hidden="true"></div>
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img src={post.coverImage} alt={post.title} width="1200" height="750" fetchpriority="high" decoding="async" />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+      <p>Webflow is genuinely good. This isn’t the usual “no-code is fake” argument.</p>
+<p>For a marketing site that needs to look sharp and ship this month, Webflow is often the right answer — and I’ll tell a startup that to their face even though I build custom. The question isn’t whether Webflow is good. It’s whether it’s good <em>for where you’re going</em>.</p>
+<p>For a funded startup, that second question is the one that matters, and it’s the one most founders skip.</p>
+<hr>
+<h2 id="where-webflow-is-the-right-call">Where Webflow is the right call</h2>
+<p>Use Webflow when:</p>
+<ul>
+<li>You need a <strong>marketing site live in weeks</strong>, not months</li>
+<li><strong>Non-technical teammates</strong> must edit pages and publish without a deploy</li>
+<li>Your content is <strong>mostly marketing</strong> — landing pages, pricing, blog, careers</li>
+<li>You want <strong>strong visual control</strong> without hiring a front-end engineer</li>
+</ul>
+<p>For a seed-stage company that needs to look credible to customers and investors yesterday, this is a perfectly good use of money. Don’t over-engineer a brochure.</p>
+<hr>
+<h2 id="where-it-starts-taxing-you">Where it starts taxing you</h2>
+<p>The friction shows up as you scale, and it’s predictable:</p>
+<p><strong>The product creeps into the site.</strong> The moment you want gated content, a logged-in dashboard preview, a pricing calculator that talks to your API, or an interactive demo — you’re bending Webflow into something it wasn’t built to be, usually with embeds and duct tape.</p>
+<p><strong>Performance plateaus.</strong> Webflow sites are decent out of the box but hard to push into the 95+ Lighthouse range that a hand-built Next.js app hits, especially once you add interactions and third-party scripts.</p>
+<p><strong>The CMS hits limits.</strong> Item caps, collection-reference limits, and rigid structures bite exactly when your content strategy gets ambitious.</p>
+<p><strong>Two codebases, two cultures.</strong> Your product is in React. Your site is in Webflow. Engineers can’t touch the site; marketers can’t touch the product. Shared components — nav, design system, auth state — get rebuilt twice and drift apart.</p>
+<hr>
+<h2 id="the-real-cost-comparison">The real cost comparison</h2>
+<p>The monthly Webflow bill isn’t the cost that matters. The cost is the <em>seam</em> — the line between your marketing site and your product, where work gets duplicated and things break.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th></th><th>Webflow</th><th>Custom (Next.js)</th></tr></thead><tbody><tr><td>Time to first marketing site</td><td>Days–weeks</td><td>2–4 weeks</td></tr><tr><td>Non-dev editing</td><td>Excellent</td><td>Needs a CMS layer</td></tr><tr><td>Product + site share code</td><td>No</td><td>Yes</td></tr><tr><td>Lighthouse ceiling</td><td>~85–90</td><td>95+</td></tr><tr><td>Interactive / API-driven pages</td><td>Embeds, awkward</td><td>Native</td></tr><tr><td>Long-term ownership</td><td>Platform-bound</td><td>Fully yours</td></tr></tbody></table>
+<p>For a startup whose website and product are <em>meant</em> to feel like one thing — and increasingly they are — that shared codebase is worth more than the head start Webflow gives you.</p>
+<hr>
+<h2 id="the-hybrid-most-teams-should-actually-run">The hybrid most teams should actually run</h2>
+<p>You don’t have to pick once and forever. The pattern I recommend to funded teams:</p>
+<ol>
+<li><strong>Start on Webflow</strong> if speed-to-credible matters most right now.</li>
+<li><strong>Watch for the seam</strong> — the first time you fight the platform to ship something product-shaped, note it.</li>
+<li><strong>Move to Next.js when the marketing site and product want to share</strong> a design system, auth state, or live data.</li>
+</ol>
+<p>The mistake isn’t starting on Webflow. It’s staying on it for eighteen months after your roadmap clearly outgrew it, paying the seam tax every sprint because migrating feels like a distraction.</p>
+<p>When we built <a href="https://www.divyanshsood.com/projects/webseek">WebSeek.ai</a>, the marketing surface and the product were never separable — it had to be one custom codebase from day one. That’s the tell: <strong>if your site and product are the same story, build them as one thing.</strong></p>
+<hr>
+<h2 id="the-one-question-to-ask">The one question to ask</h2>
+<p><em>Is my website a brochure, or is it part of the product?</em></p>
+<p>If it’s a brochure — Webflow, and don’t look back.</p>
+<p>If it’s part of the product — or it’s about to be — every month you delay going custom is a month of building the same things twice.</p>
+<hr>
+<p><em>I’m Divyansh Sood — I build custom-coded marketing sites and web apps for funded startups in React, Next.js and Astro. 9 live builds, including <a href="https://www.divyanshsood.com/projects/webseek">WebSeek.ai</a>, where the marketing surface and product share one codebase. If you’re at the Webflow-or-custom decision point, <a href="https://calendly.com/sood-divyansh007/30min">book a 15-min intro</a> — I’ll tell you honestly which way I’d go for your specific case.</em></p>
+      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </article>
+
+    <section class="wrap narrow" aria-label="Keep reading">
+      <a class="post-next" href={`/blog/${next.slug}/`}>
+        <span><span class="label">Read next</span><br /><span class="name">{next.title}</span></span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </section>
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        {post.audience === "indian-smb" ? (
+          <>
+            <h2>Working on something in India?</h2>
+            <p>If a post here matches what you're building, send me the brief. WhatsApp reply in under an hour, 9 AM–9 PM IST — I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="https://wa.me/919816091875" target="_blank" rel="noopener"
+                >Message me on WhatsApp <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : post.audience === "d2c-brand" ? (
+          <>
+            <h2>Building a brand a theme can't carry?</h2>
+            <p>If your store has a model that off-the-shelf builders fight — hand-numbered drops, creator commerce, premium D2C — tell me about it. I read every brief personally.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : (
+          <>
+            <h2>Working on something similar?</h2>
+            <p>If a post here matches what you're building, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="https://calendly.com/sood-divyansh007/30min" target="_blank" rel="noopener"
+                >Book a 15-min intro <span aria-hidden="true">↗</span></a
+              >
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

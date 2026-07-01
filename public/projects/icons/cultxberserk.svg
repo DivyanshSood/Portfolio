@@ -17,16 +17,16 @@
     <linearGradient id="bladeGrad" x1="0%" y1="0%" x2="0%" y2="100%">
       <stop offset="0%" stop-color="#ffffff" stop-opacity="0.92"/>
       <stop offset="60%" stop-color="#ffffff" stop-opacity="0.55"/>
-      <stop offset="100%" stop-color="#ff4612" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#ff1f1f" stop-opacity="0.5"/>
     </linearGradient>
     <linearGradient id="guardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#ff4612"/>
+      <stop offset="0%" stop-color="#ff1f1f"/>
       <stop offset="100%" stop-color="#7a1d04"/>
     </linearGradient>
     <radialGradient id="redGlow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#ff4612" stop-opacity="0.7"/>
-      <stop offset="60%" stop-color="#ff4612" stop-opacity="0.2"/>
-      <stop offset="100%" stop-color="#ff4612" stop-opacity="0"/>
+      <stop offset="0%" stop-color="#ff1f1f" stop-opacity="0.7"/>
+      <stop offset="60%" stop-color="#ff1f1f" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#ff1f1f" stop-opacity="0"/>
     </radialGradient>
     <filter id="bigBlur" x="-100%" y="-100%" width="300%" height="300%">
       <feGaussianBlur stdDeviation="22"/>
@@ -78,17 +78,17 @@
   <!-- Brand of Sacrifice (eye symbol) on blade center -->
   <g transform="translate(256 218)">
     <!-- Eye outline -->
-    <path d="M -34 0 Q 0 -22 34 0 Q 0 22 -34 0 Z" fill="none" stroke="#ff4612" stroke-width="2.4" stroke-linejoin="round"/>
+    <path d="M -34 0 Q 0 -22 34 0 Q 0 22 -34 0 Z" fill="none" stroke="#ff1f1f" stroke-width="2.4" stroke-linejoin="round"/>
     <!-- Iris -->
-    <circle r="11" fill="none" stroke="#ff4612" stroke-width="2.4"/>
+    <circle r="11" fill="none" stroke="#ff1f1f" stroke-width="2.4"/>
     <!-- Pupil -->
-    <circle r="4" fill="#ff4612"/>
+    <circle r="4" fill="#ff1f1f"/>
     <!-- Slash through eye -->
-    <line x1="-40" y1="14" x2="40" y2="-14" stroke="#ff4612" stroke-width="3" stroke-linecap="round"/>
+    <line x1="-40" y1="14" x2="40" y2="-14" stroke="#ff1f1f" stroke-width="3" stroke-linecap="round"/>
   </g>
 
   <!-- Behelit-like marks (subtle red scratches) -->
-  <g stroke="#ff4612" stroke-opacity="0.4" stroke-width="1.6" stroke-linecap="round">
+  <g stroke="#ff1f1f" stroke-opacity="0.4" stroke-width="1.6" stroke-linecap="round">
     <line x1="120" y1="380" x2="160" y2="408"/>
     <line x1="100" y1="350" x2="138" y2="376"/>
     <line x1="392" y1="120" x2="368" y2="148"/>

@@ -1,0 +1,194 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+
+const slug = "storefront-that-feels-like-the-brand";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+const next = POSTS[(idx + 1) % POSTS.length];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
+      publisher: {
+        "@type": "Organization",
+        "@id": `${SITE}/#studio`,
+        name: "Divyansh Sood® Studio",
+        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
+      },
+      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      wordCount: 750,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+  ],
+});
+---
+
+<Layout
+  title={`${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  jsonld={jsonld}
+>
+  <Nav kicker="Journal" />
+  <main>
+    <header class="post-hero">
+      <div class="post-hero-bg" aria-hidden="true"></div>
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img src={post.coverImage} alt={post.title} width="1200" height="750" fetchpriority="high" decoding="async" />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+      <p>Two stores can sell the same product at the same price and feel completely different.</p>
+<p>One feels like a brand you’d screenshot and send to a friend. The other feels like a template with a logo dropped in the corner. The gap between them isn’t the colour palette or the font. It’s a hundred small decisions that a theme makes <em>for</em> you — and a branded storefront makes <em>on purpose</em>.</p>
+<p>Here’s what’s actually in that gap.</p>
+<hr>
+<h2 id="a-theme-decides-a-brand-chooses">A theme decides; a brand chooses</h2>
+<p>When you install a theme, you inherit someone else’s answers to questions you never got asked:</p>
+<ul>
+<li>How fast does a button respond when you tap it?</li>
+<li>How does a product image reveal itself as you scroll?</li>
+<li>What does the page do in the half-second after “add to cart”?</li>
+<li>How does the story unfold from the top of the page to the bottom?</li>
+</ul>
+<p>A theme has defaults for all of it. They’re fine. “Fine” is the problem — because <em>fine</em> is what everyone else also installed. A branded store treats each of those moments as a chance to feel like itself, and the accumulation is what people register as “this brand is different,” usually without being able to say why.</p>
+<hr>
+<h2 id="the-four-layers-of-feeling-like-a-brand">The four layers of feeling like a brand</h2>
+<p><strong>1. Motion.</strong> How things move is personality. <a href="https://www.divyanshsood.com/projects/redline">Redline Studios</a> — a motorcycle-apparel brand — needed easing curves and loading states that carried racing DNA. Quick, aggressive, precise. A meditation brand would move slowly and softly. Same components, opposite feelings. Motion is tone of voice you can’t read aloud.</p>
+<p><strong>2. Rhythm.</strong> The order and pace of the page is storytelling. A premium brand controls what you see first, what it makes you feel, and what it asks of you and when. A theme gives you stacked sections in whatever order you dragged them. A branded store choreographs the scroll.</p>
+<p><strong>3. Detail.</strong> The small things signal care. CultXberserk sews a “Brand of Sacrifice” seal into the neckline and surfaces it on the product page as lore, not a spec. That single detail does more for the brand than any banner. Themes don’t do details — details are bespoke by definition.</p>
+<p><strong>4. Coherence.</strong> Everything agreeing with everything else. The 404 page, the loading spinner, the confirmation email, the empty cart — all of it sounding like the same brand. Themes leave these as generic defaults, and a single off-brand moment breaks the spell you spent the whole homepage building.</p>
+<hr>
+<h2 id="where-the-buy-button-lives-in-all-this">Where the buy button lives in all this</h2>
+<p>Feeling like a brand is not at odds with selling. Done right, it’s how you sell at a premium.</p>
+<p>The trick is putting the brand <em>next to</em> the transaction, not in front of it. The story, the lore, the detail — inches from the add-to-cart, never blocking it. <a href="https://www.divyanshsood.com/projects/chinkiz">ChinkiZ Knitting Knife</a> put tutorial videos right beside the buy button, because that’s how her audience actually decides. The brand and the transaction occupied the same space instead of competing for it.</p>
+<p>A decorated theme treats brand and conversion as a trade-off. A branded storefront makes them the same move.</p>
+<hr>
+<h2 id="how-to-tell-which-one-you-have">How to tell which one you have</h2>
+<p>Open your store and ask, honestly:</p>
+<ul>
+<li>Could a competitor get the same feel by installing the same theme and swapping the logo? If yes, you have a decorated template.</li>
+<li>Does every corner — 404, cart, confirmation, loading — sound like one brand? If there are generic gaps, the spell is broken in those gaps.</li>
+<li>Is there a single detail someone would screenshot and send to a friend? If you can’t name one, you haven’t built one yet.</li>
+</ul>
+<p>None of this requires a bigger budget than a theme-plus-apps setup often grows into. It requires building the store <em>as the brand</em>, from the start, instead of decorating a template and hoping it adds up.</p>
+<p>It rarely adds up. Brands are built on purpose, one decision at a time.</p>
+<hr>
+<p><em>I’m Divyansh Sood. I build storefronts where motion, rhythm, detail and coherence all carry the brand — none of it inherited from a theme. 9 live builds since 2022: <a href="https://www.divyanshsood.com/projects/cultxberserk">CultXberserk</a> for the lore and the seal at the C7 vertebra, <a href="https://www.divyanshsood.com/projects/redline">Redline Studios</a> for the racing DNA in every loading state, <a href="https://www.divyanshsood.com/projects/chinkiz">ChinkiZ</a> for the video that lives next to the buy button.</em></p>
+<p><em>If your brand has a detail someone would screenshot and send to a friend — and a theme keeps fighting it — <a href="mailto:hello@divyanshsood.com">email me</a>. I read every brief personally.</em></p>
+      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </article>
+
+    <section class="wrap narrow" aria-label="Keep reading">
+      <a class="post-next" href={`/blog/${next.slug}/`}>
+        <span><span class="label">Read next</span><br /><span class="name">{next.title}</span></span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </section>
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        {post.audience === "indian-smb" ? (
+          <>
+            <h2>Working on something in India?</h2>
+            <p>If a post here matches what you're building, send me the brief. WhatsApp reply in under an hour, 9 AM–9 PM IST — I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="https://wa.me/919816091875" target="_blank" rel="noopener"
+                >Message me on WhatsApp <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : post.audience === "d2c-brand" ? (
+          <>
+            <h2>Building a brand a theme can't carry?</h2>
+            <p>If your store has a model that off-the-shelf builders fight — hand-numbered drops, creator commerce, premium D2C — tell me about it. I read every brief personally.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : (
+          <>
+            <h2>Working on something similar?</h2>
+            <p>If a post here matches what you're building, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="https://calendly.com/sood-divyansh007/30min" target="_blank" rel="noopener"
+                >Book a 15-min intro <span aria-hidden="true">↗</span></a
+              >
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

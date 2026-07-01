@@ -5,27 +5,28 @@ import Footer from "../components/Footer.astro";
 import { CALENDLY_URL, GOOGLE_REVIEWS_URL } from "../lib/site.mjs";
 
 const SITE = "https://www.divyanshsood.com";
-const canonical = `${SITE}/results`;
+const canonical = `${SITE}/results/`;
 
-// Top-line studio numbers (same real figures shown on the homepage).
+// Top-line studio numbers — every figure is real and matches the case studies.
 const topStats = [
   { v: "20+", l: "Projects shipped since 2022" },
-  { v: "3–4 wks", l: "Typical time to live" },
-  { v: "98%", l: "Client retention" },
-  { v: "Async", l: "Across 4 time zones" },
+  { v: "3–4 wks", l: "Typical kickoff to live" },
+  { v: "9/9", l: "Recent clients still on board" },
+  { v: "7 days", l: "Fastest full build shipped" },
 ];
 
-// One headline result per project — every number is pulled from a real case study.
+// One headline result per project. Every number is pulled from a real case study
+// you can open and read — no rounded-up vanity metrics.
 const results = [
-  { slug: "webseek", name: "WebSeek.ai", cat: "AI product", v: "3", l: "AI models in one app", o: "I built it for myself first, then opened it up. Three models, one prompt bar, one deployed site." },
-  { slug: "inhimalayas", name: "InHimalayas", cat: "Booking platform", v: "↑", l: "AI-referred traffic", o: "llms.txt + GEO for a Himachal travel platform. AI engines started quoting them within weeks." },
-  { slug: "modernkbs", name: "Modern K.B.S.", cat: "Web app + admin", v: "7 days", l: "vs. 6 months quoted", o: "Admissions portal for a school cycle. Public site + admin panel the office staff actually run." },
-  { slug: "northpeak", name: "North Peak Power", cat: "Infra portal", v: "15", l: "pages + self-serve admin", o: "15 pages, self-serve admin. The marketing team uses it without needing me." },
-  { slug: "chinkiz", name: "ChinkiZ Knitting Knife", cat: "Creator D2C", v: "600K+", l: "subscriber creator", o: "600K-subscriber creator who'd already tried Shopify and Webflow. Custom storefront, video next to buy." },
-  { slug: "nandini", name: "Nandini Travels", cat: "Local travel", v: "10×", l: "“more premium” — founder", o: "Was losing every booking to Google Maps. Now they run through a site the owner controls." },
-  { slug: "dharamshala-tours", name: "Dharamshala Tours", cat: "Travel CMS", v: "~1,000", l: "bookings a month", o: "WhatsApp-first travel site. The booking flow ends in a chat. ~1,000 packages a month." },
-  { slug: "redline", name: "Redline Studios", cat: "Brand + store", v: "1", l: "sprint, end-to-end", o: "Brand + store + payments in one sprint. No phases, no deck, no \"discovery week.\"" },
-  { slug: "cultxberserk", name: "CultXberserk", cat: "Lore-driven D2C", v: "0001–0666", l: "hand-numbered units", o: "Lore-driven D2C. The drop mechanics, the story, the buy button are one screen." },
+  { slug: "modernkbs", name: "Modern K.B.S.", cat: "Web app + admin", v: "7 days", l: "vs. a 6-month quote", icon: "/projects/icons/modernkbs.svg", o: "A full admissions portal for a live school cycle — public site plus an admin panel the office staff run themselves. Others quoted six months; it shipped in seven days." },
+  { slug: "webseek", name: "WebSeek.ai", cat: "AI product", v: "3", l: "AI models, one prompt bar", icon: "/projects/icons/webseek.svg", o: "My own product, in real use. Three models behind one prompt bar that ships a deployed site — not a demo." },
+  { slug: "chinkiz", name: "ChinkiZ Knitting Knife", cat: "Creator D2C", v: "600K+", l: "subscriber creator's store", icon: "/projects/icons/chinkiz.svg", o: "A 600K-subscriber creator who'd already outgrown Shopify and Webflow. Custom storefront with the demo video sitting right next to the buy button." },
+  { slug: "dharamshala-tours", name: "Dharamshala Tours", cat: "Travel CMS", v: "~1,000", l: "packages booked a month", icon: "/projects/icons/dharamshala.svg", o: "A WhatsApp-first travel site where the booking flow ends in a chat, not a dead form. Around a thousand packages move through it every month." },
+  { slug: "nandini", name: "Nandini Travels", cat: "Local travel", v: "10×", l: "“more premium” — the founder", icon: "/projects/icons/nandini.svg", o: "Was losing every booking to a Google Maps listing. Now enquiries land on a site the owner controls — and looks, in his words, ten times more premium than the competition." },
+  { slug: "inhimalayas", name: "InHimalayas", cat: "Booking platform", v: "GEO", l: "built to be AI-cited", icon: "/projects/icons/inhimalayas.svg", o: "llms.txt and generative-engine optimisation for a Himachal travel platform — so AI answers quote them by name, not just Google." },
+  { slug: "northpeak", name: "North Peak Power", cat: "Infra portal", v: "15", l: "pages, self-serve admin", icon: "/projects/icons/northpeak.svg", o: "Fifteen pages and an admin the marketing team edits on their own. No dev on retainer, no ticket to change a headline." },
+  { slug: "redline", name: "Redline Studios", cat: "Brand + store", v: "1", l: "sprint, end to end", icon: "/projects/icons/redline.svg", o: "Brand, store and payments delivered in a single sprint. No phase gates, no deck, no “discovery week” to bill for." },
+  { slug: "cultxberserk", name: "CultXberserk", cat: "Lore-driven D2C", v: "0001–0666", l: "hand-numbered units", icon: "/projects/icons/cultxberserk.svg", o: "A lore-driven drop where the story, the numbering mechanic and the buy button all live on one screen — built to make collectors act." },
 ];
 
 const jsonld = JSON.stringify({
@@ -79,10 +80,10 @@ const jsonld = JSON.stringify({
           <span>Results</span><span>Real numbers, real projects</span><span>2022—2026</span>
         </div>
         <h1 style="margin:14px 0 0;font-weight:900;font-size:clamp(38px,7vw,96px);line-height:.9;letter-spacing:-.035em;text-transform:uppercase;">The work, <span style="color:var(--accent);">by the numbers.</span></h1>
-        <p class="cs-lead">Pretty sites are easy to promise. Here's what mine actually did — every figure below is pulled straight from a real case study you can open and read.</p>
+        <p class="cs-lead">Anyone can promise a pretty site. Below is what mine actually did — bookings won back, weeks turned into days, storefronts that outgrew the builders they replaced. Every figure links to the case study it came from. No rounding up.</p>
         <div class="cs-cta-row">
-          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener" data-cursor>Book an intro call <span aria-hidden="true">↗</span></a>
-          <a class="btn btn-ghost" href="/#work" data-cursor>See all work</a>
+          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book an intro call <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost" href="/portfolio">See all work</a>
         </div>
       </div>
     </header>
@@ -105,17 +106,21 @@ const jsonld = JSON.stringify({
       <div class="wrap">
         <div class="cs-sec-head">
           <h2 id="proj-h">One headline result per project</h2>
-          <span class="mono">Nine projects</span>
+          <span class="mono">Nine projects · nine outcomes</span>
         </div>
-        <div class="cs-body" data-reveal>
+
+        <div class="results-grid" data-reveal>
           {results.map((r) => (
-            <a class="cs-card" href={`/projects/${r.slug}`} data-cursor style="text-decoration:none;color:inherit;display:flex;flex-direction:column;">
-              <span class="cs-tag">{r.cat}</span>
-              <div style="font-weight:900;font-size:clamp(34px,4.6vw,56px);letter-spacing:-.03em;line-height:1;color:var(--accent);margin:6px 0 4px;">{r.v}</div>
-              <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;opacity:.6;margin-bottom:14px;">{r.l}</div>
-              <h2 style="margin:0 0 10px;font-weight:800;font-size:clamp(19px,2.2vw,24px);letter-spacing:-.02em;">{r.name}</h2>
-              <p style="margin:0;font-size:14px;line-height:1.55;opacity:.72;flex:1;">{r.o}</p>
-              <span style="margin-top:16px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);">Read the case study →</span>
+            <a class="results-card" href={`/projects/${r.slug}`}>
+              <div class="results-head">
+                <img class="results-icon" src={r.icon} alt="" width="40" height="40" loading="lazy" />
+                <span class="cs-tag">{r.cat}</span>
+              </div>
+              <div class="results-v">{r.v}</div>
+              <div class="results-l">{r.l}</div>
+              <h3 class="results-name">{r.name}</h3>
+              <p class="results-o">{r.o}</p>
+              <span class="results-more">Read the case study →</span>
             </a>
           ))}
         </div>
@@ -128,10 +133,16 @@ const jsonld = JSON.stringify({
           <h2 id="say-h">In their words</h2>
           <span class="mono">Clients</span>
         </div>
-        <figure class="cs-card cs-quote span2" data-reveal>
-          <span class="cs-tag">Nandini Travels</span>
-          <blockquote>"The website is so beautiful — looks 10 times more premium than our competitors. We started getting direct bookings instead of losing them to Google Maps."</blockquote>
-          <figcaption>— Founder, Nandini Travels · <a href="/testimonials" data-cursor>read more →</a> · <a href={GOOGLE_REVIEWS_URL} target="_blank" rel="noopener" data-cursor>Google reviews ↗</a></figcaption>
+        <figure class="results-quote" data-reveal>
+          <span class="results-quote-mark" aria-hidden="true">"</span>
+          <blockquote>The website is so beautiful — it looks 10 times more premium than our competitors. We started getting direct bookings instead of losing them to Google Maps.</blockquote>
+          <figcaption>
+            <span class="results-quote-who">Founder, Nandini Travels</span>
+            <span class="results-quote-links">
+              <a href="/testimonials">More testimonials →</a>
+              <a href={GOOGLE_REVIEWS_URL} target="_blank" rel="noopener">Google reviews ↗</a>
+            </span>
+          </figcaption>
         </figure>
       </div>
     </section>
@@ -139,14 +150,178 @@ const jsonld = JSON.stringify({
     <section class="cs-endcta">
       <div class="wrap">
         <h2>Want results like these?</h2>
-        <p>Send me what you're building. If I'd win on it, I'll tell you which page I'd build first and what I'd cut.</p>
+        <p>Send me what you're building. If I'd win on it, I'll tell you which page I'd build first and what I'd cut. If I wouldn't, I'll tell you that too.</p>
         <div class="cs-cta-row" style="justify-content:center;">
-          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener" data-cursor>Book an intro call <span aria-hidden="true">↗</span></a>
-          <a class="btn btn-ghost" href="/website-audit" data-cursor>Get a free audit</a>
+          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book an intro call <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost" href="/website-audit">Get a free audit</a>
         </div>
       </div>
     </section>
   </main>
 
   <Footer />
+
+  <style>
+    /* ============================================================
+       Results page — UI polish (scoped). Bold editorial black + red
+       to match the homepage/About, a bento result grid with a
+       featured lead, project icons and an interactive card state.
+       ============================================================ */
+
+    main .cs-sec { padding: clamp(58px, 7vw, 108px) 0; }
+    main .cs-hero { padding-top: clamp(120px, 16vw, 160px); }
+    main .cs-lead { max-width: 66ch; font-size: clamp(17px, 1.7vw, 21px); }
+    main .cs-sec-head { align-items: flex-end; margin-bottom: clamp(30px, 4vw, 52px); }
+    main .cs-sec-head h2 {
+      font-weight: 900;
+      font-size: clamp(30px, 4.8vw, 68px);
+      line-height: 0.96;
+      letter-spacing: -0.035em;
+      text-transform: uppercase;
+    }
+    main .cs-sec-head .mono { opacity: 0.5; }
+
+    /* ---- Studio-at-a-glance → borderless giant figures + hairlines ---- */
+    main .cs-metrics { gap: 0; border-top: 1px solid rgba(255, 255, 255, 0.16); }
+    main .cs-metric {
+      border: 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 0;
+      background: none;
+      padding: clamp(22px, 3vw, 34px) 22px clamp(22px, 3vw, 34px) 0;
+    }
+    main .cs-metric-v { font-size: clamp(40px, 6vw, 84px); line-height: 0.88; }
+    main .cs-metric-l { margin-top: 12px; }
+    @media (min-width: 721px) {
+      main .cs-metric { border-right: 1px solid rgba(255, 255, 255, 0.1); padding-left: clamp(20px, 2.4vw, 34px); }
+      main .cs-metric:first-child { padding-left: 0; }
+      main .cs-metric:last-child { border-right: 0; }
+    }
+
+    /* ---- Bento results grid ---- */
+    main .results-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    main .results-card {
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: inherit;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 12px;
+      padding: 26px 24px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-color 0.3s ease, background 0.3s ease;
+    }
+    main .results-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255, 31, 31, 0.55);
+      background: linear-gradient(180deg, rgba(255, 31, 31, 0.07), transparent);
+    }
+    main .results-head { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+    main .results-icon {
+      width: 40px; height: 40px; border-radius: 9px; flex: none;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    main .results-head .cs-tag { margin: 0; }
+    main .results-v {
+      font-weight: 900;
+      font-size: clamp(34px, 4.4vw, 54px);
+      letter-spacing: -0.03em;
+      line-height: 0.95;
+      color: var(--accent, #ff1f1f);
+    }
+    main .results-l {
+      margin-top: 6px;
+      font-family: "Space Mono", monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0.6;
+    }
+    main .results-name {
+      margin: 16px 0 8px;
+      font-weight: 800;
+      font-size: clamp(18px, 2vw, 23px);
+      letter-spacing: -0.02em;
+    }
+    main .results-o { margin: 0; font-size: 14px; line-height: 1.55; opacity: 0.74; flex: 1; }
+    main .results-more {
+      margin-top: 18px;
+      font-family: "Space Mono", monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent, #ff1f1f);
+    }
+
+    /* ---- Client quote ---- */
+    main .results-quote {
+      position: relative;
+      margin: 0;
+      border: 1px solid rgba(255, 31, 31, 0.3);
+      border-radius: 14px;
+      padding: clamp(32px, 4vw, 56px);
+      background: radial-gradient(120% 140% at 0% 0%, rgba(255, 31, 31, 0.1), transparent 55%);
+      overflow: hidden;
+    }
+    main .results-quote-mark {
+      position: absolute;
+      top: -18px; right: 26px;
+      font-family: "Caveat", cursive;
+      font-size: 180px;
+      line-height: 1;
+      color: var(--accent, #ff1f1f);
+      opacity: 0.16;
+      pointer-events: none;
+    }
+    main .results-quote blockquote {
+      position: relative;
+      margin: 0;
+      font-weight: 700;
+      font-size: clamp(20px, 2.6vw, 34px);
+      line-height: 1.32;
+      letter-spacing: -0.02em;
+      max-width: 24ch;
+    }
+    main .results-quote figcaption {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 26px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.14);
+    }
+    main .results-quote-who {
+      font-family: "Space Mono", monospace;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.72;
+    }
+    main .results-quote-links { display: flex; gap: 20px; flex-wrap: wrap; }
+    main .results-quote-links a {
+      font-family: "Space Mono", monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent, #ff1f1f);
+      text-decoration: none;
+    }
+    main .results-quote-links a:hover { text-decoration: underline; }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 900px) {
+      main .results-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 620px) {
+      main .results-grid { grid-template-columns: 1fr; }
+      main .cs-metrics { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
 </Layout>

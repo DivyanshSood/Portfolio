@@ -1,10 +1,9 @@
 ---
-// Testimonials — 3 strongest quotes, each prefixed with a 2-3 line "context"
-// so the buyer reads the *transformation*, not just the line. The logo wall
-// below the cards ships as designed text wordmarks; drop a real logo `src`
-// into lib/site.mjs → CLIENT_LOGOS and it slots into the same tile without
-// any layout shift.
-import Frame from "./Frame.astro";
+// Testimonials — orange interactive cards on black. Each card shows the quote
+// by default and smoothly reveals the related PROJECT PHOTO on hover (desktop)
+// or after ~1.5s in view (touch). Below: a running marquee of client wordmarks
+// + icons. Quotes/attribution are real and unchanged; each maps to its real
+// project screenshot + case-study link.
 import { CLIENT_LOGOS, HAS_CLIENT_LOGOS, GOOGLE_REVIEWS_URL } from "../../lib/site.mjs";
 const symbols = ["✦", "◆", "●", "▲", "✺", "◇", "■"];
 
@@ -15,7 +14,8 @@ const items = [
     who: "Founder",
     org: "Nandini Travels · Kangra",
     initials: "NT",
-    big: true,
+    slug: "/projects/nandini",
+    img: "https://ik.imagekit.io/dn2zdxiu3/Portfolioprojectimages/nandinitravels/nandinitravels-1.webp",
   },
   {
     q: "I did not think it could be achieved without going to e-commerce builders and only using custom code.",
@@ -23,6 +23,8 @@ const items = [
     who: "Chinki, Founder",
     org: "ChinkiZ Knitting Knife · 600K+ subs",
     initials: "CZ",
+    slug: "/projects/chinkiz",
+    img: "https://ik.imagekit.io/dn2zdxiu3/Portfolioprojectimages/ChinkizKnittingKnife/ChinkizKnittingKnife-1.webp",
   },
   {
     q: "Exactly what we wanted. I will refer Divyansh within my circle for life.",
@@ -30,71 +32,308 @@ const items = [
     who: "Founder",
     org: "North Peak Power · Infra",
     initials: "NP",
+    slug: "/projects/northpeak",
+    img: "https://ik.imagekit.io/dn2zdxiu3/Portfolioprojectimages/NorthPeakPowerSystems/NorthPeakPowerSystems-1.webp",
   },
 ];
+
+// Marquee reads as a system whether or not real logos exist yet.
+const marqueeItems = [...CLIENT_LOGOS, ...CLIENT_LOGOS];
 ---
 
-<section id="reviews" class="home-section" style="position:relative;z-index:2;background:#e8e8e8;color:#0b0b0c;padding:90px 30px;">
-  <Frame label="Clients" index="03" note="What changed after we shipped" tone="light">
-  <h2 data-reveal style="margin:0 0 18px;font-weight:900;font-size:clamp(46px,8vw,128px);line-height:.86;letter-spacing:-.04em;text-transform:uppercase;">What changed<br />after we shipped.</h2>
-  <a data-reveal href={GOOGLE_REVIEWS_URL} target="_blank" rel="noopener" data-cursor style="display:inline-flex;align-items:center;gap:8px;margin-bottom:50px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#0b0b0c;text-decoration:none;border-bottom:1px solid #0b0b0c;padding-bottom:3px;">Read our reviews on Google <span aria-hidden="true">↗</span></a>
+<section id="reviews" class="ds-tm" aria-label="Client testimonials">
+  <div class="ds-tm-inner">
+    <div class="ds-tm-bar mono" data-reveal>
+      <span>(Clients — 03)</span>
+      <span class="ds-tm-bar-mid">Outcomes after launch</span>
+      <span>Real client words</span>
+    </div>
 
-  <div class="g-3" style="display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start;">
-    {items.map((it) => (
-      <figure style={`margin:0;border:1px solid rgba(0,0,0,.14);border-radius:10px;padding:28px 26px;background:rgba(255,255,255,.5);${it.big ? "grid-column:span 2;" : ""}`}>
-        <div style="font-family:'Caveat',cursive;font-weight:700;font-size:48px;color:var(--accent,#ff4612);line-height:.5;height:24px;margin-bottom:6px;">"</div>
-        <blockquote style="margin:0 0 18px;font-weight:600;font-size:clamp(20px,2.2vw,28px);line-height:1.32;letter-spacing:-.01em;">{it.q}</blockquote>
-        <p style="margin:0 0 20px;font-size:14.5px;line-height:1.6;opacity:.78;border-top:1px solid rgba(0,0,0,.1);padding-top:16px;">{it.c}</p>
-        <figcaption style="display:flex;align-items:center;gap:12px;">
-          <span style={`width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#ff4612,#7a1e00);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;color:#fff;flex:0 0 auto;`}>{it.initials}</span>
-          <span>
-            <span style="display:block;font-weight:700;font-size:14px;">{it.who}</span>
-            <span style="font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;opacity:.6;">{it.org}</span>
-          </span>
-        </figcaption>
-      </figure>
-    ))}
+    <div class="ds-tm-head">
+      <h2 class="ds-tm-title" data-reveal>What changed<br />after we shipped.</h2>
+      <a href={GOOGLE_REVIEWS_URL} target="_blank" rel="noopener" class="ds-link ds-link-light ds-tm-head-link" data-reveal>
+        Read our reviews on Google <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+
+    <div class="ds-tm-grid">
+      {items.map((it) => (
+        <a class="ds-tm-card" href={it.slug} data-tm data-reveal>
+          <div class="ds-tm-face">
+            <span class="ds-tm-quote-mark" aria-hidden="true">"</span>
+            <blockquote class="ds-tm-quote">{it.q}</blockquote>
+            <p class="ds-tm-context">{it.c}</p>
+            <span class="ds-tm-attr">
+              <span class="ds-tm-avatar">{it.initials}</span>
+              <span class="ds-tm-attr-meta">
+                <span class="ds-tm-who">{it.who}</span>
+                <span class="ds-tm-org mono">{it.org}</span>
+              </span>
+            </span>
+          </div>
+          <div class="ds-tm-photo imgfill" style={`background-image:url('${it.img}');`} aria-hidden="true">
+            <span class="ds-tm-photo-cap mono">{it.org} <span aria-hidden="true">↗</span></span>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <div class="ds-tm-links" data-reveal>
+      <a href="/testimonials" class="ds-link ds-link-light">See all 6 testimonials <span aria-hidden="true">↗</span></a>
+      <span class="ds-tm-links-note mono">+ 2 more in Hinglish/Hindi on the dedicated page</span>
+    </div>
   </div>
 
-  <div style="margin-top:50px;display:flex;flex-wrap:wrap;gap:18px;align-items:center;">
-    <a href="/testimonials" data-cursor style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#0b0b0c;text-decoration:none;border-bottom:1px solid #0b0b0c;padding-bottom:3px;">See all 6 testimonials <span aria-hidden="true">↗</span></a>
-    <span style="font-family:'Space Mono',monospace;font-size:11px;opacity:.5;">+ 2 more in Hinglish/Hindi — kept them on the dedicated page</span>
+  {/* Running marquee — client wordmarks + icons. Swaps to real logo images
+      automatically once CLIENT_LOGOS get a src. */}
+  <div class="ds-tm-marquee" aria-hidden="true">
+    <div class="ds-tm-track">
+      {marqueeItems.map((m, i) => (
+        <span class="ds-tm-chip">
+          <span class="ds-tm-chip-icon">{symbols[i % symbols.length]}</span>
+          {HAS_CLIENT_LOGOS && m.src ? (
+            <img class="ds-tm-chip-logo" src={m.src} alt="" loading="lazy" decoding="async" />
+          ) : (
+            <span class="ds-tm-chip-name">{m.name}</span>
+          )}
+        </span>
+      ))}
+    </div>
   </div>
-
-  {/* Logo wall — each tile is a fixed-size slot. When a real logo src is filled
-      in (see src/lib/site.mjs → CLIENT_LOGOS), the <img> renders. Until then,
-      the slot shows a designed text wordmark in a consistent system so the wall
-      reads as a system, not as missing content. */}
-  <div class="ds-logo-wall" role="list" aria-label="Clients Divyansh Sood has shipped for">
-    {CLIENT_LOGOS.map((m, i) => (
-      <div class="ds-logo-tile" role="listitem" data-reveal>
-        {HAS_CLIENT_LOGOS && m.src ? (
-          <a
-            href={m.url || "#"}
-            target={m.url ? "_blank" : undefined}
-            rel={m.url ? "noopener" : undefined}
-            data-cursor
-            aria-label={m.name}
-            class="ds-logo-link"
-          >
-            <img src={m.src} alt={m.name} loading="lazy" decoding="async" />
-          </a>
-        ) : (
-          <a
-            href={m.url || undefined}
-            target={m.url ? "_blank" : undefined}
-            rel={m.url ? "noopener" : undefined}
-            data-cursor={m.url ? "" : undefined}
-            aria-label={m.name}
-            class={`ds-logo-wordmark ds-logo-wm-${i % 5}`}
-          >
-            <span class="ds-logo-symbol" aria-hidden="true">{symbols[i % symbols.length]}</span>
-            <span class="ds-logo-name">{m.name}</span>
-          </a>
-        )}
-      </div>
-    ))}
-  </div>
-  <p class="ds-logo-note mono">↑ Some logos live under NDA — wordmarks shown until permission comes through.</p>
-  </Frame>
 </section>
+
+<style>
+  .ds-tm {
+    position: relative;
+    z-index: 2;
+    background: #0b0b0c;
+    color: #fff;
+    padding: clamp(64px, 8vw, 120px) 0 clamp(40px, 5vw, 64px);
+    overflow: hidden;
+  }
+  .ds-tm-inner { position: relative; z-index: 1; max-width: 1180px; margin: 0 auto; padding: 0 30px; }
+
+  .ds-tm-bar {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    flex-wrap: wrap;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.6);
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+    margin-bottom: clamp(30px, 4vw, 52px);
+  }
+  .ds-tm-bar-mid { color: rgba(255, 255, 255, 0.8); }
+
+  .ds-tm-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-bottom: clamp(34px, 4vw, 56px);
+  }
+  .ds-tm-title {
+    margin: 0;
+    font-weight: 900;
+    font-size: clamp(40px, 7vw, 110px);
+    line-height: 0.86;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+  }
+  .ds-tm-head-link { margin-bottom: 10px; }
+
+  /* ---------------- Cards ---------------- */
+  .ds-tm-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: start;
+    gap: 20px;
+  }
+  /* Stagger the row so it reads as an editorial scatter, not a dead-level
+     line. Uses margin (not transform) so the scroll-reveal can't clobber it. */
+  .ds-tm-card:nth-child(2) { margin-top: clamp(26px, 4vw, 58px); }
+  .ds-tm-card:nth-child(3) { margin-top: clamp(12px, 2vw, 28px); }
+  .ds-tm-card {
+    position: relative;
+    display: block;
+    min-height: 360px;
+    border-radius: 4px;
+    background: var(--accent, #ff1f1f);
+    color: #0b0b0c;
+    overflow: hidden;
+    text-decoration: none;
+    isolation: isolate;
+  }
+
+  .ds-tm-face {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 28px 26px 26px;
+    transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .ds-tm-quote-mark {
+    font-family: "Caveat", cursive;
+    font-weight: 700;
+    font-size: 56px;
+    line-height: 0.4;
+    height: 26px;
+    color: #0b0b0c;
+  }
+  .ds-tm-quote {
+    margin: 16px 0 14px;
+    font-weight: 700;
+    font-size: clamp(18px, 1.5vw, 22px);
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+  }
+  .ds-tm-context {
+    margin: 0 0 20px;
+    font-size: 13px;
+    line-height: 1.55;
+    opacity: 0.72;
+    border-top: 1px solid rgba(11, 11, 12, 0.22);
+    padding-top: 14px;
+  }
+  .ds-tm-attr {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: auto;
+  }
+  .ds-tm-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #0b0b0c;
+    color: var(--accent, #ff1f1f);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 13px;
+    flex: none;
+  }
+  .ds-tm-attr-meta { display: flex; flex-direction: column; gap: 3px; }
+  .ds-tm-who { font-weight: 700; font-size: 14px; }
+  .ds-tm-org { font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.62; }
+
+  /* Photo reveal layer */
+  .ds-tm-photo {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background-position: top center;
+    opacity: 0;
+    transform: scale(1.12);
+    transition: opacity 0.55s ease, transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+    display: flex;
+    align-items: flex-end;
+    padding: 18px;
+  }
+  .ds-tm-photo::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(11, 11, 12, 0.15) 0%, transparent 35%, rgba(11, 11, 12, 0.55) 100%);
+  }
+  .ds-tm-photo-cap {
+    position: relative;
+    z-index: 1;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #fff;
+    font-weight: 700;
+  }
+  /* Reveal on hover (desktop) or .is-shown (touch, set by JS) */
+  .ds-tm-card:hover .ds-tm-photo,
+  .ds-tm-card.is-shown .ds-tm-photo { opacity: 1; transform: scale(1); }
+  .ds-tm-card:hover .ds-tm-face,
+  .ds-tm-card.is-shown .ds-tm-face { opacity: 0; transform: translateY(-8px); }
+
+  .ds-tm-links {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    flex-wrap: wrap;
+    margin-top: clamp(30px, 4vw, 48px);
+  }
+  .ds-tm-links-note { font-size: 11px; opacity: 0.5; }
+
+  /* ---------------- Marquee ---------------- */
+  .ds-tm-marquee {
+    margin-top: clamp(40px, 5vw, 68px);
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+  .ds-tm-track {
+    display: flex;
+    align-items: center;
+    gap: 56px;
+    width: max-content;
+    padding: 22px 28px;
+    animation: tmScroll 25s linear infinite;
+  }
+  .ds-tm:hover .ds-tm-track { animation-play-state: paused; }
+  .ds-tm-chip { display: inline-flex; align-items: center; gap: 12px; flex: none; }
+  .ds-tm-chip-icon { color: var(--accent, #ff1f1f); font-size: 14px; }
+  .ds-tm-chip-name {
+    font-family: "Archivo", sans-serif;
+    font-weight: 900;
+    font-size: 22px;
+    letter-spacing: -0.03em;
+    color: #fff;
+    white-space: nowrap;
+    text-transform: uppercase;
+  }
+  .ds-tm-chip-logo { height: 26px; width: auto; filter: grayscale(1) brightness(0) invert(1); }
+  @keyframes tmScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  /* The logo strip keeps looping even under "reduce motion": it's a slow, steady
+     drift (no flashing/parallax), and it's the one bit of motion the client wants
+     always visible. Overrides the global reduced-motion !important stop in base.css. */
+  @media (prefers-reduced-motion: reduce) {
+    .ds-tm-track {
+      animation: tmScroll 25s linear infinite !important;
+      animation-duration: 25s !important;
+      animation-iteration-count: infinite !important;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .ds-tm-grid { grid-template-columns: 1fr; }
+    .ds-tm-card { min-height: 320px; }
+    .ds-tm-card:nth-child(2), .ds-tm-card:nth-child(3) { margin-top: 0; }
+    .ds-tm-head { align-items: flex-start; }
+  }
+</style>
+
+<script>
+  // Touch / no-hover devices: reveal each card's project photo ~1.5s after it
+  // scrolls into view (then it stays — the visitor reads the quote first, then
+  // sees the proof). Desktop uses :hover and skips this.
+  (function () {
+    if (!window.matchMedia("(hover: none)").matches) return;
+    const cards = document.querySelectorAll(".ds-tm-card");
+    if (!("IntersectionObserver" in window) || !cards.length) return;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        const el = e.target as HTMLElement;
+        io.unobserve(el);
+        setTimeout(() => el.classList.add("is-shown"), 1500);
+      });
+    }, { threshold: 0.55 });
+    cards.forEach((c) => io.observe(c));
+  })();
+</script>

@@ -1,0 +1,195 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+
+const slug = "own-your-stack-code-portability";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+const next = POSTS[(idx + 1) % POSTS.length];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
+      publisher: {
+        "@type": "Organization",
+        "@id": `${SITE}/#studio`,
+        name: "Divyansh Sood® Studio",
+        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
+      },
+      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      wordCount: 700,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+  ],
+});
+---
+
+<Layout
+  title={`${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  jsonld={jsonld}
+>
+  <Nav kicker="Journal" />
+  <main>
+    <header class="post-hero">
+      <div class="post-hero-bg" aria-hidden="true"></div>
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img src={post.coverImage} alt={post.title} width="1200" height="750" fetchpriority="high" decoding="async" />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+      <p>Here’s a question that tells you more about your website than any design review:</p>
+<p><em>If your developer disappeared tomorrow, could a competent stranger open your codebase and keep going?</em></p>
+<p>If the answer is yes, you own your website. If the answer is “well, it’s built on [specific builder] and only they really know how it’s wired” — you don’t own it. You rent access to it. And rent always comes due at the worst possible moment.</p>
+<hr>
+<h2 id="the-three-ways-you-get-locked-in">The three ways you get locked in</h2>
+<p>Lock-in rarely looks like a trap when you sign up. It looks like convenience.</p>
+<p><strong>Platform lock-in.</strong> Your site lives inside a builder’s proprietary format. The layout, the logic, the content structure — none of it exists as portable code. Leave the platform and you’re not migrating, you’re rebuilding.</p>
+<p><strong>Knowledge lock-in.</strong> One person — an agency, a freelancer — is the only one who understands how it all fits. Custom work <em>should</em> avoid this, but messy, undocumented custom code creates the same trap as a builder. The lock-in is in someone’s head.</p>
+<p><strong>Data lock-in.</strong> Your customers, orders, and content can’t be cleanly exported. The most valuable thing you own is held hostage by the platform that stores it.</p>
+<p>Any one of these turns a routine decision — switch developers, change platforms, add a feature — into an expensive ordeal.</p>
+<hr>
+<h2 id="why-this-is-a-business-issue-not-a-tech-one">Why this is a business issue, not a tech one</h2>
+<p>Founders file “how the website is built” under IT and move on. That’s the mistake. Portability shows up on the balance sheet:</p>
+<ul>
+<li><strong>Pricing power over you.</strong> A platform you can’t leave can raise prices, deprecate features, or change terms — and your only options are pay or rebuild.</li>
+<li><strong>Frozen roadmap.</strong> Want a feature the platform doesn’t support? You wait for them, or you don’t get it. Your roadmap is capped by someone else’s.</li>
+<li><strong>Continuity risk.</strong> If your site is one person’s secret, you have a single point of failure on critical infrastructure.</li>
+<li><strong>Exit value.</strong> If you ever sell the business, a clean, owned, documented codebase is an asset. A tangle of platform dependencies is a liability a buyer will discount.</li>
+</ul>
+<p>Portability is just leverage by another name. It’s the freedom to walk away — which is exactly what stops anyone from squeezing you.</p>
+<hr>
+<h2 id="what-owning-your-stack-actually-looks-like">What owning your stack actually looks like</h2>
+<p>You don’t need to be technical to insist on it. Ask for these, in plain terms:</p>
+<ol>
+<li><strong>The code, in your repository.</strong> Hosted on your GitHub, under your account. Not “on our servers.”</li>
+<li><strong>Standard, boring technology.</strong> React, Next.js, Astro, plain HTML/CSS — things any competent developer already knows, not a niche proprietary system.</li>
+<li><strong>A documented handover.</strong> A README, a walkthrough, environment notes. Enough that the next person starts in an hour, not a month.</li>
+<li><strong>Your data, exportable.</strong> Customers, orders, content — yours to take, any time, in a standard format.</li>
+<li><strong>Your own hosting and domain.</strong> On infrastructure you control, so moving is a config change, not a hostage negotiation.</li>
+</ol>
+<p>When I hand off a project — <a href="https://www.divyanshsood.com/projects/modernkbs">Modern K.B.S.</a>, <a href="https://www.divyanshsood.com/projects/northpeak">North Peak Power Systems</a>, any of them — it comes with the code, a walkthrough, and the keys. Including the part where the client could, in theory, never speak to me again. That’s the point. You should be able to.</p>
+<hr>
+<h2 id="the-clause-to-put-in-your-next-contract">The clause to put in your next contract</h2>
+<p>One line settles it: <strong>“All source code, assets, and data are the property of the client and will be delivered in a standard, portable format on completion.”</strong></p>
+<p>A developer confident in their work signs that without blinking. One who hesitates is telling you exactly how the relationship ends if you ever try to leave.</p>
+<p>You wouldn’t run your business from a building you can be evicted from on a whim. Don’t run it from a website you can be evicted from either.</p>
+<hr>
+<p><em>I’m Divyansh Sood. Every project I ship comes with the code in your repo, a written handover, and the keys — including the option to never speak to me again. 9 live builds since 2022. If portability is something your team has been burned on before, <a href="mailto:hello@divyanshsood.com">email me</a> — I read every brief personally.</em></p>
+      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </article>
+
+    <section class="wrap narrow" aria-label="Keep reading">
+      <a class="post-next" href={`/blog/${next.slug}/`}>
+        <span><span class="label">Read next</span><br /><span class="name">{next.title}</span></span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </section>
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        {post.audience === "indian-smb" ? (
+          <>
+            <h2>Working on something in India?</h2>
+            <p>If a post here matches what you're building, send me the brief. WhatsApp reply in under an hour, 9 AM–9 PM IST — I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="https://wa.me/919816091875" target="_blank" rel="noopener"
+                >Message me on WhatsApp <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : post.audience === "d2c-brand" ? (
+          <>
+            <h2>Building a brand a theme can't carry?</h2>
+            <p>If your store has a model that off-the-shelf builders fight — hand-numbered drops, creator commerce, premium D2C — tell me about it. I read every brief personally.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : (
+          <>
+            <h2>Working on something similar?</h2>
+            <p>If a post here matches what you're building, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="https://calendly.com/sood-divyansh007/30min" target="_blank" rel="noopener"
+                >Book a 15-min intro <span aria-hidden="true">↗</span></a
+              >
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

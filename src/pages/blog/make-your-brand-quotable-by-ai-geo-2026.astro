@@ -1,0 +1,195 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+
+const slug = "make-your-brand-quotable-by-ai-geo-2026";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+const next = POSTS[(idx + 1) % POSTS.length];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
+      publisher: {
+        "@type": "Organization",
+        "@id": `${SITE}/#studio`,
+        name: "Divyansh Sood® Studio",
+        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
+      },
+      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      wordCount: 733,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+  ],
+});
+---
+
+<Layout
+  title={`${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  jsonld={jsonld}
+>
+  <Nav kicker="Journal" />
+  <main>
+    <header class="post-hero">
+      <div class="post-hero-bg" aria-hidden="true"></div>
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img src={post.coverImage} alt={post.title} width="1200" height="750" fetchpriority="high" decoding="async" />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+      <p>A growing share of your future customers will never see your website before they decide to trust you.</p>
+<p>They’ll ask an AI assistant — “best gothic streetwear brands in India,” “is custom code better than Shopify for a clothing brand,” “who builds D2C storefronts without WordPress” — and they’ll act on the answer it gives. If your brand isn’t <em>in</em> that answer, you don’t exist in that conversation.</p>
+<p>This is Generative Engine Optimization — GEO — and it’s where SEO was around 2010: most people aren’t doing it, the ones who are have a quiet, compounding advantage.</p>
+<hr>
+<h2 id="why-classic-seo-isnt-enough-anymore">Why classic SEO isn’t enough anymore</h2>
+<p>Google SEO optimises to win a <em>click</em>. GEO optimises to be <em>quoted</em> — to become part of the model’s answer, with or without a click.</p>
+<p>The mechanics are different:</p>
+<ul>
+<li>A model can’t run your JavaScript. If your content only appears after a framework hydrates, the model may never see it.</li>
+<li>A model rewards clarity and structure over keyword density. It’s extracting facts, not ranking pages.</li>
+<li>A model trusts content it can parse unambiguously — clean HTML, explicit statements, structured data.</li>
+</ul>
+<p>You can rank #1 on Google and still be absent from every AI answer about your category. The two are no longer the same game.</p>
+<hr>
+<h2 id="the-four-things-that-make-you-quotable">The four things that make you quotable</h2>
+<p><strong>1. Ship an <code>llms.txt</code> file.</strong> This is a plain-text file at the root of your domain that tells AI crawlers, in clean prose, who you are, what you offer, and what’s true about you. It’s the AI-era equivalent of a sitemap — a curated summary you control. Every site I build ships one. <a href="https://www.divyanshsood.com/projects/inhimalayas">InHimalayas</a> saw a measurable lift in AI-referred traffic after we added llms.txt plus structured data.</p>
+<p><strong>2. State facts as facts.</strong> Models extract sentences. “Founded in 2022, we build custom-coded storefronts and have shipped 9 live client sites” is quotable. “We’re passionate about crafting digital experiences” is not — it says nothing a model can repeat. Write the line you’d want quoted back to you.</p>
+<p><strong>3. Add JSON-LD structured data.</strong> Organization, Product, FAQ, Review schema. This is how you hand a machine the facts in a format it can’t misread — your prices, your offerings, your ratings, your answers to common questions.</p>
+<p><strong>4. Make your content server-rendered.</strong> If a crawler has to execute JavaScript to read your page, assume some won’t. Server-render or statically generate the important content so it’s there in the raw HTML.</p>
+<hr>
+<h2 id="write-the-faq-the-model-is-looking-for">Write the FAQ the model is looking for</h2>
+<p>AI assistants love a clear question-and-answer pair, because that’s the shape of what users ask them.</p>
+<p>Put a real FAQ on your key pages — product pages, your about page, your service pages. Phrase the questions the way a customer would type them into ChatGPT, and answer in one or two complete, self-contained sentences. Then wrap it in FAQ schema.</p>
+<p>Done well, your exact answer becomes the model’s answer. That’s the whole game: you’re not hoping to be summarised, you’re handing over the summary.</p>
+<hr>
+<h2 id="how-to-check-if-its-working">How to check if it’s working</h2>
+<p>You don’t need a fancy tool to start:</p>
+<ul>
+<li>Ask ChatGPT, Claude, Gemini and Perplexity a question your ideal customer would ask. Are you mentioned? Is what they say <em>accurate</em>?</li>
+<li>Check your analytics referrers for <code>chatgpt.com</code>, <code>perplexity.ai</code>, and similar. That traffic is already arriving for brands that did this early.</li>
+<li>Fetch your own <code>llms.txt</code> and read it as if you were a stranger. Does it tell the true, complete story in plain language?</li>
+</ul>
+<hr>
+<h2 id="the-window-is-open-right-now">The window is open right now</h2>
+<p>Most brands in most categories have done none of this. That means the AI answer for your category is currently being written from whatever scraps the models can find — competitor pages, old directories, guesswork.</p>
+<p>You can be the source instead. The brands that structure their facts now will be the ones quoted by default for years, the same way early SEO adopters owned Google’s first page long before everyone else noticed.</p>
+<hr>
+<p><em>I’m Divyansh Sood. I build sites with SEO, AEO and GEO wired in from the first line of code — llms.txt, JSON-LD graph, server-rendered content, schema on every page that earns it. 9 live builds since 2022. If your brand should be in the answer when AI tools get asked about your category, <a href="mailto:hello@divyanshsood.com">email me</a> — I’ll tell you within a day where the gap is.</em></p>
+      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </article>
+
+    <section class="wrap narrow" aria-label="Keep reading">
+      <a class="post-next" href={`/blog/${next.slug}/`}>
+        <span><span class="label">Read next</span><br /><span class="name">{next.title}</span></span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </section>
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        {post.audience === "indian-smb" ? (
+          <>
+            <h2>Working on something in India?</h2>
+            <p>If a post here matches what you're building, send me the brief. WhatsApp reply in under an hour, 9 AM–9 PM IST — I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="https://wa.me/919816091875" target="_blank" rel="noopener"
+                >Message me on WhatsApp <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : post.audience === "d2c-brand" ? (
+          <>
+            <h2>Building a brand a theme can't carry?</h2>
+            <p>If your store has a model that off-the-shelf builders fight — hand-numbered drops, creator commerce, premium D2C — tell me about it. I read every brief personally.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : (
+          <>
+            <h2>Working on something similar?</h2>
+            <p>If a post here matches what you're building, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="https://calendly.com/sood-divyansh007/30min" target="_blank" rel="noopener"
+                >Book a 15-min intro <span aria-hidden="true">↗</span></a
+              >
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

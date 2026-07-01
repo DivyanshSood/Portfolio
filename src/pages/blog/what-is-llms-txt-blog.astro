@@ -1,0 +1,252 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+
+const slug = "what-is-llms-txt-blog";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+const next = POSTS[(idx + 1) % POSTS.length];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
+      publisher: {
+        "@type": "Organization",
+        "@id": `${SITE}/#studio`,
+        name: "Divyansh Sood® Studio",
+        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
+      },
+      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      wordCount: 1460,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+  ],
+});
+---
+
+<Layout
+  title={`${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  jsonld={jsonld}
+>
+  <Nav kicker="Journal" />
+  <main>
+    <header class="post-hero">
+      <div class="post-hero-bg" aria-hidden="true"></div>
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img src={post.coverImage} alt={post.title} width="1200" height="750" fetchpriority="high" decoding="async" />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+      <p>There’s a new kind of search happening right now, and most Indian business websites are completely invisible to it.</p>
+<p>Not invisible to Google. Invisible to ChatGPT. To Perplexity. To Claude. To every AI assistant that hundreds of millions of people now use to find businesses, compare services, and make purchase decisions.</p>
+<p>A file called <code>llms.txt</code> is one of the simplest ways to fix that. Most developers haven’t implemented it yet. Almost none in India are talking about it.</p>
+<blockquote>
+<p><strong>Updated June 2026:</strong> the predictions in this post from late 2025 have largely held. Adoption has crept up — mostly in the developer-tooling and SaaS corners, almost not at all on Indian SMB sites. The playbook below is unchanged; the gap has widened for the businesses that ignored it.</p>
+</blockquote>
+<p>Here’s what it is, why it matters, and what happens to businesses that ignore it.</p>
+<hr>
+<h2 id="how-people-search-has-changed">How people search has changed</h2>
+<p>Two years ago, the search journey looked like this:</p>
+<p>Someone types “best taxi service in Dharamshala” into Google. Google returns ten blue links. The person clicks two or three, reads the pages, and makes a decision.</p>
+<p>Today, a growing number of people do this instead:</p>
+<p>They open ChatGPT or Perplexity and ask: <em>“What’s a reliable taxi service in Dharamshala for an airport pickup?”</em> The AI reads the web, synthesises an answer, and either names a specific business or describes what to look for — often without the user clicking a single link.</p>
+<p>This is called <strong>Generative Engine Optimisation (GEO)</strong> — optimising not just for Google’s algorithm, but for how AI models interpret and present your business.</p>
+<p>The businesses that show up in AI answers are the ones whose websites are structured for AI to read. The ones that don’t — even with strong Google rankings — may not exist as far as these tools are concerned.</p>
+<hr>
+<h2 id="what-llmstxt-actually-is">What llms.txt actually is</h2>
+<p><code>llms.txt</code> is a plain text file that sits at the root of your website — like <code>yourwebsite.com/llms.txt</code> — and tells AI crawlers exactly what your site is about.</p>
+<p>Think of it like <code>robots.txt</code>, which tells Google which pages to crawl and which to skip. <code>llms.txt</code> is the AI equivalent — a structured summary of your business, your content, and your key pages, written in a format that language models can parse efficiently.</p>
+<p>A basic <code>llms.txt</code> for a tour operator in Himachal might look like this:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span># Dharamshala Tours</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>> Tour operator based in Dharamshala, HP. Specialises in treks,</span></span>
+<span class="line"><span>> spiritual tours, and adventure packages across Himachal Pradesh.</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>## Services</span></span>
+<span class="line"><span>- [Trekking Packages](/treks)</span></span>
+<span class="line"><span>- [Spiritual Tours](/spiritual)</span></span>
+<span class="line"><span>- [Custom Group Tours](/group)</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>## Contact</span></span>
+<span class="line"><span>WhatsApp: +91-XXXXXXXXXX</span></span>
+<span class="line"><span>Location: Dharamshala, Himachal Pradesh, India</span></span></code></pre>
+<p>That’s it. A few lines. But what it does is give an AI model a clean, unambiguous summary of who you are, what you offer, and where to find the details — without having to parse your entire website, interpret your JavaScript, or guess at your structure from your navigation menu.</p>
+<hr>
+<h2 id="why-this-matters-more-than-most-seo-advice-youve-heard">Why this matters more than most SEO advice you’ve heard</h2>
+<p>Standard SEO is about keywords, backlinks, and page structure. Those things still matter for Google. But AI models don’t work the way Google’s crawler does.</p>
+<p>Google’s crawler is looking for signals: keyword density, heading structure, internal links, domain authority, page speed. It’s a pattern-matching machine.</p>
+<p>AI models are reading your site the way a person would — trying to understand what you do, who you serve, and whether you’re a credible answer to the question being asked. They’re not counting keywords. They’re building a model of your business.</p>
+<p>If your website is slow to load, heavy with JavaScript, or structured for visual design rather than semantic clarity — an AI crawler may extract a garbled or incomplete understanding of what you do. Or skip large sections entirely.</p>
+<p><code>llms.txt</code> short-circuits that problem. You’re telling the AI directly: <em>here’s what we are, here’s what we do, here are the pages that matter.</em> No guessing. No misinterpretation.</p>
+<hr>
+<h2 id="what-happened-with-inhimalayas">What happened with InHimalayas</h2>
+<p>One of my clients — InHimalayas, a booking platform for Himalayan stays — was built with <code>llms.txt</code> and GEO optimisation from day one.</p>
+<p>Within weeks of launch, the founder noticed a surge in traffic coming from AI referrers. Not Google. Not Instagram. Direct referrals from AI tools sending users to the site.</p>
+<p>That’s not a coincidence. The site was structured from the first day to be readable by AI crawlers — <code>llms.txt</code> in place, clean semantic HTML, JSON-LD schema describing every listing, fast load times so crawlers could actually get through the pages.</p>
+<p>The founder’s response: <em>“glad it worked out so fast and so well.”</em></p>
+<p>This will become more common. The businesses that get in early — while most of their competitors are still optimising only for Google — will have a compounding advantage as AI search grows.</p>
+<hr>
+<h2 id="llmstxt-alongside-the-rest-of-the-seo-stack">llms.txt alongside the rest of the SEO stack</h2>
+<p>To be clear: <code>llms.txt</code> is not a replacement for Google SEO. It’s an addition to it.</p>
+<p>Every site I build ships with both:</p>
+<p><strong>For Google:</strong></p>
+<ul>
+<li>Meta titles and descriptions on every page</li>
+<li>JSON-LD schema (local business, service, review, FAQ as applicable)</li>
+<li>XML sitemap submitted to Search Console</li>
+<li>Open Graph tags for social sharing</li>
+<li>Lighthouse 90+ Core Web Vitals score</li>
+</ul>
+<p><strong>For AI search:</strong></p>
+<ul>
+<li><code>llms.txt</code> at the root</li>
+<li>Clean semantic HTML that language models can parse without executing JavaScript</li>
+<li>Structured content hierarchy — clear headings, descriptive link text, unambiguous service descriptions</li>
+<li>Fast load times so crawlers complete the full page</li>
+</ul>
+<p>These aren’t competing approaches. They’re layers. A well-built site in 2025 needs both.</p>
+<hr>
+<h2 id="who-is-most-at-risk-from-ignoring-this">Who is most at risk from ignoring this</h2>
+<p>Not every business is equally exposed. Here’s who should care most:</p>
+<p><strong>Travel and hospitality.</strong> “Best hotels near Kasol,” “trekking operators in Spiti,” “taxi from Chandigarh to Manali” — these are exactly the kinds of queries people are putting into AI tools. If you’re a Himachal travel business, the people searching for you on AI tools are high-intent and often international. You need to be in those answers.</p>
+<p><strong>Local service businesses.</strong> Clinics, CAs, coaching centres, salons. “Best chartered accountant in Ludhiana” or “dermatologist in Dharamshala” are queries AI tools increasingly answer with named businesses. If your site isn’t readable by AI crawlers, you won’t be named.</p>
+<p><strong>D2C brands.</strong> Product comparisons, gift recommendations, category searches — AI tools are increasingly the first stop for “what should I buy.” Especially for categories that are hard to search on Google without knowing brand names.</p>
+<p><strong>Any business that relies on being discovered.</strong> If customers need to find you before they can hire you, AI search is part of that discovery journey now — and growing fast.</p>
+<hr>
+<h2 id="the-window-is-still-open">The window is still open</h2>
+<p>Right now, <code>llms.txt</code> adoption in India is close to zero. Most developers don’t know it exists. Most business owners have never heard of it.</p>
+<p>That means any business that implements it today — cleanly, correctly, alongside a properly structured site — is operating in a space where their competitors simply aren’t.</p>
+<p>This is the same window that existed for Google SEO in 2005, for mobile-optimised sites in 2012, for Google Business profiles in 2016. The businesses that moved early built advantages that took competitors years to close.</p>
+<p><code>llms.txt</code> is not magic. It won’t fix a bad product or a broken sales process. But for a good business with a well-built website, it’s a lever that costs almost nothing to pull — and that most of your competitors haven’t touched.</p>
+<hr>
+<h2 id="what-to-do-right-now">What to do right now</h2>
+<p>If you already have a website:</p>
+<ol>
+<li>Check if your site has an <code>llms.txt</code> file — go to <code>yourwebsite.com/llms.txt</code>. If you get a 404, you don’t have one.</li>
+<li>Check your page speed on mobile at <a href="https://pagespeed.web.dev/">PageSpeed Insights</a>. Below 70 means AI crawlers are likely struggling with your site too.</li>
+<li>Ask your developer to add <code>llms.txt</code> and review your schema markup for AI readability.</li>
+</ol>
+<p>If you’re building a new website:</p>
+<p>Make sure whoever is building it knows what <code>llms.txt</code> is and ships it as standard. Not as an add-on. Not as something to “do later.” At launch.</p>
+<p>Every site I build has it from day one. It takes thirty minutes to implement correctly. There’s no good reason to ship without it in 2025.</p>
+<hr>
+<p><em>I’m Divyansh Sood. Every site I ship comes with <code>llms.txt</code> at the root, server-rendered content, schema on every page that earns it, and a Lighthouse score above 90 on mobile. 9 live builds. If your business should be in the answer when AI tools get asked about your category and isn’t, <a href="mailto:hello@divyanshsood.com">email me</a> — I’ll tell you where the gap is in plain terms.</em></p>
+<p><em>See how GEO was built into InHimalayas from day one: <a href="https://www.divyanshsood.com/projects/inhimalayas">InHimalayas case study →</a></em></p>
+      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </article>
+
+    <section class="wrap narrow" aria-label="Keep reading">
+      <a class="post-next" href={`/blog/${next.slug}/`}>
+        <span><span class="label">Read next</span><br /><span class="name">{next.title}</span></span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </section>
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        {post.audience === "indian-smb" ? (
+          <>
+            <h2>Working on something in India?</h2>
+            <p>If a post here matches what you're building, send me the brief. WhatsApp reply in under an hour, 9 AM–9 PM IST — I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="https://wa.me/919816091875" target="_blank" rel="noopener"
+                >Message me on WhatsApp <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : post.audience === "d2c-brand" ? (
+          <>
+            <h2>Building a brand a theme can't carry?</h2>
+            <p>If your store has a model that off-the-shelf builders fight — hand-numbered drops, creator commerce, premium D2C — tell me about it. I read every brief personally.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : (
+          <>
+            <h2>Working on something similar?</h2>
+            <p>If a post here matches what you're building, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="https://calendly.com/sood-divyansh007/30min" target="_blank" rel="noopener"
+                >Book a 15-min intro <span aria-hidden="true">↗</span></a
+              >
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

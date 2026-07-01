@@ -4,6 +4,9 @@
    same serialised string as before.
    =========================================================================== */
 
+import { GOOGLE_MAPS_CID_URL } from "./site.mjs";
+import { projects } from "./projects/data.mjs";
+
 export function homeJsonLd(SITE) {
   return JSON.stringify({
     "@context": "https://schema.org",
@@ -23,13 +26,24 @@ export function homeJsonLd(SITE) {
         "@id": `${SITE}/#person`,
         name: "Divyansh Sood",
         url: `${SITE}/`,
-        jobTitle: "Web Designer & Developer",
+        jobTitle: "Web Developer",
+        description:
+          "Independent web designer and developer running a one-person studio from Himachal Pradesh, India, building custom-coded, conversion-focused websites, stores and web apps for founders worldwide.",
         image:
           "https://ik.imagekit.io/dn2zdxiu3/Portfolioprojectimages/AiWebsitegenerator/AiWebsitegenerator-1.webp",
         email: "hello@divyanshsood.com",
         telephone: "+91-98160-91875",
         worksFor: { "@id": `${SITE}/#studio` },
         address: { "@type": "PostalAddress", addressRegion: "Himachal Pradesh", addressCountry: "IN" },
+        nationality: { "@type": "Country", name: "India" },
+        knowsLanguage: ["English", "Hindi"],
+        hasOccupation: {
+          "@type": "Occupation",
+          name: "Web Developer",
+          occupationLocation: { "@type": "Country", name: "India" },
+          skills:
+            "Web design, front-end and full-stack development, React, Next.js, Astro, e-commerce, SEO, conversion rate optimization",
+        },
         knowsAbout: [
           "Web design",
           "Web development",
@@ -51,6 +65,11 @@ export function homeJsonLd(SITE) {
         "@type": ["ProfessionalService", "Organization"],
         "@id": `${SITE}/#studio`,
         name: "Divyansh Sood® Studio",
+        alternateName: "Divyansh Sood Studio",
+        slogan: "Built from the Himalayas. Shipping for the world.",
+        foundingDate: "2022",
+        numberOfEmployees: { "@type": "QuantitativeValue", value: 1 },
+        knowsLanguage: ["English", "Hindi"],
         url: `${SITE}/`,
         image:
           "https://ik.imagekit.io/dn2zdxiu3/Portfolioprojectimages/AiWebsitegenerator/AiWebsitegenerator-1.webp",
@@ -58,17 +77,30 @@ export function homeJsonLd(SITE) {
         description:
           "Built from the Himalayas. Shipping for the world. Independent 1-person web design & development studio building custom-coded, conversion-focused websites, stores and web apps for founders worldwide. Marketing sites & MVPs in 3–4 weeks; larger builds, 6–10. From $3,000.",
         founder: { "@id": `${SITE}/#person` },
+        employee: { "@id": `${SITE}/#person` },
         email: "hello@divyanshsood.com",
         telephone: "+91-98160-91875",
         priceRange: "$$$",
+        serviceType: [
+          "Custom website design and development",
+          "E-commerce store development",
+          "Web application and MVP development",
+          "SEO, AEO and Generative Engine Optimization",
+          "Conversion rate optimization",
+          "White-label web development for agencies",
+        ],
+        keywords:
+          "custom web development, conversion-focused websites, Next.js developer, Astro developer, e-commerce development, web app MVP, SEO, GEO, AEO, Himachal Pradesh, India",
         areaServed: [
           { "@type": "Country", name: "India" },
           { "@type": "Place", name: "Worldwide" },
         ],
         address: { "@type": "PostalAddress", addressRegion: "Himachal Pradesh", addressCountry: "IN" },
+        hasMap: GOOGLE_MAPS_CID_URL,
         sameAs: [
           "https://github.com/DivyanshSood",
           "https://www.linkedin.com/in/divyansh-sood-023556151/",
+          GOOGLE_MAPS_CID_URL,
         ],
         contactPoint: {
           "@type": "ContactPoint",
@@ -93,17 +125,16 @@ export function homeJsonLd(SITE) {
         "@type": "ItemList",
         "@id": `${SITE}/#work`,
         name: "Selected work — Divyansh Sood® Studio",
-        itemListElement: [
-          { "@type": "ListItem", position: 1, url: `${SITE}/projects/webseek`, name: "WebSeek.ai — AI website builder" },
-          { "@type": "ListItem", position: 2, url: `${SITE}/projects/inhimalayas`, name: "InHimalayas — booking platform" },
-          { "@type": "ListItem", position: 3, url: `${SITE}/projects/modernkbs`, name: "Modern K.B.S. — school site + admin panel" },
-          { "@type": "ListItem", position: 4, url: `${SITE}/projects/northpeak`, name: "North Peak Power Systems — solar contractor portal" },
-          { "@type": "ListItem", position: 5, url: `${SITE}/projects/chinkiz`, name: "ChinkiZ Knitting Knife — D2C storefront" },
-          { "@type": "ListItem", position: 6, url: `${SITE}/projects/redline`, name: "Redline Studios — apparel storefront" },
-          { "@type": "ListItem", position: 7, url: `${SITE}/projects/cultxberserk`, name: "CultXberserk — Berserk-inspired apparel brand" },
-          { "@type": "ListItem", position: 8, url: `${SITE}/projects/nandini`, name: "Nandini Travels — Kangra taxi operator" },
-          { "@type": "ListItem", position: 9, url: `${SITE}/projects/dharamshala-tours`, name: "Dharamshala Tours — WhatsApp-first travel" },
-        ],
+        // Derived from the single project source (projects/data.mjs), ordered by
+        // the canonical num so the list can never drift from the case studies.
+        itemListElement: [...projects]
+          .sort((a, b) => a.num.localeCompare(b.num))
+          .map((p, i) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            url: `${SITE}/projects/${p.slug}/`,
+            name: `${p.name} ${p.headlineTail}`,
+          })),
       },
       {
         "@type": "FAQPage",

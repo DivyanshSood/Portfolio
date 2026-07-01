@@ -5,7 +5,7 @@ import Footer from "../components/Footer.astro";
 import { CALENDLY_URL, GOOGLE_REVIEWS_URL } from "../lib/site.mjs";
 
 const SITE = "https://www.divyanshsood.com";
-const canonical = `${SITE}/agencies`;
+const canonical = `${SITE}/agencies/`;
 const WA = "https://wa.me/919816091875?text=Hi%20Divyansh,%20I%20run%20an%20agency%20and%20I'm%20looking%20for%20a%20build%20partner.";
 
 const offers = [
@@ -79,8 +79,8 @@ const jsonld = JSON.stringify({
         <h1 style="margin:14px 0 0;font-weight:900;font-size:clamp(38px,7vw,96px);line-height:.9;letter-spacing:-.035em;text-transform:uppercase;">Your build partner<br /><span style="color:var(--accent);">behind the scenes.</span></h1>
         <p class="cs-lead">When your pipeline outgrows your team, I'm the senior developer who ships under your brand — custom-coded, NDA-friendly, with everything routed through you. Design and marketing agencies worldwide use me as overflow capacity and as the partner for the builds their in-house team would rather hand off.</p>
         <div class="cs-cta-row">
-          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener" data-cursor>Book a partner call <span aria-hidden="true">↗</span></a>
-          <a class="btn btn-ghost" href={WA} target="_blank" rel="noopener" data-cursor>Message on WhatsApp</a>
+          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book a partner call <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost" href={WA} target="_blank" rel="noopener">Message on WhatsApp</a>
         </div>
         <div class="cs-meta">
           <span>Under your brand · NDA-friendly</span><span>Async across 5 time zones</span>
@@ -137,7 +137,7 @@ const jsonld = JSON.stringify({
         <figure class="cs-card cs-quote span2" data-reveal style="margin-top:22px;">
           <span class="cs-tag">North Peak Power</span>
           <blockquote>"Exactly what we wanted. I will refer Divyansh within my circle for life."</blockquote>
-          <figcaption>— Founder, North Peak Power · <a href="/testimonials" data-cursor>more proof →</a> · <a href={GOOGLE_REVIEWS_URL} target="_blank" rel="noopener" data-cursor>Google reviews ↗</a></figcaption>
+          <figcaption>— Founder, North Peak Power · <a href="/testimonials">more proof →</a> · <a href={GOOGLE_REVIEWS_URL} target="_blank" rel="noopener">Google reviews ↗</a></figcaption>
         </figure>
       </div>
     </section>
@@ -166,8 +166,8 @@ const jsonld = JSON.stringify({
         <h2>Need a build partner?</h2>
         <p>Send a brief. If it's a fit, I'll quote within 48 hours. If it isn't, I'll point you at someone who'd be a better fit.</p>
         <div class="cs-cta-row" style="justify-content:center;">
-          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener" data-cursor>Book a partner call <span aria-hidden="true">↗</span></a>
-          <a class="btn btn-ghost" href="/#work" data-cursor>See the work</a>
+          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book a partner call <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost" href="/portfolio">See the work</a>
         </div>
       </div>
     </section>
