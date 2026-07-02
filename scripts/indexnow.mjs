@@ -5,14 +5,16 @@
    NOT use IndexNow — this is purely the "everything-but-Google" channel.
 
    KEY must match the file served at https://www.divyanshsood.com/<KEY>.txt
-   (see public/72bab8f7901e77a9a97b73fafc974aa2.txt).
+   (see public/e566ac6cd12040fca466d550fa1b5cac.txt). This key was generated in
+   Bing Webmaster Tools so it's bound to the verified property (clears the old
+   403 UserForbiddedToAccessSite).
 
    Guarded so it ONLY fires on Vercel production builds — local builds and
    preview deploys are skipped. Failures never break the deploy.
    =========================================================================== */
 import { readdir, readFile } from "node:fs/promises";
 
-const KEY = "72bab8f7901e77a9a97b73fafc974aa2";
+const KEY = "e566ac6cd12040fca466d550fa1b5cac";
 const HOST = "www.divyanshsood.com";
 // IndexNow is a shared protocol — submitting to one participating endpoint is
 // meant to fan out to the rest. In practice Bing's shared endpoint
