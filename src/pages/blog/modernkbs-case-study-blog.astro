@@ -60,7 +60,7 @@ const jsonld = JSON.stringify({
 ---
 
 <Layout
-  title={`${post.title} · Divyansh Sood`}
+  title={post.seoTitle ?? `${post.title} · Divyansh Sood`}
   description={post.description}
   canonical={canonical}
   keywords={post.tags.join(", ")}

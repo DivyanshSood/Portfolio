@@ -6,7 +6,7 @@ export const POSTS = [
   {
     "slug": "why-premium-brands-leave-shopify",
     "title": "Why Premium Brands Are Leaving Shopify for Custom Code",
-    "description": "Shopify is brilliant for getting a store live fast. But the brands that want to feel like a brand keep hitting the same theme-shaped ceiling — here's where custom code wins and where it doesn't.",
+    "description": "Shopify is brilliant for getting a store live fast. But brands that want to feel like a brand keep hitting a theme-shaped ceiling. Where custom code wins.",
     "pubDate": "2026-06-18",
     "updatedDate": "2026-06-18",
     "coverImage": "/blog/why-premium-brands-leave-shopify.jpg",
@@ -24,7 +24,7 @@ export const POSTS = [
   {
     "slug": "the-real-cost-of-renting-your-storefront",
     "title": "The Real Cost of Renting Your Storefront",
-    "description": "Monthly SaaS plans feel cheap because the bill is small and the cost is invisible. Here's what you actually pay over three years when your storefront is rented, not owned.",
+    "description": "SaaS plans feel cheap because the bill is small and the cost invisible. What you actually pay over three years when your storefront is rented, not owned.",
     "pubDate": "2026-06-10",
     "updatedDate": "2026-06-10",
     "coverImage": "/blog/the-real-cost-of-renting-your-storefront.jpg",
@@ -42,7 +42,7 @@ export const POSTS = [
   {
     "slug": "make-your-brand-quotable-by-ai-geo-2026",
     "title": "How to Make Your Brand Quotable by AI (GEO in 2026)",
-    "description": "Search is splitting in two: links and answers. Most brands are invisible in the answer half. Here's how to make ChatGPT, Claude, Gemini and Perplexity cite you accurately.",
+    "description": "Search is splitting into links and answers, and most brands are invisible in the answer half. How to make ChatGPT, Claude, Gemini and Perplexity cite you.",
     "pubDate": "2026-06-02",
     "updatedDate": "2026-06-02",
     "coverImage": "/blog/make-your-brand-quotable-by-ai-geo-2026.jpg",
@@ -60,7 +60,8 @@ export const POSTS = [
   {
     "slug": "scarcity-by-design-hand-numbered-drops",
     "title": "Scarcity by Design: What Hand-Numbered Drops Teach About D2C",
-    "description": "Limited drops aren't a gimmick — they're a different business model with different software needs. What building a hand-numbered apparel brand taught me about scarcity, story, and the storefront.",
+    "seoTitle": "Scarcity by Design: Hand-Numbered D2C Drops · Divyansh Sood",
+    "description": "Limited drops aren't a gimmick — they're a different business model with different software needs. What a hand-numbered apparel brand taught me about scarcity.",
     "pubDate": "2026-05-22",
     "updatedDate": "2026-05-22",
     "coverImage": "/blog/scarcity-by-design-hand-numbered-drops.jpg",
@@ -78,7 +79,7 @@ export const POSTS = [
   {
     "slug": "custom-code-vs-webflow-for-startups",
     "title": "Custom Code vs Webflow for Funded Startups",
-    "description": "Webflow gets you a beautiful marketing site fast. But there's a point where it starts taxing your team and your roadmap. Here's how funded startups should decide between Webflow and custom code.",
+    "description": "Webflow gets you a beautiful site fast — until it taxes your team and roadmap. How funded startups should decide between Webflow and custom code.",
     "pubDate": "2026-05-12",
     "updatedDate": "2026-05-12",
     "coverImage": "/blog/custom-code-vs-webflow-for-startups.jpg",
@@ -96,7 +97,7 @@ export const POSTS = [
   {
     "slug": "landing-page-conversion-not-traffic",
     "title": "Your Landing Page Doesn't Have a Traffic Problem",
-    "description": "Before you spend more on ads, look at what happens after the click. Most landing pages leak conversions in the same five places — all of them fixable without a single extra visitor.",
+    "description": "Before you spend more on ads, look at what happens after the click. Most landing pages leak conversions in the same five places — all fixable, no new traffic.",
     "pubDate": "2026-05-02",
     "updatedDate": "2026-05-02",
     "coverImage": "/blog/landing-page-conversion-not-traffic.jpg",
@@ -114,7 +115,8 @@ export const POSTS = [
   {
     "slug": "google-business-profile-vs-website-himachal",
     "title": "Google Business Profile vs. Website: What Indian Businesses Actually Need",
-    "description": "A Google Business Profile gets you on the map. A website converts the people who find you there. Here's what each does, where each fails, and why most businesses need both.",
+    "seoTitle": "Google Business Profile vs. Website in India · Divyansh Sood",
+    "description": "A Google Business Profile gets you on the map. A website converts the people who find you there. What each does, where each fails, and why you need both.",
     "pubDate": "2026-04-28",
     "updatedDate": "2026-04-28",
     "coverImage": "/blog/google-business-profile-vs-website-himachal.jpg",
@@ -132,7 +134,8 @@ export const POSTS = [
   {
     "slug": "direct-bookings-without-aggregator-commission",
     "title": "How to Get Direct Bookings Without Paying Aggregator Commission",
-    "description": "MakeMyTrip and Booking.com take 15–25% of every booking they send you. Here's how Himalayan travel businesses escape that dependency — and keep the margin they've already earned.",
+    "seoTitle": "Direct Bookings Without Aggregator Commission · Divyansh Sood",
+    "description": "MakeMyTrip and Booking.com take 15–25% of every booking they send. How Himalayan travel businesses escape that dependency and keep the margin they earn.",
     "pubDate": "2026-04-20",
     "updatedDate": "2026-04-20",
     "coverImage": "/blog/direct-bookings-without-aggregator-commission.jpg",
@@ -149,7 +152,7 @@ export const POSTS = [
   {
     "slug": "page-speed-is-a-brand-statement",
     "title": "Page Speed Is a Brand Statement",
-    "description": "A slow site doesn't just rank worse — it tells every visitor something about how you run your business. Why performance is a premium signal, and how fast 'fast' actually has to be.",
+    "description": "A slow site doesn't just rank worse — it tells visitors how you run your business. Why performance is a premium signal, and how fast 'fast' actually has to be.",
     "pubDate": "2026-04-20",
     "updatedDate": "2026-04-20",
     "coverImage": "/blog/page-speed-is-a-brand-statement.jpg",
@@ -167,7 +170,8 @@ export const POSTS = [
   {
     "slug": "own-your-stack-code-portability",
     "title": "Own Your Stack: Why Code Portability Is a Business Asset",
-    "description": "The question that reveals whether you own your website or just rent access to it: if your developer vanished tomorrow, could anyone else pick it up? Here's why portability is leverage.",
+    "seoTitle": "Own Your Stack: Code Portability as an Asset · Divyansh Sood",
+    "description": "If your developer vanished tomorrow, could anyone else pick up your website? It reveals whether you own it or just rent access — and why that's leverage.",
     "pubDate": "2026-04-08",
     "updatedDate": "2026-04-08",
     "coverImage": "/blog/own-your-stack-code-portability.jpg",
@@ -185,7 +189,8 @@ export const POSTS = [
   {
     "slug": "instagram-page-vs-website-india",
     "title": "Why Your Instagram Page Isn't a Website — And What That Costs You",
-    "description": "Most Indian SMBs run their business from Instagram DMs and think that's enough. Here's what that model actually costs in leads, Google visibility, and long-term business control.",
+    "seoTitle": "Instagram Page vs. a Real Website in India · Divyansh Sood",
+    "description": "Most Indian SMBs run their business from Instagram DMs and think that's enough. What that model actually costs in leads, Google visibility and business control.",
     "pubDate": "2026-04-05",
     "updatedDate": "2026-04-05",
     "coverImage": "/blog/instagram-page-vs-website-india.jpg",
@@ -202,7 +207,7 @@ export const POSTS = [
   {
     "slug": "ai-website-builders-vs-developer-2026",
     "title": "AI Website Builders vs a Human Developer in 2026",
-    "description": "I build an AI website generator and I build sites by hand. So here's the honest version of when AI is genuinely the right tool, and when it quietly costs you more than it saves.",
+    "description": "I build an AI website generator and I build sites by hand. The honest version of when AI is genuinely the right tool, and when it quietly costs you more.",
     "pubDate": "2026-03-25",
     "updatedDate": "2026-03-25",
     "coverImage": "/blog/ai-website-builders-vs-developer-2026.jpg",
@@ -220,7 +225,8 @@ export const POSTS = [
   {
     "slug": "chinkiz-creator-store-case-study",
     "title": "How a 600K YouTuber Sold Handmade Products Online Without Shopify",
-    "description": "Chinki had 600,000 YouTube subscribers and a creator store problem Shopify couldn't solve. A case study in custom-coded D2C — video gallery, Razorpay COD, zero templates.",
+    "seoTitle": "600K YouTuber’s Handmade Store Without Shopify · Divyansh Sood",
+    "description": "Chinki had 600K YouTube subscribers and a store problem Shopify couldn't solve. A case study in custom-coded D2C — video gallery, Razorpay COD, zero templates.",
     "pubDate": "2026-03-20",
     "updatedDate": "2026-03-20",
     "coverImage": "/blog/chinkiz-creator-store-case-study.jpg",
@@ -237,7 +243,8 @@ export const POSTS = [
   {
     "slug": "storefront-that-feels-like-the-brand",
     "title": "Designing a Storefront That Feels Like the Brand, Not a Theme",
-    "description": "Anyone can install a theme and drop in a logo. Building a storefront that actually feels like your brand is a different craft. Here's what separates a branded store from a decorated template.",
+    "seoTitle": "A Storefront That Feels Like the Brand · Divyansh Sood",
+    "description": "Anyone can install a theme and drop in a logo. Building a storefront that actually feels like your brand is a different craft — here's what separates the two.",
     "pubDate": "2026-03-12",
     "updatedDate": "2026-03-12",
     "coverImage": "/blog/storefront-that-feels-like-the-brand.jpg",
@@ -255,7 +262,7 @@ export const POSTS = [
   {
     "slug": "how-i-get-clients-without-paid-ads",
     "title": "How I Get Website Clients Without Paid Ads",
-    "description": "Every client on my portfolio came through without a single rupee in paid advertising. Here's exactly how — from portfolio strategy to referrals to content that pre-qualifies.",
+    "description": "Every client on my portfolio came through without a rupee in paid ads. Exactly how — from portfolio strategy to referrals to content that pre-qualifies.",
     "pubDate": "2026-03-05",
     "updatedDate": "2026-03-05",
     "coverImage": "/blog/how-i-get-clients-without-paid-ads.jpg",
@@ -272,7 +279,8 @@ export const POSTS = [
   {
     "slug": "modernkbs-case-study-blog",
     "title": "A School Needed a Website and an Admissions Portal. Every Agency Said 6 Months. We Did It in 7 Days.",
-    "description": "Modern K.B.S. School in Himachal Pradesh needed a website and working admissions portal simultaneously. Every agency quoted 6 months. A case study in what's actually possible with custom code.",
+    "seoTitle": "School Website + Admissions Portal in 7 Days · Divyansh Sood",
+    "description": "Modern K.B.S. School needed a website and a working admissions portal at once. Every agency quoted 6 months. A case study in what's possible with custom code.",
     "pubDate": "2026-02-20",
     "updatedDate": "2026-02-20",
     "coverImage": "/blog/modernkbs-case-study-blog.jpg",
@@ -289,6 +297,7 @@ export const POSTS = [
   {
     "slug": "how-to-choose-web-developer-himachal",
     "title": "How to Choose a Website Developer in India (Without Getting Burned)",
+    "seoTitle": "How to Choose a Website Developer in India · Divyansh Sood",
     "description": "What to ask, what the red flags look like, and what good website work actually costs — a practical guide for Indian business owners hiring a web developer.",
     "pubDate": "2026-02-05",
     "updatedDate": "2026-02-05",
@@ -323,7 +332,8 @@ export const POSTS = [
   {
     "slug": "custom-website-vs-wordpress",
     "title": "Custom Website vs WordPress: Which Is Better for Your Business?",
-    "description": "The honest answer on custom code vs. WordPress for Indian small businesses — what WordPress actually ships, where it fails on speed and SEO, and when custom is worth it.",
+    "seoTitle": "Custom Website vs WordPress: Which Is Better? · Divyansh Sood",
+    "description": "The honest answer on custom code vs. WordPress for Indian small businesses — what WordPress ships, where it fails on speed and SEO, and when custom is worth it.",
     "pubDate": "2026-01-05",
     "updatedDate": "2026-01-05",
     "coverImage": "/blog/custom-website-vs-wordpress.jpg",
@@ -340,7 +350,7 @@ export const POSTS = [
   {
     "slug": "wix-vs-custom-code-blog",
     "title": "Wix vs. Custom Code: What ₹13,000 Actually Gets You",
-    "description": "A straight comparison: what Wix actually gives a small Indian business versus a ₹13,000 custom-coded site — performance, SEO, lead capture, and real cost over 3 years.",
+    "description": "A straight comparison: what Wix gives a small Indian business versus a ₹13,000 custom-coded site — performance, SEO, lead capture and real cost over 3 years.",
     "pubDate": "2025-12-15",
     "updatedDate": "2025-12-15",
     "coverImage": "/blog/wix-vs-custom-code-blog.jpg",
@@ -357,6 +367,7 @@ export const POSTS = [
   {
     "slug": "what-is-llms-txt-blog",
     "title": "What Is llms.txt — And Why Your Business Website Needs One in 2025",
+    "seoTitle": "What Is llms.txt & Why Your Site Needs One · Divyansh Sood",
     "description": "What llms.txt is, why AI tools like ChatGPT and Perplexity use it to find businesses, and why most Indian websites are invisible to this growing search channel.",
     "pubDate": "2025-12-01",
     "updatedDate": "2026-06-24",
@@ -374,7 +385,8 @@ export const POSTS = [
   {
     "slug": "why-indian-websites-dont-generate-leads",
     "title": "Why Most Indian Business Websites Don't Generate a Single Lead",
-    "description": "Six reasons most Indian business websites produce zero enquiries — and none of them are expensive to fix. A practical audit for clinic owners, tour operators, and service businesses.",
+    "seoTitle": "Why Indian Business Websites Don’t Get Leads · Divyansh Sood",
+    "description": "Six reasons most Indian business websites produce zero enquiries — none expensive to fix. A practical audit for clinics, tour operators and service businesses.",
     "pubDate": "2025-11-15",
     "updatedDate": "2025-11-15",
     "coverImage": "/blog/why-indian-websites-dont-generate-leads.jpg",
@@ -391,6 +403,7 @@ export const POSTS = [
   {
     "slug": "nandini-travels-case-study-blog",
     "title": "How a Taxi Business in Kangra Moved from Google Maps to Direct Website Bookings",
+    "seoTitle": "Taxi Business: Google Maps to Direct Bookings · Divyansh Sood",
     "description": "Nandini Travels was the most-reviewed taxi operator in Kangra — and had zero direct bookings. Here's how a WhatsApp-first website changed that within weeks.",
     "pubDate": "2025-10-15",
     "updatedDate": "2025-10-15",
