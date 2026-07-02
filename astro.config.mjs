@@ -41,5 +41,8 @@ export default defineConfig({
   build: {
     // case-study + blog pages live at /projects/<slug>/ and /blog/<slug>/
     format: "directory",
+    // Inline page CSS into <head> so first paint isn't blocked on a separate
+    // stylesheet round-trip (the render-blocking cost that hurt mobile FCP/LCP).
+    inlineStylesheets: "always",
   },
 });
