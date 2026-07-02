@@ -14,7 +14,16 @@ import { readdir, readFile } from "node:fs/promises";
 
 const KEY = "72bab8f7901e77a9a97b73fafc974aa2";
 const HOST = "www.divyanshsood.com";
-const ENDPOINT = "https://api.indexnow.org/indexnow";
+// IndexNow is a shared protocol — submitting to one participating endpoint is
+// meant to fan out to the rest. In practice Bing's shared endpoint
+// (api.indexnow.org) can return 403 UserForbiddedToAccessSite until the domain
+// is verified for IndexNow in Bing Webmaster Tools, which would silently block
+// the whole channel. So we hit Yandex directly too (it accepts today) — every
+// submission is idempotent, so double-pinging is harmless.
+const ENDPOINTS = [
+  "https://api.indexnow.org/indexnow",
+  "https://yandex.com/indexnow",
+];
 
 if (process.env.VERCEL_ENV !== "production") {
   console.log("[indexnow] skipped — not a Vercel production build");
@@ -36,17 +45,30 @@ try {
     process.exit(0);
   }
 
-  const res = await fetch(ENDPOINT, {
-    method: "POST",
-    headers: { "Content-Type": "application/json; charset=utf-8" },
-    body: JSON.stringify({
-      host: HOST,
-      key: KEY,
-      keyLocation: `https://${HOST}/${KEY}.txt`,
-      urlList: urls,
-    }),
+  const body = JSON.stringify({
+    host: HOST,
+    key: KEY,
+    keyLocation: `https://${HOST}/${KEY}.txt`,
+    urlList: urls,
   });
-  console.log(`[indexnow] submitted ${urls.length} URLs → HTTP ${res.status}`);
+
+  for (const endpoint of ENDPOINTS) {
+    try {
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json; charset=utf-8" },
+        body,
+      });
+      const host = new URL(endpoint).host;
+      // 200/202 = accepted. 403 from Bing usually means the domain isn't yet
+      // verified for IndexNow in Bing Webmaster Tools — a one-time setup, not a
+      // code bug. Log it clearly but keep going / never fail the build.
+      const note = res.status === 403 ? " (verify the site for IndexNow in Bing Webmaster Tools)" : "";
+      console.log(`[indexnow] ${host}: submitted ${urls.length} URLs → HTTP ${res.status}${note}`);
+    } catch (err) {
+      console.warn(`[indexnow] ${endpoint} ping failed (non-fatal): ${err?.message ?? err}`);
+    }
+  }
 } catch (err) {
   // Never fail the build over a ping problem.
   console.warn(`[indexnow] ping failed (non-fatal): ${err?.message ?? err}`);
