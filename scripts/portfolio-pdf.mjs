@@ -17,6 +17,15 @@ const ROOT = resolve(__dirname, "..");
 const DIST_HTML = resolve(ROOT, "dist/client/portfolio-pdf/index.html");
 const OUT = resolve(ROOT, "public/portfolio.pdf");
 
+// The committed public/portfolio.pdf ships as-is on CI/Vercel — those build
+// hosts have no Chrome, so regeneration is a local-only convenience. Skip there
+// (and exit 0) so the deploy never fails on a missing browser binary. Refresh
+// the PDF locally with `npm run pdf:portfolio` before committing a new version.
+if (process.env.VERCEL || process.env.CI) {
+  console.log("[portfolio-pdf] skipped — CI/Vercel build uses the committed PDF");
+  process.exit(0);
+}
+
 if (!existsSync(DIST_HTML)) {
   console.error(
     "!! dist/client/portfolio-pdf/index.html not found. Run `npm run build` first."
@@ -31,9 +40,10 @@ const candidates = [
 ];
 const chrome = candidates.find((p) => existsSync(p));
 if (!chrome) {
-  console.error("!! No Chrome/Chromium binary found at:");
-  candidates.forEach((p) => console.error("   ", p));
-  process.exit(1);
+  // Non-fatal: the committed PDF is used as-is when no browser is available.
+  console.warn("!! No Chrome/Chromium binary found — keeping the committed PDF. Looked in:");
+  candidates.forEach((p) => console.warn("   ", p));
+  process.exit(0);
 }
 
 const args = [
