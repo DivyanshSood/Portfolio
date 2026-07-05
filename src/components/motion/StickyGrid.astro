@@ -1,0 +1,389 @@
+---
+// StickyGrid — a scroll-driven sticky image grid.
+//
+// Faithful re-implementation of Theo Plawinski's "Sticky Grid Scroll" Codrops
+// demo (tympanus.net/Tutorials/StickyGridScroll), rebuilt for this site's
+// black + red system and its existing GSAP/Lenis stack.
+//
+// The motion, on a single scrubbed ScrollTrigger:
+//   1. the sticky wrapper slides up (yPercent -100 → 0) as the block enters;
+//   2. GRID REVEAL — the three columns fly in from far above/below, alternating
+//      direction, with a 0.06 stagger;
+//   3. GRID ZOOM — the grid scales to 2.05 while the left column shifts out
+//      (-40%), the right column out (+40%) and the middle column splits
+//      vertically, so the centre image swells to fill the frame. As it zooms,
+//      the section background blooms into a big blurred gradient of that same
+//      focal image.
+//
+// Self-contained: it imports its own GSAP + ScrollTrigger (the portfolio page
+// has no motion runtime) and reuses the homepage's existing Lenis when present.
+// Degrades to a plain static centred grid with JS off or prefers-reduced-motion.
+//
+// Tiles with an `href` render as case-study links; tiles with `name`/`meta`
+// render a caption overlay. On the homepage each tile is a distinct project
+// (linked + captioned); on /portfolio the tiles are decorative surfaces (no
+// caption/link) so it never re-lists the projects the card grid below covers.
+interface Tile {
+  src: string;
+  alt: string;
+  href?: string;
+  num?: string;
+  name?: string;
+  meta?: string;
+}
+interface Props {
+  id?: string;
+  tiles: Tile[];
+  /** Scroll length of the pinned section, in vh. Longer = slower scrub. */
+  heightVh?: number;
+}
+const { id, tiles, heightVh = 420 } = Astro.props;
+---
+
+<section
+  class="dsg"
+  id={id}
+  data-sticky-grid
+  aria-label="Selected work"
+  style={`--dsg-h:${heightVh}vh`}
+>
+  <div class="dsg__wrapper">
+    {/* Ambient backdrop — set to the focal image + faded in by JS during zoom. */}
+    <div class="dsg__bg" aria-hidden="true"></div>
+
+    <ul class="dsg__grid">
+      {tiles.map((t) => {
+        const captioned = Boolean(t.name);
+        const inner = (
+          <>
+            <img
+              class="dsg__img"
+              src={t.src}
+              alt=""
+              aria-hidden={t.href || captioned ? undefined : "true"}
+              loading="lazy"
+              decoding="async"
+            />
+            {captioned && <span class="dsg__scrim" aria-hidden="true"></span>}
+            {captioned && (
+              <span class="dsg__info">
+                {t.num && <span class="dsg__num mono">{t.num}</span>}
+                <span class="dsg__name">{t.name}</span>
+                {t.meta && <span class="dsg__meta mono">{t.meta}</span>}
+                {t.href && (
+                  <span class="dsg__cta mono">
+                    Case study <span aria-hidden="true">↗</span>
+                  </span>
+                )}
+              </span>
+            )}
+          </>
+        );
+        return (
+          <li class="dsg__item">
+            {t.href ? (
+              <a class="dsg__link" href={t.href}>{inner}</a>
+            ) : (
+              <div class="dsg__link dsg__link--static">{inner}</div>
+            )}
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+</section>
+
+<style>
+  /* ---- Static fallback (no JS / reduced motion): a plain centred grid ---- */
+  .dsg {
+    position: relative;
+    z-index: 2;
+    background: #0b0b0c;
+  }
+  .dsg__wrapper {
+    position: relative;
+    padding: clamp(56px, 8vw, 112px) 20px;
+  }
+  .dsg__grid {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: clamp(12px, 2.2vw, 32px);
+    row-gap: clamp(14px, 2.6vw, 40px);
+    width: min(760px, 84vw);
+    margin: 0 auto;
+    list-style: none;
+    padding: 0;
+    will-change: transform;
+  }
+  .dsg__item {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: clamp(7px, 0.9vw, 13px);
+    background: #161618;
+    will-change: transform;
+  }
+  .dsg__link {
+    display: block;
+    position: absolute;
+    inset: 0;
+    outline: none;
+    color: #fff;
+    text-decoration: none;
+  }
+  .dsg__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .dsg__link:focus-visible {
+    outline: 2px solid var(--accent, #ff1f1f);
+    outline-offset: 3px;
+  }
+  @media (hover: hover) {
+    a.dsg__link .dsg__img {
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    a.dsg__link:hover .dsg__img {
+      transform: scale(1.05);
+    }
+  }
+
+  /* ---- Per-card caption overlay ---------------------------------------- */
+  .dsg__scrim {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(
+      to top,
+      rgba(8, 8, 9, 0.88) 0%,
+      rgba(8, 8, 9, 0.5) 30%,
+      rgba(8, 8, 9, 0) 60%
+    );
+  }
+  .dsg__info {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding: clamp(9px, 1.3vw, 15px) clamp(10px, 1.4vw, 16px);
+    text-align: left;
+  }
+  .dsg__num {
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    color: var(--accent, #ff1f1f);
+  }
+  .dsg__name {
+    font-weight: 900;
+    font-size: clamp(13px, 1.5vw, 17px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: #fff;
+    transition: color 0.25s ease;
+  }
+  .dsg__meta {
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.62);
+  }
+  .dsg__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 4px;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.55);
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.3s ease, transform 0.3s ease, color 0.25s ease;
+  }
+  .dsg__cta span {
+    color: var(--accent, #ff1f1f);
+  }
+  @media (hover: hover) {
+    a.dsg__link:hover .dsg__name,
+    a.dsg__link:focus-visible .dsg__name {
+      color: var(--accent, #ff1f1f);
+    }
+    a.dsg__link:hover .dsg__cta,
+    a.dsg__link:focus-visible .dsg__cta {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* ---- Ambient image-gradient backdrop --------------------------------- */
+  .dsg__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-size: cover;
+    background-position: center;
+    filter: blur(64px) saturate(1.4) brightness(0.5);
+    opacity: 0; /* JS fades it in during the zoom; stays 0 in the static state */
+    pointer-events: none;
+  }
+
+  /* ---- Live (JS + motion): the tall pinned, scroll-driven layout -------- */
+  .dsg.is-live {
+    height: var(--dsg-h, 420vh);
+  }
+  .dsg.is-live .dsg__wrapper {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    height: 100svh;
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    will-change: transform;
+  }
+  .dsg.is-live .dsg__grid {
+    margin: 0;
+  }
+
+  /* Phones: shorten the scrub and lighten the blur (cheaper to composite). */
+  @media (max-width: 560px) {
+    .dsg.is-live {
+      height: 320vh;
+    }
+    .dsg__grid {
+      width: 90vw;
+      column-gap: 10px;
+      row-gap: 12px;
+    }
+    .dsg__bg {
+      filter: blur(44px) saturate(1.4) brightness(0.5);
+    }
+    .dsg__name {
+      font-size: 12px;
+    }
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (!reduce) {
+    document
+      .querySelectorAll<HTMLElement>("[data-sticky-grid]")
+      .forEach(initStickyGrid);
+  }
+
+  function initStickyGrid(block: HTMLElement) {
+    const wrapper = block.querySelector<HTMLElement>(".dsg__wrapper");
+    const grid = block.querySelector<HTMLElement>(".dsg__grid");
+    const bg = block.querySelector<HTMLElement>(".dsg__bg");
+    const items = gsap.utils.toArray<HTMLElement>(block.querySelectorAll(".dsg__item"));
+    if (!wrapper || !grid || items.length < 3) return;
+
+    // Swap the static fallback for the tall pinned layout only once JS is
+    // driving it — so no-JS / reduced-motion visitors keep a real grid.
+    block.classList.add("is-live");
+
+    // Split items into three columns, matching the row-major CSS grid.
+    const numColumns = 3;
+    const columns: HTMLElement[][] = Array.from({ length: numColumns }, () => []);
+    items.forEach((item, i) => columns[i % numColumns].push(item));
+
+    // Focal tile = the one nearest the grid's centre (the one the zoom converges
+    // on). Its image becomes the ambient background gradient.
+    const focal = nearestToCentre(grid, items);
+    if (bg) {
+      const src = focal.querySelector("img")?.getAttribute("src");
+      if (src) bg.style.backgroundImage = `url("${src}")`;
+      gsap.set(bg, { opacity: 0, scale: 1.55 });
+    }
+
+    // The sticky panel slides up into place as the block scrolls into view.
+    gsap.from(wrapper, {
+      yPercent: -100,
+      ease: "none",
+      scrollTrigger: { trigger: block, start: "top bottom", end: "top top", scrub: true },
+    });
+
+    // One scrubbed master timeline: reveal, then zoom (overlapping).
+    const master = gsap.timeline({
+      scrollTrigger: { trigger: block, start: "top 25%", end: "bottom bottom", scrub: true },
+    });
+    master.add(gridReveal()).add(gridZoom(), "-=0.6");
+
+    function gridReveal() {
+      const tl = gsap.timeline();
+      const vh = window.innerHeight;
+      const travel = vh - (vh - grid!.offsetHeight) / 2; // (vh + gridHeight) / 2
+      columns.forEach((col, o) => {
+        const even = o % 2 === 0;
+        tl.from(
+          col,
+          {
+            y: travel * (even ? -1 : 1),
+            stagger: { each: 0.06, from: even ? "end" : "start" },
+            ease: "power1.inOut",
+          },
+          "reveal"
+        );
+      });
+      return tl;
+    }
+
+    function gridZoom() {
+      const tl = gsap.timeline({ defaults: { duration: 1, ease: "power3.inOut" } });
+      tl.to(grid, { scale: 2.05 });
+      if (bg) tl.to(bg, { opacity: 1, scale: 1.2, ease: "power2.out" }, 0);
+      tl.to(columns[0], { xPercent: -40 }, "<");
+      tl.to(columns[2], { xPercent: 40 }, "<");
+      tl.to(
+        columns[1],
+        {
+          yPercent: (i: number) => (i < Math.floor(columns[1].length / 2) ? -1 : 1) * 40,
+          duration: 0.5,
+          ease: "power1.inOut",
+        },
+        "-=0.5"
+      );
+      return tl;
+    }
+
+    ScrollTrigger.refresh();
+  }
+
+  // Pick the element whose centre is closest to the reference element's centre.
+  function nearestToCentre(ref: HTMLElement, els: HTMLElement[]): HTMLElement {
+    const r = ref.getBoundingClientRect();
+    const cx = r.left + r.width / 2;
+    const cy = r.top + r.height / 2;
+    let best = els[Math.floor(els.length / 2)];
+    let bestD = Infinity;
+    els.forEach((el) => {
+      const b = el.getBoundingClientRect();
+      const d = Math.hypot(b.left + b.width / 2 - cx, b.top + b.height / 2 - cy);
+      if (d < bestD) {
+        bestD = d;
+        best = el;
+      }
+    });
+    return best;
+  }
+</script>

@@ -4,7 +4,7 @@ import Nav from "../components/Nav.astro";
 import HelloLoader from "../components/home/HelloLoader.astro";
 import Hero from "../components/home/Hero.astro";
 import About from "../components/home/About.astro";
-import HorizontalScrollWork from "../components/motion/HorizontalScrollWork.astro";
+import StickyGrid from "../components/motion/StickyGrid.astro";
 import Testimonials from "../components/home/Testimonials.astro";
 import Contact from "../components/home/Contact.astro";
 import ClosingCta from "../components/home/ClosingCta.astro";
@@ -13,9 +13,25 @@ import HomeScripts from "../components/home/HomeScripts.astro";
 import MotionController from "../components/motion/MotionController.astro";
 import { homeJsonLd } from "../lib/home-schema.mjs";
 import { FOUNDER_PHOTO } from "../lib/site.mjs";
+import { projects } from "../lib/projects/data.mjs";
 
 const SITE = "https://www.divyanshsood.com";
 const jsonld = homeJsonLd(SITE);
+
+// Sticky-grid tiles: all nine builds, ordered by case-study number. Each tile
+// links to its case study (this section replaces the Selected-work band, so it
+// keeps that band's internal links) and carries a caption so it reads as work,
+// not wallpaper.
+const workTiles = [...projects]
+  .sort((a, b) => Number(a.num) - Number(b.num))
+  .map((p) => ({
+    src: `${p.feature.src}?tr=w-820,q-80,f-auto`,
+    alt: `${p.name} — open case study`,
+    href: `/projects/${p.slug}`,
+    num: p.num,
+    name: p.name,
+    meta: `${p.category} · ${p.year}`,
+  }));
 ---
 
 <Layout
@@ -62,8 +78,8 @@ const jsonld = homeJsonLd(SITE);
   {/* ---------- Hero ---------- */}
   <Hero />
 
-  {/* ---------- 01 · Selected Work (4 of 9, big visuals — the proof leads) ---------- */}
-  <HorizontalScrollWork />
+  {/* ---------- 01 · Selected Work — sticky grid scroll (9 builds, grid-only) ---------- */}
+  <StickyGrid id="work" tiles={workTiles} heightVh={380} />
 
   {/* ---------- 02 · About (short founder intro) ---------- */}
   <About />

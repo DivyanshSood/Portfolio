@@ -14,10 +14,12 @@
 //
 // Progressive enhancement only: the section is collapsed (display:none) until
 // the script confirms WebGL and adds `.is-live`, so no-JS/no-GL visitors and
-// prefers-reduced-motion users just get the normal page — every project shown
-// here also exists in the browsable grid below. The whole section is
-// decorative (aria-hidden, pointer-events:none); nothing interactive lives in
-// it and no copy is introduced beyond what data.mjs already puts on this page.
+// prefers-reduced-motion users just get the normal page. The focused cover is
+// clickable — hit-tested by projecting the active plane to screen space — and
+// the HUD carries a real "View case study" link, so this gallery is the
+// portfolio's way into the case studies. The canvas itself is aria-hidden;
+// only the HUD (name/meta + link) is exposed to assistive tech. No copy is
+// introduced beyond what data.mjs already puts on this page.
 import { projects } from "../lib/projects/data.mjs";
 
 const work = [...projects].sort((a, b) => Number(a.num) - Number(b.num));
@@ -32,13 +34,14 @@ const items = work.map((p) => ({
   metricV: p.metrics?.[0]?.v ?? "",
   metricL: p.metrics?.[0]?.l ?? "",
   src: p.feature.src,
+  slug: p.slug,
 }));
 const total = String(items.length).padStart(2, "0");
 ---
 
-<section id="ds-depth" class="dg" aria-hidden="true" style={`--dg-count:${items.length}`}>
+<section id="ds-depth" class="dg" style={`--dg-count:${items.length}`}>
   <div class="dg-sticky">
-    <canvas class="dg-canvas"></canvas>
+    <canvas class="dg-canvas" aria-hidden="true"></canvas>
     <div class="dg-scrim-top"></div>
     <div class="dg-scrim"></div>
     <div class="dg-hud">
@@ -46,6 +49,7 @@ const total = String(items.length).padStart(2, "0");
         <span class="dg-meta mono"><span class="dg-index">{items[0].num} / {total}</span> · <span class="dg-cat">{items[0].category}</span> · <span class="dg-year">{items[0].year}</span></span>
         <span class="dg-name">{items[0].name}</span>
         <span class="dg-outcome">{items[0].outcome}</span>
+        <a class="dg-cta mono" href={`/projects/${items[0].slug}`} aria-label={`View the ${items[0].name} case study`}>View case study <span aria-hidden="true">↗</span></a>
       </div>
       <div class="dg-metric">
         <span class="dg-metric-v">{items[0].metricV}</span>
@@ -88,6 +92,10 @@ const total = String(items.length).padStart(2, "0");
     height: 100%;
     display: block;
   }
+  /* Re-enable pointer events on the canvas (the section is pointer-events:none)
+     so the focused cover can be hovered/clicked; the JS toggles the cursor to
+     `pointer` only while the pointer is over the active card's projected rect. */
+  .dg.is-live .dg-canvas { pointer-events: auto; }
 
   /* Top scrim — the rooms run full colour, so the black page above bleeds
      into each one softly; entering the section reads as crossing into the
@@ -149,6 +157,28 @@ const total = String(items.length).padStart(2, "0");
   }
   .dg-outcome { font-size: 13.5px; line-height: 1.5; color: rgba(255, 255, 255, 0.75); max-width: 52ch; }
 
+  /* The one interactive element inside the pointer-events:none section. */
+  .dg-cta {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 6px;
+    pointer-events: auto;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #fff;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+    padding-bottom: 2px;
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+  .dg-cta span { color: var(--accent, #ff1f1f); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+  .dg-cta:hover { color: var(--accent, #ff1f1f); border-color: var(--accent, #ff1f1f); }
+  .dg-cta:hover span { transform: translate(3px, -3px); }
+  .dg-cta:focus-visible { outline: 2px solid var(--accent, #ff1f1f); outline-offset: 4px; border-radius: 1px; }
+
   .dg-metric { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; text-align: right; flex-shrink: 0; }
   .dg-metric-v {
     font-weight: 900;
@@ -192,7 +222,7 @@ const total = String(items.length).padStart(2, "0");
 </style>
 
 <script>
-  import { Renderer, Camera, Transform, Program, Mesh, Plane, Triangle, Texture, Vec2 } from "ogl";
+  import { Renderer, Camera, Transform, Program, Mesh, Plane, Triangle, Texture, Vec2, Mat4 } from "ogl";
 
   const section = document.getElementById("ds-depth");
   const dataEl = document.getElementById("dg-data");
@@ -209,6 +239,7 @@ const total = String(items.length).padStart(2, "0");
       metricV: string;
       metricL: string;
       src: string;
+      slug: string;
     }[];
 
     // Deferred boot: only spin up WebGL (and start image downloads) when the
@@ -251,6 +282,7 @@ const total = String(items.length).padStart(2, "0");
       const outcomeEl = sec.querySelector(".dg-outcome") as HTMLElement;
       const metricVEl = sec.querySelector(".dg-metric-v") as HTMLElement;
       const metricLEl = sec.querySelector(".dg-metric-l") as HTMLElement;
+      const ctaEl = sec.querySelector(".dg-cta") as HTMLAnchorElement;
       const bar = sec.querySelector(".dg-progress-bar") as HTMLElement;
 
       // ---- Constants lifted verbatim from the Codrops source ---------------
@@ -613,17 +645,73 @@ const total = String(items.length).padStart(2, "0");
       window.addEventListener("resize", resize);
       resize();
 
+      // ---- Clickable focused cover: state -----------------------------------
+      // Each frame we project the active plane's 4 corners to screen-space px
+      // (cardRect) and hit-test the pointer against it for the hover cursor and
+      // click-through to the case study.
+      const mvp = new Mat4();
+      let cardRect: { left: number; right: number; top: number; bottom: number } | null = null;
+      let pointerClientX = -1;
+      let pointerClientY = -1;
+
       // ---- Pointer parallax (demo: window-level, smoothed at 0.08) ----------
       const pointerTarget = new Vec2(0, 0);
       const pointerCurrent = new Vec2(0, 0);
       window.addEventListener(
         "pointermove",
         (e) => {
+          pointerClientX = e.clientX;
+          pointerClientY = e.clientY;
           pointerTarget.set((e.clientX / window.innerWidth) * 2 - 1, -((e.clientY / window.innerHeight) * 2 - 1));
         },
         { passive: true }
       );
       window.addEventListener("pointerleave", () => pointerTarget.set(0, 0), { passive: true });
+
+      // Project the active cover to a screen-space rect (CSS px, canvas-relative).
+      function cardScreenRect(mesh: Mesh) {
+        mvp.multiply(camera.projectionViewMatrix, mesh.worldMatrix);
+        const m = mvp;
+        // Plane geometry corners in local space (3×3 plane → ±1.5, z = 0).
+        const corners = [
+          [-1.5, -1.5],
+          [1.5, -1.5],
+          [1.5, 1.5],
+          [-1.5, 1.5],
+        ];
+        let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+        for (let k = 0; k < 4; k++) {
+          const lx = corners[k][0];
+          const ly = corners[k][1];
+          const cw = m[3] * lx + m[7] * ly + m[15];
+          if (cw <= 0.0001) return null; // a corner is behind the lens — bail
+          const ndcX = (m[0] * lx + m[4] * ly + m[12]) / cw;
+          const ndcY = (m[1] * lx + m[5] * ly + m[13]) / cw;
+          const sx = (ndcX * 0.5 + 0.5) * viewW;
+          const sy = (1 - (ndcY * 0.5 + 0.5)) * viewH;
+          if (sx < minX) minX = sx;
+          if (sx > maxX) maxX = sx;
+          if (sy < minY) minY = sy;
+          if (sy > maxY) maxY = sy;
+        }
+        return { left: minX, right: maxX, top: minY, bottom: maxY };
+      }
+
+      function pointerInsideCard(clientX: number, clientY: number) {
+        if (!cardRect || clientX < 0) return false;
+        const r = canvas!.getBoundingClientRect();
+        const x = clientX - r.left;
+        const y = clientY - r.top;
+        return x >= cardRect.left && x <= cardRect.right && y >= cardRect.top && y <= cardRect.bottom;
+      }
+
+      // Click the focused cover → open its case study (keyboard users use the
+      // real HUD link instead). Guarded by the rect so the room around the card
+      // isn't clickable.
+      canvas!.addEventListener("click", (e) => {
+        if (active < 0 || !pointerInsideCard(e.clientX, e.clientY)) return;
+        window.location.assign(`/projects/${items[active].slug}`);
+      });
 
       // ---- Scroll state: page scroll expressed in the demo's scroll pixels --
       let scrollCurrent = 0;
@@ -652,6 +740,8 @@ const total = String(items.length).padStart(2, "0");
           outcomeEl.textContent = items[i].outcome;
           metricVEl.textContent = items[i].metricV;
           metricLEl.textContent = items[i].metricL;
+          ctaEl.href = `/projects/${items[i].slug}`;
+          ctaEl.setAttribute("aria-label", `View the ${items[i].name} case study`);
           hud.classList.remove("is-swap");
         }, 160);
       }
@@ -780,6 +870,12 @@ const total = String(items.length).padStart(2, "0");
 
         renderer.render({ scene: bg });
         renderer.render({ scene, camera, clear: false });
+
+        // Matrices are now current for this frame: project the active cover and
+        // reflect the hit-test in the cursor so the focused card reads clickable.
+        cardRect = active >= 0 ? cardScreenRect(covers[active].mesh) : null;
+        canvas!.style.cursor = pointerInsideCard(pointerClientX, pointerClientY) ? "pointer" : "";
+
         if (running) raf = requestAnimationFrame(frame);
       }
 
