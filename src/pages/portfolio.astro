@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
+import DepthGallery from "../components/DepthGallery.astro";
 import { CALENDLY_URL, PROJECT_MIN_USD } from "../lib/site.mjs";
 import { projects } from "../lib/projects/data.mjs";
 
@@ -53,15 +54,15 @@ const jsonld = JSON.stringify({
 ---
 
 <Layout
-  title="Portfolio — selected work · Divyansh Sood® Studio"
-  description="Selected work from Divyansh Sood — custom-coded websites, stores, web apps and AI products. From a school portal live in 7 days to a 600K-subscriber storefront."
+  title="Web Design & Development Portfolio — Divyansh Sood® Studio"
+  description="The portfolio of web developer Divyansh Sood — nine custom-coded websites, e-commerce stores, web apps and AI products, each with a case study and live link."
   canonical={canonical}
   keywords="Divyansh Sood portfolio, web developer portfolio, custom website portfolio, Next.js Astro projects, web app case studies, freelance web developer work"
   ogTitle="Portfolio — the work, up close"
   ogDescription="Custom-coded websites, stores, web apps and AI products, shipped for real clients worldwide."
   jsonld={jsonld}
 >
-  <Nav kicker="Portfolio" />
+  <Nav />
 
   <main>
     <header class="cs-hero">
@@ -71,13 +72,15 @@ const jsonld = JSON.stringify({
           <span>Portfolio</span><span>Custom-coded · shipped</span><span>2022—2026</span>
         </div>
         <h1 style="margin:14px 0 0;font-weight:900;font-size:clamp(38px,7vw,96px);line-height:.9;letter-spacing:-.035em;text-transform:uppercase;">Selected <span style="color:var(--accent);">work.</span></h1>
-        <p class="cs-lead">Nine projects, every one custom-coded — no page-builders, no theme marketplaces. Marketing sites, storefronts, web apps and my own AI product. Open any one to read the full case study, or visit it live.</p>
+        <p class="cs-lead">Nine projects, every one custom-coded — no page-builders, no theme marketplaces. Marketing websites, e-commerce storefronts, web apps and my own AI product. Open a case study, or visit it live.</p>
         <div class="cs-cta-row">
           <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book an intro call <span aria-hidden="true">↗</span></a>
           <a class="btn btn-ghost" href="/portfolio.pdf" target="_blank" rel="noopener">Download one-pager PDF ↗</a>
         </div>
       </div>
     </header>
+
+    <DepthGallery />
 
     <section class="cs-sec" aria-labelledby="stats-h">
       <div class="wrap">
@@ -103,6 +106,16 @@ const jsonld = JSON.stringify({
         <div class="pf-grid" data-reveal>
           {work.map((p) => (
             <article class="pf-card">
+              <div class="pf-thumb">
+                <img
+                  src={`${p.feature.src}?tr=w-720,q-80`}
+                  alt={p.feature.alt}
+                  loading="lazy"
+                  decoding="async"
+                  width="720"
+                  height="450"
+                />
+              </div>
               <div class="pf-body">
                 <div class="pf-meta">
                   <span class="cs-tag">{p.category}</span>
@@ -134,7 +147,7 @@ const jsonld = JSON.stringify({
         <p>Custom-coded, most projects live in 3–4 weeks, from {PROJECT_MIN_USD}. Tell me what you're building and I'll tell you within a day if it's a fit.</p>
         <div class="cs-cta-row" style="justify-content:center;">
           <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book an intro call <span aria-hidden="true">↗</span></a>
-          <a class="btn btn-ghost" href="/results">See the results</a>
+          <a class="btn btn-ghost" href="/results/">See the results</a>
         </div>
       </div>
     </section>
@@ -177,7 +190,13 @@ const jsonld = JSON.stringify({
       main .cs-metric:last-child { border-right: 0; }
     }
 
-    /* Project grid */
+    /* Curves everywhere on this page — sharp edges are banned. Buttons match
+       the nav/Book-a-call pills, cards get a generous radius like the WebGL
+       covers above them. */
+    main .btn { border-radius: 999px; }
+
+    /* Project grid — image-forward so the browsable list carries the same
+       energy as the depth gallery above it. */
     main .pf-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -188,12 +207,26 @@ const jsonld = JSON.stringify({
       display: flex;
       flex-direction: column;
       border: 1px solid rgba(255, 255, 255, 0.14);
-      border-radius: 14px;
+      border-radius: clamp(18px, 2vw, 26px);
       overflow: hidden;
       background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent);
       transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
     }
     main .pf-card:hover { transform: translateY(-5px); border-color: rgba(255, 31, 31, 0.5); }
+    main .pf-thumb {
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      background: #161618;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    main .pf-thumb img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    main .pf-card:hover .pf-thumb img { transform: scale(1.04); }
     /* Whole card links to the case study; the "Visit live" link stays clickable
        above the stretched overlay. */
     main .pf-stretch::after {
@@ -253,9 +286,23 @@ const jsonld = JSON.stringify({
     main .pf-link--accent { color: var(--accent, #ff1f1f); }
     main .pf-link--accent:hover { color: var(--accent, #ff1f1f); text-decoration: underline; }
 
+    /* ~90% of visitors are on phones — the mobile layout is the primary one.
+       Full-width tappable CTAs, two-up stats that don't cramp, single-column
+       image cards with comfortable padding. */
     @media (max-width: 720px) {
-      main .pf-grid { grid-template-columns: 1fr; }
+      main .pf-grid { grid-template-columns: 1fr; gap: 18px; }
       main .cs-metrics { grid-template-columns: 1fr 1fr; }
+      main .cs-metric { padding: 20px 14px 20px 0; }
+      main .cs-metric:nth-child(odd) { border-right: 1px solid rgba(255, 255, 255, 0.1); }
+      main .cs-metric:nth-child(even) { padding-left: 16px; }
+      main .cs-metric-v { font-size: clamp(30px, 9vw, 40px); }
+      main .cs-metric-l { font-size: 10.5px; }
+      main .cs-cta-row { flex-direction: column; align-items: stretch; }
+      main .cs-cta-row .btn { justify-content: center; padding: 16px 22px; }
+      main .cs-sec { padding: 52px 0; }
+      main .pf-body { padding: 20px 18px 22px; }
+      main .pf-outcome { margin-bottom: 16px; }
+      main .cs-endcta .cs-cta-row { align-items: stretch; }
     }
   </style>
 </Layout>

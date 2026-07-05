@@ -56,15 +56,15 @@ const jsonld = JSON.stringify({
 ---
 
 <Layout
-  title="Free website audit — Divyansh Sood® Studio"
-  description="A free walkthrough of the biggest conversion, speed and SEO wins on your site — plus an optional paid deep-dive teardown. For founders worldwide. Send your URL."
+  title="Free Website Audit — Conversion, Speed & SEO · Divyansh Sood"
+  description="Free website audit by Divyansh Sood — find the conversion, page-speed and SEO leaks costing you customers. Send your URL, get the top fixes walked through."
   canonical={canonical}
   keywords="free website audit, website conversion audit, website teardown, SEO audit, page speed audit, UX audit, website review, Divyansh Sood"
   ogTitle="Free website audit — find what's costing you customers"
   ogDescription="A free walkthrough of the biggest conversion, speed and SEO wins on your site — plus an optional deep-dive teardown."
   jsonld={jsonld}
 >
-  <Nav kicker="Website audit" />
+  <Nav />
 
   <main>
     <header class="cs-hero">
@@ -74,7 +74,7 @@ const jsonld = JSON.stringify({
           <span>Website audit</span><span>Free + deep-dive</span><span>2026</span>
         </div>
         <h1 style="margin:14px 0 0;font-weight:900;font-size:clamp(38px,7vw,96px);line-height:.9;letter-spacing:-.035em;text-transform:uppercase;">Is your site<br />costing you <span style="color:var(--accent);">customers?</span></h1>
-        <p class="cs-lead">Most sites leak revenue in the same few places — a slow first load, a fuzzy message, a buy button that hides. Send me your URL and I'll show you exactly where, and what I'd fix first.</p>
+        <p class="cs-lead">Most websites leak revenue in the same few places — a slow first load, a fuzzy message, a buy button that hides. Send me your URL and I'll show you exactly where yours leaks, and what I'd fix first.</p>
         <div class="cs-cta-row">
           <a class="btn btn-primary" href="#audit-form">Get my free audit ↓</a>
           <a class="btn btn-ghost" href={CALENDLY_URL} target="_blank" rel="noopener">Book a call instead</a>
@@ -148,8 +148,10 @@ const jsonld = JSON.stringify({
           <input id="au-email" type="email" placeholder="So I can send the teardown" autocomplete="email" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.25);color:#fff;font-family:'Space Mono',monospace;font-size:14px;padding:12px 2px;outline:none;margin-bottom:24px;" />
           <label for="au-goal" style="display:block;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.6;margin-bottom:8px;">What should this site do better? (optional)</label>
           <input id="au-goal" type="text" placeholder="More leads, faster load, more sales…" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.25);color:#fff;font-family:'Space Mono',monospace;font-size:14px;padding:12px 2px;outline:none;margin-bottom:30px;" />
+          {/* Honeypot — invisible to humans; bots that fill it are dropped. */}
+          <input id="au-hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none;" />
           <button type="submit" class="btn btn-primary">Get my free audit <span aria-hidden="true">↗</span></button>
-          <p style="margin:18px 0 0;font-family:'Space Mono',monospace;font-size:11px;line-height:1.6;opacity:.5;">Sends your details to me on WhatsApp — no spam, no list.</p>
+          <p style="margin:18px 0 0;font-family:'Space Mono',monospace;font-size:11px;line-height:1.6;opacity:.5;">Goes straight to my inbox — no spam, no list.</p>
         </form>
       </div>
     </section>
@@ -213,6 +215,8 @@ const jsonld = JSON.stringify({
           <label for="st-msg" class="au-label">Anything else?</label>
           <textarea id="st-msg" rows="3" placeholder="One line on what you're building and what success looks like." class="au-textarea"></textarea>
 
+          {/* Honeypot — invisible to humans; bots that fill it are dropped. */}
+          <input id="st-hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none;" />
           <button type="submit" class="btn btn-primary">Send it to Divyansh <span aria-hidden="true">↗</span></button>
           <p class="au-formnote">Goes to my inbox. No list. If the budget's off, I'll tell you before we book a call. (WhatsApp: <a href="https://wa.me/919816091875" target="_blank" rel="noopener">+91 98160 91875 ↗</a>)</p>
         </form>
@@ -244,7 +248,7 @@ const jsonld = JSON.stringify({
         <p>Book a 15-minute slot. We'll pull up your site live. I'll tell you what I'd fix first, free, and you decide on the rest.</p>
         <div class="cs-cta-row" style="justify-content:center;">
           <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book an intro call <span aria-hidden="true">↗</span></a>
-          <a class="btn btn-ghost" href="/portfolio">See the work</a>
+          <a class="btn btn-ghost" href="/portfolio/">See the work</a>
         </div>
       </div>
     </section>

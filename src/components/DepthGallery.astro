@@ -1,0 +1,819 @@
+---
+// Depth gallery — a scroll-driven WebGL walk through the nine project covers,
+// stacked along the Z axis. Faithful OGL port of Codrops' "Atmospheric Depth
+// Gallery" (github.com/houmahani/codrops-depth-gallery): same plane sizing
+// (3-unit-tall planes at the image's native aspect), same 5-unit gap, same
+// two-plane opacity crossfade sampled one gap ahead of the camera, same
+// pointer parallax / velocity "breath" on the cards, and the same two-blob
+// background shader. Differences from the original are deliberate: the camera
+// is driven by native page scroll inside a tall sticky section (no wheel
+// hijack), mood colours are auto-extracted from each cover instead of
+// hand-picked (kept dark to stay in the site's black editorial world), the
+// cursor particle trail is omitted, and landscape covers get a fit-to-width
+// cap on phones (the demo's portrait flowers never needed one).
+//
+// Progressive enhancement only: the section is collapsed (display:none) until
+// the script confirms WebGL and adds `.is-live`, so no-JS/no-GL visitors and
+// prefers-reduced-motion users just get the normal page — every project shown
+// here also exists in the browsable grid below. The whole section is
+// decorative (aria-hidden, pointer-events:none); nothing interactive lives in
+// it and no copy is introduced beyond what data.mjs already puts on this page.
+import { projects } from "../lib/projects/data.mjs";
+
+const work = [...projects].sort((a, b) => Number(a.num) - Number(b.num));
+// Everything shown in the HUD is copy that already exists on this page's
+// project grid (data.mjs) — nothing new is introduced here.
+const items = work.map((p) => ({
+  num: p.num,
+  name: p.name,
+  category: p.category,
+  year: p.year,
+  outcome: p.outcome,
+  metricV: p.metrics?.[0]?.v ?? "",
+  metricL: p.metrics?.[0]?.l ?? "",
+  src: p.feature.src,
+}));
+const total = String(items.length).padStart(2, "0");
+---
+
+<section id="ds-depth" class="dg" aria-hidden="true" style={`--dg-count:${items.length}`}>
+  <div class="dg-sticky">
+    <canvas class="dg-canvas"></canvas>
+    <div class="dg-scrim-top"></div>
+    <div class="dg-scrim"></div>
+    <div class="dg-hud">
+      <div class="dg-info">
+        <span class="dg-meta mono"><span class="dg-index">{items[0].num} / {total}</span> · <span class="dg-cat">{items[0].category}</span> · <span class="dg-year">{items[0].year}</span></span>
+        <span class="dg-name">{items[0].name}</span>
+        <span class="dg-outcome">{items[0].outcome}</span>
+      </div>
+      <div class="dg-metric">
+        <span class="dg-metric-v">{items[0].metricV}</span>
+        <span class="dg-metric-l mono">{items[0].metricL}</span>
+      </div>
+    </div>
+    <div class="dg-progress"><span class="dg-progress-bar"></span></div>
+  </div>
+  <script type="application/json" id="dg-data" is:inline set:html={JSON.stringify(items)} />
+</section>
+
+<style>
+  /* Collapsed by default; the script expands it only once WebGL is confirmed. */
+  .dg { display: none; }
+  .dg.is-live {
+    display: block;
+    /* ~0.7 viewport of scroll per project + one viewport to release the pin. */
+    height: calc(var(--dg-count, 9) * 70vh + 100vh);
+    position: relative;
+    z-index: 1;
+    background: #0b0b0c;
+    pointer-events: none;
+  }
+  .dg.is-fallback { display: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .dg.is-live { display: none; }
+  }
+
+  .dg-sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    height: 100svh;
+    overflow: hidden;
+  }
+  .dg-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  /* Top scrim — the rooms run full colour, so the black page above bleeds
+     into each one softly; entering the section reads as crossing into the
+     project's dimension rather than a hard colour seam. */
+  .dg-scrim-top {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: clamp(90px, 14vh, 150px);
+    background: linear-gradient(180deg, rgba(11, 11, 12, 0.85) 0%, rgba(11, 11, 12, 0) 100%);
+    pointer-events: none;
+  }
+
+  /* Readability scrim — the covers can be near-white screenshots, so the HUD
+     sits on a quiet gradient back into the page colour. */
+  .dg-scrim {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: clamp(170px, 28vh, 260px);
+    background: linear-gradient(180deg, rgba(11, 11, 12, 0) 0%, rgba(11, 11, 12, 0.72) 76%, rgba(11, 11, 12, 0.88) 100%);
+    pointer-events: none;
+  }
+
+  .dg-hud {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: clamp(20px, 3.2vh, 38px);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    padding: 0 clamp(20px, 4vw, 48px);
+    /* The fixed Book-a-call pill lives in the bottom-right corner on every
+       page — keep the metric column clear of it. */
+    padding-right: calc(clamp(20px, 4vw, 48px) + 190px);
+    color: #fff;
+  }
+  .dg-hud > * { transition: opacity 0.18s ease; }
+  .dg-hud.is-swap > * { opacity: 0; }
+
+  .dg-info { display: flex; flex-direction: column; gap: 7px; min-width: 0; }
+  .dg-meta {
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.55);
+  }
+  .dg-index { color: var(--accent, #ff1f1f); }
+  .dg-name {
+    font-weight: 900;
+    font-size: clamp(24px, 3.2vw, 42px);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+  }
+  .dg-outcome { font-size: 13.5px; line-height: 1.5; color: rgba(255, 255, 255, 0.75); max-width: 52ch; }
+
+  .dg-metric { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; text-align: right; flex-shrink: 0; }
+  .dg-metric-v {
+    font-weight: 900;
+    font-size: clamp(26px, 3vw, 40px);
+    letter-spacing: -0.03em;
+    line-height: 1;
+    color: var(--accent, #ff1f1f);
+  }
+  .dg-metric-l {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.55);
+    max-width: 24ch;
+  }
+
+  /* The fixed Book-a-call pill owns the bottom-right corner on phones — keep
+     the HUD to name + meta and lift it clear above the pill. */
+  @media (max-width: 760px) {
+    .dg-metric { display: none; }
+    .dg-outcome { display: none; }
+    .dg-hud { padding-right: 20px; bottom: 92px; }
+  }
+
+  .dg-progress {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.1);
+  }
+  .dg-progress-bar {
+    display: block;
+    height: 100%;
+    background: var(--accent, #ff1f1f);
+    transform: scaleX(0);
+    transform-origin: left center;
+    will-change: transform;
+  }
+</style>
+
+<script>
+  import { Renderer, Camera, Transform, Program, Mesh, Plane, Triangle, Texture, Vec2 } from "ogl";
+
+  const section = document.getElementById("ds-depth");
+  const dataEl = document.getElementById("dg-data");
+  const canvas = section?.querySelector(".dg-canvas") as HTMLCanvasElement | null;
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (section && canvas && dataEl && !reduce) {
+    const items = JSON.parse(dataEl.textContent || "[]") as {
+      num: string;
+      name: string;
+      category: string;
+      year: string;
+      outcome: string;
+      metricV: string;
+      metricL: string;
+      src: string;
+    }[];
+
+    // Deferred boot: only spin up WebGL (and start image downloads) when the
+    // visitor actually approaches the section.
+    const bootIO = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((e) => e.isIntersecting)) return;
+        bootIO.disconnect();
+        try {
+          init();
+        } catch (_e) {
+          section.classList.remove("is-live");
+          section.classList.add("is-fallback");
+        }
+      },
+      { rootMargin: "600px 0px" }
+    );
+
+    // Expand the section first so it participates in layout; if init throws,
+    // is-fallback collapses it again and the page reads exactly as before.
+    // The overflow-x:clip check matters: browsers without it fall back to
+    // overflow-x:hidden on #ds-root, which breaks the sticky pinning this
+    // gallery depends on — those browsers just keep the section collapsed.
+    const probe = document.createElement("canvas");
+    const hasGL = !!(probe.getContext("webgl2") || probe.getContext("webgl"));
+    const hasClip = CSS.supports("overflow-x", "clip");
+    if (hasGL && hasClip && items.length > 1) {
+      section.classList.add("is-live");
+      bootIO.observe(section);
+    }
+
+    function init() {
+      const sec = section as HTMLElement;
+      const sticky = sec.querySelector(".dg-sticky") as HTMLElement;
+      const hud = sec.querySelector(".dg-hud") as HTMLElement;
+      const nameEl = sec.querySelector(".dg-name") as HTMLElement;
+      const catEl = sec.querySelector(".dg-cat") as HTMLElement;
+      const yearEl = sec.querySelector(".dg-year") as HTMLElement;
+      const indexEl = sec.querySelector(".dg-index") as HTMLElement;
+      const outcomeEl = sec.querySelector(".dg-outcome") as HTMLElement;
+      const metricVEl = sec.querySelector(".dg-metric-v") as HTMLElement;
+      const metricLEl = sec.querySelector(".dg-metric-l") as HTMLElement;
+      const bar = sec.querySelector(".dg-progress-bar") as HTMLElement;
+
+      // ---- Constants lifted verbatim from the Codrops source ---------------
+      const n = items.length;
+      const PLANE_GAP = 5;
+      const PLANE_SIZE = 3; // PlaneGeometry(3, 3), scaled by image aspect
+      const DESKTOP_SCALE = 1;
+      const MOBILE_SCALE = 0.65;
+      const MOBILE_X_SPREAD = 0.25;
+      const MOBILE_BP = 768;
+      const FADE_SAMPLE_OFFSET = 1; // fade/mood sampled one gap ahead of camera
+      const FADE_SMOOTHING = 0.14;
+      const SCROLL_SMOOTHING = 0.08;
+      const SCROLL_TO_WORLD = 0.01; // 1 scroll px = 0.01 world units
+      const VELOCITY_DAMPING = 0.12;
+      const VELOCITY_MAX = 1.5;
+      const VELOCITY_STOP = 0.0001;
+      const PARALLAX_X = 0.16;
+      const PARALLAX_Y = 0.08;
+      const PARALLAX_SMOOTHING = 0.08;
+      const BREATH_TILT = 0.045;
+      const BREATH_SCALE = 0.03;
+      const BREATH_SMOOTHING = 0.14;
+      const BREATH_GAIN = 1.1;
+      const DRIFT_Y = 0.05;
+      const DRIFT_SMOOTHING = 0.05;
+      // The demo's data alternates planes around the axis with these offsets.
+      const X_PATTERN = [-0.9, 0.8, -0.7, 1, -0.7];
+      // Camera starts one view-offset (= one gap) before the first plane and
+      // stops one view-offset past the last: the active plane always hangs
+      // 5 units in front of the lens.
+      const CAM_START_Z = PLANE_GAP;
+      const CAM_END_Z = -(n - 1) * PLANE_GAP + PLANE_GAP;
+
+      const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+      const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
+      const smoothstep = (x: number, lo: number, hi: number) => {
+        const t = clamp((x - lo) / (hi - lo), 0, 1);
+        return t * t * (3 - 2 * t);
+      };
+      // THREE's ColorManagement feeds linear-space colours into raw shaders —
+      // part of the demo's look. Replicate with the sRGB EOTF.
+      const toLinear = (c: number[]) =>
+        c.map((v) => (v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4)));
+
+      const renderer = new Renderer({
+        canvas: canvas as HTMLCanvasElement,
+        alpha: false,
+        antialias: true,
+        dpr: Math.min(window.devicePixelRatio || 1, 2),
+      });
+      const gl = renderer.gl;
+
+      const camera = new Camera(gl, { fov: 45, near: 0.1, far: 100 });
+      camera.position.set(0, 0, CAM_START_Z);
+
+      // ---- Mood colours -----------------------------------------------------
+      // The demo hand-picks {background, blob1, blob2} per image; we derive
+      // them from the cover itself. The room's background is the cover's OWN
+      // page colour (sampled from its border pixels), so the screenshot
+      // continues seamlessly into the room — each project is its own
+      // dimension, like the demo's cream/blue/sage worlds. Linearized, per
+      // above.
+      const EMBER = {
+        bg: toLinear([0.14, 0.045, 0.035]),
+        blob1: toLinear([0.55, 0.14, 0.07]),
+        blob2: toLinear([0.36, 0.17, 0.07]),
+      };
+      type Mood = { bg: number[]; blob1: number[]; blob2: number[] };
+      const moods: Mood[] = items.map(() => EMBER);
+      const mood = (i: number) => moods[clamp(i, 0, n - 1)];
+
+      // Room colours from the cover: background = the average of the cover's
+      // border pixels (its actual page colour, luminance-clamped), blob1 = the
+      // dominant hue band, blob2 = the strongest band at least 90° away
+      // (falls back to a dimmed blob1). Band dominance means a large brand
+      // area beats a few loud accent pixels.
+      function moodFromImage(img: HTMLImageElement): Mood | null {
+        try {
+          const w = 48;
+          const h = 30;
+          const c2d = document.createElement("canvas");
+          c2d.width = w;
+          c2d.height = h;
+          const ctx = c2d.getContext("2d", { willReadFrequently: true });
+          if (!ctx) return null;
+          ctx.drawImage(img, 0, 0, w, h);
+          const d = ctx.getImageData(0, 0, w, h).data;
+
+          // The cover's own page colour: average its border pixels (2px ring).
+          let bgR = 0, bgG = 0, bgB = 0, bgN = 0;
+          for (let y = 0; y < h; y++) {
+            for (let x = 0; x < w; x++) {
+              if (x >= 2 && x < w - 2 && y >= 2 && y < h - 2) continue;
+              const i = (y * w + x) * 4;
+              bgR += d[i] / 255; bgG += d[i + 1] / 255; bgB += d[i + 2] / 255; bgN++;
+            }
+          }
+          let bg = [bgR / bgN, bgG / bgN, bgB / bgN];
+          // Clamp glare and dead-black so every room still reads as a room.
+          const bgMax = Math.max(bg[0], bg[1], bg[2]);
+          if (bgMax > 0.92) bg = bg.map((v) => (v * 0.92) / bgMax);
+          if (bgMax < 0.05) bg = bg.map((v) => (v * 0.05) / Math.max(bgMax, 0.005));
+
+          const BANDS = 12;
+          const bandW = new Float32Array(BANDS);
+          const bandR = new Float32Array(BANDS);
+          const bandG = new Float32Array(BANDS);
+          const bandB = new Float32Array(BANDS);
+          for (let i = 0; i < d.length; i += 4) {
+            const r = d[i] / 255, g = d[i + 1] / 255, b = d[i + 2] / 255;
+            const mx = Math.max(r, g, b), mn = Math.min(r, g, b);
+            const sat = mx - mn;
+            if (sat < 0.04) continue;
+            const lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+            const wgt = sat * Math.max(0, 1 - Math.abs(lum - 0.5) * 1.6);
+            if (wgt <= 0) continue;
+            let hue = mx === r ? (g - b) / sat : mx === g ? (b - r) / sat + 2 : (r - g) / sat + 4;
+            hue = (hue + 6) % 6;
+            const band = Math.floor((hue / 6) * BANDS) % BANDS;
+            bandW[band] += wgt;
+            bandR[band] += r * wgt; bandG[band] += g * wgt; bandB[band] += b * wgt;
+          }
+
+          const bandColor = (center: number) => {
+            const lo = (center + BANDS - 1) % BANDS;
+            const hi = (center + 1) % BANDS;
+            const W = bandW[center] + bandW[lo] + bandW[hi];
+            if (W < 2) return null;
+            let r = (bandR[center] + bandR[lo] + bandR[hi]) / W;
+            let g = (bandG[center] + bandG[lo] + bandG[hi]) / W;
+            let b = (bandB[center] + bandB[lo] + bandB[hi]) / W;
+            const avg = (r + g + b) / 3;
+            r = clamp(avg + (r - avg) * 1.35, 0, 1);
+            g = clamp(avg + (g - avg) * 1.35, 0, 1);
+            b = clamp(avg + (b - avg) * 1.35, 0, 1);
+            return [r, g, b];
+          };
+          const scaleTo = (c: number[], max: number) => {
+            const k = max / Math.max(c[0], c[1], c[2], 0.001);
+            return [c[0] * k, c[1] * k, c[2] * k];
+          };
+
+          let win = 0;
+          for (let i = 1; i < BANDS; i++) if (bandW[i] > bandW[win]) win = i;
+          const primary = bandColor(win) || bg;
+
+          let second = -1;
+          let secondW = 0;
+          for (let i = 0; i < BANDS; i++) {
+            const hueDist = Math.min(Math.abs(i - win), BANDS - Math.abs(i - win));
+            if (hueDist < 3) continue; // at least 90° away
+            if (bandW[i] > secondW) { secondW = bandW[i]; second = i; }
+          }
+          const secondary = (second >= 0 && secondW > 1 && bandColor(second)) || scaleTo(primary, 0.6);
+
+          // Blobs run vivid (the demo's #FFD56D-on-#FBE8CD energy); the 35%
+          // soften toward the background in the shader keeps them airy.
+          return {
+            bg: toLinear(bg),
+            blob1: toLinear(scaleTo(primary, 0.75)),
+            blob2: toLinear(scaleTo(secondary, 0.55)),
+          };
+        } catch (_e) {
+          return null;
+        }
+      }
+
+      // ---- Background: fullscreen triangle, the demo's shader verbatim ------
+      const uVelocityIntensity = { value: 0 };
+      const uTime = { value: 0 };
+      const uBackgroundColor = { value: new Float32Array(EMBER.bg) };
+      const uBlob1Color = { value: new Float32Array(EMBER.blob1) };
+      const uBlob2Color = { value: new Float32Array(EMBER.blob2) };
+      const uBlobRadius = { value: 0.65 };
+      const uBlobRadiusSecondary = { value: 0.65 * 0.78 };
+      const uBlobStrength = { value: 0.9 };
+      const bg = new Mesh(gl, {
+        geometry: new Triangle(gl),
+        program: new Program(gl, {
+          depthTest: false,
+          depthWrite: false,
+          vertex: /* glsl */ `
+            attribute vec2 position;
+            attribute vec2 uv;
+            varying vec2 vUv;
+            void main(){ vUv = uv; gl_Position = vec4(position, 0.0, 1.0); }
+          `,
+          fragment: /* glsl */ `
+            precision highp float;
+            varying vec2 vUv;
+            uniform vec3 uBackgroundColor;
+            uniform vec3 uBlob1Color;
+            uniform vec3 uBlob2Color;
+            uniform float uNoiseStrength;
+            uniform float uBlobRadius;
+            uniform float uBlobRadiusSecondary;
+            uniform float uBlobStrength;
+            uniform float uTime;
+            uniform float uVelocityIntensity;
+
+            float random(vec2 coord) {
+              return fract(sin(dot(coord, vec2(12.9898, 78.233))) * 43758.5453123);
+            }
+
+            void main() {
+              vec3 color = uBackgroundColor;
+
+              float animTime = uTime * 0.00028;
+              vec2 blob1Center = vec2(
+                0.50 + sin(animTime * 1.000) * 0.13 + sin(animTime * 1.618) * 0.05,
+                0.48 + cos(animTime * 0.794) * 0.09 + cos(animTime * 1.272) * 0.03
+              );
+              vec2 blob2Center = vec2(
+                0.35 + cos(animTime * 0.927) * 0.11 + cos(animTime * 1.414) * 0.04,
+                0.55 + sin(animTime * 1.175) * 0.07 + sin(animTime * 0.618) * 0.03
+              );
+
+              float blob1 = smoothstep(uBlobRadius, 0.0, distance(vUv, blob1Center));
+              float blob2 = smoothstep(uBlobRadiusSecondary, 0.0, distance(vUv, blob2Center));
+
+              vec3 blob1SoftColor = mix(uBlob1Color, uBackgroundColor, 0.35);
+              vec3 blob2SoftColor = mix(uBlob2Color, uBackgroundColor, 0.35);
+              color = mix(color, blob1SoftColor, blob1 * uBlobStrength);
+              color = mix(color, blob2SoftColor, blob2 * uBlobStrength);
+
+              color += uVelocityIntensity * 0.10;
+
+              float grain = random(vUv * vec2(1387.13, 947.91)) - 0.5;
+              color += grain * uNoiseStrength;
+              color = clamp(color, 0.0, 1.0);
+
+              gl_FragColor = vec4(color, 1.0);
+            }
+          `,
+          uniforms: {
+            uBackgroundColor,
+            uBlob1Color,
+            uBlob2Color,
+            uNoiseStrength: { value: 0.04 },
+            uBlobRadius,
+            uBlobRadiusSecondary,
+            uBlobStrength,
+            uTime,
+            uVelocityIntensity,
+          },
+        }),
+      });
+
+      // ---- Covers: one textured plane per project, stacked along -Z ---------
+      // Matching MeshBasicMaterial: plain texture times opacity, double-sided,
+      // no depth writes. The crossfade drives opacity; there is no depth fog.
+      const geometry = new Plane(gl, { width: PLANE_SIZE, height: PLANE_SIZE });
+      const scene = new Transform();
+
+      const vertex = /* glsl */ `
+        attribute vec3 position;
+        attribute vec2 uv;
+        uniform mat4 modelViewMatrix;
+        uniform mat4 projectionMatrix;
+        varying vec2 vUv;
+        void main(){
+          vUv = uv;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `;
+      const fragment = /* glsl */ `
+        precision highp float;
+        uniform sampler2D tMap;
+        uniform float uOpacity;
+        uniform float uLoaded;
+        uniform float uAspect;
+        uniform vec3 uFallback;
+        varying vec2 vUv;
+        void main(){
+          vec3 col = mix(uFallback, texture2D(tMap, vUv).rgb, uLoaded);
+          // Rounded corners — radius is 15% of the card's short side, in the
+          // plane's local units (3-unit-tall geometry scaled by aspect).
+          vec2 p = (vUv - 0.5) * vec2(3.0 * uAspect, 3.0);
+          float rad = 0.45;
+          vec2 q = abs(p) - vec2(1.5 * uAspect, 1.5) + vec2(rad);
+          float sd = length(max(q, 0.0)) + min(max(q.x, q.y), 0.0) - rad;
+          float mask = smoothstep(0.0, -0.012, sd);
+          gl_FragColor = vec4(col, uOpacity * mask);
+        }
+      `;
+
+      type Cover = {
+        mesh: Mesh;
+        opacity: { value: number };
+        loaded: { value: number };
+        loadedTarget: number;
+        aspect: number;
+        baseX: number;
+      };
+      const covers: Cover[] = items.map((it, i) => {
+        const texture = new Texture(gl, {
+          generateMipmaps: false,
+          minFilter: gl.LINEAR,
+          wrapS: gl.CLAMP_TO_EDGE,
+          wrapT: gl.CLAMP_TO_EDGE,
+        });
+        const opacity = { value: i === 0 ? 1 : 0 };
+        const loaded = { value: 0 };
+        const aspectUniform = { value: 1 };
+        const program = new Program(gl, {
+          vertex,
+          fragment,
+          transparent: true,
+          depthTest: false,
+          depthWrite: false,
+          cullFace: false,
+          uniforms: {
+            tMap: { value: texture },
+            uOpacity: opacity,
+            uLoaded: loaded,
+            uAspect: aspectUniform,
+            uFallback: { value: new Float32Array([0.06, 0.06, 0.065]) },
+          },
+        });
+        const mesh = new Mesh(gl, { geometry, program });
+        mesh.position.set(X_PATTERN[i % X_PATTERN.length], 0, -i * PLANE_GAP);
+        mesh.setParent(scene);
+
+        const cover: Cover = {
+          mesh,
+          opacity,
+          loaded,
+          loadedTarget: 0,
+          aspect: 1,
+          baseX: X_PATTERN[i % X_PATTERN.length],
+        };
+
+        // Ask ImageKit for a width close to what we'll actually display.
+        const texW = Math.min(1600, Math.max(640, Math.round((window.innerWidth * renderer.dpr * 0.7) / 160) * 160));
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        img.onload = () => {
+          texture.image = img;
+          cover.aspect = img.naturalWidth / img.naturalHeight;
+          aspectUniform.value = cover.aspect;
+          cover.loadedTarget = 1;
+          const brand = moodFromImage(img);
+          if (brand) moods[i] = brand;
+        };
+        img.src = `${it.src}?tr=w-${texW},q-82`;
+        return cover;
+      });
+
+      // ---- Viewport ---------------------------------------------------------
+      let viewW = 1;
+      let viewH = 1;
+      function resize() {
+        const r = sticky.getBoundingClientRect();
+        viewW = r.width;
+        viewH = r.height;
+        renderer.setSize(r.width, r.height);
+        camera.perspective({ aspect: r.width / r.height });
+      }
+      window.addEventListener("resize", resize);
+      resize();
+
+      // ---- Pointer parallax (demo: window-level, smoothed at 0.08) ----------
+      const pointerTarget = new Vec2(0, 0);
+      const pointerCurrent = new Vec2(0, 0);
+      window.addEventListener(
+        "pointermove",
+        (e) => {
+          pointerTarget.set((e.clientX / window.innerWidth) * 2 - 1, -((e.clientY / window.innerHeight) * 2 - 1));
+        },
+        { passive: true }
+      );
+      window.addEventListener("pointerleave", () => pointerTarget.set(0, 0), { passive: true });
+
+      // ---- Scroll state: page scroll expressed in the demo's scroll pixels --
+      let scrollCurrent = 0;
+      let previousScrollCurrent = 0;
+      let velocity = 0;
+      let breathIntensity = 0;
+      let driftCurrent = 0;
+      let smoothedDepthProgress = 0;
+      let smoothedVelocityIntensity = 0;
+      let active = -1;
+      let swapTimer = 0;
+
+      const totalScrollPx = ((n - 1) * PLANE_GAP) / SCROLL_TO_WORLD;
+
+      const totalLabel = String(n).padStart(2, "0");
+      function setActive(i: number) {
+        if (i === active) return;
+        active = i;
+        hud.classList.add("is-swap");
+        clearTimeout(swapTimer);
+        swapTimer = window.setTimeout(() => {
+          nameEl.textContent = items[i].name;
+          catEl.textContent = items[i].category;
+          yearEl.textContent = items[i].year;
+          indexEl.textContent = `${items[i].num} / ${totalLabel}`;
+          outcomeEl.textContent = items[i].outcome;
+          metricVEl.textContent = items[i].metricV;
+          metricLEl.textContent = items[i].metricL;
+          hud.classList.remove("is-swap");
+        }, 160);
+      }
+
+      function rawProgress() {
+        const rect = sec.getBoundingClientRect();
+        const span = rect.height - sticky.offsetHeight;
+        return span > 0 ? clamp(-rect.top / span, 0, 1) : 0;
+      }
+
+      // Sticky sanity guard: on any browser where position:sticky fails to
+      // pin (an ancestor quietly became a scroll container), the tall section
+      // turns into viewports of empty black — worse than no gallery. While
+      // the camera is mid-walk the sticky's top must sit at ~0; if it has
+      // visibly scrolled away for several consecutive frames, collapse.
+      let stickyBrokenFrames = 0;
+      function stickyIsBroken(progress: number) {
+        if (progress < 0.05 || progress > 0.9) {
+          stickyBrokenFrames = 0;
+          return false;
+        }
+        const top = sticky.getBoundingClientRect().top;
+        stickyBrokenFrames = Math.abs(top) > viewH * 0.25 ? stickyBrokenFrames + 1 : 0;
+        return stickyBrokenFrames > 10;
+      }
+
+      let raf = 0;
+      let running = false;
+
+      function frame(now: number) {
+        uTime.value = now; // the demo passes milliseconds; the shader scales it
+
+        const progress = rawProgress();
+        if (stickyIsBroken(progress)) {
+          pause();
+          sec.classList.remove("is-live");
+          sec.classList.add("is-fallback");
+          return;
+        }
+
+        // Scroll → camera (Scroll.js): lerp at 0.08, clamp to bounds.
+        const scrollTarget = progress * totalScrollPx;
+        scrollCurrent = clamp(lerp(scrollCurrent, scrollTarget, SCROLL_SMOOTHING), 0, totalScrollPx);
+        const rawVelocity = scrollCurrent - previousScrollCurrent;
+        velocity = clamp(lerp(velocity, rawVelocity, VELOCITY_DAMPING), -VELOCITY_MAX, VELOCITY_MAX);
+        if (Math.abs(velocity) < VELOCITY_STOP) velocity = 0;
+        previousScrollCurrent = scrollCurrent;
+        camera.position.z = clamp(CAM_START_Z - scrollCurrent * SCROLL_TO_WORLD, CAM_END_Z, CAM_START_Z);
+
+        // Plane blend (Gallery.getPlaneBlendData): sampled one gap ahead.
+        const sampledZ = camera.position.z - PLANE_GAP * FADE_SAMPLE_OFFSET;
+        const normalizedDepth = clamp((0 - sampledZ) / PLANE_GAP, 0, n - 1);
+        const currentIndex = Math.floor(normalizedDepth);
+        const nextIndex = Math.min(currentIndex + 1, n - 1);
+        const blend = normalizedDepth - currentIndex;
+
+        // Velocity → breath + drift (Gallery.updatePlaneMotion).
+        pointerCurrent.x = lerp(pointerCurrent.x, pointerTarget.x, PARALLAX_SMOOTHING);
+        pointerCurrent.y = lerp(pointerCurrent.y, pointerTarget.y, PARALLAX_SMOOTHING);
+        const velocityNormalized = clamp(Math.abs(velocity) / VELOCITY_MAX, 0, 1);
+        const scrollDrift = clamp(velocity / VELOCITY_MAX, -1, 1);
+        breathIntensity = lerp(breathIntensity, clamp(velocityNormalized * BREATH_GAIN, 0, 1), BREATH_SMOOTHING);
+        driftCurrent = lerp(driftCurrent, scrollDrift, DRIFT_SMOOTHING);
+
+        const isMobile = viewW <= MOBILE_BP;
+        const baseScale = isMobile ? MOBILE_SCALE : DESKTOP_SCALE;
+        const xSpread = isMobile ? MOBILE_X_SPREAD : 1;
+        // Landscape covers can outgrow narrow viewports (the demo's portrait
+        // flowers never did) — cap scale so a focused cover fits with margin.
+        const visW = 2 * PLANE_GAP * Math.tan((camera.fov * Math.PI) / 360) * (viewW / viewH);
+
+        covers.forEach((c, index) => {
+          // Crossfade: only the current and next planes are visible.
+          let targetOpacity = 0;
+          if (index === currentIndex) targetOpacity = 1 - blend;
+          if (index === nextIndex) targetOpacity = Math.max(targetOpacity, blend);
+          c.opacity.value = lerp(c.opacity.value, targetOpacity, FADE_SMOOTHING);
+          c.loaded.value = lerp(c.loaded.value, c.loadedTarget, 0.08);
+
+          const opacity = c.opacity.value;
+          const depthInfluence = 1 + index * 0.05;
+          const parallaxInfluence = opacity * depthInfluence;
+
+          c.mesh.position.x = c.baseX * xSpread + pointerCurrent.x * PARALLAX_X * parallaxInfluence;
+          c.mesh.position.y = pointerCurrent.y * PARALLAX_Y * parallaxInfluence + driftCurrent * DRIFT_Y;
+          c.mesh.position.z = -index * PLANE_GAP;
+
+          const breathInfluence = breathIntensity * opacity;
+          c.mesh.rotation.x = -pointerCurrent.y * BREATH_TILT * breathInfluence;
+          c.mesh.rotation.y = pointerCurrent.x * BREATH_TILT * breathInfluence;
+
+          // The lane offset eats into the available width — include it so a
+          // focused cover never crops at the viewport edge on phones.
+          const fitCap = (visW * 0.92 - 2 * Math.abs(c.baseX * xSpread)) / (PLANE_SIZE * c.aspect);
+          const scale = Math.min(baseScale, fitCap);
+          const scalePulse = 1 + BREATH_SCALE * breathInfluence;
+          c.mesh.scale.set(scale * c.aspect * scalePulse, scale * scalePulse, 1);
+        });
+
+        // Mood blend (Gallery.getMoodBlendData → Background.setMoodBlend):
+        // same sample offset, colours lerped by the blend fraction directly —
+        // the smoothed scroll already keeps it fluid.
+        const m0 = mood(currentIndex);
+        const m1 = mood(nextIndex);
+        for (let k = 0; k < 3; k++) {
+          uBackgroundColor.value[k] = lerp(m0.bg[k], m1.bg[k], blend);
+          uBlob1Color.value[k] = lerp(m0.blob1[k], m1.blob1[k], blend);
+          uBlob2Color.value[k] = lerp(m0.blob2[k], m1.blob2[k], blend);
+        }
+
+        // Background motion response (Experience.update): velocity intensity
+        // is damped near a crossfade's midpoint, then smoothed at 0.1; depth
+        // progress slowly widens the blobs.
+        const depthProgress = clamp((0 - camera.position.z) / ((n - 1) * PLANE_GAP), 0, 1);
+        const transitionStability = smoothstep(Math.abs(blend - 0.5) * 2, 0.35, 1);
+        smoothedDepthProgress = lerp(smoothedDepthProgress, depthProgress, 0.1);
+        smoothedVelocityIntensity = lerp(smoothedVelocityIntensity, velocityNormalized * transitionStability, 0.1);
+        uVelocityIntensity.value = smoothedVelocityIntensity;
+        uBlobRadius.value = clamp(0.65 + smoothedDepthProgress * 0.08, 0.05, 1);
+        uBlobRadiusSecondary.value = uBlobRadius.value * 0.78;
+        uBlobStrength.value = clamp(0.9 + smoothedVelocityIntensity * 0.1, 0, 1);
+
+        // HUD follows the demo's label rule: nearest plane wins at mid-blend.
+        setActive(blend >= 0.5 ? nextIndex : currentIndex);
+        bar.style.transform = `scaleX(${scrollCurrent / totalScrollPx})`;
+
+        renderer.render({ scene: bg });
+        renderer.render({ scene, camera, clear: false });
+        if (running) raf = requestAnimationFrame(frame);
+      }
+
+      function play() {
+        if (!running) {
+          running = true;
+          raf = requestAnimationFrame(frame);
+        }
+      }
+      function pause() {
+        running = false;
+        cancelAnimationFrame(raf);
+      }
+
+      frame(performance.now());
+
+      let inView = false;
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            inView = e.isIntersecting;
+            inView ? play() : pause();
+          });
+        },
+        { threshold: 0 }
+      );
+      io.observe(sec);
+      document.addEventListener("visibilitychange", () => (document.hidden ? pause() : inView && play()));
+
+      canvas!.addEventListener("webglcontextlost", () => {
+        pause();
+        sec.classList.remove("is-live");
+        sec.classList.add("is-fallback");
+      });
+    }
+  }
+</script>

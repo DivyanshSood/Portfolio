@@ -50,14 +50,23 @@
       a.solid:hover { transform: translateY(-2px); }
       a.ghost { border: 1px solid rgba(255,255,255,.3); color: #fff; }
       a.ghost:hover { border-color: #fff; transform: translateY(-2px); }
-      .brand { position: fixed; top: 22px; left: 24px; font-weight: 900; font-size: 16px; letter-spacing: -.04em; }
+      .brand { position: fixed; top: 22px; left: 24px; font-weight: 900; font-size: 16px; letter-spacing: -.04em; color: #fff; text-decoration: none; }
       .brand sup { font-size: 8px; }
       .links { margin-top: 34px; font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; opacity: .45; display: flex; gap: 18px; flex-wrap: wrap; justify-content: center; }
       .links a { color: #fff; text-decoration: none; }
+      /* Same cross-document crossfade as the rest of the site (both documents
+         must opt in — this page skips global.css, so declare it here too). */
+      @view-transition{navigation:auto;}
+      a.btn:active { transform: scale(.97); }
+      @media (prefers-reduced-motion: reduce){
+        ::view-transition-group(*),::view-transition-image-pair(*),
+        ::view-transition-old(*),::view-transition-new(*){animation:none !important;}
+        a.btn{transition:none;}
+      }
     </style>
   </head>
   <body>
-    <div class="brand">DIVYANSH&nbsp;SOOD<sup>®</sup></div>
+    <a class="brand" href="/">DIVYANSH&nbsp;SOOD<sup>®</sup></a>
 
     <div class="eyebrow">Error — Lost in the build</div>
     <div class="big">404<span class="sig">not found</span></div>
@@ -74,7 +83,7 @@
     </div>
 
     <div class="links">
-      <a href="/portfolio">Portfolio</a>
+      <a href="/portfolio/">Portfolio</a>
       <a href="/#contact">Contact</a>
       <a href="/blog/">Blog</a>
       <a href="mailto:hello@divyanshsood.com">Email</a>
