@@ -1,30 +1,30 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Nav from "../components/Nav.astro";
+import HelloLoader from "../components/home/HelloLoader.astro";
 import Hero from "../components/home/Hero.astro";
 import About from "../components/home/About.astro";
 import HorizontalScrollWork from "../components/motion/HorizontalScrollWork.astro";
 import Testimonials from "../components/home/Testimonials.astro";
-import Process from "../components/home/Process.astro";
-import Pricing from "../components/home/Pricing.astro";
-import Faq from "../components/home/Faq.astro";
 import Contact from "../components/home/Contact.astro";
 import ClosingCta from "../components/home/ClosingCta.astro";
 
 import HomeScripts from "../components/home/HomeScripts.astro";
 import MotionController from "../components/motion/MotionController.astro";
 import { homeJsonLd } from "../lib/home-schema.mjs";
+import { FOUNDER_PHOTO } from "../lib/site.mjs";
 
 const SITE = "https://www.divyanshsood.com";
 const jsonld = homeJsonLd(SITE);
 ---
 
 <Layout
-  title="Divyansh Sood® Studio — Built in the Himalayas, Shipping Worldwide"
-  description="Independent web developer in Himachal Pradesh, India — custom-coded, conversion-focused sites, stores and web apps for founders worldwide. 7 days, not 6 months."
+  title="Divyansh Sood® Studio — Custom Websites That Convert, Live in Weeks"
+  description="Divyansh Sood designs and builds custom-coded, conversion-focused websites, stores and web apps for founders worldwide. Live in 3–4 weeks. You own the code."
   canonical={`${SITE}/`}
-  keywords="Divyansh Sood, web developer, custom website developer, Next.js developer, Astro developer, conversion-focused websites, ecommerce website developer, SEO web developer, AI website builder, Himachal Pradesh, India web studio"
-  ogDescription="Built from the Himalayas. Shipping for the world. Custom-coded sites in 3–4 weeks. From $3,000."
+  keywords="Divyansh Sood, custom website design and development, hire web developer, conversion-focused website, Next.js developer, Astro developer, ecommerce website developer, web app MVP developer, SEO web developer, Himachal Pradesh, India web studio"
+  ogDescription="Custom-coded websites that convert — designed, built and live in 3–4 weeks. You own the code."
+  preloadImage={{ href: FOUNDER_PHOTO }}
   jsonld={jsonld}
 >
   {/* Synchronous, render-blocking: arm scroll-reveal before first paint so
@@ -41,38 +41,40 @@ const jsonld = homeJsonLd(SITE);
           setTimeout(function () {
             if (!d.classList.contains("motion-ready")) d.classList.add("motion-fallback");
           }, 3000);
+          // Hello curtain: first homepage view this session only. Decided here
+          // (before first paint) so repeat visits never flash the overlay.
+          try {
+            if (!sessionStorage.getItem("dsHello")) {
+              sessionStorage.setItem("dsHello", "1");
+              d.classList.add("ds-hello");
+            }
+          } catch (err) {}
         } catch (e) {}
       })();
     </script>
   </Fragment>
 
-  <Nav kicker="Design & dev studio from the Himalayas" />
+  {/* First-visit "Hello" curtain — must be the first thing painted. */}
+  <HelloLoader />
 
-  {/* ---------- 01 · Hero ---------- */}
+  <Nav />
+
+  {/* ---------- Hero ---------- */}
   <Hero />
 
-  {/* ---------- 02 · About + WhyMe (founder story) ---------- */}
-  <About />
-
-  {/* ---------- 03 · Selected Work (top 3 of 9) ---------- */}
+  {/* ---------- 01 · Selected Work (4 of 9, big visuals — the proof leads) ---------- */}
   <HorizontalScrollWork />
 
-  {/* ---------- 04 · Testimonials (3 with context) ---------- */}
+  {/* ---------- 02 · About (short founder intro) ---------- */}
+  <About />
+
+  {/* ---------- 03 · Testimonials (3 with context) ---------- */}
   <Testimonials />
 
-  {/* ---------- 05 · Process (how it works — 5 steps) ---------- */}
-  <Process />
-
-  {/* ---------- 06 · Pricing ---------- */}
-  <Pricing />
-
-  {/* ---------- 07 · FAQ (before-we-start objections) ---------- */}
-  <Faq />
-
-  {/* ---------- 08 · Closing CTA (orange) + WebGL liquid-metal blob ---------- */}
+  {/* ---------- Closing CTA + WebGL liquid-metal blob ---------- */}
   <ClosingCta />
 
-  {/* ---------- 09 · Contact ---------- */}
+  {/* ---------- 04 · Contact ---------- */}
   <Contact />
 </Layout>
 

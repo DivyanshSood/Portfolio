@@ -39,7 +39,9 @@ const compareRows = [
         <p class="ds-pricing-quote-text">"The hardest part of building a website isn't the code — it's knowing what to leave out. Every element here earns its place."</p>
         <span class="ds-pricing-quote-attr mono">— Divyansh, from the studio</span>
       </div>
-      <h2 class="ds-pricing-title" data-reveal>Pricing.</h2>
+      <h2 class="ds-pricing-title" data-giant-text>
+        <span class="ds-giant-mask"><span class="ds-giant-line">Pricing.</span></span>
+      </h2>
     </div>
 
     <div class="ds-price-scroll" role="region" aria-label="Plan comparison" tabindex="0" data-reveal>
@@ -85,8 +87,39 @@ const compareRows = [
       </table>
     </div>
 
+    {/* Phone layout (≤720px): the same plans/rows rendered as stacked cards.
+        The 760px-wide comparison table hid every price and ✓ off-screen on
+        phones; cards keep all three tiers fully visible with zero copy drift
+        (same data source as the table above). */}
+    <div class="ds-price-cards" data-reveal>
+      {plans.map((pl, i) => (
+        <article class={`ds-price-card ${pl.featured ? "is-featured" : ""}`}>
+          <header class="ds-price-card-head">
+            <span class="ds-price-th-name">{pl.name}{pl.featured ? " ★" : ""}</span>
+            <span class="ds-price-th-from">from {pl.price}</span>
+            <span class="ds-price-th-blurb">{pl.blurb}</span>
+          </header>
+          <ul class="ds-price-card-rows">
+            {compareRows.map((row) => (
+              <li>
+                <span class="ds-price-card-label">{row.label}</span>
+                {row.cells[i] === true ? (
+                  <span class="ds-price-yes" aria-label="Included">✓</span>
+                ) : row.cells[i] === false ? (
+                  <span class="ds-price-no" aria-label="Not included">—</span>
+                ) : (
+                  <span class="ds-price-note">{row.cells[i]}</span>
+                )}
+              </li>
+            ))}
+          </ul>
+          <a href="#contact" class={`ds-price-cta ${pl.featured ? "is-featured" : ""}`}>Get started <span aria-hidden="true">↗</span></a>
+        </article>
+      ))}
+    </div>
+
     <p class="ds-pricing-note" data-reveal>
-      <span class="ds-pricing-note-strong">Projects start at $3,000.</span> Prices are starting points in USD — every project is quoted to its real scope on a short call. Independent studio, low overhead — honest pricing, no agency markup. <a href="/website-audit">Want a free audit of your current site first? ↗</a><br /><br />Indian SMB? The same scope in ₹ is roughly ₹55K–₹3L+ — see the <a href="/blog/website-development-cost-india-2026">2026 India cost guide ↗</a> for what each plan includes locally.
+      <span class="ds-pricing-note-strong">Projects start at $3,000.</span> Prices are starting points in USD — every project is quoted to its real scope on a short call. Independent studio, low overhead — honest pricing, no agency markup. <a href="/website-audit/">Want a free audit of your current site first? ↗</a><br /><br />Indian SMB? The same scope in ₹ is roughly ₹55K–₹3L+ — see the <a href="/blog/website-development-cost-india-2026/">2026 India cost guide ↗</a> for what each plan includes locally.
     </p>
   </div>
 </section>
@@ -314,5 +347,49 @@ const compareRows = [
   @media (max-width: 760px) {
     .ds-pricing-head { grid-template-columns: 1fr; align-items: start; gap: 18px; }
     .ds-pricing-title { text-align: left; }
+  }
+
+  /* ----- Phone plan cards (replace the table ≤720px) ----- */
+  .ds-price-cards { display: none; }
+  @media (max-width: 720px) {
+    .ds-price-scroll { display: none; }
+    .ds-price-cards {
+      display: grid;
+      gap: 18px;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      padding-top: 22px;
+    }
+    .ds-price-card {
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 10px;
+      padding: 22px 20px 20px;
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .ds-price-card.is-featured {
+      border-color: rgba(255, 31, 31, 0.45);
+      background: rgba(255, 31, 31, 0.06);
+      border-top: 2px solid var(--accent, #ff1f1f);
+    }
+    .ds-price-card.is-featured .ds-price-th-name { color: var(--accent, #ff1f1f); opacity: 1; }
+    .ds-price-card-head {
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    .ds-price-card-rows {
+      list-style: none;
+      margin: 0 0 18px;
+      padding: 0;
+    }
+    .ds-price-card-rows li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      padding: 11px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 14px;
+    }
+    .ds-price-card-label { font-weight: 600; opacity: 0.86; }
+    .ds-price-card .ds-price-cta { width: 100%; justify-content: center; }
   }
 </style>

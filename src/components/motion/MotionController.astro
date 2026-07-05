@@ -32,6 +32,7 @@
 
   function boot() {
     initSmoothScroll();
+    initHero();
     initReveal();
     initGiantText();
     initParallax();
@@ -57,10 +58,12 @@
     // Expose for anchor links / programmatic scroll (e.g. progress dots).
     (window as any).__lenis = lenis;
 
-    // Smooth in-page anchor jumps through Lenis.
-    document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((a) => {
+    // Smooth in-page anchor jumps through Lenis. Also catches "/#section"
+    // links (shared components like the nav use that form so they work from
+    // inner pages) — on the homepage they're the same in-page target.
+    document.querySelectorAll<HTMLAnchorElement>('a[href^="#"], a[href^="/#"]').forEach((a) => {
       a.addEventListener("click", (e) => {
-        const id = a.getAttribute("href");
+        const id = (a.getAttribute("href") || "").replace(/^\//, "");
         if (!id || id === "#" || id.length < 2) return;
         const target = document.querySelector(id);
         if (!target) return;
@@ -68,6 +71,53 @@
         lenis.scrollTo(target as HTMLElement, { offset: -10 });
       });
     });
+  }
+
+  /* ---------- Hero depth: exit scrub + pointer parallax ----------------- */
+  // The hero's *entrance* stays in its own CSS keyframes (Hero.astro). Here we
+  // add what CSS can't: the card releasing upward as the fold scrolls away,
+  // a slow push-in on the portrait, and a desktop-only pointer parallax.
+  // Scale-only on the background so the approved framing at rest never shifts.
+  function initHero() {
+    const hero = document.querySelector<HTMLElement>("#top.ds-hero");
+    if (!hero) return;
+    const bg = hero.querySelector<HTMLElement>(".ds-hero-bg");
+    const card = hero.querySelector<HTMLElement>(".hero-card");
+
+    if (bg) {
+      gsap.fromTo(
+        bg,
+        { scale: 1.02 },
+        {
+          scale: 1.1,
+          ease: "none",
+          scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true },
+        }
+      );
+    }
+    if (card) {
+      gsap.to(card, {
+        y: -70,
+        opacity: 0,
+        ease: "none",
+        scrollTrigger: { trigger: hero, start: "top top", end: "72% top", scrub: true },
+      });
+    }
+    if (bg && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+      // ±0.8% drift max — the 1.02 base scale leaves 1% overscan per side,
+      // so the photo's edges can never enter the frame.
+      const xTo = gsap.quickTo(bg, "xPercent", { duration: 0.9, ease: "power3.out" });
+      const yTo = gsap.quickTo(bg, "yPercent", { duration: 0.9, ease: "power3.out" });
+      hero.addEventListener("pointermove", (e) => {
+        const r = hero.getBoundingClientRect();
+        xTo(((e.clientX - r.left) / r.width - 0.5) * -1.6);
+        yTo(((e.clientY - r.top) / r.height - 0.5) * -1.2);
+      });
+      hero.addEventListener("pointerleave", () => {
+        xTo(0);
+        yTo(0);
+      });
+    }
   }
 
   /* ---------- Generic scroll reveal (data-reveal) ----------------------- */
@@ -115,7 +165,12 @@
     sections.forEach((section) => {
       const lines = section.querySelectorAll<HTMLElement>(".ds-giant-line");
       if (!lines.length) return;
-      gsap.set(lines, { yPercent: 110, opacity: 0 });
+      // 120% matches the CSS pre-hide in base.css (html.motion .ds-giant-line)
+      // so there's no jump when GSAP takes over from the pre-paint state.
+      // y:0 matters: GSAP parses the CSS translateY(120%) out of the computed
+      // matrix as an absolute `y` px offset — clear it, or the line keeps that
+      // extra offset forever and stays hidden behind its mask.
+      gsap.set(lines, { y: 0, yPercent: 120, opacity: 0 });
       gsap.to(lines, {
         yPercent: 0,
         opacity: 1,

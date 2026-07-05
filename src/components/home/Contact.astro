@@ -1,8 +1,9 @@
 ---
 // Contact + footer — Mattis p24–25 language: giant "START A PROJECT.", a
 // borderless underline form on the right, the personal note + contact channels
-// on the left, then the footer. No bordered cards. The submit is wired to
-// WhatsApp in HomeScripts.astro. Copy/links unchanged (footer cursive signature
+// on the left, then the footer. No bordered cards. The submit POSTs to
+// /api/contact (mailto fallback) via src/scripts/contact-form.js, initialised
+// in HomeScripts.astro. Copy/links unchanged (footer cursive signature
 // dropped so the bold wordmark never doubles with the signature).
 import { CALENDLY_URL, GOOGLE_MAPS_URL } from "../../lib/site.mjs";
 ---
@@ -10,7 +11,7 @@ import { CALENDLY_URL, GOOGLE_MAPS_URL } from "../../lib/site.mjs";
 <section id="contact" class="ds-contact" aria-label="Start a project">
   <div class="ds-contact-inner">
     <div class="ds-contact-bar mono" data-reveal>
-      <span>(Contact — 07)</span>
+      <span>(Contact — 04)</span>
       <span>2026 ©</span>
     </div>
 
@@ -43,17 +44,22 @@ import { CALENDLY_URL, GOOGLE_MAPS_URL } from "../../lib/site.mjs";
 
       {/* Right — giant heading + underline form */}
       <div class="ds-contact-right">
-        <h2 class="ds-contact-title" data-reveal>Start a<br />project.</h2>
+        <h2 class="ds-contact-title" data-giant-text>
+          <span class="ds-giant-mask"><span class="ds-giant-line">Start a</span></span>
+          <span class="ds-giant-mask"><span class="ds-giant-line">project.</span></span>
+        </h2>
         <form id="ds-contact-form" class="ds-contact-form" data-reveal>
           <div class="ds-contact-row">
             <input id="cf-name" type="text" placeholder="Your name" name="name" autocomplete="name" aria-label="Your name" class="ds-contact-input" />
             <input id="cf-email" type="email" placeholder="Email address" name="email" autocomplete="email" aria-label="Email address" class="ds-contact-input" />
           </div>
-          <input id="cf-msg" type="text" placeholder="Tell me about your project" name="message" aria-label="Tell me about your project" class="ds-contact-input ds-contact-input-full" />
+          <textarea id="cf-msg" rows="4" placeholder="Tell me about your project" name="message" aria-label="Tell me about your project" class="ds-contact-input ds-contact-input-full"></textarea>
           <label class="ds-contact-check">
             <input id="cf-new" type="checkbox" />
             <span class="cf-box"></span> I need a brand-new website
           </label>
+          {/* Honeypot — invisible to humans; bots that fill it are dropped. */}
+          <input id="cf-hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none;" />
           <div class="ds-contact-submit-row">
             <button type="submit" class="ds-contact-submit">Send message <span aria-hidden="true">↗</span></button>
             <span class="ds-contact-terms mono">By submitting you agree to the Terms &amp; Privacy Policy.</span>
@@ -89,7 +95,7 @@ import { CALENDLY_URL, GOOGLE_MAPS_URL } from "../../lib/site.mjs";
       <div class="ds-foot-bar mono">
         <span>© 2026 Divyansh Sood Studio</span>
         <span class="ds-foot-legal">
-          <a href="/privacy">Privacy</a>
+          <a href="/privacy/">Privacy</a>
           <a href="#ds-cookie-settings" data-cookie-settings>Cookies</a>
         </span>
         <a href="#top">Back to top ↑</a>
@@ -249,6 +255,7 @@ import { CALENDLY_URL, GOOGLE_MAPS_URL } from "../../lib/site.mjs";
   .ds-contact-input::placeholder { color: rgba(255, 255, 255, 0.4); }
   .ds-contact-input:focus { border-bottom-color: var(--accent, #ff1f1f); }
   .ds-contact-input-full { width: 100%; margin-bottom: 26px; }
+  textarea.ds-contact-input { resize: vertical; min-height: 92px; line-height: 1.55; }
 
   .ds-contact-check {
     display: flex;
@@ -345,5 +352,9 @@ import { CALENDLY_URL, GOOGLE_MAPS_URL } from "../../lib/site.mjs";
   }
   @media (max-width: 520px) {
     .ds-contact-row { grid-template-columns: 1fr; }
+  }
+  /* Keep the footer bar clear of the fixed "Book a call" pill on phones. */
+  @media (max-width: 560px) {
+    .ds-foot-bar { padding-bottom: 84px; }
   }
 </style>

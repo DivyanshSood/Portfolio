@@ -12,7 +12,10 @@
 
   <div class="ds-closing-inner">
     <span class="ds-closing-meta mono" data-reveal>— Next step</span>
-    <h2 class="ds-closing-title" data-reveal>Let's<br />build.</h2>
+    <h2 class="ds-closing-title" data-giant-text>
+      <span class="ds-giant-mask"><span class="ds-giant-line">Let's</span></span>
+      <span class="ds-giant-mask"><span class="ds-giant-line">build.</span></span>
+    </h2>
     <a href="#contact" class="ds-link ds-closing-cta" data-reveal>
       Get in touch <span aria-hidden="true">↗</span>
     </a>
@@ -267,11 +270,16 @@
       frame(performance.now());
 
       if (!reduce) {
+        let inView = false;
         const io = new IntersectionObserver((entries) => {
-          entries.forEach((e) => (e.isIntersecting ? play() : pause()));
+          entries.forEach((e) => {
+            inView = e.isIntersecting;
+            inView ? play() : pause();
+          });
         }, { threshold: 0.05 });
         io.observe(sec);
-        document.addEventListener("visibilitychange", () => (document.hidden ? pause() : play()));
+        // Resume on tab return only if the section is actually on screen.
+        document.addEventListener("visibilitychange", () => (document.hidden ? pause() : inView && play()));
       }
     } catch (err) {
       // No WebGL (or context lost) → show the CSS fallback sphere.

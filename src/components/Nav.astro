@@ -1,20 +1,29 @@
 ---
 import { CALENDLY_URL } from "../lib/site.mjs";
-export interface Props {
-  kicker?: string;
-}
-const { kicker = "Design & dev studio from the Himalayas" } = Astro.props;
 ---
 
 <nav id="ds-nav">
   <div class="nav-left">
-    <a href="/" class="brand">DIVYANSH&nbsp;SOOD<sup>®</sup></a>
+    {/* Brand = the red cursive signature (swapped up from the hero, which now
+        carries the heavy wordmark on the portrait instead). Same name, same
+        ® — only the treatment moved. */}
+    <a href="/" class="brand">Divyansh&nbsp;Sood<sup>®</sup><svg
+        class="brand-swash"
+        viewBox="0 0 300 32"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+        focusable="false"
+      ><path
+          d="M4 22 C 70 30, 130 8, 190 16 C 232 21, 270 16, 296 6"
+          fill="none"
+          vector-effect="non-scaling-stroke"
+        /></svg></a>
   </div>
   <div class="nav-right">
     <div class="nav-links" id="nav-menu">
-      <a href="/portfolio">Portfolio</a>
+      <a href="/portfolio/">Portfolio</a>
       <a href="/blog/">Blog</a>
-      <a href="/about">About</a>
+      <a href="/about/">About</a>
       <a href="/#contact">Contact</a>
     </div>
     <a href={CALENDLY_URL} target="_blank" rel="noopener" class="nav-cta">
@@ -44,7 +53,11 @@ const { kicker = "Design & dev studio from the Himalayas" } = Astro.props;
     padding: 18px 32px;
     background: transparent;
     border-bottom: 1px solid transparent;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   }
+  /* Slides away while scrolling down, returns on the first upward scroll.
+     Toggled by BaseScripts; never applied while the menu is open. */
+  #ds-nav.nav-hidden { transform: translateY(-100%); }
 
   .nav-left {
     display: flex;
@@ -59,41 +72,44 @@ const { kicker = "Design & dev studio from the Himalayas" } = Astro.props;
     flex: none;
   }
 
+  /* Caveat runs a small x-height, so the signature needs a larger px size
+     than the old 17px Archivo mark to hold the same visual weight. Red on
+     the near-black page is ~5.1:1 — passes AA at this size. */
   #ds-nav .brand {
-    font-weight: 900;
-    font-size: 17px;
-    letter-spacing: -0.035em;
-    color: #fff;
+    position: relative;
+    display: inline-block;
+    font-family: "Caveat", cursive;
+    font-weight: 700;
+    font-size: 27px;
+    letter-spacing: 0;
+    color: var(--accent, #ff1f1f);
     text-decoration: none;
     line-height: 1;
     white-space: nowrap;
     flex: none;
   }
   #ds-nav .brand sup {
-    font-size: 9px;
-    top: -0.7em;
+    font-size: 0.42em;
+    top: -0.75em;
     font-weight: 700;
   }
-
-  .nav-divider {
-    display: inline-block;
-    width: 1px;
-    height: 14px;
-    background: rgba(255, 255, 255, 0.28);
-    flex: none;
+  /* Hand-drawn underline swash beneath the signature — the same stroke the
+     hero used to carry. Static (pre-drawn): the nav renders on every page,
+     outside the homepage motion system, and a logo shouldn't re-animate on
+     each navigation anyway. */
+  .brand-swash {
+    position: absolute;
+    left: 6%;
+    bottom: -0.1em;
+    width: 94%;
+    height: 0.26em;
+    overflow: visible;
+    pointer-events: none;
   }
-
-  #ds-nav .kicker {
-    font-family: 'Space Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.7);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    min-width: 0;
-    flex: 1 1 auto;
+  .brand-swash path {
+    stroke: var(--accent, #ff1f1f);
+    stroke-width: 2;
+    stroke-linecap: round;
   }
 
   .nav-links {
@@ -202,16 +218,13 @@ const { kicker = "Design & dev studio from the Himalayas" } = Astro.props;
     .nav-cta { font-size: 10px; padding: 11px 15px; }
   }
 
-  /* Phones — scale everything down; tagline may ellipsize. */
+  /* Phones — scale everything down. */
   @media (max-width: 560px) {
     #ds-nav { gap: 10px; padding: 11px 14px; }
     .nav-left { flex: 1 1 auto; gap: 9px; }
-    #ds-nav .brand { font-size: 14px; }
-    .nav-divider { display: none; }
-    #ds-nav .kicker { font-size: 8px; letter-spacing: 0.1em; }
+    #ds-nav .brand { font-size: 22px; }
   }
   @media (max-width: 420px) {
-    #ds-nav .kicker { display: none; }
     .nav-cta { font-size: 9px; padding: 10px 12px; letter-spacing: 0.08em; }
   }
 

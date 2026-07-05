@@ -1,46 +1,31 @@
 ---
-// About — rebuilt as a full-bleed ORANGE editorial block in the Mattis
-// "Strategy before pixels" language (p2–3): mono micro-labels across the top, a
-// giant right-aligned heading, body copy left, a borderless B&W portrait with
-// parallax, and the three reasons as a hairline-divided list. No frames, no
-// container cards. Copy is unchanged. `home-section` keeps the mobile padding.
+// About — short founder intro on the full-bleed accent block ("show, don't
+// tell" pass, July 2026: the work section above carries the proof, so this
+// shrank to one giant statement + a three-line lead + booking link — the
+// numbered reasons list was cut). The headline is promoted from the lead's
+// own closing line ("One person, end to end — no agency layers"), so no new
+// claims were invented. `home-section` keeps the mobile padding.
+// Ink: mixed white/black on the red — see the contrast note by .ds-about-h2.
 import { CALENDLY_URL } from "../../lib/site.mjs";
-
-const reasons = [
-  {
-    n: "01",
-    t: "Weeks, not quarters",
-    d: "Agencies scope in months. I scope tight and ship in weeks — so your site starts earning sooner, not 'next quarter'.",
-  },
-  {
-    n: "02",
-    t: "You own every line",
-    d: "The right tool for the job, not a builder's template. No monthly tax, no lock-in — you keep the code.",
-  },
-  {
-    n: "03",
-    t: "I run my own product",
-    d: "I don't only build for clients — I run my own live product, with real users. So I make the same calls on your site I'd make on mine.",
-  },
-];
 ---
 
 <section id="about" class="home-section ds-about">
   <div class="ds-about-inner">
     {/* Top mono micro-labels */}
     <div class="ds-about-labels mono" data-reveal>
-      <span>(About — 01)</span>
-      <span class="ds-about-labels-mid">How I work differently</span>
+      <span>(About — 02)</span>
+      <span class="ds-about-labels-mid">Why founders hire me</span>
       <span>2026 ©</span>
     </div>
 
-    {/* Heading right, body left */}
+    {/* One giant statement + short lead */}
     <div class="ds-about-top">
       <div class="ds-about-body">
         <p class="ds-about-lead" data-reveal>
-          I'm Divyansh — a 1-person studio in Himachal Pradesh. No agency floor,
-          no account managers. Just me, building sites for founders who'd rather
-          hire a person than a shop.
+          I'm Divyansh Sood — an independent web designer &amp; developer in
+          Himachal Pradesh, India. I build custom-coded, conversion-focused
+          websites, stores and web apps for founders worldwide. No agency
+          layers.
         </p>
         <p class="ds-about-world mono" data-reveal aria-label="Worldwide collaboration">
           ↗ Async across US · UK · Gulf · Australia
@@ -50,29 +35,14 @@ const reasons = [
           <a href={CALENDLY_URL} target="_blank" rel="noopener" class="ds-link">
             Book a 15-min intro <span aria-hidden="true">↗</span>
           </a>
-          <a href="/#work" class="ds-link ds-link-soft">
-            See the work <span aria-hidden="true">↗</span>
-          </a>
         </div>
       </div>
 
-      <h2 class="ds-about-h2" data-reveal>
-        Three things<br />I do that<br /><span class="ds-about-h2-em">agencies won't.</span>
+      <h2 class="ds-about-h2" data-giant-text>
+        <span class="ds-giant-mask"><span class="ds-giant-line">One person.</span></span>
+        <span class="ds-giant-mask"><span class="ds-giant-line"><span class="ds-about-h2-em">End to end.</span></span></span>
       </h2>
     </div>
-
-    {/* Reasons — full-width hairline list */}
-    <ol class="ds-about-reasons">
-        {reasons.map((r) => (
-          <li class="ds-about-reason" data-reveal>
-            <div class="ds-about-reason-head">
-              <span class="ds-about-reason-n mono">{r.n}</span>
-              <h3 class="ds-about-reason-t">{r.t}</h3>
-            </div>
-            <p class="ds-about-reason-d">{r.d}</p>
-          </li>
-        ))}
-      </ol>
   </div>
 </section>
 
@@ -112,8 +82,12 @@ const reasons = [
     align-items: center;
     text-align: center;
     gap: clamp(26px, 4vw, 52px);
-    margin-bottom: clamp(48px, 7vw, 100px);
   }
+  /* Mixed ink on the red (July 2026): the display type runs white so the
+     section reads as the white-on-black site "heated up" rather than a
+     palette break, while every small line stays near-black — white on this
+     red is only ~3.8:1, fine for large bold type but a WCAG/axe contrast
+     failure at caption sizes (needs 4.5:1). Black on it is ~5.5:1. */
   .ds-about-h2 {
     order: -1;
     margin: 0;
@@ -123,23 +97,27 @@ const reasons = [
     line-height: 0.88;
     letter-spacing: -0.04em;
     text-transform: uppercase;
-    color: #0b0b0c;
+    color: #fff;
   }
-  /* Emphasis stays in the 2-colour palette: black text knocked out as an
-     outline so it reads as a separate beat without a third hue. */
+  /* Emphasis stays in the 2-ink system: white text knocked out as an outline
+     so it reads as a separate beat without a third hue. */
   .ds-about-h2-em {
-    -webkit-text-stroke: 2px #0b0b0c;
+    -webkit-text-stroke: 2px #fff;
     color: transparent;
   }
 
   .ds-about-body { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 18px; padding-top: 8px; }
+  /* White lead: weight 700 + ≥19px keeps it in WCAG's "large text" class
+     (≥18.66px bold), where white-on-this-red's 3.8:1 passes AA. Don't drop
+     either value below that line. */
   .ds-about-lead {
     margin: 0 auto;
     font-size: clamp(19px, 2vw, 26px);
     line-height: 1.4;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: -0.01em;
     max-width: 34ch;
+    color: #fff;
   }
   .ds-about-world {
     margin: 6px auto 0;
@@ -154,45 +132,8 @@ const reasons = [
 
   .ds-about-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 26px; margin-top: 8px; }
 
-  /* Reasons — full-width hairline list, each row two columns */
-  .ds-about-reasons {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    border-top: 1px solid rgba(11, 11, 12, 0.28);
-  }
-  .ds-about-reason {
-    display: grid;
-    grid-template-columns: 0.95fr 1.05fr;
-    gap: clamp(14px, 4vw, 56px);
-    align-items: baseline;
-    padding: clamp(22px, 2.6vw, 34px) 0;
-    border-bottom: 1px solid rgba(11, 11, 12, 0.28);
-  }
-  .ds-about-reason-head {
-    display: flex;
-    align-items: baseline;
-    gap: 16px;
-  }
-  .ds-about-reason-n { font-size: 12px; letter-spacing: 0.12em; opacity: 0.6; }
-  .ds-about-reason-t {
-    margin: 0;
-    font-weight: 800;
-    font-size: clamp(22px, 2.6vw, 34px);
-    letter-spacing: -0.02em;
-    line-height: 1.05;
-    color: #0b0b0c;
-  }
-  .ds-about-reason-d {
-    margin: 0;
-    font-size: clamp(14px, 1.1vw, 16px);
-    line-height: 1.55;
-    max-width: 52ch;
-    opacity: 0.82;
-  }
   @media (max-width: 900px) {
     .ds-about-top { gap: 30px; }
-    .ds-about-reason { grid-template-columns: 1fr; gap: 10px; }
   }
   @media (max-width: 560px) {
     .ds-about-h2-em { -webkit-text-stroke-width: 1.4px; }

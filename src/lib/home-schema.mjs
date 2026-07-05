@@ -17,7 +17,7 @@ export function homeJsonLd(SITE) {
         url: `${SITE}/`,
         name: "Divyansh Sood® Studio",
         description:
-          "Built from the Himalayas. Shipping for the world. Independent web design & development studio — custom-coded, conversion-focused websites, stores and web apps. 7 days vs 6 months quoted. Marketing sites & MVPs in 3–4 weeks.",
+          "Divyansh Sood® Studio is an independent web design & development studio in Himachal Pradesh, India, building custom-coded, conversion-focused websites, e-commerce stores and web apps for founders worldwide. Live in 3–4 weeks; fastest full site shipped in 7 days.",
         inLanguage: "en",
         publisher: { "@id": `${SITE}/#person` },
       },
@@ -75,12 +75,11 @@ export function homeJsonLd(SITE) {
           "https://ik.imagekit.io/dn2zdxiu3/Portfolioprojectimages/AiWebsitegenerator/AiWebsitegenerator-1.webp",
         logo: `${SITE}/icon.svg`,
         description:
-          "Built from the Himalayas. Shipping for the world. Independent 1-person web design & development studio building custom-coded, conversion-focused websites, stores and web apps for founders worldwide. Marketing sites & MVPs in 3–4 weeks; larger builds, 6–10. From $3,000.",
+          "Built from the Himalayas. Shipping for the world. Independent 1-person web design & development studio building custom-coded, conversion-focused websites, stores and web apps for founders worldwide. Marketing sites & MVPs in 3–4 weeks; larger builds, 6–10.",
         founder: { "@id": `${SITE}/#person` },
         employee: { "@id": `${SITE}/#person` },
         email: "hello@divyanshsood.com",
         telephone: "+91-98160-91875",
-        priceRange: "$$$",
         serviceType: [
           "Custom website design and development",
           "E-commerce store development",
@@ -136,16 +135,10 @@ export function homeJsonLd(SITE) {
             name: `${p.name} ${p.headlineTail}`,
           })),
       },
-      {
-        "@type": "FAQPage",
-        "@id": `${SITE}/#faq`,
-        mainEntity: [
-          { "@type": "Question", name: "Do you write the copy, or do we?", acceptedAnswer: { "@type": "Answer", text: "Either works. I can write conversion-focused copy tailored to your brand and goals, or polish and structure content you provide. Most projects are a collaboration." } },
-          { "@type": "Question", name: "What happens after launch?", acceptedAnswer: { "@type": "Answer", text: "You get a tidy handover, documentation, and 30 days of free support. From there we can set up an ongoing retainer to keep improving results." } },
-          { "@type": "Question", name: "How long does a project take?", acceptedAnswer: { "@type": "Answer", text: "Marketing sites and MVPs typically go live in 3–4 weeks. Larger builds (custom dashboards, web apps, multi-page redesigns) run 6–10 weeks. I take on a limited number at once so yours always has my full attention." } },
-          { "@type": "Question", name: "What if I'm not happy with the result?", acceptedAnswer: { "@type": "Answer", text: "We work in clear milestones with revision rounds at each. You always know where things stand, and nothing ships until you're genuinely happy with it." } },
-        ],
-      },
+      // FAQPage schema removed 2026-07-04: the FAQ section left the homepage
+      // in the "show, don't tell" pass, and Google requires FAQ markup to
+      // match content visible on the page. Restore alongside the Faq
+      // component if it's ever remounted.
     ],
   });
 }

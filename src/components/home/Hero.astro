@@ -8,13 +8,15 @@
 //   2. Centered hero card with the four corner brackets (the "frame" that
 //      every other section also uses via <Frame>).
 //   3. Top mono tag → giant wordmark → description → author block → red
-//      signature → three disciplines separated by a hairline.
+//      wordmark stamp (bottom-right, in the logo's heavy caps — the cursive
+//      signature moved up into the nav as the site's brand, July 2026) →
+//      three disciplines separated by a hairline.
 //   4. Bottom-left and bottom-right page-meta chips, sitting on the hero so
 //      they read like the chrome of the design, not as page furniture.
 //
 // Motion: a staggered entrance on load (CSS keyframes gated on html.motion),
-// a left-to-right "draw" on the signature, and a subtle pointer parallax on the
-// portrait for depth. All disabled under prefers-reduced-motion.
+// a left-to-right wipe on the wordmark stamp, and a subtle pointer parallax on
+// the portrait for depth. All disabled under prefers-reduced-motion.
 import { FOUNDER_PHOTO, FOUNDER_PHOTO_ALT } from "../../lib/site.mjs";
 ---
 
@@ -32,31 +34,50 @@ import { FOUNDER_PHOTO, FOUNDER_PHOTO_ALT } from "../../lib/site.mjs";
 
     {/* Top mono tag */}
     <div class="hero-eyebrow mono">
-      <span>Est. 2026</span>
+      <span>Est. 2022</span>
+      {/* Custom press-mark asterisk — slow spin, balances the eyebrow row. */}
+      <svg class="hero-asterisk" viewBox="0 0 40 40" aria-hidden="true" focusable="false">
+        <line x1="20" y1="3" x2="20" y2="37" />
+        <line x1="3" y1="20" x2="37" y2="20" />
+        <line x1="8" y1="8" x2="32" y2="32" />
+        <line x1="32" y1="8" x2="8" y2="32" />
+      </svg>
     </div>
 
     {/* Photo-forward hero: the signature is the identity. A visually-hidden h1
         keeps a real page heading for SEO/screen readers. */}
-    <h1 class="hero-sr-title">Divyansh Sood — independent web developer &amp; studio</h1>
+    <h1 class="hero-sr-title">Divyansh Sood — independent web designer &amp; developer. Custom-coded, conversion-focused websites, stores and web apps for founders worldwide.</h1>
 
     {/* Bottom hairline + disciplines, with the Mattis slash separators. */}
     <div class="hero-disciplines">
       <span>Design</span>
       <span class="hero-slash" aria-hidden="true">/</span>
       <span>Development</span>
+      <span class="hero-slash" aria-hidden="true">/</span>
+      <span>SEO</span>
     </div>
   </div>
 
-  {/* Red cursive signature — signs the portrait from the bottom-right. */}
-  <span class="hero-sig">Divyansh&nbsp;Sood</span>
+  {/* Red wordmark — stamps the portrait from the bottom-right in the logo's
+      heavy caps. (The cursive signature that used to live here is now the
+      nav brand: the two treatments swapped roles, July 2026.) */}
+  <span class="hero-sig">Divyansh&nbsp;Sood<sup>®</sup></span>
 
   {/* Bottom-left page meta */}
   <a href="#work" class="hero-corner-mark mono">
-    <span>Elite folio · 2026</span>
+    <span>Selected work · 2026</span>
     <span class="hero-corner-mark-sep" aria-hidden="true">|</span>
-    <span class="hero-corner-mark-alert">Alert</span>
+    <span class="hero-corner-mark-alert">Now booking</span>
     <span class="hero-corner-mark-arrow" aria-hidden="true">↗</span>
   </a>
+
+  {/* Bottom-center scroll cue — a red dash travels down a hairline track. */}
+  <div class="hero-scroll-cue" aria-hidden="true">
+    <svg viewBox="0 0 2 56" focusable="false">
+      <line class="hero-cue-track" x1="1" y1="0" x2="1" y2="56" />
+      <line class="hero-cue-dash" x1="1" y1="0" x2="1" y2="56" />
+    </svg>
+  </div>
 
 </section>
 
@@ -80,21 +101,20 @@ import { FOUNDER_PHOTO, FOUNDER_PHOTO_ALT } from "../../lib/site.mjs";
   .ds-hero-bg {
     position: absolute;
     inset: 0;
-    /* Full-bleed portrait: the photo fills the entire hero (no black gutter),
-       anchored to the right so the subject stays in frame while the type sits
-       over the darkened left. `cover` crops rather than upscaling the whole
-       source, so the visible area stays sharp. (Mobile uses cover too.) */
+    /* Full-bleed portrait: the source is pre-composited onto a wide 16:10
+       canvas with the subject seated on the RIGHT and the studio backdrop
+       extended across the left, so the face sits clear of the centered type
+       at every aspect ratio. Anchoring right/top keeps the head in frame
+       when `cover` crops the canvas. */
     background-size: cover;
-    /* Anchor the crop to the TOP so the head is never clipped when `cover`
-       trims the tall portrait to fill the hero (both viewports crop from the
-       bottom instead). */
     background-position: right top;
     background-repeat: no-repeat;
     /* Keep the palette (grayscale) but lighter than before so the photo stays
        legible and sharp rather than a dim wash. */
     filter: grayscale(1) contrast(1.04) brightness(0.9);
-    /* Slight static overscale keeps the framing tight on every viewport. */
-    transform: scale(1.04);
+    /* Minimal overscan — just enough for the pointer-parallax drift
+       (MotionController starts its scrub from this same value). */
+    transform: scale(1.02);
     z-index: 1;
   }
   .ds-hero-bg-overlay {
@@ -131,12 +151,23 @@ import { FOUNDER_PHOTO, FOUNDER_PHOTO_ALT } from "../../lib/site.mjs";
   /* ---------- Top eyebrow ---------- */
   .hero-eyebrow {
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
+    align-items: center;
     font-size: 10px;
     letter-spacing: 0.18em;
     text-transform: uppercase;
     opacity: 0.66;
     margin-bottom: 16px;
+  }
+  .hero-asterisk {
+    width: 16px;
+    height: 16px;
+    flex: none;
+    overflow: visible;
+  }
+  .hero-asterisk line {
+    stroke: var(--accent, #ff1f1f);
+    stroke-width: 3;
   }
 
   /* ---------- Wordmark + studio + signature ---------- */
@@ -188,22 +219,28 @@ import { FOUNDER_PHOTO, FOUNDER_PHOTO_ALT } from "../../lib/site.mjs";
     border: 0;
   }
 
+  /* Logo-caps treatment: same weight/tracking as the old nav wordmark so the
+     stamp on the portrait *is* the logo, not a third type voice. Sits level
+     (no rotation) — a logotype reads stamped, a script reads signed. */
   .hero-sig {
     position: absolute;
     right: clamp(20px, 5vw, 68px);
     bottom: clamp(64px, 11vh, 116px);
     z-index: 5;
-    font-family: "Caveat", cursive;
-    font-weight: 700;
-    font-size: clamp(46px, 7vw, 104px);
+    font-weight: 900;
+    font-size: clamp(34px, 4.8vw, 72px);
+    letter-spacing: -0.035em;
+    text-transform: uppercase;
     color: var(--accent, #ff1f1f);
-    transform: rotate(-5deg);
-    transform-origin: right center;
     line-height: 1;
     pointer-events: none;
     white-space: nowrap;
-    text-transform: none;
-    letter-spacing: -0.01em;
+  }
+  .hero-sig sup {
+    font-size: 0.2em;
+    top: -1.8em;
+    font-weight: 700;
+    margin-left: 0.06em;
   }
 
   /* ---------- Body row: description + author ---------- */
@@ -312,6 +349,33 @@ import { FOUNDER_PHOTO, FOUNDER_PHOTO_ALT } from "../../lib/site.mjs";
     font-size: 11px;
   }
 
+  /* ---------- Bottom-center scroll cue ---------- */
+  .hero-scroll-cue {
+    position: absolute;
+    left: 50%;
+    bottom: 20px;
+    transform: translateX(-50%);
+    z-index: 5;
+    pointer-events: none;
+  }
+  .hero-scroll-cue svg {
+    display: block;
+    width: 2px;
+    height: 56px;
+    overflow: visible;
+  }
+  .hero-cue-track {
+    stroke: rgba(236, 229, 216, 0.22);
+    stroke-width: 2;
+  }
+  .hero-cue-dash {
+    stroke: var(--accent, #ff1f1f);
+    stroke-width: 2;
+    /* Static state (reduced motion / no-JS): a short red tick at the base. */
+    stroke-dasharray: 12 44;
+    stroke-dashoffset: 12;
+  }
+
   /* ---------- Bottom-right meta (Template preview) ---------- */
   .hero-corner-page {
     position: absolute;
@@ -356,8 +420,7 @@ import { FOUNDER_PHOTO, FOUNDER_PHOTO_ALT } from "../../lib/site.mjs";
     to   { opacity: 1; transform: translateY(0); }
   }
   @keyframes heroSigDraw {
-    /* Draw left→right, but the resting state keeps negative top/right/bottom
-       insets so the rotated text and the Caveat 'd' flourish are never clipped. */
+    /* Wipe left→right; the negative insets keep the raised ® from clipping. */
     from { opacity: 0; clip-path: inset(-30% 100% -30% 0); }
     to   { opacity: 1; clip-path: inset(-30% -30% -30% 0); }
   }
@@ -366,15 +429,32 @@ import { FOUNDER_PHOTO, FOUNDER_PHOTO_ALT } from "../../lib/site.mjs";
   html.motion .hero-disciplines { animation: heroRise 0.9s 0.58s both cubic-bezier(0.16, 1, 0.3, 1); }
   html.motion .hero-corner-mark { animation: heroRise 0.9s 0.85s both ease-out; }
   html.motion .hero-sig         { animation: heroSigDraw 1.1s 1.05s both ease-out; }
+  html.motion .hero-scroll-cue  { animation: heroRise 0.9s 1.15s both ease-out; }
+
+  /* SVG micro-motion — all gated on html.motion, so prefers-reduced-motion
+     (which blocks the class) leaves every mark static and visible. */
+  @keyframes heroSpin { to { transform: rotate(360deg); } }
+  html.motion .hero-asterisk {
+    animation: heroSpin 14s linear infinite;
+  }
+  /* Red dash rides down the track; 12+44 = one 56-unit period per loop. */
+  @keyframes heroCueTravel {
+    from { stroke-dashoffset: 68; }
+    to   { stroke-dashoffset: 12; }
+  }
+  html.motion .hero-cue-dash {
+    animation: heroCueTravel 2.4s linear 2s infinite;
+  }
 
   /* ---------- Tablet ---------- */
   @media (max-width: 860px) {
     .ds-hero { padding: 84px 0 96px; }
-    /* Narrow viewports already crop the portrait tightly and the wordmark
-       wraps, so a centred cover reads cleanly here. */
-    .ds-hero-bg { background-size: cover; background-position: 50% 12%; }
+    /* Narrow viewports crop the wide canvas to a vertical slice — pan toward
+       the subject (he sits at ~65-72% of the canvas width) so the face stays
+       centered in frame instead of showing the empty backdrop. */
+    .ds-hero-bg { background-size: cover; background-position: 71% top; }
     .hero-card { width: 92vw; padding: 30px 28px 26px; }
-    .hero-sig { right: 20px; bottom: 92px; font-size: clamp(40px, 9vw, 72px); }
+    .hero-sig { right: 20px; bottom: 92px; font-size: clamp(24px, 5.6vw, 44px); }
     .hero-corner-mark { font-size: 9px; left: 16px; bottom: 18px; max-width: 60vw; }
     .hero-corner-page { right: 16px; bottom: 18px; font-size: 9px; }
     .hero-corner-thumb { width: 24px; height: 24px; }
@@ -384,11 +464,14 @@ import { FOUNDER_PHOTO, FOUNDER_PHOTO_ALT } from "../../lib/site.mjs";
   @media (max-width: 560px) {
     .hero-card { padding: 24px 20px 22px; }
     .hero-name { gap: 6px; }
-    .hero-sig { right: 16px; bottom: 86px; font-size: clamp(34px, 11vw, 56px); transform: rotate(-6deg); }
+    .hero-sig { right: 16px; bottom: 86px; font-size: clamp(20px, 7.6vw, 30px); }
     .hero-disciplines { gap: 10px 14px; font-size: 12px; margin-top: 28px; }
     .hero-corner-mark-sep { display: none; }
     .hero-corner-mark-alert { display: none; }
     .hero-corner-mark { gap: 6px; }
+    /* Phones: the bottom strip already holds the corner mark, signature and
+       Book-a-call pill — the scroll cue just crowds the signature there. */
+    .hero-scroll-cue { display: none; }
   }
 
   @media (max-width: 420px) {

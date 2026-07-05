@@ -1,9 +1,10 @@
 ---
-// Testimonials — orange interactive cards on black. Each card shows the quote
-// by default and smoothly reveals the related PROJECT PHOTO on hover (desktop)
-// or after ~1.5s in view (touch). Below: a running marquee of client wordmarks
-// + icons. Quotes/attribution are real and unchanged; each maps to its real
-// project screenshot + case-study link.
+// Testimonials — red interactive cards on black. On hover-capable devices each
+// card shows the quote and smoothly reveals the related PROJECT PHOTO on hover.
+// On touch devices the quote stays put and the photo renders as a static strip
+// beneath it (never auto-hide the quote — social proof must stay readable).
+// Below: a running marquee of client wordmarks + icons. Quotes/attribution are
+// real and unchanged; each maps to its real project screenshot + case-study link.
 import { CLIENT_LOGOS, HAS_CLIENT_LOGOS, GOOGLE_REVIEWS_URL } from "../../lib/site.mjs";
 const symbols = ["✦", "◆", "●", "▲", "✺", "◇", "■"];
 
@@ -14,7 +15,7 @@ const items = [
     who: "Founder",
     org: "Nandini Travels · Kangra",
     initials: "NT",
-    slug: "/projects/nandini",
+    slug: "/projects/nandini/",
     img: "https://ik.imagekit.io/dn2zdxiu3/Portfolioprojectimages/nandinitravels/nandinitravels-1.webp",
   },
   {
@@ -23,7 +24,7 @@ const items = [
     who: "Chinki, Founder",
     org: "ChinkiZ Knitting Knife · 600K+ subs",
     initials: "CZ",
-    slug: "/projects/chinkiz",
+    slug: "/projects/chinkiz/",
     img: "https://ik.imagekit.io/dn2zdxiu3/Portfolioprojectimages/ChinkizKnittingKnife/ChinkizKnittingKnife-1.webp",
   },
   {
@@ -32,7 +33,7 @@ const items = [
     who: "Founder",
     org: "North Peak Power · Infra",
     initials: "NP",
-    slug: "/projects/northpeak",
+    slug: "/projects/northpeak/",
     img: "https://ik.imagekit.io/dn2zdxiu3/Portfolioprojectimages/NorthPeakPowerSystems/NorthPeakPowerSystems-1.webp",
   },
 ];
@@ -50,7 +51,10 @@ const marqueeItems = [...CLIENT_LOGOS, ...CLIENT_LOGOS];
     </div>
 
     <div class="ds-tm-head">
-      <h2 class="ds-tm-title" data-reveal>What changed<br />after we shipped.</h2>
+      <h2 class="ds-tm-title" data-giant-text>
+        <span class="ds-giant-mask"><span class="ds-giant-line">What changed</span></span>
+        <span class="ds-giant-mask"><span class="ds-giant-line">after we shipped.</span></span>
+      </h2>
       <a href={GOOGLE_REVIEWS_URL} target="_blank" rel="noopener" class="ds-link ds-link-light ds-tm-head-link" data-reveal>
         Read our reviews on Google <span aria-hidden="true">↗</span>
       </a>
@@ -79,7 +83,7 @@ const marqueeItems = [...CLIENT_LOGOS, ...CLIENT_LOGOS];
     </div>
 
     <div class="ds-tm-links" data-reveal>
-      <a href="/testimonials" class="ds-link ds-link-light">See all 6 testimonials <span aria-hidden="true">↗</span></a>
+      <a href="/testimonials/" class="ds-link ds-link-light">See all 6 testimonials <span aria-hidden="true">↗</span></a>
       <span class="ds-tm-links-note mono">+ 2 more in Hinglish/Hindi on the dedicated page</span>
     </div>
   </div>
@@ -253,11 +257,26 @@ const marqueeItems = [...CLIENT_LOGOS, ...CLIENT_LOGOS];
     color: #fff;
     font-weight: 700;
   }
-  /* Reveal on hover (desktop) or .is-shown (touch, set by JS) */
-  .ds-tm-card:hover .ds-tm-photo,
-  .ds-tm-card.is-shown .ds-tm-photo { opacity: 1; transform: scale(1); }
-  .ds-tm-card:hover .ds-tm-face,
-  .ds-tm-card.is-shown .ds-tm-face { opacity: 0; transform: translateY(-8px); }
+  /* Photo reveal is hover-gated so tap-highlight on touch can never hide the
+     quote. Touch devices get the static photo strip below instead. */
+  @media (hover: hover) {
+    .ds-tm-card:hover .ds-tm-photo { opacity: 1; transform: scale(1); }
+    .ds-tm-card:hover .ds-tm-face { opacity: 0; transform: translateY(-8px); }
+  }
+  /* Touch / no-hover devices: quote always visible, photo becomes a static
+     proof strip under the attribution (caption kept). */
+  @media (hover: none) {
+    .ds-tm-card { display: flex; flex-direction: column; min-height: 0; }
+    .ds-tm-face { flex: none; }
+    .ds-tm-photo {
+      position: relative;
+      inset: auto;
+      height: 170px;
+      opacity: 1;
+      transform: none;
+      flex: none;
+    }
+  }
 
   .ds-tm-links {
     display: flex;
@@ -299,16 +318,8 @@ const marqueeItems = [...CLIENT_LOGOS, ...CLIENT_LOGOS];
   }
   .ds-tm-chip-logo { height: 26px; width: auto; filter: grayscale(1) brightness(0) invert(1); }
   @keyframes tmScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-  /* The logo strip keeps looping even under "reduce motion": it's a slow, steady
-     drift (no flashing/parallax), and it's the one bit of motion the client wants
-     always visible. Overrides the global reduced-motion !important stop in base.css. */
-  @media (prefers-reduced-motion: reduce) {
-    .ds-tm-track {
-      animation: tmScroll 25s linear infinite !important;
-      animation-duration: 25s !important;
-      animation-iteration-count: infinite !important;
-    }
-  }
+  /* Under prefers-reduced-motion the global stop in base.css freezes the strip:
+     it stays visible, just static. (Owner-approved 2026-07-03.) */
 
   @media (max-width: 900px) {
     .ds-tm-grid { grid-template-columns: 1fr; }
@@ -317,23 +328,3 @@ const marqueeItems = [...CLIENT_LOGOS, ...CLIENT_LOGOS];
     .ds-tm-head { align-items: flex-start; }
   }
 </style>
-
-<script>
-  // Touch / no-hover devices: reveal each card's project photo ~1.5s after it
-  // scrolls into view (then it stays — the visitor reads the quote first, then
-  // sees the proof). Desktop uses :hover and skips this.
-  (function () {
-    if (!window.matchMedia("(hover: none)").matches) return;
-    const cards = document.querySelectorAll(".ds-tm-card");
-    if (!("IntersectionObserver" in window) || !cards.length) return;
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        if (!e.isIntersecting) return;
-        const el = e.target as HTMLElement;
-        io.unobserve(el);
-        setTimeout(() => el.classList.add("is-shown"), 1500);
-      });
-    }, { threshold: 0.55 });
-    cards.forEach((c) => io.observe(c));
-  })();
-</script>
