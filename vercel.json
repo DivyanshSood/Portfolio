@@ -3,14 +3,14 @@
   "redirects": [
     { "source": "/Portfolio.html", "destination": "/", "permanent": true },
     { "source": "/index.html", "destination": "/", "permanent": true },
-    { "source": "/projects/webseek.html", "destination": "/projects/webseek", "permanent": true },
-    { "source": "/projects/inhimalayas.html", "destination": "/projects/inhimalayas", "permanent": true },
-    { "source": "/projects/dharamshala-tours.html", "destination": "/projects/dharamshala-tours", "permanent": true },
-    { "source": "/projects/redline.html", "destination": "/projects/redline", "permanent": true },
-    { "source": "/projects/chinkiz.html", "destination": "/projects/chinkiz", "permanent": true },
-    { "source": "/projects/modernkbs.html", "destination": "/projects/modernkbs", "permanent": true },
-    { "source": "/projects/nandini.html", "destination": "/projects/nandini", "permanent": true },
-    { "source": "/projects/northpeak.html", "destination": "/projects/northpeak", "permanent": true }
+    { "source": "/projects/webseek.html", "destination": "/projects/webseek/", "permanent": true },
+    { "source": "/projects/inhimalayas.html", "destination": "/projects/inhimalayas/", "permanent": true },
+    { "source": "/projects/dharamshala-tours.html", "destination": "/projects/dharamshala-tours/", "permanent": true },
+    { "source": "/projects/redline.html", "destination": "/projects/redline/", "permanent": true },
+    { "source": "/projects/chinkiz.html", "destination": "/projects/chinkiz/", "permanent": true },
+    { "source": "/projects/modernkbs.html", "destination": "/projects/modernkbs/", "permanent": true },
+    { "source": "/projects/nandini.html", "destination": "/projects/nandini/", "permanent": true },
+    { "source": "/projects/northpeak.html", "destination": "/projects/northpeak/", "permanent": true }
   ],
   "headers": [
     {

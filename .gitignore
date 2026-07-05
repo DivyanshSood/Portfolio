@@ -22,3 +22,6 @@ dist/
 # Dev-session preview screenshots (not source — throwaway dev artifacts)
 preview-*.png
 preview-tame-*.png
+
+# Knowledge-graph session artifacts (regenerable via /graphify)
+graphify-out/

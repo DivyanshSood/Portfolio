@@ -6,8 +6,9 @@ import type { APIRoute } from "astro";
 //   CONTACT_TO      — where leads are delivered (default hello@divyanshsood.com)
 //   CONTACT_FROM    — verified Resend sender (default onboarding@resend.dev for testing)
 //
-// NOTE: the homepage form currently submits via WhatsApp. This endpoint is wired
-// and ready; flip the form to POST here once the Resend domain is verified.
+// Every form on the site POSTs here via src/scripts/contact-form.js; when
+// RESEND_API_KEY is unset we return {ok:false, reason:"not_configured"} and the
+// client falls back to opening the visitor's mail client (mailto:).
 export const prerender = false;
 
 export const POST: APIRoute = async ({ request }) => {
@@ -18,10 +19,15 @@ export const POST: APIRoute = async ({ request }) => {
     return json({ ok: false, error: "invalid_body" }, 400);
   }
 
-  const name = String(data.name ?? "").trim();
-  const email = String(data.email ?? "").trim();
-  const message = String(data.message ?? "").trim();
-  const newSite = Boolean(data.newSite);
+  // Honeypot — real visitors never see the field, so any value means a bot.
+  // Answer ok:true so the bot believes it succeeded and moves on.
+  if (String(data.hp ?? "").trim()) {
+    return json({ ok: true }, 200);
+  }
+
+  const name = String(data.name ?? "").trim().slice(0, 200);
+  const email = String(data.email ?? "").trim().slice(0, 320);
+  const message = String(data.message ?? "").trim().slice(0, 5000);
 
   if (!email && !message) {
     return json({ ok: false, error: "empty" }, 422);
@@ -42,7 +48,6 @@ export const POST: APIRoute = async ({ request }) => {
     name && `Name: ${name}`,
     email && `Email: ${email}`,
     message && `Project: ${message}`,
-    newSite ? "Wants a brand-new website." : "",
   ]
     .filter(Boolean)
     .join("\n");

@@ -5,5 +5,5 @@
      ./projects/render.mjs  — HTML renderer + JSON-LD + head helpers
    =========================================================================== */
 
-export { SITE, projects } from "./projects/data.mjs";
-export { jsonLd, projectHead, renderProjectMain } from "./projects/render.mjs";
+export { projects } from "./projects/data.mjs";
+export { projectHead, renderProjectMain } from "./projects/render.mjs";

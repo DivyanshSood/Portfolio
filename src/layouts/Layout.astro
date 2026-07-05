@@ -49,7 +49,9 @@ const {
   ogType = "website",
   ogTitle,
   ogDescription,
-  ogImage = "https://ik.imagekit.io/dn2zdxiu3/Portfolioprojectimages/AiWebsitegenerator/AiWebsitegenerator-1.webp",
+  // Branded studio card (1200×630, generated from the site's own fonts/colors).
+  // Pages with their own visual (projects, blog posts) pass ogImage explicitly.
+  ogImage = "https://www.divyanshsood.com/og-home.png",
   ogImageW = 1200,
   ogImageH = 630,
   ogLocale = "en_US",
@@ -146,6 +148,26 @@ const {
     {/* Page-level head injection (e.g. the homepage's synchronous motion-class
         script, which pre-arms scroll-reveal before first paint). */}
     <slot name="head" />
+
+    {/* Synchronous, after the slot on purpose: pages that armed the GSAP
+        engine (html.motion — the homepage) are left alone; every other page
+        gets the lightweight IntersectionObserver reveal (html.motion-io,
+        driven by BaseScripts). Same 3s failsafe as the homepage: if the
+        engine never marks itself ready, reveal everything. Skipped entirely
+        under prefers-reduced-motion. */}
+    <script is:inline>
+      (function () {
+        try {
+          if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+          var d = document.documentElement;
+          if (d.classList.contains("motion")) return;
+          d.classList.add("motion-io");
+          setTimeout(function () {
+            if (!d.classList.contains("motion-io-ready")) d.classList.add("motion-fallback");
+          }, 3000);
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body>
     <div id="ds-root">

@@ -2,6 +2,19 @@
 import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 import vercel from "@astrojs/vercel";
+import { POSTS } from "./src/lib/blog-posts.mjs";
+
+// Real last-modified dates for the sitemap. Bing/Yandex use lastmod for crawl
+// scheduling and explicitly distrust sitemaps whose lastmod is always "now" —
+// stamping new Date() on every URL each deploy taught them to ignore ours.
+// Blog posts get their manifest date; the blog index gets the newest post's
+// date; every other page omits lastmod (honest absence beats a fake value).
+const postLastmod = new Map(
+  POSTS.map((p) => [`/blog/${p.slug}/`, new Date(p.updatedDate || p.pubDate).toISOString()])
+);
+const newestPost = POSTS.map((p) => p.updatedDate || p.pubDate)
+  .sort()
+  .at(-1);
 
 // https://astro.build/config
 export default defineConfig({
@@ -11,7 +24,7 @@ export default defineConfig({
   adapter: vercel(),
   // /start was merged into /website-audit (its qualifying form now lives there).
   redirects: {
-    "/start": "/website-audit",
+    "/start": "/website-audit/",
   },
   integrations: [
     sitemap({
@@ -20,7 +33,8 @@ export default defineConfig({
       // Freshness + crawl-priority hints honoured by Bing, Yandex & others.
       serialize(item) {
         const path = new URL(item.url).pathname;
-        item.lastmod = new Date().toISOString();
+        const lastmod = postLastmod.get(path) ?? (path === "/blog/" && newestPost ? new Date(newestPost).toISOString() : undefined);
+        if (lastmod) item.lastmod = lastmod;
         if (path === "/") {
           item.changefreq = "weekly";
           item.priority = 1.0;

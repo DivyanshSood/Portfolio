@@ -12,11 +12,13 @@ const CALENDLY_URL = "https://calendly.com/sood-divyansh007/30min";
 
 // Field definitions per form. Label is shown in the email body; id is the
 // input element id. Set `isEmail: true` to require + validate. `type` defaults
-// to text; set `type: 'checkbox'` for boolean fields.
+// to text; set `type: 'checkbox'` for boolean fields. `hp` is the form's hidden
+// honeypot input — humans never see it, so a value means a bot.
 const FORMS = {
   "ds-contact-form": {
     subject: "New project enquiry — divyanshsood.com",
     success: "Thanks — message sent. I'll reply personally within a couple of hours.",
+    hp: "cf-hp",
     fields: [
       { id: "cf-name", label: "Name" },
       { id: "cf-email", label: "Email", isEmail: true },
@@ -27,6 +29,7 @@ const FORMS = {
   "ds-audit-form": {
     subject: "Free website audit request",
     success: "Got it — I'll record your free audit and email it back within 3–4 days.",
+    hp: "au-hp",
     fields: [
       { id: "au-url", label: "Site URL" },
       { id: "au-email", label: "Email", isEmail: true },
@@ -36,6 +39,7 @@ const FORMS = {
   "ds-start-form": {
     subject: "New project enquiry (start form)",
     success: "Sent. I'll reply within a couple of hours with a clear next step.",
+    hp: "st-hp",
     fields: [
       { id: "st-name", label: "Name" },
       { id: "st-email", label: "Email", isEmail: true },
@@ -86,9 +90,22 @@ function openMailto(data, config) {
   window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
 }
 
+// Fires a conversion event when analytics are loaded (consent given); no-op
+// otherwise. window.dsTrack is defined site-wide in BaseScripts.astro.
+function track(name, params) {
+  try {
+    if (typeof window.dsTrack === "function") window.dsTrack(name, params);
+  } catch (_e) {}
+}
+
 function showSuccess(form, msg, usedFallback) {
-  form.style.display = "none";
+  // On the mailto fallback keep the form visible so the visitor can retry or
+  // copy their message — mailto silently fails on machines with no mail app.
+  if (!usedFallback) form.style.display = "none";
+  const prev = form.parentNode.querySelector(".ds-form-success");
+  if (prev) prev.remove();
   const wrap = document.createElement("div");
+  wrap.className = "ds-form-success";
   wrap.setAttribute("role", "status");
   wrap.setAttribute("aria-live", "polite");
   wrap.style.cssText =
@@ -120,6 +137,12 @@ function showError(form, msg) {
 async function submit(form, config) {
   const data = collect(config);
 
+  // Honeypot: hidden field only bots fill in. Pretend success, send nothing.
+  if (config.hp && val(config.hp)) {
+    showSuccess(form, config.success, false);
+    return;
+  }
+
   // Client-side validation.
   const emailField = config.fields.find((f) => f.isEmail);
   if (emailField && !isValidEmail(data[emailField.id])) {
@@ -138,7 +161,6 @@ async function submit(form, config) {
   const nameField = config.fields.find((f) => /name/i.test(f.label) && f.type !== "checkbox");
   const name = nameField ? data[nameField.id] : "";
 
-  let usedFallback = false;
   try {
     const res = await fetch("/api/contact", {
       method: "POST",
@@ -147,30 +169,26 @@ async function submit(form, config) {
         name: name || "Website enquiry",
         email: emailField ? data[emailField.id] : "",
         message: msg,
+        hp: config.hp ? val(config.hp) : "",
       }),
     });
     const json = await res.json().catch(() => ({}));
     if (json && json.ok) {
+      track("form_submit", { form: form.id });
       showSuccess(form, config.success, false);
       return;
     }
-    if (json && json.reason === "not_configured") {
-      usedFallback = true;
-    } else {
-      usedFallback = true;
-    }
   } catch (_e) {
-    usedFallback = true;
+    /* fall through to mailto */
   }
 
   // Fallback: open the user's mail client.
+  track("form_mailto_fallback", { form: form.id });
   openMailto(data, config);
   showSuccess(
     form,
-    usedFallback
-      ? "Opening your email client — if nothing happens, email me at " + CONTACT_EMAIL + "."
-      : config.success,
-    usedFallback
+    "Opening your email client — if nothing happens, email me at " + CONTACT_EMAIL + ".",
+    true
   );
 }
 

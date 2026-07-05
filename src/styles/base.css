@@ -20,8 +20,16 @@
 *{box-sizing:border-box;}
 html{scroll-behavior:auto;}
 html,body{margin:0;padding:0;}
-body{background:#0b0b0c;color:#fff;font-family:'Archivo',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
-#ds-root{--accent:#ff1f1f;position:relative;overflow-x:hidden;}
+/* body also gets overflow-x:clip — iOS Safari doesn't reliably propagate
+   body{overflow-x:hidden} to the viewport and instead makes <body> the scroll
+   container, which breaks position:sticky (the /portfolio depth gallery
+   pinning). clip clips identically without creating a scroll container. */
+body{background:#0b0b0c;color:#fff;font-family:'Archivo',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;overflow-x:clip;}
+/* overflow-x:clip (not hidden) — hidden turns this wrapper into a scroll
+   container, which silently breaks position:sticky for every descendant
+   (e.g. the /portfolio depth gallery). clip clips the same without doing
+   that; the hidden line before it is the fallback for pre-clip browsers. */
+#ds-root{--accent:#ff1f1f;position:relative;overflow-x:hidden;overflow-x:clip;}
 ::selection{background:var(--accent);color:#fff;}
 a{color:inherit;}
 /* Keyboard focus ring — on-brand accent, shown only for keyboard nav (not on
@@ -61,7 +69,6 @@ html.lenis,html.lenis body{height:auto;}
 /* homepage utilities */
 .imgfill{background-size:cover;background-position:center;background-repeat:no-repeat;}
 #cf-new:checked + .cf-box{background:var(--accent);border-color:var(--accent);}
-.price-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;}
 
 /* nav styles live in src/components/Nav.astro (Astro-scoped) */
 
@@ -69,9 +76,6 @@ html.lenis,html.lenis body{height:auto;}
 .btn{display:inline-flex;align-items:center;gap:9px;text-decoration:none;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:14px 22px;border-radius:2px;font-weight:700;}
 .btn-primary{background:var(--accent);color:#0b0b0c;}
 .btn-ghost{border:1px solid rgba(255,255,255,.3);color:#fff;}
-/* modern button (Framer ModernButton): dark pill, fills accent on hover */
-.btn-modern{background:#0d0412;color:#fff;border:1px solid rgba(255,255,255,.14);}
-.btn-modern:hover{background:var(--accent);color:#0b0b0c;border-color:var(--accent);}
 
 /* ---------------------------------------------------------------------------
    Shared text link — underlined mono label + arrow that nudges on hover. Border
@@ -94,143 +98,89 @@ html.lenis,html.lenis body{height:auto;}
 .cs-foot .col .h,.cs-foot .h{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.62;margin-bottom:10px;}
 .cs-foot .col a{color:#fff;text-decoration:none;display:block;opacity:.82;}
 .cs-foot .bar{border-top:1px solid rgba(255,255,255,.14);padding:20px 0;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;opacity:.62;}
+/* Keep the footer bar clear of the fixed "Book a call" pill on phones. */
+@media (max-width:560px){ .cs-foot .bar{padding-bottom:84px;} }
 
 /* ---------------------------------------------------------------------------
-   Scroll-reveal. Visible by default (no-JS / inner pages / reduced motion).
-   On the homepage, `html.motion` pre-hides reveal targets before paint; GSAP
-   animates them in. `.motion-fallback` (added by a head-script timeout) reveals
-   everything if the motion bundle ever fails to run.
+   Scroll-reveal. Visible by default (no-JS / reduced motion).
+   Two engines share the same [data-reveal] hook:
+   · html.motion    — homepage. GSAP + Lenis (MotionController.astro).
+   · html.motion-io — every other page. A tiny IntersectionObserver in
+     BaseScripts.astro adds .is-in; pure CSS transitions do the rest (no GSAP
+     payload off the homepage). Armed by a sync head script in Layout.astro.
+   `.motion-fallback` (added by a head-script timeout) reveals everything if
+   either engine ever fails to run.
    --------------------------------------------------------------------------- */
 [data-reveal]{opacity:1;transform:none;}
 html.motion [data-reveal]{opacity:0;transform:translateY(28px);will-change:opacity,transform;}
+html.motion-io [data-reveal]{
+  opacity:0;
+  transform:translateY(26px);
+  transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1);
+}
+html.motion-io [data-reveal].is-in{opacity:1;transform:none;}
 html.motion-fallback [data-reveal]{opacity:1;transform:none;}
 @media (prefers-reduced-motion: reduce){
-  html.motion [data-reveal]{opacity:1;transform:none;}
+  html.motion [data-reveal],html.motion-io [data-reveal]{opacity:1;transform:none;transition:none;}
+}
+/* Smooth in-page anchor jumps on motion-io pages (homepage scrolls via Lenis). */
+html.motion-io{scroll-behavior:smooth;}
+
+/* ---------------------------------------------------------------------------
+   Giant-headline mask reveal (homepage). Each headline line sits inside an
+   overflow-hidden mask; GSAP slides it up from behind the hairline
+   (MotionController initGiantText, hook: [data-giant-text]). The mask keeps a
+   little ink padding (negative margins cancel it) so glyph strokes never clip
+   at the tight .86 line-height.
+   --------------------------------------------------------------------------- */
+[data-giant-text]{display:flex;flex-direction:column;} /* no margin collapse between masks */
+.ds-giant-mask{display:block;overflow:hidden;padding:.14em 0 .1em;margin:-.14em 0 -.1em;}
+.ds-giant-line{display:block;}
+html.motion .ds-giant-line{transform:translateY(120%);opacity:0;will-change:transform,opacity;}
+html.motion-fallback .ds-giant-line{transform:none;opacity:1;}
+@media (prefers-reduced-motion: reduce){
+  html.motion .ds-giant-line{transform:none;opacity:1;}
 }
 
-/* ===========================================================================
-   Section frame — the hero's corner-tick "card" treatment, made reusable so
-   every homepage section reads as one system: a bordered block with four
-   L-shaped corner ticks and a standardized mono header bar. `tone` sets the
-   border/ink contrast against the section background. See Frame.astro.
-   =========================================================================== */
-.ds-frame{position:relative;border:1px solid var(--frame-line,rgba(255,255,255,.16));border-radius:14px;padding:clamp(26px,3.4vw,46px) clamp(20px,3vw,44px) clamp(34px,4vw,52px);}
-.ds-frame-dark{--frame-line:rgba(255,255,255,.16);--frame-ink:#fff;}
-.ds-frame-light{--frame-line:rgba(0,0,0,.16);--frame-ink:#0b0b0c;}
-.ds-frame-accent{--frame-line:rgba(11,11,12,.30);--frame-ink:#0b0b0c;}
-
-/* corner ticks — float just outside the border, like the hero card */
-.ds-tick{position:absolute;width:16px;height:16px;border:1.5px solid var(--frame-ink,#fff);opacity:.5;pointer-events:none;}
-.ds-tick-tl{top:-8px;left:-8px;border-right:0;border-bottom:0;}
-.ds-tick-tr{top:-8px;right:-8px;border-left:0;border-bottom:0;}
-.ds-tick-bl{bottom:-8px;left:-8px;border-right:0;border-top:0;}
-.ds-tick-br{bottom:-8px;right:-8px;border-left:0;border-top:0;}
-
-/* standardized mono header bar */
-.ds-frame-bar{display:flex;justify-content:space-between;align-items:baseline;gap:14px;flex-wrap:wrap;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--frame-ink,#fff);opacity:.62;border-bottom:1px solid var(--frame-line,rgba(255,255,255,.16));padding-bottom:14px;margin-bottom:clamp(30px,4vw,48px);}
-.ds-frame-bar .ds-frame-note{opacity:.9;}
-.ds-frame-bar .ds-frame-tag{opacity:.7;}
-
-@media (max-width:560px){
-  .ds-frame{border-radius:12px;}
-  .ds-tick{width:12px;height:12px;}
-  .ds-tick-tl{top:-6px;left:-6px;}
-  .ds-tick-tr{top:-6px;right:-6px;}
-  .ds-tick-bl{bottom:-6px;left:-6px;}
-  .ds-tick-br{bottom:-6px;right:-6px;}
-  .ds-frame-bar{font-size:9px;gap:8px 12px;}
+/* ---------------------------------------------------------------------------
+   Cross-document view transitions — page-to-page navigation crossfades instead
+   of flashing white. Pure CSS, progressive (Chrome 126+/Safari 18.2+); other
+   browsers just navigate normally.
+   --------------------------------------------------------------------------- */
+@view-transition{navigation:auto;}
+/* Fixed chrome persists through the crossfade instead of fading with the page:
+   each named singleton gets its own snapshot group, and identical snapshots on
+   both pages render as a stable element. (The nav's transparent→dark background
+   still crossfades within its group when it differs.) */
+#ds-nav{view-transition-name:ds-nav;}
+#ds-sticky-book{view-transition-name:ds-pill;}
+#ds-cookie-banner{view-transition-name:ds-cookie;}
+@media (prefers-reduced-motion: reduce){
+  ::view-transition-group(*),::view-transition-image-pair(*),
+  ::view-transition-old(*),::view-transition-new(*){animation:none !important;}
 }
 
-/* ===========================================================================
-   Logo wall — fixed-tile grid sized so dropping a real logo PNG/SVG in
-   (see CLIENT_LOGOS in lib/site.mjs) doesn't reflow anything. Wordmark
-   fallback shares the same dimensions, so the wall always reads as a system,
-   never as missing content. Designed for the light "Clients" frame.
-   =========================================================================== */
-.ds-logo-wall{
-  display:grid;
-  grid-template-columns:repeat(7,1fr);
-  gap:12px;
-  margin-top:50px;
+/* ---------------------------------------------------------------------------
+   Micro-interactions — shared press/hover feel for every pill + button CTA.
+   Gated states only ever move things a couple of px; reduced-motion's global
+   freeze (above) turns them off wholesale.
+   --------------------------------------------------------------------------- */
+.btn,.nav-cta,#ds-sticky-book,.ds-price-cta,.ds-contact-submit{
+  transition:transform .35s cubic-bezier(.16,1,.3,1),box-shadow .35s ease,background .3s ease,color .3s ease;
 }
-.ds-logo-tile{
-  height:78px;
-  border:1px solid rgba(0,0,0,.14);
-  background:#ffffff;
-  border-radius:10px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:14px 16px;
-  overflow:hidden;
+@media (hover:hover){
+  .btn:hover,.nav-cta:hover,#ds-sticky-book:hover,.ds-price-cta:hover,.ds-contact-submit:hover{transform:translateY(-2px);}
+  #ds-sticky-book:hover{box-shadow:0 20px 44px -12px rgba(255,31,31,.8);}
 }
-.ds-logo-tile:hover{
-  border-color:rgba(0,0,0,.34);
-}
-.ds-logo-link,
-.ds-logo-wordmark{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  width:100%;
-  height:100%;
-  text-decoration:none;
-  color:#0b0b0c;
-}
-.ds-logo-link img{
-  max-width:100%;
-  max-height:100%;
-  width:auto;
-  height:auto;
-  object-fit:contain;
-  filter:grayscale(1) opacity(.78);
-}
-.ds-logo-tile:hover .ds-logo-link img{ filter:grayscale(0) opacity(1); }
+.btn:active,.nav-cta:active,#ds-sticky-book:active,.ds-price-cta:active,.ds-contact-submit:active{transform:scale(.97);}
 
-/* Wordmark fallback — designed text wordmarks so the wall reads as logos,
-   not as missing images. Same baseline across all tiles via grid-baseline. */
-.ds-logo-wordmark{
-  gap:8px;
-  font-family:'Archivo',sans-serif;
-  font-weight:900;
-  font-size:14px;
-  letter-spacing:-.025em;
-  line-height:1;
-  white-space:nowrap;
-  text-align:center;
-}
-.ds-logo-symbol{
-  font-size:11px;
-  color:var(--accent,#ff1f1f);
-  flex:none;
-}
-.ds-logo-name{
-  display:inline-block;
-  /* Truncate to keep tile clean even when brand name is long */
-  max-width:100%;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-/* Subtle visual variety so the wall doesn't feel templated — accent bar
-   under one of the five slot positions. */
-.ds-logo-wm-0 .ds-logo-symbol{ color:#0b0b0c; }
-.ds-logo-wm-1 .ds-logo-name{ font-style:italic; letter-spacing:-.04em; }
-.ds-logo-wm-2 .ds-logo-name{ text-transform:uppercase; font-size:12px; letter-spacing:.02em; }
-.ds-logo-wm-3 .ds-logo-name{ font-weight:800; }
-.ds-logo-wm-4 .ds-logo-symbol{ font-size:14px; }
+/* Nav CTA's red pill dot breathes slowly — a quiet "open for work" cue. */
+html.motion .nav-cta-dot,html.motion-io .nav-cta-dot{animation:dsDotBreathe 2.6s ease-in-out infinite;}
+@keyframes dsDotBreathe{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(.55);opacity:.55;}}
 
-.ds-logo-note{
-  margin:18px 0 0;
-  font-size:10px;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  opacity:.5;
-  color:#0b0b0c;
+/* Sticky "Book a call" pill slides in once after load (visual only — it still
+   renders immediately without JS / under reduced motion). */
+html.motion #ds-sticky-book,html.motion-io #ds-sticky-book{
+  animation:dsPillIn .7s cubic-bezier(.16,1,.3,1) .9s backwards;
 }
-
-@media (max-width:1080px){ .ds-logo-wall{ grid-template-columns:repeat(4,1fr); } }
-@media (max-width:640px){
-  .ds-logo-wall{ grid-template-columns:repeat(2,1fr); }
-  .ds-logo-tile{ height:64px; padding:10px 12px; }
-  .ds-logo-wordmark{ font-size:12px; }
-}
+@keyframes dsPillIn{from{opacity:0;transform:translateY(16px);}}

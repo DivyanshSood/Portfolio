@@ -8,12 +8,10 @@
    =========================================================================== */
 
 /* ----------------------------- PART 1 — existing ----------------------------- */
-@media (max-width:1024px){ .g-4{grid-template-columns:1fr 1fr !important;} }
 @media (max-width:980px){.blog-grid{grid-template-columns:1fr 1fr;}}
 @media (max-width:860px){
-  .nav-links{display:none;}
-  .g-split,.g-2,.g-3,.g-foot{grid-template-columns:1fr !important;}
-  .price-inner{min-width:680px;}
+  /* .nav-links collapse/dropdown is handled entirely in Nav.astro (scoped). */
+  .g-2{grid-template-columns:1fr !important;}
   h1,h2{word-break:break-word;}
   /* Case study: collapse every multi-column grid down to a single column. */
   .cs-body,.cs-glance,.cs-gallery,.cs-gallery.single,.cs-foot .grid{grid-template-columns:1fr;}
@@ -35,7 +33,6 @@
   .cs-next .name{overflow-wrap:anywhere;}
 }
 @media (max-width:620px){
-  .g-4{grid-template-columns:1fr !important;}
   .blog-grid{grid-template-columns:1fr;}
   .eyebrow{gap:4px 14px;font-size:9px;}
   .post-next{flex-direction:column;align-items:flex-start;}
@@ -80,42 +77,22 @@ html,body{max-width:100%;}
   a,button{-webkit-tap-highlight-color:transparent;}
 }
 
-/* Phone nav: inline links are already hidden at this width, leaving the wordmark
-   + tagline on the left and the CTA on the right. Scale the logo, tagline and CTA
-   down so everything stays on ONE line; the tagline keeps a min-width:0 + ellipsis
-   safety net so it can never wrap or shove the button off-screen on tiny phones. */
+/* Phone nav: scale the wordmark and CTA down so everything stays on ONE line.
+   (The link dropdown itself is styled in Nav.astro.) */
 @media (max-width:560px){
   #ds-nav{gap:12px;}
   #ds-nav > div:first-child{flex-wrap:nowrap;min-width:0;gap:9px;align-items:center;}
   #ds-nav > div:last-child{flex:none;gap:0;}
-  #ds-nav .brand{font-size:clamp(13px,4vw,18px);white-space:nowrap;flex:none;}
-  #ds-nav .kicker{font-size:8px;letter-spacing:.1em;padding-left:9px;min-width:0;flex:1 1 auto;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  /* Caveat signature brand — needs a bigger px size than the old Archivo mark. */
+  #ds-nav .brand{font-size:clamp(19px,5.5vw,24px);white-space:nowrap;flex:none;}
   #ds-nav .nav-cta{font-size:9px;letter-spacing:.07em;padding:9px 12px;white-space:nowrap;flex:none;}
 }
 
-/* Hero: on phones the cursive signature drops into the gap below the wordmark.
-   Snug it up + give the intro paragraph extra top clearance so they never overlap,
-   and tighten the discipline row so "Design / Development / Strategy" stays tidy. */
+/* Hero: tighten the discipline row on phones. (The signature's phone position
+   lives in Hero.astro — the old .hero-sig/.hero-meta overrides here targeted a
+   previous hero markup and were pushing the signature off-screen.) */
 @media (max-width:640px){
-  .hero-sig{font-size:40px !important;right:0 !important;bottom:-36px !important;}
-  .hero-meta{margin-top:58px !important;}
   .hero-disciplines{gap:8px 16px !important;}
-}
-
-/* Selected-work rows on phones: drop the rigid 4-column grid (which crushed the
-   project name into mid-word breaks) and re-flow to a stacked editorial layout —
-   number + year on the top line, the name full-width below, category beneath it. */
-@media (max-width:640px){
-  .work-row{
-    grid-template-columns:1fr auto !important;
-    column-gap:14px !important;row-gap:8px !important;
-    align-items:baseline !important;
-    padding:22px 4px !important;
-  }
-  .work-row > :first-child{grid-area:1 / 1;}                        /* number   */
-  .work-row > :nth-child(4){grid-area:1 / 2;justify-self:end;}      /* year ↗   */
-  .work-row .work-name{grid-area:2 / 1 / 3 / 3;min-width:0;overflow-wrap:break-word;font-size:clamp(30px,8.5vw,46px) !important;}
-  .work-row > :nth-child(3){grid-area:3 / 1 / 4 / 3;}               /* category */
 }
 
 /* Small phones: trim oversized side padding so content keeps breathing room.

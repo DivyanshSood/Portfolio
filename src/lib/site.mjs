@@ -1,25 +1,18 @@
 /* ===========================================================================
-   Central site config — booking + founder assets.
-   Two values you swap when ready (each is used everywhere via imports):
-
-     1. CALENDLY_URL   → paste your real Calendly event link.
-     2. FOUNDER_PHOTO  → paste your ImageKit photo URL (same host as the
-                          project images). Leave it "" and a styled "DS"
-                          monogram placeholder renders instead — nothing breaks.
+   Central site config — booking + founder assets. Both are live and used
+   everywhere via imports. FOUNDER_PHOTO may be set to "" — a styled "DS"
+   monogram placeholder renders instead; nothing breaks.
    =========================================================================== */
 
 export const CALENDLY_URL = "https://calendly.com/sood-divyansh007/30min";
 
-// Opens the scheduler in a new tab. Kept here so every CTA stays in sync.
-export const BOOK_LABEL = "Book an intro call";
-
-// Founder photos, hosted on ImageKit (same account as the project images).
-// `?tr=f-auto,q-90` lets ImageKit auto-serve WebP/AVIF at ~90 quality for a
-// smaller responsive payload. FOUNDER_PHOTO is the hero portrait (direct gaze);
-// FOUNDER_PHOTO_ABOUT is the editorial three-quarter shot used on /about.
-const IK = "https://ik.imagekit.io/dn2zdxiu3/Portfolioprojectimages/My%20images";
-export const FOUNDER_PHOTO = `${IK}/ChatGPT%20Image%20Jun%2023,%202026,%2008_08_33%20PM.jpg?tr=f-auto,q-90`;
-export const FOUNDER_PHOTO_ABOUT = `${IK}/ChatGPT%20Image%20Jun%2024,%202026,%2006_26_44%20AM.png?tr=f-auto,q-90`;
+// Founder photos, self-hosted in /public/images as pre-optimised WebP (hero
+// 1600w ~43KB, about 1200w ~45KB) with neutral filenames — the public URL is
+// part of the page, so it must not leak asset provenance. FOUNDER_PHOTO is the
+// hero portrait (direct gaze); FOUNDER_PHOTO_ABOUT is the editorial
+// three-quarter shot used on /about.
+export const FOUNDER_PHOTO = "/images/divyansh-portrait.webp";
+export const FOUNDER_PHOTO_ABOUT = "/images/divyansh-portrait-about.webp";
 export const FOUNDER_PHOTO_ALT =
   "Divyansh Sood — founder, Divyansh Sood® Studio, Himachal Pradesh, India";
 
