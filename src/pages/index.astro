@@ -1,98 +1,347 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import Nav from "../components/Nav.astro";
-import HelloLoader from "../components/home/HelloLoader.astro";
-import Hero from "../components/home/Hero.astro";
-import About from "../components/home/About.astro";
-import StickyGrid from "../components/motion/StickyGrid.astro";
-import Testimonials from "../components/home/Testimonials.astro";
-import Contact from "../components/home/Contact.astro";
-import ClosingCta from "../components/home/ClosingCta.astro";
-
-import HomeScripts from "../components/home/HomeScripts.astro";
-import MotionController from "../components/motion/MotionController.astro";
+import Studio from "../layouts/Studio.astro";
 import { homeJsonLd } from "../lib/home-schema.mjs";
-import { FOUNDER_PHOTO } from "../lib/site.mjs";
-import { projects } from "../lib/projects/data.mjs";
+import { CALENDLY_URL } from "../lib/site.mjs";
+import { projects as allProjects } from "../lib/projects/data.mjs";
 
 const SITE = "https://www.divyanshsood.com";
 const jsonld = homeJsonLd(SITE);
 
-// Sticky-grid tiles: all nine builds, ordered by case-study number. Each tile
-// links to its case study (this section replaces the Selected-work band, so it
-// keeps that band's internal links) and carries a caption so it reads as work,
-// not wallpaper.
-const workTiles = [...projects]
-  .sort((a, b) => Number(a.num) - Number(b.num))
-  .map((p) => ({
-    src: `${p.feature.src}?tr=w-820,q-80,f-auto`,
-    alt: `${p.name} — open case study`,
-    href: `/projects/${p.slug}`,
-    num: p.num,
-    name: p.name,
-    meta: `${p.category} · ${p.year}`,
-  }));
+// ---------------------------------------------------------------------------
+// "Portfolio 2026" homepage — Anton/JetBrains Mono, near-black + neon green
+// (#D9FF3C), stack-marquee hero + sticky deck-of-cards work gallery. Chrome and
+// the motion engine come from the shared Studio layout; this page only carries
+// its own unique sections (hero, statement, deck, contact + the case overlay).
+//
+// Curated deck of four case studies. Copy lives here (bespoke to this design);
+// images come from data.mjs by slug so the deck can never drift from the real
+// case-study assets. Card URLs point at the internal case-study pages. The
+// remaining builds (incl. the personal projects) live on /portfolio.
+// ---------------------------------------------------------------------------
+const IMG_TR = "?tr=w-1600,q-80,f-auto";
+// The deck fills the viewport, so serve responsive sources: self-hosted /images
+// features ship width variants (`<name>-<w>.webp`); ImageKit URLs resize via ?tr.
+const LOCAL_WIDTHS = [480, 768, 1080, 1440];
+const isLocalImg = (s: string) => s.startsWith("/");
+const deckImg = (s: string) => (isLocalImg(s) ? s.replace(/\.webp$/, "-1440.webp") : s + IMG_TR);
+const deckSrcset = (s: string) =>
+  isLocalImg(s)
+    ? [...LOCAL_WIDTHS.map((w) => `${s.replace(/\.webp$/, `-${w}.webp`)} ${w}w`), `${s} 1920w`].join(", ")
+    : undefined;
+const bySlug = new Map(allProjects.map((p) => [p.slug, p]));
+const caseFor = (slug: string) => {
+  const p = bySlug.get(slug);
+  if (!p) throw new Error(`Homepage deck references unknown project slug: ${slug}`);
+  return p;
+};
+const DECK = [
+  {
+    slug: "redline",
+    num: "01",
+    name: "Redline Studios",
+    client: "Redline Studios",
+    tags: "Brand · E-commerce",
+    year: "2025",
+    scope: "Brand · Storefront · Payments",
+    blurb:
+      "A motorcycle-apparel brand born out of speed — F1-styled motion, race-car geometry and a colour system pulled from real racing liveries. Custom Next.js + Razorpay, nothing templated.",
+    quote: "Bro bro bro! What a thing you've built.",
+    quoteBy: "Founder, Redline Studios",
+  },
+  {
+    slug: "cultxberserk",
+    num: "02",
+    name: "CultXberserk",
+    client: "CultXberserk",
+    tags: "Brand · D2C",
+    year: "2026",
+    scope: "Brand · Storefront · Drops",
+    blurb:
+      "A Berserk-inspired apparel label where the lore and the buy flow are one experience — a custom Next.js storefront with a hand-numbered drop system, no Shopify theme.",
+    quote: "Apparel for the damned.",
+    quoteBy: "Brand voice, CultXberserk",
+  },
+  {
+    slug: "modernkbs",
+    num: "03",
+    name: "Modern K.B.S.",
+    client: "Modern K.B.S.",
+    tags: "Web App · Admin",
+    year: "2024",
+    scope: "Web App · Admin · Build",
+    blurb:
+      "A custom web application with a self-serve admin — the team updates everything themselves, with no developer on call.",
+    quote: null,
+    quoteBy: null,
+  },
+  {
+    slug: "chinkiz",
+    num: "04",
+    name: "ChinkiZ Knitting Knife",
+    client: "ChinkiZ · 600K+ subscribers",
+    tags: "D2C · Creator",
+    year: "2024",
+    scope: "Custom storefront",
+    blurb:
+      "Shopify and Webflow fought the way her audience shops. A custom-coded storefront puts the video right next to the buy button.",
+    quote: "I did not think it could be achieved without going to e-commerce builders and only using custom code.",
+    quoteBy: "Chinki, Founder",
+  },
+].map((d) => {
+  const featSrc = caseFor(d.slug).feature.src;
+  return { ...d, img: deckImg(featSrc), srcset: deckSrcset(featSrc), url: `/projects/${d.slug}/` };
+});
+
+const ARROW = "M7 17 17 7M8 7h9v9";
 ---
 
-<Layout
-  title="Divyansh Sood® Studio — Custom Websites That Convert, Live in Weeks"
-  description="Divyansh Sood designs and builds custom-coded, conversion-focused websites, stores and web apps for founders worldwide. Live in 3–4 weeks. You own the code."
+<Studio
+  title="Freelance Web Designer & Developer — Divyansh Sood® Studio"
+  description="Divyansh Sood is a freelance web designer & developer building custom-coded, conversion-focused websites, stores and web apps for founders worldwide. Live in 3–4 weeks."
   canonical={`${SITE}/`}
-  keywords="Divyansh Sood, custom website design and development, hire web developer, conversion-focused website, Next.js developer, Astro developer, ecommerce website developer, web app MVP developer, SEO web developer, Himachal Pradesh, India web studio"
+  keywords="freelance web developer, freelance web designer, hire freelance developer, Divyansh Sood, custom website design and development, hire web developer, conversion-focused website, Next.js developer, Astro developer, ecommerce website developer, web app MVP developer, SEO web developer, Himachal Pradesh, India"
   ogDescription="Custom-coded websites that convert — designed, built and live in 3–4 weeks. You own the code."
-  preloadImage={{ href: FOUNDER_PHOTO }}
   jsonld={jsonld}
+  preloader
+  home
 >
-  {/* Synchronous, render-blocking: arm scroll-reveal before first paint so
-      there is no flash of un-hidden content. Skips when the visitor prefers
-      reduced motion. A 3s failsafe reveals everything if the motion bundle
-      never runs. */}
-  <Fragment slot="head">
-    <script is:inline>
-      (function () {
-        try {
-          if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-          var d = document.documentElement;
-          d.classList.add("motion");
-          setTimeout(function () {
-            if (!d.classList.contains("motion-ready")) d.classList.add("motion-fallback");
-          }, 3000);
-          // Hello curtain: first homepage view this session only. Decided here
-          // (before first paint) so repeat visits never flash the overlay.
-          try {
-            if (!sessionStorage.getItem("dsHello")) {
-              sessionStorage.setItem("dsHello", "1");
-              d.classList.add("ds-hello");
-            }
-          } catch (err) {}
-        } catch (e) {}
-      })();
-    </script>
-  </Fragment>
+  {/* ---------- Hero — stacked drift marquees ---------- */}
+  <section id="top" style="position:relative;">
+    <h1 class="dsx-sr">Divyansh Sood — freelance web designer &amp; developer. Custom-coded websites, stores and web apps that convert.</h1>
+    <div style="min-height:100svh; display:flex; flex-direction:column; justify-content:center; overflow:hidden; position:relative; padding:90px 0 130px;">
+      <div style="display:flex; flex-direction:column; gap:1vw;">
+        <div style="overflow:hidden;">
+          <div class="dsx-r" data-intro="0">
+            <div data-drift="l" style="display:inline-flex; white-space:nowrap; font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(64px, 13vw, 190px); line-height:0.92; text-transform:uppercase; will-change:transform;">
+              <span style="display:inline-block; padding-right:4vw;">Web Design <span style="color:var(--accent, #D9FF3C);">✦</span> Web Design <span style="color:var(--accent, #D9FF3C);">✦</span> Web Design <span style="color:var(--accent, #D9FF3C);">✦</span></span>
+              <span aria-hidden="true" style="display:inline-block; padding-right:4vw;">Web Design <span style="color:var(--accent, #D9FF3C);">✦</span> Web Design <span style="color:var(--accent, #D9FF3C);">✦</span> Web Design <span style="color:var(--accent, #D9FF3C);">✦</span></span>
+            </div>
+          </div>
+        </div>
+        <div style="overflow:hidden;">
+          <div class="dsx-r" data-intro="110">
+            <div data-drift="r" style="display:inline-flex; white-space:nowrap; font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(64px, 13vw, 190px); line-height:0.92; text-transform:uppercase; color:transparent; -webkit-text-stroke:1.5px #F4F2EC; will-change:transform;">
+              <span style="display:inline-block; padding-right:4vw;">Development ► Development ► Development ►</span>
+              <span aria-hidden="true" style="display:inline-block; padding-right:4vw;">Development ► Development ► Development ►</span>
+            </div>
+          </div>
+        </div>
+        <div style="overflow:hidden;">
+          <div class="dsx-r" data-intro="220">
+            <div data-drift="l2" style="display:inline-flex; white-space:nowrap; font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(64px, 13vw, 190px); line-height:0.92; text-transform:uppercase; will-change:transform;">
+              <span style="display:inline-block; padding-right:4vw;">Conversion <span style="color:var(--accent, #D9FF3C);">↗</span> Conversion <span style="color:var(--accent, #D9FF3C);">↗</span> Conversion <span style="color:var(--accent, #D9FF3C);">↗</span></span>
+              <span aria-hidden="true" style="display:inline-block; padding-right:4vw;">Conversion <span style="color:var(--accent, #D9FF3C);">↗</span> Conversion <span style="color:var(--accent, #D9FF3C);">↗</span> Conversion <span style="color:var(--accent, #D9FF3C);">↗</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="position:absolute; left:4vw; right:4vw; bottom:26px; display:flex; justify-content:space-between; align-items:flex-end; gap:24px; font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.1em; color:#8A8A93;">
+        <div class="dsx-f" data-intro="300" style="max-width:400px; line-height:1.8;">INDEPENDENT WEB DESIGNER &amp; DEVELOPER — CUSTOM-CODED SITES, STORES &amp; WEB APPS FOR FOUNDERS WORLDWIDE. <a href={CALENDLY_URL} target="_blank" rel="noopener" style="color:var(--accent, #D9FF3C);">BOOK A 15-MIN INTRO ↗</a></div>
+        <div data-hide-m class="dsx-f" data-intro="380" style="text-align:right; line-height:1.8;">EST. 2022 — HIMACHAL PRADESH, IN<br>WORLDWIDE · IST <span data-ist>––:––</span></div>
+      </div>
+    </div>
+  </section>
 
-  {/* First-visit "Hello" curtain — must be the first thing painted. */}
-  <HelloLoader />
+  {/* ---------- Marquee band ---------- */}
+  <div style="border-top:1px solid rgba(244,242,236,0.14); border-bottom:1px solid rgba(244,242,236,0.14); padding:20px 0; overflow:hidden;">
+    <div data-marquee-track style="display:inline-flex; white-space:nowrap; will-change:transform; font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(30px, 4.6vw, 64px); text-transform:uppercase; line-height:1;">
+      <span style="display:inline-block; padding-right:3vw;">Custom-coded <span style="color:var(--accent, #D9FF3C);">✦</span> Conversion-focused <span style="color:var(--accent, #D9FF3C);">✦</span> Live in 3–4 weeks <span style="color:var(--accent, #D9FF3C);">✦</span> You own the code <span style="color:var(--accent, #D9FF3C);">✦</span></span>
+      <span aria-hidden="true" style="display:inline-block; padding-right:3vw;">Custom-coded <span style="color:var(--accent, #D9FF3C);">✦</span> Conversion-focused <span style="color:var(--accent, #D9FF3C);">✦</span> Live in 3–4 weeks <span style="color:var(--accent, #D9FF3C);">✦</span> You own the code <span style="color:var(--accent, #D9FF3C);">✦</span></span>
+    </div>
+  </div>
 
-  <Nav />
+  {/* ---------- About statement — sticky, word-by-word scroll reveal ---------- */}
+  <section data-stmt-sec style="height:200vh; position:relative;">
+    <div style="position:sticky; top:0; height:100svh; display:flex; flex-direction:column; justify-content:center; padding:0 4vw;">
+      <div style="font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.14em; color:#8A8A93; display:flex; justify-content:space-between; gap:16px; margin-bottom:4vh;">
+        <span>(ABOUT — 01)</span>
+        <span data-hide-m>WHY FOUNDERS HIRE ME</span>
+      </div>
+      <p data-split-words style="margin:0; font-weight:600; font-size:clamp(26px, 4.8vw, 60px); line-height:1.16; letter-spacing:-0.02em; max-width:1150px;">I design, build and ship custom-coded websites, stores and web apps that convert — one person, end to end, for founders worldwide.</p>
+      <p data-split-words style="margin:0.5em 0 0; font-weight:600; font-size:clamp(26px, 4.8vw, 60px); line-height:1.16; letter-spacing:-0.02em; color:var(--accent, #D9FF3C);">No agency layers. You own the code.</p>
+    </div>
+  </section>
 
-  {/* ---------- Hero ---------- */}
-  <Hero />
+  {/* ---------- Selected work — sticky deck of cards ---------- */}
+  <section id="work" style="position:relative;">
+    <div style="padding:12vh 4vw 7vh; display:flex; align-items:flex-end; justify-content:space-between; gap:24px;">
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.14em; color:#8A8A93; margin-bottom:22px;">(WORK — 02)</div>
+        <h2 style="margin:0; overflow:hidden;"><span class="dsx-r" data-rev style="display:block; font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(52px, 9vw, 130px); line-height:0.92; text-transform:uppercase;">Selected work</span></h2>
+      </div>
+      <div data-hide-m style="font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.14em; color:#8A8A93; text-align:right; line-height:1.9;">2024 — 2026<br><span style="color:var(--accent, #D9FF3C);">04</span> PROJECTS</div>
+    </div>
 
-  {/* ---------- 01 · Selected Work — sticky grid scroll (9 builds, grid-only) ---------- */}
-  <StickyGrid id="work" tiles={workTiles} heightVh={380} />
+    <div data-deck-sec style="height:480vh; position:relative;">
+      <div style="position:sticky; top:0; height:100svh; overflow:hidden; background:#131316;">
+        {DECK.map((p, i) => (
+          <article data-card data-deck-panel data-idx={i} data-cursor="VIEW" style="position:absolute; inset:0; cursor:pointer; will-change:clip-path; overflow:hidden;">
+            <img data-deck-img src={p.img} srcset={p.srcset} sizes="100vw" alt={`${p.name} — ${p.tags}`} loading={i === 0 ? "eager" : "lazy"} decoding="async" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transform:scale(1.12); will-change:transform;" />
+            <div style="position:absolute; inset:0; background:linear-gradient(to top, rgba(11,11,12,0.88) 0%, rgba(11,11,12,0.15) 46%, rgba(11,11,12,0.35) 100%);"></div>
+            <div data-deck-shade style="position:absolute; inset:0; background:#0B0B0C; opacity:0; will-change:opacity;"></div>
+            <div data-deck-title style="position:absolute; left:4vw; right:4vw; bottom:10vh; will-change:transform, opacity;">
+              <div style="display:flex; align-items:center; gap:14px; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.12em; color:rgba(244,242,236,0.85); margin-bottom:16px;">
+                <span style="color:var(--accent, #D9FF3C);">{p.num}</span>
+                <span>{p.tags}</span>
+                <span data-hide-m>· {p.year}</span>
+              </div>
+              <h3 style="margin:0; font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(44px, 9.5vw, 150px); line-height:0.9; text-transform:uppercase;">{p.name}</h3>
+              <a href={p.url} data-cursor="OPEN" style="margin-top:22px; display:inline-flex; align-items:center; gap:10px; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.12em; border:1px solid rgba(244,242,236,0.45); border-radius:999px; padding:13px 22px; background:rgba(11,11,12,0.35); backdrop-filter:blur(6px);">VIEW CASE <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d={ARROW}></path></svg></a>
+            </div>
+          </article>
+        ))}
+        <div style="position:absolute; top:88px; right:4vw; font-family:'JetBrains Mono',monospace; letter-spacing:0.14em; display:flex; gap:8px; align-items:baseline;"><span data-deck-num style="color:var(--accent, #D9FF3C); font-size:20px;">01</span><span style="color:#8A8A93; font-size:12px;">/ 04</span></div>
+        <div style="position:absolute; left:4vw; right:4vw; bottom:26px; height:1px; background:rgba(244,242,236,0.2);"><div data-deck-bar style="position:absolute; inset:0; transform:scaleX(0); transform-origin:left center; background:var(--accent, #D9FF3C);"></div></div>
+      </div>
+    </div>
+  </section>
 
-  {/* ---------- 02 · About (short founder intro) ---------- */}
-  <About />
+  {/* ---------- Services ---------- */}
+  <section id="services" style="position:relative;">
+    <div style="padding:clamp(64px, 9vw, 120px) 4vw clamp(56px, 8vw, 104px);">
+      <div style="font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.14em; color:#8A8A93; display:flex; justify-content:space-between; gap:16px; margin-bottom:22px;">
+        <span>(SERVICES — 03)</span>
+        <span data-hide-m>ONE PERSON, END TO END</span>
+      </div>
+      <h2 style="margin:0 0 clamp(30px, 4vw, 54px); overflow:hidden;"><span class="dsx-r" data-rev style="display:block; font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(52px, 9vw, 130px); line-height:0.92; text-transform:uppercase;">What I do</span></h2>
+      <ul class="svc" role="list">
+        <li class="svc-row" data-reveal>
+          <span class="svc-num">01</span>
+          <h3 class="svc-t">Web design</h3>
+          <p class="svc-d">The design that ships, not the one that wins a Figma community award — I design in code, on a real URL.</p>
+        </li>
+        <li class="svc-row" data-reveal>
+          <span class="svc-num">02</span>
+          <h3 class="svc-t">Web development</h3>
+          <p class="svc-d">Next.js, Astro, React — custom-coded storefronts, web apps and marketing sites the next developer picks up clean.</p>
+        </li>
+        <li class="svc-row" data-reveal>
+          <span class="svc-num">03</span>
+          <h3 class="svc-t">AI features</h3>
+          <p class="svc-d">Claude, GPT, Gemini — whichever fits the job. I run my own AI product on all three, so I integrate shipped code, not experiments.</p>
+        </li>
+        <li class="svc-row" data-reveal>
+          <span class="svc-num">04</span>
+          <h3 class="svc-t">Strategy &amp; copy</h3>
+          <p class="svc-d">What the homepage should say, in what order, to whom — decided before a single pixel moves.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
 
-  {/* ---------- 03 · Testimonials (3 with context) ---------- */}
-  <Testimonials />
+  {/* ---------- Contact ---------- */}
+  <section id="contact" style="position:relative; padding:clamp(64px, 11vh, 130px) 4vw 0; overflow:hidden;">
+    <div style="font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.14em; color:#8A8A93; display:flex; justify-content:space-between; gap:16px; margin-bottom:4vh;">
+      <span>(CONTACT — 04)</span>
+      <span>NEXT STEP</span>
+    </div>
+    <div style="overflow:hidden;">
+      <h2 class="dsx-r" data-rev style="margin:0; font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(80px, 19vw, 300px); line-height:0.85; text-transform:uppercase; letter-spacing:-0.005em;">Let's build<span style="color:var(--accent, #D9FF3C);">.</span></h2>
+    </div>
+    <div style="display:flex; flex-wrap:wrap; align-items:center; gap:20px 28px; margin:6vh 0 5vh;">
+      <a class="dsx-cta" data-cursor="BOOK" href={CALENDLY_URL} target="_blank" rel="noopener" style="background:var(--accent, #D9FF3C); color:#0B0B0C; font-weight:600; font-size:15px; letter-spacing:0.02em; padding:20px 34px; border-radius:999px; display:inline-flex; align-items:center; gap:10px;">BOOK A 15-MIN INTRO <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d={ARROW}></path></svg></a>
+      <a href="mailto:hello@divyanshsood.com" style="font-family:'JetBrains Mono',monospace; font-size:13px; letter-spacing:0.06em; border-bottom:1px solid rgba(244,242,236,0.3); padding-bottom:4px;">HELLO@DIVYANSHSOOD.COM</a>
+      <span data-hide-m style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.08em; color:#8A8A93; max-width:320px; line-height:1.8;">“I'LL PERSONALLY REVIEW YOUR BRIEF AND REPLY WITHIN TWO HOURS.” — DIVYANSH, FOUNDER</span>
+    </div>
 
-  {/* ---------- Closing CTA + WebGL liquid-metal blob ---------- */}
-  <ClosingCta />
+    {/* Prefer-not-to-call door: a compact project brief. Reuses the existing
+        ds-start-form handler (src/scripts/contact-form.js) — same fields as the
+        /website-audit intake, so no bespoke copy. WhatsApp sits alongside as a
+        delivery-independent fallback. */}
+    <div class="dsx-brief" style="max-width:560px; margin:0 0 12vh; border-top:1px solid rgba(244,242,236,0.14); padding-top:5vh;">
+      <div style="font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.14em; color:#8A8A93; margin-bottom:24px;">OR SEND A BRIEF — NO CALL NEEDED</div>
+      <form id="ds-start-form">
+        <div class="dsx-brief-grid">
+          <div>
+            <label for="st-name" class="dsx-brief-l">Your name *</label>
+            <input id="st-name" type="text" required placeholder="Jane Founder" autocomplete="name" class="dsx-brief-i" />
+          </div>
+          <div>
+            <label for="st-email" class="dsx-brief-l">Email *</label>
+            <input id="st-email" type="email" required placeholder="you@company.com" autocomplete="email" class="dsx-brief-i" />
+          </div>
+        </div>
+        <label for="st-msg" class="dsx-brief-l" style="margin-top:24px;">What are you building? *</label>
+        <textarea id="st-msg" rows="3" required placeholder="One line on the project and what success looks like." class="dsx-brief-t"></textarea>
+        {/* Honeypot — invisible to humans; bots that fill it are dropped. */}
+        <input id="st-hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute; left:-9999px; width:1px; height:1px; opacity:0; pointer-events:none;" />
+        <div style="display:flex; flex-wrap:wrap; align-items:center; gap:16px 22px; margin-top:28px;">
+          <button type="submit" class="dsx-cta" data-cursor="SEND" style="background:var(--accent, #D9FF3C); color:#0B0B0C; font-weight:600; font-size:14px; letter-spacing:0.02em; padding:16px 28px; border-radius:999px; display:inline-flex; align-items:center; gap:10px; cursor:pointer;">SEND A BRIEF <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d={ARROW}></path></svg></button>
+          <a href="https://wa.me/919816091875" target="_blank" rel="noopener" style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.06em; border-bottom:1px solid rgba(244,242,236,0.3); padding-bottom:4px;">OR WHATSAPP ↗</a>
+        </div>
+      </form>
+    </div>
+  </section>
 
-  {/* ---------- 04 · Contact ---------- */}
-  <Contact />
-</Layout>
+  {/* ---------- Case overlay (populated + shown by the engine) ---------- */}
+  <div data-overlay role="dialog" aria-modal="true" aria-label="Case study" style="display:none; position:fixed; inset:0; z-index:90; background:#0B0B0C; overflow:auto;">
+    <div style="max-width:1240px; margin:0 auto; padding:22px 4vw 90px;">
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; padding-bottom:5vh;">
+        <span style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.14em; color:var(--accent, #D9FF3C);">CASE — <span data-o-num>01</span></span>
+        <button data-o-close data-cursor="CLOSE" class="dsx-pill" style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.12em; border:1px solid rgba(244,242,236,0.35); border-radius:999px; padding:10px 18px; cursor:pointer; display:inline-flex; align-items:center; gap:8px;">CLOSE <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 5l14 14M19 5 5 19"></path></svg></button>
+      </div>
+      <h2 data-o-name style="margin:0 0 5vh; font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(48px, 10vw, 150px); line-height:0.92; text-transform:uppercase;"></h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:16px; border-top:1px solid rgba(244,242,236,0.14); border-bottom:1px solid rgba(244,242,236,0.14); padding:18px 0; margin-bottom:5vh; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.08em; line-height:2;">
+        <div><span style="color:#8A8A93;">CLIENT</span><br><span data-o-client></span></div>
+        <div><span style="color:#8A8A93;">SECTOR</span><br><span data-o-tags></span></div>
+        <div><span style="color:#8A8A93;">YEAR</span><br><span data-o-year></span></div>
+        <div><span style="color:#8A8A93;">SCOPE</span><br><span data-o-scope></span></div>
+      </div>
+      <div style="position:relative; overflow:hidden; aspect-ratio:16 / 9; background:#131316; margin-bottom:5vh;">
+        <img data-o-img src="" alt="" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover;" />
+      </div>
+      <p data-o-blurb style="margin:0 0 4vh; max-width:700px; font-size:clamp(17px, 2vw, 21px); line-height:1.65; color:#D9D7D0;"></p>
+      <blockquote data-o-quote style="margin:0 0 6vh; max-width:760px; border-left:2px solid var(--accent, #D9FF3C); padding-left:24px;">
+        <p style="margin:0 0 10px; font-weight:600; font-size:clamp(19px, 2.4vw, 26px); line-height:1.4; letter-spacing:-0.01em;">“<span data-o-quote-text></span>”</p>
+        <cite style="font-style:normal; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.1em; color:#8A8A93;">— <span data-o-quote-by></span></cite>
+      </blockquote>
+      <div style="display:flex; flex-wrap:wrap; align-items:center; gap:16px;">
+        <a data-o-link class="dsx-cta" data-cursor="OPEN" href="#" style="background:var(--accent, #D9FF3C); color:#0B0B0C; font-weight:600; font-size:14px; padding:16px 26px; border-radius:999px; display:inline-flex; align-items:center; gap:10px;">OPEN FULL CASE STUDY <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d={ARROW}></path></svg></a>
+        <button data-o-next class="dsx-pill" style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.12em; border:1px solid rgba(244,242,236,0.35); border-radius:999px; padding:15px 24px; cursor:pointer; display:inline-flex; align-items:center; gap:8px;">NEXT PROJECT <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M4 12h16M13 5l7 7-7 7"></path></svg></button>
+      </div>
+    </div>
+  </div>
 
-<HomeScripts />
-<MotionController />
+  {/* Deck data for the engine (overlay content). */}
+  <script is:inline type="application/json" id="dsx-data" set:html={JSON.stringify(DECK)} />
+
+  <style>
+    /* Services rows. */
+    #services .svc { list-style: none; margin: 0; padding: 0; border-top: 1px solid rgba(244, 242, 236, 0.16); }
+    #services .svc-row {
+      display: grid; grid-template-columns: 64px 1fr minmax(240px, 380px);
+      gap: 8px 28px; align-items: baseline;
+      padding: clamp(20px, 2.6vw, 30px) 0;
+      border-bottom: 1px solid rgba(244, 242, 236, 0.16);
+    }
+    #services .svc-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; color: var(--accent, #D9FF3C); }
+    #services .svc-t { margin: 0; font-family: 'Anton', sans-serif; font-weight: 400; font-size: clamp(30px, 4.6vw, 64px); line-height: 0.96; text-transform: uppercase; }
+    #services .svc-d { margin: 0; font-size: 15px; line-height: 1.62; color: #8A8A93; max-width: 46ch; }
+
+    /* Homepage project-brief form — matches the Portfolio-2026 field styling. */
+    #contact .dsx-brief-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+    #contact .dsx-brief-l { display: block; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #8A8A93; margin-bottom: 8px; }
+    #contact .dsx-brief-i { width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(244, 242, 236, 0.25); color: #F4F2EC; font-family: 'JetBrains Mono', monospace; font-size: 14px; padding: 12px 2px; outline: none; }
+    #contact .dsx-brief-i:focus { border-bottom-color: var(--accent, #D9FF3C); }
+    #contact .dsx-brief-t { width: 100%; background: transparent; border: 1px solid rgba(244, 242, 236, 0.18); border-radius: 6px; color: #F4F2EC; font-family: 'JetBrains Mono', monospace; font-size: 14px; padding: 12px; outline: none; resize: vertical; margin-top: 8px; }
+    #contact .dsx-brief-t:focus { border-color: var(--accent, #D9FF3C); }
+
+    /* Phones: pull the section rhythm in. Desktop values live inline on the
+       elements above, hence the !important overrides here. */
+    @media (max-width: 720px) {
+      #work > div:first-child { padding: 7vh 4vw 4.5vh !important; }
+      #contact > div:last-of-type { margin: 4vh 0 7vh !important; }
+      #contact .dsx-brief-grid { grid-template-columns: 1fr; gap: 0; }
+      #contact .dsx-brief-grid > div { margin-bottom: 22px; }
+      #services .svc-row { grid-template-columns: 34px 1fr; gap: 6px 14px; padding: 20px 0; }
+      #services .svc-d { grid-column: 2; }
+    }
+  </style>
+</Studio>
+
+<script>
+  // Activates the homepage "Send a brief" form (ds-start-form). Posts to
+  // /api/contact; falls back to the visitor's mail client if Resend is unset.
+  import initContactForms from "../scripts/contact-form.js";
+  initContactForms();
+</script>

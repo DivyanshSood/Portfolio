@@ -1,7 +1,5 @@
 ---
-import Layout from "../../layouts/Layout.astro";
-import Nav from "../../components/Nav.astro";
-import Footer from "../../components/Footer.astro";
+import Studio from "../../layouts/Studio.astro";
 import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
 
 const slug = "what-is-llms-txt-blog";
@@ -59,7 +57,7 @@ const jsonld = JSON.stringify({
 });
 ---
 
-<Layout
+<Studio
   title={post.seoTitle ?? `${post.title} · Divyansh Sood`}
   description={post.description}
   canonical={canonical}
@@ -74,7 +72,6 @@ const jsonld = JSON.stringify({
   tags={post.tags}
   jsonld={jsonld}
 >
-  <Nav />
   <main>
     <header class="post-hero">
       <div class="post-hero-bg" aria-hidden="true"></div>
@@ -194,6 +191,7 @@ const jsonld = JSON.stringify({
 <p>If you’re building a new website:</p>
 <p>Make sure whoever is building it knows what <code>llms.txt</code> is and ships it as standard. Not as an add-on. Not as something to “do later.” At launch.</p>
 <p>Every site I build has it from day one. It takes thirty minutes to implement correctly. There’s no good reason to ship without it in 2025.</p>
+<p>Want to see what yours could look like? <a href="/tools/llms-txt-generator/">Generate a starter <code>llms.txt</code> free →</a> — fill in a few fields, copy the file, and have it wired in properly at launch.</p>
 <hr>
 <p><em>I’m Divyansh Sood. Every site I ship comes with <code>llms.txt</code> at the root, server-rendered content, schema on every page that earns it, and a Lighthouse score above 90 on mobile. 9 live builds. If your business should be in the answer when AI tools get asked about your category and isn’t, <a href="mailto:hello@divyanshsood.com">email me</a> — I’ll tell you where the gap is in plain terms.</em></p>
 <p><em>See how GEO was built into InHimalayas from day one: <a href="https://www.divyanshsood.com/projects/inhimalayas">InHimalayas case study →</a></em></p>
@@ -248,5 +246,4 @@ const jsonld = JSON.stringify({
       </div>
     </section>
   </main>
-  <Footer />
-</Layout>
+</Studio>

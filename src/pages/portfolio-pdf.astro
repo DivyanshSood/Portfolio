@@ -8,7 +8,7 @@
    stacks on Letter. Run `npm run pdf:portfolio` to regenerate the .pdf.
    =========================================================================== */
 import "../styles/portfolio-print.css";
-import { CALENDLY_URL, PROJECT_MIN_USD } from "../lib/site.mjs";
+import { PROJECT_MIN_USD } from "../lib/site.mjs";
 import { projects } from "../lib/projects/data.mjs";
 
 const SITE = "https://www.divyanshsood.com";
@@ -43,10 +43,17 @@ const jsonld = JSON.stringify({
     <meta name="description" content="Print-ready one-pager — what Divyansh Sood ships, who he's shipped for, and how to start." />
     <link rel="canonical" href={canonical} />
     <meta name="robots" content="noindex, follow" />
-    <link rel="preload" as="font" type="font/woff2" href="/fonts/archivo-900.woff2" crossorigin />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Divyansh Sood® Studio" />
+    <meta property="og:title" content="Portfolio — Divyansh Sood® Studio" />
+    <meta property="og:description" content="Print-ready one-pager — what Divyansh Sood ships, who he's shipped for, and how to start." />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={`${SITE}/og-home.png`} />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/anton-400.woff2" crossorigin />
     <link rel="preload" as="font" type="font/woff2" href="/fonts/archivo-700.woff2" crossorigin />
-    <link rel="preload" as="font" type="font/woff2" href="/fonts/space-mono-400.woff2" crossorigin />
-    {jsonld && <script type="application/ld+json" set:html={jsonld} />}
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/jetbrains-mono-400.woff2" crossorigin />
+    {jsonld && <script type="application/ld+json" is:inline set:html={jsonld} />}
   </head>
   <body class="ds-portfolio-print">
     <header class="ds-pf-hero">

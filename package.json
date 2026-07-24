@@ -9,6 +9,7 @@
     "postbuild": "node scripts/indexnow.mjs && node scripts/portfolio-pdf.mjs",
     "preview": "astro preview",
     "pdf:portfolio": "node scripts/portfolio-pdf.mjs",
+    "export:crossposts": "node scripts/export-crossposts.mjs",
     "fonts:self-host": "python3 scripts/self-host-fonts.py",
     "astro": "astro"
   },

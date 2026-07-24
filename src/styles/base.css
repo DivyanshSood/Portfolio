@@ -16,6 +16,9 @@
 @font-face{font-family:'Space Mono';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/space-mono-700.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
 @font-face{font-family:'Caveat';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/caveat-600.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
 @font-face{font-family:'Caveat';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/caveat-700.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+@font-face{font-family:'Anton';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/anton-400.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/jetbrains-mono-400.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:500;font-display:swap;src:url('/fonts/jetbrains-mono-500.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
 
 *{box-sizing:border-box;}
 html{scroll-behavior:auto;}
@@ -29,19 +32,23 @@ body{background:#0b0b0c;color:#fff;font-family:'Archivo',sans-serif;-webkit-font
    container, which silently breaks position:sticky for every descendant
    (e.g. the /portfolio depth gallery). clip clips the same without doing
    that; the hidden line before it is the fallback for pre-clip browsers. */
-#ds-root{--accent:#ff1f1f;position:relative;overflow-x:hidden;overflow-x:clip;}
-::selection{background:var(--accent);color:#fff;}
+/* Neon-green accent is the site-wide default; #dsx re-declares it too. Defined
+   on :root so chrome that renders outside #dsx (e.g. the cookie banner) inherits
+   it instead of falling back to the old red. */
+:root{--accent:#d9ff3c;}
+#ds-root{--accent:#d9ff3c;position:relative;overflow-x:hidden;overflow-x:clip;}
+::selection{background:var(--accent);color:#0b0b0c;}
 a{color:inherit;}
 /* Keyboard focus ring — on-brand accent, shown only for keyboard nav (not on
    mouse click). Covers links, buttons and interactive cards site-wide. */
 :where(a,button,input,textarea,select,[tabindex]):focus-visible{
-  outline:2px solid var(--accent,#ff1f1f);
+  outline:2px solid var(--accent,#d9ff3c);
   outline-offset:3px;
   border-radius:2px;
 }
 img{display:block;max-width:100%;}
 section{position:relative;}
-.mono{font-family:'Space Mono',monospace;}
+.mono{font-family:'JetBrains Mono',monospace;}
 .wrap{max-width:1180px;margin:0 auto;padding:0 30px;}
 .narrow{max-width:760px;}
 
@@ -72,22 +79,22 @@ html.lenis,html.lenis body{height:auto;}
 
 /* nav styles live in src/components/Nav.astro (Astro-scoped) */
 
-/* buttons (shared) */
-.btn{display:inline-flex;align-items:center;gap:9px;text-decoration:none;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:14px 22px;border-radius:2px;font-weight:700;}
+/* buttons (shared) — pill CTAs in the "Portfolio 2026" language */
+.btn{display:inline-flex;align-items:center;gap:9px;text-decoration:none;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:14px 24px;border-radius:999px;font-weight:500;}
 .btn-primary{background:var(--accent);color:#0b0b0c;}
-.btn-ghost{border:1px solid rgba(255,255,255,.3);color:#fff;}
+.btn-ghost{border:1px solid rgba(244,242,236,.3);color:#F4F2EC;}
 
 /* ---------------------------------------------------------------------------
    Shared text link — underlined mono label + arrow that nudges on hover. Border
    uses currentColor so it adapts to the section (black on orange, white on
    black via .ds-link-light). The arrow lives in a <span>. No box, no button.
    --------------------------------------------------------------------------- */
-.ds-link{display:inline-flex;align-items:center;gap:8px;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:inherit;text-decoration:none;border-bottom:1.5px solid currentColor;padding-bottom:4px;}
+.ds-link{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:500;color:inherit;text-decoration:none;border-bottom:1.5px solid currentColor;padding-bottom:4px;}
 .ds-link span{display:inline-block;transition:transform .3s cubic-bezier(.16,1,.3,1);}
 .ds-link:hover span{transform:translate(3px,-3px);}
 .ds-link-soft{font-weight:400;border-bottom-color:color-mix(in srgb,currentColor 40%,transparent);}
-.ds-link-light{color:#fff;}
-.ds-link-light:hover{color:var(--accent,#ff1f1f);}
+.ds-link-light{color:#F4F2EC;}
+.ds-link-light:hover{color:var(--accent,#d9ff3c);}
 
 /* shared footer (cs-foot) */
 .cs-foot{border-top:1px solid rgba(255,255,255,.14);}
@@ -170,7 +177,7 @@ html.motion-fallback .ds-giant-line{transform:none;opacity:1;}
 }
 @media (hover:hover){
   .btn:hover,.nav-cta:hover,#ds-sticky-book:hover,.ds-price-cta:hover,.ds-contact-submit:hover{transform:translateY(-2px);}
-  #ds-sticky-book:hover{box-shadow:0 20px 44px -12px rgba(255,31,31,.8);}
+  #ds-sticky-book:hover{box-shadow:0 20px 44px -12px rgba(217,255,60,.5);}
 }
 .btn:active,.nav-cta:active,#ds-sticky-book:active,.ds-price-cta:active,.ds-contact-submit:active{transform:scale(.97);}
 

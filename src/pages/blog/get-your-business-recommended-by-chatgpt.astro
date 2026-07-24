@@ -1,0 +1,192 @@
+---
+import Studio from "../../layouts/Studio.astro";
+import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+
+const slug = "get-your-business-recommended-by-chatgpt";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+const next = POSTS[(idx + 1) % POSTS.length];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
+      publisher: {
+        "@type": "Organization",
+        "@id": `${SITE}/#studio`,
+        name: "Divyansh Sood® Studio",
+        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
+      },
+      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      wordCount: post.wordCount,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+  ],
+});
+---
+
+<Studio
+  title={post.seoTitle ?? `${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  jsonld={jsonld}
+>
+  <main>
+    <header class="post-hero">
+      <div class="post-hero-bg" aria-hidden="true"></div>
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img src={post.coverImage} alt={post.title} width="1200" height="750" fetchpriority="high" decoding="async" />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+<p>Try this right now: ask ChatGPT to recommend businesses in your category and city. “Best boutique homestays in Himachal.” “Who builds custom D2C storefronts.” “Good CA firms for startups in Pune.”</p>
+<p>Someone gets named in that answer. Customers act on it — increasingly without ever seeing a search results page. If the name isn’t yours, this post is the fix, in order of impact.</p>
+<hr>
+<h2 id="how-assistants-pick-who-to-recommend">How assistants actually pick who to recommend</h2>
+<p>There’s no ranking algorithm to game. A model recommends what it can <em>retrieve and trust</em>: businesses whose facts appear clearly and consistently across the sources it reads — your website, your structured data, review platforms, directories, articles that mention you. Three properties decide it:</p>
+<ul>
+<li><strong>Legibility.</strong> Can a crawler read your site without executing JavaScript, and are your facts stated as facts?</li>
+<li><strong>Consistency.</strong> Does every source agree on who you are, what you do, where you are, and since when?</li>
+<li><strong>Corroboration.</strong> Do sources you don’t control — reviews, press, directories — back your claims?</li>
+</ul>
+<p>Everything below serves one of those three.</p>
+<hr>
+<h2 id="step-1-make-your-site-say-something-quotable">Step 1: Make your site say something quotable</h2>
+<p>Models quote sentences, not vibes. Audit your homepage and service pages for lines a model could lift verbatim: “We’re passionate about excellence” gives it nothing. “Custom-coded ecommerce sites for premium D2C brands, live in 2–4 weeks, from $3,000, full code ownership” gives it everything — the who, what, how fast, how much.</p>
+<p>Write the sentence you want repeated to a stranger, then put it high on the page in plain HTML.</p>
+<hr>
+<h2 id="step-2-hand-over-your-facts-in-schema">Step 2: Hand over your facts in schema</h2>
+<p>JSON-LD structured data — Organization, LocalBusiness or Service, FAQPage, Article — is your facts in a format that can’t be misread: name, services, area served, founding date, contact, links to your profiles. The FAQ part matters double, because question-and-answer is the exact shape of what users ask assistants. Answer the questions your customers actually type, in one or two self-contained sentences each.</p>
+<hr>
+<h2 id="step-3-ship-llms-txt-and-open-the-door">Step 3: Ship llms.txt and open the door</h2>
+<p>Two files at your domain root:</p>
+<ul>
+<li><strong>llms.txt</strong> — a curated plain-text brief of your business: who you are, what you offer, proof, links. The AI-era sitemap. (<a href="/blog/what-is-llms-txt-blog/">Full guide here</a>.)</li>
+<li><strong>robots.txt</strong> — check you’re not blocking GPTBot, ClaudeBot, PerplexityBot and friends. Plenty of businesses block AI crawlers with a copy-pasted robots file, then wonder why they’re invisible to AI.</li>
+</ul>
+<hr>
+<h2 id="step-4-get-corroborated-where-models-read">Step 4: Get corroborated where models read</h2>
+<p>Models weight sources you can’t edit. The compounding moves: a complete Google Business Profile with real reviews, consistent listings in the directories of your industry, and any genuine press or guest content that states what you do. One accurate third-party paragraph about your business is worth more than another page of self-description.</p>
+<hr>
+<h2 id="step-5-test-monthly-and-correct-the-record">Step 5: Test monthly, and correct the record</h2>
+<p>Ask ChatGPT, Claude, Gemini and Perplexity your category questions every month. Three outcomes:</p>
+<ul>
+<li><strong>You’re absent</strong> → work steps 1–4 harder; check your analytics for chatgpt.com and perplexity.ai referrers to see if it’s shifting.</li>
+<li><strong>You’re present but wrong</strong> → find the stale source it’s reading (old directory, dead page) and fix it at the origin.</li>
+<li><strong>You’re present and accurate</strong> → you now own a channel your competitors don’t know exists. Keep the facts fresh.</li>
+</ul>
+<p>When I ran this loop on my own travel brand, <a href="/projects/inhimalayas/">InHimalayas</a>, AI-referred traffic became measurable within weeks — from a standing start, in a category full of bigger names.</p>
+<hr>
+<p><em>I’m Divyansh Sood. Getting businesses recommended by AI is literally a service I sell — <a href="/services/seo-geo-services/">SEO and GEO, implemented in your codebase</a> — and the deeper theory is in <a href="/blog/geo-vs-seo-whats-actually-different/">GEO vs SEO</a>. Before you email me, ask the assistants about your category. Then <a href="mailto:hello@divyanshsood.com">send me what they said</a> — that transcript is the audit.</em></p>
+      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </article>
+
+    <section class="wrap narrow" aria-label="Keep reading">
+      <a class="post-next" href={`/blog/${next.slug}/`}>
+        <span><span class="label">Read next</span><br /><span class="name">{next.title}</span></span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </section>
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        {post.audience === "indian-smb" ? (
+          <>
+            <h2>Working on something in India?</h2>
+            <p>If a post here matches what you're building, send me the brief. WhatsApp reply in under an hour, 9 AM–9 PM IST — I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="https://wa.me/919816091875" target="_blank" rel="noopener"
+                >Message me on WhatsApp <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : post.audience === "d2c-brand" ? (
+          <>
+            <h2>Building a brand a theme can't carry?</h2>
+            <p>If your store has a model that off-the-shelf builders fight — hand-numbered drops, creator commerce, premium D2C — tell me about it. I read every brief personally.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : (
+          <>
+            <h2>Working on something similar?</h2>
+            <p>If a post here matches what you're building, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="https://calendly.com/sood-divyansh007/30min" target="_blank" rel="noopener"
+                >Book a 15-min intro <span aria-hidden="true">↗</span></a
+              >
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+  </main>
+</Studio>

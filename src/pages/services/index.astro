@@ -1,0 +1,167 @@
+---
+import Studio from "../../layouts/Studio.astro";
+import { CALENDLY_URL, PROJECT_MIN_USD } from "../../lib/site.mjs";
+
+const SITE = "https://www.divyanshsood.com";
+const canonical = `${SITE}/services/`;
+
+const services = [
+  {
+    href: "/services/ecommerce-website-development/",
+    tag: "Ecommerce · D2C",
+    name: "Ecommerce website development",
+    d: "Custom-coded storefronts for D2C brands and creators — Razorpay/Stripe payments, drop mechanics, zero Shopify themes, full code ownership.",
+  },
+  {
+    href: "/services/web-app-development/",
+    tag: "Web apps · MVPs",
+    name: "Web app development",
+    d: "MVPs, portals, dashboards and AI products. Full-stack React/Next.js/Astro, a staging link every Friday, live in weeks — fastest build: 7 days.",
+  },
+  {
+    href: "/services/landing-page-design/",
+    tag: "Landing pages · CRO",
+    name: "Landing page design",
+    d: "One page, one job. Copy, design and code as a single argument — clear offer, proof, one action, and load speed that respects the visitor.",
+  },
+  {
+    href: "/services/seo-geo-services/",
+    tag: "SEO · GEO · AEO",
+    name: "SEO & GEO services",
+    d: "Technical SEO plus Generative Engine Optimization — structured data, llms.txt, AI-crawler strategy — so Google ranks you and AI assistants cite you.",
+  },
+];
+
+const alsoFor = [
+  { href: "/agencies/", name: "For agencies", d: "White-label & overflow builds under your brand" },
+  { href: "/website-audit/", name: "Free website audit", d: "Conversion, speed & SEO leaks — free, in writing" },
+];
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "@id": canonical,
+      name: "Web development services — Divyansh Sood® Studio",
+      description:
+        "Custom web development services: ecommerce storefronts, web apps and MVPs, high-converting landing pages, and SEO/GEO — custom-coded, conversion-focused, you own the code.",
+      url: canonical,
+      isPartOf: { "@id": `${SITE}/#website` },
+    },
+    {
+      "@type": "ItemList",
+      "@id": `${canonical}#services`,
+      name: "Services — Divyansh Sood® Studio",
+      itemListElement: services.map((s, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: s.name,
+        url: `${SITE}${s.href}`,
+      })),
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Services", item: canonical },
+      ],
+    },
+  ],
+});
+---
+
+<Studio
+  title="Web Development Services — Stores, Apps, Pages & SEO/GEO"
+  description="Custom web development services: ecommerce storefronts, web apps, high-converting landing pages and SEO/GEO. Custom-coded, live in weeks, you own the code."
+  canonical={canonical}
+  keywords="custom web development services, ecommerce website development, web app development, landing page design, SEO services, GEO services, hire web developer, Divyansh Sood"
+  ogTitle="Web development services"
+  ogDescription="Stores, apps, landing pages and SEO/GEO — custom-coded, conversion-focused, yours to own."
+  jsonld={jsonld}
+>
+  <main>
+    <header class="cs-hero">
+      <div class="cs-hero-bg" aria-hidden="true"></div>
+      <div class="wrap">
+        <div class="cs-eyebrow">
+          <span>Services</span><span>Custom-coded · conversion-focused</span><span>2026</span>
+        </div>
+        <h1 style="margin:14px 0 0;font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(44px,8vw,108px);line-height:.9;letter-spacing:-.01em;text-transform:uppercase;">Four ways<br /><span style="color:var(--accent);">I move the needle.</span></h1>
+        <p class="cs-lead">Every engagement is custom-coded, conversion-focused and handed over with full code ownership. Pick the shape of the problem — a store that undersells the product, software stuck on a roadmap, a page that doesn't convert, or a brand that's invisible to Google and AI assistants.</p>
+        <div class="cs-cta-row">
+          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book an intro call <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost" href="/portfolio/">See the work first</a>
+        </div>
+        <div class="cs-meta">
+          <span>From {PROJECT_MIN_USD} · fixed written quotes</span><span>Live in 3–4 weeks · fastest: 7 days</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="cs-sec" aria-labelledby="svc-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="svc-h">The services</h2>
+          <span class="mono">Pick your problem</span>
+        </div>
+        <div class="cs-body" data-reveal>
+          {services.map((s) => (
+            <a class="cs-card" href={s.href} style="display:block;text-decoration:none;color:inherit;">
+              <span class="cs-tag">{s.tag}</span>
+              <h2 class="cs-card-h2">{s.name}</h2>
+              <p style="margin-top:12px;">{s.d}</p>
+              <p style="margin-top:14px;color:var(--accent);">Explore the service →</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="also-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="also-h">Also on offer</h2>
+          <span class="mono">Partners & audits</span>
+        </div>
+        <div class="cs-body" data-reveal>
+          {alsoFor.map((s) => (
+            <a class="cs-card" href={s.href} style="display:block;text-decoration:none;color:inherit;">
+              <span class="cs-tag">{s.name}</span>
+              <p>{s.d} →</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="where-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="where-h">Where I work</h2>
+          <span class="mono">Himachal · worldwide</span>
+        </div>
+        <div class="cs-body" data-reveal>
+          <div class="cs-card span2">
+            <span class="cs-tag">Built from the Himalayas, shipping for the world</span>
+            <p>
+              Based in Himachal Pradesh, working with founders worldwide — and with businesses across the region:
+              <a href="/web-developer-dharamshala/">Dharamshala</a> · <a href="/web-developer-kangra/">Kangra</a> · <a href="/web-developer-shimla/">Shimla</a> · <a href="/web-developer-manali/">Manali</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-endcta">
+      <div class="wrap">
+        <h2>Not sure which fits?</h2>
+        <p>Describe the problem in plain words. I'll tell you which shape it is — and what I'd do about it — within 48 hours.</p>
+        <div class="cs-cta-row" style="justify-content:center;">
+          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book an intro call <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost" href="/website-audit/">Start with the free audit</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Studio>

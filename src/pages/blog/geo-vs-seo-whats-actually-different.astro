@@ -1,0 +1,182 @@
+---
+import Studio from "../../layouts/Studio.astro";
+import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+
+const slug = "geo-vs-seo-whats-actually-different";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+const next = POSTS[(idx + 1) % POSTS.length];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
+      publisher: {
+        "@type": "Organization",
+        "@id": `${SITE}/#studio`,
+        name: "Divyansh Sood® Studio",
+        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
+      },
+      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      wordCount: post.wordCount,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+  ],
+});
+---
+
+<Studio
+  title={post.seoTitle ?? `${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  jsonld={jsonld}
+>
+  <main>
+    <header class="post-hero">
+      <div class="post-hero-bg" aria-hidden="true"></div>
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img src={post.coverImage} alt={post.title} width="1200" height="750" fetchpriority="high" decoding="async" />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+<p>Every few months the same question lands in my inbox with a new acronym attached. This year’s version: “Do I need GEO now instead of SEO?”</p>
+<p>Short answer: not instead. But the two are different enough that treating GEO as “SEO with extra steps” will quietly waste your effort. Here’s the actual difference, without the hype.</p>
+<hr>
+<h2 id="two-games-two-referees">Two games, two referees</h2>
+<p><strong>SEO</strong> optimizes for a ranking algorithm. Google crawls your page, scores it against hundreds of signals, and slots it into an ordered list. Your prize is position — and position earns a click.</p>
+<p><strong>GEO</strong> — Generative Engine Optimization — optimizes for a language model composing an answer. ChatGPT, Claude, Gemini and Perplexity don’t rank pages; they extract facts and synthesize a response. Your prize is being <em>in the answer</em>: cited, quoted, recommended — often without any click at all.</p>
+<p>Same web, different referee, different scoring.</p>
+<hr>
+<h2 id="what-actually-changes-in-practice">What actually changes in practice</h2>
+<p><strong>The unit of competition shrinks.</strong> SEO competes page against page. GEO competes sentence against sentence. A model lifts the clearest, most self-contained factual statement it can find — so “Founded in 2022, the studio has shipped 20+ custom-coded sites” beats three paragraphs of brand story. You’re writing lines to be quoted, not pages to be ranked.</p>
+<p><strong>Keywords lose power; entities gain it.</strong> Models care less about matching a query string and more about understanding <em>who you are</em>: a consistent name, address, service list and history across your site, your schema, your Google Business Profile and every place you’re mentioned. Contradictions between them read as unreliability.</p>
+<p><strong>New files matter.</strong> An <a href="/blog/what-is-llms-txt-blog/">llms.txt</a> — a curated plain-text brief of your business at your domain root — plus robots rules that admit AI crawlers. Classic SEO has no equivalent, because Google never asked you to summarize yourself.</p>
+<p><strong>Structure stops being optional.</strong> JSON-LD schema (Organization, Service, FAQ, Article) hands the model your facts in a format it can’t misread. In SEO, schema earns rich snippets — nice to have. In GEO, it’s closer to load-bearing.</p>
+<p><strong>Measurement changes.</strong> Rankings and clicks still measure SEO. GEO shows up as referrers from chatgpt.com and perplexity.ai in your analytics, and — more bluntly — in whether the assistants name you when asked about your category. Ask them monthly. It’s the most honest dashboard you’ll get.</p>
+<hr>
+<h2 id="where-they-overlap-and-compound">Where they overlap — and compound</h2>
+<p>The good news: the foundations are shared. Server-rendered content models can actually read. Fast, clean, semantic HTML. Real expertise stated plainly. Honest sitemaps. A site that’s technically excellent for Googlebot is readable by every AI crawler too.</p>
+<p>That’s why the right mental model is a stack, not a fork: technical SEO is the floor, GEO is a new storey on top. When I implemented the full stack on <a href="/projects/inhimalayas/">InHimalayas</a> — schema graph, llms.txt, quotable copy — AI-referred traffic lifted measurably within weeks, while the classic rankings kept compounding underneath.</p>
+<hr>
+<h2 id="what-to-do-this-quarter">What to do this quarter</h2>
+<ul>
+<li>Keep doing real SEO. Nothing about GEO excuses a slow site or thin content.</li>
+<li>Ship llms.txt, open your robots.txt to AI crawlers, add JSON-LD to every page that earns it.</li>
+<li>Rewrite your key pages’ core claims as quotable, self-contained facts.</li>
+<li>Ask the four big assistants about your category monthly. Track whether you appear, and whether what they say is accurate.</li>
+</ul>
+<p>The window matters more than the acronym: most of your competitors are doing none of this, which means the AI answer for your category is still being written. It can be written from your pages.</p>
+<hr>
+<p><em>I’m Divyansh Sood. I implement <a href="/services/seo-geo-services/">SEO and GEO together, directly in your codebase</a> — schema graphs, llms.txt, quotable copy, Core Web Vitals — as a developer, not a slide deck. The full playbook is in <a href="/blog/make-your-brand-quotable-by-ai-geo-2026/">how to make your brand quotable by AI</a>. Or just <a href="mailto:hello@divyanshsood.com">email me</a> — ask the assistants about your category first, and tell me what they said.</em></p>
+      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </article>
+
+    <section class="wrap narrow" aria-label="Keep reading">
+      <a class="post-next" href={`/blog/${next.slug}/`}>
+        <span><span class="label">Read next</span><br /><span class="name">{next.title}</span></span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </section>
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        {post.audience === "indian-smb" ? (
+          <>
+            <h2>Working on something in India?</h2>
+            <p>If a post here matches what you're building, send me the brief. WhatsApp reply in under an hour, 9 AM–9 PM IST — I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="https://wa.me/919816091875" target="_blank" rel="noopener"
+                >Message me on WhatsApp <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : post.audience === "d2c-brand" ? (
+          <>
+            <h2>Building a brand a theme can't carry?</h2>
+            <p>If your store has a model that off-the-shelf builders fight — hand-numbered drops, creator commerce, premium D2C — tell me about it. I read every brief personally.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : (
+          <>
+            <h2>Working on something similar?</h2>
+            <p>If a post here matches what you're building, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="https://calendly.com/sood-divyansh007/30min" target="_blank" rel="noopener"
+                >Book a 15-min intro <span aria-hidden="true">↗</span></a
+              >
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+  </main>
+</Studio>

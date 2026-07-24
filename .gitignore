@@ -25,3 +25,6 @@ preview-tame-*.png
 
 # Knowledge-graph session artifacts (regenerable via /graphify)
 graphify-out/
+
+# Cross-post exports (regenerable via `npm run export:crossposts`)
+crosspost-exports/

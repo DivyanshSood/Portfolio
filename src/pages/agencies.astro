@@ -1,7 +1,5 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import Nav from "../components/Nav.astro";
-import Footer from "../components/Footer.astro";
+import Studio from "../layouts/Studio.astro";
 import { CALENDLY_URL, GOOGLE_REVIEWS_URL } from "../lib/site.mjs";
 
 const SITE = "https://www.divyanshsood.com";
@@ -58,7 +56,7 @@ const jsonld = JSON.stringify({
 });
 ---
 
-<Layout
+<Studio
   title="White-Label Web Development for Agencies — Divyansh Sood® Studio"
   description="White-label web development partner for design and marketing agencies worldwide. Custom-coded builds under your brand — NDA-friendly, live in 3–4 weeks."
   canonical={canonical}
@@ -67,8 +65,6 @@ const jsonld = JSON.stringify({
   ogDescription="Overflow capacity and full custom builds under your brand. NDA-friendly, you own the code, on time."
   jsonld={jsonld}
 >
-  <Nav />
-
   <main>
     <header class="cs-hero">
       <div class="cs-hero-bg" aria-hidden="true"></div>
@@ -76,7 +72,7 @@ const jsonld = JSON.stringify({
         <div class="cs-eyebrow">
           <span>For agencies</span><span>White-label · overflow</span><span>2026</span>
         </div>
-        <h1 style="margin:14px 0 0;font-weight:900;font-size:clamp(38px,7vw,96px);line-height:.9;letter-spacing:-.035em;text-transform:uppercase;">Your build partner<br /><span style="color:var(--accent);">behind the scenes.</span></h1>
+        <h1 style="margin:14px 0 0;font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(44px,8vw,108px);line-height:.9;letter-spacing:-.01em;text-transform:uppercase;">Your build partner<br /><span style="color:var(--accent);">behind the scenes.</span></h1>
         <p class="cs-lead">When your pipeline outgrows your team, I ship custom-coded builds under your brand — white-label, NDA-friendly, everything routed through you. Design and marketing agencies worldwide use me for overflow capacity and the builds their in-house team can't take on.</p>
         <div class="cs-cta-row">
           <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book a partner call <span aria-hidden="true">↗</span></a>
@@ -172,9 +168,7 @@ const jsonld = JSON.stringify({
       </div>
     </section>
   </main>
-
-  <Footer />
-</Layout>
+</Studio>
 
 <script is:inline>
   (function () {

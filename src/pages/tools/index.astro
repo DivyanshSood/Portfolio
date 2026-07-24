@@ -1,0 +1,101 @@
+---
+import Studio from "../../layouts/Studio.astro";
+
+const SITE = "https://www.divyanshsood.com";
+const canonical = `${SITE}/tools/`;
+
+// The tools hub. Add new tools here — each becomes a card + an ItemList entry.
+const tools = [
+  {
+    href: "/tools/llms-txt-generator/",
+    tag: "GEO · AI search",
+    name: "llms.txt generator",
+    desc: "Generate the file ChatGPT, Claude, Gemini and Perplexity read to understand your business. Free, in your browser, nothing stored.",
+    live: true,
+  },
+];
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "@id": `${canonical}#page`,
+      name: "Free tools for founders & marketers",
+      url: canonical,
+      description:
+        "Free web tools by Divyansh Sood — practical utilities for SEO, GEO and building a better site. No sign-up.",
+      isPartOf: { "@id": `${SITE}/#website` },
+    },
+    {
+      "@type": "ItemList",
+      itemListElement: tools.map((t, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: t.name,
+        url: `${SITE}${t.href}`,
+      })),
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Tools", item: canonical },
+      ],
+    },
+  ],
+});
+---
+
+<Studio
+  title="Free Web Tools — SEO, GEO & Site Utilities · Divyansh Sood"
+  description="Free, no-sign-up web tools by Divyansh Sood — starting with an llms.txt generator that makes your site readable by AI assistants. Runs in your browser."
+  canonical={canonical}
+  keywords="free web tools, llms.txt generator, GEO tools, SEO tools, free developer tools, AI SEO tools"
+  ogTitle="Free web tools"
+  ogDescription="Practical, free tools for founders and marketers — starting with an llms.txt generator. No sign-up."
+  jsonld={jsonld}
+>
+  <main>
+    <header class="cs-hero">
+      <div class="cs-hero-bg" aria-hidden="true"></div>
+      <div class="wrap">
+        <div class="cs-eyebrow">
+          <span>Tools</span><span>Free · no sign-up</span><span>2026</span>
+        </div>
+        <h1 style="margin:14px 0 0;font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(44px,8vw,108px);line-height:.9;letter-spacing:-.01em;text-transform:uppercase;">Free tools,<br /><span style="color:var(--accent);">no strings.</span></h1>
+        <p class="cs-lead">Small, genuinely useful utilities I've built while doing client work. No sign-up, no upsell wall — everything runs in your browser. If one saves you an afternoon, that's the point.</p>
+      </div>
+    </header>
+
+    <section class="cs-sec" aria-labelledby="tools-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="tools-h">The toolbox</h2>
+          <span class="mono">More coming</span>
+        </div>
+        <div class="cs-body" data-reveal>
+          {tools.map((t) => (
+            <a class="cs-card" href={t.href} style="text-decoration:none;color:inherit;display:block;">
+              <span class="cs-tag">{t.tag}</span>
+              <h2 class="cs-card-h2" style="font-family:'Anton',sans-serif;font-weight:400;text-transform:uppercase;font-size:clamp(22px,3vw,32px);letter-spacing:0;line-height:1;margin-bottom:12px;">{t.name}</h2>
+              <p>{t.desc}</p>
+              <p style="margin-top:14px;color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;">Open the tool →</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-endcta">
+      <div class="wrap">
+        <h2>Need the real thing, not a tool?</h2>
+        <p>Tools get you started. When you want it built and shipped properly, that's what the studio is for.</p>
+        <div class="cs-cta-row" style="justify-content:center;">
+          <a class="btn btn-primary" href="/services/">See services</a>
+          <a class="btn btn-ghost" href="/website-audit/">Free website audit</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Studio>

@@ -1,0 +1,192 @@
+---
+import Studio from "../layouts/Studio.astro";
+import { CALENDLY_URL, GOOGLE_MAPS_URL } from "../lib/site.mjs";
+
+const SITE = "https://www.divyanshsood.com";
+const canonical = `${SITE}/web-developer-shimla/`;
+const WA = "https://wa.me/919816091875?text=Hi%20Divyansh,%20I%20run%20a%20business%20in%20Shimla%20and%20need%20a%20website.";
+
+const offers = [
+  { t: "Hotel & resort websites", d: "Direct-booking sites for Shimla's hotels, resorts and heritage stays — with rate enquiries, WhatsApp booking and the photography-first layouts a hill station deserves." },
+  { t: "Institutions & professional firms", d: "Schools, colleges, hospitals, law and CA firms — the establishments Shimla is built on. Credible, fast, findable websites with the right structure for each." },
+  { t: "Tourism & experience operators", d: "Tour packages, adventure operators, travel desks — booking-first builds that capture the searches tourists make before they ever reach the Mall Road." },
+  { t: "Redesigns that rank", d: "Many Shimla businesses have a website — from 2015. I rebuild them custom-coded: faster, mobile-first, structured for Google and AI search, without losing your existing rankings." },
+];
+
+const faqs = [
+  { q: "Do you work with businesses in Shimla?", a: "Yes. I'm based in Kangra district and work with businesses across Himachal Pradesh — Shimla included. Everything runs over WhatsApp, calls and screen-shares, the same way I work with clients in the US and Europe; and being in-state means same-timezone responses and the option to meet when it matters." },
+  { q: "What does a website cost in Shimla?", a: "A hotel direct-booking site, an institution's website and a firm's profile site are three different scopes — so I quote after one conversation, fixed and in writing. For the honest market picture, my guide to website development costs in India breaks down every tier." },
+  { q: "Can you redesign our existing website without losing our Google rankings?", a: "Yes — that's a technical SEO job as much as a design job: preserving URLs or redirecting them properly, keeping the content Google already trusts, and shipping a faster site that improves rankings rather than gambling with them." },
+  { q: "How is this different from hiring a big agency in Chandigarh or Delhi?", a: "You work directly with the person who designs and codes — no account managers, no junior handoffs, no six-month timelines. Builds go live in 1–3 weeks, you own the code outright, and support doesn't die after launch." },
+];
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "@id": `${canonical}#service`,
+      name: "Web design and development in Shimla",
+      serviceType: "Website design and development",
+      provider: { "@id": `${SITE}/#studio` },
+      areaServed: { "@type": "City", name: "Shimla", containedInPlace: { "@type": "State", name: "Himachal Pradesh" } },
+      description:
+        "Website designer and developer for Shimla businesses — hotels, institutions, tourism operators and professional firms. Custom-coded, SEO-safe redesigns, direct-booking builds, live in 1–3 weeks.",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Services", item: `${SITE}/services/` },
+        { "@type": "ListItem", position: 3, name: "Web developer in Shimla", item: canonical },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+    },
+  ],
+});
+---
+
+<Studio
+  title="Website Designer in Shimla — Hotels, Institutions & Firms"
+  description="Website designer & developer for Shimla businesses — hotel direct-booking sites, institution websites, SEO-safe redesigns. Himachal-based, live in 1–3 weeks."
+  canonical={canonical}
+  keywords="website designer in Shimla, web developer Shimla, website design Shimla Himachal, hotel website design Shimla, website redesign Shimla, web development company Shimla"
+  ogTitle="Website designer in Shimla"
+  ogDescription="Hotels, institutions and firms — custom-coded websites for Shimla, built in Himachal, not outsourced to a metro."
+  jsonld={jsonld}
+>
+  <main>
+    <header class="cs-hero">
+      <div class="cs-hero-bg" aria-hidden="true"></div>
+      <div class="wrap">
+        <div class="cs-eyebrow">
+          <span>Himachal Pradesh</span><span>Shimla</span><span>2026</span>
+        </div>
+        <h1 style="margin:14px 0 0;font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(44px,8vw,108px);line-height:.9;letter-spacing:-.01em;text-transform:uppercase;">Website designer<br /><span style="color:var(--accent);">for Shimla.</span></h1>
+        <p class="cs-lead">Shimla's hotels, institutions and firms compete for guests and clients who research online first — and most of the city's websites were built a decade ago. I'm a Himachal-based developer who rebuilds them custom-coded: faster than the metro agencies, without their timelines, and with SEO handled so the rankings you have only get stronger.</p>
+        <div class="cs-cta-row">
+          <a class="btn btn-ghost" href={WA} target="_blank" rel="noopener">Message on WhatsApp</a>
+          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book a call <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="cs-meta">
+          <span>Himachal-based · <a href={GOOGLE_MAPS_URL} target="_blank" rel="noopener">on Google Maps ↗</a></span><span>Live in 1–3 weeks</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="cs-sec" aria-labelledby="offer-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="offer-h">Built for how Shimla works</h2>
+          <span class="mono">The offering</span>
+        </div>
+        <div class="cs-body" data-reveal>
+          {offers.map((o) => (
+            <div class="cs-card">
+              <span class="cs-tag">{o.t}</span>
+              <h2 class="cs-card-h2">{o.d}</h2>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="proof-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="proof-h">Himachal work, on the record</h2>
+          <span class="mono">Proof, not promises</span>
+        </div>
+        <div class="cs-metrics" data-reveal>
+          <div class="cs-metric"><span class="cs-metric-v">20+</span><span class="cs-metric-l">Builds shipped since 2022</span></div>
+          <div class="cs-metric"><span class="cs-metric-v">~1,000</span><span class="cs-metric-l">Monthly bookings via one travel site</span></div>
+          <div class="cs-metric"><span class="cs-metric-v">7 days</span><span class="cs-metric-l">Fastest full build (site + portal)</span></div>
+          <div class="cs-metric"><span class="cs-metric-v">1–3 wks</span><span class="cs-metric-l">Typical time to live</span></div>
+        </div>
+        <div class="cs-body" data-reveal style="margin-top:22px;">
+          <div class="cs-card">
+            <span class="cs-tag">Travel & stays</span>
+            <p>Booking-first builds for Himalayan tourism: Dharamshala Tours handles part of ~1,000 monthly bookings; InHimalayas serves a global audience. <a href="/projects/dharamshala-tours/">See a travel build →</a></p>
+          </div>
+          <div class="cs-card">
+            <span class="cs-tag">Institutions</span>
+            <p>Modern K.B.S. school got a public site plus an admissions portal for classes I–XII in seven days — the timeline agencies quoted was six months. <a href="/projects/modernkbs/">See the school build →</a></p>
+          </div>
+          <div class="cs-card span2">
+            <span class="cs-tag">Direct bookings, not commissions</span>
+            <p>For Shimla's hotels the math is simple: every OTA booking pays a commission a direct-booking site would keep. I wrote up how Himalayan stays fix that. <a href="/blog/direct-bookings-without-aggregator-commission/">Read the breakdown →</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="faq-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="faq-h">Frequently asked</h2>
+          <span class="mono">Shimla</span>
+        </div>
+        <div class="cs-faq">
+          {faqs.map((f, i) => (
+            <div class="cs-faq-row">
+              <button class="cs-faq-q" data-faqtog={i} aria-expanded="false" aria-controls={`faq-sml-${i}`}>
+                <span>{f.q}</span><span class="cs-faq-icon" data-faqicon={i} aria-hidden="true">+</span>
+              </button>
+              <div class="cs-faq-a" id={`faq-sml-${i}`} data-faqbody={i}><p>{f.a}</p></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-endcta">
+      <div class="wrap">
+        <h2>Run a business in Shimla?</h2>
+        <p>Send your current website — or just what you do. You'll get an honest read on what's costing you customers, and a fixed quote in writing.</p>
+        <div class="cs-cta-row" style="justify-content:center;">
+          <a class="btn btn-primary" href={WA} target="_blank" rel="noopener">Message on WhatsApp</a>
+          <a class="btn btn-ghost" href="/website-audit/">Get a free website audit</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Studio>
+
+<script is:inline>
+  (function () {
+    var root = document.getElementById("ds-root");
+    if (!root) return;
+    var faq = -1;
+    function sync() {
+      root.querySelectorAll("[data-faqbody]").forEach(function (el) {
+        var open = Number(el.getAttribute("data-faqbody")) === faq;
+        el.style.maxHeight = open ? el.scrollHeight + "px" : "0px";
+        el.style.opacity = open ? "1" : "0";
+      });
+      root.querySelectorAll("[data-faqicon]").forEach(function (el) {
+        el.style.transform = Number(el.getAttribute("data-faqicon")) === faq ? "rotate(45deg)" : "rotate(0deg)";
+      });
+      root.querySelectorAll("[data-faqtog]").forEach(function (el) {
+        el.setAttribute("aria-expanded", Number(el.getAttribute("data-faqtog")) === faq ? "true" : "false");
+      });
+    }
+    root.querySelectorAll("[data-faqtog]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        var i = Number(el.getAttribute("data-faqtog"));
+        faq = faq === i ? -1 : i;
+        sync();
+      });
+    });
+    var rt;
+    window.addEventListener("resize", function () {
+      if (faq < 0) return;
+      clearTimeout(rt);
+      rt = setTimeout(sync, 120);
+    });
+    sync();
+  })();
+</script>

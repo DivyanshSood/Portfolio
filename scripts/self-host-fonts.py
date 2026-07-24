@@ -23,6 +23,8 @@ FONTS = [
     ("Archivo", "Archivo", "archivo", [400, 500, 600, 700, 800, 900]),
     ("Space+Mono", "Space Mono", "space-mono", [400, 700]),
     ("Caveat", "Caveat", "caveat", [600, 700]),
+    ("Anton", "Anton", "anton", [400]),
+    ("JetBrains+Mono", "JetBrains Mono", "jetbrains-mono", [400, 500]),
 ]
 
 parts = ["family=" + urlfam + ":wght@" + ";".join(str(w) for w in ws)

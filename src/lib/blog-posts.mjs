@@ -4,6 +4,177 @@
 
 export const POSTS = [
   {
+    "slug": "shopify-alternatives-for-premium-d2c",
+    "title": "Shopify Alternatives for Premium D2C Brands, Honestly Ranked",
+    "seoTitle": "Shopify Alternatives for Premium D2C Brands (2026) · Divyansh Sood",
+    "description": "Customize Shopify, go Woo, headless, or fully custom? The four real options for premium D2C brands, judged on brand control and three-year economics.",
+    "pubDate": "2026-07-18",
+    "updatedDate": "2026-07-18",
+    "coverImage": "/blog/shopify-alternatives-for-premium-d2c.jpg",
+    "tags": [
+      "Shopify alternatives",
+      "D2C",
+      "e-commerce",
+      "headless",
+      "custom code"
+    ],
+    "audience": "d2c-brand",
+    "readMins": 3,
+    "wordCount": 608
+  },
+  {
+    "slug": "school-website-admissions-portal-india",
+    "title": "School Websites in India: What Parents Want, What Portals Fix",
+    "seoTitle": "School Website & Admissions Portal Cost in India · Divyansh Sood",
+    "description": "What parents actually look for on a school website, why an admissions portal beats an ERP subscription, and what a fair build costs — from a 7-day real build.",
+    "pubDate": "2026-07-16",
+    "updatedDate": "2026-07-16",
+    "coverImage": "/blog/school-website-admissions-portal-india.jpg",
+    "tags": [
+      "school website",
+      "admissions portal",
+      "India",
+      "education",
+      "web apps"
+    ],
+    "audience": "indian-smb",
+    "readMins": 3,
+    "wordCount": 597
+  },
+  {
+    "slug": "hotel-homestay-website-himachal-direct-bookings",
+    "title": "A Website for Your Himachal Homestay: The Commission Math",
+    "seoTitle": "Himachal Homestay & Hotel Websites: Direct Bookings · Divyansh Sood",
+    "description": "OTAs take 15–30% of every Himachal booking. The direct-booking website playbook for hotels and homestays — WhatsApp-first, seasonal SEO, and the season math.",
+    "pubDate": "2026-07-14",
+    "updatedDate": "2026-07-14",
+    "coverImage": "/blog/hotel-homestay-website-himachal-direct-bookings.jpg",
+    "tags": [
+      "Himachal",
+      "hotels",
+      "direct bookings",
+      "homestay",
+      "travel"
+    ],
+    "audience": "indian-smb",
+    "readMins": 3,
+    "wordCount": 584
+  },
+  {
+    "slug": "get-your-business-recommended-by-chatgpt",
+    "title": "How to Get Your Business Recommended by ChatGPT",
+    "seoTitle": "Get Your Business Recommended by ChatGPT (2026) · Divyansh Sood",
+    "description": "AI assistants already recommend businesses in your category — the steps that decide whether yours is named: quotable facts, schema, llms.txt, corroboration.",
+    "pubDate": "2026-07-12",
+    "updatedDate": "2026-07-12",
+    "coverImage": "/blog/get-your-business-recommended-by-chatgpt.jpg",
+    "tags": [
+      "ChatGPT",
+      "GEO",
+      "AI search",
+      "local business",
+      "llms.txt"
+    ],
+    "audience": "international",
+    "readMins": 3,
+    "wordCount": 614
+  },
+  {
+    "slug": "geo-vs-seo-whats-actually-different",
+    "title": "GEO vs SEO: What's Actually Different",
+    "seoTitle": "GEO vs SEO: What's Actually Different (2026) · Divyansh Sood",
+    "description": "SEO optimizes to win a click; GEO optimizes to be the answer. What changes in practice — entities, llms.txt, schema, measurement — and how the two compound.",
+    "pubDate": "2026-07-09",
+    "updatedDate": "2026-07-09",
+    "coverImage": "/blog/geo-vs-seo-whats-actually-different.jpg",
+    "tags": [
+      "GEO",
+      "SEO",
+      "AI search",
+      "llms.txt",
+      "structured data"
+    ],
+    "audience": "international",
+    "readMins": 3,
+    "wordCount": 635
+  },
+  {
+    "slug": "hire-web-developer-india-from-us",
+    "title": "Hiring a Web Developer in India: A Buyer's Guide for US & UK Founders",
+    "seoTitle": "Hire a Web Developer in India: US/UK Buyer's Guide · Divyansh Sood",
+    "description": "India has two developer markets — body shops and senior independents — and the horror stories come from confusing them. Fair pricing, vetting, and how it works.",
+    "pubDate": "2026-07-06",
+    "updatedDate": "2026-07-06",
+    "coverImage": "/blog/hire-web-developer-india-from-us.jpg",
+    "tags": [
+      "hire developer India",
+      "offshore development",
+      "remote work",
+      "startups",
+      "pricing"
+    ],
+    "audience": "international",
+    "readMins": 3,
+    "wordCount": 616
+  },
+  {
+    "slug": "freelancer-vs-agency-web-development",
+    "title": "Web Design Agency vs Freelancer: What the Invoice Actually Buys",
+    "seoTitle": "Web Design Agency vs Freelancer: How to Choose · Divyansh Sood",
+    "description": "Agencies quoted six months; one senior freelancer shipped in seven days. What agency overhead buys, when it's worth it, and how to vet an independent developer.",
+    "pubDate": "2026-07-02",
+    "updatedDate": "2026-07-02",
+    "coverImage": "/blog/freelancer-vs-agency-web-development.jpg",
+    "tags": [
+      "agency vs freelancer",
+      "hiring",
+      "web development",
+      "startups",
+      "process"
+    ],
+    "audience": "international",
+    "readMins": 3,
+    "wordCount": 571
+  },
+  {
+    "slug": "squarespace-vs-custom-website",
+    "title": "Squarespace vs a Custom Website: Naming the Moment You Outgrow It",
+    "seoTitle": "Squarespace vs Custom Website: When to Switch · Divyansh Sood",
+    "description": "Squarespace is enough — until you compete on search, sell seriously, or your brand outgrows the template. The honest decision rule, with the three-year math.",
+    "pubDate": "2026-06-28",
+    "updatedDate": "2026-06-28",
+    "coverImage": "/blog/squarespace-vs-custom-website.jpg",
+    "tags": [
+      "Squarespace",
+      "custom code",
+      "website builders",
+      "SEO",
+      "small business"
+    ],
+    "audience": "international",
+    "readMins": 3,
+    "wordCount": 611
+  },
+  {
+    "slug": "framer-vs-custom-code-2026",
+    "title": "Framer vs Custom Code: When the Prettiest Builder Isn't Enough",
+    "seoTitle": "Framer vs Custom Code (2026): An Honest Comparison · Divyansh Sood",
+    "description": "Framer is the best website builder ever made — and funded startups still replace it. Where Framer genuinely wins, where it hits a ceiling, and how to decide.",
+    "pubDate": "2026-06-24",
+    "updatedDate": "2026-06-24",
+    "coverImage": "/blog/framer-vs-custom-code-2026.jpg",
+    "tags": [
+      "Framer",
+      "custom code",
+      "no-code",
+      "startups",
+      "web development"
+    ],
+    "audience": "international",
+    "readMins": 3,
+    "wordCount": 621
+  },
+  {
     "slug": "why-premium-brands-leave-shopify",
     "title": "Why Premium Brands Are Leaving Shopify for Custom Code",
     "description": "Shopify is brilliant for getting a store live fast. But brands that want to feel like a brand keep hitting a theme-shaped ceiling. Where custom code wins.",

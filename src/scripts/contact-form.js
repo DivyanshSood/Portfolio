@@ -1,8 +1,7 @@
 /* ===========================================================================
-   Contact-form handler — used by every form on the site (homepage contact,
-   /website-audit's free-audit + start-a-project forms). Submits to
-   /api/contact (Resend-backed); falls
-   back to opening the user's mail client with the same payload if Resend
+   Contact-form handler — used by every form on the site (/website-audit's
+   free-audit + start-a-project forms). Submits to /api/contact (Resend-backed);
+   falls back to opening the user's mail client with the same payload if Resend
    isn't configured yet, so the form never goes dead during setup.
    =========================================================================== */
 
@@ -15,17 +14,6 @@ const CALENDLY_URL = "https://calendly.com/sood-divyansh007/30min";
 // to text; set `type: 'checkbox'` for boolean fields. `hp` is the form's hidden
 // honeypot input — humans never see it, so a value means a bot.
 const FORMS = {
-  "ds-contact-form": {
-    subject: "New project enquiry — divyanshsood.com",
-    success: "Thanks — message sent. I'll reply personally within a couple of hours.",
-    hp: "cf-hp",
-    fields: [
-      { id: "cf-name", label: "Name" },
-      { id: "cf-email", label: "Email", isEmail: true },
-      { id: "cf-msg", label: "Project" },
-      { id: "cf-new", label: "Needs a brand-new website", type: "checkbox" },
-    ],
-  },
   "ds-audit-form": {
     subject: "Free website audit request",
     success: "Got it — I'll record your free audit and email it back within 3–4 days.",
@@ -110,12 +98,12 @@ function showSuccess(form, msg, usedFallback) {
   wrap.setAttribute("aria-live", "polite");
   wrap.style.cssText =
     "padding:26px 24px;border:1px solid rgba(255,255,255,.18);border-radius:10px;" +
-    "background:linear-gradient(180deg,rgba(255, 31, 31,.12),transparent);margin-top:16px;";
+    "background:linear-gradient(180deg,rgba(217, 255, 60,.1),transparent);margin-top:16px;";
   wrap.innerHTML =
-    `<div style="font-weight:800;font-size:18px;margin:0 0 8px;color:var(--accent,#ff1f1f);">✓ ${msg}</div>` +
+    `<div style="font-weight:800;font-size:18px;margin:0 0 8px;color:var(--accent,#d9ff3c);">✓ ${msg}</div>` +
     (usedFallback
-      ? `<p style="margin:8px 0 0;font-family:'Space Mono',monospace;font-size:12px;line-height:1.6;opacity:.78;">Didn't open? Email me directly: <a href="mailto:${CONTACT_EMAIL}" style="color:var(--accent,#ff1f1f);text-decoration:underline;">${CONTACT_EMAIL}</a></p>`
-      : `<p style="margin:8px 0 0;font-family:'Space Mono',monospace;font-size:12px;line-height:1.6;opacity:.78;">Prefer to talk now? <a href="${WHATSAPP_URL}" target="_blank" rel="noopener" style="color:var(--accent,#ff1f1f);text-decoration:underline;">WhatsApp me ↗</a> · <a href="${CALENDLY_URL}" target="_blank" rel="noopener" style="color:var(--accent,#ff1f1f);text-decoration:underline;">book a 15-min call ↗</a></p>`);
+      ? `<p style="margin:8px 0 0;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.6;opacity:.78;">Didn't open? Email me directly: <a href="mailto:${CONTACT_EMAIL}" style="color:var(--accent,#d9ff3c);text-decoration:underline;">${CONTACT_EMAIL}</a></p>`
+      : `<p style="margin:8px 0 0;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.6;opacity:.78;">Prefer to talk now? <a href="${WHATSAPP_URL}" target="_blank" rel="noopener" style="color:var(--accent,#d9ff3c);text-decoration:underline;">WhatsApp me ↗</a> · <a href="${CALENDLY_URL}" target="_blank" rel="noopener" style="color:var(--accent,#d9ff3c);text-decoration:underline;">book a 15-min call ↗</a></p>`);
   form.parentNode.insertBefore(wrap, form.nextSibling);
 }
 
@@ -126,9 +114,9 @@ function showError(form, msg) {
     err = document.createElement("div");
     err.className = "ds-form-error";
     err.style.cssText =
-      "margin-top:14px;padding:12px 14px;border:1px solid rgba(255, 31, 31,.35);" +
-      "border-radius:6px;font-family:'Space Mono',monospace;font-size:12px;" +
-      "color:var(--accent,#ff1f1f);background:rgba(255, 31, 31,.06);";
+      "margin-top:14px;padding:12px 14px;border:1px solid rgba(255, 107, 94,.4);" +
+      "border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:12px;" +
+      "color:#ff6b5e;background:rgba(255, 107, 94,.07);";
     form.appendChild(err);
   }
   err.textContent = msg;

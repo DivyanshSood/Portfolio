@@ -1,7 +1,6 @@
 ---
-// Fonts self-hosted (see src/styles/base.css + /public/fonts/). Mirror the
-// @font-face declarations here so this standalone page doesn't depend on
-// global.css, which the Layout imports but this page doesn't use.
+// Standalone 404 (does not use the shared layout, so it mirrors the fonts +
+// "Portfolio 2026" theme inline). Self-hosted fonts live in /public/fonts.
 ---
 
 <!DOCTYPE html>
@@ -10,52 +9,49 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>404 — Page not found · Divyansh Sood® Studio</title>
+    <meta name="description" content="This page doesn't exist. Head back to the homepage or browse the portfolio of custom-coded, conversion-focused websites." />
     <meta name="robots" content="noindex, follow" />
     <meta name="theme-color" content="#0b0b0c" />
     <link rel="canonical" href="https://www.divyanshsood.com/404" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link
       rel="icon"
-      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230b0b0c'/%3E%3Ctext x='50' y='70' font-family='Arial,sans-serif' font-weight='900' font-size='56' fill='%23ffffff' text-anchor='middle'%3EDS%3C/text%3E%3Crect x='28' y='80' width='44' height='6' fill='%23ff1f1f'/%3E%3C/svg%3E"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230b0b0c'/%3E%3Ctext x='50' y='70' font-family='Arial,sans-serif' font-weight='900' font-size='56' fill='%23f4f2ec' text-anchor='middle'%3EDS%3C/text%3E%3Crect x='28' y='80' width='44' height='6' fill='%23d9ff3c'/%3E%3C/svg%3E"
     />
-    <link rel="preload" as="font" type="font/woff2" href="/fonts/archivo-900.woff2" crossorigin />
-    <link rel="preload" as="font" type="font/woff2" href="/fonts/space-mono-400.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/anton-400.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/jetbrains-mono-400.woff2" crossorigin />
     <style>
       @font-face{font-family:'Archivo';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/archivo-400.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
       @font-face{font-family:'Archivo';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/archivo-600.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
-      @font-face{font-family:'Archivo';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/archivo-700.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
-      @font-face{font-family:'Archivo';font-style:normal;font-weight:800;font-display:swap;src:url('/fonts/archivo-800.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
-      @font-face{font-family:'Archivo';font-style:normal;font-weight:900;font-display:swap;src:url('/fonts/archivo-900.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
-      @font-face{font-family:'Space Mono';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/space-mono-400.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
-      @font-face{font-family:'Space Mono';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/space-mono-700.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
-      @font-face{font-family:'Caveat';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/caveat-600.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
-      @font-face{font-family:'Caveat';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/caveat-700.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+      @font-face{font-family:'Anton';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/anton-400.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+      @font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/jetbrains-mono-400.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
       * { box-sizing: border-box; margin: 0; padding: 0; }
-      :root { --accent: #ff1f1f; }
+      :root { --accent: #d9ff3c; }
       html, body { height: 100%; }
       body {
-        background: radial-gradient(90% 70% at 70% 10%, rgba(255, 31, 31,.18), transparent 55%), linear-gradient(180deg,#161618 0%,#0b0b0c 70%);
-        color: #fff; font-family: 'Archivo', sans-serif; -webkit-font-smoothing: antialiased;
+        background: radial-gradient(90% 70% at 70% 10%, rgba(217, 255, 60,.12), transparent 55%), linear-gradient(180deg,#131316 0%,#0b0b0c 70%);
+        color: #F4F2EC; font-family: 'Archivo', sans-serif; -webkit-font-smoothing: antialiased;
         min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
         text-align: center; padding: 40px 24px; overflow: hidden;
       }
-      ::selection { background: var(--accent); color: #fff; }
-      .eyebrow { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: .2em; text-transform: uppercase; opacity: .6; margin-bottom: 24px; }
-      .big { position: relative; font-weight: 900; font-size: clamp(110px,26vw,300px); line-height: .82; letter-spacing: -.04em; }
-      .sig { position: absolute; left: 50%; bottom: -6px; transform: translateX(-50%) rotate(-7deg); font-family: 'Caveat', cursive; font-weight: 700; font-size: clamp(34px,7vw,72px); color: var(--accent); pointer-events: none; }
-      h1 { font-weight: 800; font-size: clamp(20px,3vw,30px); letter-spacing: -.02em; margin: 40px 0 12px; text-transform: uppercase; }
-      p { max-width: 440px; font-size: 15px; line-height: 1.6; opacity: .7; margin: 0 auto 36px; }
+      ::selection { background: var(--accent); color: #0b0b0c; }
+      .eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: #8A8A93; margin-bottom: 24px; }
+      .big { position: relative; font-family: 'Anton', sans-serif; font-weight: 400; font-size: clamp(120px,28vw,320px); line-height: .82; letter-spacing: -.01em; }
+      .sig { position: absolute; left: 50%; bottom: 4px; transform: translateX(-50%); font-family: 'JetBrains Mono', monospace; font-weight: 400; font-size: clamp(11px,2.2vw,15px); letter-spacing: .18em; text-transform: uppercase; color: var(--accent); pointer-events: none; }
+      h1 { font-family: 'Anton', sans-serif; font-weight: 400; font-size: clamp(24px,3.4vw,38px); letter-spacing: 0; margin: 40px 0 12px; text-transform: uppercase; }
+      p { max-width: 440px; font-size: 15px; line-height: 1.6; color: #B4B2AC; margin: 0 auto 36px; }
       .row { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
-      a.btn { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; font-weight: 700; padding: 14px 22px; border-radius: 2px; transition: transform .25s ease, background .25s ease, border-color .25s ease; }
-      a.solid { background: var(--accent); color: #fff; }
+      a.btn { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; font-weight: 400; padding: 14px 24px; border-radius: 999px; transition: transform .25s ease, background .25s ease, border-color .25s ease; }
+      a.solid { background: var(--accent); color: #0b0b0c; }
       a.solid:hover { transform: translateY(-2px); }
-      a.ghost { border: 1px solid rgba(255,255,255,.3); color: #fff; }
-      a.ghost:hover { border-color: #fff; transform: translateY(-2px); }
-      .brand { position: fixed; top: 22px; left: 24px; font-weight: 900; font-size: 16px; letter-spacing: -.04em; color: #fff; text-decoration: none; }
-      .brand sup { font-size: 8px; }
-      .links { margin-top: 34px; font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; opacity: .45; display: flex; gap: 18px; flex-wrap: wrap; justify-content: center; }
-      .links a { color: #fff; text-decoration: none; }
-      /* Same cross-document crossfade as the rest of the site (both documents
-         must opt in — this page skips global.css, so declare it here too). */
+      a.ghost { border: 1px solid rgba(244,242,236,.3); color: #F4F2EC; }
+      a.ghost:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+      .brand { position: fixed; top: 22px; left: 4vw; font-weight: 600; font-size: 13px; letter-spacing: .06em; color: #F4F2EC; text-decoration: none; }
+      .brand sup { font-size: 8px; color: var(--accent); }
+      .links { margin-top: 34px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: #55555C; display: flex; gap: 18px; flex-wrap: wrap; justify-content: center; }
+      .links a { color: #8A8A93; text-decoration: none; }
+      .links a:hover { color: var(--accent); }
       @view-transition{navigation:auto;}
       a.btn:active { transform: scale(.97); }
       @media (prefers-reduced-motion: reduce){

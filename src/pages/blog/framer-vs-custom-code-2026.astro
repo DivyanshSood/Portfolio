@@ -1,0 +1,187 @@
+---
+import Studio from "../../layouts/Studio.astro";
+import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+
+const slug = "framer-vs-custom-code-2026";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+const next = POSTS[(idx + 1) % POSTS.length];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
+      publisher: {
+        "@type": "Organization",
+        "@id": `${SITE}/#studio`,
+        name: "Divyansh Sood® Studio",
+        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
+      },
+      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      wordCount: post.wordCount,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+  ],
+});
+---
+
+<Studio
+  title={post.seoTitle ?? `${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  jsonld={jsonld}
+>
+  <main>
+    <header class="post-hero">
+      <div class="post-hero-bg" aria-hidden="true"></div>
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img src={post.coverImage} alt={post.title} width="1200" height="750" fetchpriority="high" decoding="async" />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+      <p>Framer is the best website builder ever made. I say that as someone who competes with it.</p>
+<p>The animations are genuinely good. The templates look like award sites. A founder can go from nothing to something beautiful in a weekend. If your bar is “look credible fast,” Framer clears it better than anything before it.</p>
+<p>So why do funded startups still hire me to replace Framer sites? Because “look credible fast” and “build a company asset” turn out to be different jobs — and the differences only show up after you’ve shipped.</p>
+<hr>
+<h2 id="where-framer-genuinely-wins">Where Framer genuinely wins</h2>
+<p>Let’s be honest about the trade first:</p>
+<ul>
+<li><strong>Speed to first version.</strong> A landing page live today beats a custom build live next month if you’re still validating the idea.</li>
+<li><strong>Design freedom without a developer.</strong> Your designer ships their own vision. No translation loss.</li>
+<li><strong>Zero maintenance.</strong> No dependencies to update, no hosting to think about.</li>
+</ul>
+<p>If you’re pre-product, pre-revenue and testing messaging weekly — use Framer. Genuinely. Come back when something works.</p>
+<hr>
+<h2 id="the-ceiling-nobody-mentions-in-the-demo">The ceiling nobody mentions in the demo</h2>
+<p><strong>1. The rent never ends, and the exit is expensive.</strong> Framer sites live on Framer. Export exists, but what comes out is not a codebase a developer wants to inherit — it’s generated markup you’ll rebuild anyway. Three years of subscription later, you own a login, not an asset.</p>
+<p><strong>2. Product features hit a wall.</strong> The moment your site needs to <em>do</em> something — user accounts, a dashboard, payments beyond a checkout link, an AI feature, anything with a database — you’re stitching third-party embeds into a page builder. Each embed is a seam. Seams leak.</p>
+<p><strong>3. Performance is good until it isn’t.</strong> Framer ships a React runtime whether your page needs one or not. For a marketing page that’s fine. For the Core Web Vitals margins where search rankings get decided, a static custom build simply carries less weight.</p>
+<p><strong>4. SEO control stops at the panel.</strong> Structured data graphs, honest sitemaps, llms.txt for AI crawlers, edge redirects — the technical SEO layer where categories get won is either partially exposed or not yours to touch.</p>
+<hr>
+<h2 id="the-real-comparison-is-about-the-next-two-years">The real comparison is about the next two years</h2>
+<p>The question isn’t “Framer or custom code?” It’s: <em>what does this site need to become?</em></p>
+<p>If the answer is “stay a brochure” — Framer, no argument.</p>
+<p>If the answer involves product — onboarding flows, gated content, a portal, integrations, search as an acquisition channel — then the Framer version is a prototype you’ll pay for twice: once in subscriptions, once in the rebuild.</p>
+<p>A custom build costs more upfront and then the curve flips. No monthly platform fee. Performance you control to the millisecond. A codebase your future engineers extend instead of replace. I’ve shipped a school portal with an admissions system in <a href="/projects/modernkbs/">seven days</a> and an AI product with three model integrations — neither is buildable in a page builder, and both started as “we just need a website.”</p>
+<hr>
+<h2 id="a-decision-rule-that-actually-works">A decision rule that actually works</h2>
+<ul>
+<li>Validating an idea, changing copy weekly, no product surface → <strong>Framer</strong>.</li>
+<li>Post-validation, raising or revenue-positive, site is an acquisition channel → <strong>custom code</strong>.</li>
+<li>Not sure → ship Framer today, but budget the rebuild as a known cost, not a surprise.</li>
+</ul>
+<p>The startups that get burned aren’t the ones who chose Framer. They’re the ones who didn’t decide when they’d leave.</p>
+<hr>
+<p><em>I’m Divyansh Sood. I build custom-coded sites and <a href="/services/web-app-development/">web apps</a> for startups that have outgrown their builder — React, Next.js or Astro, live in weeks, code you own outright. If you’re weighing the same call against Webflow, I’ve written that one up too: <a href="/blog/custom-code-vs-webflow-for-startups/">custom code vs Webflow</a>. Or <a href="mailto:hello@divyanshsood.com">email me</a> your Framer site and I’ll tell you honestly whether it’s worth replacing yet.</em></p>
+      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </article>
+
+    <section class="wrap narrow" aria-label="Keep reading">
+      <a class="post-next" href={`/blog/${next.slug}/`}>
+        <span><span class="label">Read next</span><br /><span class="name">{next.title}</span></span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </section>
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        {post.audience === "indian-smb" ? (
+          <>
+            <h2>Working on something in India?</h2>
+            <p>If a post here matches what you're building, send me the brief. WhatsApp reply in under an hour, 9 AM–9 PM IST — I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="https://wa.me/919816091875" target="_blank" rel="noopener"
+                >Message me on WhatsApp <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : post.audience === "d2c-brand" ? (
+          <>
+            <h2>Building a brand a theme can't carry?</h2>
+            <p>If your store has a model that off-the-shelf builders fight — hand-numbered drops, creator commerce, premium D2C — tell me about it. I read every brief personally.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : (
+          <>
+            <h2>Working on something similar?</h2>
+            <p>If a post here matches what you're building, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="https://calendly.com/sood-divyansh007/30min" target="_blank" rel="noopener"
+                >Book a 15-min intro <span aria-hidden="true">↗</span></a
+              >
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+  </main>
+</Studio>

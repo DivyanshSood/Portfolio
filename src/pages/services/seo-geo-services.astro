@@ -1,0 +1,245 @@
+---
+import Studio from "../../layouts/Studio.astro";
+import { CALENDLY_URL, PROJECT_MIN_USD } from "../../lib/site.mjs";
+
+const SITE = "https://www.divyanshsood.com";
+const canonical = `${SITE}/services/seo-geo-services/`;
+const MIN_PRICE = Number(PROJECT_MIN_USD.replace(/[^0-9]/g, ""));
+
+const offers = [
+  { t: "Technical SEO, done in code", d: "Clean semantic markup, structured data graphs, honest sitemaps, canonical discipline, Core Web Vitals — built into the site, not sprinkled on after." },
+  { t: "GEO — be the answer, not a link", d: "Search is splitting into links and answers. Generative Engine Optimization makes ChatGPT, Claude, Gemini and Perplexity cite you when buyers ask." },
+  { t: "llms.txt & AI-crawler strategy", d: "A machine-readable brief of your business (llms.txt), robots rules that welcome answer-engine crawlers, and quotable copy AI can lift verbatim." },
+  { t: "Schema that search trusts", d: "Organization, Service, FAQ, Breadcrumb and Article graphs wired to your real entities — your Google Business Profile, your reviews, your work." },
+];
+
+const how = [
+  { n: "01", t: "Audit what engines see", d: "Crawl, indexing, structured data, entity signals, AI-citability. You get the gap list in plain language — what's broken, what's missing, what it's worth." },
+  { n: "02", t: "Fix in the codebase", d: "I implement in your actual code — not a report you have to hand to another developer. Markup, schema, speed, llms.txt, sitemaps." },
+  { n: "03", t: "Make the brand quotable", d: "Tight, factual, source-worthy copy blocks that both Google snippets and AI answers can quote — with your name attached." },
+  { n: "04", t: "Measure both halves", d: "Rankings and clicks from classic search; AI-referred sessions from the answer half. Both tracked, both reported monthly." },
+];
+
+const faqs = [
+  { q: "What is GEO (Generative Engine Optimization)?", a: "GEO is optimizing your site so AI assistants — ChatGPT, Claude, Gemini, Perplexity — cite and recommend your business in their answers. It combines structured data, quotable factual copy, llms.txt and crawler access, and it compounds with classic SEO rather than replacing it." },
+  { q: "Does llms.txt actually work?", a: "It's an emerging standard: a machine-readable summary of your business that AI crawlers read. On InHimalayas, a travel brand I run, implementing GEO — including llms.txt — was followed by a measurable lift in AI-referred traffic within weeks. It's low-cost, zero-risk, and it positions you before your competitors move." },
+  { q: "Is this a retainer or a one-time project?", a: "Both exist. A technical SEO + GEO implementation is a one-time project on your codebase. Ongoing content, tracking and iteration can run as a light monthly engagement — but nothing here requires a forever-contract." },
+  { q: "Do you also handle classic SEO?", a: "Yes — technical SEO is the foundation: crawlability, structured data, Core Web Vitals, canonical hygiene, honest sitemaps. GEO is built on top of that. A site that's illegible to Googlebot is illegible to AI crawlers too." },
+  { q: "What does SEO / GEO work cost?", a: `Implementation projects start at ${PROJECT_MIN_USD} when combined with a build; standalone audits start free (the website audit) with a paid deep-dive from $250. You get findings and a fixed quote in writing before any work starts.` },
+];
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "@id": `${canonical}#service`,
+      name: "SEO and Generative Engine Optimization (GEO) services",
+      serviceType: "SEO, AEO and Generative Engine Optimization",
+      provider: { "@id": `${SITE}/#person` },
+      areaServed: [{ "@type": "Country", name: "India" }, { "@type": "Place", name: "Worldwide" }],
+      description:
+        "Technical SEO and Generative Engine Optimization implemented directly in your codebase — structured data, Core Web Vitals, llms.txt and AI-crawler strategy, so both Google and AI assistants recommend you.",
+      url: canonical,
+      offers: {
+        "@type": "Offer",
+        priceSpecification: { "@type": "PriceSpecification", minPrice: MIN_PRICE, priceCurrency: "USD" },
+        url: canonical,
+      },
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Services", item: `${SITE}/services/` },
+        { "@type": "ListItem", position: 3, name: "SEO & GEO services", item: canonical },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+    },
+  ],
+});
+---
+
+<Studio
+  title="SEO & GEO Services — Get Found by Google and Cited by AI"
+  description="Technical SEO plus Generative Engine Optimization, built into your codebase: structured data, Core Web Vitals, llms.txt and AI-crawler strategy. Be the answer."
+  canonical={canonical}
+  keywords="generative engine optimization services, GEO services, AI SEO consultant, llms.txt implementation, AEO services, technical SEO developer, get cited by ChatGPT, structured data implementation"
+  ogTitle="SEO & GEO services"
+  ogDescription="Search is splitting into links and answers. I make you visible in both halves — implemented in code, not slides."
+  jsonld={jsonld}
+>
+  <main>
+    <header class="cs-hero">
+      <div class="cs-hero-bg" aria-hidden="true"></div>
+      <div class="wrap">
+        <div class="cs-eyebrow">
+          <span>Services</span><span>SEO · GEO · AEO</span><span>2026</span>
+        </div>
+        <h1 style="margin:14px 0 0;font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(44px,8vw,108px);line-height:.9;letter-spacing:-.01em;text-transform:uppercase;">Ranked by Google.<br /><span style="color:var(--accent);">Quoted by AI.</span></h1>
+        <p class="cs-lead">Search is splitting in two: links and answers. Classic SEO gets you the links half. Generative Engine Optimization — structured data, quotable copy, llms.txt, AI-crawler access — gets ChatGPT, Claude, Gemini and Perplexity to cite you in the answers half. I implement both, directly in your codebase, as a developer — not as a slide deck.</p>
+        <div class="cs-cta-row">
+          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book an SEO/GEO call <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost" href="/website-audit/">Get a free audit first</a>
+        </div>
+        <div class="cs-meta">
+          <span>Implemented in code, not reports</span><span>Google + AI assistants, both halves</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="cs-sec" aria-labelledby="offer-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="offer-h">What's in the work</h2>
+          <span class="mono">The offering</span>
+        </div>
+        <div class="cs-body" data-reveal>
+          {offers.map((o) => (
+            <div class="cs-card">
+              <span class="cs-tag">{o.t}</span>
+              <h2 class="cs-card-h2">{o.d}</h2>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="proof-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="proof-h">Practised, not preached</h2>
+          <span class="mono">Proof, not promises</span>
+        </div>
+        <div class="cs-metrics" data-reveal>
+          <div class="cs-metric"><span class="cs-metric-v">↑</span><span class="cs-metric-l">AI-referred traffic on InHimalayas after GEO</span></div>
+          <div class="cs-metric"><span class="cs-metric-v">100</span><span class="cs-metric-l">Lighthouse SEO score, this site</span></div>
+          <div class="cs-metric"><span class="cs-metric-v">25+</span><span class="cs-metric-l">AI crawlers explicitly welcomed on this site</span></div>
+          <div class="cs-metric"><span class="cs-metric-v">2 wks</span><span class="cs-metric-l">From GEO implementation to measurable lift</span></div>
+        </div>
+        <div class="cs-body" data-reveal style="margin-top:22px;">
+          <div class="cs-card">
+            <span class="cs-tag">InHimalayas · GEO in production</span>
+            <p>My own travel brand runs the full GEO stack — llms.txt, structured data, quotable copy. AI-referred traffic rose measurably within weeks of launch. <a href="/projects/inhimalayas/">Read the case study →</a></p>
+          </div>
+          <div class="cs-card">
+            <span class="cs-tag">This site · the lab</span>
+            <p>Everything I sell runs here first: schema graphs, honest sitemaps, llms.txt, IndexNow, consent-gated analytics. View source — it's all inspectable.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="how-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="how-h">How the work runs</h2>
+          <span class="mono">The process</span>
+        </div>
+        <div class="cs-body" data-reveal>
+          {how.map((s) => (
+            <div class="cs-card">
+              <span class="cs-tag">({s.n}) {s.t}</span>
+              <h2 class="cs-card-h2">{s.d}</h2>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="read-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="read-h">Thinking on search & AI</h2>
+          <span class="mono">From the journal</span>
+        </div>
+        <div class="cs-body" data-reveal>
+          <div class="cs-card span2" style="border-color:rgba(217,255,60,.34);">
+            <span class="cs-tag">Free tool</span>
+            <p><strong>Try the free llms.txt generator.</strong> Build the file AI assistants read to understand your business — in your browser, no sign-up. A taste of the GEO work, on the house. <a href="/tools/llms-txt-generator/">Open the tool →</a></p>
+          </div>
+          <div class="cs-card">
+            <span class="cs-tag">Make your brand quotable by AI</span>
+            <p>The GEO playbook for 2026 — how AI assistants pick who to cite, and how to become that source. <a href="/blog/make-your-brand-quotable-by-ai-geo-2026/">Read →</a></p>
+          </div>
+          <div class="cs-card">
+            <span class="cs-tag">What is llms.txt?</span>
+            <p>The emerging standard that briefs AI crawlers on your business — and how to write one. <a href="/blog/what-is-llms-txt-blog/">Read →</a></p>
+          </div>
+          <div class="cs-card span2">
+            <span class="cs-tag">AI website builders vs a human developer</span>
+            <p>Where AI tooling genuinely helps, and where judgment still wins. <a href="/blog/ai-website-builders-vs-developer-2026/">Read →</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="faq-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="faq-h">Frequently asked</h2>
+          <span class="mono">SEO & GEO</span>
+        </div>
+        <div class="cs-faq">
+          {faqs.map((f, i) => (
+            <div class="cs-faq-row">
+              <button class="cs-faq-q" data-faqtog={i} aria-expanded="false" aria-controls={`faq-geo-${i}`}>
+                <span>{f.q}</span><span class="cs-faq-icon" data-faqicon={i} aria-hidden="true">+</span>
+              </button>
+              <div class="cs-faq-a" id={`faq-geo-${i}`} data-faqbody={i}><p>{f.a}</p></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-endcta">
+      <div class="wrap">
+        <h2>Invisible in AI answers?</h2>
+        <p>Ask ChatGPT about your category. If a competitor comes up and you don't, send me your URL — the free audit will show you why.</p>
+        <div class="cs-cta-row" style="justify-content:center;">
+          <a class="btn btn-primary" href="/website-audit/">Get the free audit</a>
+          <a class="btn btn-ghost" href={CALENDLY_URL} target="_blank" rel="noopener">Book a call <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Studio>
+
+<script is:inline>
+  (function () {
+    var root = document.getElementById("ds-root");
+    if (!root) return;
+    var faq = -1;
+    function sync() {
+      root.querySelectorAll("[data-faqbody]").forEach(function (el) {
+        var open = Number(el.getAttribute("data-faqbody")) === faq;
+        el.style.maxHeight = open ? el.scrollHeight + "px" : "0px";
+        el.style.opacity = open ? "1" : "0";
+      });
+      root.querySelectorAll("[data-faqicon]").forEach(function (el) {
+        el.style.transform = Number(el.getAttribute("data-faqicon")) === faq ? "rotate(45deg)" : "rotate(0deg)";
+      });
+      root.querySelectorAll("[data-faqtog]").forEach(function (el) {
+        el.setAttribute("aria-expanded", Number(el.getAttribute("data-faqtog")) === faq ? "true" : "false");
+      });
+    }
+    root.querySelectorAll("[data-faqtog]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        var i = Number(el.getAttribute("data-faqtog"));
+        faq = faq === i ? -1 : i;
+        sync();
+      });
+    });
+    var rt;
+    window.addEventListener("resize", function () {
+      if (faq < 0) return;
+      clearTimeout(rt);
+      rt = setTimeout(sync, 120);
+    });
+    sync();
+  })();
+</script>

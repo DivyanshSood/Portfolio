@@ -1,0 +1,1039 @@
+---
+// ===========================================================================
+// Studio.astro — the site-wide "Portfolio 2026" shell.
+//
+// Single source of truth for the whole site's chrome and motion. Every page
+// (homepage + inner pages) renders inside #dsx: near-black + neon-green,
+// Anton / JetBrains Mono, grain, custom cursor, lerped smooth scroll,
+// velocity-reactive marquees, masked scroll reveals, a shared minimal header
+// and the giant-wordmark footer. Homepage-only features (counting preloader,
+// deck-of-cards, word-by-word statement, case overlay) are all guarded in the
+// engine, so they no-op on pages that don't include their markup.
+//
+// A page opts into the homepage preloader with `preloader`, and tells the
+// header/footer to use in-page smooth-scroll anchors with `home`.
+// ===========================================================================
+import "../styles/global.css";
+import CookieConsent from "../components/CookieConsent.astro";
+import BaseScripts from "../components/BaseScripts.astro";
+import { CALENDLY_URL } from "../lib/site.mjs";
+
+const FAVICON =
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230b0b0c'/%3E%3Ctext x='50' y='70' font-family='Arial,sans-serif' font-weight='900' font-size='56' fill='%23f4f2ec' text-anchor='middle'%3EDS%3C/text%3E%3Crect x='28' y='80' width='44' height='6' fill='%23d9ff3c'/%3E%3C/svg%3E";
+
+// Search-engine ownership verification (public tokens — fine to ship in source).
+const BING_VERIFY = import.meta.env.BING_SITE_VERIFICATION;
+const YANDEX_VERIFY = import.meta.env.YANDEX_VERIFICATION ?? "f949199876a945f6";
+
+export interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  keywords?: string;
+  ogType?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogImage?: string;
+  ogImageW?: number;
+  ogImageH?: number;
+  ogLocale?: string;
+  imageAlt?: string;
+  jsonld?: string;
+  articlePublished?: string;
+  articleModified?: string;
+  tags?: string[];
+  preloadImage?: { href: string; srcset?: string; sizes?: string };
+  /** Homepage: show the counting preloader (first view per session) + arm the intro. */
+  preloader?: boolean;
+  /** Homepage: header/footer use in-page smooth-scroll anchors instead of /#… links. */
+  home?: boolean;
+}
+
+const {
+  title,
+  description,
+  canonical,
+  keywords,
+  ogType = "website",
+  ogTitle,
+  ogDescription,
+  ogImage = "https://www.divyanshsood.com/og-home.png",
+  ogImageW = 1200,
+  ogImageH = 630,
+  ogLocale = "en_US",
+  imageAlt = "Divyansh Sood® Studio — custom-coded, conversion-focused websites",
+  jsonld,
+  articlePublished,
+  articleModified,
+  tags,
+  preloadImage,
+  preloader = false,
+  home = false,
+} = Astro.props;
+
+const STAR =
+  "M12 0C13.05 6.9 17.1 10.95 24 12C17.1 13.05 13.05 17.1 12 24C10.95 17.1 6.9 13.05 0 12C6.9 10.95 10.95 6.9 12 0Z";
+const ARROW = "M7 17 17 7M8 7h9v9";
+
+// Header/footer anchor targets — smooth-scroll on the homepage, real links elsewhere.
+const workHref = home ? "#work" : "/#work";
+const contactHref = home ? "#contact" : "/#contact";
+const topHref = home ? "#top" : "/";
+
+// Active-page marker for nav links (green dot on the section you're in).
+const path = Astro.url.pathname;
+const isActive = (p: string) => path === p || path.startsWith(p);
+
+// Fullscreen menu (burger on ≤720px). Same targets as the desktop nav plus
+// the two sections the minimal header leaves to the footer.
+const MENU = [
+  { label: "Work", href: workHref, goto: home ? "work" : undefined, num: "01", active: false },
+  { label: "Portfolio", href: "/portfolio/", goto: undefined, num: "02", active: isActive("/portfolio") },
+  { label: "Results", href: "/results/", goto: undefined, num: "03", active: isActive("/results") },
+  { label: "About", href: "/about/", goto: undefined, num: "04", active: isActive("/about") },
+  { label: "Blog", href: "/blog/", goto: undefined, num: "05", active: isActive("/blog") },
+  { label: "Contact", href: contactHref, goto: home ? "contact" : undefined, num: "06", active: false },
+];
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {keywords && <meta name="keywords" content={keywords} />}
+    <meta name="author" content="Divyansh Sood" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1" />
+    <meta name="theme-color" content="#0b0b0c" />
+    <meta name="apple-mobile-web-app-title" content="Divyansh Sood" />
+    {BING_VERIFY && <meta name="msvalidate.01" content={BING_VERIFY} />}
+    {YANDEX_VERIFY && <meta name="yandex-verification" content={YANDEX_VERIFY} />}
+    <link rel="canonical" href={canonical} />
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content="Divyansh Sood® Studio" />
+    <meta property="og:title" content={ogTitle ?? title} />
+    <meta property="og:description" content={ogDescription ?? description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content={String(ogImageW)} />
+    <meta property="og:image:height" content={String(ogImageH)} />
+    <meta property="og:image:alt" content={imageAlt} />
+    <meta property="og:locale" content={ogLocale} />
+    {articlePublished && <meta property="article:published_time" content={articlePublished} />}
+    {articleModified && <meta property="article:modified_time" content={articleModified} />}
+    {(tags ?? []).map((t) => <meta property="article:tag" content={t} />)}
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={ogTitle ?? title} />
+    <meta name="twitter:description" content={ogDescription ?? description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={imageAlt} />
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href={FAVICON} type="image/svg+xml" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
+    <link rel="alternate" type="application/rss+xml" title="Divyansh Sood® Studio — Journal" href="/rss.xml" />
+
+    <link rel="me" href="https://github.com/DivyanshSood" />
+    <link rel="me" href="https://www.linkedin.com/in/divyansh-sood-023556151/" />
+    <link rel="author" href={`${new URL(canonical).origin}/about/`} />
+
+    <link rel="preconnect" href="https://ik.imagekit.io" crossorigin />
+    {
+      preloadImage && (
+        <link
+          rel="preload"
+          as="image"
+          href={preloadImage.href}
+          imagesrcset={preloadImage.srcset}
+          imagesizes={preloadImage.sizes}
+          fetchpriority="high"
+        />
+      )
+    }
+    {/* Self-hosted display + label fonts — Anton (headlines) and JetBrains Mono
+        (labels) are the most FOIT-prone; Archivo carries body copy. */}
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/anton-400.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/jetbrains-mono-400.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/archivo-400.woff2" crossorigin />
+
+    {jsonld && <script type="application/ld+json" is:inline set:html={jsonld} />}
+
+    {/* Page-level head injection. */}
+    <slot name="head" />
+
+    {/* Synchronous, render-blocking: arm motion states before first paint so
+        nothing flashes. `motion` gates every hidden-until-revealed state; the
+        preloader (`dsx-load`) shows only on a page that opts in, first view per
+        session. 3s failsafe reveals everything if the engine never boots.
+        Skipped entirely under prefers-reduced-motion. */}
+    <script is:inline define:vars={{ preloader }}>
+      (function () {
+        try {
+          if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+          var d = document.documentElement;
+          d.classList.add("motion");
+          if (preloader) {
+            try {
+              if (!sessionStorage.getItem("dsxLoad")) {
+                sessionStorage.setItem("dsxLoad", "1");
+                d.classList.add("dsx-load");
+              }
+            } catch (err) {}
+          }
+          setTimeout(function () {
+            if (!d.classList.contains("motion-ready")) d.classList.add("motion-fallback");
+          }, 3000);
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="ds-root">
+      <div id="dsx" style="--accent:#D9FF3C; background:#0B0B0C; color:#F4F2EC; font-family:'Archivo',sans-serif; min-height:100vh; position:relative;">
+        {/* SVG displacement filter — shared by the image-distortion hover effect. */}
+        <svg aria-hidden="true" style="position:absolute; width:0; height:0; overflow:hidden;">
+          <defs>
+            <filter id="dsx-distort" x="-20%" y="-20%" width="140%" height="140%">
+              <feTurbulence id="dsx-turb" type="fractalNoise" baseFrequency="0.011 0.006" numOctaves="2" seed="4" result="noise"></feTurbulence>
+              <feDisplacementMap id="dsx-disp" in="SourceGraphic" in2="noise" scale="0" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
+            </filter>
+          </defs>
+        </svg>
+
+        <div data-grain style="position:fixed; inset:-20%; z-index:200; pointer-events:none; opacity:0.05;"></div>
+
+        {
+          preloader && (
+            <div data-loader style="position:fixed; inset:0; z-index:150; background:#0E0E10; flex-direction:column; justify-content:space-between; padding:24px 4vw 20px; will-change:transform;">
+              <div style="display:flex; justify-content:space-between; font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.14em; color:#8A8A93;">
+                <span>DIVYANSH SOOD®</span>
+                <span>PORTFOLIO — 2026</span>
+              </div>
+              <div style="text-align:center; display:flex; flex-direction:column; align-items:center; gap:22px;">
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="var(--accent, #D9FF3C)" style="animation:dsxSpin 3.2s linear infinite;" aria-hidden="true"><path d={STAR} /></svg>
+                <div style="font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(42px, 8.5vw, 120px); line-height:0.95; text-transform:uppercase;">Divyansh Sood<span style="color:var(--accent, #D9FF3C);">®</span></div>
+                <div style="margin-top:16px; font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.16em; color:#8A8A93;">CUSTOM-CODED · CONVERSION-FOCUSED · WORLDWIDE</div>
+              </div>
+              <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:28px;">
+                <div style="flex:1; height:1px; background:rgba(244,242,236,0.16); position:relative; margin-bottom:14px;">
+                  <div data-load-bar style="position:absolute; inset:0; background:var(--accent, #D9FF3C); transform:scaleX(0); transform-origin:left center;" />
+                </div>
+                <div style="font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(56px, 9vw, 130px); line-height:0.8;"><span data-load-num>0</span><span style="font-size:0.38em; color:#8A8A93;">%</span></div>
+              </div>
+            </div>
+          )
+        }
+
+        {/* Custom cursor (fine pointers only) */}
+        <div data-cursor-orb style="position:fixed; left:0; top:0; z-index:300; pointer-events:none; transform:translate3d(-200px,-200px,0); will-change:transform;">
+          <div data-cursor-orb-in style="width:76px; height:76px; margin:-38px 0 0 -38px; border:1px solid rgba(244,242,236,0.4); border-radius:50%; background:transparent; transform:scale(0.4); transition:transform 0.35s cubic-bezier(0.22,1,0.22,1), background-color 0.25s, border-color 0.25s; display:flex; align-items:center; justify-content:center;">
+            <span data-cursor-label style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.12em; color:#0B0B0C; opacity:0; transition:opacity 0.2s;">VIEW</span>
+          </div>
+        </div>
+        <div data-cursor-dot style="position:fixed; left:0; top:0; z-index:300; pointer-events:none; width:6px; height:6px; margin:-3px 0 0 -3px; background:#F4F2EC; border-radius:50%; transform:translate3d(-200px,-200px,0); mix-blend-mode:difference; will-change:transform;"></div>
+
+        {/* Header — shared minimal nav. Hides on scroll-down, returns on
+            scroll-up (engine toggles .dsx-hh). Desktop links get a rolling
+            double-label hover; ≤720px the links collapse into the burger. */}
+        <header data-header style="position:fixed; top:0; left:0; right:0; z-index:60; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:16px 4vw; mix-blend-mode:difference;">
+          <a href={topHref} data-goto={home ? "top" : undefined} aria-label="Divyansh Sood — home" style="display:inline-flex; align-items:center; gap:10px; font-weight:600; font-size:13px; letter-spacing:0.06em;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--accent, #D9FF3C)" aria-hidden="true"><path d={STAR}></path></svg>
+            <span>DIVYANSH SOOD<span style="color:var(--accent, #D9FF3C);">®</span></span>
+          </a>
+          <nav data-hide-m style="display:flex; gap:28px; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.12em;">
+            <a href={workHref} data-goto={home ? "work" : undefined} class="dsx-nav-link"><span class="dsx-roll"><span>WORK</span><span aria-hidden="true">WORK</span></span></a>
+            <a href="/results/" class="dsx-nav-link" aria-current={isActive("/results") ? "page" : undefined}><span class="dsx-roll"><span>RESULTS</span><span aria-hidden="true">RESULTS</span></span></a>
+            <a href="/about/" class="dsx-nav-link" aria-current={isActive("/about") ? "page" : undefined}><span class="dsx-roll"><span>ABOUT</span><span aria-hidden="true">ABOUT</span></span></a>
+            <a href={contactHref} data-goto={home ? "contact" : undefined} class="dsx-nav-link"><span class="dsx-roll"><span>CONTACT</span><span aria-hidden="true">CONTACT</span></span></a>
+          </nav>
+          <div style="display:inline-flex; align-items:center; gap:10px;">
+            <a href={CALENDLY_URL} target="_blank" rel="noopener" style="font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.12em; border:1px solid rgba(244,242,236,0.45); border-radius:999px; padding:9px 16px; white-space:nowrap; display:inline-flex; align-items:center; gap:8px;">START A PROJECT <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d={ARROW}></path></svg></a>
+            <button data-menu-btn class="dsx-burger" aria-label="Open menu" aria-expanded="false" aria-controls="dsx-menu">
+              <span></span>
+              <span></span>
+            </button>
+          </div>
+        </header>
+
+        {/* Fullscreen nav — curtain overlay opened by the burger. Sits above
+            the header (z-95) with its own close button; the engine staggers
+            the oversized links in via .is-open. */}
+        <div data-menu id="dsx-menu" class="dsx-menu" role="dialog" aria-modal="true" aria-label="Site navigation">
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:16px;">
+            <span style="display:inline-flex; align-items:center; gap:10px; font-weight:600; font-size:13px; letter-spacing:0.06em;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--accent, #D9FF3C)" aria-hidden="true"><path d={STAR}></path></svg>
+              <span>DIVYANSH SOOD<span style="color:var(--accent, #D9FF3C);">®</span></span>
+            </span>
+            <button data-menu-close class="dsx-pill" style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.12em; border:1px solid rgba(244,242,236,0.35); border-radius:999px; padding:10px 18px; cursor:pointer; display:inline-flex; align-items:center; gap:8px;">CLOSE <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 5l14 14M19 5 5 19"></path></svg></button>
+          </div>
+          <nav style="display:flex; flex-direction:column; gap:4px; margin:auto 0; padding:7vh 0;" aria-label="Menu">
+            {MENU.map((m) => (
+              <div class="dsx-menu-row">
+                <a href={m.href} data-goto={m.goto} aria-current={m.active ? "page" : undefined}>
+                  <span class="n">{m.num}</span>
+                  <span class="t">{m.label}</span>
+                  {m.active && <span class="dot" aria-hidden="true" />}
+                </a>
+              </div>
+            ))}
+          </nav>
+          <div class="dsx-menu-foot">
+            <div style="display:flex; flex-wrap:wrap; gap:10px 22px; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.12em;">
+              <a href="https://github.com/DivyanshSood" target="_blank" rel="noopener">GITHUB ↗</a>
+              <a href="https://www.linkedin.com/in/divyansh-sood-023556151/" target="_blank" rel="noopener">LINKEDIN ↗</a>
+              <a href="https://wa.me/919816091875" target="_blank" rel="noopener">WHATSAPP ↗</a>
+              <a href="mailto:hello@divyanshsood.com">EMAIL ↗</a>
+            </div>
+            <div style="margin-top:20px; display:flex; align-items:center; justify-content:space-between; gap:16px 24px; flex-wrap:wrap;">
+              <a class="dsx-cta" href={CALENDLY_URL} target="_blank" rel="noopener" style="background:var(--accent, #D9FF3C); color:#0B0B0C; font-weight:600; font-size:14px; letter-spacing:0.02em; padding:16px 26px; border-radius:999px; display:inline-flex; align-items:center; gap:10px;">START A PROJECT <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d={ARROW}></path></svg></a>
+              <span style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.12em; color:#8A8A93;">HIMACHAL PRADESH, IN · IST <span data-ist>––:––</span></span>
+            </div>
+          </div>
+        </div>
+
+        <slot />
+
+        {/* Footer — shared */}
+        <footer style="border-top:1px solid rgba(244,242,236,0.14); position:relative; overflow:hidden; background:#0E0E10;">
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(210px, 1fr)); gap:44px 24px; padding:9vh 4vw 6vh;">
+            <div style="display:flex; flex-direction:column; gap:18px; align-items:flex-start;">
+              <a href={topHref} data-goto={home ? "top" : undefined} aria-label="Back to top" style="display:inline-flex; align-items:center; gap:10px; font-weight:600; font-size:14px; letter-spacing:0.06em;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="var(--accent, #D9FF3C)" aria-hidden="true"><path d={STAR}></path></svg>
+                <span>DIVYANSH SOOD<span style="color:var(--accent, #D9FF3C);">®</span></span>
+              </a>
+              <p style="margin:0; font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.1em; line-height:1.9; color:#8A8A93; max-width:280px;">INDEPENDENT WEB DESIGNER &amp; DEVELOPER. CUSTOM-CODED, CONVERSION-FOCUSED, WORLDWIDE.</p>
+            </div>
+            <nav style="display:flex; flex-direction:column; gap:12px; align-items:flex-start;">
+              <span style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.14em; color:#55555C; margin-bottom:4px;">SITEMAP</span>
+              <a href={workHref} data-goto={home ? "work" : undefined} style="font-weight:500; font-size:14px;">Work</a>
+              <a href="/services/" style="font-weight:500; font-size:14px;">Services</a>
+              <a href="/portfolio/" style="font-weight:500; font-size:14px;">Portfolio</a>
+              <a href="/about/" style="font-weight:500; font-size:14px;">About</a>
+              <a href="/blog/" style="font-weight:500; font-size:14px;">Blog</a>
+              <a href="/tools/" style="font-weight:500; font-size:14px;">Free tools</a>
+              <a href="/testimonials/" style="font-weight:500; font-size:14px;">Testimonials</a>
+              <a href="/results/" style="font-weight:500; font-size:14px;">Results</a>
+              <a href="/website-audit/" style="font-weight:500; font-size:14px;">Free website audit</a>
+              <a href="/press/" style="font-weight:500; font-size:14px;">Press kit</a>
+              <a href={contactHref} data-goto={home ? "contact" : undefined} style="font-weight:500; font-size:14px;">Contact</a>
+            </nav>
+            <nav style="display:flex; flex-direction:column; gap:12px; align-items:flex-start;">
+              <span style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.14em; color:#55555C; margin-bottom:4px;">SOCIALS</span>
+              <a href="https://github.com/DivyanshSood" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:10px; font-weight:500; font-size:14px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.69 1.25 3.34.96.1-.75.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.15 1.18a10.9 10.9 0 0 1 5.74 0c2.19-1.49 3.15-1.18 3.15-1.18.62 1.59.23 2.76.11 3.05.73.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.26 5.66.41.36.78 1.06.78 2.14 0 1.54-.01 2.79-.01 3.17 0 .31.21.68.8.56A10.52 10.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"></path></svg>GitHub</a>
+              <a href="https://www.linkedin.com/in/divyansh-sood-023556151/" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:10px; font-weight:500; font-size:14px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"></path></svg>LinkedIn</a>
+              <a href="https://wa.me/919816091875" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:10px; font-weight:500; font-size:14px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.4-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.44-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.49s1.07 2.89 1.22 3.09c.15.2 2.11 3.22 5.1 4.51.71.31 1.27.49 1.7.63.72.23 1.37.2 1.88.12.57-.09 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.13-.27-.2-.57-.35Zm-5.42 7.4h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.9-9.88a9.83 9.83 0 0 1 6.99 2.9 9.83 9.83 0 0 1 2.89 7c0 5.45-4.44 9.88-9.89 9.88Zm8.42-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.94L.06 24l6.3-1.65a11.88 11.88 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.89 0-3.18-1.24-6.16-3.47-8.4Z"></path></svg>WhatsApp</a>
+              <a href="mailto:hello@divyanshsood.com" style="display:inline-flex; align-items:center; gap:10px; font-weight:500; font-size:14px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m2 7 10 7L22 7"></path></svg>Email</a>
+            </nav>
+            <div style="display:flex; flex-direction:column; gap:12px; align-items:flex-start; font-weight:500; font-size:14px;">
+              <span style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.14em; color:#55555C; margin-bottom:4px;">STUDIO</span>
+              <span>Himachal Pradesh, IN</span>
+              <span>Working worldwide</span>
+              <span style="color:#8A8A93;">IST <span data-ist>––:––</span> · EST. 2022</span>
+            </div>
+          </div>
+          <div style="padding:0 4vw; overflow:hidden;">
+            <div style="overflow:hidden;"><div class="dsx-r" data-rev style="font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(37px, 10vw, 185px); line-height:1; text-transform:uppercase; text-align:center; white-space:nowrap; color:transparent; -webkit-text-stroke:1px rgba(244,242,236,0.38);">Divyansh Sood®</div></div>
+          </div>
+          <div style="margin:0 4vw; border-top:1px solid rgba(244,242,236,0.14); display:flex; flex-wrap:wrap; gap:14px 28px; justify-content:space-between; align-items:center; padding:20px 0 24px; font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.12em; color:#8A8A93;">
+            <span>© 2026 DIVYANSH SOOD STUDIO</span>
+            <span data-hide-m>DESIGNED &amp; CODED BY ONE PERSON</span>
+            <a href="/privacy/" style="letter-spacing:0.12em;">PRIVACY</a>
+            <a href="#ds-cookie-settings" data-cookie-settings style="letter-spacing:0.12em;">COOKIES</a>
+            <button data-goto="top" data-cursor="TOP" class="dsx-top" style="display:inline-flex; align-items:center; gap:8px; cursor:pointer; letter-spacing:0.12em; color:#F4F2EC;">BACK TO TOP <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M12 20V4M5 11l7-7 7 7"></path></svg></button>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+    <CookieConsent />
+    <BaseScripts />
+  </body>
+</html>
+
+<style is:global>
+  /* ------------------------------------------------------------------------
+     "Portfolio 2026" chrome. Global (unscoped) on purpose: inline styles in the
+     markup reference these keyframes by name, and scoped styles would rename
+     them. Everything is prefixed #dsx / dsx- so nothing leaks into shared
+     components on this document (cookie banner etc.).
+     ------------------------------------------------------------------------ */
+  html { scrollbar-width: thin; scrollbar-color: #2a2a30 #0b0b0c; }
+  ::selection { background: #d9ff3c; color: #0b0b0c; }
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-thumb { background: #26262b; }
+  ::-webkit-scrollbar-track { background: #0b0b0c; }
+
+  #dsx a { text-decoration: none; color: inherit; }
+  #dsx a:hover { color: var(--accent, #d9ff3c); }
+  #dsx button { font: inherit; color: inherit; background: none; border: 0; padding: 0; }
+  #dsx img { display: block; }
+
+  /* Custom cursor replaces the native one on precise pointers only. */
+  @media (pointer: fine) {
+    body, #dsx a, #dsx button, #dsx [data-card] { cursor: none !important; }
+  }
+  @media (pointer: coarse) {
+    #dsx [data-cursor-orb], #dsx [data-cursor-dot] { display: none; }
+  }
+  @media (max-width: 720px) {
+    #dsx [data-hide-m] { display: none !important; }
+  }
+
+  @keyframes dsxOverlayIn { from { clip-path: inset(100% 0 0 0); } to { clip-path: inset(0 0 0 0); } }
+  @keyframes dsxSpin { to { transform: rotate(360deg); } }
+
+  #dsx [data-grain] { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  #dsx [data-overlay] { animation: dsxOverlayIn 0.65s cubic-bezier(0.76, 0, 0.24, 1) both; }
+
+  /* Shared CTA / pill hover states. */
+  #dsx .dsx-cta { transition: transform 0.3s cubic-bezier(0.22, 1, 0.22, 1); }
+  #dsx .dsx-cta:hover { transform: scale(1.05); color: #0b0b0c; }
+  #dsx .dsx-pill:hover { border-color: var(--accent, #d9ff3c); color: var(--accent, #d9ff3c); }
+  #dsx .dsx-top:hover { color: var(--accent, #d9ff3c); }
+
+  /* ------------------------------------------------------------------------
+     Header behaviour + desktop nav polish.
+     ------------------------------------------------------------------------ */
+  /* Hide on scroll-down, return on scroll-up (engine toggles .dsx-hh). */
+  #dsx [data-header] { transition: transform 0.5s cubic-bezier(0.22, 1, 0.22, 1); }
+  #dsx [data-header].dsx-hh { transform: translateY(-110%); }
+
+  /* Rolling double-label hover on the desktop links. */
+  #dsx .dsx-nav-link { display: inline-flex; align-items: center; }
+  #dsx .dsx-roll { display: inline-flex; flex-direction: column; overflow: hidden; height: 1.25em; line-height: 1.25; }
+  #dsx .dsx-roll > span { display: block; transition: transform 0.4s cubic-bezier(0.22, 1, 0.22, 1); }
+  #dsx .dsx-roll > span:last-child { color: var(--accent, #d9ff3c); }
+  #dsx .dsx-nav-link:hover .dsx-roll > span,
+  #dsx .dsx-nav-link:focus-visible .dsx-roll > span { transform: translateY(-100%); }
+
+  /* Green dot on the page you're on. */
+  #dsx .dsx-nav-link[aria-current="page"]::before {
+    content: ""; width: 5px; height: 5px; border-radius: 50%;
+    background: var(--accent, #d9ff3c); margin-right: 7px; flex: none;
+  }
+
+  /* Burger — replaces the inline links on ≤720px. */
+  #dsx .dsx-burger {
+    display: none; width: 42px; height: 42px; flex: none;
+    border: 1px solid rgba(244, 242, 236, 0.45); border-radius: 50%;
+    flex-direction: column; align-items: center; justify-content: center; gap: 5px;
+    cursor: pointer; transition: border-color 0.25s;
+  }
+  #dsx .dsx-burger:hover { border-color: var(--accent, #d9ff3c); }
+  #dsx .dsx-burger span { display: block; width: 16px; height: 1.6px; background: #f4f2ec; }
+  @media (max-width: 720px) {
+    #dsx .dsx-burger { display: inline-flex; }
+    /* Footer columns stack on phones — pull the grid gap and top padding in
+       (desktop values live inline on the element, hence !important). */
+    #dsx footer > div:first-child { padding: 6vh 4vw 5vh !important; gap: 32px 24px !important; }
+  }
+
+  /* ------------------------------------------------------------------------
+     Fullscreen menu — curtain wipe down, then the links slide up staggered.
+     visibility handles focus/a11y (no [hidden] juggling needed).
+     ------------------------------------------------------------------------ */
+  #dsx .dsx-menu {
+    position: fixed; inset: 0; z-index: 95; background: #0e0e10;
+    display: flex; flex-direction: column; overflow: auto;
+    padding: 16px 4vw calc(28px + env(safe-area-inset-bottom, 0px));
+    visibility: hidden; clip-path: inset(0 0 100% 0);
+    transition: clip-path 0.65s cubic-bezier(0.76, 0, 0.24, 1), visibility 0s linear 0.65s;
+  }
+  #dsx .dsx-menu.is-open {
+    visibility: visible; clip-path: inset(0 0 0 0);
+    transition: clip-path 0.65s cubic-bezier(0.76, 0, 0.24, 1);
+  }
+  #dsx .dsx-menu-row { overflow: hidden; }
+  #dsx .dsx-menu-row a {
+    display: flex; align-items: baseline; gap: 18px;
+    font-family: "Anton", sans-serif; font-weight: 400;
+    font-size: clamp(40px, 9.5vw, 84px); line-height: 1.12; text-transform: uppercase;
+    transform: translateY(115%); transition: transform 0.7s cubic-bezier(0.22, 1, 0.22, 1);
+  }
+  #dsx .dsx-menu.is-open .dsx-menu-row a { transform: none; }
+  #dsx .dsx-menu.is-open .dsx-menu-row:nth-child(1) a { transition-delay: 0.16s; }
+  #dsx .dsx-menu.is-open .dsx-menu-row:nth-child(2) a { transition-delay: 0.22s; }
+  #dsx .dsx-menu.is-open .dsx-menu-row:nth-child(3) a { transition-delay: 0.28s; }
+  #dsx .dsx-menu.is-open .dsx-menu-row:nth-child(4) a { transition-delay: 0.34s; }
+  #dsx .dsx-menu.is-open .dsx-menu-row:nth-child(5) a { transition-delay: 0.4s; }
+  #dsx .dsx-menu.is-open .dsx-menu-row:nth-child(6) a { transition-delay: 0.46s; }
+  #dsx .dsx-menu-row a:hover .t, #dsx .dsx-menu-row a:focus-visible .t { color: var(--accent, #d9ff3c); }
+  #dsx .dsx-menu-row .n {
+    font-family: "JetBrains Mono", monospace; font-size: 12px;
+    letter-spacing: 0.12em; color: var(--accent, #d9ff3c); flex: none;
+  }
+  #dsx .dsx-menu-row .t { transition: color 0.25s; }
+  #dsx .dsx-menu-row .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent, #d9ff3c); flex: none; align-self: center;
+  }
+  #dsx .dsx-menu-foot {
+    opacity: 0; transform: translateY(14px);
+    transition: opacity 0.45s ease, transform 0.45s ease;
+  }
+  #dsx .dsx-menu.is-open .dsx-menu-foot { opacity: 1; transform: none; transition-delay: 0.45s; }
+  @media (prefers-reduced-motion: reduce) {
+    #dsx .dsx-menu, #dsx .dsx-menu-row a, #dsx .dsx-menu-foot,
+    #dsx [data-header], #dsx .dsx-roll > span { transition: none !important; }
+    #dsx .dsx-menu-row a { transform: none; }
+    #dsx .dsx-menu-foot { opacity: 1; transform: none; }
+  }
+
+  /* SEO/screen-reader-only helper (visual hero can be non-text). */
+  .dsx-sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+  /* ------------------------------------------------------------------------
+     Motion gating — hidden states exist ONLY under html.motion (armed by the
+     synchronous head script), so no-JS visitors and reduced-motion users get a
+     fully visible page. The engine reveals with inline styles / .is-in, which
+     win over these class rules. html.motion-fallback (3s failsafe) force-reveals.
+     ------------------------------------------------------------------------ */
+  html.motion #dsx .dsx-r { transform: translateY(112%); }
+  html.motion #dsx .dsx-f { opacity: 0; transform: translateY(24px); }
+  html.motion #dsx [data-deck-panel] { clip-path: inset(100% 0 0 0); }
+  html.motion-fallback #dsx .dsx-r,
+  html.motion-fallback #dsx .dsx-f { transform: none !important; opacity: 1 !important; }
+  html.motion-fallback #dsx [data-deck-panel] { clip-path: inset(0 0 0 0) !important; }
+
+  /* Content reveal — the site-wide [data-reveal] hook. Hidden under html.motion,
+     revealed by the engine adding .is-in (IntersectionObserver). */
+  html.motion #dsx [data-reveal] { opacity: 0; transform: translateY(26px); will-change: opacity, transform; }
+  html.motion #dsx [data-reveal].is-in {
+    opacity: 1;
+    transform: none;
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  html.motion-fallback #dsx [data-reveal] { opacity: 1 !important; transform: none !important; }
+  @media (prefers-reduced-motion: reduce) {
+    html.motion #dsx [data-reveal],
+    html.motion #dsx .dsx-r,
+    html.motion #dsx .dsx-f { opacity: 1 !important; transform: none !important; }
+  }
+
+  /* Preloader: shown only on a page that opts in (html.dsx-load, decided
+     pre-paint) and dropped by the engine when done. While it shows, the page
+     can't scroll. Failsafe kills it after 3s. */
+  #dsx [data-loader] { display: none; }
+  html.dsx-load #dsx [data-loader] { display: flex; }
+  html.dsx-load body { overflow: hidden; }
+  html.motion-fallback #dsx [data-loader] { display: none !important; }
+  html.motion-fallback body { overflow: auto !important; }
+
+  /* This design carries its own always-visible CTAs (header pill + contact);
+     the old site-wide floating "Book a call" pill would double up and clash. */
+  #ds-sticky-book { display: none !important; }
+</style>
+
+<script>
+  // ==========================================================================
+  // Site-wide motion engine — vanilla, no libraries. Lerped smooth scroll (fine
+  // pointers), scroll-velocity-reactive marquees/drifts, word-by-word statement
+  // reveal (homepage), sticky deck-of-cards gallery (homepage), masked
+  // intro/scroll reveals, content [data-reveal] fade-ups, counting preloader
+  // (opt-in), IST clock, custom cursor, and the case overlay (homepage).
+  // Everything homepage-specific is guarded, so this no-ops elsewhere.
+  // ==========================================================================
+  const root = document.getElementById("dsx");
+  if (root) {
+    const doc = document.documentElement;
+    const fine = window.matchMedia("(pointer: fine)").matches;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const q = (s: string) => Array.from(root.querySelectorAll<HTMLElement>(s));
+    const one = (s: string) => root.querySelector<HTMLElement>(s);
+
+    const PROJECTS: any[] = JSON.parse(document.getElementById("dsx-data")?.textContent || "[]");
+
+    let loaderDone = false;
+    let introRan = false;
+    let overlayIdx: number | null = null;
+
+    // Signal the engine is alive — cancels the head script's 3s failsafe.
+    doc.classList.add("motion-ready");
+
+    // ---- Node collection (static DOM — collected once) ----------------------
+    const mk = (t: HTMLElement, i: number) => ({
+      el: t,
+      copy: t.firstElementChild as HTMLElement | null,
+      w: 0,
+      x: 0,
+      dir: (t.dataset.drift || "l").indexOf("r") === 0 ? 1 : -1,
+      base: 0.45 + (i % 3) * 0.09,
+    });
+    const marquees = q("[data-marquee-track]").map(mk);
+    const drifts = q("[data-drift]").map(mk);
+    const stmtSec = one("[data-stmt-sec]");
+    const deckSec = one("[data-deck-sec]");
+    const deckPanels = q("[data-deck-panel]").map((el) => ({
+      el,
+      img: el.querySelector<HTMLElement>("[data-deck-img]"),
+      shade: el.querySelector<HTMLElement>("[data-deck-shade]"),
+      title: el.querySelector<HTMLElement>("[data-deck-title]"),
+    }));
+    const deckNum = one("[data-deck-num]");
+    const deckBar = one("[data-deck-bar]");
+    const curEls = {
+      orb: one("[data-cursor-orb]"),
+      orbIn: one("[data-cursor-orb-in]"),
+      label: one("[data-cursor-label]"),
+      dot: one("[data-cursor-dot]"),
+    };
+    const overlay = one("[data-overlay]");
+    const oF = {
+      num: one("[data-o-num]"),
+      name: one("[data-o-name]"),
+      client: one("[data-o-client]"),
+      tags: one("[data-o-tags]"),
+      year: one("[data-o-year]"),
+      scope: one("[data-o-scope]"),
+      img: one("[data-o-img]") as HTMLImageElement | null,
+      blurb: one("[data-o-blurb]"),
+      quote: one("[data-o-quote]"),
+      quoteText: one("[data-o-quote-text]"),
+      quoteBy: one("[data-o-quote-by]"),
+      link: one("[data-o-link]") as HTMLAnchorElement | null,
+    };
+
+    // Split the statement paragraphs into per-word spans (JS-off keeps the
+    // plain, fully readable paragraphs).
+    q("[data-split-words]").forEach((el) => {
+      const words = (el.textContent || "").trim().split(/\s+/);
+      el.textContent = "";
+      words.forEach((w) => {
+        const s = document.createElement("span");
+        s.textContent = w;
+        s.style.cssText = "display:inline-block;opacity:0.13;transition:opacity 0.25s linear;margin-right:0.27em;";
+        el.appendChild(s);
+      });
+    });
+    const words = q("[data-split-words] span");
+
+    // ---- Measurement ---------------------------------------------------------
+    let maxSc = 99999;
+    let deckTop = 0;
+    let stmtTop = 0;
+    let stmtLen = 1;
+    const measure = () => {
+      const vh = window.innerHeight;
+      marquees.concat(drifts).forEach((m) => {
+        if (m.copy) m.w = m.copy.offsetWidth;
+      });
+      if (deckSec && deckPanels.length) {
+        deckSec.style.height = Math.round(vh * (deckPanels.length + 1)) + "px";
+        deckTop = deckSec.getBoundingClientRect().top + window.scrollY;
+      }
+      if (stmtSec) {
+        stmtTop = stmtSec.getBoundingClientRect().top + window.scrollY;
+        stmtLen = Math.max(stmtSec.offsetHeight - vh, 1);
+      }
+      maxSc = Math.max(doc.scrollHeight - vh, 0);
+      target = Math.min(target, maxSc);
+    };
+    let measureT: ReturnType<typeof setTimeout>;
+    const measureSoon = () => {
+      clearTimeout(measureT);
+      measureT = setTimeout(measure, 60);
+    };
+
+    // ---- Reveals -------------------------------------------------------------
+    const revealEl = (el: HTMLElement) => {
+      if (el.dataset.shown) return;
+      el.dataset.shown = "1";
+      const d = +(el.dataset.intro || 0);
+      el.style.transition = reduced
+        ? "none"
+        : "transform 1.1s cubic-bezier(0.22,1,0.22,1) " + d + "ms, opacity 0.9s linear " + d + "ms";
+      el.style.transform = "none";
+      el.style.opacity = "1";
+    };
+    const runIntro = () => {
+      if (introRan) return;
+      introRan = true;
+      q("[data-intro]").forEach(revealEl);
+    };
+    // Masked headline reveals ([data-rev]).
+    const io = new IntersectionObserver(
+      (es) =>
+        es.forEach((e) => {
+          if (!e.isIntersecting) return;
+          const t = (e.target as HTMLElement).dataset.rev !== undefined
+            ? (e.target as HTMLElement)
+            : (e.target as HTMLElement).querySelector<HTMLElement>("[data-rev]");
+          if (t) revealEl(t);
+          io.unobserve(e.target);
+        }),
+      { threshold: 0.05, rootMargin: "0px 0px -6% 0px" }
+    );
+    q("[data-rev]").forEach((el) => io.observe(el.parentElement || el));
+
+    // Content fade-ups ([data-reveal]) — the site-wide inner-page hook. Staggers
+    // elements that enter together.
+    let revQueue: HTMLElement[] = [];
+    let revScheduled = false;
+    const flushRev = () => {
+      revQueue.forEach((el, i) => {
+        el.style.transitionDelay = Math.min(i * 70, 420) + "ms";
+        el.classList.add("is-in");
+        el.addEventListener("transitionend", () => (el.style.transitionDelay = ""), { once: true });
+      });
+      revQueue = [];
+      revScheduled = false;
+    };
+    const ioRev = new IntersectionObserver(
+      (es) => {
+        for (const e of es) {
+          if (!e.isIntersecting) continue;
+          revQueue.push(e.target as HTMLElement);
+          ioRev.unobserve(e.target);
+        }
+        if (revQueue.length && !revScheduled) {
+          revScheduled = true;
+          requestAnimationFrame(flushRev);
+        }
+      },
+      { rootMargin: "0px 0px -8% 0px" }
+    );
+    q("[data-reveal]").forEach((el) => ioRev.observe(el));
+
+    // ---- Preloader -----------------------------------------------------------
+    const finishLoader = (() => {
+      let fin = false;
+      return () => {
+        if (fin) return;
+        fin = true;
+        const L = one("[data-loader]");
+        if (L) {
+          L.style.transition = "transform 0.75s cubic-bezier(0.76, 0, 0.24, 1)";
+          L.style.transform = "translateY(-101%)";
+        }
+        setTimeout(runIntro, 330);
+        setTimeout(() => {
+          loaderDone = true;
+          doc.classList.remove("dsx-load");
+        }, 800);
+      };
+    })();
+    if (doc.classList.contains("dsx-load") && !reduced) {
+      const t0 = performance.now();
+      const dur = 1050;
+      const numEl = one("[data-load-num]");
+      const barEl = one("[data-load-bar]");
+      const tick = () => {
+        const p = Math.min((performance.now() - t0) / dur, 1);
+        const e = 1 - Math.pow(1 - p, 3);
+        if (numEl) numEl.textContent = String(Math.round(e * 100));
+        if (barEl) barEl.style.transform = "scaleX(" + e.toFixed(3) + ")";
+        if (p < 1) requestAnimationFrame(tick);
+        else finishLoader();
+      };
+      tick();
+      setTimeout(finishLoader, 3500); // failsafe
+    } else {
+      loaderDone = true;
+      doc.classList.remove("dsx-load");
+      setTimeout(runIntro, 60);
+    }
+
+    // ---- IST clock -----------------------------------------------------------
+    const istEls = q("[data-ist]");
+    const updT = () => {
+      try {
+        const t = new Intl.DateTimeFormat("en-GB", {
+          hour: "2-digit",
+          minute: "2-digit",
+          timeZone: "Asia/Kolkata",
+        }).format(new Date());
+        istEls.forEach((el) => (el.textContent = t));
+      } catch (err) {
+        /* noop */
+      }
+    };
+    updT();
+    setInterval(updT, 30000);
+
+    // ---- Case overlay (homepage) ---------------------------------------------
+    const openOverlay = (i: number) => {
+      const p = PROJECTS[i];
+      if (!p || !overlay) return;
+      overlayIdx = i;
+      if (oF.num) oF.num.textContent = p.num;
+      if (oF.name) oF.name.textContent = p.name;
+      if (oF.client) oF.client.textContent = p.client;
+      if (oF.tags) oF.tags.textContent = p.tags;
+      if (oF.year) oF.year.textContent = p.year;
+      if (oF.scope) oF.scope.textContent = p.scope;
+      if (oF.img) {
+        oF.img.src = p.img;
+        oF.img.alt = p.name;
+      }
+      if (oF.blurb) oF.blurb.textContent = p.blurb;
+      if (oF.quote) oF.quote.style.display = p.quote ? "" : "none";
+      if (oF.quoteText) oF.quoteText.textContent = p.quote || "";
+      if (oF.quoteBy) oF.quoteBy.textContent = p.quoteBy || "";
+      if (oF.link) oF.link.href = p.url;
+      overlay.style.display = "block";
+      overlay.setAttribute("aria-label", p.name + " — case study");
+      overlay.style.animation = "none";
+      void overlay.offsetWidth;
+      overlay.style.animation = "";
+      overlay.scrollTop = 0;
+      document.body.style.overflow = "hidden";
+    };
+    const closeOverlay = () => {
+      if (!overlay) return;
+      overlay.style.display = "none";
+      overlayIdx = null;
+      document.body.style.overflow = "";
+    };
+    one("[data-o-close]")?.addEventListener("click", closeOverlay);
+    one("[data-o-next]")?.addEventListener("click", () => {
+      if (overlayIdx != null) openOverlay((overlayIdx + 1) % PROJECTS.length);
+    });
+
+    // ---- Fullscreen menu (burger) ---------------------------------------------
+    const headEl = one("[data-header]");
+    const menuEl = one("[data-menu]");
+    const menuBtn = one("[data-menu-btn]");
+    let menuOpen = false;
+    const setMenu = (open: boolean) => {
+      if (!menuEl || open === menuOpen) return;
+      menuOpen = open;
+      menuEl.classList.toggle("is-open", open);
+      menuBtn?.setAttribute("aria-expanded", String(open));
+      document.body.style.overflow = open || overlayIdx != null ? "hidden" : "";
+      if (open) one("[data-menu-close]")?.focus();
+      else menuBtn?.focus();
+    };
+    menuBtn?.addEventListener("click", () => setMenu(!menuOpen));
+    one("[data-menu-close]")?.addEventListener("click", () => setMenu(false));
+    // Any link in the menu closes it (data-goto smooth-scroll still runs via
+    // the delegated root click handler; page links just navigate).
+    menuEl?.addEventListener("click", (e) => {
+      const el = e.target as Element | null;
+      if (el && el.closest && el.closest("a")) setMenu(false);
+    });
+    // The burger only exists ≤720px — close the menu if the viewport leaves it.
+    window.addEventListener("resize", () => {
+      if (menuOpen && window.innerWidth > 720) setMenu(false);
+    });
+
+    // ---- Cursor ----------------------------------------------------------------
+    let curLabel: string | null = null;
+    const setCursorLabel = (label: string | null) => {
+      if (label === curLabel) return;
+      curLabel = label;
+      if (!curEls.orbIn || !curEls.label) return;
+      if (label) {
+        curEls.label.textContent = label;
+        curEls.label.style.opacity = "1";
+        curEls.orbIn.style.transform = "scale(1)";
+        curEls.orbIn.style.backgroundColor = "#D9FF3C";
+        curEls.orbIn.style.borderColor = "transparent";
+        if (curEls.dot) curEls.dot.style.opacity = "0";
+      } else {
+        curEls.label.style.opacity = "0";
+        curEls.orbIn.style.transform = "scale(0.4)";
+        curEls.orbIn.style.backgroundColor = "transparent";
+        curEls.orbIn.style.borderColor = "rgba(244,242,236,0.4)";
+        if (curEls.dot) curEls.dot.style.opacity = "1";
+      }
+    };
+
+    // ---- Events ----------------------------------------------------------------
+    let cur = window.scrollY || 0;
+    let target = cur;
+    let wheelT = 0;
+    window.addEventListener(
+      "wheel",
+      (e) => {
+        if (!fine || reduced || overlayIdx != null || menuOpen || !loaderDone) return;
+        if (e.ctrlKey) return; // pinch-zoom
+        e.preventDefault();
+        const dy = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? window.innerHeight : 1);
+        target = Math.max(0, Math.min(maxSc, target + dy));
+        wheelT = performance.now();
+      },
+      { passive: false }
+    );
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (performance.now() - wheelT < 400) return;
+        const y = window.scrollY;
+        if (Math.abs(y - cur) < 2) return;
+        cur = target = y;
+      },
+      { passive: true }
+    );
+    window.addEventListener("resize", measureSoon);
+    window.addEventListener("keydown", (e) => {
+      if (e.key !== "Escape") return;
+      if (menuOpen) setMenu(false);
+      else if (overlayIdx != null) closeOverlay();
+    });
+
+    let mx = -200, my = -200, cx = -200, cy = -200;
+    document.addEventListener("mousemove", (e) => {
+      mx = e.clientX;
+      my = e.clientY;
+    });
+    document.addEventListener("mouseover", (e) => {
+      const el = e.target as Element | null;
+      const t = el && el.closest ? (el.closest("[data-cursor]") as HTMLElement | null) : null;
+      setCursorLabel(t ? t.getAttribute("data-cursor") : null);
+    });
+
+    const goTo = (id: string) => {
+      if (id === "top") {
+        if (fine && !reduced) {
+          target = 0;
+          wheelT = performance.now();
+        } else {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+        return;
+      }
+      const el = document.getElementById(id);
+      if (!el) return;
+      const top = Math.max(0, el.getBoundingClientRect().top + window.scrollY);
+      if (fine && !reduced) {
+        target = Math.min(top, maxSc);
+        wheelT = performance.now();
+      } else {
+        window.scrollTo({ top, behavior: "smooth" });
+      }
+    };
+    root.addEventListener("click", (e) => {
+      const el = e.target as Element | null;
+      if (!el || !el.closest) return;
+      const go = el.closest("[data-goto]") as HTMLElement | null;
+      if (go) {
+        const id = go.dataset.goto || "top";
+        // Only intercept when the target exists on this page (or it's "top");
+        // otherwise let the browser follow the href (e.g. /#work from an inner page).
+        if (id === "top" || document.getElementById(id)) {
+          e.preventDefault();
+          goTo(id);
+          return;
+        }
+      }
+      // Deck cards open the case overlay — except the real VIEW CASE link.
+      const card = el.closest("[data-card]") as HTMLElement | null;
+      if (card && !el.closest("a")) openOverlay(+(card.dataset.idx || 0));
+    });
+
+    // ---- Frame loop -------------------------------------------------------------
+    let lastY: number | null = null;
+    let sv = 0;
+    let dir = -1;
+    let dirT = -1;
+    let deckIdx = 0;
+    let wc = -1;
+    const frame = () => {
+      requestAnimationFrame(frame);
+      const vh = window.innerHeight;
+
+      if (fine && !reduced && overlayIdx == null && loaderDone) {
+        if (Math.abs(target - cur) > 0.4) {
+          cur += (target - cur) * 0.1;
+          window.scrollTo(0, cur);
+        }
+      }
+      const y = window.scrollY;
+      const vel = lastY == null ? 0 : y - lastY;
+      lastY = y;
+      sv += (vel - sv) * 0.09;
+      const av = Math.min(Math.abs(sv) * 0.16, 4.2);
+      if (vel > 0.6) dirT = -1;
+      else if (vel < -0.6) dirT = 1;
+      dir += (dirT - dir) * 0.05;
+
+      // Header: tuck away on scroll-down, return on scroll-up / near the top.
+      // The gap between the two thresholds keeps it from flickering.
+      if (headEl) {
+        if (!menuOpen && y > 240 && sv > 1.4) headEl.classList.add("dsx-hh");
+        else if (menuOpen || y < 240 || sv < -1) headEl.classList.remove("dsx-hh");
+      }
+
+      if (!reduced) {
+        for (const m of marquees) {
+          if (!m.w) {
+            if (m.copy) m.w = m.copy.offsetWidth;
+            if (!m.w) continue;
+          }
+          m.x += (1.0 + av) * dir;
+          if (m.x <= -m.w) m.x += m.w;
+          if (m.x > 0) m.x -= m.w;
+          m.el.style.transform = "translate3d(" + m.x.toFixed(2) + "px,0,0)";
+        }
+        for (const m of drifts) {
+          if (!m.w) {
+            if (m.copy) m.w = m.copy.offsetWidth;
+            if (!m.w) continue;
+          }
+          m.x += m.dir * (m.base + av * 0.9);
+          if (m.x <= -m.w) m.x += m.w;
+          if (m.x > 0) m.x -= m.w;
+          m.el.style.transform = "translate3d(" + m.x.toFixed(2) + "px,0,0)";
+        }
+      }
+
+      if (deckSec && deckPanels.length) {
+        const N = deckPanels.length;
+        const p = Math.min(N - 1, Math.max(0, (y - deckTop) / vh));
+        const i = Math.floor(p);
+        const tt = p - i;
+        const te = tt * tt * (3 - 2 * tt);
+        deckPanels.forEach((P, k) => {
+          let clip = 100, sc = 1.12, shade = 0, ty = 0, op = 1;
+          if (k <= i) { clip = 0; sc = 1; }
+          if (k === i) { sc = 1 + te * 0.07; shade = te * 0.6; ty = -te * 40; op = 1 - te * 1.15; }
+          else if (k === i + 1) { clip = (1 - te) * 100; sc = 1.12 - te * 0.12; ty = (1 - te) * 46; op = te * 1.3; }
+          else if (k < i) { shade = 0.6; }
+          P.el.style.clipPath = "inset(" + clip.toFixed(2) + "% 0% 0% 0%)";
+          if (P.img) P.img.style.transform = "scale(" + sc.toFixed(4) + ")";
+          if (P.shade) P.shade.style.opacity = Math.min(1, shade).toFixed(3);
+          if (P.title) {
+            P.title.style.transform = "translate3d(0," + ty.toFixed(1) + "px,0)";
+            P.title.style.opacity = Math.max(0, Math.min(1, op)).toFixed(3);
+          }
+        });
+        const idx = Math.min(N, Math.round(p) + 1);
+        if (deckNum && idx !== deckIdx) {
+          deckIdx = idx;
+          deckNum.textContent = "0" + idx;
+        }
+        if (deckBar) deckBar.style.transform = "scaleX(" + (p / (N - 1)).toFixed(4) + ")";
+      }
+
+      if (stmtSec && words.length) {
+        const p = Math.min(1, Math.max(0, (y - stmtTop) / stmtLen));
+        const cnt = Math.floor(p * words.length * 1.3);
+        if (cnt !== wc) {
+          wc = cnt;
+          words.forEach((w, i) => (w.style.opacity = i < cnt ? "1" : "0.13"));
+        }
+      }
+
+      if (fine && curEls.orb) {
+        cx += (mx - cx) * 0.16;
+        cy += (my - cy) * 0.16;
+        curEls.orb.style.transform = "translate3d(" + cx.toFixed(1) + "px," + cy.toFixed(1) + "px,0)";
+        if (curEls.dot) curEls.dot.style.transform = "translate3d(" + mx + "px," + my + "px,0)";
+      }
+    };
+
+    measure();
+    requestAnimationFrame(frame);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => measure());
+    [600, 1500, 3000].forEach((t) => setTimeout(measure, t));
+    window.addEventListener("load", measure);
+  }
+</script>

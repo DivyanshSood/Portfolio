@@ -1,0 +1,181 @@
+---
+import Studio from "../../layouts/Studio.astro";
+import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+
+const slug = "shopify-alternatives-for-premium-d2c";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+const next = POSTS[(idx + 1) % POSTS.length];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
+      publisher: {
+        "@type": "Organization",
+        "@id": `${SITE}/#studio`,
+        name: "Divyansh Sood® Studio",
+        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
+      },
+      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      wordCount: post.wordCount,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+  ],
+});
+---
+
+<Studio
+  title={post.seoTitle ?? `${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  jsonld={jsonld}
+>
+  <main>
+    <header class="post-hero">
+      <div class="post-hero-bg" aria-hidden="true"></div>
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img src={post.coverImage} alt={post.title} width="1200" height="750" fetchpriority="high" decoding="async" />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+<p>You’re not looking for a Shopify alternative because Shopify is bad. You’re looking because your brand has started to feel bigger than its container — the theme that got you to your first hundred orders now makes you look like everyone else’s first hundred orders.</p>
+<p>Here are the actual options for a premium D2C brand in 2026, evaluated on the axis that matters at your stage: how much of the brand experience — and the economics — you control.</p>
+<hr>
+<h2 id="option-1-stay-and-customize">Option 1: Stay on Shopify, customize harder</h2>
+<p>Liquid theme surgery, a custom theme from an agency, apps for everything else. It’s the lowest-risk move and sometimes the right one — if your constraint is time, not ceiling.</p>
+<p>But be honest about what you’re buying: a nicer room in a building you rent. The checkout is still Shopify’s. The fees continue. The apps stack up — each one a monthly line item and a seam in the experience. And a heavily customized theme is its own maintenance burden, without ever becoming yours. The full argument is in <a href="/blog/why-premium-brands-leave-shopify/">why premium brands are leaving Shopify</a>.</p>
+<hr>
+<h2 id="option-2-woocommerce">Option 2: WooCommerce</h2>
+<p>The default “owned” alternative — and for premium brands, usually a sideways move. Yes, you escape platform rent into open source. But you inherit WordPress: plugin sprawl, security patching, hosting tuning, and a front end that fights you at the exact place you left Shopify — making the store feel like the brand. You traded a landlord for a fixer-upper.</p>
+<hr>
+<h2 id="option-3-headless-commerce">Option 3: Headless (Shopify backend, custom front end)</h2>
+<p>Keep Shopify’s checkout and inventory as plumbing; build a fully custom front end on top. This is a legitimate architecture for larger teams — the brand experience becomes truly yours while ops stay familiar.</p>
+<p>The catch is cost stacking: you’re now paying Shopify <em>and</em> maintaining a custom codebase <em>and</em> usually a Plus-tier plan to unlock the APIs properly. For enterprise D2C it pencils out. For a premium brand doing focused drops, it’s often the most expensive way to get what full custom gives you directly.</p>
+<hr>
+<h2 id="option-4-fully-custom">Option 4: Fully custom — the store as code you own</h2>
+<p>A storefront coded from scratch: your design system, your product storytelling, your drop mechanics, payments wired directly (Razorpay for UPI/COD in India, Stripe internationally), zero platform fees, zero themes. The site <em>is</em> the brand, down to the easing curves.</p>
+<p>This is what I build, so discount accordingly — but the receipts are real. <a href="/projects/chinkiz/">ChinkiZ</a>: a 600K-subscriber creator selling handmade products through a custom store with a native video gallery, live in two weeks. <a href="/projects/cultxberserk/">CultXberserk</a>: hand-numbered drops, 0001–0666, thirteen designs never reprinted — scarcity mechanics no app store sells. Neither was expensive by agency standards; both cost less over three years than the platform stack they replaced.</p>
+<p>The honest caveats: you need a developer you trust (here’s <a href="/blog/how-to-choose-web-developer-himachal/">how to vet one</a>), and a catalog of thousands of SKUs with complex ops is better served by options 1 or 3. Custom shines where premium D2C actually lives — focused catalogs, strong stories, drops.</p>
+<hr>
+<h2 id="the-decision-in-one-table">The decision, compressed</h2>
+<ul>
+<li><strong>Constraint is time</strong> → stay on Shopify, customize.</li>
+<li><strong>Enterprise scale, big team</strong> → headless.</li>
+<li><strong>Ideological about open source, tolerant of maintenance</strong> → Woo.</li>
+<li><strong>Premium brand, focused catalog, the store should feel like nothing else</strong> → fully custom. The brand stops renting.</li>
+</ul>
+<hr>
+<p><em>I’m Divyansh Sood. I build <a href="/services/ecommerce-website-development/">custom-coded storefronts</a> for premium D2C brands and creators — from $3,000, live in 2–4 weeks, full code ownership, no platform rent. If you’re staring at your theme wondering whether it’s the container or the brand, <a href="mailto:hello@divyanshsood.com">email me your store</a> — I’ll tell you which option above I’d actually pick for it, even when it isn’t mine.</em></p>
+      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </article>
+
+    <section class="wrap narrow" aria-label="Keep reading">
+      <a class="post-next" href={`/blog/${next.slug}/`}>
+        <span><span class="label">Read next</span><br /><span class="name">{next.title}</span></span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </section>
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        {post.audience === "indian-smb" ? (
+          <>
+            <h2>Working on something in India?</h2>
+            <p>If a post here matches what you're building, send me the brief. WhatsApp reply in under an hour, 9 AM–9 PM IST — I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="https://wa.me/919816091875" target="_blank" rel="noopener"
+                >Message me on WhatsApp <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : post.audience === "d2c-brand" ? (
+          <>
+            <h2>Building a brand a theme can't carry?</h2>
+            <p>If your store has a model that off-the-shelf builders fight — hand-numbered drops, creator commerce, premium D2C — tell me about it. I read every brief personally.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : (
+          <>
+            <h2>Working on something similar?</h2>
+            <p>If a post here matches what you're building, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="https://calendly.com/sood-divyansh007/30min" target="_blank" rel="noopener"
+                >Book a 15-min intro <span aria-hidden="true">↗</span></a
+              >
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+  </main>
+</Studio>

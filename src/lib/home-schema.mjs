@@ -4,7 +4,7 @@
    same serialised string as before.
    =========================================================================== */
 
-import { GOOGLE_MAPS_CID_URL } from "./site.mjs";
+import { GOOGLE_MAPS_CID_URL, SAME_AS } from "./site.mjs";
 import { projects } from "./projects/data.mjs";
 
 export function homeJsonLd(SITE) {
@@ -26,9 +26,9 @@ export function homeJsonLd(SITE) {
         "@id": `${SITE}/#person`,
         name: "Divyansh Sood",
         url: `${SITE}/`,
-        jobTitle: "Web Developer",
+        jobTitle: "Freelance Web Developer & Designer",
         description:
-          "Independent web designer and developer running a one-person studio from Himachal Pradesh, India, building custom-coded, conversion-focused websites, stores and web apps for founders worldwide.",
+          "Freelance web designer and developer running a one-person studio (Divyansh Sood® Studio) from Himachal Pradesh, India — building custom-coded, conversion-focused websites, stores and web apps for founders worldwide.",
         image:
           "https://ik.imagekit.io/dn2zdxiu3/Portfolioprojectimages/AiWebsitegenerator/AiWebsitegenerator-1.webp",
         email: "hello@divyanshsood.com",
@@ -39,7 +39,7 @@ export function homeJsonLd(SITE) {
         knowsLanguage: ["English", "Hindi"],
         hasOccupation: {
           "@type": "Occupation",
-          name: "Web Developer",
+          name: "Freelance Web Developer",
           occupationLocation: { "@type": "Country", name: "India" },
           skills:
             "Web design, front-end and full-stack development, React, Next.js, Astro, e-commerce, SEO, conversion rate optimization",
@@ -56,10 +56,7 @@ export function homeJsonLd(SITE) {
           "Conversion rate optimization",
           "E-commerce",
         ],
-        sameAs: [
-          "https://github.com/DivyanshSood",
-          "https://www.linkedin.com/in/divyansh-sood-023556151/",
-        ],
+        sameAs: [...SAME_AS],
       },
       {
         "@type": ["ProfessionalService", "Organization"],
@@ -89,18 +86,18 @@ export function homeJsonLd(SITE) {
           "White-label web development for agencies",
         ],
         keywords:
-          "custom web development, conversion-focused websites, Next.js developer, Astro developer, e-commerce development, web app MVP, SEO, GEO, AEO, Himachal Pradesh, India",
+          "freelance web developer, freelance web designer, custom web development, conversion-focused websites, Next.js developer, Astro developer, e-commerce development, web app MVP, SEO, GEO, AEO, Himachal Pradesh, India",
         areaServed: [
           { "@type": "Country", name: "India" },
           { "@type": "Place", name: "Worldwide" },
+          { "@type": "City", name: "Dharamshala", containedInPlace: { "@type": "State", name: "Himachal Pradesh" } },
+          { "@type": "City", name: "Kangra", containedInPlace: { "@type": "State", name: "Himachal Pradesh" } },
+          { "@type": "City", name: "Shimla", containedInPlace: { "@type": "State", name: "Himachal Pradesh" } },
+          { "@type": "City", name: "Manali", containedInPlace: { "@type": "State", name: "Himachal Pradesh" } },
         ],
         address: { "@type": "PostalAddress", addressRegion: "Himachal Pradesh", addressCountry: "IN" },
         hasMap: GOOGLE_MAPS_CID_URL,
-        sameAs: [
-          "https://github.com/DivyanshSood",
-          "https://www.linkedin.com/in/divyansh-sood-023556151/",
-          GOOGLE_MAPS_CID_URL,
-        ],
+        sameAs: [...SAME_AS, GOOGLE_MAPS_CID_URL],
         contactPoint: {
           "@type": "ContactPoint",
           telephone: "+91-98160-91875",
@@ -113,7 +110,10 @@ export function homeJsonLd(SITE) {
           { "@type": "Offer", itemOffered: { "@type": "Service", name: "Design & Prototyping", description: "High-fidelity interface design and clickable prototypes before a line of code is written." } },
           { "@type": "Offer", itemOffered: { "@type": "Service", name: "Development", description: "Fast, accessible, search-friendly front-ends — React, Next.js, Astro or headless." } },
           { "@type": "Offer", itemOffered: { "@type": "Service", name: "Support & Growth", description: "Ongoing iteration, A/B tests, performance tuning and monthly reporting." } },
-          { "@type": "Offer", itemOffered: { "@type": "Service", name: "SEO", description: "Technical and on-page SEO baked in from day one — clean markup, fast loads, structured data." } },
+          { "@type": "Offer", url: `${SITE}/services/ecommerce-website-development/`, itemOffered: { "@type": "Service", name: "Ecommerce website development", description: "Custom-coded D2C storefronts — Razorpay/Stripe payments, drop mechanics, full code ownership, no platform rent." } },
+          { "@type": "Offer", url: `${SITE}/services/web-app-development/`, itemOffered: { "@type": "Service", name: "Web app & MVP development", description: "Portals, dashboards, admin panels and AI products — full-stack React/Next.js/Astro, live in weeks." } },
+          { "@type": "Offer", url: `${SITE}/services/landing-page-design/`, itemOffered: { "@type": "Service", name: "Landing page design", description: "High-converting landing pages — copy, design and code as one argument, with tracking built in." } },
+          { "@type": "Offer", url: `${SITE}/services/seo-geo-services/`, itemOffered: { "@type": "Service", name: "SEO & Generative Engine Optimization", description: "Technical and on-page SEO plus GEO — structured data, llms.txt and AI-crawler strategy so Google ranks you and AI assistants cite you." } },
         ],
         // No aggregateRating or Review entries here on purpose: per
         // src/lib/site.mjs we only link out to the real Google reviews URL

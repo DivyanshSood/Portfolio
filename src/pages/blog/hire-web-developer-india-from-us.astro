@@ -1,0 +1,185 @@
+---
+import Studio from "../../layouts/Studio.astro";
+import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+
+const slug = "hire-web-developer-india-from-us";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+const next = POSTS[(idx + 1) % POSTS.length];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
+      publisher: {
+        "@type": "Organization",
+        "@id": `${SITE}/#studio`,
+        name: "Divyansh Sood® Studio",
+        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
+      },
+      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      wordCount: post.wordCount,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+  ],
+});
+---
+
+<Studio
+  title={post.seoTitle ?? `${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  jsonld={jsonld}
+>
+  <main>
+    <header class="post-hero">
+      <div class="post-hero-bg" aria-hidden="true"></div>
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img src={post.coverImage} alt={post.title} width="1200" height="750" fetchpriority="high" decoding="async" />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+<p>If you’re a founder in the US, UK or Europe, you’ve heard both versions of the India story.</p>
+<p>Version one: incredible engineering value, half the cost, great English, overnight progress while you sleep. Version two: a $2,000 website that arrived broken, three months late, built by someone you never actually spoke to.</p>
+<p>Both versions are true. They describe different markets that happen to share a country. This guide is about telling them apart — written by an Indian developer who works with international clients and has no incentive to pretend the second market doesn’t exist.</p>
+<hr>
+<h2 id="the-two-markets">The two markets</h2>
+<p><strong>Market one: the body shops.</strong> Agencies selling hours in bulk. The person who sold you never writes code; the person writing code never talked to you. Your project is a ticket queue. The price looks unbeatable because the unit being sold is time, not outcomes — and rework time bills too.</p>
+<p><strong>Market two: senior independents.</strong> A newer generation — developers who could work at product companies but chose independence, who design and code themselves, ship for global clients, and communicate like the remote-native professionals they are. You work with the actual maker, in writing, against outcomes.</p>
+<p>The tragedy of “hiring in India” horror stories is that buyers price-shopped their way into market one while believing they were hiring market two.</p>
+<hr>
+<h2 id="what-fair-pricing-actually-looks-like">What fair pricing actually looks like</h2>
+<p>Real numbers, so you can calibrate:</p>
+<ul>
+<li><strong>Under ~$1,000 for a full custom site:</strong> market one. Something in the scope is fictional — usually the “custom” part, sometimes the deadline.</li>
+<li><strong>~$3,000–10,000:</strong> the honest range for a senior independent building a custom-coded marketing site, storefront or scoped MVP. My own projects start at $3,000 — a US agency quotes the same build at $15,000–40,000.</li>
+<li><strong>$10,000+:</strong> product-grade web apps, complex ecommerce, multi-phase builds.</li>
+</ul>
+<p>You’re not saving 90% by hiring in India. You’re saving the 50–70% that was agency overhead — while the engineering quality, at the senior end, is identical. Chasing the missing 90% is how you end up in market one.</p>
+<hr>
+<h2 id="the-vetting-checklist">The vetting checklist</h2>
+<ul>
+<li><strong>Talk to the person who’ll write the code.</strong> If you can’t, walk. This single filter removes most of market one.</li>
+<li><strong>Live production URLs.</strong> Open their work on your phone. Fast? Polished? Still online? Portfolios lie; production doesn’t.</li>
+<li><strong>A written scope within 48 hours.</strong> What ships, what it costs, what’s explicitly out. Seniors volunteer this.</li>
+<li><strong>Code ownership in writing.</strong> Full repository, IP transfer on final payment. Standard for market two, mysteriously complicated in market one.</li>
+<li><strong>Async fluency.</strong> Clear written English, Loom walkthroughs, staging links without being asked. The IST timezone (UTC+5:30) means your morning overlaps their evening — enough for a daily sync, and progress lands while you sleep.</li>
+</ul>
+<hr>
+<h2 id="how-the-engagement-actually-runs">How the engagement actually runs</h2>
+<p>With a senior independent, a typical build looks like: a scoping call, a fixed written quote, milestone payments, a staging URL updated continuously, and handover with documentation. My fastest full build — a <a href="/projects/modernkbs/">site plus admissions portal</a> — took seven days; typical is three to four weeks. That cadence is normal for market two, not exceptional.</p>
+<p>One more thing worth demanding from any offshore build: portability. The site should run anywhere — no dependence on the developer’s hosting, no platform you can’t leave. I’ve written up why that matters in <a href="/blog/own-your-stack-code-portability/">own your stack</a>.</p>
+<hr>
+<p><em>I’m Divyansh Sood, an independent developer in Himachal Pradesh, India, building custom-coded sites, stores and <a href="/services/web-app-development/">web apps</a> for founders in the US, UK and Europe — from $3,000, fixed quotes in writing, full code ownership. If you want to calibrate against a real one before you hire anyone, <a href="mailto:hello@divyanshsood.com">email me your brief</a> — I’ll respond within a day with an honest scope, even if the honest answer is that you don’t need me.</em></p>
+      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </article>
+
+    <section class="wrap narrow" aria-label="Keep reading">
+      <a class="post-next" href={`/blog/${next.slug}/`}>
+        <span><span class="label">Read next</span><br /><span class="name">{next.title}</span></span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </section>
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        {post.audience === "indian-smb" ? (
+          <>
+            <h2>Working on something in India?</h2>
+            <p>If a post here matches what you're building, send me the brief. WhatsApp reply in under an hour, 9 AM–9 PM IST — I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="https://wa.me/919816091875" target="_blank" rel="noopener"
+                >Message me on WhatsApp <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : post.audience === "d2c-brand" ? (
+          <>
+            <h2>Building a brand a theme can't carry?</h2>
+            <p>If your store has a model that off-the-shelf builders fight — hand-numbered drops, creator commerce, premium D2C — tell me about it. I read every brief personally.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : (
+          <>
+            <h2>Working on something similar?</h2>
+            <p>If a post here matches what you're building, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="https://calendly.com/sood-divyansh007/30min" target="_blank" rel="noopener"
+                >Book a 15-min intro <span aria-hidden="true">↗</span></a
+              >
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+  </main>
+</Studio>

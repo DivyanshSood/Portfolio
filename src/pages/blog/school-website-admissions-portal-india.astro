@@ -1,0 +1,188 @@
+---
+import Studio from "../../layouts/Studio.astro";
+import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+
+const slug = "school-website-admissions-portal-india";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+const next = POSTS[(idx + 1) % POSTS.length];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
+      publisher: {
+        "@type": "Organization",
+        "@id": `${SITE}/#studio`,
+        name: "Divyansh Sood® Studio",
+        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
+      },
+      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      wordCount: post.wordCount,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+  ],
+});
+---
+
+<Studio
+  title={post.seoTitle ?? `${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  jsonld={jsonld}
+>
+  <main>
+    <header class="post-hero">
+      <div class="post-hero-bg" aria-hidden="true"></div>
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img src={post.coverImage} alt={post.title} width="1200" height="750" fetchpriority="high" decoding="async" />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+<p>Most school websites in India are built to satisfy the management, not the parents. A slider of the annual function, a principal’s message, a marquee tag if the site is old enough — and none of the three things a parent actually came for.</p>
+<p>I know what parents come for because I built a school website that had to work in seven days, and there was no time to build anything that didn’t matter.</p>
+<hr>
+<h2 id="what-parents-actually-look-for">What parents actually look for</h2>
+<p>Watch a parent evaluate a school online and the list is short:</p>
+<ul>
+<li><strong>Admissions</strong> — is it open, for which classes, what documents, what’s the process, whom do I call?</li>
+<li><strong>Proof of seriousness</strong> — facilities, faculty, results, affiliations. Real photographs, not stock images of children who are visibly not from your school.</li>
+<li><strong>Practicalities</strong> — fees or at least a fee-enquiry path, transport routes, contact that answers.</li>
+</ul>
+<p>A school site that nails those three earns the visit. Everything else — the vision statement, the founder’s garland photos — is for the management, and parents scroll past it.</p>
+<hr>
+<h2 id="the-admissions-portal-is-the-real-upgrade">The admissions portal is the real upgrade</h2>
+<p>The bigger shift isn’t the website — it’s moving admissions from a physical register to a portal. When I built <a href="/projects/modernkbs/">Modern K.B.S.</a>, the school got both in the same sprint: a public site, plus an admin panel where staff manage admissions for classes I–XII — applications in one place, no lost forms, no “come back tomorrow with a photocopy.”</p>
+<p>What surprises school managements: this doesn’t require an expensive “school ERP” subscription. Those platforms charge annually, forever, for modules you’ll never open. A custom-built portal that does exactly your admissions flow — and only that — is a one-time build with <strong>zero recurring SaaS fees</strong>. The Modern K.B.S. build runs on none.</p>
+<hr>
+<h2 id="what-it-costs-and-what-it-shouldnt">What it costs — and what it shouldn’t</h2>
+<p>The Indian market quotes school websites anywhere from ₹8,000 to several lakhs, which tells you pricing here is about the buyer, not the build. The honest framing:</p>
+<ul>
+<li>A static informational site — pages, photos, admissions info, enquiry form — is the entry tier. My full <a href="/blog/website-development-cost-india-2026/">India website cost guide</a> breaks down what’s fair.</li>
+<li>Add an admissions portal with an admin panel and you’re in web-app territory — more than a brochure site, but a one-time cost that replaces a recurring ERP subscription, so the three-year math usually favors it decisively.</li>
+<li>Timelines are the tell: agencies quoted Modern K.B.S. six months. The site and portal shipped in seven days. If a vendor needs half a year for a school website, you’re paying for their process, not your product.</li>
+</ul>
+<hr>
+<h2 id="the-checklist-for-your-school">The checklist, if you run a school</h2>
+<ul>
+<li>Admissions status visible on the homepage, one tap from anywhere on mobile.</li>
+<li>Real photography — the campus you have, not the campus stock photos wish you had.</li>
+<li>A working enquiry path: form plus WhatsApp, answered by a named person.</li>
+<li>An admissions portal if you process more than a handful of applications — staff time saved pays for it.</li>
+<li>Ownership: the school should own its domain, its hosting and its code. Not the vendor. In writing.</li>
+</ul>
+<p>The full build story — what shipped on each of the seven days — is in the <a href="/blog/modernkbs-case-study-blog/">Modern K.B.S. case study</a>.</p>
+<hr>
+<p><em>I’m Divyansh Sood, a developer based in Kangra district, Himachal — I build school websites and <a href="/services/web-app-development/">admissions portals</a> as one-time projects with no recurring fees, and schools anywhere in India can work with me remotely. If you’re near <a href="/web-developer-kangra/">Kangra</a>, we can even meet. Message me on <a href="https://wa.me/919816091875">WhatsApp</a> with your school’s name — I’ll reply with what I’d build and a fixed written quote.</em></p>
+      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </article>
+
+    <section class="wrap narrow" aria-label="Keep reading">
+      <a class="post-next" href={`/blog/${next.slug}/`}>
+        <span><span class="label">Read next</span><br /><span class="name">{next.title}</span></span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </section>
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        {post.audience === "indian-smb" ? (
+          <>
+            <h2>Working on something in India?</h2>
+            <p>If a post here matches what you're building, send me the brief. WhatsApp reply in under an hour, 9 AM–9 PM IST — I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="https://wa.me/919816091875" target="_blank" rel="noopener"
+                >Message me on WhatsApp <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : post.audience === "d2c-brand" ? (
+          <>
+            <h2>Building a brand a theme can't carry?</h2>
+            <p>If your store has a model that off-the-shelf builders fight — hand-numbered drops, creator commerce, premium D2C — tell me about it. I read every brief personally.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : (
+          <>
+            <h2>Working on something similar?</h2>
+            <p>If a post here matches what you're building, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="https://calendly.com/sood-divyansh007/30min" target="_blank" rel="noopener"
+                >Book a 15-min intro <span aria-hidden="true">↗</span></a
+              >
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+  </main>
+</Studio>

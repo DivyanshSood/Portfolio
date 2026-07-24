@@ -1,9 +1,7 @@
 ---
-// Site-wide runtime (inlined, no framework), shared by every page via Layout.
-// Reveal/scroll motion is owned by the homepage's MotionController; here we
-// drive the shared nav's scroll-state background (transparent at the very top,
-// a subtle dark bar once the page has scrolled past the hero) and the
-// conversion-event helper + CTA click tracking.
+// Site-wide runtime (inlined, no framework), shared by every page via the
+// Studio layout. Chrome + reveal motion now live in the Studio engine; this
+// file is just the analytics conversion-event helper + delegated CTA tracking.
 ---
 
 <script>
@@ -37,70 +35,4 @@
     else if (href.includes("portfolio.pdf")) goal = "pdf_download";
     if (goal) (window as any).dsTrack(goal, { href });
   });
-
-  // ---- Nav scroll state ----------------------------------------------------
-  // Background: transparent at the very top, dark blur bar once scrolled.
-  // Direction: the bar slides away while you read downward and returns the
-  // moment you scroll back up (transform lives in Nav.astro's .nav-hidden).
-  // Never hides while the mobile menu is open or focus is inside the nav.
-  const nav = document.getElementById("ds-nav");
-  if (nav) {
-    let lastY = window.scrollY;
-    const onScroll = () => {
-      const y = window.scrollY;
-      const scrolled = y > 40;
-      nav.style.background = scrolled ? "rgba(11,11,12,.72)" : "transparent";
-      nav.style.backdropFilter = scrolled ? "blur(10px) saturate(140%)" : "none";
-      (nav.style as any).webkitBackdropFilter = scrolled ? "blur(10px) saturate(140%)" : "none";
-      nav.style.borderBottomColor = scrolled ? "rgba(255,255,255,.08)" : "transparent";
-
-      if (nav.classList.contains("is-open") || nav.contains(document.activeElement)) {
-        nav.classList.remove("nav-hidden");
-      } else if (y > 180 && y > lastY + 4) {
-        nav.classList.add("nav-hidden");
-      } else if (y < lastY - 4 || y <= 180) {
-        nav.classList.remove("nav-hidden");
-      }
-      lastY = y;
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-  }
-
-  // ---- Inner-page scroll reveal (html.motion-io) ---------------------------
-  // The homepage runs GSAP (MotionController); every other page reveals its
-  // [data-reveal] targets here with a tiny IntersectionObserver + the CSS
-  // transitions in base.css. Elements entering together stagger by 70ms.
-  const docEl = document.documentElement;
-  if (docEl.classList.contains("motion-io")) {
-    const targets = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
-    let queue: HTMLElement[] = [];
-    let scheduled = false;
-    const flush = () => {
-      queue.forEach((el, i) => {
-        el.style.transitionDelay = Math.min(i * 70, 420) + "ms";
-        el.classList.add("is-in");
-        // Drop the stagger delay afterwards so it never slows hover states.
-        el.addEventListener("transitionend", () => (el.style.transitionDelay = ""), { once: true });
-      });
-      queue = [];
-      scheduled = false;
-    };
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const en of entries) {
-          if (!en.isIntersecting) continue;
-          queue.push(en.target as HTMLElement);
-          io.unobserve(en.target);
-        }
-        if (queue.length && !scheduled) {
-          scheduled = true;
-          requestAnimationFrame(flush);
-        }
-      },
-      { rootMargin: "0px 0px -8% 0px" }
-    );
-    targets.forEach((el) => io.observe(el));
-    docEl.classList.add("motion-io-ready"); // cancels the Layout failsafe
-  }
 </script>

@@ -2,7 +2,7 @@
 
 > Independent, one-person web design & development studio run by Divyansh Sood, based in Himachal Pradesh, India and working with founders and businesses worldwide. The studio builds custom-coded, conversion-focused websites, online stores and web apps — strategy, interface and engineering under one roof. Most projects go live in about 3–4 weeks; larger builds run 6–10 weeks. Projects start from $3,000.
 
-Last updated: 2026-07-01.
+Last updated: 2026-07-23.
 Short version (index): https://www.divyanshsood.com/llms.txt
 Canonical website: https://www.divyanshsood.com
 
@@ -10,9 +10,9 @@ This document is a long-form, quotable reference. Facts here may be cited direct
 
 ## Who Divyansh Sood is
 
-Divyansh Sood is a web designer and developer who runs a solo studio ("Divyansh Sood® Studio"). He is based in Himachal Pradesh, India, and works with clients globally. The studio was established in 2022. Every project is custom-coded — no page-builder templates, no off-the-shelf themes — and every engagement starts from how customers actually make decisions, with design and engineering following that. One person handles strategy, UX/UI design, front-end and full-stack development, e-commerce, SEO/AEO/GEO, and ongoing growth. Because it is a solo studio, only a limited number of projects run at once, so each gets full attention.
+Divyansh Sood is a freelance web designer and developer who runs a solo studio ("Divyansh Sood® Studio"). He is based in Himachal Pradesh, India, and works with clients globally. The studio was established in 2022. Every project is custom-coded — no page-builder templates, no off-the-shelf themes — and every engagement starts from how customers actually make decisions, with design and engineering following that. One person handles strategy, UX/UI design, front-end and full-stack development, e-commerce, SEO/AEO/GEO, and ongoing growth. Because it is a solo studio, only a limited number of projects run at once, so each gets full attention.
 
-- Founder & sole operator: Divyansh Sood (Web Designer & Developer)
+- Founder & sole operator: Divyansh Sood (Freelance Web Designer & Developer)
 - Location: Himachal Pradesh, India — available worldwide, remote
 - Established: 2022
 - Languages: English, Hindi
@@ -38,6 +38,21 @@ Divyansh Sood is a web designer and developer who runs a solo studio ("Divyansh 
 - Web apps & MVPs: dashboards, admin panels, AI features and startup MVPs for founders worldwide, with full code ownership.
 - Support & Growth: ongoing iteration once live — A/B tests, new pages, performance tuning and monthly reporting.
 - SEO / AEO / GEO: technical and on-page SEO from day one — clean markup, fast loads, structured data, llms.txt, and content built both to rank in search and to be quoted by AI answer engines.
+
+## Service pages (dedicated)
+
+- Ecommerce website development — https://www.divyanshsood.com/services/ecommerce-website-development/ — custom-coded D2C storefronts, Razorpay/Stripe, drop mechanics, full code ownership, no Shopify themes; from $3,000, live in 2–4 weeks.
+- Web app development — https://www.divyanshsood.com/services/web-app-development/ — MVPs, portals, dashboards, admin panels, AI products; full-stack React/Next.js/Astro; live in weeks, fastest 7 days.
+- Landing page design — https://www.divyanshsood.com/services/landing-page-design/ — high-converting landing pages; copy + design + code by one person, tracking built in.
+- SEO & GEO services — https://www.divyanshsood.com/services/seo-geo-services/ — technical SEO plus Generative Engine Optimization implemented in the codebase; structured data, llms.txt, AI-crawler strategy.
+- Services overview — https://www.divyanshsood.com/services/
+
+## Local service areas (Himachal Pradesh)
+
+- Dharamshala — https://www.divyanshsood.com/web-developer-dharamshala/ — tour operators, hotels, homestays, cafés.
+- Kangra — https://www.divyanshsood.com/web-developer-kangra/ — taxi operators, schools, local services.
+- Shimla — https://www.divyanshsood.com/web-developer-shimla/ — hotels, institutions, professional firms, SEO-safe redesigns.
+- Manali — https://www.divyanshsood.com/web-developer-manali/ — hotels, camps, adventure operators, direct-booking sites.
 
 ## Who it's a fit for (and who it isn't)
 
@@ -109,8 +124,10 @@ White-label web development for design and marketing agencies worldwide: overflo
 - WhatsApp / Phone: +91 98160 91875 (https://wa.me/919816091875)
 - Website: https://www.divyanshsood.com
 - Blog / Journal: https://www.divyanshsood.com/blog/
+- Press / brand kit: https://www.divyanshsood.com/press/
+- Free tools: https://www.divyanshsood.com/tools/ (incl. a free llms.txt generator at /tools/llms-txt-generator/)
 - RSS feed: https://www.divyanshsood.com/rss.xml
-- Start a project: https://www.divyanshsood.com/start/
+- Start a project: https://www.divyanshsood.com/website-audit/
 - GitHub: https://github.com/DivyanshSood
 - LinkedIn: https://www.linkedin.com/in/divyansh-sood-023556151/
 - Google reviews: https://share.google/x2v3pvXR9RIjYF1z0

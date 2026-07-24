@@ -1,0 +1,245 @@
+---
+import Studio from "../../layouts/Studio.astro";
+import { CALENDLY_URL, PROJECT_MIN_USD } from "../../lib/site.mjs";
+
+const SITE = "https://www.divyanshsood.com";
+const canonical = `${SITE}/services/web-app-development/`;
+const MIN_PRICE = Number(PROJECT_MIN_USD.replace(/[^0-9]/g, ""));
+
+const offers = [
+  { t: "MVPs for startups", d: "The version of your product that can meet users this month — scoped hard, built fast, ready to iterate. Speed to feedback beats completeness." },
+  { t: "Portals & admin panels", d: "Dashboards, admissions systems, self-serve editors — the software behind the website. ModernKBS got a public site and an admissions admin panel in the same 7-day sprint." },
+  { t: "AI-powered products", d: "I built WebSeek.ai — one prompt to a custom-coded site, with a Claude / GPT / Gemini model picker. If your product needs AI features, I've shipped them in production." },
+  { t: "Full-stack, no handoffs", d: "React, Next.js, Astro, Angular, Node. One person designs, codes and deploys — nothing gets lost between a design team and a dev team." },
+];
+
+const how = [
+  { n: "01", t: "Scope to the bone", d: "Within 48 hours you get it in writing: what ships, what waits, what it costs. Most MVPs fail by being too big, not too small." },
+  { n: "02", t: "A real URL every Friday", d: "Staging links, not status meetings. You click through the actual product every week and steer while steering is cheap." },
+  { n: "03", t: "Ship in weeks", d: "Typical build: 3–4 weeks. Fastest: 7 days for a full site plus admin panel, where other agencies quoted 6 months." },
+  { n: "04", t: "Yours to scale", d: "Clean repo, README, architecture walkthrough, signed IP transfer. When you hire in-house engineers, they inherit a codebase — not a mystery." },
+];
+
+const faqs = [
+  { q: "What kind of web apps do you build?", a: "MVPs for startups, customer portals, admin dashboards, booking systems and AI-powered products. Recent builds include a school admissions portal shipped in 7 days, a 15-page infrastructure portal with a self-serve admin, and WebSeek.ai — an AI website builder." },
+  { q: "How fast can an MVP be live?", a: "Most MVPs ship in 3–4 weeks. The fastest full build — a public website plus an admissions admin panel — went live in 7 days. The honest constraint is scope, which we cut together before writing code." },
+  { q: "What stack do you use?", a: "React, Next.js, Astro or Angular on the front end; Node on the back end; deployed on Vercel or your infrastructure. The stack serves the product — I pick the lightest tool that does the job, and you own all of it." },
+  { q: "What does web app development cost?", a: `Projects start at ${PROJECT_MIN_USD}. A scoped MVP usually lands in the lower range; portals with admin panels and AI features scale with complexity. You get a fixed written quote before anything starts.` },
+  { q: "Do you work with funded startups outside India?", a: "Yes — most product work is international. Async-friendly across time zones, milestone billing, and a repo your future team can take over on day one." },
+];
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "@id": `${canonical}#service`,
+      name: "Web app and MVP development",
+      serviceType: "Web application development",
+      provider: { "@id": `${SITE}/#person` },
+      areaServed: [{ "@type": "Country", name: "India" }, { "@type": "Place", name: "Worldwide" }],
+      description:
+        "Custom web application and MVP development for startups and businesses — portals, dashboards, admin panels and AI-powered products. Full-stack (React, Next.js, Astro, Node), live in weeks, full code ownership.",
+      url: canonical,
+      offers: {
+        "@type": "Offer",
+        priceSpecification: { "@type": "PriceSpecification", minPrice: MIN_PRICE, priceCurrency: "USD" },
+        url: canonical,
+      },
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Services", item: `${SITE}/services/` },
+        { "@type": "ListItem", position: 3, name: "Web app development", item: canonical },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+    },
+  ],
+});
+---
+
+<Studio
+  title="Web App Development Services — MVPs, Portals & AI Products"
+  description="Custom web app and MVP development — portals, dashboards, admin panels, AI products. Full-stack React/Next.js/Astro, live in weeks, you own the code."
+  canonical={canonical}
+  keywords="web app development services, MVP development for startups, hire full-stack developer, custom web application development, admin panel development, AI product development, Next.js developer"
+  ogTitle="Web app & MVP development"
+  ogDescription="The version of your product that can meet users this month. Full-stack, live in weeks, yours to scale."
+  jsonld={jsonld}
+>
+  <main>
+    <header class="cs-hero">
+      <div class="cs-hero-bg" aria-hidden="true"></div>
+      <div class="wrap">
+        <div class="cs-eyebrow">
+          <span>Services</span><span>Web apps · MVPs</span><span>2026</span>
+        </div>
+        <h1 style="margin:14px 0 0;font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(44px,8vw,108px);line-height:.9;letter-spacing:-.01em;text-transform:uppercase;">Software shipped<br /><span style="color:var(--accent);">in weeks, not quarters.</span></h1>
+        <p class="cs-lead">Web app development services for founders who need working software, not a six-month roadmap. MVPs, customer portals, admin dashboards and AI-powered products — designed and coded by one person, full-stack, with a staging link in your inbox every Friday.</p>
+        <div class="cs-cta-row">
+          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book a product call <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost" href="/projects/modernkbs/">See a 7-day build</a>
+        </div>
+        <div class="cs-meta">
+          <span>From {PROJECT_MIN_USD} · fixed written quotes</span><span>React · Next.js · Astro · Node</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="cs-sec" aria-labelledby="offer-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="offer-h">What I build</h2>
+          <span class="mono">The offering</span>
+        </div>
+        <div class="cs-body" data-reveal>
+          {offers.map((o) => (
+            <div class="cs-card">
+              <span class="cs-tag">{o.t}</span>
+              <h2 class="cs-card-h2">{o.d}</h2>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="proof-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="proof-h">Apps on the record</h2>
+          <span class="mono">Proof, not promises</span>
+        </div>
+        <div class="cs-metrics" data-reveal>
+          <div class="cs-metric"><span class="cs-metric-v">7 days</span><span class="cs-metric-l">Site + admissions portal (agencies quoted 6 months)</span></div>
+          <div class="cs-metric"><span class="cs-metric-v">15</span><span class="cs-metric-l">Pages + self-serve admin, North Peak portal</span></div>
+          <div class="cs-metric"><span class="cs-metric-v">3</span><span class="cs-metric-l">AI models in one product (WebSeek.ai)</span></div>
+          <div class="cs-metric"><span class="cs-metric-v">0</span><span class="cs-metric-l">SaaS fees left behind for clients</span></div>
+        </div>
+        <div class="cs-body" data-reveal style="margin-top:22px;">
+          <div class="cs-card">
+            <span class="cs-tag">Modern K.B.S. · web app + admin</span>
+            <p>Public school site and an admissions admin panel for classes I–XII, delivered in the same 7-day sprint — no recurring SaaS fees. <a href="/projects/modernkbs/">Read the case study →</a></p>
+          </div>
+          <div class="cs-card">
+            <span class="cs-tag">WebSeek.ai · AI product</span>
+            <p>One prompt to a custom-coded site, with a Claude / GPT / Gemini model picker. Built and shipped as a real product. <a href="/projects/webseek/">Read the case study →</a></p>
+          </div>
+          <div class="cs-card span2">
+            <span class="cs-tag">North Peak Power Systems · portal</span>
+            <p>A 15-page Angular portal with a self-serve admin that lets the team publish projects and lead with a private-sector pitch. <a href="/projects/northpeak/">Read the case study →</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="how-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="how-h">How it ships</h2>
+          <span class="mono">The process</span>
+        </div>
+        <div class="cs-body" data-reveal>
+          {how.map((s) => (
+            <div class="cs-card">
+              <span class="cs-tag">({s.n}) {s.t}</span>
+              <h2 class="cs-card-h2">{s.d}</h2>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="read-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="read-h">Thinking on product builds</h2>
+          <span class="mono">From the journal</span>
+        </div>
+        <div class="cs-body" data-reveal>
+          <div class="cs-card">
+            <span class="cs-tag">Custom code vs Webflow for startups</span>
+            <p>Where no-code stops and product engineering starts — and when each is right. <a href="/blog/custom-code-vs-webflow-for-startups/">Read →</a></p>
+          </div>
+          <div class="cs-card">
+            <span class="cs-tag">Own your stack</span>
+            <p>Code portability is leverage: what it means to actually own what you paid for. <a href="/blog/own-your-stack-code-portability/">Read →</a></p>
+          </div>
+          <div class="cs-card span2">
+            <span class="cs-tag">School site + portal in 7 days</span>
+            <p>The full story of the build other agencies quoted six months for. <a href="/blog/modernkbs-case-study-blog/">Read →</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="faq-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="faq-h">Frequently asked</h2>
+          <span class="mono">Web apps</span>
+        </div>
+        <div class="cs-faq">
+          {faqs.map((f, i) => (
+            <div class="cs-faq-row">
+              <button class="cs-faq-q" data-faqtog={i} aria-expanded="false" aria-controls={`faq-app-${i}`}>
+                <span>{f.q}</span><span class="cs-faq-icon" data-faqicon={i} aria-hidden="true">+</span>
+              </button>
+              <div class="cs-faq-a" id={`faq-app-${i}`} data-faqbody={i}><p>{f.a}</p></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-endcta">
+      <div class="wrap">
+        <h2>Have a product in your head?</h2>
+        <p>Describe it in three sentences. I'll tell you what the two-week version looks like — and what it costs, in writing, within 48 hours.</p>
+        <div class="cs-cta-row" style="justify-content:center;">
+          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book a product call <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost" href="/services/">All services</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Studio>
+
+<script is:inline>
+  (function () {
+    var root = document.getElementById("ds-root");
+    if (!root) return;
+    var faq = -1;
+    function sync() {
+      root.querySelectorAll("[data-faqbody]").forEach(function (el) {
+        var open = Number(el.getAttribute("data-faqbody")) === faq;
+        el.style.maxHeight = open ? el.scrollHeight + "px" : "0px";
+        el.style.opacity = open ? "1" : "0";
+      });
+      root.querySelectorAll("[data-faqicon]").forEach(function (el) {
+        el.style.transform = Number(el.getAttribute("data-faqicon")) === faq ? "rotate(45deg)" : "rotate(0deg)";
+      });
+      root.querySelectorAll("[data-faqtog]").forEach(function (el) {
+        el.setAttribute("aria-expanded", Number(el.getAttribute("data-faqtog")) === faq ? "true" : "false");
+      });
+    }
+    root.querySelectorAll("[data-faqtog]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        var i = Number(el.getAttribute("data-faqtog"));
+        faq = faq === i ? -1 : i;
+        sync();
+      });
+    });
+    var rt;
+    window.addEventListener("resize", function () {
+      if (faq < 0) return;
+      clearTimeout(rt);
+      rt = setTimeout(sync, 120);
+    });
+    sync();
+  })();
+</script>

@@ -1,0 +1,192 @@
+---
+import Studio from "../layouts/Studio.astro";
+import { CALENDLY_URL, GOOGLE_MAPS_URL } from "../lib/site.mjs";
+
+const SITE = "https://www.divyanshsood.com";
+const canonical = `${SITE}/web-developer-kangra/`;
+const WA = "https://wa.me/919816091875?text=Hi%20Divyansh,%20I%20run%20a%20business%20in%20Kangra%20and%20need%20a%20website.";
+
+const offers = [
+  { t: "Taxi & transport websites", d: "Booking sites for taxi operators and transport services — on-site booking forms, one-tap WhatsApp, outstation packages and airport-pickup flows that turn Maps searchers into direct customers." },
+  { t: "School & institute websites", d: "Public sites plus admissions portals for schools and coaching institutes. Modern K.B.S. got both — site and admin panel for classes I–XII — in a 7-day sprint." },
+  { t: "Shops & local services", d: "Fast, phone-first sites for the businesses the district actually runs on — hardware, clinics, salons, agencies — built to show up when Kangra searches for what you sell." },
+  { t: "Local SEO & Google presence", d: "Your Google Business Profile and your website working together: reviews linked, maps embedded, structured data wired — so 'near me' searches find you first." },
+];
+
+const faqs = [
+  { q: "What does a website cost for a Kangra business?", a: "Scope decides it — a taxi booking site is a different build than a school admissions portal. I quote local Himachal projects fixed and in writing after one conversation. For the honest market picture first, read my guide to website development costs in India." },
+  { q: "Do local businesses really need more than Google Maps?", a: "Maps gets you found; it doesn't get you chosen or booked. Nandini Travels — Kangra's most-positively-reviewed taxi operator — was losing every lead to Maps until we built a site with an on-site booking form. Their founder's words: it looks 10 times more premium than competitors, and direct bookings now come through the site." },
+  { q: "How fast can you deliver?", a: "The fastest full build so far — a school website plus admissions admin panel — went live in 7 days, where other agencies had quoted 6 months. Typical local builds land in 1–3 weeks." },
+  { q: "Are you actually based in Kangra district?", a: "Yes — I live and work in Himachal Pradesh, in Kangra district. You're not routing through a metro agency's junior team; you message me on WhatsApp and the person who replies is the person who builds." },
+];
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "@id": `${canonical}#service`,
+      name: "Web design and development in Kangra",
+      serviceType: "Website design and development",
+      provider: { "@id": `${SITE}/#studio` },
+      areaServed: { "@type": "City", name: "Kangra", containedInPlace: { "@type": "State", name: "Himachal Pradesh" } },
+      description:
+        "Custom-coded websites for Kangra businesses — taxi operators, schools, institutes and local services. Booking forms, admissions portals and local SEO, built in-district, live in 1–3 weeks.",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Services", item: `${SITE}/services/` },
+        { "@type": "ListItem", position: 3, name: "Web developer in Kangra", item: canonical },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+    },
+  ],
+});
+---
+
+<Studio
+  title="Web Developer in Kangra — Websites That Win Local Customers"
+  description="Web developer in Kangra, Himachal — booking sites for taxi operators, school admissions portals, local business websites. Built in-district, live in 1–3 weeks."
+  canonical={canonical}
+  keywords="web developer Kangra, website developer Kangra Himachal, website design Kangra, taxi website developer, school website developer Himachal, local business website Kangra"
+  ogTitle="Web developer in Kangra"
+  ogDescription="Taxi bookings, school portals and local business sites — built in Kangra district, not outsourced to a metro."
+  jsonld={jsonld}
+>
+  <main>
+    <header class="cs-hero">
+      <div class="cs-hero-bg" aria-hidden="true"></div>
+      <div class="wrap">
+        <div class="cs-eyebrow">
+          <span>Himachal Pradesh</span><span>Kangra district</span><span>2026</span>
+        </div>
+        <h1 style="margin:14px 0 0;font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(44px,8vw,108px);line-height:.9;letter-spacing:-.01em;text-transform:uppercase;">Web developer<br /><span style="color:var(--accent);">in Kangra.</span></h1>
+        <p class="cs-lead">I live and build in Kangra district — and the businesses I've built for are ones you know. The taxi operator winning direct bookings back from Google Maps. The school whose admissions portal went live in seven days. If you run a business here, your customers are already searching; the question is whose site they find.</p>
+        <div class="cs-cta-row">
+          <a class="btn btn-ghost" href={WA} target="_blank" rel="noopener">Message on WhatsApp</a>
+          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book a call <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="cs-meta">
+          <span>Based in Kangra · <a href={GOOGLE_MAPS_URL} target="_blank" rel="noopener">on Google Maps ↗</a></span><span>Live in 1–3 weeks · fastest: 7 days</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="cs-sec" aria-labelledby="offer-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="offer-h">Built for Kangra's businesses</h2>
+          <span class="mono">The offering</span>
+        </div>
+        <div class="cs-body" data-reveal>
+          {offers.map((o) => (
+            <div class="cs-card">
+              <span class="cs-tag">{o.t}</span>
+              <h2 class="cs-card-h2">{o.d}</h2>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="proof-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="proof-h">Kangra work, on the record</h2>
+          <span class="mono">Proof, not promises</span>
+        </div>
+        <div class="cs-metrics" data-reveal>
+          <div class="cs-metric"><span class="cs-metric-v">10×</span><span class="cs-metric-l">"More premium than competitors" — Nandini founder</span></div>
+          <div class="cs-metric"><span class="cs-metric-v">Direct</span><span class="cs-metric-l">Bookings recovered from Google Maps</span></div>
+          <div class="cs-metric"><span class="cs-metric-v">7 days</span><span class="cs-metric-l">School site + admissions portal, live</span></div>
+          <div class="cs-metric"><span class="cs-metric-v">0 SaaS</span><span class="cs-metric-l">Recurring fees for the school</span></div>
+        </div>
+        <div class="cs-body" data-reveal style="margin-top:22px;">
+          <div class="cs-card">
+            <span class="cs-tag">Nandini Travels · Kangra taxi</span>
+            <p>Kangra's most-positively-reviewed taxi operator, rebuilt in Next.js with an on-site booking form, WhatsApp CTA, outstation routes and airport pickup. Direct bookings now flow through the site. <a href="/projects/nandini/">Read the case study →</a></p>
+          </div>
+          <div class="cs-card">
+            <span class="cs-tag">Modern K.B.S. · school</span>
+            <p>Public website plus an admissions admin panel for classes I–XII, delivered in the same 7-day sprint — no recurring software fees. <a href="/projects/modernkbs/">Read the case study →</a></p>
+          </div>
+          <div class="cs-card span2">
+            <span class="cs-tag">Why local sites fail</span>
+            <p>Most local business websites don't generate leads — and it's rarely a traffic problem. I wrote up the patterns I keep seeing. <a href="/blog/why-indian-websites-dont-generate-leads/">Read the breakdown →</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="faq-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="faq-h">Frequently asked</h2>
+          <span class="mono">Kangra</span>
+        </div>
+        <div class="cs-faq">
+          {faqs.map((f, i) => (
+            <div class="cs-faq-row">
+              <button class="cs-faq-q" data-faqtog={i} aria-expanded="false" aria-controls={`faq-kgr-${i}`}>
+                <span>{f.q}</span><span class="cs-faq-icon" data-faqicon={i} aria-hidden="true">+</span>
+              </button>
+              <div class="cs-faq-a" id={`faq-kgr-${i}`} data-faqbody={i}><p>{f.a}</p></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-endcta">
+      <div class="wrap">
+        <h2>Run a business in Kangra?</h2>
+        <p>Message me what you do. I'll tell you honestly whether a website will move the needle for you — and what it would cost, fixed, in writing.</p>
+        <div class="cs-cta-row" style="justify-content:center;">
+          <a class="btn btn-primary" href={WA} target="_blank" rel="noopener">Message on WhatsApp</a>
+          <a class="btn btn-ghost" href="/services/">See all services</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Studio>
+
+<script is:inline>
+  (function () {
+    var root = document.getElementById("ds-root");
+    if (!root) return;
+    var faq = -1;
+    function sync() {
+      root.querySelectorAll("[data-faqbody]").forEach(function (el) {
+        var open = Number(el.getAttribute("data-faqbody")) === faq;
+        el.style.maxHeight = open ? el.scrollHeight + "px" : "0px";
+        el.style.opacity = open ? "1" : "0";
+      });
+      root.querySelectorAll("[data-faqicon]").forEach(function (el) {
+        el.style.transform = Number(el.getAttribute("data-faqicon")) === faq ? "rotate(45deg)" : "rotate(0deg)";
+      });
+      root.querySelectorAll("[data-faqtog]").forEach(function (el) {
+        el.setAttribute("aria-expanded", Number(el.getAttribute("data-faqtog")) === faq ? "true" : "false");
+      });
+    }
+    root.querySelectorAll("[data-faqtog]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        var i = Number(el.getAttribute("data-faqtog"));
+        faq = faq === i ? -1 : i;
+        sync();
+      });
+    });
+    var rt;
+    window.addEventListener("resize", function () {
+      if (faq < 0) return;
+      clearTimeout(rt);
+      rt = setTimeout(sync, 120);
+    });
+    sync();
+  })();
+</script>

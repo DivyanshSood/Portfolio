@@ -22,7 +22,12 @@
 // introduced beyond what data.mjs already puts on this page.
 import { projects } from "../lib/projects/data.mjs";
 
-const work = [...projects].sort((a, b) => Number(a.num) - Number(b.num));
+// The gallery is the client-work walk. Personal projects (data.mjs `personal:true`)
+// are listed separately in the "Personal projects" section on /portfolio, so they
+// are excluded from this WebGL sequence.
+const work = [...projects]
+  .filter((p) => !p.personal)
+  .sort((a, b) => Number(a.num) - Number(b.num));
 // Everything shown in the HUD is copy that already exists on this page's
 // project grid (data.mjs) — nothing new is introduced here.
 const items = work.map((p) => ({
@@ -147,12 +152,13 @@ const total = String(items.length).padStart(2, "0");
     text-transform: uppercase;
     color: rgba(255, 255, 255, 0.55);
   }
-  .dg-index { color: var(--accent, #ff1f1f); }
+  .dg-index { color: var(--accent, #d9ff3c); }
   .dg-name {
-    font-weight: 900;
-    font-size: clamp(24px, 3.2vw, 42px);
-    line-height: 0.95;
-    letter-spacing: -0.03em;
+    font-family: 'Anton', sans-serif;
+    font-weight: 400;
+    font-size: clamp(26px, 3.4vw, 46px);
+    line-height: 0.94;
+    letter-spacing: 0;
     text-transform: uppercase;
   }
   .dg-outcome { font-size: 13.5px; line-height: 1.5; color: rgba(255, 255, 255, 0.75); max-width: 52ch; }
@@ -174,18 +180,19 @@ const total = String(items.length).padStart(2, "0");
     padding-bottom: 2px;
     transition: color 0.2s ease, border-color 0.2s ease;
   }
-  .dg-cta span { color: var(--accent, #ff1f1f); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
-  .dg-cta:hover { color: var(--accent, #ff1f1f); border-color: var(--accent, #ff1f1f); }
+  .dg-cta span { color: var(--accent, #d9ff3c); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+  .dg-cta:hover { color: var(--accent, #d9ff3c); border-color: var(--accent, #d9ff3c); }
   .dg-cta:hover span { transform: translate(3px, -3px); }
-  .dg-cta:focus-visible { outline: 2px solid var(--accent, #ff1f1f); outline-offset: 4px; border-radius: 1px; }
+  .dg-cta:focus-visible { outline: 2px solid var(--accent, #d9ff3c); outline-offset: 4px; border-radius: 1px; }
 
   .dg-metric { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; text-align: right; flex-shrink: 0; }
   .dg-metric-v {
-    font-weight: 900;
-    font-size: clamp(26px, 3vw, 40px);
-    letter-spacing: -0.03em;
+    font-family: 'Anton', sans-serif;
+    font-weight: 400;
+    font-size: clamp(28px, 3.2vw, 44px);
+    letter-spacing: 0;
     line-height: 1;
-    color: var(--accent, #ff1f1f);
+    color: var(--accent, #d9ff3c);
   }
   .dg-metric-l {
     font-size: 10px;
@@ -214,7 +221,7 @@ const total = String(items.length).padStart(2, "0");
   .dg-progress-bar {
     display: block;
     height: 100%;
-    background: var(--accent, #ff1f1f);
+    background: var(--accent, #d9ff3c);
     transform: scaleX(0);
     transform-origin: left center;
     will-change: transform;
@@ -616,7 +623,9 @@ const total = String(items.length).padStart(2, "0");
           baseX: X_PATTERN[i % X_PATTERN.length],
         };
 
-        // Ask ImageKit for a width close to what we'll actually display.
+        // Load a texture close to the display size. ImageKit URLs resize via a
+        // `?tr=` query; self-hosted /images features ship pre-generated width
+        // variants (`<name>-<w>.webp`), so a phone never uploads a 1920px texture.
         const texW = Math.min(1600, Math.max(640, Math.round((window.innerWidth * renderer.dpr * 0.7) / 160) * 160));
         const img = new Image();
         img.crossOrigin = "anonymous";
@@ -628,7 +637,13 @@ const total = String(items.length).padStart(2, "0");
           const brand = moodFromImage(img);
           if (brand) moods[i] = brand;
         };
-        img.src = `${it.src}?tr=w-${texW},q-82`;
+        if (it.src.startsWith("/")) {
+          const LW = [480, 768, 1080, 1440];
+          const W = LW.find((x) => x >= texW);
+          img.src = W ? it.src.replace(/\.webp$/, `-${W}.webp`) : it.src;
+        } else {
+          img.src = `${it.src}?tr=w-${texW},q-82`;
+        }
         return cover;
       });
 

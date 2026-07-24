@@ -1,0 +1,192 @@
+---
+import Studio from "../layouts/Studio.astro";
+import { CALENDLY_URL, GOOGLE_MAPS_URL } from "../lib/site.mjs";
+
+const SITE = "https://www.divyanshsood.com";
+const canonical = `${SITE}/web-developer-manali/`;
+const WA = "https://wa.me/919816091875?text=Hi%20Divyansh,%20I%20run%20a%20business%20in%20Manali%20and%20need%20a%20website.";
+
+const offers = [
+  { t: "Direct-booking hotel sites", d: "Manali's stays pay aggregators a commission on almost every room night. A direct-booking website — rates, photos, WhatsApp enquiry, instant confirmation — keeps that margin yours." },
+  { t: "Adventure & activity operators", d: "Paragliding, rafting, trekking, skiing — booking-first sites for operators whose customers plan on their phones, days before they arrive in the valley." },
+  { t: "Cafés, camps & experiences", d: "Old Manali's cafés and riverside camps live on search and word of mouth. A fast site that ranks — and looks like the place feels — converts both." },
+  { t: "Seasonal SEO that compounds", d: "Manali's demand is a calendar: snow queries in December, honeymoon queries in spring, adventure queries all summer. I structure sites to catch each wave, year after year." },
+];
+
+const faqs = [
+  { q: "Why do Manali hotels need their own website when MakeMyTrip exists?", a: "Because aggregators charge commission on every booking and own the guest relationship. A direct-booking site pays for itself the moment a fraction of your bookings shift direct — and the guest data, reviews and repeat bookings stay yours. I've written up the exact math for Himalayan stays." },
+  { q: "What does a website cost for a Manali business?", a: "A camp's one-pager, an operator's booking site and a hotel's full direct-booking build are different scopes. I quote fixed, in writing, after one WhatsApp conversation. For the market picture first, see my India website cost guide." },
+  { q: "Our guests find us on Instagram. Isn't that enough?", a: "Instagram is where guests discover you; Google is where they verify and book you. 'Best paragliding in Manali' and 'riverside camp Manali price' are searches Instagram can't rank for. The businesses that capture those queries own the season." },
+  { q: "Do you understand the tourism business here?", a: "It's my home market. I'm based in Himachal, I run my own Himalayan travel brand (InHimalayas), and I built the site that handles part of ~1,000 monthly bookings for a Dharamshala operator. The seasonality, the WhatsApp-first customer, the mountain-network phones — all of it is designed in." },
+];
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "@id": `${canonical}#service`,
+      name: "Web design and development in Manali",
+      serviceType: "Website design and development",
+      provider: { "@id": `${SITE}/#studio` },
+      areaServed: { "@type": "City", name: "Manali", containedInPlace: { "@type": "State", name: "Himachal Pradesh" } },
+      description:
+        "Web developer for Manali businesses — direct-booking hotel websites, adventure operator booking sites, café and camp websites. Himachal-based, seasonal SEO built in, live in 1–3 weeks.",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Services", item: `${SITE}/services/` },
+        { "@type": "ListItem", position: 3, name: "Web developer in Manali", item: canonical },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+    },
+  ],
+});
+---
+
+<Studio
+  title="Web Developer in Manali — Direct-Booking Websites for Stays"
+  description="Web developer in Manali, Himachal — direct-booking websites for hotels, camps and adventure operators. Stop paying aggregator commission; live in 1–3 weeks."
+  canonical={canonical}
+  keywords="web developer Manali, website design Manali, hotel website design Manali, direct booking website Manali, adventure tour website developer, camp website Himachal"
+  ogTitle="Web developer in Manali"
+  ogDescription="Direct-booking websites for Manali's hotels, camps and adventure operators — keep the commission aggregators take."
+  jsonld={jsonld}
+>
+  <main>
+    <header class="cs-hero">
+      <div class="cs-hero-bg" aria-hidden="true"></div>
+      <div class="wrap">
+        <div class="cs-eyebrow">
+          <span>Himachal Pradesh</span><span>Manali · Kullu valley</span><span>2026</span>
+        </div>
+        <h1 style="margin:14px 0 0;font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(44px,8vw,108px);line-height:.9;letter-spacing:-.01em;text-transform:uppercase;">Web developer<br /><span style="color:var(--accent);">in Manali.</span></h1>
+        <p class="cs-lead">Every season, Manali's hotels, camps and adventure operators hand aggregators a commission on bookings that started as a Google search. I build direct-booking websites that capture those searches yourself — custom-coded, WhatsApp-first, built by a Himachal developer who works this market from the inside.</p>
+        <div class="cs-cta-row">
+          <a class="btn btn-ghost" href={WA} target="_blank" rel="noopener">Message on WhatsApp</a>
+          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book a call <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="cs-meta">
+          <span>Himachal-based · <a href={GOOGLE_MAPS_URL} target="_blank" rel="noopener">on Google Maps ↗</a></span><span>Live in 1–3 weeks</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="cs-sec" aria-labelledby="offer-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="offer-h">Built for the valley's business</h2>
+          <span class="mono">The offering</span>
+        </div>
+        <div class="cs-body" data-reveal>
+          {offers.map((o) => (
+            <div class="cs-card">
+              <span class="cs-tag">{o.t}</span>
+              <h2 class="cs-card-h2">{o.d}</h2>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="proof-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="proof-h">Mountain tourism, on the record</h2>
+          <span class="mono">Proof, not promises</span>
+        </div>
+        <div class="cs-metrics" data-reveal>
+          <div class="cs-metric"><span class="cs-metric-v">~1,000</span><span class="cs-metric-l">Monthly bookings via one Himachal travel site</span></div>
+          <div class="cs-metric"><span class="cs-metric-v">0%</span><span class="cs-metric-l">Commission on direct bookings</span></div>
+          <div class="cs-metric"><span class="cs-metric-v">1-tap</span><span class="cs-metric-l">WhatsApp booking on every package</span></div>
+          <div class="cs-metric"><span class="cs-metric-v">↑</span><span class="cs-metric-l">AI-referred traffic — InHimalayas</span></div>
+        </div>
+        <div class="cs-body" data-reveal style="margin-top:22px;">
+          <div class="cs-card">
+            <span class="cs-tag">Dharamshala Tours · operator</span>
+            <p>A WhatsApp-first booking site with a self-serve package editor — part of ~1,000 travel packages booked through it every month. The same build works for Kullu–Manali operators. <a href="/projects/dharamshala-tours/">Read the case study →</a></p>
+          </div>
+          <div class="cs-card">
+            <span class="cs-tag">InHimalayas · my own brand</span>
+            <p>I run a Himalayan travel brand myself — global audience, booking flows, and GEO that gets it cited by AI assistants. I sell what I use. <a href="/projects/inhimalayas/">Read the case study →</a></p>
+          </div>
+          <div class="cs-card span2">
+            <span class="cs-tag">The commission math</span>
+            <p>What aggregator commission actually costs a Himalayan stay across a season — and what shifting even a fraction of bookings direct is worth. <a href="/blog/direct-bookings-without-aggregator-commission/">Read the breakdown →</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="faq-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="faq-h">Frequently asked</h2>
+          <span class="mono">Manali</span>
+        </div>
+        <div class="cs-faq">
+          {faqs.map((f, i) => (
+            <div class="cs-faq-row">
+              <button class="cs-faq-q" data-faqtog={i} aria-expanded="false" aria-controls={`faq-mnl-${i}`}>
+                <span>{f.q}</span><span class="cs-faq-icon" data-faqicon={i} aria-hidden="true">+</span>
+              </button>
+              <div class="cs-faq-a" id={`faq-mnl-${i}`} data-faqbody={i}><p>{f.a}</p></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-endcta">
+      <div class="wrap">
+        <h2>Run a stay or operation in Manali?</h2>
+        <p>Message me your property or activity and how bookings come in today. I'll show you what a direct-booking site would change — with a fixed quote in writing.</p>
+        <div class="cs-cta-row" style="justify-content:center;">
+          <a class="btn btn-primary" href={WA} target="_blank" rel="noopener">Message on WhatsApp</a>
+          <a class="btn btn-ghost" href="/services/">See all services</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Studio>
+
+<script is:inline>
+  (function () {
+    var root = document.getElementById("ds-root");
+    if (!root) return;
+    var faq = -1;
+    function sync() {
+      root.querySelectorAll("[data-faqbody]").forEach(function (el) {
+        var open = Number(el.getAttribute("data-faqbody")) === faq;
+        el.style.maxHeight = open ? el.scrollHeight + "px" : "0px";
+        el.style.opacity = open ? "1" : "0";
+      });
+      root.querySelectorAll("[data-faqicon]").forEach(function (el) {
+        el.style.transform = Number(el.getAttribute("data-faqicon")) === faq ? "rotate(45deg)" : "rotate(0deg)";
+      });
+      root.querySelectorAll("[data-faqtog]").forEach(function (el) {
+        el.setAttribute("aria-expanded", Number(el.getAttribute("data-faqtog")) === faq ? "true" : "false");
+      });
+    }
+    root.querySelectorAll("[data-faqtog]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        var i = Number(el.getAttribute("data-faqtog"));
+        faq = faq === i ? -1 : i;
+        sync();
+      });
+    });
+    var rt;
+    window.addEventListener("resize", function () {
+      if (faq < 0) return;
+      clearTimeout(rt);
+      rt = setTimeout(sync, 120);
+    });
+    sync();
+  })();
+</script>

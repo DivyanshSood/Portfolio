@@ -61,3 +61,31 @@ export const GOOGLE_MAPS_CID_URL = `https://www.google.com/maps?cid=${GBP_CID}`;
    inquiry-form budget options stay in sync. Repositioned for international
    buyers; Indian / pre-seed startups can still reach out for a smaller scope. */
 export const PROJECT_MIN_USD = "$3,000";
+
+/* ---------------------------------------------------------------------------
+   Verified public profiles — the SINGLE source for schema `sameAs` (Person +
+   Studio) via SAME_AS below. Only list URLs that actually resolve to this
+   person/studio: `sameAs` is an identity claim, and pointing it at a
+   non-existent or wrong profile weakens the entity graph instead of building
+   it. That's why the not-yet-created profiles are commented out, not guessed.
+
+   To activate a profile: create it, set its "website" field to point back to
+   https://www.divyanshsood.com/, then (1) uncomment its line here with the real
+   handle, and (2) mirror the URL into public/llms.txt `## Contact` and the
+   footer socials in src/layouts/Studio.astro. The schema updates automatically.
+--------------------------------------------------------------------------- */
+export const SOCIAL_PROFILES = [
+  { name: "GitHub", url: "https://github.com/DivyanshSood" },
+  { name: "LinkedIn", url: "https://www.linkedin.com/in/divyansh-sood-023556151/" },
+  // ↓ Uncomment each once the profile is live and its website field links back here:
+  // { name: "dev.to", url: "https://dev.to/<handle>" },
+  // { name: "Hashnode", url: "https://hashnode.com/@<handle>" },
+  // { name: "Behance", url: "https://www.behance.net/<handle>" },
+  // { name: "Dribbble", url: "https://dribbble.com/<handle>" },
+  // { name: "X", url: "https://x.com/<handle>" },
+  // { name: "Product Hunt", url: "https://www.producthunt.com/@<handle>" },
+  // { name: "Wikidata", url: "https://www.wikidata.org/wiki/<Qid>" },
+];
+
+// URL list consumed directly by JSON-LD `sameAs` on the Person and Studio nodes.
+export const SAME_AS = SOCIAL_PROFILES.map((p) => p.url);

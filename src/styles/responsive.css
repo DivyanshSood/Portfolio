@@ -34,14 +34,23 @@
 }
 @media (max-width:620px){
   .blog-grid{grid-template-columns:1fr;}
-  .eyebrow{gap:4px 14px;font-size:9px;}
+  .eyebrow{gap:4px 14px;font-size:9px;margin-bottom:22px;}
   .post-next{flex-direction:column;align-items:flex-start;}
+  /* Blog posts had no phone rhythm pass — pull the hero, body and foot CTA in
+     so sections sit closer together on a phone (desktop unchanged). */
+  .post-hero{padding:112px 0 28px;}
+  .post-body{padding:22px 0 12px;}
+  .post-body h2{margin:40px 0 16px;}
+  .post-body h3{margin:30px 0 12px;}
+  .post-body hr{margin:34px 0;}
+  .post-foot-cta{padding:42px 0 56px;margin-top:24px;}
+  .cs-endcta{padding:54px 0;}
 }
 @media (max-width:560px){
-  .cs-hero{padding:120px 0 44px;}
-  .cs-feature{margin-top:30px;}
-  .cs-sec{padding:46px 0;}
-  .cs-sec-head{margin-bottom:24px;}
+  .cs-hero{padding:108px 0 36px;}
+  .cs-feature{margin-top:26px;}
+  .cs-sec{padding:42px 0;}
+  .cs-sec-head{margin-bottom:22px;}
   /* Eyebrow: sit the three meta chips to the left and wrap naturally rather than
      letting space-between stretch them unevenly across a narrow row. */
   .cs-eyebrow{justify-content:flex-start;gap:4px 14px;font-size:9px;}

@@ -1,7 +1,5 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import Nav from "../components/Nav.astro";
-import Footer from "../components/Footer.astro";
+import Studio from "../layouts/Studio.astro";
 import { CALENDLY_URL, GOOGLE_REVIEWS_URL } from "../lib/site.mjs";
 
 const SITE = "https://www.divyanshsood.com";
@@ -66,7 +64,7 @@ const sections = [
   },
 ];
 ---
-<Layout
+<Studio
   title="Privacy — what divyanshsood.com collects · Divyansh Sood® Studio"
   description="What divyanshsood.com collects (and doesn't). Cookies, analytics gated behind consent, no third-party ads. Plain English, GDPR/CCPA."
   canonical={canonical}
@@ -75,8 +73,6 @@ const sections = [
   ogDescription="What this site collects, what it doesn't, and how to opt out."
   jsonld={jsonld}
 >
-  <Nav />
-
   <main>
     <header class="cs-hero">
       <div class="cs-hero-bg" aria-hidden="true"></div>
@@ -130,7 +126,7 @@ const sections = [
     <section class="cs-endcta">
       <div class="wrap">
         <h2>Still have questions?</h2>
-        <p>If something on this page is unclear, or you want a verifiable data request under GDPR / CCPA, email <a href="mailto:hello@divyanshsood.com" style="color:var(--accent,#ff1f1f);text-decoration:underline;">hello@divyanshsood.com</a> — I reply personally within a couple of hours during IST working hours.</p>
+        <p>If something on this page is unclear, or you want a verifiable data request under GDPR / CCPA, email <a href="mailto:hello@divyanshsood.com" style="color:var(--accent,#d9ff3c);text-decoration:underline;">hello@divyanshsood.com</a> — I reply personally within a couple of hours during IST working hours.</p>
         <div class="cs-cta-row" style="justify-content:center;">
           <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book a 15-min intro <span aria-hidden="true">↗</span></a>
           <a class="btn btn-ghost" href={GOOGLE_REVIEWS_URL} target="_blank" rel="noopener">Read our Google reviews ↗</a>
@@ -138,6 +134,4 @@ const sections = [
       </div>
     </section>
   </main>
-
-  <Footer />
-</Layout>
+</Studio>

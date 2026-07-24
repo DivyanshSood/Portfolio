@@ -1,0 +1,188 @@
+---
+import Studio from "../../layouts/Studio.astro";
+import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+
+const slug = "squarespace-vs-custom-website";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+const next = POSTS[(idx + 1) % POSTS.length];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
+      publisher: {
+        "@type": "Organization",
+        "@id": `${SITE}/#studio`,
+        name: "Divyansh Sood® Studio",
+        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
+      },
+      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      wordCount: post.wordCount,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+  ],
+});
+---
+
+<Studio
+  title={post.seoTitle ?? `${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  jsonld={jsonld}
+>
+  <main>
+    <header class="post-hero">
+      <div class="post-hero-bg" aria-hidden="true"></div>
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img src={post.coverImage} alt={post.title} width="1200" height="750" fetchpriority="high" decoding="async" />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+<p>Squarespace made a specific promise and kept it: anyone can have a website that doesn’t embarrass them. For a photographer, a café, a therapist — that promise is genuinely enough.</p>
+<p>But there’s a moment when it stops being enough, and most owners can’t name it until it’s cost them a year. This post is about naming that moment.</p>
+<hr>
+<h2 id="what-squarespace-is-actually-good-at">What Squarespace is actually good at</h2>
+<ul>
+<li><strong>Getting you live this week.</strong> Pick a template, drop in photos, publish. No developer, no invoices.</li>
+<li><strong>Looking tasteful by default.</strong> The templates are genuinely well designed. You can’t make a truly ugly Squarespace site without effort.</li>
+<li><strong>Being one bill.</strong> Hosting, SSL, forms, a basic store — one subscription, no moving parts.</li>
+</ul>
+<p>If your website is a business card — hours, photos, contact — stay on Squarespace. This is not that story.</p>
+<hr>
+<h2 id="the-moment-it-stops-being-enough">The moment it stops being enough</h2>
+<p><strong>You start competing on search.</strong> Squarespace covers SEO basics — titles, descriptions, a sitemap. But the layer where competitive queries get won is out of reach: full structured-data graphs, per-page schema, edge redirects, an llms.txt for AI crawlers, load-speed tuning past the platform’s runtime. When a competitor’s custom site and your template compete for “best boutique stays in your town,” the ceiling is real.</p>
+<p><strong>You start looking like your category, not your brand.</strong> Templates converge. Your customers have seen your layout before — on other sites, with other logos. A premium offer inside a familiar template quietly reads as a standard offer. Design freedom inside Squarespace exists, but it’s decoration on someone else’s structure.</p>
+<p><strong>You start selling seriously.</strong> Squarespace commerce works until you want what it doesn’t do: a checkout that matches your brand end to end, drops and limited runs, India-friendly payments like UPI, subscriptions with custom logic. Each workaround is another plugin, another fee, another seam.</p>
+<p><strong>You do the three-year math.</strong> The subscription looks small monthly. Multiply it out, add the commerce transaction fees, and compare it against a custom site you pay for once and own outright — including the code, which moves with you to any host. I’ve written up that math in <a href="/blog/the-real-cost-of-renting-your-storefront/">the real cost of renting your storefront</a>.</p>
+<hr>
+<h2 id="what-custom-actually-buys-you">What custom actually buys you</h2>
+<p>Not “fancier design.” Control at the three layers Squarespace can’t open:</p>
+<ul>
+<li><strong>Speed.</strong> Static, custom-coded pages carry no platform runtime. That’s felt on phones and measured by Google.</li>
+<li><strong>Search.</strong> Every technical SEO and GEO lever is yours — which is where organic categories get won in 2026.</li>
+<li><strong>Ownership.</strong> The site is an asset. You can move it, extend it into a web app, hand it to a future team. Nobody can raise your rent.</li>
+</ul>
+<p>A rebuild I shipped for <a href="/projects/nandini/">a local taxi operator</a> replaced exactly this kind of ceiling: the founder’s verdict was that it looks ten times more premium than competitors — and bookings that used to leak away now come through the site.</p>
+<hr>
+<h2 id="the-honest-decision-rule">The honest decision rule</h2>
+<ul>
+<li>Website is a business card, budget is tight → <strong>Squarespace</strong>, without guilt.</li>
+<li>Search is (or should be) a customer channel, or the brand is the product → <strong>custom</strong>.</li>
+<li>Selling premium products through a template → custom, sooner than you think — the template is costing you more than the rebuild.</li>
+</ul>
+<p>The wrong move is the middle one: paying for Squarespace for years <em>while</em> wishing it did more. Decide which site you’re running, then run it fully.</p>
+<hr>
+<p><em>I’m Divyansh Sood. I build custom-coded, conversion-first websites and <a href="/services/landing-page-design/">landing pages</a> — fast, findable, and yours to own. If you’re comparing builders more broadly, I’ve also written up <a href="/blog/wix-vs-custom-code-blog/">Wix vs custom code</a> and <a href="/blog/custom-website-vs-wordpress/">custom vs WordPress</a>. Send me your Squarespace site at <a href="mailto:hello@divyanshsood.com">hello@divyanshsood.com</a> and I’ll tell you honestly whether you’ve hit the ceiling.</em></p>
+      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </article>
+
+    <section class="wrap narrow" aria-label="Keep reading">
+      <a class="post-next" href={`/blog/${next.slug}/`}>
+        <span><span class="label">Read next</span><br /><span class="name">{next.title}</span></span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </section>
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        {post.audience === "indian-smb" ? (
+          <>
+            <h2>Working on something in India?</h2>
+            <p>If a post here matches what you're building, send me the brief. WhatsApp reply in under an hour, 9 AM–9 PM IST — I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="https://wa.me/919816091875" target="_blank" rel="noopener"
+                >Message me on WhatsApp <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : post.audience === "d2c-brand" ? (
+          <>
+            <h2>Building a brand a theme can't carry?</h2>
+            <p>If your store has a model that off-the-shelf builders fight — hand-numbered drops, creator commerce, premium D2C — tell me about it. I read every brief personally.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : (
+          <>
+            <h2>Working on something similar?</h2>
+            <p>If a post here matches what you're building, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="https://calendly.com/sood-divyansh007/30min" target="_blank" rel="noopener"
+                >Book a 15-min intro <span aria-hidden="true">↗</span></a
+              >
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+  </main>
+</Studio>

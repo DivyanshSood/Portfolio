@@ -1,0 +1,201 @@
+---
+import Studio from "../layouts/Studio.astro";
+import { FOUNDER_PHOTO, FOUNDER_PHOTO_ALT } from "../lib/site.mjs";
+
+const SITE = "https://www.divyanshsood.com";
+const canonical = `${SITE}/press/`;
+
+const bioShort =
+  "Divyansh Sood is a freelance web designer & developer based in Himachal Pradesh, India, working with founders worldwide. Since 2022 he has shipped 20+ custom-coded websites, stores and web apps under Divyansh Sood® Studio — a one-person studio.";
+
+const bioLong =
+  "Divyansh Sood is a freelance web designer and developer based in Himachal Pradesh, India, working with clients worldwide as Divyansh Sood® Studio — a one-person practice. He designs and builds custom-coded, conversion-focused websites, e-commerce storefronts and web apps end to end: strategy, interface design and full-stack engineering under one roof, with no page-builder templates. Since 2022 he has shipped 20+ projects, including a school website and admissions portal delivered in 7 days, a storefront for a 600K-subscriber creator built without Shopify, and a travel booking site that handles roughly 1,000 bookings a month. He works in React, Next.js, Astro and Angular, and specialises in technical SEO and Generative Engine Optimization (GEO).";
+
+const facts = [
+  { k: "Name", v: "Divyansh Sood" },
+  { k: "Title", v: "Freelance web designer & developer" },
+  { k: "Studio", v: "Divyansh Sood® Studio (1 person)" },
+  { k: "Based", v: "Himachal Pradesh, India — worldwide" },
+  { k: "Since", v: "2022" },
+  { k: "Stacks", v: "React · Next.js · Astro · Angular" },
+  { k: "Focus", v: "Custom-coded, conversion-focused, SEO/GEO" },
+  { k: "Email", v: "hello@divyanshsood.com" },
+];
+
+const creditPlain = `<a href="https://www.divyanshsood.com/" rel="nofollow" title="Website by Divyansh Sood">Site by Divyansh Sood</a>`;
+
+const creditBadge = `<a href="https://www.divyanshsood.com/" rel="nofollow" title="Website by Divyansh Sood"
+   style="display:inline-flex;align-items:center;gap:6px;font:500 12px/1 system-ui,sans-serif;color:#111;text-decoration:none;">
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="#111" aria-hidden="true"><path d="M12 0c1.05 6.9 5.1 10.95 12 12-6.9 1.05-10.95 5.1-12 12-1.05-6.9-5.1-10.95-12-12C6.9 10.95 10.95 6.9 12 0Z"/></svg>
+  Site by Divyansh Sood
+</a>`;
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "AboutPage",
+      "@id": `${canonical}#page`,
+      name: "Press & brand kit — Divyansh Sood",
+      url: canonical,
+      description: "Press kit and brand facts for Divyansh Sood — bio, headshot, logo and citation details for journalists, directories and clients.",
+      about: { "@id": `${SITE}/#person` },
+      isPartOf: { "@id": `${SITE}/#website` },
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Press", item: canonical },
+      ],
+    },
+  ],
+});
+---
+
+<Studio
+  title="Press & Brand Kit — Divyansh Sood"
+  description="Press kit for Divyansh Sood, freelance web designer & developer: bio, headshot, logo, fast facts and a site-credit snippet for clients. Cite accurately."
+  canonical={canonical}
+  keywords="Divyansh Sood press kit, Divyansh Sood bio, brand kit, media kit, site credit, freelance web developer"
+  ogTitle="Press & brand kit — Divyansh Sood"
+  ogDescription="Bio, headshot, logo, fast facts and a site-credit snippet — everything to cite or credit Divyansh Sood correctly."
+  jsonld={jsonld}
+>
+  <main>
+    <header class="cs-hero">
+      <div class="cs-hero-bg" aria-hidden="true"></div>
+      <div class="wrap">
+        <div class="cs-eyebrow">
+          <span>Press &amp; brand kit</span><span>For writers, directories &amp; clients</span><span>2026</span>
+        </div>
+        <h1 style="margin:14px 0 0;font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(44px,8vw,108px);line-height:.9;letter-spacing:-.01em;text-transform:uppercase;">Cite me<br /><span style="color:var(--accent);">correctly.</span></h1>
+        <p class="cs-lead">Everything you need to write about, list, or credit my work — a ready-to-paste bio, headshot, logo and the facts, plus a tidy site-credit snippet for clients. Grab what you need; no permission required for accurate use.</p>
+      </div>
+    </header>
+
+    <section class="cs-sec" aria-labelledby="facts-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="facts-h">Fast facts</h2>
+          <span class="mono">At a glance</span>
+        </div>
+        <dl class="cs-glance">
+          {facts.map((f) => (
+            <div><dt>{f.k}</dt><dd>{f.v}</dd></div>
+          ))}
+        </dl>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="bio-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="bio-h">Bio</h2>
+          <span class="mono">Copy &amp; paste</span>
+        </div>
+        <div class="pk-block">
+          <div class="pk-block-bar"><span class="mono">Short — one line</span><button class="lg-btn" type="button" data-copy="pk-short">Copy</button></div>
+          <p class="pk-body" id="pk-short">{bioShort}</p>
+        </div>
+        <div class="pk-block" style="margin-top:18px;">
+          <div class="pk-block-bar"><span class="mono">Long — profile</span><button class="lg-btn" type="button" data-copy="pk-long">Copy</button></div>
+          <p class="pk-body" id="pk-long">{bioLong}</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="assets-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="assets-h">Assets</h2>
+          <span class="mono">Headshot &amp; logo</span>
+        </div>
+        <div class="cs-body" data-reveal>
+          <figure class="cs-card" style="margin:0;">
+            <span class="cs-tag">Headshot</span>
+            <img src={FOUNDER_PHOTO} alt={FOUNDER_PHOTO_ALT} width="480" height="480" loading="lazy" style="width:100%;max-width:280px;border-radius:10px;display:block;margin:6px 0 14px;" />
+            <a class="btn btn-ghost" href={FOUNDER_PHOTO} download>Download portrait</a>
+          </figure>
+          <figure class="cs-card" style="margin:0;">
+            <span class="cs-tag">Logo mark</span>
+            <div style="background:#131316;border-radius:10px;padding:26px;display:flex;align-items:center;justify-content:center;margin:6px 0 14px;max-width:280px;">
+              <img src="/icon.svg" alt="Divyansh Sood® Studio logo mark" width="120" height="120" loading="lazy" style="width:120px;height:120px;" />
+            </div>
+            <a class="btn btn-ghost" href="/icon.svg" download>Download logo (SVG)</a>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="credit-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="credit-h">Site credit — for clients</h2>
+          <span class="mono">Paste in your footer</span>
+        </div>
+        <p class="cs-lead" style="margin-top:0;">Built you a site? Thank you — a small credit in your footer is genuinely appreciated and helps people find me. Use the branded snippet below (kept intentionally simple and un-spammy). Paste it wherever your footer lives.</p>
+        <div class="pk-block" style="margin-top:22px;">
+          <div class="pk-block-bar"><span class="mono">Text link</span><button class="lg-btn" type="button" data-copy="pk-credit1">Copy</button></div>
+          <pre class="lg-pre" id="pk-credit1">{creditPlain}</pre>
+        </div>
+        <div class="pk-block" style="margin-top:18px;">
+          <div class="pk-block-bar"><span class="mono">With star mark</span><button class="lg-btn" type="button" data-copy="pk-credit2">Copy</button></div>
+          <pre class="lg-pre" id="pk-credit2">{creditBadge}</pre>
+        </div>
+        <p class="lg-note mono">The link uses a plain branded label and <b>rel="nofollow"</b> — the honest, search-safe form for a site credit. If you'd rather link to your own project write-up instead of my homepage, swap the URL for its case-study page; either is welcome.</p>
+      </div>
+    </section>
+
+    <section class="cs-endcta">
+      <div class="wrap">
+        <h2>Writing about the work?</h2>
+        <p>Happy to help with quotes, extra detail or higher-res assets. Reach out any time.</p>
+        <div class="cs-cta-row" style="justify-content:center;">
+          <a class="btn btn-primary" href="mailto:hello@divyanshsood.com">Email me</a>
+          <a class="btn btn-ghost" href="/about/">More about me</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Studio>
+
+<style>
+  .pk-block { border:1px solid rgba(244,242,236,.16); border-radius:12px; overflow:hidden; background:#0b0b0c; }
+  .pk-block-bar { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:11px 14px; border-bottom:1px solid rgba(244,242,236,.12); background:#131316; }
+  .pk-block-bar .mono { font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:#8A8A93; }
+  .pk-body { margin:0; padding:18px 16px; font-size:16px; line-height:1.72; color:#C9C7C0; }
+  .lg-btn { font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; padding:8px 14px; border-radius:999px; cursor:pointer; border:1px solid rgba(244,242,236,.28); background:transparent; color:#F4F2EC; transition:transform .15s ease, background .15s ease; }
+  .lg-btn:hover { transform:translateY(-1px); }
+  .lg-btn.is-done { background:var(--accent); color:#0b0b0c; border-color:var(--accent); }
+  .lg-pre { margin:0; padding:16px; font-family:'JetBrains Mono',monospace; font-size:12.5px; line-height:1.7; color:#C9C7C0; white-space:pre-wrap; word-break:break-word; overflow:auto; }
+  .lg-note { margin-top:18px; font-size:11px; letter-spacing:.05em; color:#6f6f77; line-height:1.7; }
+  .lg-note b { color:#8A8A93; }
+</style>
+
+<script is:inline>
+  (function () {
+    var root = document.getElementById("ds-root");
+    if (!root) return;
+    root.querySelectorAll("[data-copy]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var el = document.getElementById(btn.getAttribute("data-copy"));
+        if (!el) return;
+        var text = el.textContent;
+        var done = function () {
+          btn.textContent = "Copied ✓"; btn.classList.add("is-done");
+          setTimeout(function () { btn.textContent = "Copy"; btn.classList.remove("is-done"); }, 1600);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(done, function () { done(); });
+        } else {
+          var ta = document.createElement("textarea");
+          ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+          document.body.appendChild(ta); ta.select();
+          try { document.execCommand("copy"); } catch (e) {}
+          document.body.removeChild(ta); done();
+        }
+      });
+    });
+  })();
+</script>

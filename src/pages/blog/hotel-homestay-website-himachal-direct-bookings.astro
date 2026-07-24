@@ -1,0 +1,185 @@
+---
+import Studio from "../../layouts/Studio.astro";
+import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+
+const slug = "hotel-homestay-website-himachal-direct-bookings";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+const next = POSTS[(idx + 1) % POSTS.length];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
+      publisher: {
+        "@type": "Organization",
+        "@id": `${SITE}/#studio`,
+        name: "Divyansh Sood® Studio",
+        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
+      },
+      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      wordCount: post.wordCount,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+  ],
+});
+---
+
+<Studio
+  title={post.seoTitle ?? `${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  jsonld={jsonld}
+>
+  <main>
+    <header class="post-hero">
+      <div class="post-hero-bg" aria-hidden="true"></div>
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img src={post.coverImage} alt={post.title} width="1200" height="750" fetchpriority="high" decoding="async" />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+<p>Every season in Himachal, the same transfer happens quietly: lakhs of rupees move from the people who own the rooms to the platforms that list them.</p>
+<p>OTA commission runs 15–30% per booking. On a homestay doing decent season business, that’s often a staff salary’s worth of margin — paid for the privilege of being one listing among forty identical ones. And the guest, their contact details, their repeat booking? The platform keeps those too.</p>
+<p>The fix isn’t leaving the OTAs. It’s making them your <em>second</em> channel.</p>
+<hr>
+<h2 id="the-math-that-changes-minds">The math that changes minds</h2>
+<p>Say your property does 60 room-nights a month in season at ₹4,000 average. At 20% commission, that’s ₹48,000 a month flowing to aggregators — roughly ₹2.5–3 lakh over a season.</p>
+<p>Now the honest question: what share of those guests searched your property <em>by name</em> before booking? Those guests wanted you, found the OTA, and you paid commission on demand you had already earned. Shifting only those bookings direct — never mind winning new ones — usually pays for a website inside a single season.</p>
+<hr>
+<h2 id="what-a-direct-booking-site-actually-needs">What a direct-booking site actually needs</h2>
+<p>Not a booking engine clone. Himachal guests don’t finish checkout forms on mountain networks — they confirm on WhatsApp. The site that converts here is specific:</p>
+<ul>
+<li><strong>WhatsApp-first booking.</strong> Every room and package gets a one-tap WhatsApp deep-link with the enquiry pre-filled. The conversation closes the booking; the site starts it.</li>
+<li><strong>Photography that carries the property.</strong> Your rooms at golden hour, the view from the balcony — full-width, fast-loading. This is the entire pitch; treat it that way.</li>
+<li><strong>Rates and honesty on the page.</strong> Price ranges, seasons, what’s included. Guests cross-check against OTAs; matching or beating (“book direct, breakfast on us”) converts them.</li>
+<li><strong>Speed on a phone on 4G.</strong> Your guest is researching from a bus on NH-5. A custom-coded static site loads where builder sites time out.</li>
+<li><strong>Search structure for how guests actually search.</strong> “Homestay in Jibhi with mountain view,” “pet friendly stay Bir” — pages structured around real queries, with LocalBusiness schema wired to your Google Business Profile so Maps and site reinforce each other.</li>
+</ul>
+<hr>
+<h2 id="proof-this-works-here">Proof this works here — not in a case study from Portugal</h2>
+<p>This isn’t theory imported from abroad. <a href="/projects/dharamshala-tours/">Dharamshala Tours</a> — a travel operator I built for — takes part of roughly 1,000 package bookings a month through a WhatsApp-first site with a self-serve editor. <a href="/projects/inhimalayas/">InHimalayas</a>, my own Himalayan travel brand, adds the newer layer: structured data and llms.txt that get it cited by AI assistants — which is where “best homestays in Himachal” questions are increasingly being asked and answered.</p>
+<p>The deeper commission math, including when OTAs are still worth it, is in <a href="/blog/direct-bookings-without-aggregator-commission/">direct bookings without aggregator commission</a>.</p>
+<hr>
+<h2 id="the-playbook-for-one-season">The playbook, compressed</h2>
+<ul>
+<li>Ship a fast, WhatsApp-first site with real photos and honest rates.</li>
+<li>Put the URL everywhere the OTA guest looks: Google Business Profile, Instagram bio, the thank-you message after checkout.</li>
+<li>Offer one small, real reason to book direct.</li>
+<li>Collect every guest’s WhatsApp with consent — next season, your repeat guests cost you zero commission.</li>
+</ul>
+<p>The OTAs stay in the mix. They become what they should have been all along: a discovery channel you exploit, not a landlord you pay.</p>
+<hr>
+<p><em>I’m Divyansh Sood — a web developer based in Himachal, building booking-first sites for the region’s stays and operators. If your property is in <a href="/web-developer-manali/">Manali</a>, <a href="/web-developer-shimla/">Shimla</a>, <a href="/web-developer-dharamshala/">Dharamshala</a> or anywhere in <a href="/web-developer-kangra/">Kangra</a>, message me on <a href="https://wa.me/919816091875">WhatsApp</a> with your property name — I’ll reply with what I’d build and a fixed quote, in writing.</em></p>
+      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </article>
+
+    <section class="wrap narrow" aria-label="Keep reading">
+      <a class="post-next" href={`/blog/${next.slug}/`}>
+        <span><span class="label">Read next</span><br /><span class="name">{next.title}</span></span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </section>
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        {post.audience === "indian-smb" ? (
+          <>
+            <h2>Working on something in India?</h2>
+            <p>If a post here matches what you're building, send me the brief. WhatsApp reply in under an hour, 9 AM–9 PM IST — I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="https://wa.me/919816091875" target="_blank" rel="noopener"
+                >Message me on WhatsApp <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : post.audience === "d2c-brand" ? (
+          <>
+            <h2>Building a brand a theme can't carry?</h2>
+            <p>If your store has a model that off-the-shelf builders fight — hand-numbered drops, creator commerce, premium D2C — tell me about it. I read every brief personally.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : (
+          <>
+            <h2>Working on something similar?</h2>
+            <p>If a post here matches what you're building, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="https://calendly.com/sood-divyansh007/30min" target="_blank" rel="noopener"
+                >Book a 15-min intro <span aria-hidden="true">↗</span></a
+              >
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+  </main>
+</Studio>

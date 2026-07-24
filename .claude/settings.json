@@ -269,7 +269,8 @@
       "Bash(curl -s -X POST https://www.divyanshsood.com/api/contact -H \"Content-Type: application/json\" -d '{\"name\":\"Readiness Test\",\"email\":\"sood.divyansh007@gmail.com\",\"message\":\"Automated readiness check — ignore. Verifying whether the contact endpoint is configured in production before sending the site to a client.\"}' -w \"\\\\n[status:%{http_code}]\")",
       "Bash(curl -s \"https://tympanus.net/Tutorials/StickyGridScroll/\")",
       "Bash(curl -s \"https://tympanus.net/Tutorials/StickyGridScroll/assets/index-CbAMiMj5.js\" -o demo.js)",
-      "Bash(pkill -f \"http.server 8791\")"
+      "Bash(pkill -f \"http.server 8791\")",
+      "Bash(git --no-pager log --oneline -1)"
     ]
   }
 }

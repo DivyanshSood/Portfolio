@@ -1,0 +1,245 @@
+---
+import Studio from "../../layouts/Studio.astro";
+import { CALENDLY_URL, PROJECT_MIN_USD } from "../../lib/site.mjs";
+
+const SITE = "https://www.divyanshsood.com";
+const canonical = `${SITE}/services/ecommerce-website-development/`;
+const MIN_PRICE = Number(PROJECT_MIN_USD.replace(/[^0-9]/g, ""));
+
+const offers = [
+  { t: "Custom storefronts", d: "A store coded from scratch around your brand — not a Shopify theme with your logo swapped in. Every product reveal, easing curve and checkout step is yours." },
+  { t: "D2C for creators", d: "Turn an audience into a store. A 600K-subscriber YouTuber sells handmade products through a storefront I built — with a native video gallery, no platform fees." },
+  { t: "Drops & scarcity", d: "Hand-numbered units, limited runs, lore-driven product pages. Drop mechanics built into the code, not bolted on with apps." },
+  { t: "Payments that fit India + worldwide", d: "Razorpay for UPI, cards and COD. Stripe for international. Whatever your buyers actually use — wired in natively." },
+];
+
+const how = [
+  { n: "01", t: "Brand before build", d: "We start from how the store should feel — because a premium product in a template storefront reads as a discount product." },
+  { n: "02", t: "Designed in code", d: "You review a real URL, not a Figma file. What you approve is what ships." },
+  { n: "03", t: "Live in 2–4 weeks", d: "ChinkiZ went from brief to a live, selling storefront in two weeks. Redline shipped brand + store + payments in one sprint." },
+  { n: "04", t: "You own everything", d: "The code, the design, the customer data. No monthly platform rent, no theme license, no lock-in. Signed IP transfer with the final invoice." },
+];
+
+const faqs = [
+  { q: "Can a custom store really replace Shopify?", a: "Yes. Payments (Razorpay or Stripe), order management, inventory and email receipts are all solvable without renting a platform. You trade a monthly fee and a theme ceiling for code you own outright. For premium and creator brands, the difference shows in conversion and brand feel." },
+  { q: "Who owns the code and the customer data?", a: "You do — 100%. Full repository handover and a signed IP transfer with the final invoice. Your customer list never lives on someone else's platform." },
+  { q: "Which payment gateways do you integrate?", a: "Razorpay for Indian stores (UPI, cards, netbanking, COD) and Stripe or PayPal for international buyers. Multi-currency setups are fine too." },
+  { q: "How long does a custom ecommerce build take?", a: "Typically 2–4 weeks from brief to live. ChinkiZ — a full storefront with video gallery and payments — took two weeks. Complex catalogs or subscription logic can add a sprint." },
+  { q: "What does a custom ecommerce website cost?", a: `Projects start at ${PROJECT_MIN_USD}. That covers design, custom code, payment integration and launch — with no recurring platform fees afterwards. Compare that with what a Shopify Plus theme plus apps costs over three years.` },
+];
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "@id": `${canonical}#service`,
+      name: "Custom ecommerce website development",
+      serviceType: "Ecommerce website design and development",
+      provider: { "@id": `${SITE}/#person` },
+      areaServed: [{ "@type": "Country", name: "India" }, { "@type": "Place", name: "Worldwide" }],
+      description:
+        "Custom-coded ecommerce websites and D2C storefronts — no Shopify themes, no platform rent. Razorpay and Stripe integration, drop mechanics, full code ownership, live in 2–4 weeks.",
+      url: canonical,
+      offers: {
+        "@type": "Offer",
+        priceSpecification: { "@type": "PriceSpecification", minPrice: MIN_PRICE, priceCurrency: "USD" },
+        url: canonical,
+      },
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Services", item: `${SITE}/services/` },
+        { "@type": "ListItem", position: 3, name: "Ecommerce website development", item: canonical },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+    },
+  ],
+});
+---
+
+<Studio
+  title="Custom Ecommerce Website Development — Divyansh Sood® Studio"
+  description="Custom-coded ecommerce stores and D2C storefronts — no Shopify themes, no platform rent. Razorpay/Stripe, drop mechanics, full code ownership, live in weeks."
+  canonical={canonical}
+  keywords="custom ecommerce website development, D2C website developer, Shopify alternative developer, custom storefront development, ecommerce developer India, creator store developer, Razorpay integration developer"
+  ogTitle="Custom ecommerce website development"
+  ogDescription="Storefronts coded from scratch around your brand. No themes, no platform rent, full code ownership."
+  jsonld={jsonld}
+>
+  <main>
+    <header class="cs-hero">
+      <div class="cs-hero-bg" aria-hidden="true"></div>
+      <div class="wrap">
+        <div class="cs-eyebrow">
+          <span>Services</span><span>Ecommerce · D2C</span><span>2026</span>
+        </div>
+        <h1 style="margin:14px 0 0;font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(44px,8vw,108px);line-height:.9;letter-spacing:-.01em;text-transform:uppercase;">Stores that sell,<br /><span style="color:var(--accent);">not themes that rent.</span></h1>
+        <p class="cs-lead">Custom ecommerce website development for D2C brands and creators who've outgrown the template look. I code storefronts from scratch — payments, drops, video galleries and all — so the store feels like the brand and the code belongs to you. No Shopify rent. No theme ceiling.</p>
+        <div class="cs-cta-row">
+          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book a store call <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost" href="/website-audit/">Get a free store audit</a>
+        </div>
+        <div class="cs-meta">
+          <span>From {PROJECT_MIN_USD} · you own the code</span><span>Live in 2–4 weeks</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="cs-sec" aria-labelledby="offer-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="offer-h">What I build</h2>
+          <span class="mono">The offering</span>
+        </div>
+        <div class="cs-body" data-reveal>
+          {offers.map((o) => (
+            <div class="cs-card">
+              <span class="cs-tag">{o.t}</span>
+              <h2 class="cs-card-h2">{o.d}</h2>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="proof-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="proof-h">Stores on the record</h2>
+          <span class="mono">Proof, not promises</span>
+        </div>
+        <div class="cs-metrics" data-reveal>
+          <div class="cs-metric"><span class="cs-metric-v">600K+</span><span class="cs-metric-l">Subscriber creator selling via a store I built</span></div>
+          <div class="cs-metric"><span class="cs-metric-v">2 wks</span><span class="cs-metric-l">ChinkiZ — brief to live storefront</span></div>
+          <div class="cs-metric"><span class="cs-metric-v">1 sprint</span><span class="cs-metric-l">Redline — brand + store + payments</span></div>
+          <div class="cs-metric"><span class="cs-metric-v">0</span><span class="cs-metric-l">Shopify themes used, ever</span></div>
+        </div>
+        <div class="cs-body" data-reveal style="margin-top:22px;">
+          <div class="cs-card">
+            <span class="cs-tag">ChinkiZ Knitting Knife · D2C creator</span>
+            <p>A 600K-subscriber YouTuber selling handmade products through a custom storefront with a native video gallery and Razorpay — UPI, cards, COD. <a href="/projects/chinkiz/">Read the case study →</a></p>
+          </div>
+          <div class="cs-card">
+            <span class="cs-tag">CultXberserk · drops</span>
+            <p>Hand-numbered units 0001–0666, thirteen designs never reprinted. The lore, the drop mechanics and the buy flow are one experience. <a href="/projects/cultxberserk/">Read the case study →</a></p>
+          </div>
+          <div class="cs-card span2">
+            <span class="cs-tag">Redline Studios · brand + store</span>
+            <p>Moto-apparel brand identity and storefront hand-built end-to-end in one sprint — not a Shopify theme dressed up in red and black. <a href="/projects/redline/">Read the case study →</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="how-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="how-h">How a store gets built</h2>
+          <span class="mono">The process</span>
+        </div>
+        <div class="cs-body" data-reveal>
+          {how.map((s) => (
+            <div class="cs-card">
+              <span class="cs-tag">({s.n}) {s.t}</span>
+              <h2 class="cs-card-h2">{s.d}</h2>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="read-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="read-h">Thinking on ecommerce</h2>
+          <span class="mono">From the journal</span>
+        </div>
+        <div class="cs-body" data-reveal>
+          <div class="cs-card">
+            <span class="cs-tag">Why premium brands leave Shopify</span>
+            <p>Brands that want to feel like a brand keep hitting a theme-shaped ceiling. <a href="/blog/why-premium-brands-leave-shopify/">Read →</a></p>
+          </div>
+          <div class="cs-card">
+            <span class="cs-tag">The real cost of renting your storefront</span>
+            <p>What you actually pay over three years when your storefront is rented, not owned. <a href="/blog/the-real-cost-of-renting-your-storefront/">Read →</a></p>
+          </div>
+          <div class="cs-card span2">
+            <span class="cs-tag">A storefront that feels like the brand</span>
+            <p>Not a theme — an experience where the product, the story and the buy flow belong together. <a href="/blog/storefront-that-feels-like-the-brand/">Read →</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="faq-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="faq-h">Frequently asked</h2>
+          <span class="mono">Ecommerce</span>
+        </div>
+        <div class="cs-faq">
+          {faqs.map((f, i) => (
+            <div class="cs-faq-row">
+              <button class="cs-faq-q" data-faqtog={i} aria-expanded="false" aria-controls={`faq-ecom-${i}`}>
+                <span>{f.q}</span><span class="cs-faq-icon" data-faqicon={i} aria-hidden="true">+</span>
+              </button>
+              <div class="cs-faq-a" id={`faq-ecom-${i}`} data-faqbody={i}><p>{f.a}</p></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-endcta">
+      <div class="wrap">
+        <h2>Ready to own your store?</h2>
+        <p>Tell me what you sell and where it lives today. If it's a fit, I'll map the build in writing within 48 hours.</p>
+        <div class="cs-cta-row" style="justify-content:center;">
+          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book a store call <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost" href="/services/">All services</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Studio>
+
+<script is:inline>
+  (function () {
+    var root = document.getElementById("ds-root");
+    if (!root) return;
+    var faq = -1;
+    function sync() {
+      root.querySelectorAll("[data-faqbody]").forEach(function (el) {
+        var open = Number(el.getAttribute("data-faqbody")) === faq;
+        el.style.maxHeight = open ? el.scrollHeight + "px" : "0px";
+        el.style.opacity = open ? "1" : "0";
+      });
+      root.querySelectorAll("[data-faqicon]").forEach(function (el) {
+        el.style.transform = Number(el.getAttribute("data-faqicon")) === faq ? "rotate(45deg)" : "rotate(0deg)";
+      });
+      root.querySelectorAll("[data-faqtog]").forEach(function (el) {
+        el.setAttribute("aria-expanded", Number(el.getAttribute("data-faqtog")) === faq ? "true" : "false");
+      });
+    }
+    root.querySelectorAll("[data-faqtog]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        var i = Number(el.getAttribute("data-faqtog"));
+        faq = faq === i ? -1 : i;
+        sync();
+      });
+    });
+    var rt;
+    window.addEventListener("resize", function () {
+      if (faq < 0) return;
+      clearTimeout(rt);
+      rt = setTimeout(sync, 120);
+    });
+    sync();
+  })();
+</script>

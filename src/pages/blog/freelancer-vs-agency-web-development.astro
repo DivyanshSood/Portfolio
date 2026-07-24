@@ -1,0 +1,196 @@
+---
+import Studio from "../../layouts/Studio.astro";
+import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+
+const slug = "freelancer-vs-agency-web-development";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+const next = POSTS[(idx + 1) % POSTS.length];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
+      publisher: {
+        "@type": "Organization",
+        "@id": `${SITE}/#studio`,
+        name: "Divyansh Sood® Studio",
+        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
+      },
+      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      wordCount: post.wordCount,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+  ],
+});
+---
+
+<Studio
+  title={post.seoTitle ?? `${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  jsonld={jsonld}
+>
+  <main>
+    <header class="post-hero">
+      <div class="post-hero-bg" aria-hidden="true"></div>
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img src={post.coverImage} alt={post.title} width="1200" height="750" fetchpriority="high" decoding="async" />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+<p>Here’s a story I tell on sales calls, because it decides most of them.</p>
+<p>A school needed a website and an admissions portal. The agencies they approached quoted six months. I shipped both — public site plus an admin panel handling admissions for classes I–XII — in <a href="/projects/modernkbs/">seven days</a>.</p>
+<p>That’s not because agencies are bad. It’s because you were quoted for an <em>organization</em>, and sometimes what your project needs is a <em>person</em>. Knowing which is the entire decision.</p>
+<hr>
+<h2 id="what-an-agency-invoice-actually-pays-for">What an agency invoice actually pays for</h2>
+<p>When an agency quotes five times a freelancer’s price, the difference isn’t greed. You’re buying:</p>
+<ul>
+<li><strong>Coordination.</strong> A project manager, a strategist, a designer, developers, QA — and the meetings that keep them aligned.</li>
+<li><strong>Redundancy.</strong> If someone quits mid-project, the agency absorbs it. A freelancer who disappears is your problem.</li>
+<li><strong>Breadth.</strong> Brand strategy, a photo shoot, a video, paid media, a 60-page site — one contract, many disciplines.</li>
+<li><strong>Accountability theater.</strong> Contracts, SLAs, status decks. Sometimes your procurement team genuinely needs these.</li>
+</ul>
+<p>For a large rebrand with many workstreams, that overhead is the product. Buy it.</p>
+<hr>
+<h2 id="what-youre-not-told">What you’re not told</h2>
+<p>The uncomfortable part: at many agencies, the senior people close the deal and juniors do the work. Your project passes through five pairs of hands, and every handoff loses information — the design intent, the copy nuance, the performance budget. Six months isn’t build time; it’s coordination time.</p>
+<p>With a senior independent, the person you talk to is the person who designs, codes and ships. Nothing is lost in translation because there is no translation. That’s how seven days happens — it’s not heroics, it’s the absence of handoffs.</p>
+<hr>
+<h2 id="when-each-one-actually-wins">When each one actually wins</h2>
+<p><strong>Choose an agency when:</strong></p>
+<ul>
+<li>The scope spans disciplines a single person can’t credibly cover — brand strategy, film, media buying, a massive site.</li>
+<li>Your organization needs vendor redundancy and formal process to sign off.</li>
+<li>Budget is genuinely not the constraint, and internal risk-cover matters more than speed.</li>
+</ul>
+<p><strong>Choose a senior freelancer when:</strong></p>
+<ul>
+<li>The deliverable is a website, store, landing page or web app — one discipline, done deeply.</li>
+<li>Speed matters. Weeks-to-live changes your quarter.</li>
+<li>You want direct access to the maker — decisions in one conversation, not routed through an account manager.</li>
+<li>You want senior work at a price that isn’t underwriting an office.</li>
+</ul>
+<p><strong>Avoid both</strong> — the cheap end: marketplaces racing to the bottom, and “agencies” that are one reseller subcontracting to the lowest bidder. The symptom is identical in both cases: nobody senior ever touches your project.</p>
+<hr>
+<h2 id="how-to-vet-a-freelancer-like-a-pro">How to vet a freelancer like a pro</h2>
+<ul>
+<li><strong>Live URLs, not dribbble shots.</strong> Ask for sites in production and click them on your phone. Speed and polish are unfakeable there.</li>
+<li><strong>Named clients with outcomes.</strong> “Bookings went up” with a client who’ll confirm it beats any portfolio aesthetic.</li>
+<li><strong>A written scope within 48 hours.</strong> Seniors tell you what ships, what it costs and what they’d cut. Vagueness now is vagueness forever.</li>
+<li><strong>Who owns the code?</strong> The right answer is you, in writing, with the final invoice.</li>
+</ul>
+<hr>
+<p><em>I’m Divyansh Sood — an independent developer shipping agency-scope builds solo: stores, web apps, landing pages and SEO/GEO, <a href="/services/">four services, one person</a>, live in weeks. Agencies also hire me quietly as their build partner, so I’ve seen both sides of this invoice. If you’re deciding between the two for a real project, <a href="mailto:hello@divyanshsood.com">email me the brief</a> — if it genuinely needs an agency, I’ll say so.</em></p>
+      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </article>
+
+    <section class="wrap narrow" aria-label="Keep reading">
+      <a class="post-next" href={`/blog/${next.slug}/`}>
+        <span><span class="label">Read next</span><br /><span class="name">{next.title}</span></span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </section>
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        {post.audience === "indian-smb" ? (
+          <>
+            <h2>Working on something in India?</h2>
+            <p>If a post here matches what you're building, send me the brief. WhatsApp reply in under an hour, 9 AM–9 PM IST — I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="https://wa.me/919816091875" target="_blank" rel="noopener"
+                >Message me on WhatsApp <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : post.audience === "d2c-brand" ? (
+          <>
+            <h2>Building a brand a theme can't carry?</h2>
+            <p>If your store has a model that off-the-shelf builders fight — hand-numbered drops, creator commerce, premium D2C — tell me about it. I read every brief personally.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : (
+          <>
+            <h2>Working on something similar?</h2>
+            <p>If a post here matches what you're building, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="https://calendly.com/sood-divyansh007/30min" target="_blank" rel="noopener"
+                >Book a 15-min intro <span aria-hidden="true">↗</span></a
+              >
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+  </main>
+</Studio>

@@ -1,7 +1,5 @@
 ---
-import Layout from "../../layouts/Layout.astro";
-import Nav from "../../components/Nav.astro";
-import Footer from "../../components/Footer.astro";
+import Studio from "../../layouts/Studio.astro";
 import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
 
 const slug = "storefront-that-feels-like-the-brand";
@@ -59,7 +57,7 @@ const jsonld = JSON.stringify({
 });
 ---
 
-<Layout
+<Studio
   title={post.seoTitle ?? `${post.title} · Divyansh Sood`}
   description={post.description}
   canonical={canonical}
@@ -74,7 +72,6 @@ const jsonld = JSON.stringify({
   tags={post.tags}
   jsonld={jsonld}
 >
-  <Nav />
   <main>
     <header class="post-hero">
       <div class="post-hero-bg" aria-hidden="true"></div>
@@ -190,5 +187,4 @@ const jsonld = JSON.stringify({
       </div>
     </section>
   </main>
-  <Footer />
-</Layout>
+</Studio>
