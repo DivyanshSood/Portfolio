@@ -36,6 +36,7 @@
   .blog-grid{grid-template-columns:1fr;}
   .eyebrow{gap:4px 14px;font-size:9px;margin-bottom:22px;}
   .post-next{flex-direction:column;align-items:flex-start;}
+  .post-related ul{grid-template-columns:1fr;}
   /* Blog posts had no phone rhythm pass — pull the hero, body and foot CTA in
      so sections sit closer together on a phone (desktop unchanged). */
   .post-hero{padding:112px 0 28px;}

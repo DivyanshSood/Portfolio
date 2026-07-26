@@ -1,0 +1,86 @@
+---
+// ===========================================================================
+// RelatedPosts.astro — the end-of-post internal-link block.
+//
+// Replaces the old single "read next" chain link. Each post now emits one
+// primary next link plus its topic cluster, and a row of hub links (blog
+// index, the matching service page, the matching location page). That turns
+// 32 near-orphan posts — reachable only from /blog/ — into a linked cluster
+// Googlebot has a reason to crawl past the index.
+// ===========================================================================
+import { related } from "../lib/blog.mjs";
+
+export interface Props {
+  /** Slug of the post this block is rendered on. */
+  slug: string;
+  /** Audience tag from the post manifest — picks the contextual hub links. */
+  audience?: string;
+}
+
+const { slug, audience } = Astro.props;
+
+const [next, ...more] = related(slug, 5);
+
+// Contextual hubs. Indian SMB posts point at the local-intent pages (the only
+// queries the site actually converts on); the rest point at the service pages.
+const HUBS =
+  audience === "indian-smb"
+    ? [
+        { label: "Web developer in Kangra", href: "/web-developer-kangra/" },
+        { label: "Web developer in Dharamshala", href: "/web-developer-dharamshala/" },
+        { label: "Services & pricing", href: "/services/" },
+      ]
+    : audience === "d2c-brand"
+      ? [
+          { label: "E-commerce development", href: "/services/ecommerce-website-development/" },
+          { label: "Services & pricing", href: "/services/" },
+          { label: "Selected work", href: "/portfolio/" },
+        ]
+      : [
+          { label: "Services & pricing", href: "/services/" },
+          { label: "SEO & GEO services", href: "/services/seo-geo-services/" },
+          { label: "Selected work", href: "/portfolio/" },
+        ];
+---
+
+<section class="wrap narrow" aria-label="Keep reading">
+  {
+    next && (
+      <a class="post-next" href={`/blog/${next.slug}/`}>
+        <span>
+          <span class="label">Read next</span>
+          <br />
+          <span class="name">{next.title}</span>
+        </span>
+        <span class="arrow" aria-hidden="true">
+          →
+        </span>
+      </a>
+    )
+  }
+
+  {
+    more.length > 0 && (
+      <nav class="post-related" aria-label="Related posts">
+        <h2 class="post-related-h">Related reading</h2>
+        <ul>
+          {more.map((p) => (
+            <li>
+              <a href={`/blog/${p.slug}/`}>
+                <span class="rp-title">{p.title}</span>
+                <span class="rp-meta">
+                  {p.tags?.[0]} · {p.readMins} min read
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    )
+  }
+
+  <nav class="post-hubs" aria-label="More from the studio">
+    {HUBS.map((h) => <a href={h.href}>{h.label}</a>)}
+    <a href="/blog/">All writing</a>
+  </nav>
+</section>

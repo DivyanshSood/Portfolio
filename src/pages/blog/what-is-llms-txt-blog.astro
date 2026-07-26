@@ -1,11 +1,11 @@
 ---
 import Studio from "../../layouts/Studio.astro";
+import RelatedPosts from "../../components/RelatedPosts.astro";
 import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
 
 const slug = "what-is-llms-txt-blog";
 const idx = POSTS.findIndex((p) => p.slug === slug);
 const post = POSTS[idx];
-const next = POSTS[(idx + 1) % POSTS.length];
 
 const canonical = `${SITE}/blog/${slug}/`;
 const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
@@ -141,12 +141,11 @@ const jsonld = JSON.stringify({
 <p>If your website is slow to load, heavy with JavaScript, or structured for visual design rather than semantic clarity — an AI crawler may extract a garbled or incomplete understanding of what you do. Or skip large sections entirely.</p>
 <p><code>llms.txt</code> short-circuits that problem. You’re telling the AI directly: <em>here’s what we are, here’s what we do, here are the pages that matter.</em> No guessing. No misinterpretation.</p>
 <hr>
-<h2 id="what-happened-with-inhimalayas">What happened with InHimalayas</h2>
-<p>One of my clients — InHimalayas, a booking platform for Himalayan stays — was built with <code>llms.txt</code> and GEO optimisation from day one.</p>
-<p>Within weeks of launch, the founder noticed a surge in traffic coming from AI referrers. Not Google. Not Instagram. Direct referrals from AI tools sending users to the site.</p>
-<p>That’s not a coincidence. The site was structured from the first day to be readable by AI crawlers — <code>llms.txt</code> in place, clean semantic HTML, JSON-LD schema describing every listing, fast load times so crawlers could actually get through the pages.</p>
-<p>The founder’s response: <em>“glad it worked out so fast and so well.”</em></p>
-<p>This will become more common. The businesses that get in early — while most of their competitors are still optimising only for Google — will have a compounding advantage as AI search grows.</p>
+<h2 id="what-this-looks-like-in-practice">What this looks like in practice</h2>
+<p>A site built to be read by AI crawlers doesn’t look exotic. It has <code>llms.txt</code> at the root, clean semantic HTML, JSON-LD schema describing what each page actually is, and load times fast enough that a crawler gets through the whole page instead of half of it.</p>
+<p>None of those four things is expensive. Together they decide whether an assistant can describe your business accurately or has to guess from fragments.</p>
+<p>The honest position is that this is still early, and there is no ranking dashboard for AI answers — anyone selling you one is guessing. What you can do is check it yourself: ask ChatGPT, Claude and Perplexity about your category once a month, and watch your analytics for <code>chatgpt.com</code> and <code>perplexity.ai</code> referrers. That’s the whole scoreboard right now.</p>
+<p>The businesses that get in early — while most of their competitors are still optimising only for Google — will have a compounding advantage as AI search grows.</p>
 <hr>
 <h2 id="llmstxt-alongside-the-rest-of-the-seo-stack">llms.txt alongside the rest of the SEO stack</h2>
 <p>To be clear: <code>llms.txt</code> is not a replacement for Google SEO. It’s an addition to it.</p>
@@ -194,16 +193,11 @@ const jsonld = JSON.stringify({
 <p>Want to see what yours could look like? <a href="/tools/llms-txt-generator/">Generate a starter <code>llms.txt</code> free →</a> — fill in a few fields, copy the file, and have it wired in properly at launch.</p>
 <hr>
 <p><em>I’m Divyansh Sood. Every site I ship comes with <code>llms.txt</code> at the root, server-rendered content, schema on every page that earns it, and a Lighthouse score above 90 on mobile. 9 live builds. If your business should be in the answer when AI tools get asked about your category and isn’t, <a href="mailto:hello@divyanshsood.com">email me</a> — I’ll tell you where the gap is in plain terms.</em></p>
-<p><em>See how GEO was built into InHimalayas from day one: <a href="https://www.divyanshsood.com/projects/inhimalayas">InHimalayas case study →</a></em></p>
+<p><em>See the whole GEO stack, and what it costs to have it wired into your codebase: <a href="https://www.divyanshsood.com/services/seo-geo-services/">SEO &amp; GEO services →</a></em></p>
       <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
     </article>
 
-    <section class="wrap narrow" aria-label="Keep reading">
-      <a class="post-next" href={`/blog/${next.slug}/`}>
-        <span><span class="label">Read next</span><br /><span class="name">{next.title}</span></span>
-        <span class="arrow" aria-hidden="true">→</span>
-      </a>
-    </section>
+    <RelatedPosts slug={slug} audience={post.audience} />
 
     <section class="post-foot-cta">
       <div class="wrap narrow">

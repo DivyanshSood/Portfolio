@@ -1,11 +1,11 @@
 ---
 import Studio from "../../layouts/Studio.astro";
+import RelatedPosts from "../../components/RelatedPosts.astro";
 import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
 
 const slug = "storefront-that-feels-like-the-brand";
 const idx = POSTS.findIndex((p) => p.slug === slug);
 const post = POSTS[idx];
-const next = POSTS[(idx + 1) % POSTS.length];
 
 const canonical = `${SITE}/blog/${slug}/`;
 const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
@@ -114,14 +114,14 @@ const jsonld = JSON.stringify({
 <p>A theme has defaults for all of it. They’re fine. “Fine” is the problem — because <em>fine</em> is what everyone else also installed. A branded store treats each of those moments as a chance to feel like itself, and the accumulation is what people register as “this brand is different,” usually without being able to say why.</p>
 <hr>
 <h2 id="the-four-layers-of-feeling-like-a-brand">The four layers of feeling like a brand</h2>
-<p><strong>1. Motion.</strong> How things move is personality. <a href="https://www.divyanshsood.com/projects/redline">Redline Studios</a> — a motorcycle-apparel brand — needed easing curves and loading states that carried racing DNA. Quick, aggressive, precise. A meditation brand would move slowly and softly. Same components, opposite feelings. Motion is tone of voice you can’t read aloud.</p>
+<p><strong>1. Motion.</strong> How things move is personality. <a href="https://www.divyanshsood.com/projects/redline/">Redline Studios</a> — a motorcycle-apparel brand — needed easing curves and loading states that carried racing DNA. Quick, aggressive, precise. A meditation brand would move slowly and softly. Same components, opposite feelings. Motion is tone of voice you can’t read aloud.</p>
 <p><strong>2. Rhythm.</strong> The order and pace of the page is storytelling. A premium brand controls what you see first, what it makes you feel, and what it asks of you and when. A theme gives you stacked sections in whatever order you dragged them. A branded store choreographs the scroll.</p>
 <p><strong>3. Detail.</strong> The small things signal care. CultXberserk sews a “Brand of Sacrifice” seal into the neckline and surfaces it on the product page as lore, not a spec. That single detail does more for the brand than any banner. Themes don’t do details — details are bespoke by definition.</p>
 <p><strong>4. Coherence.</strong> Everything agreeing with everything else. The 404 page, the loading spinner, the confirmation email, the empty cart — all of it sounding like the same brand. Themes leave these as generic defaults, and a single off-brand moment breaks the spell you spent the whole homepage building.</p>
 <hr>
 <h2 id="where-the-buy-button-lives-in-all-this">Where the buy button lives in all this</h2>
 <p>Feeling like a brand is not at odds with selling. Done right, it’s how you sell at a premium.</p>
-<p>The trick is putting the brand <em>next to</em> the transaction, not in front of it. The story, the lore, the detail — inches from the add-to-cart, never blocking it. <a href="https://www.divyanshsood.com/projects/chinkiz">ChinkiZ Knitting Knife</a> put tutorial videos right beside the buy button, because that’s how her audience actually decides. The brand and the transaction occupied the same space instead of competing for it.</p>
+<p>The trick is putting the brand <em>next to</em> the transaction, not in front of it. The story, the lore, the detail — inches from the add-to-cart, never blocking it. <a href="https://www.divyanshsood.com/projects/chinkiz/">ChinkiZ Knitting Knife</a> put tutorial videos right beside the buy button, because that’s how her audience actually decides. The brand and the transaction occupied the same space instead of competing for it.</p>
 <p>A decorated theme treats brand and conversion as a trade-off. A branded storefront makes them the same move.</p>
 <hr>
 <h2 id="how-to-tell-which-one-you-have">How to tell which one you have</h2>
@@ -134,17 +134,12 @@ const jsonld = JSON.stringify({
 <p>None of this requires a bigger budget than a theme-plus-apps setup often grows into. It requires building the store <em>as the brand</em>, from the start, instead of decorating a template and hoping it adds up.</p>
 <p>It rarely adds up. Brands are built on purpose, one decision at a time.</p>
 <hr>
-<p><em>I’m Divyansh Sood. I build storefronts where motion, rhythm, detail and coherence all carry the brand — none of it inherited from a theme. 9 live builds since 2022: <a href="https://www.divyanshsood.com/projects/cultxberserk">CultXberserk</a> for the lore and the seal at the C7 vertebra, <a href="https://www.divyanshsood.com/projects/redline">Redline Studios</a> for the racing DNA in every loading state, <a href="https://www.divyanshsood.com/projects/chinkiz">ChinkiZ</a> for the video that lives next to the buy button.</em></p>
+<p><em>I’m Divyansh Sood. I build storefronts where motion, rhythm, detail and coherence all carry the brand — none of it inherited from a theme. 9 live builds since 2022: <a href="https://www.divyanshsood.com/projects/cultxberserk/">CultXberserk</a> for the lore and the seal at the C7 vertebra, <a href="https://www.divyanshsood.com/projects/redline/">Redline Studios</a> for the racing DNA in every loading state, <a href="https://www.divyanshsood.com/projects/chinkiz/">ChinkiZ</a> for the video that lives next to the buy button.</em></p>
 <p><em>If your brand has a detail someone would screenshot and send to a friend — and a theme keeps fighting it — <a href="mailto:hello@divyanshsood.com">email me</a>. I read every brief personally.</em></p>
       <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
     </article>
 
-    <section class="wrap narrow" aria-label="Keep reading">
-      <a class="post-next" href={`/blog/${next.slug}/`}>
-        <span><span class="label">Read next</span><br /><span class="name">{next.title}</span></span>
-        <span class="arrow" aria-hidden="true">→</span>
-      </a>
-    </section>
+    <RelatedPosts slug={slug} audience={post.audience} />
 
     <section class="post-foot-cta">
       <div class="wrap narrow">

@@ -1,11 +1,11 @@
 ---
 import Studio from "../../layouts/Studio.astro";
+import RelatedPosts from "../../components/RelatedPosts.astro";
 import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
 
 const slug = "the-real-cost-of-renting-your-storefront";
 const idx = POSTS.findIndex((p) => p.slug === slug);
 const post = POSTS[idx];
-const next = POSTS[(idx + 1) % POSTS.length];
 
 const canonical = `${SITE}/blog/${slug}/`;
 const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
@@ -168,24 +168,19 @@ const jsonld = JSON.stringify({
 <li><strong>You can build the thing nobody else has.</strong> The drop mechanic, the configurator, the loyalty logic — none of it waits on whether an app exists.</li>
 <li><strong>You can leave any developer, not any platform.</strong> Custom code is readable by any competent engineer. That’s portability, which is freedom.</li>
 </ul>
-<p>When we built <a href="https://www.divyanshsood.com/projects/chinkiz">ChinkiZ Knitting Knife</a> for a 600K-subscriber creator, the whole point was a video gallery and admin panel that no builder offered. Owning the code meant the store could be exactly her, not the nearest template.</p>
+<p>When we built <a href="https://www.divyanshsood.com/projects/chinkiz/">ChinkiZ Knitting Knife</a> for a 600K-subscriber creator, the whole point was a video gallery and admin panel that no builder offered. Owning the code meant the store could be exactly her, not the nearest template.</p>
 <hr>
 <h2 id="the-question-to-sit-with">The question to sit with</h2>
 <p>Look at your last card statement and add up every recurring charge tied to your store. Multiply by 36.</p>
 <p>Then ask: <em>if I’m going to spend that much over three years anyway, would I rather rent something I’ll never own — or own something I’ll never have to rent again?</em></p>
 <p>For a brand past validation, the answer is usually obvious the moment you actually do the multiplication.</p>
 <hr>
-<p><em>I’m Divyansh Sood. I build storefronts that flip the rent-vs-own math inside 18 months for any D2C brand doing meaningful volume. 9 live builds since 2022 — including <a href="https://www.divyanshsood.com/projects/chinkiz">ChinkiZ Knitting Knife</a>, a 600K-subscriber YouTuber’s creator store built on a video gallery that no template offered.</em></p>
+<p><em>I’m Divyansh Sood. I build storefronts that flip the rent-vs-own math inside 18 months for any D2C brand doing meaningful volume. 9 live builds since 2022 — including <a href="https://www.divyanshsood.com/projects/chinkiz/">ChinkiZ Knitting Knife</a>, a 600K-subscriber YouTuber’s creator store built on a video gallery that no template offered.</em></p>
 <p><em>If you’ve been quietly watching your monthly stack compound and want a straight quote on what ownership would cost you, <a href="mailto:hello@divyanshsood.com">email me</a> — I’ll send you the math for your actual numbers.</em></p>
       <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
     </article>
 
-    <section class="wrap narrow" aria-label="Keep reading">
-      <a class="post-next" href={`/blog/${next.slug}/`}>
-        <span><span class="label">Read next</span><br /><span class="name">{next.title}</span></span>
-        <span class="arrow" aria-hidden="true">→</span>
-      </a>
-    </section>
+    <RelatedPosts slug={slug} audience={post.audience} />
 
     <section class="post-foot-cta">
       <div class="wrap narrow">

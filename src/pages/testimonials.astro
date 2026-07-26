@@ -10,7 +10,6 @@ const reviews = [
   { quote: "The website is so beautiful — looks 10 times more premium than our competitors. We started getting direct bookings instead of losing them to Google Maps.", who: "Founder", org: "Nandini Travels · Kangra", slug: "nandini" },
   { quote: "Every other agency said 6 months. Delivered in 7 days.", who: "Admin", org: "Modern K.B.S. · Ladwara", slug: "modernkbs" },
   { quote: "I did not think it could be achieved without going to e-commerce builders and only using custom code.", who: "Chinki, Founder", org: "ChinkiZ Knitting Knife · 600K+ subs", slug: "chinkiz" },
-  { quote: "Divyansh is amazing with his work. We are glad it worked out so fast and so well.", who: "Founder", org: "InHimalayas", slug: "inhimalayas" },
   { quote: "Exactly what we wanted. I will refer Divyansh within my circle for life.", who: "Founder", org: "North Peak Power Systems", slug: "northpeak" },
   { quote: "Incredible — no ordinary agency could have delivered this.", who: "Founder", org: "Redline Studios", slug: "redline" },
 ];
@@ -34,11 +33,22 @@ const jsonld = JSON.stringify({
         { "@type": "ListItem", position: 2, name: "Testimonials", item: canonical },
       ],
     },
+    // itemReviewed must carry its own @type. It previously held a bare
+    // { "@id": ".../#studio" } reference, but that node is only *defined* in
+    // the homepage graph — on this page it resolves to nothing, which is
+    // exactly the "Invalid object type for field itemReviewed" Search Console
+    // flags. Restating the type and name here makes each Review self-contained
+    // while the @id still stitches it to the same entity site-wide.
     ...reviews.map((r) => ({
       "@type": "Review",
       reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5", worstRating: "1" },
       author: { "@type": "Organization", name: r.org.split(" · ")[0] },
-      itemReviewed: { "@id": `${SITE}/#studio` },
+      itemReviewed: {
+        "@type": ["ProfessionalService", "Organization"],
+        "@id": `${SITE}/#studio`,
+        name: "Divyansh Sood® Studio",
+        url: `${SITE}/`,
+      },
       reviewBody: r.quote,
     })),
   ],
@@ -85,7 +95,7 @@ const jsonld = JSON.stringify({
               <blockquote class="tm-quote">{r.quote}</blockquote>
               <figcaption class="tm-cap">
                 <span class="tm-who">{r.who}, {r.org}</span>
-                <a href={`/projects/${r.slug}`} class="tm-link">Case study →</a>
+                <a href={`/projects/${r.slug}/`} class="tm-link">Case study →</a>
               </figcaption>
             </figure>
           ))}

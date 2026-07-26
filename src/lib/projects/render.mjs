@@ -155,7 +155,15 @@ export function jsonLd(p) {
       "@id": `${canonical}#review`,
       reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5", worstRating: "1" },
       author: { "@type": "Organization", name: p.name },
-      itemReviewed: { "@id": `${SITE}/#studio` },
+      // Typed inline, not a bare @id — the #studio node is only defined in the
+      // homepage graph, so a reference alone gives Search Console no type to
+      // validate ("Invalid object type for field itemReviewed").
+      itemReviewed: {
+        "@type": ["ProfessionalService", "Organization"],
+        "@id": `${SITE}/#studio`,
+        name: "Divyansh Sood® Studio",
+        url: `${SITE}/`,
+      },
       reviewBody: quoteWidget.quote.replace(/^"|"$/g, ""),
     });
   }
@@ -310,7 +318,7 @@ export function renderProjectMain(p) {
 
     <section class="cs-sec" aria-label="Project navigation">
       <div class="wrap">
-        <a class="cs-next" href="/projects/${esc(p.next.slug)}">
+        <a class="cs-next" href="/projects/${esc(p.next.slug)}/">
           <span><span class="label">${esc(p.next.label)}</span><br><span class="name">${esc(p.next.name)}</span></span>
           <span class="arrow" aria-hidden="true">→</span>
         </a>

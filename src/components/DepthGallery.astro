@@ -54,7 +54,7 @@ const total = String(items.length).padStart(2, "0");
         <span class="dg-meta mono"><span class="dg-index">{items[0].num} / {total}</span> · <span class="dg-cat">{items[0].category}</span> · <span class="dg-year">{items[0].year}</span></span>
         <span class="dg-name">{items[0].name}</span>
         <span class="dg-outcome">{items[0].outcome}</span>
-        <a class="dg-cta mono" href={`/projects/${items[0].slug}`} aria-label={`View the ${items[0].name} case study`}>View case study <span aria-hidden="true">↗</span></a>
+        <a class="dg-cta mono" href={`/projects/${items[0].slug}/`} aria-label={`View the ${items[0].name} case study`}>View case study <span aria-hidden="true">↗</span></a>
       </div>
       <div class="dg-metric">
         <span class="dg-metric-v">{items[0].metricV}</span>
@@ -725,7 +725,7 @@ const total = String(items.length).padStart(2, "0");
       // isn't clickable.
       canvas!.addEventListener("click", (e) => {
         if (active < 0 || !pointerInsideCard(e.clientX, e.clientY)) return;
-        window.location.assign(`/projects/${items[active].slug}`);
+        window.location.assign(`/projects/${items[active].slug}/`);
       });
 
       // ---- Scroll state: page scroll expressed in the demo's scroll pixels --
@@ -755,7 +755,7 @@ const total = String(items.length).padStart(2, "0");
           outcomeEl.textContent = items[i].outcome;
           metricVEl.textContent = items[i].metricV;
           metricLEl.textContent = items[i].metricL;
-          ctaEl.href = `/projects/${items[i].slug}`;
+          ctaEl.href = `/projects/${items[i].slug}/`;
           ctaEl.setAttribute("aria-label", `View the ${items[i].name} case study`);
           hud.classList.remove("is-swap");
         }, 160);

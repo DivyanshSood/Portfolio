@@ -3,6 +3,37 @@ import Studio from "../layouts/Studio.astro";
 import { homeJsonLd } from "../lib/home-schema.mjs";
 import { CALENDLY_URL } from "../lib/site.mjs";
 import { projects as allProjects } from "../lib/projects/data.mjs";
+import { POSTS } from "../lib/blog.mjs";
+
+// The homepage is by far the strongest page on the site (it takes ~95% of all
+// search impressions) and it linked to /blog/ but to no individual post, and to
+// /services/ but to none of the four service pages. These two lists pass some of
+// that authority down to the pages that actually target commercial queries.
+const SERVICE_LINKS = [
+  { label: "Web app development", href: "/services/web-app-development/" },
+  { label: "E-commerce websites", href: "/services/ecommerce-website-development/" },
+  { label: "Landing page design", href: "/services/landing-page-design/" },
+  { label: "SEO & GEO", href: "/services/seo-geo-services/" },
+  { label: "Web developer in Kangra", href: "/web-developer-kangra/" },
+  { label: "Web developer in Dharamshala", href: "/web-developer-dharamshala/" },
+];
+const LATEST_POSTS = POSTS.slice(0, 6);
+
+// Desktop SERP is where the CTR problem is: 327 impressions, 1 click, position
+// 6.1. Both of these were also being truncated there — the title at 62 chars,
+// the description at 172 — so the snippet was cut mid-phrase.
+//
+// The old title ("Freelance Web Designer & Developer — Divyansh Sood® Studio")
+// carried no geography at all, while every query that actually converts is
+// branded or local: "divyansh sood" (50% CTR) and "divyansh sood web developer
+// kangra" (13.2%). The generic head terms it did chase — "web development",
+// 200 impressions at position 5.0 — returned zero clicks and always will.
+// So: keep both role keywords, keep the name, add the country. The individual
+// cities stay the job of /web-developer-<city>/, which now have real internal
+// link equity pointing at them.
+const META_TITLE = "Freelance Web Developer & Designer in India · Divyansh Sood"; // 58 chars
+const META_DESCRIPTION =
+  "Freelance web designer & developer in Himachal Pradesh, India. Custom-coded, conversion-focused websites, stores and web apps — live in 3–4 weeks."; // 148
 
 const SITE = "https://www.divyanshsood.com";
 const jsonld = homeJsonLd(SITE);
@@ -88,16 +119,17 @@ const DECK = [
     quoteBy: "Chinki, Founder",
   },
 ].map((d) => {
-  const featSrc = caseFor(d.slug).feature.src;
-  return { ...d, img: deckImg(featSrc), srcset: deckSrcset(featSrc), url: `/projects/${d.slug}/` };
+  const c = caseFor(d.slug);
+  const featSrc = c.feature.src;
+  return { ...d, img: deckImg(featSrc), srcset: deckSrcset(featSrc), domain: c.domain, url: `/projects/${d.slug}/` };
 });
 
 const ARROW = "M7 17 17 7M8 7h9v9";
 ---
 
 <Studio
-  title="Freelance Web Designer & Developer — Divyansh Sood® Studio"
-  description="Divyansh Sood is a freelance web designer & developer building custom-coded, conversion-focused websites, stores and web apps for founders worldwide. Live in 3–4 weeks."
+  title={META_TITLE}
+  description={META_DESCRIPTION}
   canonical={`${SITE}/`}
   keywords="freelance web developer, freelance web designer, hire freelance developer, Divyansh Sood, custom website design and development, hire web developer, conversion-focused website, Next.js developer, Astro developer, ecommerce website developer, web app MVP developer, SEO web developer, Himachal Pradesh, India"
   ogDescription="Custom-coded websites that convert — designed, built and live in 3–4 weeks. You own the code."
@@ -172,24 +204,48 @@ const ARROW = "M7 17 17 7M8 7h9v9";
       <div data-hide-m style="font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.14em; color:#8A8A93; text-align:right; line-height:1.9;">2024 — 2026<br><span style="color:var(--accent, #D9FF3C);">04</span> PROJECTS</div>
     </div>
 
+    {/* A single laptop, pinned centre-stage. On scroll the screenshot inside its
+        screen cross-fades from project to project and the copy column beside it
+        swaps in sync — the chassis never moves. The engine (Studio.astro) drives
+        [data-screen]/[data-copy] opacity off the same scroll-progress math the
+        old clip-path deck used. */}
     <div data-deck-sec style="height:480vh; position:relative;">
-      <div style="position:sticky; top:0; height:100svh; overflow:hidden; background:#131316;">
-        {DECK.map((p, i) => (
-          <article data-card data-deck-panel data-idx={i} data-cursor="VIEW" style="position:absolute; inset:0; cursor:pointer; will-change:clip-path; overflow:hidden;">
-            <img data-deck-img src={p.img} srcset={p.srcset} sizes="100vw" alt={`${p.name} — ${p.tags}`} loading={i === 0 ? "eager" : "lazy"} decoding="async" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transform:scale(1.12); will-change:transform;" />
-            <div style="position:absolute; inset:0; background:linear-gradient(to top, rgba(11,11,12,0.88) 0%, rgba(11,11,12,0.15) 46%, rgba(11,11,12,0.35) 100%);"></div>
-            <div data-deck-shade style="position:absolute; inset:0; background:#0B0B0C; opacity:0; will-change:opacity;"></div>
-            <div data-deck-title style="position:absolute; left:4vw; right:4vw; bottom:10vh; will-change:transform, opacity;">
-              <div style="display:flex; align-items:center; gap:14px; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.12em; color:rgba(244,242,236,0.85); margin-bottom:16px;">
+      <div class="dsx-lap-stage">
+        {/* Copy column — one block per project, absolutely stacked + cross-faded. */}
+        <div class="dsx-lap-copy">
+          {DECK.map((p, i) => (
+            <div data-copy data-idx={i} class="dsx-copy">
+              <div style="display:flex; align-items:center; gap:14px; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.12em; color:rgba(244,242,236,0.85); margin-bottom:18px;">
                 <span style="color:var(--accent, #D9FF3C);">{p.num}</span>
                 <span>{p.tags}</span>
                 <span data-hide-m>· {p.year}</span>
               </div>
-              <h3 style="margin:0; font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(44px, 9.5vw, 150px); line-height:0.9; text-transform:uppercase;">{p.name}</h3>
-              <a href={p.url} data-cursor="OPEN" style="margin-top:22px; display:inline-flex; align-items:center; gap:10px; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.12em; border:1px solid rgba(244,242,236,0.45); border-radius:999px; padding:13px 22px; background:rgba(11,11,12,0.35); backdrop-filter:blur(6px);">VIEW CASE <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d={ARROW}></path></svg></a>
+              <h3 style="margin:0; font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(40px, 5.2vw, 92px); line-height:0.9; text-transform:uppercase;">{p.name}</h3>
+              <p style="margin:22px 0 0; max-width:42ch; font-size:clamp(14px, 1.15vw, 17px); line-height:1.62; color:#B8B8BF;">{p.blurb}</p>
+              <a href={p.url} data-cursor="OPEN" style="margin-top:30px; display:inline-flex; align-items:center; gap:10px; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.12em; border:1px solid rgba(244,242,236,0.45); border-radius:999px; padding:13px 22px;">VIEW CASE <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d={ARROW}></path></svg></a>
             </div>
-          </article>
-        ))}
+          ))}
+        </div>
+
+        {/* The laptop. Screen is clickable (opens the case overlay for whichever
+            project is active — the engine keeps its data-idx in sync). */}
+        <div class="dsx-lap-wrap">
+          <div class="dsx-lap">
+            <div class="dsx-lap-screen" data-card data-deck-card data-idx="0" data-cursor="VIEW">
+              <div class="dsx-lap-chrome" aria-hidden="true">
+                <span class="dsx-lap-dots"><i></i><i></i><i></i></span>
+                <span class="dsx-lap-url" data-lap-url>{DECK[0].domain}</span>
+              </div>
+              <div class="dsx-lap-shots">
+                {DECK.map((p, i) => (
+                  <img data-screen data-idx={i} src={p.img} srcset={p.srcset} sizes="(max-width:900px) 86vw, 46vw" alt={`${p.name} — ${p.tags}`} loading={i === 0 ? "eager" : "lazy"} decoding="async" />
+                ))}
+              </div>
+            </div>
+            <div class="dsx-lap-base" aria-hidden="true"></div>
+          </div>
+        </div>
+
         <div style="position:absolute; top:88px; right:4vw; font-family:'JetBrains Mono',monospace; letter-spacing:0.14em; display:flex; gap:8px; align-items:baseline;"><span data-deck-num style="color:var(--accent, #D9FF3C); font-size:20px;">01</span><span style="color:#8A8A93; font-size:12px;">/ 04</span></div>
         <div style="position:absolute; left:4vw; right:4vw; bottom:26px; height:1px; background:rgba(244,242,236,0.2);"><div data-deck-bar style="position:absolute; inset:0; transform:scaleX(0); transform-origin:left center; background:var(--accent, #D9FF3C);"></div></div>
       </div>
@@ -226,6 +282,27 @@ const ARROW = "M7 17 17 7M8 7h9v9";
           <p class="svc-d">What the homepage should say, in what order, to whom — decided before a single pixel moves.</p>
         </li>
       </ul>
+
+      <nav class="svc-links" aria-label="Service and location pages">
+        {SERVICE_LINKS.map((s) => <a href={s.href}>{s.label}</a>)}
+      </nav>
+
+      <div class="hp-writing">
+        <div class="hp-writing-head">
+          <span class="mono">(WRITING)</span>
+          <a class="mono" href="/blog/">All posts →</a>
+        </div>
+        <ul class="hp-posts" role="list">
+          {LATEST_POSTS.map((p) => (
+            <li>
+              <a href={`/blog/${p.slug}/`}>
+                <span class="hp-post-t">{p.title}</span>
+                <span class="hp-post-m mono">{p.tags?.[0]} · {p.readMins} min</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   </section>
 
@@ -306,6 +383,61 @@ const ARROW = "M7 17 17 7M8 7h9v9";
   <script is:inline type="application/json" id="dsx-data" set:html={JSON.stringify(DECK)} />
 
   <style>
+    /* ---- Pinned-laptop work gallery ------------------------------------- */
+    /* The stage is the sticky, viewport-height frame. Two columns on desktop
+       (copy | laptop); stacks to one column on phones (still pinned — option A). */
+    .dsx-lap-stage {
+      position: sticky; top: 0; height: 100svh; overflow: hidden; background: #131316;
+      display: flex; flex-direction: row; align-items: stretch;
+      gap: clamp(24px, 4vw, 64px); padding: 0 4vw;
+    }
+    .dsx-lap-copy { position: relative; flex: 1 1 40%; min-width: 0; align-self: stretch; }
+    .dsx-copy {
+      position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center;
+      opacity: 0; will-change: opacity, transform;
+    }
+    .dsx-lap-wrap { flex: 1 1 60%; min-width: 0; display: flex; align-items: center; justify-content: center; }
+
+    /* The device. A CSS-drawn laptop — bezel + browser chrome + hinge base. */
+    .dsx-lap { width: min(100%, 820px); }
+    .dsx-lap-screen {
+      position: relative; aspect-ratio: 16 / 10; background: #0B0B0C;
+      border: 9px solid #26262c; border-radius: 16px 16px 4px 4px; overflow: hidden;
+      box-shadow: 0 40px 80px -30px rgba(0,0,0,0.8), inset 0 0 0 1px rgba(255,255,255,0.04);
+      cursor: pointer;
+    }
+    .dsx-lap-chrome {
+      position: relative; z-index: 2; height: 34px; display: flex; align-items: center; gap: 14px;
+      padding: 0 14px; background: #1b1b20; border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .dsx-lap-dots { display: flex; gap: 7px; flex: 0 0 auto; }
+    .dsx-lap-dots i { width: 9px; height: 9px; border-radius: 50%; background: #3a3a42; }
+    .dsx-lap-url {
+      flex: 1 1 auto; min-width: 0; text-align: center; background: #0f0f12; border-radius: 7px;
+      padding: 5px 14px; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.03em;
+      color: #8A8A93; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .dsx-lap-shots { position: absolute; left: 0; right: 0; top: 34px; bottom: 0; }
+    .dsx-lap-shots img {
+      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top center;
+      opacity: 0; will-change: opacity;
+    }
+    /* Hinge / base bar under the screen. */
+    .dsx-lap-base {
+      position: relative; width: 116%; margin: 0 -8% ; height: 15px;
+      background: linear-gradient(#3a3a42, #17171a);
+      border-radius: 3px 3px 12px 12px;
+      box-shadow: 0 22px 30px -18px rgba(0,0,0,0.75);
+    }
+    .dsx-lap-base::before {
+      content: ""; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 13%; height: 7px; background: #0d0d10; border-radius: 0 0 8px 8px;
+    }
+
+    /* No-JS / pre-boot default: show the first project so the section is never
+       blank. The engine overrides these via inline opacity once running. */
+    .dsx-copy[data-idx="0"], .dsx-lap-shots img[data-idx="0"] { opacity: 1; }
+
     /* Services rows. */
     #services .svc { list-style: none; margin: 0; padding: 0; border-top: 1px solid rgba(244, 242, 236, 0.16); }
     #services .svc-row {
@@ -318,6 +450,34 @@ const ARROW = "M7 17 17 7M8 7h9v9";
     #services .svc-t { margin: 0; font-family: 'Anton', sans-serif; font-weight: 400; font-size: clamp(30px, 4.6vw, 64px); line-height: 0.96; text-transform: uppercase; }
     #services .svc-d { margin: 0; font-size: 15px; line-height: 1.62; color: #8A8A93; max-width: 46ch; }
 
+    /* Service / location chips + the latest-writing list under the services
+       block — the homepage's links down into the commercial and blog pages. */
+    #services .svc-links { display: flex; flex-wrap: wrap; gap: 10px; margin: clamp(26px, 3.4vw, 40px) 0 0; }
+    #services .svc-links a {
+      font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.06em;
+      border: 1px solid rgba(244, 242, 236, 0.22); border-radius: 999px;
+      padding: 8px 15px; color: #C9C7C0; text-decoration: none;
+      transition: border-color 0.3s ease, color 0.3s ease;
+    }
+    #services .svc-links a:hover { border-color: var(--accent, #D9FF3C); color: var(--accent, #D9FF3C); }
+
+    #services .hp-writing { margin: clamp(44px, 6vw, 76px) 0 0; border-top: 1px solid rgba(244, 242, 236, 0.16); padding-top: clamp(22px, 3vw, 32px); }
+    #services .hp-writing-head { display: flex; justify-content: space-between; gap: 16px; font-size: 10.5px; letter-spacing: 0.14em; color: #8A8A93; margin-bottom: 18px; }
+    #services .hp-writing-head a { color: #8A8A93; text-decoration: none; transition: color 0.3s ease; }
+    #services .hp-writing-head a:hover { color: var(--accent, #D9FF3C); }
+    #services .hp-posts { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    #services .hp-posts a {
+      display: flex; flex-direction: column; gap: 6px; height: 100%;
+      border: 1px solid rgba(244, 242, 236, 0.12); border-radius: 10px;
+      padding: 16px 18px; color: #F4F2EC; text-decoration: none;
+      transition: border-color 0.3s ease, background 0.3s ease;
+    }
+    #services .hp-posts a:hover { border-color: var(--accent, #D9FF3C); background: rgba(217, 255, 60, 0.06); }
+    #services .hp-post-t { font-weight: 600; font-size: 15px; line-height: 1.35; letter-spacing: -0.01em; }
+    #services .hp-post-m { font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: #8A8A93; }
+    @media (max-width: 900px) { #services .hp-posts { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { #services .hp-posts { grid-template-columns: 1fr; } }
+
     /* Homepage project-brief form — matches the Portfolio-2026 field styling. */
     #contact .dsx-brief-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
     #contact .dsx-brief-l { display: block; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #8A8A93; margin-bottom: 8px; }
@@ -328,6 +488,15 @@ const ARROW = "M7 17 17 7M8 7h9v9";
 
     /* Phones: pull the section rhythm in. Desktop values live inline on the
        elements above, hence the !important overrides here. */
+    @media (max-width: 900px) {
+      /* Laptop gallery stays pinned but stacks: laptop on top, copy below. */
+      .dsx-lap-stage { flex-direction: column; justify-content: center; gap: clamp(22px, 4vh, 40px); padding: 9vh 6vw 8vh; }
+      .dsx-lap-wrap { order: -1; flex: 0 0 auto; width: 100%; }
+      .dsx-lap { width: 100%; }
+      .dsx-lap-copy { flex: 0 0 auto; width: 100%; align-self: auto; min-height: 34svh; }
+      .dsx-copy { justify-content: flex-start; }
+    }
+
     @media (max-width: 720px) {
       #work > div:first-child { padding: 7vh 4vw 4.5vh !important; }
       #contact > div:last-of-type { margin: 4vh 0 7vh !important; }

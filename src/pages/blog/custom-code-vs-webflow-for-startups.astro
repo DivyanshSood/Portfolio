@@ -1,11 +1,11 @@
 ---
 import Studio from "../../layouts/Studio.astro";
+import RelatedPosts from "../../components/RelatedPosts.astro";
 import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
 
 const slug = "custom-code-vs-webflow-for-startups";
 const idx = POSTS.findIndex((p) => p.slug === slug);
 const post = POSTS[idx];
-const next = POSTS[(idx + 1) % POSTS.length];
 
 const canonical = `${SITE}/blog/${slug}/`;
 const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
@@ -173,23 +173,18 @@ const jsonld = JSON.stringify({
 <li><strong>Move to Next.js when the marketing site and product want to share</strong> a design system, auth state, or live data.</li>
 </ol>
 <p>The mistake isn’t starting on Webflow. It’s staying on it for eighteen months after your roadmap clearly outgrew it, paying the seam tax every sprint because migrating feels like a distraction.</p>
-<p>When we built <a href="https://www.divyanshsood.com/projects/webseek">WebSeek.ai</a>, the marketing surface and the product were never separable — it had to be one custom codebase from day one. That’s the tell: <strong>if your site and product are the same story, build them as one thing.</strong></p>
+<p>When we built <a href="https://www.divyanshsood.com/projects/webseek/">WebSeek.ai</a>, the marketing surface and the product were never separable — it had to be one custom codebase from day one. That’s the tell: <strong>if your site and product are the same story, build them as one thing.</strong></p>
 <hr>
 <h2 id="the-one-question-to-ask">The one question to ask</h2>
 <p><em>Is my website a brochure, or is it part of the product?</em></p>
 <p>If it’s a brochure — Webflow, and don’t look back.</p>
 <p>If it’s part of the product — or it’s about to be — every month you delay going custom is a month of building the same things twice.</p>
 <hr>
-<p><em>I’m Divyansh Sood — I build custom-coded marketing sites and web apps for funded startups in React, Next.js and Astro. 9 live builds, including <a href="https://www.divyanshsood.com/projects/webseek">WebSeek.ai</a>, where the marketing surface and product share one codebase. If you’re at the Webflow-or-custom decision point, <a href="https://calendly.com/sood-divyansh007/30min">book a 15-min intro</a> — I’ll tell you honestly which way I’d go for your specific case.</em></p>
+<p><em>I’m Divyansh Sood — I build custom-coded marketing sites and web apps for funded startups in React, Next.js and Astro. 9 live builds, including <a href="https://www.divyanshsood.com/projects/webseek/">WebSeek.ai</a>, where the marketing surface and product share one codebase. If you’re at the Webflow-or-custom decision point, <a href="https://calendly.com/sood-divyansh007/30min">book a 15-min intro</a> — I’ll tell you honestly which way I’d go for your specific case.</em></p>
       <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
     </article>
 
-    <section class="wrap narrow" aria-label="Keep reading">
-      <a class="post-next" href={`/blog/${next.slug}/`}>
-        <span><span class="label">Read next</span><br /><span class="name">{next.title}</span></span>
-        <span class="arrow" aria-hidden="true">→</span>
-      </a>
-    </section>
+    <RelatedPosts slug={slug} audience={post.audience} />
 
     <section class="post-foot-cta">
       <div class="wrap narrow">

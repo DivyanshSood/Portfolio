@@ -1,11 +1,11 @@
 ---
 import Studio from "../../layouts/Studio.astro";
+import RelatedPosts from "../../components/RelatedPosts.astro";
 import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
 
 const slug = "how-to-choose-web-developer-himachal";
 const idx = POSTS.findIndex((p) => p.slug === slug);
 const post = POSTS[idx];
-const next = POSTS[(idx + 1) % POSTS.length];
 
 const canonical = `${SITE}/blog/${slug}/`;
 const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
@@ -182,12 +182,7 @@ const jsonld = JSON.stringify({
       <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
     </article>
 
-    <section class="wrap narrow" aria-label="Keep reading">
-      <a class="post-next" href={`/blog/${next.slug}/`}>
-        <span><span class="label">Read next</span><br /><span class="name">{next.title}</span></span>
-        <span class="arrow" aria-hidden="true">→</span>
-      </a>
-    </section>
+    <RelatedPosts slug={slug} audience={post.audience} />
 
     <section class="post-foot-cta">
       <div class="wrap narrow">

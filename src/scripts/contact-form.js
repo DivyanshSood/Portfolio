@@ -150,7 +150,10 @@ async function submit(form, config) {
   const name = nameField ? data[nameField.id] : "";
 
   try {
-    const res = await fetch("/api/contact", {
+    // Trailing slash is required: site-wide trailingSlash:"always" means the
+    // bare "/api/contact" 308s here anyway — posting straight to the canonical
+    // path saves every submission a redirect round-trip.
+    const res = await fetch("/api/contact/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

@@ -1,11 +1,11 @@
 ---
 import Studio from "../../layouts/Studio.astro";
+import RelatedPosts from "../../components/RelatedPosts.astro";
 import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
 
 const slug = "why-premium-brands-leave-shopify";
 const idx = POSTS.findIndex((p) => p.slug === slug);
 const post = POSTS[idx];
-const next = POSTS[(idx + 1) % POSTS.length];
 
 const canonical = `${SITE}/blog/${slug}/`;
 const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
@@ -106,8 +106,8 @@ const jsonld = JSON.stringify({
 <h2 id="the-theme-is-the-ceiling">The theme is the ceiling</h2>
 <p>A Shopify theme is a set of opinions someone else had about how a store should feel. You can change colours, fonts, section order. You cannot easily change the <em>feel</em> — the easing curves, the way a product reveals itself, the rhythm of how the story unfolds as you scroll.</p>
 <p>For a commodity product, none of that matters. People want the price and the buy button.</p>
-<p>For a premium brand, that <em>is</em> the product. When we built <a href="https://www.divyanshsood.com/projects/cultxberserk">CultXberserk</a> — a Berserk-inspired apparel label — the entire pitch was lore. Japanese lettering, a “Brand of Sacrifice” seal at the neckline, hand-numbered drops that are never reprinted. You cannot express that in a theme. The storytelling and the storefront had to be the same object.</p>
-<p>Same story with <a href="https://www.divyanshsood.com/projects/redline">Redline Studios</a>: a motorcycle-apparel brand where every loading state and product reveal had to carry racing DNA. A theme dressed in red and black is not that.</p>
+<p>For a premium brand, that <em>is</em> the product. When we built <a href="https://www.divyanshsood.com/projects/cultxberserk/">CultXberserk</a> — a Berserk-inspired apparel label — the entire pitch was lore. Japanese lettering, a “Brand of Sacrifice” seal at the neckline, hand-numbered drops that are never reprinted. You cannot express that in a theme. The storytelling and the storefront had to be the same object.</p>
+<p>Same story with <a href="https://www.divyanshsood.com/projects/redline/">Redline Studios</a>: a motorcycle-apparel brand where every loading state and product reveal had to carry racing DNA. A theme dressed in red and black is not that.</p>
 <hr>
 <h2 id="where-shopify-actually-starts-costing-you">Where Shopify actually starts costing you</h2>
 <p>The sticker price isn’t where it hurts. It’s the slow accumulation.</p>
@@ -143,17 +143,12 @@ const jsonld = JSON.stringify({
 <p>If the answer is yes — the feel <em>is</em> the premium — then a theme is the single biggest thing capping your brand, and you already know it. You’ve felt it every time you tried to make the store match the vision in your head and the builder said no.</p>
 <p>That ceiling is the moment to go custom.</p>
 <hr>
-<p><em>I’m Divyansh Sood. I build custom-coded storefronts for premium brands whose pitch depends on feeling different — including <a href="https://www.divyanshsood.com/projects/cultxberserk">CultXberserk</a> (Berserk-inspired, hand-numbered 0001 to 0666) and <a href="https://www.divyanshsood.com/projects/redline">Redline Studios</a> (motorcycle apparel with racing DNA in every loading state). 9 live builds since 2022.</em></p>
+<p><em>I’m Divyansh Sood. I build custom-coded storefronts for premium brands whose pitch depends on feeling different — including <a href="https://www.divyanshsood.com/projects/cultxberserk/">CultXberserk</a> (Berserk-inspired, hand-numbered 0001 to 0666) and <a href="https://www.divyanshsood.com/projects/redline/">Redline Studios</a> (motorcycle apparel with racing DNA in every loading state). 9 live builds since 2022.</em></p>
 <p><em>If your brand has outgrown the theme-shaped ceiling and you want to talk headless commerce, <a href="mailto:hello@divyanshsood.com">email me</a> — I read every brief personally.</em></p>
       <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
     </article>
 
-    <section class="wrap narrow" aria-label="Keep reading">
-      <a class="post-next" href={`/blog/${next.slug}/`}>
-        <span><span class="label">Read next</span><br /><span class="name">{next.title}</span></span>
-        <span class="arrow" aria-hidden="true">→</span>
-      </a>
-    </section>
+    <RelatedPosts slug={slug} audience={post.audience} />
 
     <section class="post-foot-cta">
       <div class="wrap narrow">

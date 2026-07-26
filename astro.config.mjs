@@ -19,13 +19,19 @@ const newestPost = POSTS.map((p) => p.updatedDate || p.pubDate)
 // https://astro.build/config
 export default defineConfig({
   site: "https://www.divyanshsood.com",
-  trailingSlash: "ignore",
+  // "always" — not "ignore". Under "ignore" both /blog/x and /blog/x/ returned
+  // 200 with identical HTML, so every indexable page existed at two crawlable
+  // URLs and Googlebot had to fetch both and throw one away. One canonical URL
+  // form (trailing slash, matching every <link rel=canonical> and the sitemap);
+  // the bare form now 308s to it.
+  trailingSlash: "always",
   output: "static",
   adapter: vercel(),
-  // /start was merged into /website-audit (its qualifying form now lives there).
-  redirects: {
-    "/start": "/website-audit/",
-  },
+  // Legacy-URL redirects all live in vercel.json, not here. Under
+  // trailingSlash:"always" the adapter's canonicalising 308 is emitted *above*
+  // Astro's own redirect routes, so "/start" 308'd to "/start/" and then missed
+  // the "^/start$" rule — a dead route plus an empty /start/index.html. The
+  // platform-level rules in vercel.json match both forms in a single 301.
   integrations: [
     sitemap({
       // The print-only PDF source is noindexed — keep it out of the sitemap too.

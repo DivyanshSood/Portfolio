@@ -1,11 +1,11 @@
 ---
 import Studio from "../../layouts/Studio.astro";
+import RelatedPosts from "../../components/RelatedPosts.astro";
 import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
 
 const slug = "wix-vs-custom-code-blog";
 const idx = POSTS.findIndex((p) => p.slug === slug);
 const post = POSTS[idx];
-const next = POSTS[(idx + 1) % POSTS.length];
 
 const canonical = `${SITE}/blog/${slug}/`;
 const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
@@ -125,7 +125,7 @@ const jsonld = JSON.stringify({
 <p><strong>Code bloat.</strong> Every Wix page ships HTML and CSS for features you never turned on. A custom site ships only what’s on the page.</p>
 <p><strong>Schema markup.</strong> If you’re a tour operator, a clinic, or a local business — Google rewards structured data (business name, hours, reviews, service areas). Wix gives you limited control over this. A custom build lets me wire in JSON-LD schema that directly tells Google what your business is and where it operates.</p>
 <p><strong>llms.txt.</strong> This one is newer. AI search engines — ChatGPT, Perplexity, Claude — now crawl websites differently from Google. A file called <code>llms.txt</code> tells them exactly what your site is about. Wix doesn’t support this. Every custom site I ship has one.</p>
-<p>One of my clients, InHimalayas, saw a sudden surge in AI-referred traffic within weeks of launch — because the site was built for AI crawlers from day one. That’s not possible on Wix.</p>
+<p>The file has to sit at your domain root, and the platform has to let you put it there. On a custom build that’s a thirty-minute job at launch. On Wix it isn’t an option at all.</p>
 <hr>
 <h2 id="so-what-does-13000-actually-build">So what does ₹13,000 actually build?</h2>
 <p>The Starter package — ₹13,000 to ₹16,000 — is a 5-page custom-coded site. Here’s what that means in practice:</p>
@@ -207,16 +207,11 @@ const jsonld = JSON.stringify({
 <p>That’s the difference. That’s what ₹13,000 gets you.</p>
 <hr>
 <p><em>I’m Divyansh, solo developer out of Kangra Valley. Custom-coded websites for Indian small businesses — from ₹13,000, live in 14 days. WhatsApp reply in under an hour, 9 AM–9 PM IST. <a href="https://wa.me/919816091875">Drop me a message</a> and I’ll tell you within a day whether a custom build makes sense for what you’re running — or point you at someone who’d be a better fit if it doesn’t.</em></p>
-<p><em>See real examples: <a href="https://www.divyanshsood.com/projects/dharamshala-tours">Dharamshala Tours</a> — WhatsApp-first, custom CMS, ~1,000 bookings/month. <a href="https://www.divyanshsood.com/projects/nandini">Nandini Travels</a> — rebuilt from a broken site to direct bookings in under 2 weeks.</em></p>
+<p><em>See real examples: <a href="https://www.divyanshsood.com/projects/dharamshala-tours/">Dharamshala Tours</a> — WhatsApp-first, custom CMS, ~1,000 bookings/month. <a href="https://www.divyanshsood.com/projects/nandini/">Nandini Travels</a> — rebuilt from a broken site to direct bookings in under 2 weeks.</em></p>
       <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
     </article>
 
-    <section class="wrap narrow" aria-label="Keep reading">
-      <a class="post-next" href={`/blog/${next.slug}/`}>
-        <span><span class="label">Read next</span><br /><span class="name">{next.title}</span></span>
-        <span class="arrow" aria-hidden="true">→</span>
-      </a>
-    </section>
+    <RelatedPosts slug={slug} audience={post.audience} />
 
     <section class="post-foot-cta">
       <div class="wrap narrow">

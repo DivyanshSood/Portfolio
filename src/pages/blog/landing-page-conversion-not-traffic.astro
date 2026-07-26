@@ -1,11 +1,11 @@
 ---
 import Studio from "../../layouts/Studio.astro";
+import RelatedPosts from "../../components/RelatedPosts.astro";
 import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
 
 const slug = "landing-page-conversion-not-traffic";
 const idx = POSTS.findIndex((p) => p.slug === slug);
 const post = POSTS[idx];
-const next = POSTS[(idx + 1) % POSTS.length];
 
 const canonical = `${SITE}/blog/${slug}/`;
 const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
@@ -125,12 +125,12 @@ const jsonld = JSON.stringify({
 <hr>
 <h2 id="4-the-call-to-action-creates-friction">4. The call-to-action creates friction</h2>
 <p>People convert in the channel they already trust. For a huge range of businesses in India, that channel is WhatsApp — not a six-field form that emails an inbox nobody checks.</p>
-<p>When we rebuilt <a href="https://www.divyanshsood.com/projects/nandini">Nandini Travels</a>, the unlock wasn’t traffic — they had plenty. It was giving every package a one-tap WhatsApp CTA with the details pre-filled. Bookings that used to leak to Google Maps started flowing through a site they own.</p>
+<p>When we rebuilt <a href="https://www.divyanshsood.com/projects/nandini/">Nandini Travels</a>, the unlock wasn’t traffic — they had plenty. It was giving every package a one-tap WhatsApp CTA with the details pre-filled. Bookings that used to leak to Google Maps started flowing through a site they own.</p>
 <p>Match the CTA to how your customer actually wants to reach you. A frictionless WhatsApp tap beats a “perfect” form almost every time.</p>
 <hr>
 <h2 id="5-theres-no-reason-to-believe-you">5. There’s no reason to believe you</h2>
 <p>A page can be fast, clear, and focused — and still not convert, because the visitor has no reason to trust you yet.</p>
-<p>Proof closes the gap: a real testimonial with a real name, a number you can stand behind, logos, a live result. <a href="https://www.divyanshsood.com/projects/modernkbs">Modern K.B.S.</a> converts on one line — “every other agency said 6 months; delivered in 7 days.” Specific, verifiable, and worth more than a paragraph of adjectives.</p>
+<p>Proof closes the gap: a real testimonial with a real name, a number you can stand behind, logos, a live result. <a href="https://www.divyanshsood.com/projects/modernkbs/">Modern K.B.S.</a> converts on one line — “every other agency said 6 months; delivered in 7 days.” Specific, verifiable, and worth more than a paragraph of adjectives.</p>
 <p>Vague claims (“trusted by many,” “industry-leading”) are invisible. Specific proof is what flips a maybe into a yes.</p>
 <hr>
 <h2 id="the-order-that-actually-works">The order that actually works</h2>
@@ -148,12 +148,7 @@ const jsonld = JSON.stringify({
       <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
     </article>
 
-    <section class="wrap narrow" aria-label="Keep reading">
-      <a class="post-next" href={`/blog/${next.slug}/`}>
-        <span><span class="label">Read next</span><br /><span class="name">{next.title}</span></span>
-        <span class="arrow" aria-hidden="true">→</span>
-      </a>
-    </section>
+    <RelatedPosts slug={slug} audience={post.audience} />
 
     <section class="post-foot-cta">
       <div class="wrap narrow">

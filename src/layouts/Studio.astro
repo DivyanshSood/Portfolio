@@ -14,7 +14,6 @@
 // header/footer to use in-page smooth-scroll anchors with `home`.
 // ===========================================================================
 import "../styles/global.css";
-import CookieConsent from "../components/CookieConsent.astro";
 import BaseScripts from "../components/BaseScripts.astro";
 import { CALENDLY_URL } from "../lib/site.mjs";
 
@@ -165,6 +164,38 @@ const MENU = [
     <link rel="preload" as="font" type="font/woff2" href="/fonts/archivo-400.woff2" crossorigin />
 
     {jsonld && <script type="application/ld+json" is:inline set:html={jsonld} />}
+
+    {/* ---- Analytics: GA4 + Yandex Metrica ----
+        Loaded unconditionally for every visitor. These used to be booted by
+        CookieConsent.astro only after an explicit opt-in; that banner was
+        removed, so the loaders live here now. IP anonymisation stays on and
+        Metrica runs without session replay / clickmap.
+        IDs are duplicated in BaseScripts.astro (dsTrack) — keep them in sync. */}
+    <script is:inline>
+      (function () {
+        var GA_ID = "G-51WG6025T0";
+        var YM_ID = 110027161;
+
+        var s = document.createElement("script");
+        s.async = true;
+        s.src = "https://www.googletagmanager.com/gtag/js?id=" + GA_ID;
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { window.dataLayer.push(arguments); }
+        window.gtag = gtag;
+        gtag("js", new Date());
+        gtag("config", GA_ID, { anonymize_ip: true });
+
+        (function (m, e, t, r, i, k, a) {
+          m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments); };
+          m[i].l = 1 * new Date();
+          for (var j = 0; j < document.scripts.length; j++) { if (document.scripts[j].src === r) { return; } }
+          k = e.createElement(t); a = e.getElementsByTagName(t)[0];
+          k.async = 1; k.src = r; a.parentNode.insertBefore(k, a);
+        })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js?id=" + YM_ID, "ym");
+        window.ym && window.ym(YM_ID, "init", { ssr: true, ecommerce: "dataLayer", accurateTrackBounce: true, trackLinks: true });
+      })();
+    </script>
 
     {/* Page-level head injection. */}
     <slot name="head" />
@@ -325,6 +356,25 @@ const MENU = [
               <a href="/press/" style="font-weight:500; font-size:14px;">Press kit</a>
               <a href={contactHref} data-goto={home ? "contact" : undefined} style="font-weight:500; font-size:14px;">Contact</a>
             </nav>
+            {/* Services + locations. These are the commercial pages, and until
+                now each had 2–4 inbound internal links site-wide while the
+                boilerplate pages above had 60+ — so the pages meant to rank for
+                "web developer <city>" were the least linked on the site. */}
+            <nav style="display:flex; flex-direction:column; gap:12px; align-items:flex-start;">
+              <span style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.14em; color:#55555C; margin-bottom:4px;">SERVICES</span>
+              <a href="/services/web-app-development/" style="font-weight:500; font-size:14px;">Web app development</a>
+              <a href="/services/ecommerce-website-development/" style="font-weight:500; font-size:14px;">E-commerce websites</a>
+              <a href="/services/landing-page-design/" style="font-weight:500; font-size:14px;">Landing page design</a>
+              <a href="/services/seo-geo-services/" style="font-weight:500; font-size:14px;">SEO &amp; GEO</a>
+              <a href="/agencies/" style="font-weight:500; font-size:14px;">For agencies</a>
+            </nav>
+            <nav style="display:flex; flex-direction:column; gap:12px; align-items:flex-start;">
+              <span style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.14em; color:#55555C; margin-bottom:4px;">LOCATIONS</span>
+              <a href="/web-developer-kangra/" style="font-weight:500; font-size:14px;">Web developer Kangra</a>
+              <a href="/web-developer-dharamshala/" style="font-weight:500; font-size:14px;">Web developer Dharamshala</a>
+              <a href="/web-developer-shimla/" style="font-weight:500; font-size:14px;">Web developer Shimla</a>
+              <a href="/web-developer-manali/" style="font-weight:500; font-size:14px;">Web developer Manali</a>
+            </nav>
             <nav style="display:flex; flex-direction:column; gap:12px; align-items:flex-start;">
               <span style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.14em; color:#55555C; margin-bottom:4px;">SOCIALS</span>
               <a href="https://github.com/DivyanshSood" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:10px; font-weight:500; font-size:14px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.69 1.25 3.34.96.1-.75.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.15 1.18a10.9 10.9 0 0 1 5.74 0c2.19-1.49 3.15-1.18 3.15-1.18.62 1.59.23 2.76.11 3.05.73.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.26 5.66.41.36.78 1.06.78 2.14 0 1.54-.01 2.79-.01 3.17 0 .31.21.68.8.56A10.52 10.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"></path></svg>GitHub</a>
@@ -346,14 +396,12 @@ const MENU = [
             <span>© 2026 DIVYANSH SOOD STUDIO</span>
             <span data-hide-m>DESIGNED &amp; CODED BY ONE PERSON</span>
             <a href="/privacy/" style="letter-spacing:0.12em;">PRIVACY</a>
-            <a href="#ds-cookie-settings" data-cookie-settings style="letter-spacing:0.12em;">COOKIES</a>
             <button data-goto="top" data-cursor="TOP" class="dsx-top" style="display:inline-flex; align-items:center; gap:8px; cursor:pointer; letter-spacing:0.12em; color:#F4F2EC;">BACK TO TOP <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M12 20V4M5 11l7-7 7 7"></path></svg></button>
           </div>
         </footer>
       </div>
     </div>
 
-    <CookieConsent />
     <BaseScripts />
   </body>
 </html>
@@ -498,10 +546,8 @@ const MENU = [
      ------------------------------------------------------------------------ */
   html.motion #dsx .dsx-r { transform: translateY(112%); }
   html.motion #dsx .dsx-f { opacity: 0; transform: translateY(24px); }
-  html.motion #dsx [data-deck-panel] { clip-path: inset(100% 0 0 0); }
   html.motion-fallback #dsx .dsx-r,
   html.motion-fallback #dsx .dsx-f { transform: none !important; opacity: 1 !important; }
-  html.motion-fallback #dsx [data-deck-panel] { clip-path: inset(0 0 0 0) !important; }
 
   /* Content reveal — the site-wide [data-reveal] hook. Hidden under html.motion,
      revealed by the engine adding .is-in (IntersectionObserver). */
@@ -571,12 +617,13 @@ const MENU = [
     const drifts = q("[data-drift]").map(mk);
     const stmtSec = one("[data-stmt-sec]");
     const deckSec = one("[data-deck-sec]");
-    const deckPanels = q("[data-deck-panel]").map((el) => ({
-      el,
-      img: el.querySelector<HTMLElement>("[data-deck-img]"),
-      shade: el.querySelector<HTMLElement>("[data-deck-shade]"),
-      title: el.querySelector<HTMLElement>("[data-deck-title]"),
-    }));
+    // Pinned-laptop gallery: parallel lists of screen images + copy blocks that
+    // cross-fade in sync with scroll progress. The clickable screen carries the
+    // active project's data-idx (for the case overlay); the chrome shows its URL.
+    const deckScreens = q("[data-screen]");
+    const deckCopies = q("[data-copy]");
+    const deckCard = one("[data-deck-card]");
+    const deckUrl = one("[data-lap-url]");
     const deckNum = one("[data-deck-num]");
     const deckBar = one("[data-deck-bar]");
     const curEls = {
@@ -625,8 +672,8 @@ const MENU = [
       marquees.concat(drifts).forEach((m) => {
         if (m.copy) m.w = m.copy.offsetWidth;
       });
-      if (deckSec && deckPanels.length) {
-        deckSec.style.height = Math.round(vh * (deckPanels.length + 1)) + "px";
+      if (deckSec && deckScreens.length) {
+        deckSec.style.height = Math.round(vh * (deckScreens.length + 1)) + "px";
         deckTop = deckSec.getBoundingClientRect().top + window.scrollY;
       }
       if (stmtSec) {
@@ -985,30 +1032,32 @@ const MENU = [
         }
       }
 
-      if (deckSec && deckPanels.length) {
-        const N = deckPanels.length;
+      if (deckSec && deckScreens.length) {
+        const N = deckScreens.length;
         const p = Math.min(N - 1, Math.max(0, (y - deckTop) / vh));
         const i = Math.floor(p);
         const tt = p - i;
         const te = tt * tt * (3 - 2 * tt);
-        deckPanels.forEach((P, k) => {
-          let clip = 100, sc = 1.12, shade = 0, ty = 0, op = 1;
-          if (k <= i) { clip = 0; sc = 1; }
-          if (k === i) { sc = 1 + te * 0.07; shade = te * 0.6; ty = -te * 40; op = 1 - te * 1.15; }
-          else if (k === i + 1) { clip = (1 - te) * 100; sc = 1.12 - te * 0.12; ty = (1 - te) * 46; op = te * 1.3; }
-          else if (k < i) { shade = 0.6; }
-          P.el.style.clipPath = "inset(" + clip.toFixed(2) + "% 0% 0% 0%)";
-          if (P.img) P.img.style.transform = "scale(" + sc.toFixed(4) + ")";
-          if (P.shade) P.shade.style.opacity = Math.min(1, shade).toFixed(3);
-          if (P.title) {
-            P.title.style.transform = "translate3d(0," + ty.toFixed(1) + "px,0)";
-            P.title.style.opacity = Math.max(0, Math.min(1, op)).toFixed(3);
+        // Cross-fade the active project's screen + copy into the next one. Copy
+        // also slides a touch vertically to feel deliberate rather than a dissolve.
+        for (let k = 0; k < N; k++) {
+          let so = 0, co = 0, ty = 0;
+          if (k === i) { so = 1 - te; co = 1 - te; ty = -te * 28; }
+          else if (k === i + 1) { so = te; co = te; ty = (1 - te) * 28; }
+          const sc = deckScreens[k], cp = deckCopies[k];
+          if (sc) sc.style.opacity = so.toFixed(3);
+          if (cp) {
+            cp.style.opacity = co.toFixed(3);
+            cp.style.transform = "translate3d(0," + ty.toFixed(1) + "px,0)";
           }
-        });
-        const idx = Math.min(N, Math.round(p) + 1);
-        if (deckNum && idx !== deckIdx) {
+        }
+        const active = Math.min(N - 1, Math.round(p));
+        const idx = active + 1;
+        if (idx !== deckIdx) {
           deckIdx = idx;
-          deckNum.textContent = "0" + idx;
+          if (deckNum) deckNum.textContent = "0" + idx;
+          if (deckCard) deckCard.dataset.idx = String(active);
+          if (deckUrl) deckUrl.textContent = (PROJECTS[active] && PROJECTS[active].domain) || "";
         }
         if (deckBar) deckBar.style.transform = "scaleX(" + (p / (N - 1)).toFixed(4) + ")";
       }

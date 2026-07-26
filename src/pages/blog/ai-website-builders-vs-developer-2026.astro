@@ -1,11 +1,11 @@
 ---
 import Studio from "../../layouts/Studio.astro";
+import RelatedPosts from "../../components/RelatedPosts.astro";
 import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
 
 const slug = "ai-website-builders-vs-developer-2026";
 const idx = POSTS.findIndex((p) => p.slug === slug);
 const post = POSTS[idx];
-const next = POSTS[(idx + 1) % POSTS.length];
 
 const canonical = `${SITE}/blog/${slug}/`;
 const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
@@ -99,7 +99,7 @@ const jsonld = JSON.stringify({
     )}
 
     <article class="wrap narrow post-body">
-      <p>I’m in an unusual spot to write this. I build websites by hand for clients — and I also build <a href="https://www.divyanshsood.com/projects/webseek">WebSeek.ai</a>, an AI website generator that turns one prompt into a custom-coded site.</p>
+      <p>I’m in an unusual spot to write this. I build websites by hand for clients — and I also build <a href="https://www.divyanshsood.com/projects/webseek/">WebSeek.ai</a>, an AI website generator that turns one prompt into a custom-coded site.</p>
 <p>So I have no incentive to tell you AI tools are bad. They’re not. I bet on them. But I’d be lying if I said they’re the right answer for everything, and the honest version is more useful to you than a sales pitch from either side.</p>
 <p>Here’s where AI builders genuinely win, and where a human is still worth the money.</p>
 <hr>
@@ -118,7 +118,7 @@ const jsonld = JSON.stringify({
 <h2 id="where-ai-quietly-costs-you-more">Where AI quietly costs you more</h2>
 <p>The trouble is that AI output looks finished. It’s confident, it’s polished, and that’s exactly what hides the gaps. The cost shows up later:</p>
 <p><strong>It optimises for “looks done,” not “does the job.”</strong> AI makes pages that <em>look</em> like websites. Whether the structure actually moves a specific customer toward a specific action — that’s strategy, and strategy comes from understanding your business, not from a prompt.</p>
-<p><strong>The generic ceiling.</strong> AI is trained on what already exists, so it regresses toward the average. For a brand whose whole point is <em>not</em> being average — <a href="https://www.divyanshsood.com/projects/cultxberserk">CultXberserk</a>, <a href="https://www.divyanshsood.com/projects/redline">Redline Studios</a> — “competent and generic” is a failure, not a win.</p>
+<p><strong>The generic ceiling.</strong> AI is trained on what already exists, so it regresses toward the average. For a brand whose whole point is <em>not</em> being average — <a href="https://www.divyanshsood.com/projects/cultxberserk/">CultXberserk</a>, <a href="https://www.divyanshsood.com/projects/redline/">Redline Studios</a> — “competent and generic” is a failure, not a win.</p>
 <p><strong>The last 20%.</strong> AI gets you 80% of the way fast. The last 20% — the edge cases, the integration that has to be exactly right, the performance pass, the accessibility — is most of the actual work, and it’s where AI tends to stall and confidently produce subtly wrong code.</p>
 <p><strong>It doesn’t own the outcome.</strong> When the contact form silently fails or the payment integration drops orders, the AI doesn’t care and can’t be called. A developer is accountable. That accountability is a large part of what you’re paying for.</p>
 <hr>
@@ -165,16 +165,11 @@ const jsonld = JSON.stringify({
 <p>So the real question isn’t “AI or developer.” It’s: <em>is this site disposable, or does it have to work?</em></p>
 <p>If it’s disposable, let AI rip. If it has to work — to convert, to carry a brand, to handle money, to last — get a human, ideally one who uses AI to move faster on everything except the judgment.</p>
 <hr>
-<p><em>I’m Divyansh Sood — solo web designer and developer shipping from Himachal Pradesh. I build sites by hand, and I also built <a href="https://www.divyanshsood.com/projects/webseek">WebSeek.ai</a>, the AI website generator this post is about. 9 live builds since 2022. If your team is weighing AI tools against hiring a developer, <a href="mailto:hello@divyanshsood.com">email me</a> — I’ll tell you within a day where I think each one fits.</em></p>
+<p><em>I’m Divyansh Sood — solo web designer and developer shipping from Himachal Pradesh. I build sites by hand, and I also built <a href="https://www.divyanshsood.com/projects/webseek/">WebSeek.ai</a>, the AI website generator this post is about. 9 live builds since 2022. If your team is weighing AI tools against hiring a developer, <a href="mailto:hello@divyanshsood.com">email me</a> — I’ll tell you within a day where I think each one fits.</em></p>
       <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
     </article>
 
-    <section class="wrap narrow" aria-label="Keep reading">
-      <a class="post-next" href={`/blog/${next.slug}/`}>
-        <span><span class="label">Read next</span><br /><span class="name">{next.title}</span></span>
-        <span class="arrow" aria-hidden="true">→</span>
-      </a>
-    </section>
+    <RelatedPosts slug={slug} audience={post.audience} />
 
     <section class="post-foot-cta">
       <div class="wrap narrow">

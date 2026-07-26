@@ -1,11 +1,11 @@
 ---
 import Studio from "../../layouts/Studio.astro";
+import RelatedPosts from "../../components/RelatedPosts.astro";
 import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
 
 const slug = "hotel-homestay-website-himachal-direct-bookings";
 const idx = POSTS.findIndex((p) => p.slug === slug);
 const post = POSTS[idx];
-const next = POSTS[(idx + 1) % POSTS.length];
 
 const canonical = `${SITE}/blog/${slug}/`;
 const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
@@ -118,7 +118,7 @@ const jsonld = JSON.stringify({
 </ul>
 <hr>
 <h2 id="proof-this-works-here">Proof this works here — not in a case study from Portugal</h2>
-<p>This isn’t theory imported from abroad. <a href="/projects/dharamshala-tours/">Dharamshala Tours</a> — a travel operator I built for — takes part of roughly 1,000 package bookings a month through a WhatsApp-first site with a self-serve editor. <a href="/projects/inhimalayas/">InHimalayas</a>, my own Himalayan travel brand, adds the newer layer: structured data and llms.txt that get it cited by AI assistants — which is where “best homestays in Himachal” questions are increasingly being asked and answered.</p>
+<p>This isn’t theory imported from abroad. <a href="/projects/dharamshala-tours/">Dharamshala Tours</a> — a travel operator I built for — takes part of roughly 1,000 package bookings a month through a WhatsApp-first site with a self-serve editor. On top of that sits the newer layer every build gets: structured data and <code>llms.txt</code>, so an assistant can quote your rooms, rates and location accurately — which matters because “best homestays in Himachal” is increasingly a question being asked of ChatGPT rather than typed into Google.</p>
 <p>The deeper commission math, including when OTAs are still worth it, is in <a href="/blog/direct-bookings-without-aggregator-commission/">direct bookings without aggregator commission</a>.</p>
 <hr>
 <h2 id="the-playbook-for-one-season">The playbook, compressed</h2>
@@ -134,12 +134,7 @@ const jsonld = JSON.stringify({
       <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
     </article>
 
-    <section class="wrap narrow" aria-label="Keep reading">
-      <a class="post-next" href={`/blog/${next.slug}/`}>
-        <span><span class="label">Read next</span><br /><span class="name">{next.title}</span></span>
-        <span class="arrow" aria-hidden="true">→</span>
-      </a>
-    </section>
+    <RelatedPosts slug={slug} audience={post.audience} />
 
     <section class="post-foot-cta">
       <div class="wrap narrow">

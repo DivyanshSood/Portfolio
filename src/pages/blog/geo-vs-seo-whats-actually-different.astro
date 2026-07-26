@@ -1,11 +1,11 @@
 ---
 import Studio from "../../layouts/Studio.astro";
+import RelatedPosts from "../../components/RelatedPosts.astro";
 import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
 
 const slug = "geo-vs-seo-whats-actually-different";
 const idx = POSTS.findIndex((p) => p.slug === slug);
 const post = POSTS[idx];
-const next = POSTS[(idx + 1) % POSTS.length];
 
 const canonical = `${SITE}/blog/${slug}/`;
 const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
@@ -116,7 +116,7 @@ const jsonld = JSON.stringify({
 <hr>
 <h2 id="where-they-overlap-and-compound">Where they overlap — and compound</h2>
 <p>The good news: the foundations are shared. Server-rendered content models can actually read. Fast, clean, semantic HTML. Real expertise stated plainly. Honest sitemaps. A site that’s technically excellent for Googlebot is readable by every AI crawler too.</p>
-<p>That’s why the right mental model is a stack, not a fork: technical SEO is the floor, GEO is a new storey on top. When I implemented the full stack on <a href="/projects/inhimalayas/">InHimalayas</a> — schema graph, llms.txt, quotable copy — AI-referred traffic lifted measurably within weeks, while the classic rankings kept compounding underneath.</p>
+<p>That’s why the right mental model is a stack, not a fork: technical SEO is the floor, GEO is a new storey on top. Implement the full stack — schema graph, <code>llms.txt</code>, quotable copy — and the GEO layer rides on classic rankings that keep compounding underneath it. You are never choosing one at the other’s expense.</p>
 <hr>
 <h2 id="what-to-do-this-quarter">What to do this quarter</h2>
 <ul>
@@ -131,12 +131,7 @@ const jsonld = JSON.stringify({
       <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
     </article>
 
-    <section class="wrap narrow" aria-label="Keep reading">
-      <a class="post-next" href={`/blog/${next.slug}/`}>
-        <span><span class="label">Read next</span><br /><span class="name">{next.title}</span></span>
-        <span class="arrow" aria-hidden="true">→</span>
-      </a>
-    </section>
+    <RelatedPosts slug={slug} audience={post.audience} />
 
     <section class="post-foot-cta">
       <div class="wrap narrow">

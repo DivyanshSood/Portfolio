@@ -11,9 +11,10 @@ const canonical = `${SITE}/portfolio/`;
 const work = [...projects].sort((a, b) => Number(a.num) - Number(b.num));
 // Personal projects (data.mjs `personal:true`) — the WebGL gallery above walks the
 // client work; these get their own labelled grid and are kept off the homepage deck.
-// `unlisted` builds (e.g. InHimalayas, whose live site rebranded/broke) keep their case
-// page for GEO interlinks but are pulled from this visible work list.
-const personalWork = work.filter((p) => p.personal && !p.unlisted);
+const personalWork = work.filter((p) => p.personal);
+// The same list the WebGL gallery walks — rendered again as plain anchors below
+// it, because the gallery's links are JS-swapped and don't exist for a crawler.
+const clientWork = work.filter((p) => !p.personal);
 
 // Real studio numbers — same figures used on /results and the homepage.
 const stats = [
@@ -41,7 +42,7 @@ const jsonld = JSON.stringify({
       itemListElement: work.map((p, i) => ({
         "@type": "ListItem",
         position: i + 1,
-        url: `${SITE}/projects/${p.slug}`,
+        url: `${SITE}/projects/${p.slug}/`,
         name: `${p.name} — ${p.category}`,
       })),
     },
@@ -82,6 +83,34 @@ const jsonld = JSON.stringify({
     </header>
 
     <DepthGallery />
+
+    {/* The WebGL gallery above is the *experience* of the client work, but it
+        only ever renders one <a> — the rest of the case-study links are swapped
+        in by JS, and the whole section is display:none until WebGL is
+        confirmed. So the portfolio page linked exactly one client case study
+        crawlably, and /projects/baglamukhi-travels/ had no inbound link at all.
+        This grid is the plain-HTML index of the same list. */}
+    <section class="cs-sec pp-sec" aria-labelledby="client-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="client-h">Client work</h2>
+          <span class="mono">{clientWork.length} case studies</span>
+        </div>
+        <div class="cs-body pp-grid" data-reveal>
+          {clientWork.map((p) => (
+            <article class="cs-card pp-card">
+              <span class="cs-tag">{p.num} · {p.category}</span>
+              <h3 class="pp-name"><a href={`/projects/${p.slug}/`}>{p.name}</a></h3>
+              <p>{p.outcome}</p>
+              <div class="pp-links mono">
+                <a href={`/projects/${p.slug}/`}>Case study →</a>
+                <a href={p.liveUrl} target="_blank" rel="noopener">Visit live ↗</a>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
 
     <section class="cs-sec pp-sec" aria-labelledby="personal-h">
       <div class="wrap">

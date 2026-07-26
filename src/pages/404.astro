@@ -12,7 +12,9 @@
     <meta name="description" content="This page doesn't exist. Head back to the homepage or browse the portfolio of custom-coded, conversion-focused websites." />
     <meta name="robots" content="noindex, follow" />
     <meta name="theme-color" content="#0b0b0c" />
-    <link rel="canonical" href="https://www.divyanshsood.com/404" />
+    {/* No canonical here on purpose. This template is served for *every*
+        unmatched path, so a self-canonical pointed all of them at "/404" — a
+        URL that isn't itself reachable — while the page is noindex anyway. */}
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link
       rel="icon"

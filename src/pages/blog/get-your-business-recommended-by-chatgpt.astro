@@ -1,11 +1,11 @@
 ---
 import Studio from "../../layouts/Studio.astro";
+import RelatedPosts from "../../components/RelatedPosts.astro";
 import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
 
 const slug = "get-your-business-recommended-by-chatgpt";
 const idx = POSTS.findIndex((p) => p.slug === slug);
 const post = POSTS[idx];
-const next = POSTS[(idx + 1) % POSTS.length];
 
 const canonical = `${SITE}/blog/${slug}/`;
 const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
@@ -135,18 +135,13 @@ const jsonld = JSON.stringify({
 <li><strong>You’re present but wrong</strong> → find the stale source it’s reading (old directory, dead page) and fix it at the origin.</li>
 <li><strong>You’re present and accurate</strong> → you now own a channel your competitors don’t know exists. Keep the facts fresh.</li>
 </ul>
-<p>When I ran this loop on my own travel brand, <a href="/projects/inhimalayas/">InHimalayas</a>, AI-referred traffic became measurable within weeks — from a standing start, in a category full of bigger names.</p>
+<p>Run the loop monthly rather than once. The answers move as the models refresh their sources, and the point is to catch a stale or wrong description early — while it’s still a fix at the origin rather than a story that has spread.</p>
 <hr>
 <p><em>I’m Divyansh Sood. Getting businesses recommended by AI is literally a service I sell — <a href="/services/seo-geo-services/">SEO and GEO, implemented in your codebase</a> — and the deeper theory is in <a href="/blog/geo-vs-seo-whats-actually-different/">GEO vs SEO</a>. Before you email me, ask the assistants about your category. Then <a href="mailto:hello@divyanshsood.com">send me what they said</a> — that transcript is the audit.</em></p>
       <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
     </article>
 
-    <section class="wrap narrow" aria-label="Keep reading">
-      <a class="post-next" href={`/blog/${next.slug}/`}>
-        <span><span class="label">Read next</span><br /><span class="name">{next.title}</span></span>
-        <span class="arrow" aria-hidden="true">→</span>
-      </a>
-    </section>
+    <RelatedPosts slug={slug} audience={post.audience} />
 
     <section class="post-foot-cta">
       <div class="wrap narrow">

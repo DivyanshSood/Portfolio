@@ -1,11 +1,11 @@
 ---
 import Studio from "../../layouts/Studio.astro";
+import RelatedPosts from "../../components/RelatedPosts.astro";
 import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
 
 const slug = "own-your-stack-code-portability";
 const idx = POSTS.findIndex((p) => p.slug === slug);
 const post = POSTS[idx];
-const next = POSTS[(idx + 1) % POSTS.length];
 
 const canonical = `${SITE}/blog/${slug}/`;
 const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
@@ -129,7 +129,7 @@ const jsonld = JSON.stringify({
 <li><strong>Your data, exportable.</strong> Customers, orders, content — yours to take, any time, in a standard format.</li>
 <li><strong>Your own hosting and domain.</strong> On infrastructure you control, so moving is a config change, not a hostage negotiation.</li>
 </ol>
-<p>When I hand off a project — <a href="https://www.divyanshsood.com/projects/modernkbs">Modern K.B.S.</a>, <a href="https://www.divyanshsood.com/projects/northpeak">North Peak Power Systems</a>, any of them — it comes with the code, a walkthrough, and the keys. Including the part where the client could, in theory, never speak to me again. That’s the point. You should be able to.</p>
+<p>When I hand off a project — <a href="https://www.divyanshsood.com/projects/modernkbs/">Modern K.B.S.</a>, <a href="https://www.divyanshsood.com/projects/northpeak/">North Peak Power Systems</a>, any of them — it comes with the code, a walkthrough, and the keys. Including the part where the client could, in theory, never speak to me again. That’s the point. You should be able to.</p>
 <hr>
 <h2 id="the-clause-to-put-in-your-next-contract">The clause to put in your next contract</h2>
 <p>One line settles it: <strong>“All source code, assets, and data are the property of the client and will be delivered in a standard, portable format on completion.”</strong></p>
@@ -140,12 +140,7 @@ const jsonld = JSON.stringify({
       <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
     </article>
 
-    <section class="wrap narrow" aria-label="Keep reading">
-      <a class="post-next" href={`/blog/${next.slug}/`}>
-        <span><span class="label">Read next</span><br /><span class="name">{next.title}</span></span>
-        <span class="arrow" aria-hidden="true">→</span>
-      </a>
-    </section>
+    <RelatedPosts slug={slug} audience={post.audience} />
 
     <section class="post-foot-cta">
       <div class="wrap narrow">

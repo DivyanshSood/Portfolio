@@ -1,11 +1,11 @@
 ---
 import Studio from "../../layouts/Studio.astro";
+import RelatedPosts from "../../components/RelatedPosts.astro";
 import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
 
 const slug = "make-your-brand-quotable-by-ai-geo-2026";
 const idx = POSTS.findIndex((p) => p.slug === slug);
 const post = POSTS[idx];
-const next = POSTS[(idx + 1) % POSTS.length];
 
 const canonical = `${SITE}/blog/${slug}/`;
 const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
@@ -114,7 +114,7 @@ const jsonld = JSON.stringify({
 <p>You can rank #1 on Google and still be absent from every AI answer about your category. The two are no longer the same game.</p>
 <hr>
 <h2 id="the-four-things-that-make-you-quotable">The four things that make you quotable</h2>
-<p><strong>1. Ship an <code>llms.txt</code> file.</strong> This is a plain-text file at the root of your domain that tells AI crawlers, in clean prose, who you are, what you offer, and what’s true about you. It’s the AI-era equivalent of a sitemap — a curated summary you control. Every site I build ships one (<a href="/tools/llms-txt-generator/">generate a starter one free →</a>). <a href="https://www.divyanshsood.com/projects/inhimalayas">InHimalayas</a> saw a measurable lift in AI-referred traffic after we added llms.txt plus structured data.</p>
+<p><strong>1. Ship an <code>llms.txt</code> file.</strong> This is a plain-text file at the root of your domain that tells AI crawlers, in clean prose, who you are, what you offer, and what’s true about you. It’s the AI-era equivalent of a sitemap — a curated summary you control. Every site I build ships one (<a href="/tools/llms-txt-generator/">generate a starter one free →</a>), paired with structured data so the same facts are stated twice in two machine-readable forms.</p>
 <p><strong>2. State facts as facts.</strong> Models extract sentences. “Founded in 2022, we build custom-coded storefronts and have shipped 9 live client sites” is quotable. “We’re passionate about crafting digital experiences” is not — it says nothing a model can repeat. Write the line you’d want quoted back to you.</p>
 <p><strong>3. Add JSON-LD structured data.</strong> Organization, Product, FAQ, Review schema. This is how you hand a machine the facts in a format it can’t misread — your prices, your offerings, your ratings, your answers to common questions.</p>
 <p><strong>4. Make your content server-rendered.</strong> If a crawler has to execute JavaScript to read your page, assume some won’t. Server-render or statically generate the important content so it’s there in the raw HTML.</p>
@@ -140,12 +140,7 @@ const jsonld = JSON.stringify({
       <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
     </article>
 
-    <section class="wrap narrow" aria-label="Keep reading">
-      <a class="post-next" href={`/blog/${next.slug}/`}>
-        <span><span class="label">Read next</span><br /><span class="name">{next.title}</span></span>
-        <span class="arrow" aria-hidden="true">→</span>
-      </a>
-    </section>
+    <RelatedPosts slug={slug} audience={post.audience} />
 
     <section class="post-foot-cta">
       <div class="wrap narrow">

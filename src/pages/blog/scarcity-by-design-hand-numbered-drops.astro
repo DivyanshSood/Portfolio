@@ -1,11 +1,11 @@
 ---
 import Studio from "../../layouts/Studio.astro";
+import RelatedPosts from "../../components/RelatedPosts.astro";
 import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
 
 const slug = "scarcity-by-design-hand-numbered-drops";
 const idx = POSTS.findIndex((p) => p.slug === slug);
 const post = POSTS[idx];
-const next = POSTS[(idx + 1) % POSTS.length];
 
 const canonical = `${SITE}/blog/${slug}/`;
 const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
@@ -102,7 +102,7 @@ const jsonld = JSON.stringify({
       <p>There are two ways to sell apparel online.</p>
 <p>One: stock deep, restock forever, compete on availability and price. The store’s job is to never be out of your size.</p>
 <p>Two: make a fixed number, number each one, never make it again. The store’s job is to make you feel you’ll miss it.</p>
-<p>Those are not the same business with different marketing. They’re different businesses — and they need different software. I learned exactly how different building <a href="https://www.divyanshsood.com/projects/cultxberserk">CultXberserk</a>, a Berserk-inspired label where every garment is hand-numbered 0001 to 0666 and never reprinted.</p>
+<p>Those are not the same business with different marketing. They’re different businesses — and they need different software. I learned exactly how different building <a href="https://www.divyanshsood.com/projects/cultxberserk/">CultXberserk</a>, a Berserk-inspired label where every garment is hand-numbered 0001 to 0666 and never reprinted.</p>
 <hr>
 <h2 id="scarcity-only-works-if-its-real">Scarcity only works if it’s real</h2>
 <p>The fastest way to kill a drop brand is fake scarcity. “Only 3 left!” countdown timers that reset on refresh. “Limited edition” that quietly restocks next month. Customers smell it instantly, and the moment they do, the premium evaporates.</p>
@@ -138,17 +138,12 @@ const jsonld = JSON.stringify({
 </ol>
 <p>The brands that win at the premium end aren’t selling better cotton. They’re selling a feeling of rarity and belonging — and they build every pixel of the storefront to protect it.</p>
 <hr>
-<p><em>I’m Divyansh Sood. I built <a href="https://www.divyanshsood.com/projects/cultxberserk">CultXberserk</a> — a hand-numbered apparel label where every garment carries an individual identity, never restocks, and earns the “limited” tag by actually meaning it. The custom storefront had to do unit-level inventory, drop state, and provenance that off-the-shelf stores simply don’t model. 9 live builds since 2022.</em></p>
+<p><em>I’m Divyansh Sood. I built <a href="https://www.divyanshsood.com/projects/cultxberserk/">CultXberserk</a> — a hand-numbered apparel label where every garment carries an individual identity, never restocks, and earns the “limited” tag by actually meaning it. The custom storefront had to do unit-level inventory, drop state, and provenance that off-the-shelf stores simply don’t model. 9 live builds since 2022.</em></p>
 <p><em>If your brand is a real drop model — or you want to build one — <a href="mailto:hello@divyanshsood.com">email me</a>. I’ll tell you within a day whether custom code is worth it or whether a headless Shopify setup gets you there cheaper.</em></p>
       <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
     </article>
 
-    <section class="wrap narrow" aria-label="Keep reading">
-      <a class="post-next" href={`/blog/${next.slug}/`}>
-        <span><span class="label">Read next</span><br /><span class="name">{next.title}</span></span>
-        <span class="arrow" aria-hidden="true">→</span>
-      </a>
-    </section>
+    <RelatedPosts slug={slug} audience={post.audience} />
 
     <section class="post-foot-cta">
       <div class="wrap narrow">
