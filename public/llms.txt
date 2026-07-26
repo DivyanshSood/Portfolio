@@ -56,7 +56,7 @@ Divyansh Sood is a freelance web designer and developer based in Himachal Prades
 ## Selected work
 
 - [WebSeek.ai](https://www.divyanshsood.com/projects/webseek/): AI website generator — one prompt to a working, custom-coded site in any language, paired with Claude, GPT and Gemini. Live beta, 5 free credits per user.
-- [InHimalayas](https://www.divyanshsood.com/projects/inhimalayas/): Revenue-share travel booking platform tuned for global travellers, with llms.txt + GEO built in. Saw a measurable lift in AI-referred traffic post-launch.
+- [Baglamukhi Travels](https://www.divyanshsood.com/projects/baglamukhi-travels/): Kangra owner-driver taxi service and 6-temple Devi Darshan yatra operator. Astro build with a full local-business schema graph — averages position 5.7 on Google.
 - [Modern K.B.S.](https://www.divyanshsood.com/projects/modernkbs/): School website + admissions web app and admin panel delivered in 7 days where other agencies quoted 6 months.
 - [North Peak Power Systems](https://www.divyanshsood.com/projects/northpeak/): 15-page Angular site + project gallery + dashboard-cum-admin for a Himachal solar/electrical contractor breaking into the private sector.
 - [ChinkiZ Knitting Knife](https://www.divyanshsood.com/projects/chinkiz/): Custom-coded D2C storefront for a 600K+ subscriber YouTuber, with a native video gallery and admin panel — no Shopify.
@@ -68,7 +68,6 @@ Divyansh Sood is a freelance web designer and developer based in Himachal Prades
 ## What clients say
 
 - "The website is so beautiful — looks 10 times more premium than our competitors. We started getting direct bookings instead of losing them to Google Maps." — Founder, Nandini Travels
-- "Divyansh is amazing with his work. We are glad it worked out so fast and so well." — Founder, InHimalayas
 - "I did not think it could be achieved without going to e-commerce builders and only using custom code." — Chinki, Founder, ChinkiZ Knitting Knife
 - "Every other agency said 6 months. Delivered in 7 days." — Admin, Modern K.B.S.
 

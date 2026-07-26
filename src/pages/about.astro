@@ -152,6 +152,43 @@ const jsonld = JSON.stringify({
               <a href={CALENDLY_URL} target="_blank" rel="noopener" class="btn btn-primary">Book a 15-min intro <span aria-hidden="true">↗</span></a>
               <a href="/portfolio/" class="btn btn-ghost">See the work</a>
             </div>
+
+            {/* ---- LinkedIn profile badge ----
+                 The on-brand card is the anchor LinkedIn's script looks for
+                 (.LI-simple-link) — it paints immediately, then profile.js
+                 replaces the container's contents with LinkedIn's iframe. If
+                 that script is blocked or fails, the card just stays. */}
+            <div class="about-li">
+              <span class="mono about-li-label">Verify on LinkedIn</span>
+
+              <div class="about-li-embed">
+                <div
+                  class="badge-base LI-profile-badge"
+                  data-locale="en_US"
+                  data-size="large"
+                  data-theme="dark"
+                  data-type="HORIZONTAL"
+                  data-vanity="divyansh-sood-023556151"
+                  data-version="v1"
+                >
+                  <a
+                    class="badge-base__link LI-simple-link about-li-card"
+                    href="https://in.linkedin.com/in/divyansh-sood-023556151?trk=profile-badge"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    <span class="about-li-mark" aria-hidden="true">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"></path></svg>
+                    </span>
+                    <span class="about-li-body">
+                      <span class="about-li-name">Divyansh Sood</span>
+                      <span class="about-li-role">Founder — web design &amp; development · Himachal Pradesh, India</span>
+                    </span>
+                    <span class="about-li-go mono" aria-hidden="true">View profile ↗</span>
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -267,6 +304,10 @@ const jsonld = JSON.stringify({
     </section>
   </main>
 
+  {/* LinkedIn badge renderer. is:inline keeps it a real third-party tag
+      instead of being pulled into Astro's bundle. */}
+  <script src="https://platform.linkedin.com/badges/js/profile.js" async defer type="text/javascript" is:inline></script>
+
   <style>
     /* ============================================================
        About page — UI polish (scoped). Matches the homepage's bold
@@ -290,6 +331,84 @@ const jsonld = JSON.stringify({
     /* Hero: tighten the lead and add a hairline accent under the eyebrow. */
     main .cs-hero { padding-top: clamp(120px, 16vw, 160px); }
     main .cs-lead { max-width: 64ch; font-size: clamp(17px, 1.7vw, 21px); }
+
+    /* ---- LinkedIn profile badge ----
+       .about-li-embed is the frame: it reserves the iframe's footprint so the
+       late-arriving badge doesn't shift the founder card, and gives LinkedIn's
+       widget site chrome once it lands. .about-li-card is the pre-load
+       fallback inside it — same hover language as .cs-card. */
+    main .about-li {
+      margin-top: 26px;
+      padding-top: 22px;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      max-width: 100%;
+    }
+    main .about-li-label { display: block; margin-bottom: 12px; color: #8A8A93; }
+
+    main .about-li-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      width: 100%;
+      padding: 16px 18px;
+      border-radius: 8px;
+      text-decoration: none;
+      color: inherit;
+      background: rgba(255, 255, 255, 0.03);
+      transition: transform .4s cubic-bezier(.16, 1, .3, 1), background .3s ease;
+    }
+    main .about-li-card:hover {
+      transform: translateY(-3px);
+      background: linear-gradient(180deg, rgba(217, 255, 60, 0.09), transparent);
+    }
+    main .about-li-mark {
+      flex: none;
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #fff;
+    }
+    main .about-li-card:hover .about-li-mark { color: var(--accent, #d9ff3c); }
+    main .about-li-body { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+    main .about-li-name { font-weight: 800; font-size: 16px; letter-spacing: -0.01em; }
+    main .about-li-role {
+      font-size: 12.5px;
+      line-height: 1.4;
+      opacity: 0.7;
+    }
+    main .about-li-go {
+      margin-left: auto;
+      flex: none;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent, #d9ff3c);
+      opacity: 0.85;
+    }
+    @media (max-width: 560px) {
+      main .about-li-card { flex-wrap: wrap; }
+      main .about-li-go { margin-left: 58px; }
+    }
+
+    /* :global is required on the iframe — LinkedIn's script injects it, so it
+       never carries Astro's scoping attribute and a scoped selector can't
+       match it. */
+    main .about-li-embed {
+      display: grid;
+      place-items: center;
+      max-width: 460px;
+      min-height: 300px;
+      padding: 10px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 10px;
+    }
+    main .about-li-embed .LI-profile-badge { width: 100%; }
+    main .about-li-embed :global(iframe) { max-width: 100%; border: 0; }
 
     /* ---- By the numbers → borderless giant figures with hairlines ---- */
     main .cs-metrics {

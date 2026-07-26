@@ -161,7 +161,6 @@ html.motion-fallback .ds-giant-line{transform:none;opacity:1;}
    still crossfades within its group when it differs.) */
 #ds-nav{view-transition-name:ds-nav;}
 #ds-sticky-book{view-transition-name:ds-pill;}
-#ds-cookie-banner{view-transition-name:ds-cookie;}
 @media (prefers-reduced-motion: reduce){
   ::view-transition-group(*),::view-transition-image-pair(*),
   ::view-transition-old(*),::view-transition-new(*){animation:none !important;}

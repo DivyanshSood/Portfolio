@@ -81,7 +81,7 @@ Less of a fit: buyers who want the cheapest possible template site, or who need 
 Each project is custom-coded and owned by the client.
 
 - WebSeek.ai — AI website generator (https://www.divyanshsood.com/projects/webseek/). Stack: React · Tailwind · Anthropic (Claude) / OpenAI (GPT) / Google (Gemini). The studio's own bet on where agencies go next: one prompt to a working, custom-coded site in any language, with a Claude/GPT/Gemini model picker. Live beta, 5 free credits per user.
-- InHimalayas — travel booking platform (https://www.divyanshsood.com/projects/inhimalayas/). Stack: Astro · GEO · llms.txt. Revenue-share booking platform tuned for global travellers and AI-search, with llms.txt and GEO built in. Outcome: a measurable lift in AI-referred traffic within weeks of launch.
+- Baglamukhi Travels — Kangra taxi & Devi Darshan (https://www.divyanshsood.com/projects/baglamukhi-travels/). Stack: Astro · JSON-LD · WhatsApp. A family-run, agent-free taxi and pilgrimage-tour operator in Kangra, Himachal Pradesh, run by owner-drivers since 2018 and rated 5.0 on Google. Ten pages aimed at real search intents, a complete local-business schema graph, llms.txt, and one-tap WhatsApp booking. Outcome: an average Google position of 5.7, with 7.25K impressions and 148 clicks in a 28-day window.
 - Modern K.B.S. — school portal (https://www.divyanshsood.com/projects/modernkbs/). Stack: Next.js · Supabase · Admin dashboard. School website plus admissions web app and admin panel. Outcome: delivered in 7 days where other agencies quoted 6 months.
 - North Peak Power Systems — solar contractor portal (https://www.divyanshsood.com/projects/northpeak/). Stack: Angular · Project gallery · Admin. A 15-page Angular site plus project gallery and dashboard-cum-admin for a Himachal solar/electrical contractor breaking into the private sector.
 - ChinkiZ Knitting Knife — creator D2C storefront (https://www.divyanshsood.com/projects/chinkiz/). Stack: Next.js · Razorpay · Custom video gallery. A custom-coded storefront for a 600K+ subscriber YouTuber, with a native video gallery and admin panel — no Shopify, full code ownership.
@@ -92,7 +92,7 @@ Each project is custom-coded and owned by the client.
 
 ## Results & proof
 
-- Measurable outcomes: a school site live in 7 days (vs. 6 months quoted); ~1,000 travel packages booked per month; a 600K-subscriber creator storefront; a measurable lift in AI-referred traffic after a GEO-focused launch.
+- Measurable outcomes: a school site live in 7 days (vs. 6 months quoted); ~1,000 travel packages booked per month; a 600K-subscriber creator storefront; an average Google position of 5.7 for a single-operator Kangra taxi business competing against aggregators.
 - Full results page: https://www.divyanshsood.com/results/
 - Testimonials page: https://www.divyanshsood.com/testimonials/
 - Google reviews: https://share.google/x2v3pvXR9RIjYF1z0
@@ -100,7 +100,6 @@ Each project is custom-coded and owned by the client.
 ## What clients say
 
 - "The website is so beautiful — looks 10 times more premium than our competitors. We started getting direct bookings instead of losing them to Google Maps." — Founder, Nandini Travels
-- "Divyansh is amazing with his work. We are glad it worked out so fast and so well." — Founder, InHimalayas
 - "I did not think it could be achieved without going to e-commerce builders and only using custom code." — Chinki, Founder, ChinkiZ Knitting Knife
 - "Every other agency said 6 months. Delivered in 7 days." — Admin, Modern K.B.S.
 

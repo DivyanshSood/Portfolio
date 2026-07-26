@@ -7,9 +7,9 @@
 <script>
   // ---- Conversion events -------------------------------------------------
   // window.dsTrack(name, params) forwards a goal to GA4 + Yandex Metrica.
-  // Both only exist after cookie-consent accept (CookieConsent.astro), so this
-  // is a silent no-op for visitors who declined — no consent, no tracking.
-  const YM_ID = 110027161; // must match CookieConsent.astro
+  // Both are loaded in the head by Studio.astro; the typeof guards below keep
+  // this a silent no-op if a content blocker stripped either one.
+  const YM_ID = 110027161; // must match the loader in Studio.astro
   (window as any).dsTrack = function (name: string, params?: Record<string, unknown>) {
     try {
       const w = window as any;

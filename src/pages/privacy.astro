@@ -27,20 +27,24 @@ const jsonld = JSON.stringify({
 });
 
 // Plain-English summary at the top, detail in the body. Matches the actual
-// runtime behaviour: GA + YM are gated behind consent, no third-party ad
+// runtime behaviour: GA + YM load on every page view, no third-party ad
 // scripts, no IP capture beyond what the CDN does on its own.
 const sections = [
   {
     h: "What runs when you arrive",
-    p: "Until you click \"Accept analytics\", the only request your browser makes to a third party is the one to fetch this site itself. No Google Analytics, no Yandex Metrica, no third-party pixels, no ad scripts. After Accept, see \"Analytics\" below.",
+    p: "Two analytics scripts load with the page: Google Analytics 4 and Yandex Metrica, both described below. No advertising scripts, no tracking pixels, no session replay, no data broker of any kind. Browser-level controls are the way to opt out — see \"Analytics\".",
   },
   {
     h: "Cookies",
-    p: "One cookie of our own: ds-cookie-consent, set when you choose Accept or Decline. It remembers your choice for one year so the banner doesn't show again. No third-party cookies. No advertising cookies.",
+    p: "The analytics tools set their own cookies to tell one visit from the next — Google's _ga family and Yandex's _ym family. They hold a random ID, not a name or an email. The LinkedIn badge on the About page may set LinkedIn's cookies as well. No advertising cookies, and nothing is sold or shared with anyone.",
   },
   {
     h: "Analytics",
-    p: "When you click Accept, the site loads Google Analytics 4 (with IP anonymisation enabled) and Yandex Metrica (without session replay or clickmap). They record page views, country-level geolocation, and referrer. Yandex-verified domain only — not loaded for any other site that hotlinks these scripts. To opt out, clear ds-cookie-consent from localStorage and click Decline on the next visit, or use your browser's Do Not Track signal.",
+    p: "Google Analytics 4 runs with IP anonymisation enabled, and Yandex Metrica runs without session replay or clickmap. They record page views, country-level geolocation, and referrer. Yandex-verified domain only — not loaded for any other site that hotlinks these scripts. To opt out, use your browser's tracker blocking or Do Not Track signal, a content blocker such as uBlock Origin, or Google's official opt-out add-on.",
+  },
+  {
+    h: "LinkedIn badge",
+    p: "The About page embeds my LinkedIn profile badge, which loads in an iframe from platform.linkedin.com and can set LinkedIn's cookies. That embed is governed by LinkedIn's privacy policy, not mine. Blocking third-party frames in your browser removes it; the rest of the page is unaffected.",
   },
   {
     h: "What I don't collect",
@@ -66,7 +70,7 @@ const sections = [
 ---
 <Studio
   title="Privacy — what divyanshsood.com collects · Divyansh Sood® Studio"
-  description="What divyanshsood.com collects (and doesn't). Cookies, analytics gated behind consent, no third-party ads. Plain English, GDPR/CCPA."
+  description="What divyanshsood.com collects (and doesn't). Cookies, anonymous analytics, no third-party ads, nothing sold. Plain English, GDPR/CCPA."
   canonical={canonical}
   keywords="Divyansh Sood privacy, cookie policy, GDPR portfolio, CCPA web developer"
   ogTitle="Privacy — plain English, no dark patterns"
@@ -81,10 +85,10 @@ const sections = [
           <span>Privacy</span><span>Plain English, no dark patterns</span><span>Updated 2026-06</span>
         </div>
         <h1 class="cs-domain">Privacy.<span class="arrow">↗</span></h1>
-        <p class="cs-h1">The short version: <span class="tail">analytics only run after you click Accept, I never sell anything to anyone, and there's no third-party ad script on the page.</span></p>
-        <p class="cs-lead">If you want the full policy, the section-by-section breakdown is below. If you want to change your choice right now, the "Cookies" link in the footer reopens the banner.</p>
+        <p class="cs-h1">The short version: <span class="tail">two analytics tools count page views, I never sell anything to anyone, and there's no third-party ad script on the page.</span></p>
+        <p class="cs-lead">If you want the full policy, the section-by-section breakdown is below — what loads, what it stores, and how to switch it off from your browser.</p>
         <div class="cs-cta-row">
-          <a class="btn btn-primary" href="#ds-cookie-settings" data-cookie-settings>Open cookie settings</a>
+          <a class="btn btn-primary" href="#privacy-detail">Read the detail</a>
           <a class="btn btn-ghost" href={CALENDLY_URL} target="_blank" rel="noopener">Get in touch instead</a>
         </div>
       </div>
@@ -99,13 +103,13 @@ const sections = [
         <div class="cs-body" data-reveal>
           <div class="cs-card span2">
             <span class="cs-tag">The one-line answer</span>
-            <p>This site is a portfolio. It does not collect personal data from visitors. The only thing it records is anonymous page-view counts, and only if you click "Accept analytics" on the cookie banner — which appears on first visit. That's it.</p>
+            <p>This site is a portfolio. It does not collect personal data from visitors. The only thing it records is anonymous page-view counts, through two standard analytics tools that can't tie a visit to a name. That's it.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="cs-sec" aria-labelledby="detail-h">
+    <section class="cs-sec" id="privacy-detail" aria-labelledby="detail-h">
       <div class="wrap">
         <div class="cs-sec-head">
           <h2 id="detail-h">Section by section</h2>

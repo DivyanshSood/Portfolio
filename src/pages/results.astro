@@ -21,7 +21,7 @@ const results = [
   { slug: "chinkiz", name: "ChinkiZ Knitting Knife", cat: "Creator D2C", v: "600K+", l: "subscriber creator's store", icon: "/projects/icons/chinkiz.svg", o: "A 600K-subscriber creator who'd already outgrown Shopify and Webflow. Custom storefront with the demo video sitting right next to the buy button." },
   { slug: "dharamshala-tours", name: "Dharamshala Tours", cat: "Travel CMS", v: "~1,000", l: "packages booked a month", icon: "/projects/icons/dharamshala.svg", o: "A WhatsApp-first travel site where the booking flow ends in a chat, not a dead form. Around a thousand packages move through it every month." },
   { slug: "nandini", name: "Nandini Travels", cat: "Local travel", v: "10×", l: "“more premium” — the founder", icon: "/projects/icons/nandini.svg", o: "Was losing every booking to a Google Maps listing. Now enquiries land on a site the owner controls — and looks, in his words, ten times more premium than the competition." },
-  { slug: "inhimalayas", name: "InHimalayas", cat: "Booking platform", v: "GEO", l: "built to be AI-cited", icon: "/projects/icons/inhimalayas.svg", o: "llms.txt and generative-engine optimisation for a Himachal travel platform — so AI answers quote them by name, not just Google." },
+  { slug: "baglamukhi-travels", name: "Baglamukhi Travels", cat: "Kangra taxi + yatra", v: "5.7", l: "average Google position", icon: "/projects/icons/baglamukhi.svg", o: "Owner-drivers competing against commission agents and aggregators. The site now averages position 5.7 on Google — 7.25K impressions and 148 clicks in 28 days." },
   { slug: "northpeak", name: "North Peak Power", cat: "Infra portal", v: "15", l: "pages, self-serve admin", icon: "/projects/icons/northpeak.svg", o: "Fifteen pages and an admin the marketing team edits on their own. No dev on retainer, no ticket to change a headline." },
   { slug: "redline", name: "Redline Studios", cat: "Brand + store", v: "1", l: "sprint, end to end", icon: "/projects/icons/redline.svg", o: "Brand, store and payments delivered in a single sprint. No phase gates, no deck, no “discovery week” to bill for." },
   { slug: "cultxberserk", name: "CultXberserk", cat: "Lore-driven D2C", v: "0001–0666", l: "hand-numbered units", icon: "/projects/icons/cultxberserk.svg", o: "A lore-driven drop where the story, the numbering mechanic and the buy button all live on one screen — built to make collectors act." },
@@ -44,7 +44,7 @@ const jsonld = JSON.stringify({
       itemListElement: results.map((r, i) => ({
         "@type": "ListItem",
         position: i + 1,
-        url: `${SITE}/projects/${r.slug}`,
+        url: `${SITE}/projects/${r.slug}/`,
         name: `${r.name} — ${r.l}`,
       })),
     },
@@ -107,7 +107,7 @@ const jsonld = JSON.stringify({
 
         <div class="results-grid" data-reveal>
           {results.map((r) => (
-            <a class="results-card" href={`/projects/${r.slug}`}>
+            <a class="results-card" href={`/projects/${r.slug}/`}>
               <div class="results-head">
                 <img class="results-icon" src={r.icon} alt="" width="40" height="40" loading="lazy" />
                 <span class="cs-tag">{r.cat}</span>

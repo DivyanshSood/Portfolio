@@ -27,7 +27,7 @@ export const HAS_FOUNDER_PHOTO = FOUNDER_PHOTO.trim().length > 0;
    prefer a transparent PNG/SVG that reads on a light background.
 --------------------------------------------------------------------------- */
 export const CLIENT_LOGOS = [
-  { name: "InHimalayas", src: "", url: "https://www.inhimalayas.com" },
+  { name: "Baglamukhi Travels", src: "", url: "https://baglamukhitravels.com" },
   { name: "Dharamshala Tours", src: "", url: "" },
   { name: "Redline Studios", src: "", url: "" },
   { name: "ChinkiZ Knitting Knife", src: "", url: "" },
