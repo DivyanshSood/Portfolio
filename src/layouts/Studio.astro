@@ -455,9 +455,34 @@ const MENU = [
   ::-webkit-scrollbar-thumb { background: #26262b; }
   ::-webkit-scrollbar-track { background: #0b0b0c; }
 
-  #dsx a { text-decoration: none; color: inherit; }
-  #dsx a:hover { color: var(--accent, #d9ff3c); }
-  #dsx button { font: inherit; color: inherit; background: none; border: 0; padding: 0; }
+  /* These used to be written `#dsx a` / `#dsx button`. An ID selector scores
+     1-0-1, which silently outranked EVERY class-based button rule on the site:
+     `.btn-primary` (0-1-0) in base.css and `.hero-cta-1` (0-1-0) in
+     index.astro both lost, so their labels inherited the off-white body colour
+     and rendered on a neon-green pill at 1.01:1 contrast — an invisible label
+     on the site's main call to action, on 94 buttons across 67 pages. On hover
+     `#dsx a:hover` made it green-on-green.
+
+     Only the `.dsx-cta` buttons escaped, because they carry an inline
+     style="color:#0B0B0C" and inline beats an ID. That is exactly why this
+     went unnoticed: the homepage looked right while the service, case-study,
+     location, blog and audit pages did not.
+
+     `:where(#dsx)` contributes ZERO specificity, so these become plain element
+     selectors (0-0-1) and any class rule wins normally. That fixes the whole
+     class of bug rather than the instances of it — a new button class added
+     tomorrow will work without being listed here.
+
+     Do not put the bare ID back. If you need to raise one of these, add a
+     class rule, don't re-add specificity. */
+  :where(#dsx) a { text-decoration: none; color: inherit; }
+  :where(#dsx) button { font: inherit; color: inherit; background: none; border: 0; padding: 0; }
+
+  /* Hover still needs :not(), because a pseudo-class scores 0-1-0 and would
+     otherwise tie-and-win against a button's own colour on source order.
+     `.dsx-cta` covers `.hero-cta-1`, which carries both classes. */
+  :where(#dsx) a:not(.btn, .dsx-cta, .lg-btn):hover { color: var(--accent, #d9ff3c); }
+  :where(#dsx) a.btn-ghost:hover { color: var(--accent, #d9ff3c); }
   #dsx img { display: block; }
 
   /* Custom cursor replaces the native one on precise pointers only. */
