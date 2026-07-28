@@ -24,8 +24,9 @@ const DIR = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "publi
 const QUALITY = 80;
 
 const files = await readdir(DIR);
-// A base ends in `-1.webp` / `-2.webp`; a variant ends in `-<width>.webp`.
-const bases = files.filter((f) => /-[12]\.webp$/.test(f));
+// A base ends in `-1.webp` … `-3.webp`; a variant ends in `-<width>.webp`
+// (480/768/1080/1440), so the two can't be confused.
+const bases = files.filter((f) => /-[1-3]\.webp$/.test(f));
 
 let made = 0;
 for (const base of bases) {

@@ -89,7 +89,11 @@ function jsonLd(p) {
       isPartOf: { "@id": `${SITE}/#website` },
       primaryImageOfPage: { "@type": "ImageObject", url: p.ogImage },
       datePublished: `${p.year}-01-01`,
-      dateModified: "2026-06-19",
+      // Was hardcoded to one date across all nine case studies, so every page
+      // claimed the same edit day and the claim went stale the moment any one
+      // of them changed. Now per-project (data.mjs `updated`), falling back to
+      // the publish year rather than asserting an edit that didn't happen.
+      dateModified: p.updated || `${p.year}-01-01`,
       breadcrumb: { "@id": `${canonical}#breadcrumb` },
       about: { "@id": clientOrgId },
       mainEntity: { "@id": `${canonical}#project` },

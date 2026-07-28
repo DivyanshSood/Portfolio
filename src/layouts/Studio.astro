@@ -144,7 +144,10 @@ const MENU = [
     <link rel="me" href="https://www.linkedin.com/in/divyanshsood/" />
     <link rel="author" href={`${new URL(canonical).origin}/about/`} />
 
-    <link rel="preconnect" href="https://ik.imagekit.io" crossorigin />
+    {/* No third-party image origin to preconnect to any more — every project
+        image is self-hosted with a generated width ladder (see
+        scripts/gen-work-variants.mjs). Re-add a preconnect only if a remote
+        image host comes back. */}
     {
       preloadImage && (
         <link
