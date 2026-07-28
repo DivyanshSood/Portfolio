@@ -1,0 +1,181 @@
+---
+import Studio from "../../layouts/Studio.astro";
+import RelatedPosts from "../../components/RelatedPosts.astro";
+import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+
+const slug = "ai-chatbot-for-indian-business";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
+      publisher: {
+        "@type": "Organization",
+        "@id": `${SITE}/#studio`,
+        name: "Divyansh Sood® Studio",
+        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
+      },
+      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      wordCount: post.wordCount,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+  ],
+});
+---
+
+<Studio
+  title={post.seoTitle ?? `${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  jsonld={jsonld}
+>
+  <main>
+    <header class="post-hero">
+      <div class="post-hero-bg" aria-hidden="true"></div>
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img src={post.coverImage} alt={post.coverAlt ?? post.title} width="1200" height="750" fetchpriority="high" decoding="async" />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+<p>Someone has probably pitched you an AI chatbot for your website in the last six months. It's the easiest thing in the world to sell right now, and for most Indian small businesses it is the wrong first purchase.</p>
+<p>Here's the honest answer, including the cases where it genuinely is worth it.</p>
+<hr>
+<h2 id="the-question-nobody-asks">The question the pitch skips</h2>
+<p><strong>Where do your customers actually talk to you?</strong></p>
+<p>For most businesses I work with in Himachal and across India, the answer is WhatsApp. Not the website. Not email. WhatsApp — because that's where the customer already is, and because a message there gets a reply from a person who can actually make a decision.</p>
+<p>A chat widget on your website asks the customer to have that conversation somewhere less convenient, with something less capable. You are competing with your own better channel. That's the core problem, and no amount of model quality fixes it.</p>
+<hr>
+<h2 id="when-it-is-wrong">When a chatbot is the wrong call</h2>
+<p><strong>Your site is small.</strong> Under fifteen pages, a customer finds what they need faster by reading. You've added a slower path to information already sitting there.</p>
+<p><strong>You answer fast on WhatsApp already.</strong> Then your customer experience is already good. Spend the money on the thing that's actually broken — usually that the site doesn't rank, or doesn't convince. If your enquiries aren't arriving at all, the problem is upstream: <a href="/blog/why-indian-websites-dont-generate-leads/">most Indian business websites don't generate a single lead</a>, and a chatbot on a site nobody visits changes nothing.</p>
+<p><strong>Your answers must be exact.</strong> Fees, availability, delivery commitments, anything with money attached. A model answering from a vague understanding of your business will eventually state something that isn't true, confidently, to a customer. Then you're honouring it or arguing about it.</p>
+<p><strong>You're being sold it as "AI" without a specific job.</strong> If nobody can name the exact question it will answer, it will answer none of them well.</p>
+<hr>
+<h2 id="when-it-is-right">When it genuinely earns its place</h2>
+<p><strong>You get the same twenty questions constantly, and you're losing evenings to them.</strong> A hotel asked about check-in times, parking and pet policy forty times a week. A school asked the same admissions questions every February. That's real, repetitive, and has a right answer — worth automating.</p>
+<p><strong>Your information is genuinely large.</strong> A catalogue with hundreds of products and real specifications, a college with dozens of courses and eligibility rules. When the answer exists but nobody can find it, an assistant that reads your content and cites the page is a real improvement.</p>
+<p><strong>Enquiries arrive outside working hours and go cold.</strong> A traveller planning at midnight, a parent researching after work. Something that answers the basic question and captures the enquiry properly is better than a form that gets a reply at 10am the next day.</p>
+<p><strong>You operate in more than one language.</strong> This is genuinely underrated in India. A customer who is more comfortable in Hindi and finds an English-only site will often just leave. Handling both well, in a way a small team can't staff around the clock, is a real advantage.</p>
+<hr>
+<h2 id="if-you-do-build-one">If you do build one, insist on three things</h2>
+<h3 id="answers-from-your-content">It answers from your content, and links to the page</h3>
+<p>Not from general knowledge. If it can't show you where an answer came from, you can't trust any of them. Doing this properly means <a href="/blog/rag-for-business-websites/">retrieval over your own documents</a>, not a model guessing from what it read on the internet two years ago.</p>
+<h3 id="it-says-i-dont-know">It says "I don't know" and hands over to WhatsApp</h3>
+<p>The most important behaviour, and the one most often left out. A confident wrong answer is worse than no answer — especially when the customer acts on it and turns up expecting a room you don't have.</p>
+<h3 id="it-doesnt-replace-the-human">It doesn't replace the human path</h3>
+<p>"Message us" should stay visible on every page. The assistant handles the repetitive twenty; a person handles the one that's worth money.</p>
+<hr>
+<h2 id="what-i-usually-recommend-instead">What I usually recommend first</h2>
+<p>For most Indian small businesses, in this order: get the site fast and findable, make the WhatsApp path obvious on every page, publish the answers to those twenty questions as actual pages — which also earns you search traffic, and is the reason <a href="/blog/instagram-page-vs-website-india/">a website still beats an Instagram page</a> — and only then, if the questions keep coming, automate them.</p>
+<p>That order matters because the first three make the fourth cheaper and better. A chatbot built on top of clear, well-organised content is a good product. One built on top of a thin site is a machine for guessing.</p>
+<hr>
+<p><em>I'm Divyansh Sood, a web developer in Himachal Pradesh building custom-coded sites for Indian businesses — and I ship <a href="/services/ai-development/">AI features</a> when they're genuinely the right answer. Tell me the twenty questions you keep getting and <a href="https://wa.me/919816091875">WhatsApp me</a> — I'll tell you honestly whether this is worth building for you.</em></p>
+      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </article>
+
+    <RelatedPosts slug={slug} audience={post.audience} />
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        {post.audience === "indian-smb" ? (
+          <>
+            <h2>Working on something in India?</h2>
+            <p>If a post here matches what you're building, send me the brief. WhatsApp reply in under an hour, 9 AM–9 PM IST — I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="https://wa.me/919816091875" target="_blank" rel="noopener"
+                >Message me on WhatsApp <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : post.audience === "d2c-brand" ? (
+          <>
+            <h2>Building a brand a theme can't carry?</h2>
+            <p>If your store has a model that off-the-shelf builders fight — hand-numbered drops, creator commerce, premium D2C — tell me about it. I read every brief personally.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : (
+          <>
+            <h2>Working on something similar?</h2>
+            <p>If a post here matches what you're building, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href={CALENDLY_URL} target="_blank" rel="noopener"
+                >Book a 15-min intro <span aria-hidden="true">↗</span></a
+              >
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+  </main>
+</Studio>

@@ -3,7 +3,7 @@ import Studio from "../../layouts/Studio.astro";
 import RelatedPosts from "../../components/RelatedPosts.astro";
 import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
 
-const slug = "freelancer-vs-agency-web-development";
+const slug = "ai-features-that-actually-work-on-websites";
 const idx = POSTS.findIndex((p) => p.slug === slug);
 const post = POSTS[idx];
 
@@ -93,56 +93,45 @@ const jsonld = JSON.stringify({
     {post.coverImage && (
       <div class="wrap narrow">
         <figure class="post-cover">
-          <img src={post.coverImage} alt={post.title} width="1200" height="750" fetchpriority="high" decoding="async" />
+          <img src={post.coverImage} alt={post.coverAlt ?? post.title} width="1200" height="750" fetchpriority="high" decoding="async" />
         </figure>
       </div>
     )}
 
     <article class="wrap narrow post-body">
-<p>Here’s a story I tell on sales calls, because it decides most of them.</p>
-<p>A school needed a website and an admissions portal. The agencies they approached quoted six months. I shipped both — public site plus an admin panel handling admissions for classes I–XII — in <a href="/projects/modernkbs/">seven days</a>.</p>
-<p>That’s not because agencies are bad. It’s because you were quoted for an <em>organization</em>, and sometimes what your project needs is a <em>person</em>. Knowing which is the entire decision.</p>
+<p>Most AI features on business websites are a chat bubble in the corner that nobody clicks. The company paid for it, the agency shipped it, and it answers questions the FAQ already answered — worse, and more slowly.</p>
+<p>Meanwhile the things models are genuinely good at go unbuilt, because they're less demo-able. Here's the split, from features I've actually shipped rather than features that photograph well in a deck.</p>
 <hr>
-<h2 id="what-an-agency-invoice-actually-pays-for">What an agency invoice actually pays for</h2>
-<p>When an agency quotes five times a freelancer’s price, the difference isn’t greed. You’re buying:</p>
+<h2 id="what-works">What works</h2>
+<h3 id="search-that-understands-a-question">Search that understands a question, not keywords</h3>
+<p>The highest-value, least-glamorous AI feature there is. Your site search currently fails anyone who doesn't already know your internal vocabulary — someone types "does it work outdoors" and gets nothing, because your page says "IP65 rated." Semantic search fixes exactly that gap, and unlike a chatbot it has a visible, measurable before-and-after: search sessions that end in a result instead of a bounce.</p>
+<h3 id="support-that-cites-your-documentation">Support that answers from your own documentation</h3>
+<p>Useful when — and only when — it answers <em>from your content</em> and links to the source. That's retrieval, not a chatbot with your logo on it, and the distinction is the entire ballgame. I've written up when it's the right call in <a href="/blog/rag-for-business-websites/">RAG for business websites</a>.</p>
+<h3 id="drafting-a-first-version">Drafting the first version of something a human then edits</h3>
+<p>Product descriptions from spec sheets, alt text for a large catalogue, a first-pass summary of a long document. The pattern that works is always the same: the model produces a draft, a person approves it, and nothing reaches a customer unread. Anywhere a human stays in the loop, this is reliable and immediately economic.</p>
+<h3 id="extraction-and-routing">Extraction and routing</h3>
+<p>Pulling structured fields out of unstructured input — a CV, an invoice, a long enquiry — and sending it to the right place. Invisible to the customer, and often the highest actual ROI on this list, because it removes a task someone is doing by hand every day.</p>
+<hr>
+<h2 id="what-does-not-work">What doesn't work</h2>
+<p><strong>A general chatbot on a small site.</strong> If your site has twelve pages, a visitor can read the relevant one faster than they can negotiate with a chat widget. You've added a slower path to information that was already there.</p>
+<p><strong>Anything that must never be wrong, without a retrieval layer.</strong> Refund policy, pricing terms, legal or medical specifics, delivery commitments. A model asked to answer from memory will produce something confident and occasionally invented. That's not a bug you prompt your way out of — it needs the answer grounded in a source, or it needs to not be an AI feature.</p>
+<p><strong>AI as a headline feature on a page with a broken conversion path.</strong> If the buy button hides on mobile and the page takes six seconds to load, an assistant does not help. <a href="/blog/landing-page-conversion-not-traffic/">Fix the leak first.</a></p>
+<hr>
+<h2 id="the-question-to-ask">The question worth asking first</h2>
+<p>Not "where could we use AI?" but: <strong>what task does someone here repeat, that has a right answer, that we currently do by hand?</strong></p>
+<p>That question routes you to extraction, routing, drafting and search — the things that pay for themselves. The other question routes you to a chat bubble.</p>
+<hr>
+<h2 id="what-shipping-it-properly-involves">What shipping it properly involves</h2>
+<p>The model is the easy part. Production is the rest:</p>
 <ul>
-<li><strong>Coordination.</strong> A project manager, a strategist, a designer, developers, QA — and the meetings that keep them aligned.</li>
-<li><strong>Redundancy.</strong> If someone quits mid-project, the agency absorbs it. A freelancer who disappears is your problem.</li>
-<li><strong>Breadth.</strong> Brand strategy, a photo shoot, a video, paid media, a 60-page site — one contract, many disciplines.</li>
-<li><strong>Accountability theater.</strong> Contracts, SLAs, status decks. Sometimes your procurement team genuinely needs these.</li>
+<li><strong>Evaluation on cases you care about</strong> — a fixed set of real inputs and expected outputs, so you can tell whether a change improved things or just changed them.</li>
+<li><strong>A fallback.</strong> Models are slow sometimes and unavailable occasionally. The feature must degrade to something useful rather than a spinner.</li>
+<li><strong>Cost caps and logging.</strong> Per-call cost is small; unbounded per-call cost across a traffic spike is not.</li>
+<li><strong>An honest "I don't know" path.</strong> The single most valuable behaviour you can build in, and the one most often skipped.</li>
 </ul>
-<p>For a large rebrand with many workstreams, that overhead is the product. Buy it.</p>
+<p>An AI feature without those four is a prototype that happens to be in production.</p>
 <hr>
-<h2 id="what-youre-not-told">What you’re not told</h2>
-<p>The uncomfortable part: at many agencies, the senior people close the deal and juniors do the work. Your project passes through five pairs of hands, and every handoff loses information — the design intent, the copy nuance, the performance budget. Six months isn’t build time; it’s coordination time.</p>
-<p>With a senior independent, the person you talk to is the person who designs, codes and ships. Nothing is lost in translation because there is no translation. That’s how seven days happens — it’s not heroics, it’s the absence of handoffs.</p>
-<hr>
-<h2 id="when-each-one-actually-wins">When each one actually wins</h2>
-<p><strong>Choose an agency when:</strong></p>
-<ul>
-<li>The scope spans disciplines a single person can’t credibly cover — brand strategy, film, media buying, a massive site.</li>
-<li>Your organization needs vendor redundancy and formal process to sign off.</li>
-<li>Budget is genuinely not the constraint, and internal risk-cover matters more than speed.</li>
-</ul>
-<p><strong>Choose a senior freelancer when:</strong></p>
-<ul>
-<li>The deliverable is a website, store, landing page or web app — one discipline, done deeply.</li>
-<li>Speed matters. Weeks-to-live changes your quarter.</li>
-<li>You want direct access to the maker — decisions in one conversation, not routed through an account manager.</li>
-<li>You want senior work at a price that isn’t underwriting an office.</li>
-</ul>
-<p>There is a third arrangement worth knowing about: agencies that keep the client relationship and bring in an independent to build. If you run an agency and that is the shape you need, I do that as a <a href="/agencies/">white-label build partner</a> under your brand.</p>
-<p><strong>Avoid both</strong> — the cheap end: marketplaces racing to the bottom, and “agencies” that are one reseller subcontracting to the lowest bidder. The symptom is identical in both cases: nobody senior ever touches your project.</p>
-<hr>
-<h2 id="how-to-vet-a-freelancer-like-a-pro">How to vet a freelancer like a pro</h2>
-<ul>
-<li><strong>Live URLs, not dribbble shots.</strong> Ask for sites in production and click them on your phone. Speed and polish are unfakeable there.</li>
-<li><strong>Named clients with outcomes.</strong> “Bookings went up” with a client who’ll confirm it beats any portfolio aesthetic.</li>
-<li><strong>A written scope within 48 hours.</strong> Seniors tell you what ships, what it costs and what they’d cut. Vagueness now is vagueness forever.</li>
-<li><strong>Who owns the code?</strong> The right answer is you, in writing, with the final invoice.</li>
-</ul>
-<hr>
-<p><em>I’m Divyansh Sood — an independent developer shipping agency-scope builds solo: stores, web apps, landing pages and SEO/GEO, <a href="/services/">four services, one person</a>, live in weeks. Agencies also hire me quietly as their build partner, so I’ve seen both sides of this invoice. If you’re deciding between the two for a real project, <a href="mailto:hello@divyanshsood.com">email me the brief</a> — if it genuinely needs an agency, I’ll say so.</em></p>
+<p><em>I'm Divyansh Sood. I build <a href="/services/ai-development/">AI features</a> into websites and products — and I run my own AI product, <a href="/projects/webseek/">WebSeek.ai</a>, on three model providers simultaneously, so the trade-offs here are ones I've paid for rather than read about. Describe the task you'd want automated and <a href="mailto:hello@divyanshsood.com">email me</a> — if the honest answer is that you don't need a model for it, you'll get that instead.</em></p>
       <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
     </article>
 

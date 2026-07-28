@@ -1,7 +1,7 @@
 ---
 import Studio from "../../layouts/Studio.astro";
 import RelatedPosts from "../../components/RelatedPosts.astro";
-import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
 
 const slug = "why-indian-websites-dont-generate-leads";
 const idx = POSTS.findIndex((p) => p.slug === slug);
@@ -226,7 +226,7 @@ const jsonld = JSON.stringify({
               <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
                 >Email me <span aria-hidden="true">↗</span></a
               >
-              <a class="btn btn-ghost" href="https://calendly.com/sood-divyansh007/30min" target="_blank" rel="noopener"
+              <a class="btn btn-ghost" href={CALENDLY_URL} target="_blank" rel="noopener"
                 >Book a 15-min intro <span aria-hidden="true">↗</span></a
               >
             </div>

@@ -4,6 +4,166 @@
 
 export const POSTS = [
   {
+    "slug": "ai-website-builder-vs-developer-india",
+    "title": "AI Website Builders vs Hiring a Developer — the India Edition",
+    "seoTitle": "AI Website Builder vs Developer in India (2026) · Divyansh Sood",
+    "description": "I build client websites and I built an AI website generator. The honest comparison for an Indian small business — what generators do well, and where they stop.",
+    "pubDate": "2026-07-28",
+    "updatedDate": "2026-07-28",
+    "coverImage": "/blog/ai-website-builder-vs-developer-india.jpg",
+    "coverAlt": "A generated web page beside a hand-built one, illustrating the difference between an AI website builder and a developer",
+    "tags": [
+      "AI",
+      "website builders",
+      "India",
+      "custom code",
+      "small business"
+    ],
+    "audience": "indian-smb",
+    "readMins": 4,
+    "wordCount": 799
+  },
+  {
+    "slug": "how-indian-businesses-use-ai-2026",
+    "title": "How Indian Businesses Are Actually Using AI in 2026",
+    "seoTitle": "How Indian Businesses Actually Use AI in 2026 · Divyansh Sood",
+    "description": "Not the version in the business press. What AI is really doing inside Indian small businesses — drafting, structuring messy input, and being found by assistants.",
+    "pubDate": "2026-07-27",
+    "updatedDate": "2026-07-27",
+    "coverImage": "/blog/how-indian-businesses-use-ai-2026.jpg",
+    "coverAlt": "A small Indian business owner working on a laptop, representing practical everyday AI use",
+    "tags": [
+      "AI",
+      "India",
+      "small business",
+      "automation",
+      "GEO"
+    ],
+    "audience": "indian-smb",
+    "readMins": 3,
+    "wordCount": 708
+  },
+  {
+    "slug": "ai-chatbot-for-indian-business",
+    "title": "Should Your Indian Business Add an AI Chatbot? An Honest Answer",
+    "seoTitle": "AI Chatbot for Indian Business: Worth It? · Divyansh Sood",
+    "description": "For most Indian small businesses a website chatbot is the wrong first purchase — you already have WhatsApp. When it's genuinely worth building, and what to insist on.",
+    "pubDate": "2026-07-26",
+    "updatedDate": "2026-07-26",
+    "coverImage": "/blog/ai-chatbot-for-indian-business.jpg",
+    "coverAlt": "A phone showing a WhatsApp conversation next to a website chat widget, comparing the two support channels",
+    "tags": [
+      "AI",
+      "chatbot",
+      "India",
+      "WhatsApp",
+      "small business"
+    ],
+    "audience": "indian-smb",
+    "readMins": 4,
+    "wordCount": 799
+  },
+  {
+    "slug": "learn-ai-assisted-development-2026",
+    "title": "Learning AI-Assisted Development: The Path I'd Take in 2026",
+    "seoTitle": "How to Learn AI-Assisted Development in 2026 · Divyansh Sood",
+    "description": "The courses, docs and projects I'd work through to go from web developer to shipping AI features — in order, with what's worth paying for and what to skip.",
+    "pubDate": "2026-07-24",
+    "updatedDate": "2026-07-24",
+    "coverImage": "/blog/learn-ai-assisted-development-2026.jpg",
+    "coverAlt": "A developer's desk with documentation open, representing a self-directed learning path into AI development",
+    "tags": [
+      "AI development",
+      "learning",
+      "courses",
+      "developers",
+      "career"
+    ],
+    "audience": "international",
+    "readMins": 4,
+    "wordCount": 938
+  },
+  {
+    "slug": "rag-for-business-websites",
+    "title": "RAG for Business Websites: When a Chatbot Should Actually Read Your Docs",
+    "seoTitle": "RAG for Business Websites: When It's Worth It · Divyansh Sood",
+    "description": "Retrieval-augmented generation explained for people commissioning it — when it's worth building, when it's the wrong tool, and why your content matters more than the model.",
+    "pubDate": "2026-07-23",
+    "updatedDate": "2026-07-23",
+    "coverImage": "/blog/rag-for-business-websites.jpg",
+    "coverAlt": "Documents feeding into a search index, illustrating retrieval-augmented generation over a company's own content",
+    "tags": [
+      "RAG",
+      "AI development",
+      "retrieval",
+      "documentation",
+      "LLM"
+    ],
+    "audience": "international",
+    "readMins": 4,
+    "wordCount": 807
+  },
+  {
+    "slug": "claude-vs-gpt-vs-gemini-for-product-features",
+    "title": "Claude vs GPT vs Gemini for Product Features: What I Learned Shipping All Three",
+    "seoTitle": "Claude vs GPT vs Gemini for Product Features · Divyansh Sood",
+    "description": "I run one AI product on all three providers. What actually differs in production — prompt portability, failure modes, latency — and how to build so the choice can change.",
+    "pubDate": "2026-07-22",
+    "updatedDate": "2026-07-22",
+    "coverImage": "/blog/claude-vs-gpt-vs-gemini-for-product-features.jpg",
+    "coverAlt": "Three model providers powering one product behind a single interface",
+    "tags": [
+      "AI development",
+      "Claude",
+      "GPT",
+      "Gemini",
+      "LLM"
+    ],
+    "audience": "international",
+    "readMins": 3,
+    "wordCount": 739
+  },
+  {
+    "slug": "ai-features-that-actually-work-on-websites",
+    "title": "Adding AI Features to Your Website: What Actually Works in 2026",
+    "seoTitle": "AI Features for Websites: What Actually Works (2026) · Divyansh Sood",
+    "description": "Search, support, drafting, extraction — which AI features earn their keep on a business website, which are demos that never ship, and what production actually requires.",
+    "pubDate": "2026-07-21",
+    "updatedDate": "2026-07-21",
+    "coverImage": "/blog/ai-features-that-actually-work-on-websites.jpg",
+    "coverAlt": "A website interface with a semantic search field, representing AI features that earn their place",
+    "tags": [
+      "AI features",
+      "web development",
+      "search",
+      "automation",
+      "product"
+    ],
+    "audience": "international",
+    "readMins": 3,
+    "wordCount": 691
+  },
+  {
+    "slug": "how-i-build-websites-with-claude-code",
+    "title": "How I Build Client Websites with Claude Code",
+    "seoTitle": "Building Client Websites with Claude Code (2026) · Divyansh Sood",
+    "description": "The real AI-assisted workflow behind a three-week custom build — where it speeds things up, where it doesn't, and what I never hand over to a model.",
+    "pubDate": "2026-07-19",
+    "updatedDate": "2026-07-19",
+    "coverImage": "/blog/how-i-build-websites-with-claude-code.jpg",
+    "coverAlt": "A code editor beside a live website preview, showing an AI-assisted development workflow",
+    "tags": [
+      "AI-assisted development",
+      "Claude Code",
+      "workflow",
+      "web development",
+      "custom code"
+    ],
+    "audience": "international",
+    "readMins": 3,
+    "wordCount": 732
+  },
+  {
     "slug": "shopify-alternatives-for-premium-d2c",
     "title": "Shopify Alternatives for Premium D2C Brands, Honestly Ranked",
     "seoTitle": "Shopify Alternatives for Premium D2C Brands (2026) · Divyansh Sood",

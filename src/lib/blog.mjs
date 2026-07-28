@@ -1,4 +1,7 @@
-export { SITE } from "./site.mjs";
+// Re-exported so a post's frontmatter needs one import, and so the booking
+// link lives in exactly one place — every post used to hard-code the Calendly
+// URL, which meant changing the event would have meant editing 38 files.
+export { SITE, CALENDLY_URL } from "./site.mjs";
 
 // Social card used by /blog/ and by any post without its own cover. This was a
 // WebSeek product screenshot hosted on ImageKit — so the journal's share card

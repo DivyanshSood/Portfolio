@@ -96,6 +96,20 @@ https://www.divyanshsood.com/blog/
 - [Agency vs freelancer](https://www.divyanshsood.com/blog/freelancer-vs-agency-web-development/): What the invoice actually buys in each case.
 - [Own your stack: code portability as a business asset](https://www.divyanshsood.com/blog/own-your-stack-code-portability/): Why being able to leave is the point.
 
+### On building with AI
+
+Written from production experience: WebSeek.ai runs Claude, GPT and Gemini
+behind one model picker, so these are first-hand notes rather than summaries.
+
+- [AI features that actually work on websites](https://www.divyanshsood.com/blog/ai-features-that-actually-work-on-websites/): Which AI features earn their keep, and which are demos that never ship.
+- [Claude vs GPT vs Gemini for product features](https://www.divyanshsood.com/blog/claude-vs-gpt-vs-gemini-for-product-features/): What shipping all three taught me — prompts don't port, and failure modes matter more than benchmarks.
+- [RAG for business websites](https://www.divyanshsood.com/blog/rag-for-business-websites/): When a chatbot should actually read your docs, and when retrieval is the wrong tool.
+- [How I build client websites with AI in the loop](https://www.divyanshsood.com/blog/how-i-build-websites-with-claude-code/): Where AI-assisted development accelerates real client work, and where it doesn't.
+- [Learning AI-assisted development: the path I'd take in 2026](https://www.divyanshsood.com/blog/learn-ai-assisted-development-2026/): What to learn, in what order, and what to skip.
+- [Should your Indian business add an AI chatbot?](https://www.divyanshsood.com/blog/ai-chatbot-for-indian-business/): Usually no — you already have WhatsApp. When it genuinely is worth building.
+- [How Indian businesses are actually using AI in 2026](https://www.divyanshsood.com/blog/how-indian-businesses-use-ai-2026/): The real uses, not the ones in the business press.
+- [AI website builders vs hiring a developer, India edition](https://www.divyanshsood.com/blog/ai-website-builder-vs-developer-india/): From someone who does both — I build client sites and I built a generator.
+
 ## Contact
 
 - Email: hello@divyanshsood.com

@@ -1,7 +1,7 @@
 ---
 import Studio from "../../layouts/Studio.astro";
 import RelatedPosts from "../../components/RelatedPosts.astro";
-import { SITE, DEFAULT_OG, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
 
 const slug = "custom-code-vs-webflow-for-startups";
 const idx = POSTS.findIndex((p) => p.slug === slug);
@@ -180,7 +180,7 @@ const jsonld = JSON.stringify({
 <p>If it’s a brochure — Webflow, and don’t look back.</p>
 <p>If it’s part of the product — or it’s about to be — every month you delay going custom is a month of building the same things twice.</p>
 <hr>
-<p><em>I’m Divyansh Sood — I build custom-coded marketing sites and web apps for funded startups in React, Next.js and Astro. 9 live builds, including <a href="https://www.divyanshsood.com/projects/webseek/">WebSeek.ai</a>, where the marketing surface and product share one codebase. If you’re at the Webflow-or-custom decision point, <a href="https://calendly.com/sood-divyansh007/30min">book a 15-min intro</a> — I’ll tell you honestly which way I’d go for your specific case.</em></p>
+<p><em>I’m Divyansh Sood — I build custom-coded marketing sites and web apps for funded startups in React, Next.js and Astro. 9 live builds, including <a href="https://www.divyanshsood.com/projects/webseek/">WebSeek.ai</a>, where the marketing surface and product share one codebase. If you’re at the Webflow-or-custom decision point, <a href={CALENDLY_URL}>book a 15-min intro</a> — I’ll tell you honestly which way I’d go for your specific case.</em></p>
       <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
     </article>
 
@@ -218,7 +218,7 @@ const jsonld = JSON.stringify({
               <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
                 >Email me <span aria-hidden="true">↗</span></a
               >
-              <a class="btn btn-ghost" href="https://calendly.com/sood-divyansh007/30min" target="_blank" rel="noopener"
+              <a class="btn btn-ghost" href={CALENDLY_URL} target="_blank" rel="noopener"
                 >Book a 15-min intro <span aria-hidden="true">↗</span></a
               >
             </div>

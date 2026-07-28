@@ -1,0 +1,186 @@
+---
+import Studio from "../../layouts/Studio.astro";
+import RelatedPosts from "../../components/RelatedPosts.astro";
+import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+
+const slug = "learn-ai-assisted-development-2026";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
+      publisher: {
+        "@type": "Organization",
+        "@id": `${SITE}/#studio`,
+        name: "Divyansh Sood® Studio",
+        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
+      },
+      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      wordCount: post.wordCount,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+  ],
+});
+---
+
+<Studio
+  title={post.seoTitle ?? `${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  jsonld={jsonld}
+>
+  <main>
+    <header class="post-hero">
+      <div class="post-hero-bg" aria-hidden="true"></div>
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img src={post.coverImage} alt={post.coverAlt ?? post.title} width="1200" height="750" fetchpriority="high" decoding="async" />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+<p>I get asked this often enough to write it down: if you already build for the web and want to add AI features to what you ship, what do you actually learn, and in what order?</p>
+<p>What follows is the path I'd take today. I'm not selling a course and I don't have one — this is the route, with the parts worth paying for named where they exist, and the parts that are free named as free.</p>
+<hr>
+<h2 id="the-thing-most-people-get-wrong">The thing most people get wrong first</h2>
+<p>They start with the models and end up collecting trivia — parameter counts, benchmark tables, this week's release. None of it makes you able to ship a feature.</p>
+<p>The skill that pays is <strong>engineering around a component that is probabilistic, occasionally wrong, sometimes slow, and priced per call.</strong> That's an architecture problem, and nearly everything you already know about building reliable systems applies. The model is the easy part.</p>
+<p>So the ordering below deliberately delays the interesting-sounding material until you have somewhere to put it.</p>
+<hr>
+<h2 id="step-one">1. Read the provider documentation properly — free, one weekend</h2>
+<p>Not skimmed. Anthropic, OpenAI and Google all publish genuinely good documentation covering their APIs, tool use, structured outputs and prompt caching. It is more current and more accurate than any course, because courses go stale the moment an API changes.</p>
+<p>Do the quickstart for one provider end to end. Then read the tool-use and structured-output guides carefully — those two concepts are what turn a chat toy into something you can build a product on, and they're where most self-taught developers have a gap.</p>
+<h2 id="step-two">2. Build one small, real thing — free, a week</h2>
+<p>Not a tutorial clone. Something you'd use. Mine was a script that turned messy client notes into a structured brief; it was unimpressive and taught me more than the previous month of reading.</p>
+<p>You want to hit the real problems early: the output that doesn't parse, the call that times out, the prompt that works on four inputs and fails the fifth. These are the actual job. Encountering them in a toy project is much cheaper than encountering them in a client's.</p>
+<h2 id="step-three">3. Structured outputs and evaluation — free, ongoing</h2>
+<p>Two things separate people who demo from people who ship.</p>
+<h3 id="structured-outputs">Structured outputs</h3>
+<p>Constraining the model to return data matching a schema, rather than prose you parse with a regex and hope. Every major provider supports this now; learn it early and you'll never write a fragile parser again.</p>
+<h3 id="evaluation">Evaluation</h3>
+<p>A fixed set of real inputs with expected outputs, so a change is a measurement rather than an opinion. Twenty cases is enough to start. Without it you are permanently guessing whether your last prompt edit helped, and that guessing compounds into a system nobody can safely change. An eval set is also the only honest way to <a href="/blog/claude-vs-gpt-vs-gemini-for-product-features/">compare one model against another</a> on your own task rather than on a leaderboard.</p>
+<h2 id="step-four">4. Retrieval — free to learn, worth a course if you want structure</h2>
+<p>Once you can call a model reliably, retrieval is the next unlock: grounding answers in your own content. This is where paid material starts to earn its price, because the good practice is scattered.</p>
+<p><strong>DeepLearning.AI</strong> runs short courses on retrieval and LLM application patterns, many free, taught by people who build rather than market. They're a few hours each and genuinely worth the time. The provider cookbooks — Anthropic's and OpenAI's public example repositories — are free and often better than a paid course, because they're runnable.</p>
+<p>Concepts to get solid on: embeddings, chunking strategy, why retrieval quality dominates model quality, and why citations matter. I've written the practical version in <a href="/blog/rag-for-business-websites/">RAG for business websites</a>.</p>
+<h2 id="step-five">5. Agents and tool use — last, and be sceptical</h2>
+<p>Deliberately last, because it's the most over-marketed corner of this field. A great deal of "AI agent" content is teaching you to build an unreliable version of a script.</p>
+<p>Learn the mechanics — tool calling, the loop, when to hand a model the ability to act. Then apply a hard test before using it: <em>could this be a deterministic script?</em> If yes, write the script. Agents earn their place where the task genuinely can't be specified in advance, and that's rarer than the content volume suggests.</p>
+<hr>
+<h2 id="what-to-skip">What to skip</h2>
+<p><strong>Anything promising you'll "build an AI startup in a weekend."</strong> The building was never the hard part.</p>
+<p><strong>Prompt-engineering courses as a standalone subject.</strong> Prompting is a skill you pick up in a week of doing, and it changes with every model release. It is not a discipline you buy.</p>
+<p><strong>Fine-tuning, for now.</strong> Most problems people reach for fine-tuning to solve are better solved with retrieval and a clearer prompt, at a fraction of the effort. Learn it when you've hit a wall that genuinely requires it.</p>
+<hr>
+<h2 id="the-shortest-honest-version">The shortest honest version</h2>
+<p>Read one provider's docs properly. Build something small you'd actually use. Learn structured outputs and write an eval set. Add retrieval when you need it. Treat agents with suspicion. Total cost: mostly your time.</p>
+<p>The developers I know who are good at this got there by shipping unglamorous things repeatedly — not by finishing a curriculum. If you want to see what that looks like on real client work rather than in a syllabus, I've written up <a href="/blog/how-i-build-websites-with-claude-code/">how I actually build sites with AI in the loop</a>.</p>
+<hr>
+<p><em>I'm Divyansh Sood. I took roughly this path and now ship <a href="/services/ai-development/">AI features</a> into client products, plus my own — <a href="/projects/webseek/">WebSeek.ai</a> runs on three providers at once. If you'd rather hire someone who's already made these mistakes than make them on a live project, <a href="mailto:hello@divyanshsood.com">email me</a>.</em></p>
+      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </article>
+
+    <RelatedPosts slug={slug} audience={post.audience} />
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        {post.audience === "indian-smb" ? (
+          <>
+            <h2>Working on something in India?</h2>
+            <p>If a post here matches what you're building, send me the brief. WhatsApp reply in under an hour, 9 AM–9 PM IST — I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="https://wa.me/919816091875" target="_blank" rel="noopener"
+                >Message me on WhatsApp <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : post.audience === "d2c-brand" ? (
+          <>
+            <h2>Building a brand a theme can't carry?</h2>
+            <p>If your store has a model that off-the-shelf builders fight — hand-numbered drops, creator commerce, premium D2C — tell me about it. I read every brief personally.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : (
+          <>
+            <h2>Working on something similar?</h2>
+            <p>If a post here matches what you're building, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href={CALENDLY_URL} target="_blank" rel="noopener"
+                >Book a 15-min intro <span aria-hidden="true">↗</span></a
+              >
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+  </main>
+</Studio>
