@@ -1,6 +1,6 @@
 ---
 import Studio from "../layouts/Studio.astro";
-import { SITE, CALENDLY_URL, FOUNDER_PHOTO_ABOUT, FOUNDER_PHOTO_ALT, HAS_FOUNDER_PHOTO } from "../lib/site.mjs";
+import { SITE, CALENDLY_URL, FOUNDER_PHOTO_ABOUT, FOUNDER_PHOTO_ALT, HAS_FOUNDER_PHOTO, SAME_AS } from "../lib/site.mjs";
 
 const canonical = `${SITE}/about/`;
 
@@ -74,10 +74,12 @@ const jsonld = JSON.stringify({
         "AI integration",
         "Conversion-focused design",
       ],
-      sameAs: [
-        "https://github.com/DivyanshSood",
-        "https://www.linkedin.com/in/divyansh-sood-023556151/",
-      ],
+      // Imported, never hardcoded. This array used to be a literal copy of
+      // SAME_AS, which meant /about/ silently drifted: the LinkedIn URL here
+      // stayed on the old numeric vanity long after site.mjs was the single
+      // source everywhere else — on the page most likely to be read as the
+      // identity record. Add a profile in site.mjs and it lands here too.
+      sameAs: SAME_AS,
     },
   ],
 });
@@ -167,12 +169,12 @@ const jsonld = JSON.stringify({
                   data-size="large"
                   data-theme="dark"
                   data-type="HORIZONTAL"
-                  data-vanity="divyansh-sood-023556151"
+                  data-vanity="divyanshsood"
                   data-version="v1"
                 >
                   <a
                     class="badge-base__link LI-simple-link about-li-card"
-                    href="https://in.linkedin.com/in/divyansh-sood-023556151?trk=profile-badge"
+                    href="https://in.linkedin.com/in/divyanshsood?trk=profile-badge"
                     target="_blank"
                     rel="noopener"
                   >

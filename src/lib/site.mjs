@@ -66,7 +66,7 @@ export const GOOGLE_MAPS_CID_URL = `https://www.google.com/maps?cid=${GBP_CID}`;
 --------------------------------------------------------------------------- */
 const SOCIAL_PROFILES = [
   { name: "GitHub", url: "https://github.com/DivyanshSood" },
-  { name: "LinkedIn", url: "https://www.linkedin.com/in/divyansh-sood-023556151/" },
+  { name: "LinkedIn", url: "https://www.linkedin.com/in/divyanshsood/" },
   // ↓ Uncomment each once the profile is live and its website field links back here:
   // { name: "dev.to", url: "https://dev.to/<handle>" },
   // { name: "Hashnode", url: "https://hashnode.com/@<handle>" },

@@ -4,7 +4,7 @@
    same serialised string as before.
    =========================================================================== */
 
-import { GOOGLE_MAPS_CID_URL, SAME_AS } from "./site.mjs";
+import { FOUNDER_PHOTO, GOOGLE_MAPS_CID_URL, SAME_AS } from "./site.mjs";
 import { projects } from "./projects/data.mjs";
 
 export function homeJsonLd(SITE) {
@@ -29,8 +29,11 @@ export function homeJsonLd(SITE) {
         jobTitle: "Freelance Web Developer & Designer",
         description:
           "Freelance web designer and developer running a one-person studio (Divyansh Sood® Studio) from Himachal Pradesh, India — building custom-coded, conversion-focused websites, stores and web apps for founders worldwide.",
-        image:
-          "https://ik.imagekit.io/dn2zdxiu3/Portfolioprojectimages/AiWebsitegenerator/AiWebsitegenerator-1.webp",
+        // The Person's image must be the person. This pointed at a WebSeek
+        // product screenshot, so every consumer of the entity graph — Google's
+        // knowledge panel included — was handed a UI mockup as the founder's
+        // photo.
+        image: `${SITE}${FOUNDER_PHOTO}`,
         email: "hello@divyanshsood.com",
         telephone: "+91-98160-91875",
         worksFor: { "@id": `${SITE}/#studio` },
@@ -68,8 +71,7 @@ export function homeJsonLd(SITE) {
         numberOfEmployees: { "@type": "QuantitativeValue", value: 1 },
         knowsLanguage: ["English", "Hindi"],
         url: `${SITE}/`,
-        image:
-          "https://ik.imagekit.io/dn2zdxiu3/Portfolioprojectimages/AiWebsitegenerator/AiWebsitegenerator-1.webp",
+        image: `${SITE}${FOUNDER_PHOTO}`,
         logo: `${SITE}/icon.svg`,
         description:
           "Built from the Himalayas. Shipping for the world. Independent 1-person web design & development studio building custom-coded, conversion-focused websites, stores and web apps for founders worldwide. Marketing sites & MVPs in 3–4 weeks; larger builds, 6–10.",

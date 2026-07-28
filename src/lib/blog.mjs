@@ -1,6 +1,11 @@
 export { SITE } from "./site.mjs";
-export const DEFAULT_OG =
-  "https://ik.imagekit.io/dn2zdxiu3/Portfolioprojectimages/AiWebsitegenerator/AiWebsitegenerator-1.webp";
+
+// Social card used by /blog/ and by any post without its own cover. This was a
+// WebSeek product screenshot hosted on ImageKit — so the journal's share card
+// was a screenshot of an unrelated product, served from a third-party origin.
+// /og-home.png is the branded 1200x630 card the rest of the site already
+// defaults to in Studio.astro.
+export const DEFAULT_OG = "https://www.divyanshsood.com/og-home.png";
 
 // Post metadata now lives in a hand-maintained manifest (each post's prose is
 // its own src/pages/blog/<slug>.astro page). Re-exported so the index, RSS feed
