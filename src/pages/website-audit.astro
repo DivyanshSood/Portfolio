@@ -82,12 +82,12 @@ const jsonld = JSON.stringify({
         <div class="cs-body" data-reveal>
           <div class="cs-card">
             <span class="cs-tag">Quick audit · 3–4 days · Free</span>
-            <h2 class="cs-card-h2">Send a URL. 3–4 day turnaround. A 5-min Loom of the 3–5 highest-impact fixes — what's broken, what I'd change, what I'd leave alone. Yours to keep.</h2>
+            <p class="cs-card-h2">Send a URL. 3–4 day turnaround. A 5-min Loom of the 3–5 highest-impact fixes — what's broken, what I'd change, what I'd leave alone. Yours to keep.</p>
             <div style="margin-top:18px;font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(30px,4.4vw,48px);letter-spacing:0;color:var(--accent);">No charge</div>
           </div>
           <div class="cs-card">
             <span class="cs-tag">Deep dive · within a week · Full teardown + strategy call</span>
-            <h2 class="cs-card-h2">Written teardown across conversion, SEO, speed, UX. 30-min call. Hand the fix list to any developer — me, your in-house team, whoever. Up to you.</h2>
+            <p class="cs-card-h2">Written teardown across conversion, SEO, speed, UX. 30-min call. Hand the fix list to any developer — me, your in-house team, whoever. Up to you.</p>
             <div style="margin-top:18px;font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(30px,4.4vw,48px);letter-spacing:0;color:var(--accent);">Quoted on the call</div>
             <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener" style="margin-top:20px;">Book the deep dive <span aria-hidden="true">↗</span></a>
           </div>
@@ -105,7 +105,7 @@ const jsonld = JSON.stringify({
           {checks.map((c) => (
             <div class="cs-card">
               <span class="cs-tag">{c.t}</span>
-              <h2 class="cs-card-h2">{c.d}</h2>
+              <p class="cs-card-h2">{c.d}</p>
             </div>
           ))}
         </div>

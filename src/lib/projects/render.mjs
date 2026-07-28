@@ -70,7 +70,7 @@ function bodyCard(w) {
   }
   return `<div class="cs-card${w.span2 ? " span2" : ""}">
           <span class="cs-tag">${esc(w.tag)}</span>
-          ${w.title ? `<h2 class="cs-card-h2">${w.title}</h2>` : ""}
+          ${w.title ? `<h3 class="cs-card-h2">${w.title}</h3>` : ""}
           <p>${w.html}</p>
         </div>`;
 }

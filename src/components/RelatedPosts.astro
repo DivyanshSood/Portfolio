@@ -21,26 +21,42 @@ const { slug, audience } = Astro.props;
 
 const [next, ...more] = related(slug, 5);
 
-// Contextual hubs. Indian SMB posts point at the local-intent pages (the only
-// queries the site actually converts on); the rest point at the service pages.
-const HUBS =
-  audience === "indian-smb"
-    ? [
-        { label: "Web developer in Kangra", href: "/web-developer-kangra/" },
-        { label: "Web developer in Dharamshala", href: "/web-developer-dharamshala/" },
-        { label: "Services", href: "/services/" },
-      ]
-    : audience === "d2c-brand"
-      ? [
-          { label: "E-commerce development", href: "/services/ecommerce-website-development/" },
-          { label: "Services", href: "/services/" },
-          { label: "Selected work", href: "/portfolio/" },
-        ]
-      : [
-          { label: "Services", href: "/services/" },
-          { label: "SEO & GEO services", href: "/services/seo-geo-services/" },
-          { label: "Selected work", href: "/portfolio/" },
-        ];
+// Contextual hubs, one cluster per audience track.
+//
+// This used to be a ternary that hardcoded Kangra and Dharamshala for every
+// Indian post, which meant /web-developer-shimla/ and /web-developer-manali/
+// received ZERO hub links — the two pages meant to rank for "web developer
+// <city>" were the least-linked commercial pages on the site. The location
+// links are now rotated per post (deterministically, by slug) so all four
+// cities accumulate links, and each track gets a stable set of service hubs.
+const LOCATIONS = [
+  { label: "Web developer in Kangra", href: "/web-developer-kangra/" },
+  { label: "Web developer in Dharamshala", href: "/web-developer-dharamshala/" },
+  { label: "Website designer in Shimla", href: "/web-developer-shimla/" },
+  { label: "Web developer in Manali", href: "/web-developer-manali/" },
+];
+
+// Stable per-slug offset so a given post always shows the same two cities
+// (no layout churn between builds) while the set as a whole spreads evenly.
+const offset = [...slug].reduce((n, c) => n + c.charCodeAt(0), 0) % LOCATIONS.length;
+const twoCities = [LOCATIONS[offset], LOCATIONS[(offset + 1) % LOCATIONS.length]];
+
+type Hub = { label: string; href: string };
+const TRACKS: Record<string, Hub[]> = {
+  "indian-smb": [...twoCities, { label: "Results", href: "/results/" }],
+  "d2c-brand": [
+    { label: "E-commerce development", href: "/services/ecommerce-website-development/" },
+    { label: "AI development", href: "/services/ai-development/" },
+    { label: "Selected work", href: "/portfolio/" },
+  ],
+  international: [
+    { label: "Services", href: "/services/" },
+    { label: "AI development", href: "/services/ai-development/" },
+    { label: "Selected work", href: "/portfolio/" },
+  ],
+};
+
+const HUBS = (audience && TRACKS[audience]) || TRACKS.international;
 ---
 
 <section class="wrap narrow" aria-label="Keep reading">

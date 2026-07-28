@@ -22,9 +22,10 @@ Divyansh Sood is a freelance web designer and developer based in Himachal Prades
 
 ## Service pages
 
-- [All services](https://www.divyanshsood.com/services/): Overview hub — four ways the studio helps: ecommerce, web apps, landing pages, SEO/GEO.
+- [All services](https://www.divyanshsood.com/services/): Overview hub — five ways the studio helps: ecommerce, web apps, AI development, landing pages, SEO/GEO.
 - [Ecommerce website development](https://www.divyanshsood.com/services/ecommerce-website-development/): Custom-coded D2C storefronts — Razorpay/Stripe payments, drop mechanics, full code ownership, no Shopify themes or platform rent. Live in 2–4 weeks.
 - [Web app development](https://www.divyanshsood.com/services/web-app-development/): MVPs, portals, dashboards, admin panels and AI products — full-stack React/Next.js/Astro, live in weeks (fastest: 7 days).
+- [AI development](https://www.divyanshsood.com/services/ai-development/): AI features shipped to production — LLM integration, retrieval (RAG) over your own content, AI search and support, and complete AI products. Built on Claude, GPT or Gemini; the studio runs its own AI product (WebSeek.ai) on all three.
 - [Landing page design](https://www.divyanshsood.com/services/landing-page-design/): High-converting landing pages — copy, design and code as one argument, with tracking built in.
 - [SEO & GEO services](https://www.divyanshsood.com/services/seo-geo-services/): Technical SEO plus Generative Engine Optimization — structured data, llms.txt, AI-crawler strategy — implemented directly in the codebase so Google ranks you and AI assistants cite you.
 
@@ -77,6 +78,23 @@ Divyansh Sood is a freelance web designer and developer based in Himachal Prades
 - **What happens after launch?** A tidy handover, documentation, and 30 days of free support, with an optional ongoing retainer.
 - **How long does a project take?** Most projects go live in about 3–4 weeks. A limited number of projects are taken on at once, so each gets full attention.
 - **What if I'm not happy with the result?** Work runs in clear milestones with revision rounds; nothing ships until you're genuinely happy.
+
+## Writing (selected)
+
+The studio publishes a working journal — notes and case studies on custom-coded
+websites, conversion, AI features and getting cited by AI assistants. Full index:
+https://www.divyanshsood.com/blog/
+
+- [What is llms.txt and why your site needs one](https://www.divyanshsood.com/blog/what-is-llms-txt-blog/): What the file is, what belongs in it, and how AI assistants use it.
+- [GEO vs SEO: what's actually different](https://www.divyanshsood.com/blog/geo-vs-seo-whats-actually-different/): Where generative-engine optimization diverges from classic SEO.
+- [How to get your business recommended by ChatGPT](https://www.divyanshsood.com/blog/get-your-business-recommended-by-chatgpt/): Making a business quotable by assistants.
+- [How to make your brand quotable by AI](https://www.divyanshsood.com/blog/make-your-brand-quotable-by-ai-geo-2026/): Writing sentences a model can lift verbatim.
+- [Shopify alternatives for premium D2C brands](https://www.divyanshsood.com/blog/shopify-alternatives-for-premium-d2c/): Honest ranking of the options, including when to stay put.
+- [Why premium brands are leaving Shopify](https://www.divyanshsood.com/blog/why-premium-brands-leave-shopify/): The ceiling premium brands hit on themes and apps.
+- [Framer vs custom code](https://www.divyanshsood.com/blog/framer-vs-custom-code-2026/) and [Squarespace vs a custom website](https://www.divyanshsood.com/blog/squarespace-vs-custom-website/): When a builder is genuinely the right call, and when it stops being one.
+- [Hiring a web developer in India: a buyer's guide for US & UK founders](https://www.divyanshsood.com/blog/hire-web-developer-india-from-us/): How to tell the two Indian markets apart.
+- [Agency vs freelancer](https://www.divyanshsood.com/blog/freelancer-vs-agency-web-development/): What the invoice actually buys in each case.
+- [Own your stack: code portability as a business asset](https://www.divyanshsood.com/blog/own-your-stack-code-portability/): Why being able to leave is the point.
 
 ## Contact
 

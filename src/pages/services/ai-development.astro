@@ -1,0 +1,238 @@
+---
+import Studio from "../../layouts/Studio.astro";
+import { SITE, CALENDLY_URL } from "../../lib/site.mjs";
+
+const canonical = `${SITE}/services/ai-development/`;
+
+const offers = [
+  { t: "AI features in an existing product", d: "Search that understands a question, support that answers from your own docs, drafting that sounds like your team. Added to the product you already have, without a rebuild." },
+  { t: "AI products, end to end", d: "I built and run WebSeek.ai — one prompt to a deployed site, with a Claude / GPT / Gemini model picker. Three providers in production, not a demo. If you're building the product, I've shipped the shape of it." },
+  { t: "Retrieval over your own content", d: "RAG done honestly: your docs, policies or catalogue as the source, with citations back to the page. The useful version of a chatbot — one that can say 'I don't know' instead of inventing a refund policy." },
+  { t: "Model choice, cost and fallbacks", d: "Which model, at what price per call, and what happens when it's slow or down. The unglamorous engineering that decides whether an AI feature survives contact with real traffic." },
+];
+
+const how = [
+  { n: "01", t: "Find the job worth automating", d: "Most AI ideas fail because nobody named the task. We start from a job your users actually repeat — then decide whether a model is even the right tool. Sometimes the answer is a better form." },
+  { n: "02", t: "Prototype against real inputs", d: "Your actual content and your actual edge cases, not a curated demo. This is where most concepts either earn their place or quietly die, and it's much cheaper to find out here." },
+  { n: "03", t: "Ship it with the guardrails on", d: "Evaluation on cases you care about, a fallback when the model misbehaves, cost caps, and logging you can read. An AI feature without these is a prototype in production." },
+  { n: "04", t: "Hand over something maintainable", d: "Clean repo, prompts in version control, and a written explanation of why each choice was made — so swapping a model later is an afternoon, not a rewrite." },
+];
+
+const faqs = [
+  { q: "What counts as an 'AI feature' worth building?", a: "One that removes a repeated task or answers a question your users keep asking. Search over your own content, support that cites your real documentation, drafting a first version of something a human then edits. If a feature only demos well and nobody would miss it, I'll tell you that before we build it." },
+  { q: "Which model do you use — Claude, GPT or Gemini?", a: "Whichever fits the job, and I've shipped all three. I run WebSeek.ai on Claude, GPT and Gemini simultaneously, so the differences are ones I've handled in production rather than read about: prompt shapes that work on one and not another, latency and cost trade-offs, and how each fails. The choice is made per feature, and the code is written so it can be changed later." },
+  { q: "Can you add AI to a site I already have?", a: "Usually yes. Most AI features attach to an existing product through an API rather than requiring a rebuild — that's the normal case, not the exception. What matters more than your framework is whether your content is in a shape a model can retrieve from, which is the first thing I'd look at." },
+  { q: "Will it make things up?", a: "Any language model can. The engineering answer is retrieval plus citations plus a real 'I don't know' path — the system answers from your content and links to the source, instead of generating something plausible. That is a design decision, and it is the difference between a useful assistant and a liability." },
+  { q: "What does AI development cost?", a: "Quoted individually after a scoping call, fixed and in writing before anything starts. The honest driver is not the model — it's how messy your content is and how much accuracy the feature needs. A search box over clean docs and a support agent that must never be wrong are very different jobs." },
+];
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "@id": `${canonical}#service`,
+      name: "AI development and LLM integration",
+      serviceType: "AI feature development and LLM integration",
+      provider: { "@id": `${SITE}/#person` },
+      areaServed: [{ "@type": "Country", name: "India" }, { "@type": "Place", name: "Worldwide" }],
+      description:
+        "AI development services — LLM integration, retrieval over your own content (RAG), AI search and support, and full AI products. Built on Claude, GPT or Gemini, shipped into production with evaluation, fallbacks and cost control.",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Services", item: `${SITE}/services/` },
+        { "@type": "ListItem", position: 3, name: "AI development", item: canonical },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+    },
+  ],
+});
+---
+
+<Studio
+  title="AI Development Services — LLM Integration & AI Features"
+  description="AI development services: LLM integration, RAG over your own content, AI search and support. Built on Claude, GPT or Gemini and shipped to production, not demoed."
+  canonical={canonical}
+  keywords="AI development services, AI features for websites, LLM integration developer, hire AI developer, RAG development, Claude GPT Gemini integration, AI product development, AI chatbot developer"
+  ogTitle="AI development & LLM integration"
+  ogDescription="I run my own AI product on Claude, GPT and Gemini. AI features shipped into production — with evaluation, fallbacks and cost control."
+  jsonld={jsonld}
+>
+  <main>
+    <header class="cs-hero">
+      <div class="cs-hero-bg" aria-hidden="true"></div>
+      <div class="wrap">
+        <div class="cs-eyebrow">
+          <span>Services</span><span>AI features · LLM integration</span><span>2026</span>
+        </div>
+        <h1 style="margin:14px 0 0;font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(44px,8vw,108px);line-height:.9;letter-spacing:-.01em;text-transform:uppercase;">AI that ships,<br /><span style="color:var(--accent);">not AI that demos.</span></h1>
+        <p class="cs-lead">AI development for founders who want a feature in production, not a proof of concept in a deck. I run my own AI product on Claude, GPT and Gemini at the same time — so when I add AI to your product, I'm reusing code that already survived real users, real costs and real failure modes.</p>
+        <div class="cs-cta-row">
+          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book an AI call <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost" href="/projects/webseek/">See the AI product I run</a>
+        </div>
+        <div class="cs-meta">
+          <span>Fixed written quotes · you own the code</span><span>Claude · GPT · Gemini · your stack</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="cs-sec" aria-labelledby="offer-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="offer-h">What I build</h2>
+          <span class="mono">The offering</span>
+        </div>
+        <div class="cs-body" data-reveal>
+          {offers.map((o) => (
+            <div class="cs-card">
+              <span class="cs-tag">{o.t}</span>
+              <p>{o.d}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="proof-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="proof-h">Why me for this</h2>
+          <span class="mono">Shipped, not studied</span>
+        </div>
+        <div class="cs-metrics" data-reveal>
+          <div class="cs-metric"><span class="cs-metric-v">3</span><span class="cs-metric-l">Model providers running in production — Claude, GPT, Gemini</span></div>
+          <div class="cs-metric"><span class="cs-metric-v">1</span><span class="cs-metric-l">AI product of my own, with real users and real bills</span></div>
+          <div class="cs-metric"><span class="cs-metric-v">Any</span><span class="cs-metric-l">Input language, handled without a separate flow</span></div>
+          <div class="cs-metric"><span class="cs-metric-v">HTML</span><span class="cs-metric-l">Output you own, never locked in an editor</span></div>
+        </div>
+        <div class="cs-body" data-reveal style="margin-top:22px;">
+          <div class="cs-card span2">
+            <span class="cs-tag">WebSeek.ai · my own product</span>
+            <p>One prompt to a deployed, custom-coded site, with a model picker for Claude, GPT and Gemini. Running all three in one product means the differences are ones I've had to handle for real — prompt shapes that work on one and not another, failure modes, and what each costs per call. <a href="/projects/webseek/">Read the case study →</a></p>
+          </div>
+          <div class="cs-card">
+            <span class="cs-tag">Baglamukhi Travels · AI-readable content</span>
+            <p>A local-business schema graph and an <code>llms.txt</code> file so assistants quote the routes accurately. The same discipline, pointed at being cited rather than generating. <a href="/projects/baglamukhi-travels/">Read the case study →</a></p>
+          </div>
+          <div class="cs-card">
+            <span class="cs-tag">Modern K.B.S. · the honest counter-example</span>
+            <p>A school portal where the right answer was ordinary software, not AI. Shipped in 7 days. I'd rather talk you out of a model than bill you for one. <a href="/projects/modernkbs/">Read the case study →</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="how-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="how-h">How it ships</h2>
+          <span class="mono">The process</span>
+        </div>
+        <div class="cs-body" data-reveal>
+          {how.map((s) => (
+            <div class="cs-card">
+              <span class="cs-tag">({s.n}) {s.t}</span>
+              <p>{s.d}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="read-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="read-h">Thinking on AI builds</h2>
+          <span class="mono">From the journal</span>
+        </div>
+        <div class="cs-body" data-reveal>
+          <div class="cs-card">
+            <span class="cs-tag">AI features that actually work</span>
+            <p>Which AI features earn their keep on a business website, and which are demos that never ship. <a href="/blog/ai-features-that-actually-work-on-websites/">Read →</a></p>
+          </div>
+          <div class="cs-card">
+            <span class="cs-tag">Claude vs GPT vs Gemini</span>
+            <p>What I learned shipping all three behind one product, and how I choose between them now. <a href="/blog/claude-vs-gpt-vs-gemini-for-product-features/">Read →</a></p>
+          </div>
+          <div class="cs-card span2">
+            <span class="cs-tag">RAG for business websites</span>
+            <p>When a chatbot should actually read your docs — and when retrieval is the wrong tool entirely. <a href="/blog/rag-for-business-websites/">Read →</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="faq-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="faq-h">Frequently asked</h2>
+          <span class="mono">AI development</span>
+        </div>
+        <div class="cs-faq">
+          {faqs.map((f, i) => (
+            <div class="cs-faq-row">
+              <button class="cs-faq-q" data-faqtog={i} aria-expanded="false" aria-controls={`faq-ai-${i}`}>
+                <span>{f.q}</span><span class="cs-faq-icon" data-faqicon={i} aria-hidden="true">+</span>
+              </button>
+              <div class="cs-faq-a" id={`faq-ai-${i}`} data-faqbody={i}><p>{f.a}</p></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-endcta">
+      <div class="wrap">
+        <h2>Got an AI idea you're not sure about?</h2>
+        <p>Describe it in three sentences. I'll tell you whether a model is the right tool, what the smallest useful version looks like — and if the honest answer is "you don't need AI for this", you'll get that instead.</p>
+        <div class="cs-cta-row" style="justify-content:center;">
+          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book an AI call <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost" href="/services/">All services</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Studio>
+
+<script is:inline>
+  (function () {
+    var root = document.getElementById("ds-root");
+    if (!root) return;
+    var faq = -1;
+    function sync() {
+      root.querySelectorAll("[data-faqbody]").forEach(function (el) {
+        var open = Number(el.getAttribute("data-faqbody")) === faq;
+        el.style.maxHeight = open ? el.scrollHeight + "px" : "0px";
+        el.style.opacity = open ? "1" : "0";
+      });
+      root.querySelectorAll("[data-faqicon]").forEach(function (el) {
+        el.style.transform = Number(el.getAttribute("data-faqicon")) === faq ? "rotate(45deg)" : "rotate(0deg)";
+      });
+      root.querySelectorAll("[data-faqtog]").forEach(function (el) {
+        el.setAttribute("aria-expanded", Number(el.getAttribute("data-faqtog")) === faq ? "true" : "false");
+      });
+    }
+    root.querySelectorAll("[data-faqtog]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        var i = Number(el.getAttribute("data-faqtog"));
+        faq = faq === i ? -1 : i;
+        sync();
+      });
+    });
+    var rt;
+    window.addEventListener("resize", function () {
+      if (faq < 0) return;
+      clearTimeout(rt);
+      rt = setTimeout(sync, 120);
+    });
+    sync();
+  })();
+</script>

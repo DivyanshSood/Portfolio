@@ -43,6 +43,7 @@ Divyansh Sood is a freelance web designer and developer who runs a solo studio (
 
 - Ecommerce website development — https://www.divyanshsood.com/services/ecommerce-website-development/ — custom-coded D2C storefronts, Razorpay/Stripe, drop mechanics, full code ownership, no Shopify themes; live in 2–4 weeks.
 - Web app development — https://www.divyanshsood.com/services/web-app-development/ — MVPs, portals, dashboards, admin panels, AI products; full-stack React/Next.js/Astro; live in weeks, fastest 7 days.
+- AI development — https://www.divyanshsood.com/services/ai-development/ — LLM integration, retrieval (RAG) over your own content, AI search and support, and complete AI products. Built on Claude, GPT or Gemini. The studio runs its own AI product, WebSeek.ai, on all three providers in production.
 - Landing page design — https://www.divyanshsood.com/services/landing-page-design/ — high-converting landing pages; copy + design + code by one person, tracking built in.
 - SEO & GEO services — https://www.divyanshsood.com/services/seo-geo-services/ — technical SEO plus Generative Engine Optimization implemented in the codebase; structured data, llms.txt, AI-crawler strategy.
 - Services overview — https://www.divyanshsood.com/services/

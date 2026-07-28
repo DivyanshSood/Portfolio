@@ -18,6 +18,12 @@ const services = [
     d: "MVPs, portals, dashboards and AI products. Full-stack React/Next.js/Astro, a staging link every Friday, live in weeks — fastest build: 7 days.",
   },
   {
+    href: "/services/ai-development/",
+    tag: "AI features · LLM integration",
+    name: "AI development",
+    d: "AI features shipped into production, not demoed — retrieval over your own content, AI search and support, whole AI products. I run my own on Claude, GPT and Gemini.",
+  },
+  {
     href: "/services/landing-page-design/",
     tag: "Landing pages · CRO",
     name: "Landing page design",
@@ -44,7 +50,7 @@ const jsonld = JSON.stringify({
       "@id": canonical,
       name: "Web development services — Divyansh Sood® Studio",
       description:
-        "Custom web development services: ecommerce storefronts, web apps and MVPs, high-converting landing pages, and SEO/GEO — custom-coded, conversion-focused, you own the code.",
+        "Custom web development services: ecommerce storefronts, web apps and MVPs, AI features and LLM integration, high-converting landing pages, and SEO/GEO — custom-coded, conversion-focused, you own the code.",
       url: canonical,
       isPartOf: { "@id": `${SITE}/#website` },
     },
@@ -71,12 +77,12 @@ const jsonld = JSON.stringify({
 ---
 
 <Studio
-  title="Web Development Services — Stores, Apps, Pages & SEO/GEO"
-  description="Custom web development services: ecommerce storefronts, web apps, high-converting landing pages and SEO/GEO. Custom-coded, live in weeks, you own the code."
+  title="Web Development Services — Stores, Apps, AI, Pages & SEO"
+  description="Custom web development services: ecommerce storefronts, web apps, AI features, high-converting landing pages and SEO/GEO. Custom-coded, live in weeks, you own the code."
   canonical={canonical}
-  keywords="custom web development services, ecommerce website development, web app development, landing page design, SEO services, GEO services, hire web developer, Divyansh Sood"
+  keywords="custom web development services, ecommerce website development, web app development, AI development services, landing page design, SEO services, GEO services, hire web developer, Divyansh Sood"
   ogTitle="Web development services"
-  ogDescription="Stores, apps, landing pages and SEO/GEO — custom-coded, conversion-focused, yours to own."
+  ogDescription="Stores, apps, AI features, landing pages and SEO/GEO — custom-coded, conversion-focused, yours to own."
   jsonld={jsonld}
 >
   <main>
@@ -86,8 +92,8 @@ const jsonld = JSON.stringify({
         <div class="cs-eyebrow">
           <span>Services</span><span>Custom-coded · conversion-focused</span><span>2026</span>
         </div>
-        <h1 style="margin:14px 0 0;font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(44px,8vw,108px);line-height:.9;letter-spacing:-.01em;text-transform:uppercase;">Four ways<br /><span style="color:var(--accent);">I move the needle.</span></h1>
-        <p class="cs-lead">Every engagement is custom-coded, conversion-focused and handed over with full code ownership. Pick the shape of the problem — a store that undersells the product, software stuck on a roadmap, a page that doesn't convert, or a brand that's invisible to Google and AI assistants.</p>
+        <h1 style="margin:14px 0 0;font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(44px,8vw,108px);line-height:.9;letter-spacing:-.01em;text-transform:uppercase;">Five ways<br /><span style="color:var(--accent);">I move the needle.</span></h1>
+        <p class="cs-lead">Every engagement is custom-coded, conversion-focused and handed over with full code ownership. Pick the shape of the problem — a store that undersells the product, software stuck on a roadmap, an AI feature that never left the demo, a page that doesn't convert, or a brand that's invisible to Google and AI assistants.</p>
         <div class="cs-cta-row">
           <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book an intro call <span aria-hidden="true">↗</span></a>
           <a class="btn btn-ghost" href="/portfolio/">See the work first</a>
@@ -108,7 +114,7 @@ const jsonld = JSON.stringify({
           {services.map((s) => (
             <a class="cs-card" href={s.href} style="display:block;text-decoration:none;color:inherit;">
               <span class="cs-tag">{s.tag}</span>
-              <h2 class="cs-card-h2">{s.name}</h2>
+              <p class="cs-card-h2">{s.name}</p>
               <p style="margin-top:12px;">{s.d}</p>
               <p style="margin-top:14px;color:var(--accent);">Explore the service →</p>
             </a>

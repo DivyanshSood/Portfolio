@@ -39,6 +39,16 @@
 .cs-tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;}
 .cs-card h3{margin:0 0 12px;font-weight:700;font-size:clamp(18px,2vw,24px);letter-spacing:-.01em;}
 .cs-card h2{margin:0;font-weight:700;font-size:clamp(19px,2.1vw,26px);letter-spacing:-.015em;line-height:1.42;}
+/* Card lead line. This used to be an <h2>, so every card body counted as a
+   heading — the service and location pages each emitted 8–13 <h2> elements
+   that were full sentences rather than section titles, which flattens the
+   document outline for both screen readers and search engines. It is a <p>
+   now; this rule keeps the visual weight identical (the extra `p` in the
+   selector is only there to outrank `.cs-card p` below). */
+.cs-card p.cs-card-h2,.cs-card h3.cs-card-h2{margin:0;font-weight:700;font-size:clamp(19px,2.1vw,26px);letter-spacing:-.015em;line-height:1.42;color:#F4F2EC;}
+/* Case-study card titles ARE real headings, but they sit inside a section that
+   already owns an <h2>, so they are <h3> — subordinate, not sibling. */
+.cs-card h3.cs-card-h2{margin-bottom:12px;}
 .cs-card p{margin:0;font-size:16px;line-height:1.66;color:#C9C7C0;}
 .cs-card p em{font-style:normal;color:var(--accent);}
 .cs-card p strong{color:#F4F2EC;}

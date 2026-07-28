@@ -221,7 +221,7 @@ const jsonld = JSON.stringify({
           {skills.map((s) => (
             <div class="cs-card">
               <span class="cs-tag">{s.t}</span>
-              <h2 class="cs-card-h2">{s.d}</h2>
+              <p class="cs-card-h2">{s.d}</p>
             </div>
           ))}
         </div>
@@ -239,7 +239,7 @@ const jsonld = JSON.stringify({
           {principles.map((p) => (
             <div class="cs-card">
               <span class="cs-tag">({p.n}) {p.t}</span>
-              <h2 class="cs-card-h2">{p.d}</h2>
+              <p class="cs-card-h2">{p.d}</p>
             </div>
           ))}
         </div>
@@ -278,15 +278,15 @@ const jsonld = JSON.stringify({
         <div class="cs-body" data-reveal>
           <div class="cs-card">
             <span class="cs-tag">A short call</span>
-            <h2 class="cs-card-h2">15 minutes, then an honest answer. Tell me what you're building and where it's stuck. I'll tell you whether I'm the right person for it — and if I'm not, who I'd point you toward. No sales script, no pressure.</h2>
+            <p class="cs-card-h2">15 minutes, then an honest answer. Tell me what you're building and where it's stuck. I'll tell you whether I'm the right person for it — and if I'm not, who I'd point you toward. No sales script, no pressure.</p>
           </div>
           <div class="cs-card">
             <span class="cs-tag">A clear plan</span>
-            <h2 class="cs-card-h2">Fixed scope, real milestones. Within a couple of days you get a written plan with phases, deliverables and dates. You always know what's shipping next and where the budget is going.</h2>
+            <p class="cs-card-h2">Fixed scope, real milestones. Within a couple of days you get a written plan with phases, deliverables and dates. You always know what's shipping next and where the budget is going.</p>
           </div>
           <div class="cs-card span2">
             <span class="cs-tag">A working build</span>
-            <h2 class="cs-card-h2">Live link from week one, not a deck. You'll see a working build early — usually by week two — and review it on a real staging link on your phone. No slideshows, no surprises, no agency handoffs.</h2>
+            <p class="cs-card-h2">Live link from week one, not a deck. You'll see a working build early — usually by week two — and review it on a real staging link on your phone. No slideshows, no surprises, no agency handoffs.</p>
           </div>
         </div>
       </div>
@@ -296,7 +296,7 @@ const jsonld = JSON.stringify({
     <section class="cs-endcta">
       <div class="wrap">
         <h2>Want to work together?</h2>
-        <p>Tell me what you're shipping. I'll come back with a clear path from brief to launch — and an honest timeline.</p>
+        <p>Tell me what you're shipping. I'll come back with a clear path from brief to launch — and an honest timeline. Writing about me, or crediting a build? The <a href="/press/">press kit</a> has the bio, headshot and logo, so the details stay accurate.</p>
         <div class="cs-cta-row" style="justify-content:center;">
           <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book a 15-min intro <span aria-hidden="true">↗</span></a>
           <a class="btn btn-ghost" href={WA} target="_blank" rel="noopener">Message on WhatsApp</a>
