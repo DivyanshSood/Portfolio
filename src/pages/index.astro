@@ -1,6 +1,6 @@
 ---
 import Studio from "../layouts/Studio.astro";
-import { homeJsonLd } from "../lib/home-schema.mjs";
+import { homeJsonLd, HOME_FAQ } from "../lib/home-schema.mjs";
 import { SITE, CALENDLY_URL } from "../lib/site.mjs";
 import { projects as allProjects } from "../lib/projects/data.mjs";
 import { POSTS } from "../lib/blog.mjs";
@@ -19,6 +19,24 @@ const SERVICE_LINKS = [
   { label: "Web developer in Dharamshala", href: "/web-developer-dharamshala/" },
 ];
 const LATEST_POSTS = POSTS.slice(0, 6);
+
+// Proof strip. Every figure here is already published elsewhere on the site
+// (/portfolio stats strip, /results, the Baglamukhi case study) — the homepage
+// simply never showed any of it. Keep these in sync with /portfolio and
+// /results if they change; nothing here is rounded up.
+const PROOF_STATS = [
+  { v: "20+", l: "Projects shipped since 2022" },
+  { v: "9/9", l: "Recent clients still on board" },
+  { v: "7 days", l: "Fastest full build, vs a 6-month quote" },
+  { v: "5.7", l: "Avg. Google position, Baglamukhi Travels" },
+];
+
+// Real client words, verbatim from /testimonials/.
+const PROOF_QUOTES = [
+  { q: "Every other agency said 6 months. Delivered in 7 days.", by: "Admin, Modern K.B.S." },
+  { q: "Looks 10 times more premium than our competitors. We started getting direct bookings instead of losing them to Google Maps.", by: "Founder, Nandini Travels" },
+  { q: "Exactly what we wanted. I will refer Divyansh within my circle for life.", by: "Founder, North Peak Power Systems" },
+];
 
 // Desktop SERP is where the CTR problem is: 327 impressions, 1 click, position
 // 6.1. Both of these were also being truncated there — the title at 62 chars,
@@ -113,6 +131,23 @@ const DECK = [
     quote: "I did not think it could be achieved without going to e-commerce builders and only using custom code.",
     quoteBy: "Chinki, Founder",
   },
+  {
+    // Added to the deck because it carries the hardest SEO proof on the site —
+    // avg position 5.7, 7.25K impressions, 148 clicks in 28 days — and had
+    // exactly one inbound link (the /portfolio grid). Best number, worst
+    // distribution; the homepage fixes both.
+    slug: "baglamukhi-travels",
+    num: "05",
+    name: "Baglamukhi Travels",
+    client: "Baglamukhi Travels · Kangra",
+    tags: "Travel · Local SEO",
+    year: "2026",
+    scope: "Site · Local SEO · Schema",
+    blurb:
+      "Owner-drivers competing against commission agents for Kangra's airport transfers and the Devi Darshan yatra. Built on Astro with a full local-business schema graph — now averaging position 5.7 on Google, 7.25K impressions in 28 days.",
+    quote: null,
+    quoteBy: null,
+  },
 ].map((d) => {
   const c = caseFor(d.slug);
   const featSrc = c.feature.src;
@@ -129,42 +164,67 @@ const ARROW = "M7 17 17 7M8 7h9v9";
   keywords="freelance web developer, freelance web designer, hire freelance developer, Divyansh Sood, custom website design and development, hire web developer, conversion-focused website, Next.js developer, Astro developer, ecommerce website developer, web app MVP developer, SEO web developer, Himachal Pradesh, India"
   ogDescription="Custom-coded websites that convert — designed, built and live in 3–4 weeks. You own the code."
   jsonld={jsonld}
+  preloadImage={{ href: DECK[0].img, srcset: DECK[0].srcset, sizes: "(max-width:900px) 86vw, 46vw" }}
   preloader
   home
 >
-  {/* ---------- Hero — stacked drift marquees ---------- */}
+  {/* ---------- Hero — drift marquees (decoration) + the real headline ----------
+      The three Anton bands are DECORATION and are marked aria-hidden. Each one
+      repeats its phrase three times and is then duplicated for the seamless
+      loop, so the DOM carried "Web Design" x6, "Development" x6 and
+      "Conversion" x6 — as the largest text on the page — while the only <h1>
+      was clipped to 1x1px by .dsx-sr. An invisible H1 sitting next to a head
+      term repeated eighteen times is the worst possible pair of signals: it
+      reads as keyword repetition and says nothing a buyer actually searches.
+      The bands stay exactly as designed; the headline below them is now real,
+      visible, crawlable text. ---------------------------------------------- */}
   <section id="top" style="position:relative;">
-    <h1 class="dsx-sr">Divyansh Sood — freelance web designer &amp; developer. Custom-coded websites, stores and web apps that convert.</h1>
-    <div style="min-height:100svh; display:flex; flex-direction:column; justify-content:center; overflow:hidden; position:relative; padding:90px 0 130px;">
-      <div style="display:flex; flex-direction:column; gap:1vw;">
+    <div class="hero-fold">
+      <div aria-hidden="true" style="display:flex; flex-direction:column; gap:1vw;">
         <div style="overflow:hidden;">
           <div class="dsx-r" data-intro="0">
-            <div data-drift="l" style="display:inline-flex; white-space:nowrap; font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(64px, 13vw, 190px); line-height:0.92; text-transform:uppercase; will-change:transform;">
+            <div data-drift="l" style="display:inline-flex; white-space:nowrap; font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(40px, 8.2vw, 112px); line-height:0.94; text-transform:uppercase; will-change:transform;">
               <span style="display:inline-block; padding-right:4vw;">Web Design <span style="color:var(--accent, #D9FF3C);">✦</span> Web Design <span style="color:var(--accent, #D9FF3C);">✦</span> Web Design <span style="color:var(--accent, #D9FF3C);">✦</span></span>
-              <span aria-hidden="true" style="display:inline-block; padding-right:4vw;">Web Design <span style="color:var(--accent, #D9FF3C);">✦</span> Web Design <span style="color:var(--accent, #D9FF3C);">✦</span> Web Design <span style="color:var(--accent, #D9FF3C);">✦</span></span>
+              <span style="display:inline-block; padding-right:4vw;">Web Design <span style="color:var(--accent, #D9FF3C);">✦</span> Web Design <span style="color:var(--accent, #D9FF3C);">✦</span> Web Design <span style="color:var(--accent, #D9FF3C);">✦</span></span>
             </div>
           </div>
         </div>
         <div style="overflow:hidden;">
           <div class="dsx-r" data-intro="110">
-            <div data-drift="r" style="display:inline-flex; white-space:nowrap; font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(64px, 13vw, 190px); line-height:0.92; text-transform:uppercase; color:transparent; -webkit-text-stroke:1.5px #F4F2EC; will-change:transform;">
+            <div data-drift="r" style="display:inline-flex; white-space:nowrap; font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(40px, 8.2vw, 112px); line-height:0.94; text-transform:uppercase; color:transparent; -webkit-text-stroke:1.5px #F4F2EC; will-change:transform;">
               <span style="display:inline-block; padding-right:4vw;">Development ► Development ► Development ►</span>
-              <span aria-hidden="true" style="display:inline-block; padding-right:4vw;">Development ► Development ► Development ►</span>
+              <span style="display:inline-block; padding-right:4vw;">Development ► Development ► Development ►</span>
             </div>
           </div>
         </div>
         <div style="overflow:hidden;">
           <div class="dsx-r" data-intro="220">
-            <div data-drift="l2" style="display:inline-flex; white-space:nowrap; font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(64px, 13vw, 190px); line-height:0.92; text-transform:uppercase; will-change:transform;">
+            <div data-drift="l2" style="display:inline-flex; white-space:nowrap; font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(40px, 8.2vw, 112px); line-height:0.94; text-transform:uppercase; will-change:transform;">
               <span style="display:inline-block; padding-right:4vw;">Conversion <span style="color:var(--accent, #D9FF3C);">↗</span> Conversion <span style="color:var(--accent, #D9FF3C);">↗</span> Conversion <span style="color:var(--accent, #D9FF3C);">↗</span></span>
-              <span aria-hidden="true" style="display:inline-block; padding-right:4vw;">Conversion <span style="color:var(--accent, #D9FF3C);">↗</span> Conversion <span style="color:var(--accent, #D9FF3C);">↗</span> Conversion <span style="color:var(--accent, #D9FF3C);">↗</span></span>
+              <span style="display:inline-block; padding-right:4vw;">Conversion <span style="color:var(--accent, #D9FF3C);">↗</span> Conversion <span style="color:var(--accent, #D9FF3C);">↗</span> Conversion <span style="color:var(--accent, #D9FF3C);">↗</span></span>
             </div>
           </div>
         </div>
       </div>
-      <div style="position:absolute; left:4vw; right:4vw; bottom:26px; display:flex; justify-content:space-between; align-items:flex-end; gap:24px; font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.1em; color:#8A8A93;">
-        <div class="dsx-f" data-intro="300" style="max-width:400px; line-height:1.8;">INDEPENDENT WEB DESIGNER &amp; DEVELOPER — CUSTOM-CODED SITES, STORES &amp; WEB APPS FOR FOUNDERS WORLDWIDE. <a href={CALENDLY_URL} target="_blank" rel="noopener" style="color:var(--accent, #D9FF3C);">BOOK A 15-MIN INTRO ↗</a></div>
-        <div data-hide-m class="dsx-f" data-intro="380" style="text-align:right; line-height:1.8;">EST. 2022 — HIMACHAL PRADESH, IN<br>WORLDWIDE · IST <span data-ist>––:––</span></div>
+
+      {/* The fold's real content: headline, subhead, primary + secondary CTA. */}
+      <div class="hero-say">
+        <div class="hero-say-main">
+          <h1 class="dsx-f" data-intro="300">
+            Freelance web designer &amp; developer — custom-coded websites, stores and web apps that <em>convert</em>.
+          </h1>
+          <p class="hero-sub dsx-f" data-intro="360">One person, end to end. Live in 3–4 weeks. You own the code.</p>
+          <div class="hero-cta dsx-f" data-intro="420">
+            <a class="dsx-cta hero-cta-1" data-cursor="BOOK" href={CALENDLY_URL} target="_blank" rel="noopener">
+              Book a 15-min intro
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d={ARROW}></path></svg>
+            </a>
+            <a class="hero-cta-2" href="/portfolio/">See the work <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+        <div data-hide-m class="hero-say-meta dsx-f" data-intro="480">
+          EST. 2022 — HIMACHAL PRADESH, IN<br />WORLDWIDE · IST <span data-ist>––:––</span>
+        </div>
       </div>
     </div>
   </section>
@@ -177,8 +237,37 @@ const ARROW = "M7 17 17 7M8 7h9v9";
     </div>
   </div>
 
+  {/* ---------- Proof ----------------------------------------------------
+      The homepage carried no proof of any kind — no numbers, no client words,
+      no logos — while /portfolio, /results and /testimonials held all of it
+      behind footer-only links. Every figure below is already published
+      elsewhere on the site and links to the page that substantiates it. --- */}
+  <section class="hp-proof" aria-labelledby="proof-h">
+    <h2 id="proof-h" class="dsx-sr">Proof</h2>
+    <ul class="hp-stats" role="list">
+      {PROOF_STATS.map((s) => (
+        <li data-reveal>
+          <span class="hp-stat-v">{s.v}</span>
+          <span class="hp-stat-l">{s.l}</span>
+        </li>
+      ))}
+    </ul>
+    <ul class="hp-quotes" role="list">
+      {PROOF_QUOTES.map((qt) => (
+        <li data-reveal>
+          <blockquote>“{qt.q}”</blockquote>
+          <cite>— {qt.by}</cite>
+        </li>
+      ))}
+    </ul>
+    <div class="hp-proof-links mono">
+      <a href="/results/">The numbers, per project →</a>
+      <a href="/testimonials/">Client reviews →</a>
+    </div>
+  </section>
+
   {/* ---------- About statement — sticky, word-by-word scroll reveal ---------- */}
-  <section data-stmt-sec style="height:200vh; position:relative;">
+  <section data-stmt-sec style="height:150vh; position:relative;">
     <div style="position:sticky; top:0; height:100svh; display:flex; flex-direction:column; justify-content:center; padding:0 4vw;">
       <div style="font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.14em; color:#8A8A93; display:flex; justify-content:space-between; gap:16px; margin-bottom:4vh;">
         <span>(ABOUT — 01)</span>
@@ -196,7 +285,7 @@ const ARROW = "M7 17 17 7M8 7h9v9";
         <div style="font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.14em; color:#8A8A93; margin-bottom:22px;">(WORK — 02)</div>
         <h2 style="margin:0; overflow:hidden;"><span class="dsx-r" data-rev style="display:block; font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(52px, 9vw, 130px); line-height:0.92; text-transform:uppercase;">Selected work</span></h2>
       </div>
-      <div data-hide-m style="font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.14em; color:#8A8A93; text-align:right; line-height:1.9;">2024 — 2026<br><span style="color:var(--accent, #D9FF3C);">04</span> PROJECTS</div>
+      <div data-hide-m style="font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.14em; color:#8A8A93; text-align:right; line-height:1.9;">2024 — 2026<br><span style="color:var(--accent, #D9FF3C);">{String(DECK.length).padStart(2, "0")}</span> OF 09 PROJECTS</div>
     </div>
 
     {/* A single laptop, pinned centre-stage. On scroll the screenshot inside its
@@ -204,7 +293,7 @@ const ARROW = "M7 17 17 7M8 7h9v9";
         swaps in sync — the chassis never moves. The engine (Studio.astro) drives
         [data-screen]/[data-copy] opacity off the same scroll-progress math the
         old clip-path deck used. */}
-    <div data-deck-sec style="height:480vh; position:relative;">
+    <div data-deck-sec style="height:400vh; position:relative;">
       <div class="dsx-lap-stage">
         {/* Copy column — one block per project, absolutely stacked + cross-faded. */}
         <div class="dsx-lap-copy">
@@ -241,9 +330,16 @@ const ARROW = "M7 17 17 7M8 7h9v9";
           </div>
         </div>
 
-        <div style="position:absolute; top:88px; right:4vw; font-family:'JetBrains Mono',monospace; letter-spacing:0.14em; display:flex; gap:8px; align-items:baseline;"><span data-deck-num style="color:var(--accent, #D9FF3C); font-size:20px;">01</span><span style="color:#8A8A93; font-size:12px;">/ 04</span></div>
+        <div style="position:absolute; top:88px; right:4vw; font-family:'JetBrains Mono',monospace; letter-spacing:0.14em; display:flex; gap:8px; align-items:baseline;"><span data-deck-num style="color:var(--accent, #D9FF3C); font-size:20px;">01</span><span style="color:#8A8A93; font-size:12px;">/ {String(DECK.length).padStart(2, "0")}</span></div>
         <div style="position:absolute; left:4vw; right:4vw; bottom:26px; height:1px; background:rgba(244,242,236,0.2);"><div data-deck-bar style="position:absolute; inset:0; transform:scaleX(0); transform-origin:left center; background:var(--accent, #D9FF3C);"></div></div>
       </div>
+    </div>
+
+    {/* The deck shows five of nine and used to offer no way to the other four —
+        /portfolio was reachable only from the burger menu and the footer. */}
+    <div class="hp-work-out">
+      <a href="/portfolio/" class="hp-work-out-a">See all nine projects <span aria-hidden="true">→</span></a>
+      <span class="mono">Case studies · live links · results</span>
     </div>
   </section>
 
@@ -301,10 +397,29 @@ const ARROW = "M7 17 17 7M8 7h9v9";
     </div>
   </section>
 
+  {/* ---------- FAQ ------------------------------------------------------
+      Renders from HOME_FAQ, the same array that builds the FAQPage node in
+      home-schema.mjs — the markup and the visible answers cannot drift. --- */}
+  <section class="hp-faq" aria-labelledby="faq-h">
+    <div class="hp-faq-head">
+      <span class="mono">(FAQ — 04)</span>
+      <span class="mono" data-hide-m>BEFORE YOU ASK</span>
+    </div>
+    <h2 id="faq-h" class="hp-faq-h">Questions I get<span style="color:var(--accent, #D9FF3C);">.</span></h2>
+    <dl class="hp-faq-list">
+      {HOME_FAQ.map((f) => (
+        <div class="hp-faq-row" data-reveal>
+          <dt>{f.q}</dt>
+          <dd>{f.a}</dd>
+        </div>
+      ))}
+    </dl>
+  </section>
+
   {/* ---------- Contact ---------- */}
   <section id="contact" style="position:relative; padding:clamp(64px, 11vh, 130px) 4vw 0; overflow:hidden;">
     <div style="font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.14em; color:#8A8A93; display:flex; justify-content:space-between; gap:16px; margin-bottom:4vh;">
-      <span>(CONTACT — 04)</span>
+      <span>(CONTACT — 05)</span>
       <span>NEXT STEP</span>
     </div>
     <div style="overflow:hidden;">
@@ -378,6 +493,160 @@ const ARROW = "M7 17 17 7M8 7h9v9";
   <script is:inline type="application/json" id="dsx-data" set:html={JSON.stringify(DECK)} />
 
   <style>
+    /* ---- Hero headline block --------------------------------------------
+       Anchored to the bottom of the fold, where the old 10.5px footnote sat.
+       The marquee bands above it are decoration; this is the part Google and
+       a first-time visitor actually read, so it carries the H1, the subhead
+       and the only two CTAs in the fold. */
+    /* Bands and headline are stacked flex children, not headline-over-bands.
+       Absolute positioning the headline meant its height (which changes with
+       viewport width as the copy rewraps) had to be guessed as bottom padding,
+       and any guess that was wrong put the H1 straight through the middle of
+       the marquees. Stacking makes the collision structurally impossible. */
+    .hero-fold {
+      min-height: 100svh; display: flex; flex-direction: column; justify-content: center;
+      overflow: hidden; position: relative;
+      /* Tuned so the bands, the H1, the subhead AND the primary button all fit
+         above the fold at 1440x900 — putting a CTA in the first screen is the
+         entire point of the block. */
+      gap: clamp(20px, 3.4vh, 44px);
+      padding: 88px 0 clamp(32px, 4.5vh, 56px);
+    }
+    .hero-say {
+      padding: 0 4vw;
+      display: flex; align-items: flex-end; justify-content: space-between; gap: 32px;
+    }
+    .hero-say-main { max-width: min(62ch, 58vw); }
+    .hero-say h1 {
+      margin: 0; font-weight: 600; letter-spacing: -0.02em;
+      font-size: clamp(24px, 2.9vw, 42px); line-height: 1.14; text-wrap: balance;
+    }
+    .hero-say h1 em { font-style: normal; color: var(--accent, #D9FF3C); }
+    .hero-sub {
+      margin: 16px 0 0; max-width: 46ch; color: #B8B8BF;
+      font-size: clamp(14px, 1.15vw, 17px); line-height: 1.6;
+    }
+    .hero-cta { margin-top: 26px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px; }
+    .hero-cta-1 {
+      background: var(--accent, #D9FF3C); color: #0B0B0C; font-weight: 600;
+      font-size: 14px; letter-spacing: 0.02em; padding: 16px 28px; border-radius: 999px;
+      display: inline-flex; align-items: center; gap: 10px; white-space: nowrap;
+    }
+    .hero-cta-2 {
+      font-family: "JetBrains Mono", monospace; font-size: 12px; letter-spacing: 0.08em;
+      text-transform: uppercase; border-bottom: 1px solid rgba(244, 242, 236, 0.35);
+      padding-bottom: 4px; white-space: nowrap;
+    }
+    .hero-say-meta {
+      flex: none; text-align: right; line-height: 1.8; color: #8A8A93;
+      font-family: "JetBrains Mono", monospace; font-size: 10.5px; letter-spacing: 0.1em;
+    }
+    @media (max-width: 900px) {
+      .hero-fold { padding: 92px 0 clamp(40px, 6vh, 68px); }
+      .hero-say-main { max-width: none; }
+    }
+    @media (max-width: 560px) {
+      .hero-cta { gap: 12px 18px; }
+      .hero-cta-1 { padding: 15px 24px; font-size: 13px; }
+    }
+
+    /* ---- FAQ -------------------------------------------------------------
+       Plain <dl>, always expanded. An accordion would hide answers behind a
+       click on the one section whose whole job is answering the question
+       before the visitor has to ask it. */
+    .hp-faq { padding: clamp(56px, 8vw, 110px) 4vw clamp(20px, 3vw, 40px); }
+    .hp-faq-head {
+      display: flex; justify-content: space-between; gap: 16px; margin-bottom: 22px;
+      font-size: 10.5px; letter-spacing: 0.14em; color: #8A8A93;
+    }
+    .hp-faq-h {
+      margin: 0 0 clamp(30px, 4vw, 54px); font-family: "Anton", sans-serif; font-weight: 400;
+      font-size: clamp(44px, 8vw, 118px); line-height: 0.92; text-transform: uppercase;
+    }
+    .hp-faq-list {
+      margin: 0; padding: 0;
+      border-top: 1px solid rgba(244, 242, 236, 0.14);
+    }
+    .hp-faq-row {
+      display: grid; grid-template-columns: minmax(0, 38%) minmax(0, 1fr);
+      gap: clamp(18px, 3vw, 48px);
+      padding: clamp(22px, 2.8vw, 36px) 0;
+      border-bottom: 1px solid rgba(244, 242, 236, 0.14);
+    }
+    .hp-faq-row dt {
+      margin: 0; font-weight: 600; letter-spacing: -0.01em;
+      font-size: clamp(17px, 1.7vw, 24px); line-height: 1.3; text-wrap: balance;
+    }
+    .hp-faq-row dd {
+      margin: 0; color: #B8B8BF; max-width: 62ch;
+      font-size: clamp(14px, 1.1vw, 16.5px); line-height: 1.68;
+    }
+    @media (max-width: 760px) {
+      .hp-faq-row { grid-template-columns: 1fr; gap: 12px; }
+    }
+
+    /* ---- Work section outro --------------------------------------------- */
+    .hp-work-out {
+      display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
+      gap: 14px 28px; padding: clamp(30px, 4vw, 52px) 4vw clamp(10px, 2vw, 24px);
+    }
+    .hp-work-out-a {
+      font-family: "Anton", sans-serif; font-weight: 400; text-transform: uppercase;
+      font-size: clamp(24px, 3.4vw, 48px); line-height: 1;
+    }
+    .hp-work-out-a:hover { color: var(--accent, #D9FF3C); }
+    .hp-work-out .mono {
+      font-size: 10.5px; letter-spacing: 0.14em; color: #8A8A93; text-transform: uppercase;
+    }
+
+    /* ---- Proof strip ----------------------------------------------------- */
+    .hp-proof { padding: clamp(56px, 8vw, 104px) 4vw clamp(48px, 6vw, 84px); }
+    .hp-stats {
+      list-style: none; margin: 0; padding: 0;
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+      background: rgba(244, 242, 236, 0.14);
+      border: 1px solid rgba(244, 242, 236, 0.14);
+    }
+    .hp-stats li {
+      background: #0B0B0C; padding: clamp(22px, 2.6vw, 34px) clamp(18px, 2vw, 28px);
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .hp-stat-v {
+      font-family: "Anton", sans-serif; font-weight: 400; line-height: 0.95;
+      font-size: clamp(32px, 4vw, 58px); color: var(--accent, #D9FF3C);
+    }
+    .hp-stat-l {
+      font-family: "JetBrains Mono", monospace; font-size: 10.5px; letter-spacing: 0.08em;
+      line-height: 1.7; color: #8A8A93; text-transform: uppercase;
+    }
+    .hp-quotes {
+      list-style: none; margin: clamp(28px, 3.5vw, 46px) 0 0; padding: 0;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(18px, 2vw, 30px);
+    }
+    .hp-quotes li {
+      border-left: 2px solid var(--accent, #D9FF3C); padding-left: clamp(16px, 1.6vw, 22px);
+    }
+    .hp-quotes blockquote {
+      margin: 0; font-weight: 600; letter-spacing: -0.01em;
+      font-size: clamp(15px, 1.35vw, 19px); line-height: 1.5;
+    }
+    .hp-quotes cite {
+      display: block; margin-top: 12px; font-style: normal; color: #8A8A93;
+      font-family: "JetBrains Mono", monospace; font-size: 10.5px; letter-spacing: 0.1em;
+    }
+    .hp-proof-links {
+      margin-top: clamp(26px, 3vw, 40px); display: flex; flex-wrap: wrap; gap: 12px 28px;
+      font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+    }
+    .hp-proof-links a { border-bottom: 1px solid rgba(244, 242, 236, 0.3); padding-bottom: 4px; }
+    @media (max-width: 900px) {
+      .hp-stats { grid-template-columns: 1fr 1fr; }
+      .hp-quotes { grid-template-columns: 1fr; gap: 20px; }
+    }
+    @media (max-width: 480px) {
+      .hp-stats { grid-template-columns: 1fr; }
+    }
+
     /* ---- Pinned-laptop work gallery ------------------------------------- */
     /* The stage is the sticky, viewport-height frame. Two columns on desktop
        (copy | laptop); stacks to one column on phones (still pinned — option A). */

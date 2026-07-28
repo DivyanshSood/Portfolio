@@ -281,6 +281,7 @@ const MENU = [
           </a>
           <nav data-hide-m style="display:flex; gap:28px; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.12em;">
             <a href={workHref} data-goto={home ? "work" : undefined} class="dsx-nav-link"><span class="dsx-roll"><span>WORK</span><span aria-hidden="true">WORK</span></span></a>
+            <a href="/portfolio/" class="dsx-nav-link" aria-current={isActive("/portfolio") ? "page" : undefined}><span class="dsx-roll"><span>PORTFOLIO</span><span aria-hidden="true">PORTFOLIO</span></span></a>
             <a href="/results/" class="dsx-nav-link" aria-current={isActive("/results") ? "page" : undefined}><span class="dsx-roll"><span>RESULTS</span><span aria-hidden="true">RESULTS</span></span></a>
             <a href="/about/" class="dsx-nav-link" aria-current={isActive("/about") ? "page" : undefined}><span class="dsx-roll"><span>ABOUT</span><span aria-hidden="true">ABOUT</span></span></a>
             <a href={contactHref} data-goto={home ? "contact" : undefined} class="dsx-nav-link"><span class="dsx-roll"><span>CONTACT</span><span aria-hidden="true">CONTACT</span></span></a>
@@ -669,7 +670,12 @@ const MENU = [
         if (m.copy) m.w = m.copy.offsetWidth;
       });
       if (deckSec && deckScreens.length) {
-        deckSec.style.height = Math.round(vh * (deckScreens.length + 1)) + "px";
+        // 1vh holds the pin, then 0.6vh of scroll per project. This was 1vh per
+        // project, which put ~500vh of scroll-jacking between the fold and the
+        // services section — the longest stretch on the site with no CTA in it.
+        // At 0.6 the cross-fade still reads comfortably and a fifth project
+        // costs less total scroll than four did before.
+        deckSec.style.height = Math.round(vh * (1 + deckScreens.length * 0.6)) + "px";
         deckTop = deckSec.getBoundingClientRect().top + window.scrollY;
       }
       if (stmtSec) {
@@ -765,7 +771,10 @@ const MENU = [
     })();
     if (doc.classList.contains("dsx-load") && !reduced) {
       const t0 = performance.now();
-      const dur = 1050;
+      // 700ms, down from 1050. The counter is a full-screen cover over the
+      // homepage's first paint, so every ms here is added directly to how long
+      // a first-time visitor waits before seeing the headline.
+      const dur = 700;
       const numEl = one("[data-load-num]");
       const barEl = one("[data-load-bar]");
       const tick = () => {
