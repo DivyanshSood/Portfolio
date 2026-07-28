@@ -11,7 +11,7 @@ export const POSTS = [
     "pubDate": "2026-07-28",
     "updatedDate": "2026-07-28",
     "coverImage": "/blog/ai-website-builder-vs-developer-india.jpg",
-    "coverAlt": "A generated web page beside a hand-built one, illustrating the difference between an AI website builder and a developer",
+    "coverAlt": "Title card reading “AI builder vs developer” in bold type on a near-black background",
     "tags": [
       "AI",
       "website builders",
@@ -31,7 +31,7 @@ export const POSTS = [
     "pubDate": "2026-07-27",
     "updatedDate": "2026-07-27",
     "coverImage": "/blog/how-indian-businesses-use-ai-2026.jpg",
-    "coverAlt": "A small Indian business owner working on a laptop, representing practical everyday AI use",
+    "coverAlt": "Title card reading “How India actually uses AI” in bold type on a near-black background",
     "tags": [
       "AI",
       "India",
@@ -51,7 +51,7 @@ export const POSTS = [
     "pubDate": "2026-07-26",
     "updatedDate": "2026-07-26",
     "coverImage": "/blog/ai-chatbot-for-indian-business.jpg",
-    "coverAlt": "A phone showing a WhatsApp conversation next to a website chat widget, comparing the two support channels",
+    "coverAlt": "Title card reading “You already have WhatsApp” in bold type on a near-black background",
     "tags": [
       "AI",
       "chatbot",
@@ -71,7 +71,7 @@ export const POSTS = [
     "pubDate": "2026-07-24",
     "updatedDate": "2026-07-24",
     "coverImage": "/blog/learn-ai-assisted-development-2026.jpg",
-    "coverAlt": "A developer's desk with documentation open, representing a self-directed learning path into AI development",
+    "coverAlt": "Title card reading “Learn AI-assisted dev: the path I’d take” in bold type on a near-black background",
     "tags": [
       "AI development",
       "learning",
@@ -91,7 +91,7 @@ export const POSTS = [
     "pubDate": "2026-07-23",
     "updatedDate": "2026-07-23",
     "coverImage": "/blog/rag-for-business-websites.jpg",
-    "coverAlt": "Documents feeding into a search index, illustrating retrieval-augmented generation over a company's own content",
+    "coverAlt": "Title card reading “When a bot should read your docs” in bold type on a near-black background",
     "tags": [
       "RAG",
       "AI development",
@@ -111,7 +111,7 @@ export const POSTS = [
     "pubDate": "2026-07-22",
     "updatedDate": "2026-07-22",
     "coverImage": "/blog/claude-vs-gpt-vs-gemini-for-product-features.jpg",
-    "coverAlt": "Three model providers powering one product behind a single interface",
+    "coverAlt": "Title card reading “Claude, GPT, Gemini: what I shipped” in bold type on a near-black background",
     "tags": [
       "AI development",
       "Claude",
@@ -131,7 +131,7 @@ export const POSTS = [
     "pubDate": "2026-07-21",
     "updatedDate": "2026-07-21",
     "coverImage": "/blog/ai-features-that-actually-work-on-websites.jpg",
-    "coverAlt": "A website interface with a semantic search field, representing AI features that earn their place",
+    "coverAlt": "Title card reading “AI features that actually work” in bold type on a near-black background",
     "tags": [
       "AI features",
       "web development",
@@ -151,7 +151,7 @@ export const POSTS = [
     "pubDate": "2026-07-19",
     "updatedDate": "2026-07-19",
     "coverImage": "/blog/how-i-build-websites-with-claude-code.jpg",
-    "coverAlt": "A code editor beside a live website preview, showing an AI-assisted development workflow",
+    "coverAlt": "Title card reading “How I build client sites with AI” in bold type on a near-black background",
     "tags": [
       "AI-assisted development",
       "Claude Code",
@@ -171,6 +171,7 @@ export const POSTS = [
     "pubDate": "2026-07-18",
     "updatedDate": "2026-07-18",
     "coverImage": "/blog/shopify-alternatives-for-premium-d2c.jpg",
+    "coverAlt": "Title card reading “Shopify alternatives, honestly ranked” in bold type on a near-black background",
     "tags": [
       "Shopify alternatives",
       "D2C",
@@ -190,6 +191,7 @@ export const POSTS = [
     "pubDate": "2026-07-16",
     "updatedDate": "2026-07-16",
     "coverImage": "/blog/school-website-admissions-portal-india.jpg",
+    "coverAlt": "Title card reading “School sites: what parents actually want” in bold type on a near-black background",
     "tags": [
       "school website",
       "admissions portal",
@@ -209,6 +211,7 @@ export const POSTS = [
     "pubDate": "2026-07-14",
     "updatedDate": "2026-07-14",
     "coverImage": "/blog/hotel-homestay-website-himachal-direct-bookings.jpg",
+    "coverAlt": "Title card reading “Your stay. Your guests. Not their commission” in bold type on a near-black background",
     "tags": [
       "Himachal",
       "hotels",
@@ -228,6 +231,7 @@ export const POSTS = [
     "pubDate": "2026-07-12",
     "updatedDate": "2026-07-12",
     "coverImage": "/blog/get-your-business-recommended-by-chatgpt.jpg",
+    "coverAlt": "Title card reading “Be the business ChatGPT recommends” in bold type on a near-black background",
     "tags": [
       "ChatGPT",
       "GEO",
@@ -247,6 +251,7 @@ export const POSTS = [
     "pubDate": "2026-07-09",
     "updatedDate": "2026-07-09",
     "coverImage": "/blog/geo-vs-seo-whats-actually-different.jpg",
+    "coverAlt": "Title card reading “GEO vs SEO: two games, two referees” in bold type on a near-black background",
     "tags": [
       "GEO",
       "SEO",
@@ -266,6 +271,7 @@ export const POSTS = [
     "pubDate": "2026-07-06",
     "updatedDate": "2026-07-06",
     "coverImage": "/blog/hire-web-developer-india-from-us.jpg",
+    "coverAlt": "Title card reading “Hiring in India: the two markets” in bold type on a near-black background",
     "tags": [
       "hire developer India",
       "offshore development",
@@ -284,6 +290,7 @@ export const POSTS = [
     "pubDate": "2026-07-02",
     "updatedDate": "2026-07-02",
     "coverImage": "/blog/freelancer-vs-agency-web-development.jpg",
+    "coverAlt": "Title card reading “Agency vs freelancer: who ships faster?” in bold type on a near-black background",
     "tags": [
       "agency vs freelancer",
       "hiring",
@@ -303,6 +310,7 @@ export const POSTS = [
     "pubDate": "2026-06-28",
     "updatedDate": "2026-06-28",
     "coverImage": "/blog/squarespace-vs-custom-website.jpg",
+    "coverAlt": "Title card reading “Squarespace is enough — until it isn’t” in bold type on a near-black background",
     "tags": [
       "Squarespace",
       "custom code",
@@ -322,6 +330,7 @@ export const POSTS = [
     "pubDate": "2026-06-24",
     "updatedDate": "2026-06-24",
     "coverImage": "/blog/framer-vs-custom-code-2026.jpg",
+    "coverAlt": "Title card reading “Framer vs custom code, settled honestly” in bold type on a near-black background",
     "tags": [
       "Framer",
       "custom code",
@@ -340,6 +349,7 @@ export const POSTS = [
     "pubDate": "2026-06-18",
     "updatedDate": "2026-06-18",
     "coverImage": "/blog/why-premium-brands-leave-shopify.jpg",
+    "coverAlt": "Shoppers outside the lit window of a high-street fashion store",
     "tags": [
       "D2C",
       "Shopify",
@@ -358,6 +368,7 @@ export const POSTS = [
     "pubDate": "2026-06-10",
     "updatedDate": "2026-06-10",
     "coverImage": "/blog/the-real-cost-of-renting-your-storefront.jpg",
+    "coverAlt": "A customer tapping a bank card against a handheld card payment terminal",
     "tags": [
       "e-commerce",
       "ownership",
@@ -376,6 +387,7 @@ export const POSTS = [
     "pubDate": "2026-06-02",
     "updatedDate": "2026-06-02",
     "coverImage": "/blog/make-your-brand-quotable-by-ai-geo-2026.jpg",
+    "coverAlt": "Close-up of a gold-pinned silicon chip on a circuit board",
     "tags": [
       "GEO",
       "AI search",
@@ -395,6 +407,7 @@ export const POSTS = [
     "pubDate": "2026-05-22",
     "updatedDate": "2026-05-22",
     "coverImage": "/blog/scarcity-by-design-hand-numbered-drops.jpg",
+    "coverAlt": "A neat stack of folded knitwear in red, navy, grey and cream",
     "tags": [
       "D2C",
       "e-commerce",
@@ -413,6 +426,7 @@ export const POSTS = [
     "pubDate": "2026-05-12",
     "updatedDate": "2026-05-12",
     "coverImage": "/blog/custom-code-vs-webflow-for-startups.jpg",
+    "coverAlt": "Someone writing in a notebook at a desk beside an open laptop and a coffee",
     "tags": [
       "startups",
       "Webflow",
@@ -431,6 +445,7 @@ export const POSTS = [
     "pubDate": "2026-05-02",
     "updatedDate": "2026-05-02",
     "coverImage": "/blog/landing-page-conversion-not-traffic.jpg",
+    "coverAlt": "A desk with a keyboard, a phone, a notebook and printed analytics charts",
     "tags": [
       "conversion",
       "landing page",
@@ -450,6 +465,7 @@ export const POSTS = [
     "pubDate": "2026-04-28",
     "updatedDate": "2026-04-28",
     "coverImage": "/blog/google-business-profile-vs-website-himachal.jpg",
+    "coverAlt": "A small brick shopfront on a quiet main street, seen from across the road",
     "tags": [
       "Google Business Profile",
       "local SEO",
@@ -469,6 +485,7 @@ export const POSTS = [
     "pubDate": "2026-04-20",
     "updatedDate": "2026-04-20",
     "coverImage": "/blog/direct-bookings-without-aggregator-commission.jpg",
+    "coverAlt": "An empty hotel reception desk in a warmly lit lobby",
     "tags": [
       "direct bookings",
       "himalayan businesses",
@@ -486,6 +503,7 @@ export const POSTS = [
     "pubDate": "2026-04-20",
     "updatedDate": "2026-04-20",
     "coverImage": "/blog/page-speed-is-a-brand-statement.jpg",
+    "coverAlt": "Long-exposure light trails streaking across a road at night",
     "tags": [
       "performance",
       "Core Web Vitals",
@@ -505,6 +523,7 @@ export const POSTS = [
     "pubDate": "2026-04-08",
     "updatedDate": "2026-04-08",
     "coverImage": "/blog/own-your-stack-code-portability.jpg",
+    "coverAlt": "A long aisle of server racks in a data centre",
     "tags": [
       "ownership",
       "custom code",
@@ -524,6 +543,7 @@ export const POSTS = [
     "pubDate": "2026-04-05",
     "updatedDate": "2026-04-05",
     "coverImage": "/blog/instagram-page-vs-website-india.jpg",
+    "coverAlt": "A person in a white shirt holding a phone in both hands, shoulder bag across the chest",
     "tags": [
       "Instagram",
       "web development",
@@ -541,6 +561,7 @@ export const POSTS = [
     "pubDate": "2026-03-25",
     "updatedDate": "2026-03-25",
     "coverImage": "/blog/ai-website-builders-vs-developer-2026.jpg",
+    "coverAlt": "Syntax-highlighted code on a dark screen, shallow focus",
     "tags": [
       "AI",
       "web development",
@@ -560,6 +581,7 @@ export const POSTS = [
     "pubDate": "2026-03-20",
     "updatedDate": "2026-03-20",
     "coverImage": "/blog/chinkiz-creator-store-case-study.jpg",
+    "coverAlt": "Balls of wool in bright green, yellow, pink, purple and brown",
     "tags": [
       "case study",
       "creator economy",
@@ -578,6 +600,7 @@ export const POSTS = [
     "pubDate": "2026-03-12",
     "updatedDate": "2026-03-12",
     "coverImage": "/blog/storefront-that-feels-like-the-brand.jpg",
+    "coverAlt": "A rail of striped and red shirts in a boutique, other rails behind",
     "tags": [
       "brand",
       "e-commerce",
@@ -596,6 +619,7 @@ export const POSTS = [
     "pubDate": "2026-03-05",
     "updatedDate": "2026-03-05",
     "coverImage": "/blog/how-i-get-clients-without-paid-ads.jpg",
+    "coverAlt": "Two people shaking hands across a white table beside a coffee cup",
     "tags": [
       "freelancing",
       "web development",
@@ -614,6 +638,7 @@ export const POSTS = [
     "pubDate": "2026-02-20",
     "updatedDate": "2026-02-20",
     "coverImage": "/blog/modernkbs-case-study-blog.jpg",
+    "coverAlt": "A bright yellow primary classroom with a green chalkboard and colourful chairs",
     "tags": [
       "case study",
       "Himachal Pradesh",
@@ -632,6 +657,7 @@ export const POSTS = [
     "pubDate": "2026-02-05",
     "updatedDate": "2026-02-05",
     "coverImage": "/blog/how-to-choose-web-developer-himachal.jpg",
+    "coverAlt": "A laptop showing code beside a cup of coffee, warm string lights behind",
     "tags": [
       "web development",
       "hiring",
@@ -651,6 +677,7 @@ export const POSTS = [
     "pubDate": "2026-01-05",
     "updatedDate": "2026-01-05",
     "coverImage": "/blog/custom-website-vs-wordpress.jpg",
+    "coverAlt": "Hands typing on a laptop keyboard, backlit by a window",
     "tags": [
       "WordPress",
       "web development",
@@ -669,6 +696,7 @@ export const POSTS = [
     "pubDate": "2025-12-01",
     "updatedDate": "2026-06-24",
     "coverImage": "/blog/what-is-llms-txt-blog.jpg",
+    "coverAlt": "A vintage rubber gas mask lying on a wooden floor beside a denim jacket",
     "tags": [
       "AI search",
       "llms.txt",
@@ -687,6 +715,7 @@ export const POSTS = [
     "pubDate": "2025-11-15",
     "updatedDate": "2025-11-15",
     "coverImage": "/blog/why-indian-websites-dont-generate-leads.jpg",
+    "coverAlt": "A laptop showing a web analytics dashboard with a flat traffic line and a pie chart",
     "tags": [
       "web development",
       "lead generation",
@@ -705,6 +734,7 @@ export const POSTS = [
     "pubDate": "2025-10-15",
     "updatedDate": "2025-10-15",
     "coverImage": "/blog/nandini-travels-case-study-blog.jpg",
+    "coverAlt": "Yellow taxis parked on a roadside in Kangra, a woman walking past",
     "tags": [
       "case study",
       "Himachal Pradesh",

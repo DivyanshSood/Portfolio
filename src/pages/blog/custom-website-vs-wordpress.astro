@@ -2,6 +2,7 @@
 import Studio from "../../layouts/Studio.astro";
 import RelatedPosts from "../../components/RelatedPosts.astro";
 import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+import { coverBase, coverSrcset, COVER_SIZES_POST } from "../../lib/images.mjs";
 
 const slug = "custom-website-vs-wordpress";
 const idx = POSTS.findIndex((p) => p.slug === slug);
@@ -70,6 +71,7 @@ const jsonld = JSON.stringify({
   articlePublished={iso(post.pubDate)}
   articleModified={iso(post.updatedDate || post.pubDate)}
   tags={post.tags}
+  preloadImage={{ href: coverBase(post.coverImage), srcset: coverSrcset(post.coverImage), sizes: COVER_SIZES_POST }}
   jsonld={jsonld}
 >
   <main>
@@ -93,7 +95,16 @@ const jsonld = JSON.stringify({
     {post.coverImage && (
       <div class="wrap narrow">
         <figure class="post-cover">
-          <img src={post.coverImage} alt={post.title} width="1200" height="750" fetchpriority="high" decoding="async" />
+          <img
+            src={coverBase(post.coverImage)}
+            srcset={coverSrcset(post.coverImage)}
+            sizes={COVER_SIZES_POST}
+            alt={post.coverAlt ?? post.title}
+            width="1200"
+            height="750"
+            fetchpriority="high"
+            decoding="async"
+          />
         </figure>
       </div>
     )}

@@ -85,6 +85,9 @@ const jsonld = JSON.stringify({
 });
 ---
 
+{/* preloadImage: the founder portrait is this page's LCP element, but it loads
+    as a CSS background-image — invisible to the browser's preload scanner, so
+    without this hint it can't start downloading until the stylesheet parses. */}
 <Studio
   title="About Divyansh Sood — Freelance Web Designer & Developer"
   description="Divyansh Sood is a freelance web designer & developer in Himachal Pradesh, India. 20+ custom-coded websites, stores and web apps shipped worldwide since 2022."
@@ -93,6 +96,7 @@ const jsonld = JSON.stringify({
   ogTitle="About Divyansh Sood — freelance web designer & developer"
   ogDescription="One person, 20+ custom-coded websites, stores and web apps shipped for founders worldwide since 2022."
   jsonld={jsonld}
+  preloadImage={{ href: FOUNDER_PHOTO_ABOUT }}
 >
   <main>
     <header class="cs-hero">

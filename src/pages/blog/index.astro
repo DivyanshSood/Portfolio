@@ -1,6 +1,7 @@
 ---
 import Studio from "../../layouts/Studio.astro";
 import { SITE, DEFAULT_OG, fmtDate, gradient, POSTS } from "../../lib/blog.mjs";
+import { coverBase, coverSrcset, COVER_SIZES_CARD } from "../../lib/images.mjs";
 
 const canonical = `${SITE}/blog/`;
 const posts = POSTS;
@@ -69,11 +70,25 @@ const jsonld = JSON.stringify({
     <section class="wrap" aria-label="All posts">
       <div class="blog-grid">
         {
-          posts.map((p) => (
+          posts.map((p, i) => (
             <a class="blog-card" href={`/blog/${p.slug}/`} data-reveal>
               <div class="thumb">
                 {p.coverImage ? (
-                  <img src={p.coverImage} alt={p.title} width="640" height="400" loading="lazy" decoding="async" />
+                  /* This page shows every post at once, so it used to pull 38
+                     full-size JPEGs — 4.5 MB. Covers now come from the WebP
+                     ladder at card width. The first row is above the fold and
+                     holds the LCP element, so it loads eagerly; the rest wait. */
+                  <img
+                    src={coverBase(p.coverImage)}
+                    srcset={coverSrcset(p.coverImage)}
+                    sizes={COVER_SIZES_CARD}
+                    alt={p.coverAlt ?? p.title}
+                    width="640"
+                    height="400"
+                    loading={i < 3 ? "eager" : "lazy"}
+                    fetchpriority={i === 0 ? "high" : undefined}
+                    decoding="async"
+                  />
                 ) : (
                   <span class="thumb-grad" style={`background:${gradient(p.slug)}`} />
                 )}
