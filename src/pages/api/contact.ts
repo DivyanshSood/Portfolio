@@ -65,10 +65,22 @@ export const POST: APIRoute = async ({ request }) => {
       }),
     });
     if (!res.ok) {
-      return json({ ok: false, error: "send_failed" }, 502);
+      // Resend explains every rejection in the response body ("domain is not
+      // verified", "invalid api key", …). This used to be discarded, which made
+      // a failed send indistinguishable from any other and left no way to tell
+      // a bad key from an unverified sender without guessing.
+      //
+      // Full detail goes to the server log (Vercel → the function's Logs tab).
+      // The browser gets the HTTP status only: enough to diagnose (401 key,
+      // 403 permission, 422 sender/validation) without putting a provider's
+      // internals in front of a visitor.
+      const detail = await res.text().catch(() => "");
+      console.error(`[contact] Resend rejected the send: ${res.status} ${detail}`);
+      return json({ ok: false, error: "send_failed", status: res.status }, 502);
     }
     return json({ ok: true }, 200);
-  } catch {
+  } catch (e) {
+    console.error("[contact] Could not reach Resend:", e);
     return json({ ok: false, error: "send_error" }, 502);
   }
 };
