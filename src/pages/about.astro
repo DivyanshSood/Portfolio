@@ -1,8 +1,7 @@
 ---
 import Studio from "../layouts/Studio.astro";
-import { CALENDLY_URL, FOUNDER_PHOTO_ABOUT, FOUNDER_PHOTO_ALT, HAS_FOUNDER_PHOTO } from "../lib/site.mjs";
+import { SITE, CALENDLY_URL, FOUNDER_PHOTO_ABOUT, FOUNDER_PHOTO_ALT, HAS_FOUNDER_PHOTO } from "../lib/site.mjs";
 
-const SITE = "https://www.divyanshsood.com";
 const canonical = `${SITE}/about/`;
 
 const WA = "https://wa.me/919816091875?text=Hi%20Divyansh,%20I%20saw%20your%20about%20page%20and%20want%20to%20talk.";
@@ -310,9 +309,9 @@ const jsonld = JSON.stringify({
 
   <style>
     /* ============================================================
-       About page — UI polish (scoped). Matches the homepage's bold
-       editorial black + red language. Copy is unchanged; layout,
-       type scale and interaction only.
+       About page — UI polish (scoped). Matches the site-wide Studio
+       language (near-black + neon green). Layout, type scale and
+       interaction only.
        ============================================================ */
 
     /* Roomier rhythm + bigger, more editorial section headings. */

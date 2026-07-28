@@ -6,6 +6,7 @@
    =========================================================================== */
 
 import { SITE } from "./data.mjs";
+import { isLocalImage, localSrcset, localVariant } from "../images.mjs";
 
 /* --------------------------------------------------------------------------- */
 /* HELPERS                                                                      */
@@ -16,17 +17,12 @@ const esc = (s = "") =>
 // ImageKit URLs resize via a `?tr=` query; self-hosted `/images/**` files can't,
 // so they ship pre-generated width variants (`<name>-<w>.webp`) alongside the
 // 1920px base. `tr`/`srcset` pick the right form so a phone never pulls a
-// desktop-sized image. Keep LOCAL_WIDTHS in sync with scripts/gen-work-variants.mjs.
-const isLocal = (src) => src.startsWith("/");
-const LOCAL_WIDTHS = [480, 768, 1080, 1440];
-const localVariant = (src, w) => {
-  const W = LOCAL_WIDTHS.find((x) => x >= w);
-  return W ? src.replace(/\.webp$/, `-${W}.webp`) : src; // wider than 1440 → the base 1920px file
-};
+// desktop-sized image. The local width ladder lives in src/lib/images.mjs.
+const isLocal = isLocalImage;
 const tr = (src, w) => (isLocal(src) ? localVariant(src, w) : `${src}?tr=w-${w},q-70`);
 const srcset = (src) =>
   isLocal(src)
-    ? [...LOCAL_WIDTHS.map((w) => `${src.replace(/\.webp$/, `-${w}.webp`)} ${w}w`), `${src} 1920w`].join(", ")
+    ? localSrcset(src)
     : [420, 560, 760, 1040, 1400].map((w) => `${tr(src, w)} ${w}w`).join(", ");
 
 const FEATURE_SIZES = "(max-width:1100px) 90vw, 1040px";
@@ -79,7 +75,7 @@ function bodyCard(w) {
         </div>`;
 }
 
-export function jsonLd(p) {
+function jsonLd(p) {
   const canonical = `${SITE}/projects/${p.slug}/`;
   const clientOrgId = `${canonical}#client`;
   const graph = [

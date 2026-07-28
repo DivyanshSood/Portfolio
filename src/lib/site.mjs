@@ -4,6 +4,13 @@
    monogram placeholder renders instead; nothing breaks.
    =========================================================================== */
 
+/* Canonical origin — the SINGLE source for absolute URLs (canonicals, JSON-LD
+   @id graph, OG tags, sitemap). Must match `site` in astro.config.mjs and stay
+   www + https: the Vercel adapter 308s the bare host, so an @id built from the
+   wrong form silently splits the entity graph across two origins.
+   src/lib/blog.mjs and src/lib/projects/data.mjs re-export this one. */
+export const SITE = "https://www.divyanshsood.com";
+
 export const CALENDLY_URL = "https://calendly.com/sood-divyansh007/30min";
 
 // Founder photos, self-hosted in /public/images as pre-optimised WebP (hero
@@ -20,26 +27,6 @@ export const FOUNDER_PHOTO_ALT =
 export const HAS_FOUNDER_PHOTO = FOUNDER_PHOTO.trim().length > 0;
 
 /* ---------------------------------------------------------------------------
-   Client logos — swap-ready. Paste an image URL (and the brand's site) for any
-   client whose real logo you have. Until a logo `src` is filled in, the
-   Testimonials strip falls back to clean text wordmarks — no broken images.
-   Tip: host the logos on the same ImageKit account as the project images and
-   prefer a transparent PNG/SVG that reads on a light background.
---------------------------------------------------------------------------- */
-export const CLIENT_LOGOS = [
-  { name: "Baglamukhi Travels", src: "", url: "https://baglamukhitravels.com" },
-  { name: "Dharamshala Tours", src: "", url: "" },
-  { name: "Redline Studios", src: "", url: "" },
-  { name: "ChinkiZ Knitting Knife", src: "", url: "" },
-  { name: "Modern K.B.S.", src: "", url: "" },
-  { name: "Nandini Travels", src: "", url: "" },
-  { name: "North Peak Power Systems", src: "", url: "" },
-];
-
-// True only once at least one real logo image is supplied above.
-export const HAS_CLIENT_LOGOS = CLIENT_LOGOS.some((l) => l.src.trim().length > 0);
-
-/* ---------------------------------------------------------------------------
    Google Business Profile reviews — real share link supplied by the client.
    Used as a "Read our Google reviews" proof link across the site. We link out
    only; we deliberately do NOT render a star rating or review count (and add no
@@ -54,7 +41,7 @@ export const GOOGLE_REVIEWS_URL = "https://share.google/x2v3pvXR9RIjYF1z0";
    data (hasMap + sameAs) so search engines tie the site to the real listing.
 --------------------------------------------------------------------------- */
 export const GOOGLE_MAPS_URL = "https://maps.app.goo.gl/ACwV9EfEteWVoTD49";
-export const GBP_CID = "6503761533006416527";
+const GBP_CID = "6503761533006416527";
 export const GOOGLE_MAPS_CID_URL = `https://www.google.com/maps?cid=${GBP_CID}`;
 
 /* Lowest project price we'll take on — kept here so the pricing copy and the
@@ -74,7 +61,7 @@ export const PROJECT_MIN_USD = "$3,000";
    handle, and (2) mirror the URL into public/llms.txt `## Contact` and the
    footer socials in src/layouts/Studio.astro. The schema updates automatically.
 --------------------------------------------------------------------------- */
-export const SOCIAL_PROFILES = [
+const SOCIAL_PROFILES = [
   { name: "GitHub", url: "https://github.com/DivyanshSood" },
   { name: "LinkedIn", url: "https://www.linkedin.com/in/divyansh-sood-023556151/" },
   // ↓ Uncomment each once the profile is live and its website field links back here:

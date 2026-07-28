@@ -1,8 +1,7 @@
 ---
 import Studio from "../layouts/Studio.astro";
-import { CALENDLY_URL } from "../lib/site.mjs";
+import { SITE, CALENDLY_URL } from "../lib/site.mjs";
 
-const SITE = "https://www.divyanshsood.com";
 const canonical = `${SITE}/website-audit/`;
 
 const checks = [
@@ -252,9 +251,9 @@ const jsonld = JSON.stringify({
 
   <style>
     /* ============================================================
-       Website audit — UI polish (scoped). Bold editorial black + red
-       to match About / Results / Portfolio, plus the merged
-       'start a project' qualifying form (moved here from /start).
+       Website audit — UI polish (scoped). Matches About / Results /
+       Portfolio, plus the merged 'start a project' qualifying form
+       (moved here from /start).
        ============================================================ */
     main .cs-sec { padding: clamp(58px, 7vw, 108px) 0; }
     main .cs-hero { padding-top: clamp(120px, 16vw, 160px); }

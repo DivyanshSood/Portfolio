@@ -160,16 +160,16 @@ const MENU = [
     {/* Self-hosted display + label fonts — Anton (headlines) and JetBrains Mono
         (labels) are the most FOIT-prone; Archivo carries body copy. */}
     <link rel="preload" as="font" type="font/woff2" href="/fonts/anton-400.woff2" crossorigin />
-    <link rel="preload" as="font" type="font/woff2" href="/fonts/jetbrains-mono-400.woff2" crossorigin />
-    <link rel="preload" as="font" type="font/woff2" href="/fonts/archivo-400.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/jetbrains-mono.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/archivo.woff2" crossorigin />
 
     {jsonld && <script type="application/ld+json" is:inline set:html={jsonld} />}
 
     {/* ---- Analytics: GA4 + Yandex Metrica ----
-        Loaded unconditionally for every visitor. These used to be booted by
-        CookieConsent.astro only after an explicit opt-in; that banner was
-        removed, so the loaders live here now. IP anonymisation stays on and
-        Metrica runs without session replay / clickmap.
+        Loaded unconditionally for every visitor — the consent banner that used
+        to gate these was removed by an explicit owner decision, so do not add
+        a consent gate back. IP anonymisation stays on and Metrica runs without
+        session replay / clickmap.
         IDs are duplicated in BaseScripts.astro (dsTrack) — keep them in sync. */}
     <script is:inline>
       (function () {
@@ -410,8 +410,8 @@ const MENU = [
   /* ------------------------------------------------------------------------
      "Portfolio 2026" chrome. Global (unscoped) on purpose: inline styles in the
      markup reference these keyframes by name, and scoped styles would rename
-     them. Everything is prefixed #dsx / dsx- so nothing leaks into shared
-     components on this document (cookie banner etc.).
+     them. Everything is prefixed #dsx / dsx- so nothing leaks into the shared
+     stylesheets in src/styles/.
      ------------------------------------------------------------------------ */
   html { scrollbar-width: thin; scrollbar-color: #2a2a30 #0b0b0c; }
   ::selection { background: #d9ff3c; color: #0b0b0c; }
@@ -572,10 +572,6 @@ const MENU = [
   html.dsx-load body { overflow: hidden; }
   html.motion-fallback #dsx [data-loader] { display: none !important; }
   html.motion-fallback body { overflow: auto !important; }
-
-  /* This design carries its own always-visible CTAs (header pill + contact);
-     the old site-wide floating "Book a call" pill would double up and clash. */
-  #ds-sticky-book { display: none !important; }
 </style>
 
 <script>

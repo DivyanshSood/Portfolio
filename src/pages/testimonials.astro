@@ -1,8 +1,7 @@
 ---
 import Studio from "../layouts/Studio.astro";
-import { CALENDLY_URL, GOOGLE_REVIEWS_URL } from "../lib/site.mjs";
+import { SITE, CALENDLY_URL, GOOGLE_REVIEWS_URL } from "../lib/site.mjs";
 
-const SITE = "https://www.divyanshsood.com";
 const canonical = `${SITE}/testimonials/`;
 
 // Every quote here is real and already used in case studies / homepage schema.
@@ -117,9 +116,9 @@ const jsonld = JSON.stringify({
 
   <style>
     /* ============================================================
-       Testimonials — UI polish (scoped). Editorial black + red to
-       match About / Results / Portfolio; quote cards with a cursive
-       mark, hover lift and a lead card that spans the row.
+       Testimonials — UI polish (scoped). Matches About / Results /
+       Portfolio; quote cards with hover lift and a lead card that
+       spans the row.
        ============================================================ */
     main .cs-sec { padding: clamp(58px, 7vw, 108px) 0; }
     main .cs-hero { padding-top: clamp(120px, 16vw, 160px); }

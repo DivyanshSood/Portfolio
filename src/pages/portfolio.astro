@@ -1,10 +1,9 @@
 ---
 import Studio from "../layouts/Studio.astro";
 import DepthGallery from "../components/DepthGallery.astro";
-import { CALENDLY_URL, PROJECT_MIN_USD } from "../lib/site.mjs";
+import { SITE, CALENDLY_URL, PROJECT_MIN_USD } from "../lib/site.mjs";
 import { projects } from "../lib/projects/data.mjs";
 
-const SITE = "https://www.divyanshsood.com";
 const canonical = `${SITE}/portfolio/`;
 
 // Every shipped project, ordered by its case-study number.
@@ -163,8 +162,8 @@ const jsonld = JSON.stringify({
 
   <style>
     /* ============================================================
-       Portfolio — browsable project listing. Editorial black + red,
-       image-forward cards. Matches the About / Results treatment.
+       Portfolio — browsable project listing. Image-forward cards,
+       matching the About / Results treatment.
        ============================================================ */
     main .cs-sec { padding: clamp(58px, 7vw, 108px) 0; }
     main .cs-hero { padding-top: clamp(120px, 16vw, 160px); }

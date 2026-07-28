@@ -10,11 +10,9 @@
 /* ----------------------------- PART 1 — existing ----------------------------- */
 @media (max-width:980px){.blog-grid{grid-template-columns:1fr 1fr;}}
 @media (max-width:860px){
-  /* .nav-links collapse/dropdown is handled entirely in Nav.astro (scoped). */
-  .g-2{grid-template-columns:1fr !important;}
   h1,h2{word-break:break-word;}
   /* Case study: collapse every multi-column grid down to a single column. */
-  .cs-body,.cs-glance,.cs-gallery,.cs-gallery.single,.cs-foot .grid{grid-template-columns:1fr;}
+  .cs-body,.cs-glance,.cs-gallery,.cs-gallery.single{grid-template-columns:1fr;}
   .cs-card.span2{grid-column:auto;}
   .cs-metrics{grid-template-columns:1fr 1fr;}
   .cs-list{grid-template-columns:1fr;}
@@ -67,15 +65,6 @@
 /* Never allow accidental sideways scrolling on small screens. */
 html,body{max-width:100%;}
 
-/* Notch / safe-area: keep the fixed nav clear of rounded corners & camera cut-outs
-   (only adds inset on devices that actually report one; desktop is unchanged). */
-@supports (padding:max(0px)){
-  #ds-nav{
-    padding-left:max(30px,env(safe-area-inset-left));
-    padding-right:max(30px,env(safe-area-inset-right));
-  }
-}
-
 /* Mobile browser chrome (URL bar) eats into 100vh; svh measures the *visible*
    viewport so the hero and its scroll cue are never clipped on phones. */
 @supports (min-height:100svh){
@@ -87,40 +76,14 @@ html,body{max-width:100%;}
   a,button{-webkit-tap-highlight-color:transparent;}
 }
 
-/* Phone nav: scale the wordmark and CTA down so everything stays on ONE line.
-   (The link dropdown itself is styled in Nav.astro.) */
-@media (max-width:560px){
-  #ds-nav{gap:12px;}
-  #ds-nav > div:first-child{flex-wrap:nowrap;min-width:0;gap:9px;align-items:center;}
-  #ds-nav > div:last-child{flex:none;gap:0;}
-  /* Caveat signature brand — needs a bigger px size than the old Archivo mark. */
-  #ds-nav .brand{font-size:clamp(19px,5.5vw,24px);white-space:nowrap;flex:none;}
-  #ds-nav .nav-cta{font-size:9px;letter-spacing:.07em;padding:9px 12px;white-space:nowrap;flex:none;}
-}
-
-/* Hero: tighten the discipline row on phones. (The signature's phone position
-   lives in Hero.astro — the old .hero-sig/.hero-meta overrides here targeted a
-   previous hero markup and were pushing the signature off-screen.) */
-@media (max-width:640px){
-  .hero-disciplines{gap:8px 16px !important;}
-}
-
 /* Small phones: trim oversized side padding so content keeps breathing room.
    `.wrap` is the case-study / blog / footer container — tightening it here gives
-   those pages the same comfortable phone margins as the homepage sections. */
+   those pages the same comfortable phone margins as the homepage sections.
+   (The header is laid out inline in Studio.astro and carries its own padding.) */
 @media (max-width:480px){
-  .home-section{padding-left:20px !important;padding-right:20px !important;}
-  .hero-card{padding-left:24px !important;padding-right:24px !important;}
   .wrap{padding-left:20px;padding-right:20px;}
-  #ds-nav{padding-left:20px;padding-right:20px;}
-}
-@supports (padding:max(0px)){
-  @media (max-width:480px){
-    #ds-nav{padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right));}
-  }
 }
 @media (max-width:360px){
-  .hero-card{padding-left:18px !important;padding-right:18px !important;}
   .wrap{padding-left:16px;padding-right:16px;}
 }
 

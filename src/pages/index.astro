@@ -1,9 +1,10 @@
 ---
 import Studio from "../layouts/Studio.astro";
 import { homeJsonLd } from "../lib/home-schema.mjs";
-import { CALENDLY_URL } from "../lib/site.mjs";
+import { SITE, CALENDLY_URL } from "../lib/site.mjs";
 import { projects as allProjects } from "../lib/projects/data.mjs";
 import { POSTS } from "../lib/blog.mjs";
+import { isLocalImage, localSrcset } from "../lib/images.mjs";
 
 // The homepage is by far the strongest page on the site (it takes ~95% of all
 // search impressions) and it linked to /blog/ but to no individual post, and to
@@ -35,7 +36,6 @@ const META_TITLE = "Freelance Web Developer & Designer in India · Divyansh Sood
 const META_DESCRIPTION =
   "Freelance web designer & developer in Himachal Pradesh, India. Custom-coded, conversion-focused websites, stores and web apps — live in 3–4 weeks."; // 148
 
-const SITE = "https://www.divyanshsood.com";
 const jsonld = homeJsonLd(SITE);
 
 // ---------------------------------------------------------------------------
@@ -52,13 +52,8 @@ const jsonld = homeJsonLd(SITE);
 const IMG_TR = "?tr=w-1600,q-80,f-auto";
 // The deck fills the viewport, so serve responsive sources: self-hosted /images
 // features ship width variants (`<name>-<w>.webp`); ImageKit URLs resize via ?tr.
-const LOCAL_WIDTHS = [480, 768, 1080, 1440];
-const isLocalImg = (s: string) => s.startsWith("/");
-const deckImg = (s: string) => (isLocalImg(s) ? s.replace(/\.webp$/, "-1440.webp") : s + IMG_TR);
-const deckSrcset = (s: string) =>
-  isLocalImg(s)
-    ? [...LOCAL_WIDTHS.map((w) => `${s.replace(/\.webp$/, `-${w}.webp`)} ${w}w`), `${s} 1920w`].join(", ")
-    : undefined;
+const deckImg = (s: string) => (isLocalImage(s) ? s.replace(/\.webp$/, "-1440.webp") : s + IMG_TR);
+const deckSrcset = (s: string) => (isLocalImage(s) ? localSrcset(s) : undefined);
 const bySlug = new Map(allProjects.map((p) => [p.slug, p]));
 const caseFor = (slug: string) => {
   const p = bySlug.get(slug);

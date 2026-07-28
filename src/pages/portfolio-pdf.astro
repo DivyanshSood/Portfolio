@@ -4,14 +4,13 @@
    so it can be viewed in the browser AND piped to PDF via Chrome headless.
 
    Print CSS lives at the bottom: A4 / Letter, ~12pt body, no nav / footer /
-   sticky-book / cookie banner. Two-column signature work tiles on the page,
-   stacks on Letter. Run `npm run pdf:portfolio` to regenerate the .pdf.
+   chrome. Two-column signature work tiles on the page, stacks on Letter.
+   Run `npm run pdf:portfolio` to regenerate the .pdf.
    =========================================================================== */
 import "../styles/portfolio-print.css";
-import { PROJECT_MIN_USD } from "../lib/site.mjs";
+import { SITE, PROJECT_MIN_USD } from "../lib/site.mjs";
 import { projects } from "../lib/projects/data.mjs";
 
-const SITE = "https://www.divyanshsood.com";
 // Print-only source for /portfolio.pdf. Canonical points at the browsable page;
 // this route is noindexed so it doesn't compete with it in search.
 const canonical = `${SITE}/portfolio/`;
@@ -51,8 +50,8 @@ const jsonld = JSON.stringify({
     <meta property="og:image" content={`${SITE}/og-home.png`} />
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="preload" as="font" type="font/woff2" href="/fonts/anton-400.woff2" crossorigin />
-    <link rel="preload" as="font" type="font/woff2" href="/fonts/archivo-700.woff2" crossorigin />
-    <link rel="preload" as="font" type="font/woff2" href="/fonts/jetbrains-mono-400.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/archivo.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/jetbrains-mono.woff2" crossorigin />
     {jsonld && <script type="application/ld+json" is:inline set:html={jsonld} />}
   </head>
   <body class="ds-portfolio-print">

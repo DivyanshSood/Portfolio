@@ -230,6 +230,7 @@ const total = String(items.length).padStart(2, "0");
 
 <script>
   import { Renderer, Camera, Transform, Program, Mesh, Plane, Triangle, Texture, Vec2, Mat4 } from "ogl";
+  import { localVariant } from "../lib/images.mjs";
 
   const section = document.getElementById("ds-depth");
   const dataEl = document.getElementById("dg-data");
@@ -638,9 +639,7 @@ const total = String(items.length).padStart(2, "0");
           if (brand) moods[i] = brand;
         };
         if (it.src.startsWith("/")) {
-          const LW = [480, 768, 1080, 1440];
-          const W = LW.find((x) => x >= texW);
-          img.src = W ? it.src.replace(/\.webp$/, `-${W}.webp`) : it.src;
+          img.src = localVariant(it.src, texW);
         } else {
           img.src = `${it.src}?tr=w-${texW},q-82`;
         }

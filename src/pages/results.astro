@@ -1,8 +1,7 @@
 ---
 import Studio from "../layouts/Studio.astro";
-import { CALENDLY_URL, GOOGLE_REVIEWS_URL } from "../lib/site.mjs";
+import { SITE, CALENDLY_URL, GOOGLE_REVIEWS_URL } from "../lib/site.mjs";
 
-const SITE = "https://www.divyanshsood.com";
 const canonical = `${SITE}/results/`;
 
 // Top-line studio numbers — every figure is real and matches the case studies.
@@ -157,9 +156,9 @@ const jsonld = JSON.stringify({
 
   <style>
     /* ============================================================
-       Results page — UI polish (scoped). Bold editorial black + red
-       to match the homepage/About, a bento result grid with a
-       featured lead, project icons and an interactive card state.
+       Results page — UI polish (scoped). Matches the homepage/About:
+       a bento result grid with a featured lead, project icons and an
+       interactive card state.
        ============================================================ */
 
     main .cs-sec { padding: clamp(58px, 7vw, 108px) 0; }

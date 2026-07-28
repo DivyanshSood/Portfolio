@@ -1,4 +1,4 @@
-export const SITE = "https://www.divyanshsood.com";
+export { SITE } from "./site.mjs";
 export const DEFAULT_OG =
   "https://ik.imagekit.io/dn2zdxiu3/Portfolioprojectimages/AiWebsitegenerator/AiWebsitegenerator-1.webp";
 

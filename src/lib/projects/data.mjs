@@ -3,7 +3,7 @@
    The HTML renderer + JSON-LD live in ./render.mjs.
    =========================================================================== */
 
-export const SITE = "https://www.divyanshsood.com";
+export { SITE } from "../site.mjs";
 
 export const projects = [
   {
