@@ -44,10 +44,13 @@ export const GOOGLE_MAPS_URL = "https://maps.app.goo.gl/ACwV9EfEteWVoTD49";
 const GBP_CID = "6503761533006416527";
 export const GOOGLE_MAPS_CID_URL = `https://www.google.com/maps?cid=${GBP_CID}`;
 
-/* Lowest project price we'll take on — kept here so the pricing copy and the
-   inquiry-form budget options stay in sync. Repositioned for international
-   buyers; Indian / pre-seed startups can still reach out for a smaller scope. */
-export const PROJECT_MIN_USD = "$3,000";
+/* NOTE: there is deliberately no price constant here. Pricing was removed from
+   the site entirely by owner decision (2026-07-28) — every project is quoted in
+   writing after a call, so no figure is published anywhere. Do not reintroduce
+   a PROJECT_MIN_* export, a price in copy, or an Offer/PriceSpecification node
+   in JSON-LD. (The one exception is the free llms.txt generator, which is
+   correctly marked up as price:"0" + isAccessibleForFree — that's a "this tool
+   is free" signal, not a price claim.) */
 
 /* ---------------------------------------------------------------------------
    Verified public profiles — the SINGLE source for schema `sameAs` (Person +

@@ -1,9 +1,8 @@
 ---
 import Studio from "../../layouts/Studio.astro";
-import { SITE, CALENDLY_URL, PROJECT_MIN_USD } from "../../lib/site.mjs";
+import { SITE, CALENDLY_URL } from "../../lib/site.mjs";
 
 const canonical = `${SITE}/services/seo-geo-services/`;
-const MIN_PRICE = Number(PROJECT_MIN_USD.replace(/[^0-9]/g, ""));
 
 const offers = [
   { t: "Technical SEO, done in code", d: "Clean semantic markup, structured data graphs, honest sitemaps, canonical discipline, Core Web Vitals — built into the site, not sprinkled on after." },
@@ -24,7 +23,7 @@ const faqs = [
   { q: "Does llms.txt actually work?", a: "It's an emerging standard: a machine-readable summary of your business that AI crawlers read. Every site I ship has one at the root, and this site runs the full stack in the open — llms.txt, a JSON-LD entity graph, and 25+ AI crawlers explicitly welcomed in robots.txt. It's low-cost, zero-risk, and it positions you before your competitors move." },
   { q: "Is this a retainer or a one-time project?", a: "Both exist. A technical SEO + GEO implementation is a one-time project on your codebase. Ongoing content, tracking and iteration can run as a light monthly engagement — but nothing here requires a forever-contract." },
   { q: "Do you also handle classic SEO?", a: "Yes — technical SEO is the foundation: crawlability, structured data, Core Web Vitals, canonical hygiene, honest sitemaps. GEO is built on top of that. A site that's illegible to Googlebot is illegible to AI crawlers too." },
-  { q: "What does SEO / GEO work cost?", a: `Implementation projects start at ${PROJECT_MIN_USD} when combined with a build; standalone audits start free (the website audit) with a paid deep-dive from $250. You get findings and a fixed quote in writing before any work starts.` },
+  { q: "What does SEO / GEO work cost?", a: "It depends on whether it rides along with a build or stands alone, and on how much of the technical foundation already exists. The honest first step costs nothing: send your URL for a free website audit and you'll get the findings whether or not you hire me. If implementation makes sense after that, it's quoted fixed and in writing." },
 ];
 
 const jsonld = JSON.stringify({
@@ -40,11 +39,6 @@ const jsonld = JSON.stringify({
       description:
         "Technical SEO and Generative Engine Optimization implemented directly in your codebase — structured data, Core Web Vitals, llms.txt and AI-crawler strategy, so both Google and AI assistants recommend you.",
       url: canonical,
-      offers: {
-        "@type": "Offer",
-        priceSpecification: { "@type": "PriceSpecification", minPrice: MIN_PRICE, priceCurrency: "USD" },
-        url: canonical,
-      },
     },
     {
       "@type": "BreadcrumbList",

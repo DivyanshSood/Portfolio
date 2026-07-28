@@ -33,7 +33,7 @@ const FORMS = {
       { id: "st-email", label: "Email", isEmail: true },
       { id: "st-company", label: "Company / site" },
       { id: "st-type", label: "Need" },
-      { id: "st-budget", label: "Budget (USD)" },
+      { id: "st-stage", label: "Stage" },
       { id: "st-timeline", label: "Timeline" },
       { id: "st-msg", label: "Details" },
     ],

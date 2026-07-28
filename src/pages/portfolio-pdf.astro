@@ -8,7 +8,7 @@
    Run `npm run pdf:portfolio` to regenerate the .pdf.
    =========================================================================== */
 import "../styles/portfolio-print.css";
-import { SITE, PROJECT_MIN_USD } from "../lib/site.mjs";
+import { SITE } from "../lib/site.mjs";
 import { projects } from "../lib/projects/data.mjs";
 
 // Print-only source for /portfolio.pdf. Canonical points at the browsable page;
@@ -60,7 +60,7 @@ const jsonld = JSON.stringify({
         <div class="ds-pf-brand">DIVYANSH&nbsp;SOOD<sup>®</sup></div>
         <div class="ds-pf-eyebrow mono">Solo studio · Himachal Pradesh · 2022—{new Date().getFullYear()}</div>
         <h1 class="ds-pf-h1">Custom-coded websites for founders who'd rather hire a person than a shop.</h1>
-        <p class="ds-pf-lead">Last year I built a school site in 7 days. Other agencies quoted 6 months. That's the kind of timeline I win — most marketing sites &amp; MVPs ship in 3–4 weeks. From {PROJECT_MIN_USD}. You own every line.</p>
+        <p class="ds-pf-lead">Last year I built a school site in 7 days. Other agencies quoted 6 months. That's the kind of timeline I win — most marketing sites &amp; MVPs ship in 3–4 weeks. Fixed quotes, in writing. You own every line.</p>
       </div>
       <aside class="ds-pf-hero-right">
         <dl class="ds-pf-stats">

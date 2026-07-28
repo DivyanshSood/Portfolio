@@ -1,9 +1,8 @@
 ---
 import Studio from "../../layouts/Studio.astro";
-import { SITE, CALENDLY_URL, PROJECT_MIN_USD } from "../../lib/site.mjs";
+import { SITE, CALENDLY_URL } from "../../lib/site.mjs";
 
 const canonical = `${SITE}/services/web-app-development/`;
-const MIN_PRICE = Number(PROJECT_MIN_USD.replace(/[^0-9]/g, ""));
 
 const offers = [
   { t: "MVPs for startups", d: "The version of your product that can meet users this month — scoped hard, built fast, ready to iterate. Speed to feedback beats completeness." },
@@ -23,7 +22,7 @@ const faqs = [
   { q: "What kind of web apps do you build?", a: "MVPs for startups, customer portals, admin dashboards, booking systems and AI-powered products. Recent builds include a school admissions portal shipped in 7 days, a 15-page infrastructure portal with a self-serve admin, and WebSeek.ai — an AI website builder." },
   { q: "How fast can an MVP be live?", a: "Most MVPs ship in 3–4 weeks. The fastest full build — a public website plus an admissions admin panel — went live in 7 days. The honest constraint is scope, which we cut together before writing code." },
   { q: "What stack do you use?", a: "React, Next.js, Astro or Angular on the front end; Node on the back end; deployed on Vercel or your infrastructure. The stack serves the product — I pick the lightest tool that does the job, and you own all of it." },
-  { q: "What does web app development cost?", a: `Projects start at ${PROJECT_MIN_USD}. A scoped MVP usually lands in the lower range; portals with admin panels and AI features scale with complexity. You get a fixed written quote before anything starts.` },
+  { q: "What does web app development cost?", a: "Each build is quoted after a scoping call, fixed and in writing before anything starts. A tightly scoped MVP is the cheapest thing here; portals with admin panels, integrations and AI features scale with complexity. The single biggest lever on the number is scope, which is why we cut it together first — most MVPs fail by being too big, not too small." },
   { q: "Do you work with funded startups outside India?", a: "Yes — most product work is international. Async-friendly across time zones, milestone billing, and a repo your future team can take over on day one." },
 ];
 
@@ -40,11 +39,6 @@ const jsonld = JSON.stringify({
       description:
         "Custom web application and MVP development for startups and businesses — portals, dashboards, admin panels and AI-powered products. Full-stack (React, Next.js, Astro, Node), live in weeks, full code ownership.",
       url: canonical,
-      offers: {
-        "@type": "Offer",
-        priceSpecification: { "@type": "PriceSpecification", minPrice: MIN_PRICE, priceCurrency: "USD" },
-        url: canonical,
-      },
     },
     {
       "@type": "BreadcrumbList",
@@ -85,7 +79,7 @@ const jsonld = JSON.stringify({
           <a class="btn btn-ghost" href="/projects/modernkbs/">See a 7-day build</a>
         </div>
         <div class="cs-meta">
-          <span>From {PROJECT_MIN_USD} · fixed written quotes</span><span>React · Next.js · Astro · Node</span>
+          <span>Fixed written quotes · you own the code</span><span>React · Next.js · Astro · Node</span>
         </div>
       </div>
     </header>

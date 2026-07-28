@@ -1,9 +1,8 @@
 ---
 import Studio from "../../layouts/Studio.astro";
-import { SITE, CALENDLY_URL, PROJECT_MIN_USD } from "../../lib/site.mjs";
+import { SITE, CALENDLY_URL } from "../../lib/site.mjs";
 
 const canonical = `${SITE}/services/landing-page-design/`;
-const MIN_PRICE = Number(PROJECT_MIN_USD.replace(/[^0-9]/g, ""));
 
 const offers = [
   { t: "Conversion-first structure", d: "One page, one job. Every section either moves the visitor toward the action or gets cut. Message before pixels." },
@@ -24,7 +23,7 @@ const faqs = [
   { q: "Landing page vs full website — which do I need?", a: "If you're running ads, validating an offer or launching one product, a landing page gets you live and learning in about a week. If you need to rank for many queries and tell a fuller story, that grows into a site — the landing page's message becomes its homepage." },
   { q: "How fast will it load?", a: "Custom-coded pages with inlined critical CSS and optimised assets — typically scoring high-90s on Lighthouse performance, with no builder JavaScript weighing them down. Speed is treated as part of the brand, not a technical afterthought." },
   { q: "Can you write the copy too?", a: "Yes — the headline, the structure and the objection-handling are half the work. You bring deep knowledge of your customers; I turn it into an argument that fits on one scroll." },
-  { q: "What does a landing page cost?", a: `Standalone landing pages start under the usual ${PROJECT_MIN_USD} project floor when scoped as a single page with tracking. A landing page plus variants for testing, or a page that grows into a small site, is quoted as a project. Either way: fixed and in writing.` },
+  { q: "What does a landing page cost?", a: "A single page with copy, design, build and tracking is the smallest engagement I take, and the cheapest way to work with me. Add variants for testing, or let the page grow into a small site, and it's quoted as a project instead. Either way you get one fixed number in writing before we start." },
 ];
 
 const jsonld = JSON.stringify({
@@ -40,11 +39,6 @@ const jsonld = JSON.stringify({
       description:
         "Conversion-focused landing page design — custom-coded, fast, with copy, tracking and iteration built in. One page, one job: turn visitors into leads or sales.",
       url: canonical,
-      offers: {
-        "@type": "Offer",
-        priceSpecification: { "@type": "PriceSpecification", minPrice: MIN_PRICE, priceCurrency: "USD" },
-        url: canonical,
-      },
     },
     {
       "@type": "BreadcrumbList",

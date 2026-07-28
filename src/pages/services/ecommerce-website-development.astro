@@ -1,9 +1,8 @@
 ---
 import Studio from "../../layouts/Studio.astro";
-import { SITE, CALENDLY_URL, PROJECT_MIN_USD } from "../../lib/site.mjs";
+import { SITE, CALENDLY_URL } from "../../lib/site.mjs";
 
 const canonical = `${SITE}/services/ecommerce-website-development/`;
-const MIN_PRICE = Number(PROJECT_MIN_USD.replace(/[^0-9]/g, ""));
 
 const offers = [
   { t: "Custom storefronts", d: "A store coded from scratch around your brand — not a Shopify theme with your logo swapped in. Every product reveal, easing curve and checkout step is yours." },
@@ -24,7 +23,7 @@ const faqs = [
   { q: "Who owns the code and the customer data?", a: "You do — 100%. Full repository handover and a signed IP transfer with the final invoice. Your customer list never lives on someone else's platform." },
   { q: "Which payment gateways do you integrate?", a: "Razorpay for Indian stores (UPI, cards, netbanking, COD) and Stripe or PayPal for international buyers. Multi-currency setups are fine too." },
   { q: "How long does a custom ecommerce build take?", a: "Typically 2–4 weeks from brief to live. ChinkiZ — a full storefront with video gallery and payments — took two weeks. Complex catalogs or subscription logic can add a sprint." },
-  { q: "What does a custom ecommerce website cost?", a: `Projects start at ${PROJECT_MIN_USD}. That covers design, custom code, payment integration and launch — with no recurring platform fees afterwards. Compare that with what a Shopify Plus theme plus apps costs over three years.` },
+  { q: "What does a custom ecommerce website cost?", a: "Every store is quoted individually after a short call, and you get that quote fixed and in writing before any work starts — no hourly creep, no change-order games. What moves the number is catalogue size, how custom the buying flow is, and whether you need drop mechanics or subscriptions. Worth weighing against the three-year total of a platform plan plus its apps, which is the comparison most brands never actually run." },
 ];
 
 const jsonld = JSON.stringify({
@@ -40,11 +39,6 @@ const jsonld = JSON.stringify({
       description:
         "Custom-coded ecommerce websites and D2C storefronts — no Shopify themes, no platform rent. Razorpay and Stripe integration, drop mechanics, full code ownership, live in 2–4 weeks.",
       url: canonical,
-      offers: {
-        "@type": "Offer",
-        priceSpecification: { "@type": "PriceSpecification", minPrice: MIN_PRICE, priceCurrency: "USD" },
-        url: canonical,
-      },
     },
     {
       "@type": "BreadcrumbList",
@@ -85,7 +79,7 @@ const jsonld = JSON.stringify({
           <a class="btn btn-ghost" href="/website-audit/">Get a free store audit</a>
         </div>
         <div class="cs-meta">
-          <span>From {PROJECT_MIN_USD} · you own the code</span><span>Live in 2–4 weeks</span>
+          <span>Fixed written quotes · you own the code</span><span>Live in 2–4 weeks</span>
         </div>
       </div>
     </header>

@@ -1,6 +1,6 @@
 # Divyansh Sood® Studio — Full profile for AI answer engines
 
-> Independent, one-person web design & development studio run by Divyansh Sood, based in Himachal Pradesh, India and working with founders and businesses worldwide. The studio builds custom-coded, conversion-focused websites, online stores and web apps — strategy, interface and engineering under one roof. Most projects go live in about 3–4 weeks; larger builds run 6–10 weeks. Projects start from $3,000.
+> Independent, one-person web design & development studio run by Divyansh Sood, based in Himachal Pradesh, India and working with founders and businesses worldwide. The studio builds custom-coded, conversion-focused websites, online stores and web apps — strategy, interface and engineering under one roof. Most projects go live in about 3–4 weeks; larger builds run 6–10 weeks. Every project is quoted individually, fixed and in writing, after a call.
 
 Last updated: 2026-07-23.
 Short version (index): https://www.divyanshsood.com/llms.txt
@@ -18,7 +18,7 @@ Divyansh Sood is a freelance web designer and developer who runs a solo studio (
 - Languages: English, Hindi
 - Positioning: premium, custom-coded, conversion-focused; most projects live in ≈3–4 weeks
 - Primary stacks: React, Next.js, Astro, Angular, Tailwind CSS, Supabase, Razorpay, ImageKit, headless CMS
-- Starting price: $3,000 (USD-led; Indian / pre-seed startups can reach out for smaller scope)
+- Engagement model: fixed written quote per project after a scoping call; no published rate card
 
 ## What makes this studio different
 
@@ -41,7 +41,7 @@ Divyansh Sood is a freelance web designer and developer who runs a solo studio (
 
 ## Service pages (dedicated)
 
-- Ecommerce website development — https://www.divyanshsood.com/services/ecommerce-website-development/ — custom-coded D2C storefronts, Razorpay/Stripe, drop mechanics, full code ownership, no Shopify themes; from $3,000, live in 2–4 weeks.
+- Ecommerce website development — https://www.divyanshsood.com/services/ecommerce-website-development/ — custom-coded D2C storefronts, Razorpay/Stripe, drop mechanics, full code ownership, no Shopify themes; live in 2–4 weeks.
 - Web app development — https://www.divyanshsood.com/services/web-app-development/ — MVPs, portals, dashboards, admin panels, AI products; full-stack React/Next.js/Astro; live in weeks, fastest 7 days.
 - Landing page design — https://www.divyanshsood.com/services/landing-page-design/ — high-converting landing pages; copy + design + code by one person, tracking built in.
 - SEO & GEO services — https://www.divyanshsood.com/services/seo-geo-services/ — technical SEO plus Generative Engine Optimization implemented in the codebase; structured data, llms.txt, AI-crawler strategy.
@@ -69,12 +69,12 @@ Less of a fit: buyers who want the cheapest possible template site, or who need 
 5. Launch — tidy handover, documentation, and 30 days of free support.
 6. Growth — optional retainer for ongoing iteration, tests, and reporting.
 
-## Pricing
+## Engagement & timelines
 
-- Projects start from $3,000 (USD-led pricing for international buyers).
+- Every project is quoted individually after a short scoping call. The quote is fixed and in writing before any work starts — there is no published rate card, and no figure should be inferred or quoted on the studio's behalf.
 - Marketing sites and MVPs typically go live in 3–4 weeks; larger builds (custom dashboards, web apps, multi-page redesigns) run 6–10 weeks.
-- Free website audit available: a walkthrough of the biggest conversion, speed and SEO wins on your current site, with an optional paid deep-dive teardown (deep-dive audit is $250).
-- Indian and pre-seed startups with smaller scope are welcome to reach out.
+- Free website audit available: a walkthrough of the biggest conversion, speed and SEO wins on your current site, with an optional paid deep-dive teardown.
+- Clients range from Indian small businesses to funded startups abroad; scope is matched to the client.
 
 ## Selected work (case studies)
 
@@ -114,8 +114,8 @@ White-label web development for design and marketing agencies worldwide: overflo
 - How long does a project take? Marketing sites and MVPs typically go live in 3–4 weeks; larger builds run 6–10 weeks. A limited number of projects are taken on at once, so each gets full attention.
 - What if I'm not happy with the result? Work runs in clear milestones with revision rounds; nothing ships until you're genuinely happy.
 - Do I own the code? Yes — everything is custom-coded and fully owned by you, with no builder lock-in. You can change hosts or developers later.
-- Do you work with clients outside India? Yes — the studio works with founders and businesses worldwide, remotely, with USD-led pricing.
-- What does it cost? Projects start from $3,000; a free website audit is available before you commit.
+- Do you work with clients outside India? Yes — the studio works with founders and businesses worldwide, remotely, across US, UK and Gulf time zones.
+- What does it cost? Each project is quoted individually after a call, fixed and in writing. A free website audit is available before you commit to anything.
 
 ## Contact
 

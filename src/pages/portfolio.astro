@@ -1,7 +1,7 @@
 ---
 import Studio from "../layouts/Studio.astro";
 import DepthGallery from "../components/DepthGallery.astro";
-import { SITE, CALENDLY_URL, PROJECT_MIN_USD } from "../lib/site.mjs";
+import { SITE, CALENDLY_URL } from "../lib/site.mjs";
 import { projects } from "../lib/projects/data.mjs";
 
 const canonical = `${SITE}/portfolio/`;
@@ -151,7 +151,7 @@ const jsonld = JSON.stringify({
     <section class="cs-endcta">
       <div class="wrap">
         <h2>Yours could be number ten.</h2>
-        <p>Custom-coded, most projects live in 3–4 weeks, from {PROJECT_MIN_USD}. Tell me what you're building and I'll tell you within a day if it's a fit.</p>
+        <p>Custom-coded, most projects live in 3–4 weeks, and you own every line. Tell me what you're building and I'll tell you within a day if it's a fit.</p>
         <div class="cs-cta-row" style="justify-content:center;">
           <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book an intro call <span aria-hidden="true">↗</span></a>
           <a class="btn btn-ghost" href="/results/">See the results</a>

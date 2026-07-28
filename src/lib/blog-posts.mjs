@@ -110,8 +110,7 @@ export const POSTS = [
       "hire developer India",
       "offshore development",
       "remote work",
-      "startups",
-      "pricing"
+      "startups"
     ],
     "audience": "international",
     "readMins": 3,
@@ -485,22 +484,6 @@ export const POSTS = [
     "wordCount": 1142
   },
   {
-    "slug": "website-development-cost-india-2026",
-    "title": "Website Development Cost in India (2026 Guide)",
-    "description": "Real website development costs in India for 2026 — from ₹7,000 landing pages to ₹1,50,000 custom apps, with honest guidance on what's worth paying for.",
-    "pubDate": "2026-01-20",
-    "updatedDate": "2026-01-20",
-    "coverImage": "/blog/website-development-cost-india-2026.jpg",
-    "tags": [
-      "web development",
-      "pricing",
-      "India"
-    ],
-    "audience": "indian-smb",
-    "readMins": 8,
-    "wordCount": 1651
-  },
-  {
     "slug": "custom-website-vs-wordpress",
     "title": "Custom Website vs WordPress: Which Is Better for Your Business?",
     "seoTitle": "Custom Website vs WordPress: Which Is Better? · Divyansh Sood",
@@ -517,23 +500,6 @@ export const POSTS = [
     "audience": "indian-smb",
     "readMins": 7,
     "wordCount": 1401
-  },
-  {
-    "slug": "wix-vs-custom-code-blog",
-    "title": "Wix vs. Custom Code: What ₹13,000 Actually Gets You",
-    "description": "A straight comparison: what Wix gives a small Indian business versus a ₹13,000 custom-coded site — performance, SEO, lead capture and real cost over 3 years.",
-    "pubDate": "2025-12-15",
-    "updatedDate": "2025-12-15",
-    "coverImage": "/blog/wix-vs-custom-code-blog.jpg",
-    "tags": [
-      "Wix",
-      "web development",
-      "pricing",
-      "India"
-    ],
-    "audience": "indian-smb",
-    "readMins": 5,
-    "wordCount": 975
   },
   {
     "slug": "what-is-llms-txt-blog",
