@@ -1,10 +1,17 @@
 ---
 import Studio from "../../layouts/Studio.astro";
 import { SITE, CALENDLY_URL } from "../../lib/site.mjs";
+import { TOPICS } from "../../lib/entity.mjs";
 
 const canonical = `${SITE}/services/`;
 
 const services = [
+  {
+    href: "/services/website-development/",
+    tag: "Websites · the core service",
+    name: "Website development",
+    d: "Custom-coded business websites, marketing sites and redesigns — technical SEO and page speed built in from the first commit, live in 3–4 weeks, and you own the code.",
+  },
   {
     href: "/services/ecommerce-website-development/",
     tag: "Ecommerce · D2C",
@@ -48,11 +55,12 @@ const jsonld = JSON.stringify({
     {
       "@type": "CollectionPage",
       "@id": canonical,
-      name: "Web development services — Divyansh Sood® Studio",
+      name: "Services — Divyansh Sood® Studio",
       description:
-        "Custom web development services: ecommerce storefronts, web apps and MVPs, AI features and LLM integration, high-converting landing pages, and SEO/GEO — custom-coded, conversion-focused, you own the code.",
+        "Six services from an independent studio: custom website development, ecommerce storefronts, web apps and MVPs, AI features and LLM integration, high-converting landing pages, and SEO/GEO — custom-coded, conversion-focused, you own the code.",
       url: canonical,
       isPartOf: { "@id": `${SITE}/#website` },
+      about: [TOPICS.webDevelopment, TOPICS.webDesign, TOPICS.ecommerce, TOPICS.seo],
     },
     {
       "@type": "ItemList",
@@ -77,23 +85,22 @@ const jsonld = JSON.stringify({
 ---
 
 <Studio
-  title="Web Development Services — Stores, Apps, AI, Pages & SEO"
-  description="Custom web development services: ecommerce storefronts, web apps, AI features, high-converting landing pages and SEO/GEO. Custom-coded, live in weeks, you own the code."
+  title="Services — Websites, Stores, Apps, AI, Pages & SEO"
+  description="Six ways an independent studio helps: website development, ecommerce, web apps, AI features, landing pages and SEO/GEO. Custom-coded, you own the code."
   canonical={canonical}
-  keywords="custom web development services, ecommerce website development, web app development, AI development services, landing page design, SEO services, GEO services, hire web developer, Divyansh Sood"
-  ogTitle="Web development services"
-  ogDescription="Stores, apps, AI features, landing pages and SEO/GEO — custom-coded, conversion-focused, yours to own."
+  keywords="web development services, custom website development, ecommerce website development, web app development, AI development services, landing page design, SEO services, GEO services, hire web developer, Divyansh Sood"
+  ogTitle="Services — Divyansh Sood® Studio"
+  ogDescription="Websites, stores, apps, AI features, landing pages and SEO/GEO — custom-coded, conversion-focused, yours to own."
   jsonld={jsonld}
 >
   <main>
     <header class="cs-hero">
-      <div class="cs-hero-bg" aria-hidden="true"></div>
       <div class="wrap">
         <div class="cs-eyebrow">
           <span>Services</span><span>Custom-coded · conversion-focused</span><span>2026</span>
         </div>
-        <h1 style="margin:14px 0 0;font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(44px,8vw,108px);line-height:.9;letter-spacing:-.01em;text-transform:uppercase;">Five ways<br /><span style="color:var(--accent);">I move the needle.</span></h1>
-        <p class="cs-lead">Every engagement is custom-coded, conversion-focused and handed over with full code ownership. Pick the shape of the problem — a store that undersells the product, software stuck on a roadmap, an AI feature that never left the demo, a page that doesn't convert, or a brand that's invisible to Google and AI assistants.</p>
+        <h1 style="margin:14px 0 0;font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(44px,8vw,108px);line-height:.9;letter-spacing:-.01em;text-transform:uppercase;">Six ways<br /><span style="color:var(--accent);">I move the needle.</span></h1>
+        <p class="cs-lead">Every engagement is custom-coded, conversion-focused and handed over with full code ownership. Pick the shape of the problem — a website that doesn't bring in enquiries, a store that undersells the product, software stuck on a roadmap, an AI feature that never left the demo, a page that doesn't convert, or a brand that's invisible to Google and AI assistants.</p>
         <div class="cs-cta-row">
           <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book an intro call <span aria-hidden="true">↗</span></a>
           <a class="btn btn-ghost" href="/portfolio/">See the work first</a>

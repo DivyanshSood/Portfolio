@@ -1,7 +1,8 @@
 ---
 import Studio from "../../layouts/Studio.astro";
 import RelatedPosts from "../../components/RelatedPosts.astro";
-import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+import PostFaq from "../../components/PostFaq.astro";
+import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
 import { coverBase, coverSrcset, COVER_SIZES_POST } from "../../lib/images.mjs";
 
 const slug = "instagram-page-vs-website-india";
@@ -15,6 +16,33 @@ const readMins = post.readMins;
 const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
 const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
 
+/* Questions real buyers ask, answered in full. This array is the single
+   source for both the visible accordion and the FAQPage node above — Google
+   requires FAQ markup to match content on the page, and deriving both from one
+   array is what stops them drifting. */
+const faqs = [
+  {
+    q: "Is an Instagram page enough instead of a website?",
+    a: "No, and the reason isn't aesthetic — it's that you don't own the audience. Instagram decides who sees your posts, can restrict or remove the account, and gives you no way to reach your followers if it does. A business run entirely from a page it doesn't control is one policy change away from starting over, and that risk is invisible right up until it isn't.",
+  },
+  {
+    q: "Does Google index Instagram posts?",
+    a: "Not usefully. Someone searching for what you sell will find businesses with websites, not your Instagram grid. This is the cost that's hardest to see, because you never meet the customers who searched, found a competitor, and booked with them — you only see the enquiries you did get, so the model looks like it's working.",
+  },
+  {
+    q: "What does running a business from Instagram DMs actually cost?",
+    a: "Leads that arrive when you're asleep and go cold, prices repeated by hand forty times a week, no record of who asked what, and no way for a customer to check your packages at 11pm without messaging you. The DM funnel doesn't scale and it leaks at every step — and none of the leakage shows up anywhere you'd notice.",
+  },
+  {
+    q: "Should I delete Instagram and just build a website?",
+    a: "No. Instagram is genuinely good at the job it does — attention, proof, personality, reach you'd never buy. It's a supplement, not the alternative. The working model is Instagram for discovery and a website for everything that follows: prices, packages, policies, booking, and a way to be found by people who've never heard of you.",
+  },
+  {
+    q: "What does a small Indian business actually need on its website?",
+    a: "Less than most agencies quote for. What you do and where, in the first five seconds. Prices or a clear reason there aren't any. Proof — real photos, real reviews. A way to contact you that goes somewhere you actually check, WhatsApp included. And a page that loads fast on a mid-range phone on mobile data, because that's the only device that matters.",
+  },
+];
+
 const jsonld = JSON.stringify({
   "@context": "https://schema.org",
   "@graph": [
@@ -25,18 +53,16 @@ const jsonld = JSON.stringify({
       description: post.description,
       datePublished: iso(post.pubDate),
       dateModified: iso(post.updatedDate || post.pubDate),
-      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
-      publisher: {
-        "@type": "Organization",
-        "@id": `${SITE}/#studio`,
-        name: "Divyansh Sood® Studio",
-        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
-      },
-      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      author: authorNode(SITE),
+      publisher: publisherNode(SITE),
+      isPartOf: websiteNode(SITE),
       mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
       image: ogImage,
       articleSection: primaryTag,
       keywords: post.tags.join(", "),
+      // Resolves the free-text tags above to public concept identifiers, so a
+      // parser knows "Astro" means the framework and "GEO" isn't geography.
+      about: topicsForTags(post.tags),
       wordCount: 1286,
       timeRequired: `PT${readMins}M`,
       speakable: {
@@ -53,6 +79,18 @@ const jsonld = JSON.stringify({
         { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
         { "@type": "ListItem", position: 3, name: post.title, item: canonical },
       ],
+    },
+    {
+      // Google retired FAQ rich results in May 2026, so this earns no SERP
+      // enhancement. It stays because answer engines read Q&A pairs well, and
+      // because every question below is rendered visibly by <PostFaq>.
+      "@type": "FAQPage",
+      "@id": `${canonical}#faq`,
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
     },
   ],
 });
@@ -76,7 +114,6 @@ const jsonld = JSON.stringify({
 >
   <main>
     <header class="post-hero">
-      <div class="post-hero-bg" aria-hidden="true"></div>
       <div class="wrap narrow">
         <div class="eyebrow">
           <span>{primaryTag}</span>
@@ -167,6 +204,8 @@ const jsonld = JSON.stringify({
 <p><em><a href="/projects/nandini/">Nandini Travels</a> is a useful comparison: strongest reviews in the district, every booking still arriving through someone else's platform until they had a site of their own. That's the work I do as a <a href="/web-developer-kangra/">web developer in Kangra</a>. <a href="https://wa.me/919816091875">WhatsApp me</a> — I’ll look at your Instagram, tell you within a day what a website would add, and if it doesn’t make sense for your stage, I’ll say so.</em></p>
       <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
     </article>
+
+    <PostFaq faqs={faqs} />
 
     <RelatedPosts slug={slug} audience={post.audience} />
 

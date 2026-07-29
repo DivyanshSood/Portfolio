@@ -2,11 +2,10 @@
 // ===========================================================================
 // RelatedPosts.astro — the end-of-post internal-link block.
 //
-// Replaces the old single "read next" chain link. Each post now emits one
-// primary next link plus its topic cluster, and a row of hub links (blog
-// index, the matching service page, the matching location page). That turns
-// 32 near-orphan posts — reachable only from /blog/ — into a linked cluster
-// Googlebot has a reason to crawl past the index.
+// Each post emits one primary next link plus its topic cluster, and a row of
+// hub links (blog index, the matching service page, the matching location
+// page). That keeps posts from being near-orphans reachable only from /blog/,
+// and gives Googlebot a reason to crawl past the index.
 // ===========================================================================
 import { related } from "../lib/blog.mjs";
 
@@ -23,12 +22,10 @@ const [next, ...more] = related(slug, 5);
 
 // Contextual hubs, one cluster per audience track.
 //
-// This used to be a ternary that hardcoded Kangra and Dharamshala for every
-// Indian post, which meant /web-developer-shimla/ and /web-developer-manali/
-// received ZERO hub links — the two pages meant to rank for "web developer
-// <city>" were the least-linked commercial pages on the site. The location
-// links are now rotated per post (deterministically, by slug) so all four
-// cities accumulate links, and each track gets a stable set of service hubs.
+// Location links rotate per post (deterministically, by slug) so all four city
+// pages accumulate inbound links; each track gets a stable set of service hubs.
+// Do not pin this to a fixed pair — the cities left out are commercial pages
+// that then rank for "web developer <city>" with zero internal links.
 const LOCATIONS = [
   { label: "Web developer in Kangra", href: "/web-developer-kangra/" },
   { label: "Web developer in Dharamshala", href: "/web-developer-dharamshala/" },
@@ -42,16 +39,27 @@ const offset = [...slug].reduce((n, c) => n + c.charCodeAt(0), 0) % LOCATIONS.le
 const twoCities = [LOCATIONS[offset], LOCATIONS[(offset + 1) % LOCATIONS.length]];
 
 type Hub = { label: string; href: string };
+// Every track now carries the website-development page: it's the site's
+// head-term commercial page, so it should accumulate links from all 40+ posts
+// rather than only from the ones that happen to be about hiring. The
+// international track also carries the AI cluster hub, which is where its
+// posts topically belong.
 const TRACKS: Record<string, Hub[]> = {
-  "indian-smb": [...twoCities, { label: "Results", href: "/results/" }],
+  "indian-smb": [
+    { label: "Website development", href: "/services/website-development/" },
+    ...twoCities,
+    { label: "Results", href: "/results/" },
+  ],
   "d2c-brand": [
     { label: "E-commerce development", href: "/services/ecommerce-website-development/" },
+    { label: "Website development", href: "/services/website-development/" },
     { label: "AI development", href: "/services/ai-development/" },
     { label: "Selected work", href: "/portfolio/" },
   ],
   international: [
-    { label: "Services", href: "/services/" },
+    { label: "Website development", href: "/services/website-development/" },
     { label: "AI development", href: "/services/ai-development/" },
+    { label: "AI in web development", href: "/blog/topics/ai-web-development/" },
     { label: "Selected work", href: "/portfolio/" },
   ],
 };

@@ -1,7 +1,8 @@
 ---
 import Studio from "../../layouts/Studio.astro";
 import RelatedPosts from "../../components/RelatedPosts.astro";
-import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+import PostFaq from "../../components/PostFaq.astro";
+import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
 import { coverBase, coverSrcset, COVER_SIZES_POST } from "../../lib/images.mjs";
 
 const slug = "framer-vs-custom-code-2026";
@@ -15,6 +16,33 @@ const readMins = post.readMins;
 const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
 const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
 
+/* Questions real buyers ask, answered in full. This array is the single
+   source for both the visible accordion and the FAQPage node above — Google
+   requires FAQ markup to match content on the page, and deriving both from one
+   array is what stops them drifting. */
+const faqs = [
+  {
+    q: "Is Framer good enough for a startup website?",
+    a: "Framer is the best website builder ever made and it is genuinely good enough for most startup marketing sites. It produces work that looks designed rather than assembled, and a designer can ship it without an engineer. Funded startups still replace it — not because it's bad, but because the site eventually has to do things a builder can't express.",
+  },
+  {
+    q: "What is the ceiling with Framer?",
+    a: "It shows up when the site stops being a set of pages. Programmatic pages built from your own data, a component library shared with your product, integrations that need real server-side logic, or performance you can tune rather than accept. None of this appears in a demo, and all of it appears about eighteen months in.",
+  },
+  {
+    q: "Is Framer bad for SEO?",
+    a: "No — Framer sites can rank perfectly well, and blaming the builder is usually a way of avoiding the real problem. Where it constrains you is in the details: precise control over markup and structured data, and the kind of technical work that matters once you're competing against people who are doing all of it. For most early-stage sites that difference is not what's holding you back.",
+  },
+  {
+    q: "Framer or custom code — how do I decide?",
+    a: "Decide on the next two years, not the next two months. If the site's job for that period is to explain the company and capture demand, Framer wins on speed and cost and you should use it. If the site is going to become a surface your product and your data feed into, building it in code now is cheaper than migrating later with traffic on the line.",
+  },
+  {
+    q: "Can you migrate a Framer site to custom code without losing rankings?",
+    a: "Yes, if the migration treats URLs as an asset rather than an afterthought. Every existing address gets mapped to its replacement with a permanent redirect, structured data is carried across, and indexing is checked after launch rather than assumed. Redesigns that skip that step are the most common way a company deletes its own search traffic.",
+  },
+];
+
 const jsonld = JSON.stringify({
   "@context": "https://schema.org",
   "@graph": [
@@ -25,18 +53,16 @@ const jsonld = JSON.stringify({
       description: post.description,
       datePublished: iso(post.pubDate),
       dateModified: iso(post.updatedDate || post.pubDate),
-      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
-      publisher: {
-        "@type": "Organization",
-        "@id": `${SITE}/#studio`,
-        name: "Divyansh Sood® Studio",
-        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
-      },
-      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      author: authorNode(SITE),
+      publisher: publisherNode(SITE),
+      isPartOf: websiteNode(SITE),
       mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
       image: ogImage,
       articleSection: primaryTag,
       keywords: post.tags.join(", "),
+      // Resolves the free-text tags above to public concept identifiers, so a
+      // parser knows "Astro" means the framework and "GEO" isn't geography.
+      about: topicsForTags(post.tags),
       wordCount: post.wordCount,
       timeRequired: `PT${readMins}M`,
       speakable: {
@@ -53,6 +79,18 @@ const jsonld = JSON.stringify({
         { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
         { "@type": "ListItem", position: 3, name: post.title, item: canonical },
       ],
+    },
+    {
+      // Google retired FAQ rich results in May 2026, so this earns no SERP
+      // enhancement. It stays because answer engines read Q&A pairs well, and
+      // because every question below is rendered visibly by <PostFaq>.
+      "@type": "FAQPage",
+      "@id": `${canonical}#faq`,
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
     },
   ],
 });
@@ -76,7 +114,6 @@ const jsonld = JSON.stringify({
 >
   <main>
     <header class="post-hero">
-      <div class="post-hero-bg" aria-hidden="true"></div>
       <div class="wrap narrow">
         <div class="eyebrow">
           <span>{primaryTag}</span>
@@ -146,6 +183,8 @@ const jsonld = JSON.stringify({
 <p><em>I’m Divyansh Sood. I build custom-coded sites and <a href="/services/web-app-development/">web apps</a> for startups that have outgrown their builder — React, Next.js or Astro, live in weeks, code you own outright. If you’re weighing the same call against Webflow, I’ve written that one up too: <a href="/blog/custom-code-vs-webflow-for-startups/">custom code vs Webflow</a>. Or <a href="mailto:hello@divyanshsood.com">email me</a> your Framer site and I’ll tell you honestly whether it’s worth replacing yet.</em></p>
       <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
     </article>
+
+    <PostFaq faqs={faqs} />
 
     <RelatedPosts slug={slug} audience={post.audience} />
 

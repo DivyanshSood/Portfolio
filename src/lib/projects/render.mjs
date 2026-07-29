@@ -25,8 +25,11 @@ const srcset = (src) =>
     ? localSrcset(src)
     : [420, 560, 760, 1040, 1400].map((w) => `${tr(src, w)} ${w}w`).join(", ");
 
+// 900px is where responsive.css collapses .cs-gallery to one column — these
+// must track that breakpoint or the browser sizes against a layout the page
+// isn't in and pulls the wrong variant.
 const FEATURE_SIZES = "(max-width:1100px) 90vw, 1040px";
-const GALLERY_SIZES = "(max-width:860px) 90vw, 540px";
+const GALLERY_SIZES = "(max-width:900px) 90vw, 540px";
 
 function imgFigure(item, { lcp = false, ratio = "16 / 10", cls = "" } = {}) {
   const sizes = lcp ? FEATURE_SIZES : GALLERY_SIZES;
@@ -40,7 +43,7 @@ function imgFigure(item, { lcp = false, ratio = "16 / 10", cls = "" } = {}) {
 // Phone-framed screenshot (only used when a project supplies `mobileShots`).
 function mobileFigure(item) {
   return `<figure style="margin:0;flex:none;width:clamp(170px,42vw,250px);aspect-ratio:9 / 19.5;border:9px solid #16161a;border-radius:32px;overflow:hidden;background:#16161a;box-shadow:0 28px 60px -34px rgba(0,0,0,.7);">
-        <img src="${esc(tr(item.src, 420))}" srcset="${esc(srcset(item.src))}" sizes="(max-width:860px) 50vw, 250px"
+        <img src="${esc(tr(item.src, 420))}" srcset="${esc(srcset(item.src))}" sizes="(max-width:900px) 50vw, 250px"
              width="420" height="910" alt="${esc(item.alt)}" loading="lazy" decoding="async"
              style="width:100%;height:100%;object-fit:cover;display:block;">
       </figure>`;
@@ -211,9 +214,12 @@ export function renderProjectMain(p) {
     )
     .join("\n        ");
 
-  return `<main>
+  // cs-dense: case studies are the one card-heavy family in the .cs-* set —
+  // glance table, metrics, body cards, gallery, FAQ, next-project. They opt one
+  // step down the shared spacing ramp (see case-study.css) so they don't run
+  // long; every other .cs-* page keeps the roomier marketing rhythm.
+  return `<main class="cs-dense">
     <header class="cs-hero">
-      <div class="cs-hero-bg" aria-hidden="true"></div>
       <div class="wrap">
         <div class="cs-eyebrow">
           <span>Case study — ${esc(p.num)}</span>

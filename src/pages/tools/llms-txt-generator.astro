@@ -1,14 +1,15 @@
 ---
 import Studio from "../../layouts/Studio.astro";
 import { SITE, CALENDLY_URL } from "../../lib/site.mjs";
+import { TOPICS } from "../../lib/entity.mjs";
 
 const canonical = `${SITE}/tools/llms-txt-generator/`;
 
 const faqs = [
-  { q: "What is llms.txt?", a: "llms.txt is a plain-text file you place at the root of your domain (yoursite.com/llms.txt) that gives AI assistants — ChatGPT, Claude, Gemini, Perplexity — a clean, machine-readable summary of your business: what you do, your key pages, and how to contact you. It's the AI-era equivalent of a sitemap, written for language models instead of crawlers." },
+  { q: "What is llms.txt?", a: "llms.txt is a plain-text file you place at the root of your domain (yoursite.com/llms.txt) holding a clean, machine-readable summary of your business: what you do, your key pages, and how to contact you. It was proposed as a way to hand a language model a curated brief instead of making it infer one from your HTML. It's a community convention rather than a standard any major search engine has adopted — see the next answer for what the evidence says about it." },
   { q: "Is this llms.txt generator really free?", a: "Yes — completely free, no sign-up, nothing stored. Everything runs in your browser; your inputs never leave your device. Fill the fields, copy or download the file, and upload it to your site's root." },
   { q: "Where do I put the file once it's generated?", a: "Upload it to the root of your domain so it's reachable at https://yoursite.com/llms.txt. On most hosts that means dropping it in your public / static folder. Optionally link to it from your robots.txt as a comment, and allow AI crawlers there too." },
-  { q: "Does llms.txt actually help me get cited by AI?", a: "It's an emerging standard, not a guaranteed ranking factor — but it's low-cost and zero-risk, and it makes your business legible to AI assistants before your competitors bother. It works best combined with real structured data, quotable copy and AI-crawler access. That fuller implementation is what I do as a service." },
+  { q: "Does llms.txt actually help me get cited by AI?", a: "On the evidence so far, no — not on its own. Google confirmed in 2026 that its search systems, generative features included, ignore llms.txt, and independent analysis across roughly 300,000 domains found no statistically significant relationship between having the file and being cited by AI. Server logs show AI crawlers requesting it in around a tenth of a percent of their hits. It's still worth the half hour: it helps in the narrow case where an agent or a person points a model straight at your domain, and writing it forces you to state plainly what your business does. What actually earns citations is being indexed and ranking, answering the question directly on the page, structured data that says who wrote it, and copy that survives being quoted. That fuller implementation is what I do as a service — this file is the free, easy part." },
   { q: "What's the difference between llms.txt and llms-full.txt?", a: "llms.txt is the concise index — summary, services, key pages, contact. llms-full.txt is an optional expanded corpus with your full positioning, FAQs and detail, for models that want more context. This generator produces the concise llms.txt; the deep version is part of a full GEO implementation." },
 ];
 
@@ -23,7 +24,7 @@ const jsonld = JSON.stringify({
       operatingSystem: "Web browser",
       url: canonical,
       description:
-        "A free, browser-based tool that generates an llms.txt file for your business — the machine-readable summary AI assistants read to understand and cite you. No sign-up, nothing stored.",
+        "A free, browser-based tool that generates an llms.txt file for your business — a machine-readable plain-text brief of what you do and which pages matter. No sign-up, nothing stored.",
       offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
       author: { "@id": `${SITE}/#person` },
       provider: { "@id": `${SITE}/#studio` },
@@ -47,22 +48,23 @@ const jsonld = JSON.stringify({
 
 <Studio
   title="Free llms.txt Generator — Make Your Site Readable by AI"
-  description="Generate an llms.txt file in seconds — the file ChatGPT, Claude, Gemini & Perplexity read to understand and cite you. Free, no sign-up, nothing stored."
+  description="Generate a spec-correct llms.txt — a plain-text brief of your business for language models. Free, no sign-up, nothing stored, plus an honest note on what it does."
+  ogDescription="Write a spec-correct llms.txt from five fields, free and in your browser — with a straight answer on what the file actually does."
   canonical={canonical}
   keywords="llms.txt generator, free llms.txt tool, generate llms.txt, llms.txt file, AI SEO tool, GEO tool, make website readable by AI, llms.txt example"
   ogTitle="Free llms.txt generator"
   ogDescription="Make your site legible to ChatGPT, Claude, Gemini & Perplexity. Fill five fields, copy the file, ship it. Free."
+  topics={[TOPICS.ai, TOPICS.llm, TOPICS.seo]}
   jsonld={jsonld}
 >
   <main>
     <header class="cs-hero">
-      <div class="cs-hero-bg" aria-hidden="true"></div>
       <div class="wrap">
         <div class="cs-eyebrow">
           <span>Free tool</span><span>GEO · AI search</span><span>No sign-up</span>
         </div>
         <h1 style="margin:14px 0 0;font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(40px,7.5vw,96px);line-height:.9;letter-spacing:-.01em;text-transform:uppercase;">The free<br /><span style="color:var(--accent);">llms.txt generator.</span></h1>
-        <p class="cs-lead">AI assistants answer questions about your industry every day — and most brands are invisible in those answers. An <em>llms.txt</em> file hands ChatGPT, Claude, Gemini and Perplexity a clean summary of who you are. Fill in five fields below, copy the file, drop it at <strong>yoursite.com/llms.txt</strong>. Runs entirely in your browser — nothing is stored or sent anywhere.</p>
+        <p class="cs-lead">An <em>llms.txt</em> is a plain-text brief of your business at your domain root. Fill in five fields below, copy the file, drop it at <strong>yoursite.com/llms.txt</strong>. Runs entirely in your browser — nothing is stored or sent anywhere. <strong>Straight answer before you start:</strong> Google has confirmed its search systems ignore this file, and at ~300,000 domains there's no measurable link between having one and being cited by AI. It's worth thirty minutes, not a budget line — <a href="/blog/what-is-llms-txt/">here's the full evidence and what does work</a>.</p>
       </div>
     </header>
 
@@ -126,17 +128,17 @@ const jsonld = JSON.stringify({
     <section class="cs-sec" aria-labelledby="next-h">
       <div class="wrap">
         <div class="cs-sec-head">
-          <h2 id="next-h">llms.txt is step one</h2>
+          <h2 id="next-h">llms.txt is the small step</h2>
           <span class="mono">Go further</span>
         </div>
         <div class="cs-body" data-reveal>
           <div class="cs-card">
             <span class="cs-tag">Understand it</span>
-            <p>New to this? Here's the plain-English explainer on what llms.txt is and why it matters. <a href="/blog/what-is-llms-txt-blog/">What is llms.txt →</a></p>
+            <p>The plain-English explainer: what the file is, what Google and the research actually say about it, and why I still ship one. <a href="/blog/what-is-llms-txt/">An honest answer on whether llms.txt works →</a></p>
           </div>
           <div class="cs-card">
             <span class="cs-tag">Get quoted by AI</span>
-            <p>The file is the index; being <em>cited</em> takes structured data and quotable copy too. <a href="/blog/make-your-brand-quotable-by-ai-geo-2026/">The GEO playbook →</a></p>
+            <p>This is the part that actually moves citations: rank for the question, answer it on the page, and write copy that survives being quoted. <a href="/blog/make-your-brand-quotable-by-ai-geo-2026/">The 2026 GEO playbook →</a></p>
           </div>
           <div class="cs-card span2">
             <span class="cs-tag">Done properly, for you</span>
@@ -180,12 +182,12 @@ const jsonld = JSON.stringify({
 
 <style>
   .lg-grid { display:grid; grid-template-columns:1fr 1fr; gap:22px; align-items:start; }
-  @media (max-width:820px){ .lg-grid { grid-template-columns:1fr; } }
+  @media (max-width:900px){ .lg-grid { grid-template-columns:1fr; } }
   .lg-form { display:flex; flex-direction:column; gap:16px; }
   .lg-two { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
   @media (max-width:480px){ .lg-two { grid-template-columns:1fr; } }
   .lg-field { display:flex; flex-direction:column; gap:7px; }
-  .lg-label { font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:#8A8A93; }
+  .lg-label { font-family:'JetBrains Mono',monospace; font-size:var(--fs-label-lg); letter-spacing:.1em; text-transform:uppercase; color:#8A8A93; }
   .lg-label b { color:var(--accent); font-weight:400; }
   .lg-hint { text-transform:none; letter-spacing:.02em; color:#6f6f77; }
   .lg-field input, .lg-field textarea {
@@ -197,16 +199,16 @@ const jsonld = JSON.stringify({
   .lg-field input::placeholder, .lg-field textarea::placeholder { color:#55555C; }
 
   .lg-out { position:sticky; top:86px; border:1px solid rgba(244,242,236,.16); border-radius:12px; overflow:hidden; background:#0b0b0c; }
-  @media (max-width:820px){ .lg-out { position:static; } }
+  @media (max-width:900px){ .lg-out { position:static; } }
   .lg-out-bar { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 14px; border-bottom:1px solid rgba(244,242,236,.12); background:#131316; }
-  .lg-file { font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:#8A8A93; }
+  .lg-file { font-size:var(--fs-label-lg); letter-spacing:var(--ls-label); text-transform:uppercase; color:#8A8A93; }
   .lg-actions { display:flex; gap:8px; }
-  .lg-btn { font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; padding:8px 14px; border-radius:999px; cursor:pointer; border:1px solid rgba(244,242,236,.28); background:transparent; color:#F4F2EC; transition:transform .15s ease, background .15s ease; }
+  .lg-btn { font-family:'JetBrains Mono',monospace; font-size:var(--fs-label); letter-spacing:.1em; text-transform:uppercase; padding:8px 14px; border-radius:999px; cursor:pointer; border:1px solid rgba(244,242,236,.28); background:transparent; color:#F4F2EC; transition:transform .15s ease, background .15s ease; }
   .lg-btn:hover { transform:translateY(-1px); }
   .lg-btn-solid { background:var(--accent); color:#0b0b0c; border-color:var(--accent); }
   .lg-btn.is-done { background:var(--accent); color:#0b0b0c; border-color:var(--accent); }
   .lg-pre { margin:0; padding:18px 16px; font-family:'JetBrains Mono',monospace; font-size:12.5px; line-height:1.7; color:#C9C7C0; white-space:pre-wrap; word-break:break-word; max-height:560px; overflow:auto; }
-  .lg-note { margin-top:20px; font-size:11px; letter-spacing:.05em; color:#6f6f77; line-height:1.7; }
+  .lg-note { margin-top:20px; font-size:var(--fs-label-lg); letter-spacing:.05em; color:#6f6f77; line-height:1.7; }
   .lg-note b { color:#8A8A93; }
 </style>
 

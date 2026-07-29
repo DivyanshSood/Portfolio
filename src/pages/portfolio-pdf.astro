@@ -9,6 +9,7 @@
    =========================================================================== */
 import "../styles/portfolio-print.css";
 import { SITE } from "../lib/site.mjs";
+import { completeGraph } from "../lib/entity.mjs";
 import { projects } from "../lib/projects/data.mjs";
 
 // Print-only source for /portfolio.pdf. Canonical points at the browsable page;
@@ -23,15 +24,20 @@ const featured = projects
   .sort((a, b) => Number(b.year) - Number(a.year))
   .slice(0, 6);
 
-const jsonld = JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "WebPage",
-  "@id": `${canonical}#page`,
-  url: canonical,
-  name: "Portfolio one-pager — Divyansh Sood® Studio",
-  description: "Print-ready one-page portfolio summary. Custom-coded, conversion-led sites shipped for real clients.",
-  isPartOf: { "@id": `${SITE}/#website` },
-});
+// This page renders its own <head> rather than going through Studio.astro, so
+// it has to call completeGraph itself — otherwise the `isPartOf` pointer below
+// resolves to a node that only exists on the homepage.
+const jsonld = completeGraph(
+  JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": `${canonical}#page`,
+    url: canonical,
+    name: "Portfolio one-pager — Divyansh Sood® Studio",
+    description: "Print-ready one-page portfolio summary. Custom-coded, conversion-led sites shipped for real clients.",
+    isPartOf: { "@id": `${SITE}/#website` },
+  }),
+);
 ---
 <!DOCTYPE html>
 <html lang="en">

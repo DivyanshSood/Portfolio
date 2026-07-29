@@ -1,0 +1,267 @@
+---
+import Studio from "../../layouts/Studio.astro";
+import RelatedPosts from "../../components/RelatedPosts.astro";
+import PostFaq from "../../components/PostFaq.astro";
+import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
+import { coverBase, coverSrcset, COVER_SIZES_POST } from "../../lib/images.mjs";
+
+const slug = "future-of-ai-assisted-web-development";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+const faqs = [
+  {
+    q: "Will AI replace web developers in the next few years?",
+    a: "It will replace a category of web development work — assembling standard layouts slowly — and that category was already shrinking. It won't replace the job, because the job is mostly deciding what to build and being accountable when it breaks. The people at genuine risk are those whose offer was implementation speed alone.",
+  },
+  {
+    q: "What skills will web developers need in the future?",
+    a: "Judgment about what to build, the ability to recognise subtly wrong code, understanding a business well enough to argue with a brief, and ownership of outcomes. Note that all four were always the valuable parts — AI hasn't changed what matters, it has removed the ability to get paid well for the parts that didn't.",
+  },
+  {
+    q: "Will AI website builders replace custom development?",
+    a: "For the bottom of the market, largely yes, and that's fine — those clients were being poorly served by cheap template work anyway. For anything where the site has a specific job, a brand that must not look generic, or a flow that doesn't exist off the shelf, no. I built an AI website generator and I still build sites by hand, which should tell you where I think the line sits.",
+  },
+  {
+    q: "Should I still learn to code in 2026?",
+    a: "Yes, and for a sharper reason than before: you can't supervise work you couldn't have done. As generation gets cheaper, the ability to tell correct from plausible becomes the entire value. That ability is built by writing code, including badly, and there's no shortcut to it that I've seen work.",
+  },
+  {
+    q: "What happens to junior developer jobs?",
+    a: "This is the genuine problem in the industry and nobody has solved it. Junior work was historically the tasks AI now does well, and that was also how people built judgment. Removing the bottom rung without replacing it means fewer seniors in a decade. I expect firms that invest in training anyway to end up with an unfair advantage.",
+  },
+  {
+    q: "How should a business owner plan for this?",
+    a: "Assume the baseline website becomes near-free and stop competing on it. What will still be scarce is a site that's genuinely specific to your business, plus being visible when people ask an assistant rather than a search engine. Own your code and your content so you can move as the tooling changes — the businesses that struggle will be the ones renting both.",
+  },
+];
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: authorNode(SITE),
+      publisher: publisherNode(SITE),
+      isPartOf: websiteNode(SITE),
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      // Resolves the free-text tags above to public concept identifiers, so a
+      // parser knows "Astro" means the framework and "GEO" isn't geography.
+      about: topicsForTags(post.tags),
+      wordCount: post.wordCount,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+    },
+  ],
+});
+---
+
+<Studio
+  title={post.seoTitle ?? `${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  preloadImage={{ href: coverBase(post.coverImage), srcset: coverSrcset(post.coverImage), sizes: COVER_SIZES_POST }}
+  jsonld={jsonld}
+>
+  <main>
+    <header class="post-hero">
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img
+            src={coverBase(post.coverImage)}
+            srcset={coverSrcset(post.coverImage)}
+            sizes={COVER_SIZES_POST}
+            alt={post.coverAlt ?? post.title}
+            width="1200"
+            height="750"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+<p>Predictions about AI are cheap, and most of them are written by people with something to sell in the direction they're pointing. So before any of mine: my basis for having an opinion, and my bias.</p>
+<p>I run a one-person studio building custom websites, and I built <a href="/projects/webseek/">WebSeek.ai</a>, an AI website generator that turns one prompt into a deployed site across three model providers. So I sell custom development <em>and</em> I built the machine meant to make it unnecessary. My bias probably cuts both ways, which is the best I can offer.</p>
+<p>Everything below is labelled with how confident I actually am, because a prediction without a confidence level is entertainment.</p>
+<hr>
+<h2 id="the-method">What I'm extrapolating from</h2>
+<p>Not from model announcements. From two years of watching where these tools help and where they stop, on real projects with real deadlines.</p>
+<p>The single most useful observation: the limits I hit are mostly <em>structural</em>, not quality-related. When a generator can't decide whether a restaurant's booking flow matters more than its menu, that's not a gap a better model closes — it's missing information that exists only in the owner's head. Improvements in raw capability don't touch it.</p>
+<p>That distinction drives almost every prediction here. Where a limit is about capability, expect it to fall. Where it's about knowledge, stakes or accountability, expect it to persist.</p>
+<hr>
+<h2 id="already-true">Already true, just unevenly distributed</h2>
+<p>Some of "the future" has happened and hasn't spread yet.</p>
+<p>Setup cost is already near zero. Debugging unfamiliar errors is already a conversation. The tedious quality work — schema, accessibility passes, test cases — is already cheap enough that skipping it is a choice rather than a budget constraint. Plenty of teams haven't adopted this yet, which means the next couple of years will look like dramatic change and will mostly be catch-up.</p>
+<p>If you want the current state rather than the forecast, that's <a href="/blog/how-ai-is-transforming-website-development/">what has actually changed</a>.</p>
+<hr>
+<h2 id="prediction-ceiling">1. Better models won't break the generator ceiling</h2>
+<p><strong>Confidence: high.</strong></p>
+<p>This is the prediction I hold most strongly, because I've watched it directly. Running one product across three providers, the differences between them are real but textural. None of them changed the fundamental problem: someone types "website for my restaurant" and the model must invent a hundred decisions nobody made.</p>
+<p>It invents them plausibly. Never knowingly. That gap isn't a capability gap — it's an information gap, and no amount of model improvement fills it, because the information was never written down.</p>
+<p>What will improve is the quality of the guess and how well the tool asks for missing context. Both are worth having. Neither turns a generated site into a considered one.</p>
+<p><strong>What follows:</strong> generated sites keep getting better and stay recognisably generated. The gap between "looks finished" and "is finished" narrows visually and stays where the money is.</p>
+<hr>
+<h2 id="prediction-agents">2. Agents take more of the loop; accountability doesn't move</h2>
+<p><strong>Confidence: high on the first half, very high on the second.</strong></p>
+<p>The clear direction of travel is from "generates a snippet" to "carries out a multi-step task" — makes a change across several files, runs the tests, reads the failure, tries again. That loop will keep getting longer and more reliable.</p>
+<p>What doesn't change is who answers the phone. When a booking form silently drops enquiries on a Friday night, the client calls a person. No degree of autonomy shifts that, and it's most of what a client is actually buying.</p>
+<p>So the practical shape is more capable tools operating under someone who remains responsible for the result. That's not a small change — it's a large one — but it's an amplification of the current arrangement rather than a replacement for it.</p>
+<hr>
+<h2 id="prediction-review">3. Review becomes the paid skill</h2>
+<p><strong>Confidence: high.</strong></p>
+<p>If producing code trends toward free, the scarce thing is judging it. That inverts how the profession has valued people: writing was the skill, reviewing was overhead. It's already flipping and it will flip harder.</p>
+<p>This is awkward, because review is genuinely harder than writing and much less pleasant. Writing, you build the mental model as you go. Reviewing, you reconstruct someone else's — and generated code has no author to ask.</p>
+<p><strong>What follows:</strong> the developers who do well will be the ones who can read a large diff and spot the one subtly wrong thing. That skill is built by writing a lot of code by hand, which is the uncomfortable part of the prediction — the path to being valuable runs through the work that's being automated. <a href="/blog/challenges-and-limitations-of-ai-in-web-development/">The limitations post</a> covers what that review is actually looking for.</p>
+<hr>
+<h2 id="prediction-juniors">4. The junior pipeline breaks before anyone fixes it</h2>
+<p><strong>Confidence: high on the problem, low on the solution.</strong></p>
+<p>Junior developers historically did the work AI now does well. That work was badly paid and slightly boring, and it was also how judgment got built — you learned what good looked like by producing a lot of not-good and being corrected.</p>
+<p>Remove the bottom rung and you get fewer seniors in a decade. Everyone in the industry can see this. Almost nobody is acting on it, because the cost of training juniors is immediate and the cost of not training them arrives later, somewhere else.</p>
+<p>I don't know how this resolves. My guess is that firms which invest in training anyway end up with an unfair advantage in about five years, and that this becomes obvious in retrospect. But that's a guess, and the honest position is that this is the most serious unsolved problem the tooling has created.</p>
+<hr>
+<h2 id="prediction-average">5. The average website becomes free, so specificity gets more valuable</h2>
+<p><strong>Confidence: high.</strong></p>
+<p>A competent generic site is heading toward costing nothing. Which means it's worth nothing as a differentiator — if everyone's site is competent, competent stops being an advantage.</p>
+<p>What stays scarce is a site that could only belong to <em>your</em> business. The specific flow. The proof that only you have. The tone that sounds like a person. Models converge on the average of what they've seen, so anything genuinely distinctive is, almost by definition, the part they can't produce.</p>
+<p>For <a href="/projects/chinkiz/">a creator with 600,000 subscribers</a>, generic was the problem we were hired to solve. That kind of work gets relatively more valuable as the baseline gets cheaper, not less.</p>
+<p><strong>What follows for businesses:</strong> stop paying for a website that looks like a website. Start paying for the parts a generator structurally cannot do.</p>
+<hr>
+<h2 id="prediction-geo">6. Being cited outgrows being ranked, for some businesses</h2>
+<p><strong>Confidence: medium-high on direction, low on timing.</strong></p>
+<p>People increasingly ask an assistant for a recommendation instead of scrolling a results page. That's a different game with a different referee — search rewards the page that earns the click, assistants reward the source that's easiest to quote accurately.</p>
+<p>I'm confident this share grows. I'm not confident how fast, and anyone giving you a percentage is guessing. What I'd say practically: the work that makes you quotable — clear factual claims, real structured data, content that answers a question completely rather than teasing it — is the same work that has always made for a good website. It's a low-risk bet because it pays off either way.</p>
+<p>The mechanics are in <a href="/blog/geo-vs-seo-whats-actually-different/">GEO vs SEO</a> and <a href="/blog/get-your-business-recommended-by-chatgpt/">getting recommended by ChatGPT</a>.</p>
+<hr>
+<h2 id="prediction-middle">7. The middle of the market gets squeezed hardest</h2>
+<p><strong>Confidence: medium-high.</strong></p>
+<p>The bottom — cheap template assembly — goes to AI builders, and honestly should. Those clients were being poorly served.</p>
+<p>The top — genuinely custom work with real stakes — is fine, arguably better off, because the tedious parts got cheap and the differentiating parts got relatively more valuable.</p>
+<p>The squeeze is in the middle: shops charging real money for work an AI builder now approximates. Their pitch was "better than a template, cheaper than custom," and the floor just rose underneath them.</p>
+<p>This is a prediction against my own market segment as much as anyone's, which is why I'd rather state it plainly. The response isn't to compete on speed — it's to be clearly on one side of the line. <a href="/blog/freelancer-vs-agency-web-development/">Agency versus freelancer</a> covers where that line currently sits.</p>
+<hr>
+<h2 id="prediction-tooling">8. The tooling disappears into the workflow</h2>
+<p><strong>Confidence: medium-high.</strong></p>
+<p>Right now AI assistance is a thing you go to — a panel, a chat, a separate product. That's what every new technology looks like before it settles, and it's usually temporary.</p>
+<p>The direction is toward assistance that's simply part of the environment: present where the work happens, aware of the project without being told, invoked without ceremony. When that lands, "AI tools" stops being a category the same way "spellcheck tools" stopped being one.</p>
+<p>The practical consequence for anyone choosing tools now: don't over-invest in a particular product's workflow. The capability will outlive the interface, and the interfaces will churn a lot before they settle.</p>
+<hr>
+<h2 id="the-table">Confidence, honestly</h2>
+<table>
+<thead>
+<tr><th>Prediction</th><th>Confidence</th><th>Rough horizon</th></tr>
+</thead>
+<tbody>
+<tr><td>Better models don't break the generator ceiling</td><td>High</td><td>Already true</td></tr>
+<tr><td>Accountability stays with a person</td><td>Very high</td><td>Indefinite</td></tr>
+<tr><td>Review becomes the paid skill</td><td>High</td><td>Underway</td></tr>
+<tr><td>Agents take longer task loops</td><td>High</td><td>1–3 years</td></tr>
+<tr><td>Average site trends to free</td><td>High</td><td>1–3 years</td></tr>
+<tr><td>Junior pipeline problem worsens</td><td>High (problem), low (fix)</td><td>3–10 years</td></tr>
+<tr><td>Middle market squeezed</td><td>Medium-high</td><td>2–5 years</td></tr>
+<tr><td>Citation outgrows ranking for some</td><td>Medium-high direction, low timing</td><td>Unclear</td></tr>
+<tr><td>Developers become unnecessary</td><td>Low</td><td>Not on this evidence</td></tr>
+</tbody>
+</table>
+<hr>
+<h2 id="wrong-predictions">Three predictions I think are wrong</h2>
+<p><strong>"Developers are obsolete within two years."</strong> This assumes the job is writing code. The job is deciding what to build and being answerable for it. Writing was how that got expressed, not what it was. People making this prediction are usually describing a job they've never done.</p>
+<p><strong>"Everyone becomes a developer now."</strong> Producing code got easy; understanding it did not. The gap between what a non-developer can generate and what they can debug is the widest it has ever been. That's a maintenance crisis in slow motion, not a democratisation.</p>
+<p><strong>"AI will write and maintain entire systems unsupervised."</strong> Maintenance requires knowing why something was built a particular way. That reasoning frequently exists nowhere — not in the code, not in the docs, only in someone's memory of a conversation. Unsupervised maintenance means confidently changing things for reasons nobody can check.</p>
+<hr>
+<h2 id="how-id-be-wrong">How you'll know if I was wrong</h2>
+<p>A forecast you can't check isn't worth much, so here are the specific things that would tell me I've misread this. I'd rather write them down now than quietly revise the story later.</p>
+<p><strong>On the generator ceiling.</strong> I'd be wrong if generated sites started making genuinely good decisions about ambiguous briefs — not producing better-looking output from the same guess, but correctly identifying what a business's site should prioritise without being told. The tell would be a generator that asks the two questions that actually matter instead of inventing answers to a hundred.</p>
+<p><strong>On accountability.</strong> I'd be wrong if a serious commercial market emerged for AI-built sites with no human responsible for the outcome — someone selling a website with the failure risk genuinely priced in rather than passed to the buyer. That would mean the accountability problem was economic rather than structural.</p>
+<p><strong>On review becoming the paid skill.</strong> I'd be wrong if verification became automatable — if checking correctness got as cheap as generating. There's a real argument that models will become good enough at reviewing each other's output that this happens, and I hold this prediction less firmly than the first two for exactly that reason.</p>
+<p><strong>On juniors.</strong> I'd be delighted to be wrong here, and the signal would be firms genuinely training people into judgment rather than hiring only seniors and hoping the supply holds.</p>
+<p>The prediction I'd defend hardest is the one about specificity, because it isn't really a claim about AI. It's a claim that as any capability becomes universal, it stops being an advantage — and that has held for every technology I can think of.</p>
+<hr>
+<h2 id="what-to-do">What to actually do about it</h2>
+<p><strong>If you're a developer:</strong> get faster at the mechanical parts and spend the time on judgment. Keep writing some code by hand deliberately, because that's what preserves the ability to spot bad output. Get closer to the business side — understanding why something is being built is the part that isn't being automated. <a href="/blog/learn-ai-assisted-development-2026/">The learning path I'd take</a> is built around this.</p>
+<p><strong>If you're a business owner:</strong> assume the baseline is free and stop competing on it. Spend on the parts that are specific to you. <a href="/blog/own-your-stack-code-portability/">Own your code and your content</a> so you can move as the tooling shifts — the businesses that struggle over the next five years will be the ones renting both from someone else.</p>
+<p><strong>If you're hiring:</strong> stop asking whether someone uses AI. Ask what they wrote by hand and why, and what they've rejected from a model recently. That distinguishes supervision from delegation, and it's the only question here that will still be useful in five years.</p>
+<hr>
+<h2 id="the-summary">The honest summary</h2>
+<p>The future of AI-assisted web development looks a lot like the present, with the dials turned up. Faster mechanics, higher floor, more review, same judgment, same accountability.</p>
+<p>The interesting shift isn't technological. It's that the parts of this job which were always the most valuable — knowing what to build, telling right from plausible, owning the outcome — are now the <em>only</em> parts you can reliably charge for. That's uncomfortable for anyone who was making a living on the rest, and it's clarifying for everyone else.</p>
+<p>If you want the whole argument rather than the forecast, the <a href="/blog/topics/ai-web-development/">AI and web development cluster</a> collects it, and <a href="/services/website-development/">how I actually build</a> is what all of this looks like applied to a real project.</p>
+</article>
+
+    <PostFaq faqs={faqs} idPrefix="faq-ft">
+      <div class="tags" style="margin-top:26px;">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </PostFaq>
+
+    <RelatedPosts slug={slug} audience={post.audience} />
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        <h2>Planning something that has to last?</h2>
+        <p>If you're building for the next few years rather than the next quarter, send me the brief. I'll tell you what I'd build, what I'd avoid committing to, and where I think the ground is still moving.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="mailto:hello@divyanshsood.com">Email me <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost" href={CALENDLY_URL} target="_blank" rel="noopener">Book a 15-min intro <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Studio>
+

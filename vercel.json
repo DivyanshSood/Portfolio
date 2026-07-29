@@ -10,10 +10,16 @@
     { "source": "/sme/", "destination": "/services/", "permanent": true },
     { "source": "/blog/himalayan-businesses-google-visibility", "destination": "/blog/google-business-profile-vs-website-himachal/", "permanent": true },
     { "source": "/blog/himalayan-businesses-google-visibility/", "destination": "/blog/google-business-profile-vs-website-himachal/", "permanent": true },
-    { "source": "/blog/website-development-cost-india-2026", "destination": "/services/", "permanent": true },
-    { "source": "/blog/website-development-cost-india-2026/", "destination": "/services/", "permanent": true },
-    { "source": "/blog/wix-vs-custom-code-blog", "destination": "/services/", "permanent": true },
-    { "source": "/blog/wix-vs-custom-code-blog/", "destination": "/services/", "permanent": true },
+    { "source": "/blog/website-development-cost-india-2026", "destination": "/services/website-development/", "permanent": true },
+    { "source": "/blog/website-development-cost-india-2026/", "destination": "/services/website-development/", "permanent": true },
+    { "source": "/blog/wix-vs-custom-code-blog", "destination": "/blog/custom-website-vs-wordpress/", "permanent": true },
+    { "source": "/blog/wix-vs-custom-code-blog/", "destination": "/blog/custom-website-vs-wordpress/", "permanent": true },
+    { "source": "/blog/what-is-llms-txt-blog", "destination": "/blog/what-is-llms-txt/", "permanent": true },
+    { "source": "/blog/what-is-llms-txt-blog/", "destination": "/blog/what-is-llms-txt/", "permanent": true },
+    { "source": "/blog/modernkbs-case-study-blog", "destination": "/blog/modernkbs-school-website-case-study/", "permanent": true },
+    { "source": "/blog/modernkbs-case-study-blog/", "destination": "/blog/modernkbs-school-website-case-study/", "permanent": true },
+    { "source": "/blog/nandini-travels-case-study-blog", "destination": "/blog/nandini-travels-case-study/", "permanent": true },
+    { "source": "/blog/nandini-travels-case-study-blog/", "destination": "/blog/nandini-travels-case-study/", "permanent": true },
     { "source": "/index.html", "destination": "/", "permanent": true },
     { "source": "/projects/webseek.html", "destination": "/projects/webseek/", "permanent": true },
     { "source": "/projects/inhimalayas.html", "destination": "/portfolio/", "permanent": true },
@@ -28,7 +34,27 @@
   ],
   "headers": [
     {
-      "source": "/llms.txt",
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" }
+      ]
+    },
+    {
+      "source": "/fonts/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+    },
+    {
+      "source": "/(images|blog)/(.*)\\.(webp|jpg|jpeg|png)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=2592000, stale-while-revalidate=86400" }]
+    },
+    {
+      "source": "/(og-home.png|icon.svg|icon-192.png|icon-512.png|apple-touch-icon.png|favicon.ico)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=2592000, stale-while-revalidate=86400" }]
+    },
+    {
+      "source": "/(llms\\.txt|llms-full\\.txt)",
       "headers": [
         { "key": "Content-Type", "value": "text/plain; charset=utf-8" },
         { "key": "Cache-Control", "value": "public, max-age=86400" }

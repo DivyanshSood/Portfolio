@@ -9,13 +9,9 @@
    Regenerate via scripts/self-host-fonts.py.
 
    Archivo and JetBrains Mono are VARIABLE fonts: one file covers the whole
-   weight range, so they get a single @font-face with a `font-weight` range
-   rather than one per weight. Google Fonts returns the same variable file for
-   every weight you ask for, so requesting 400–900 separately downloaded six
-   byte-identical copies of Archivo (175KB wasted) and two of JetBrains Mono.
-   Anton is static and single-weight. Space Mono and Caveat were dropped
-   entirely — their only consumer was the .cs-foot block, deleted with the old
-   Footer component. */
+   weight range, so each gets a single @font-face with a `font-weight` range.
+   Declaring one per weight downloads byte-identical copies of the same file.
+   Anton is static and single-weight. */
 @font-face{font-family:'Archivo';font-style:normal;font-weight:400 900;font-display:swap;src:url('/fonts/archivo.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
 @font-face{font-family:'Anton';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/anton-400.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
 @font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:400 500;font-display:swap;src:url('/fonts/jetbrains-mono.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
@@ -23,18 +19,69 @@
 *{box-sizing:border-box;}
 html{scroll-behavior:auto;}
 html,body{margin:0;padding:0;}
-/* body also gets overflow-x:clip — iOS Safari doesn't reliably propagate
-   body{overflow-x:hidden} to the viewport and instead makes <body> the scroll
-   container, which breaks position:sticky (the /portfolio depth gallery
-   pinning). clip clips identically without creating a scroll container. */
+/* The `overflow-x:hidden; overflow-x:clip` pair here (and on #ds-root below) is
+   deliberate, not a duplicate to tidy up. `hidden` makes the element a scroll
+   container, which silently breaks position:sticky for every descendant — the
+   /portfolio depth gallery and the homepage deck both pin. `clip` clips exactly
+   the same without doing that; the `hidden` line before it is the fallback for
+   browsers predating clip. Keep both, in this order. */
 body{background:#0b0b0c;color:#fff;font-family:'Archivo',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;overflow-x:clip;}
-/* overflow-x:clip (not hidden) — hidden turns this wrapper into a scroll
-   container, which silently breaks position:sticky for every descendant
-   (e.g. the /portfolio depth gallery). clip clips the same without doing
-   that; the hidden line before it is the fallback for pre-clip browsers. */
-/* Neon-green accent is the site-wide default; #dsx re-declares it too. Defined
-   on :root so any chrome rendering outside #dsx inherits it. */
-:root{--accent:#d9ff3c;}
+/* ---------------------------------------------------------------------------
+   Spacing ramp — one curve for the whole site, defined here on :root (custom
+   properties inherit into Astro-scoped <style> blocks, so every page and
+   component can read them).
+
+   NOT defined on #dsx: that element declares --accent in an inline style=
+   attribute, so anything put there could only be overridden with !important.
+
+   Each clamp's MINIMUM is the deliberate phone value, not a leftover. Below
+   ~630px every vw term goes inert and the min is what actually renders — so
+   none of these need an @media twin; the phone step is folded into the curve.
+
+   The neon-green accent sits here too (#dsx re-declares it) so any chrome
+   rendering outside #dsx still inherits it.
+   --------------------------------------------------------------------------- */
+:root{
+  --accent:#d9ff3c;
+
+  --sp-2xs:clamp(16px,2vw,28px);    /* bands, rules, inline breathing */
+  --sp-xs:clamp(20px,2.6vw,36px);   /* eyebrow → headline */
+  --sp-s:clamp(28px,3.4vw,48px);    /* sub-block open */
+  --sp-m:clamp(36px,4.6vw,68px);    /* standard homepage band, top + bottom */
+  --sp-l:clamp(44px,7vw,108px);     /* chapter opening + main .cs-sec */
+
+  /* Floors at the same 20px/16px .wrap already guarantees below, and caps so a
+     2560px screen stops at 56px instead of 4vw = 102px. */
+  --gutter:clamp(20px,4vw,56px);
+  /* Fixed-header clearance: 16px×2 padding + tallest child — the 33px CTA pill
+     on desktop, the 42px burger once it appears. Anything that must clear the
+     header derives from this instead of guessing 88px / 92px / 12vh.
+
+     It steps at 860, NOT 720, because that is where the burger appears (see
+     .dsx-head-nav in Studio.astro — the five desktop links don't fit at 721 and
+     the wordmark wraps). Measured: the header is 74px tall from 320 to 860 and
+     66px above it. Step this anywhere else and the token under-reports the real
+     header, which shows up as the breadcrumb trail colliding with it. */
+  --header-h:66px;
+  --rule:rgba(244,242,236,.14);
+  /* Mono labels read at 10–10.5px on desktop by design, but that is too small
+     on a phone at 0.14em tracking. Stepped up (not clamped — clamp scales the
+     wrong way for this) at ≤720px.
+
+     Two tiers, because the site genuinely has two: the small caps labels
+     (eyebrows, tags, table headers) sit at 10–10.5px and the slightly louder
+     ones (post/case meta, metric captions, the breadcrumb trail) at 11px.
+     One shared token would shrink the second tier on desktop. */
+  --fs-label:10.5px;
+  --fs-label-lg:11px;
+  --ls-label:.14em;
+}
+/* Two different thresholds on purpose: the header follows the burger (860),
+   the label scale follows the phone step everything else uses (720). */
+@media (max-width:860px){:root{--header-h:74px;}}
+@media (max-width:720px){:root{--fs-label:11.5px;--fs-label-lg:12.5px;--ls-label:.1em;}}
+@media (max-width:360px){:root{--gutter:16px;}}
+/* overflow-x pair: see the note on `body` above — do not collapse it. */
 #ds-root{--accent:#d9ff3c;position:relative;overflow-x:hidden;overflow-x:clip;}
 ::selection{background:var(--accent);color:#0b0b0c;}
 a{color:inherit;}
@@ -47,6 +94,14 @@ a{color:inherit;}
 }
 img{display:block;max-width:100%;}
 section{position:relative;}
+/* iOS Safari zooms the viewport whenever a focused field is under 16px, and
+   because the viewport meta correctly omits maximum-scale it never zooms back
+   out — one tap on a form left the visitor zoomed-in and panned for the rest
+   of the session. Several fields set their size inline (website-audit.astro),
+   so only !important reaches them. Phones only; desktop keeps its 14px. */
+@media (max-width:720px){
+  input,textarea,select{font-size:16px !important;}
+}
 .mono{font-family:'JetBrains Mono',monospace;}
 .wrap{max-width:1180px;margin:0 auto;padding:0 30px;}
 .narrow{max-width:760px;}
@@ -78,11 +133,8 @@ section{position:relative;}
 
 /* Scroll-reveal ([data-reveal]) is owned entirely by Studio.astro — it scopes
    the hide/reveal/fallback rules to #dsx, which wraps every page that uses the
-   hook. A second, unscoped copy used to live here; it hid elements under
-   html.motion but carried no matching .is-in rule to reveal them again (that
-   sat behind html.motion-io, a class nothing has added since the GSAP engine
-   was removed). Anything using [data-reveal] outside #dsx would have stayed
-   invisible. Keep the lifecycle in one place. */
+   hook. Keep the whole lifecycle there: a second copy of the hide rule without
+   its matching reveal rule leaves the element invisible for good. */
 
 /* ---------------------------------------------------------------------------
    Cross-document view transitions — page-to-page navigation crossfades instead

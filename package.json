@@ -11,7 +11,9 @@
     "pdf:portfolio": "node scripts/portfolio-pdf.mjs",
     "export:crossposts": "node scripts/export-crossposts.mjs",
     "fonts:self-host": "python3 scripts/self-host-fonts.py",
-    "astro": "astro"
+    "astro": "astro",
+    "verify:llms": "node scripts/verify-llms.mjs",
+    "verify:seo": "node scripts/verify-seo.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.18",

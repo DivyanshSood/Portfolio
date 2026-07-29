@@ -1,0 +1,316 @@
+---
+import Studio from "../../layouts/Studio.astro";
+import RelatedPosts from "../../components/RelatedPosts.astro";
+import PostFaq from "../../components/PostFaq.astro";
+import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
+import { coverBase, coverSrcset, COVER_SIZES_POST } from "../../lib/images.mjs";
+
+const slug = "what-is-llms-txt";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+/* Questions real buyers ask, answered in full. This array is the single
+   source for both the visible accordion and the FAQPage node above — Google
+   requires FAQ markup to match content on the page, and deriving both from one
+   array is what stops them drifting. */
+const faqs = [
+  {
+    q: "What is llms.txt?",
+    a: "llms.txt is a plain-text file at the root of a website — like robots.txt — that summarises what the site is, what the business does, and which pages matter, in Markdown a language model can read without wading through your navigation and cookie banners. It was proposed as a way to give AI tools a clean, curated brief instead of making them infer one from your HTML.",
+  },
+  {
+    q: "Does llms.txt actually work? Does Google use it?",
+    a: "Google does not use it. Google has publicly confirmed its search systems, including the generative features, ignore llms.txt, and has said you don't need machine-readable files of this kind to appear in Google Search. Independent analysis across hundreds of thousands of domains has also found no statistically significant relationship between having the file and being cited by AI. Anyone promising you AI rankings from an llms.txt file is overselling it.",
+  },
+  {
+    q: "Then why bother creating an llms.txt file at all?",
+    a: "Because it's nearly free and it pays off in the narrow cases where it is read. An agent fetching your site on demand, a developer pointing a model at your URL, or a smaller answer engine that has adopted the convention will all get a cleaner, more accurate picture of your business than they'd assemble from your homepage. That's a small effect, honestly described — not a ranking strategy.",
+  },
+  {
+    q: "What should go in an llms.txt file?",
+    a: "An H1 with the site's name, a blockquote summarising what the business does, and then linked sections covering services, work, results and answers to the questions people actually ask. Write every line so it survives being quoted on its own — name the subject rather than saying \"we\" — and include the things a model would otherwise guess wrong, including what is not true about you.",
+  },
+  {
+    q: "What actually gets a business cited by AI assistants?",
+    a: "The same pages everything else runs on. Assistants retrieve from indexed HTML, so the work that matters is content that answers the question directly, structured data that identifies who wrote it and why they'd know, and being findable in classic search in the first place. llms.txt is a small, cheap addition to that; it is not a substitute for it.",
+  },
+];
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: authorNode(SITE),
+      publisher: publisherNode(SITE),
+      isPartOf: websiteNode(SITE),
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      // Resolves the free-text tags above to public concept identifiers, so a
+      // parser knows "Astro" means the framework and "GEO" isn't geography.
+      about: topicsForTags(post.tags),
+      // From the manifest, not a literal — the hardcoded 1460 here survived a
+      // rewrite that took the post to 2,290 words and silently went stale.
+      wordCount: post.wordCount,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+    {
+      // Google retired FAQ rich results in May 2026, so this earns no SERP
+      // enhancement. It stays because answer engines read Q&A pairs well, and
+      // because every question below is rendered visibly by <PostFaq>.
+      "@type": "FAQPage",
+      "@id": `${canonical}#faq`,
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    },
+  ],
+});
+---
+
+<Studio
+  title={post.seoTitle ?? `${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  preloadImage={{ href: coverBase(post.coverImage), srcset: coverSrcset(post.coverImage), sizes: COVER_SIZES_POST }}
+  jsonld={jsonld}
+>
+  <main>
+    <header class="post-hero">
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img
+            src={coverBase(post.coverImage)}
+            srcset={coverSrcset(post.coverImage)}
+            sizes={COVER_SIZES_POST}
+            alt={post.coverAlt ?? post.title}
+            width="1200"
+            height="750"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+      <p>There’s a new kind of search happening right now, and a lot of business websites are badly represented in it — described vaguely, described wrongly, or not named at all when an assistant gets asked who does this work.</p>
+<p>A file called <code>llms.txt</code> gets sold as the fix. It is not the fix. I ship one on every site I build, I wrote a free generator for it, and I am going to spend most of this post explaining why the thing I give away does far less than the people promoting it claim.</p>
+<blockquote>
+<p><strong>Updated July 2026.</strong> This post originally argued that <code>llms.txt</code> was how you became visible to ChatGPT, Claude and Perplexity. The evidence since has not supported that, and Google has now said so directly. I’ve rewritten it around what the evidence actually shows rather than quietly leaving the old claims up. The section on what <em>does</em> earn AI citations is the part that survived unchanged.</p>
+</blockquote>
+<p>Here’s what the file is, what the evidence says about it, and what I do instead.</p>
+<hr>
+<h2 id="how-people-search-has-changed">How people search has changed</h2>
+<p>Two years ago, the search journey looked like this:</p>
+<p>Someone types “best taxi service in Dharamshala” into Google. Google returns ten blue links. The person clicks two or three, reads the pages, and makes a decision.</p>
+<p>Today, a growing number of people do this instead:</p>
+<p>They open ChatGPT or Perplexity and ask: <em>“What’s a reliable taxi service in Dharamshala for an airport pickup?”</em> The AI reads the web, synthesises an answer, and either names a specific business or describes what to look for — often without the user clicking a single link.</p>
+<p>This is called <strong>Generative Engine Optimisation (GEO)</strong> — optimising not just for Google’s algorithm, but for how AI models interpret and present your business.</p>
+<p>The businesses that show up in AI answers are the ones whose websites are structured for AI to read. The ones that don’t — even with strong Google rankings — may not exist as far as these tools are concerned.</p>
+<hr>
+<h2 id="what-llmstxt-actually-is">What llms.txt actually is</h2>
+<p><code>llms.txt</code> is a plain text file that sits at the root of your website — like <code>yourwebsite.com/llms.txt</code> — and tells AI crawlers exactly what your site is about.</p>
+<p>Think of it like <code>robots.txt</code>, which tells Google which pages to crawl and which to skip. <code>llms.txt</code> is the AI equivalent — a structured summary of your business, your content, and your key pages, written in a format that language models can parse efficiently.</p>
+<p>A basic <code>llms.txt</code> for a tour operator in Himachal might look like this:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span># Dharamshala Tours</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>> Tour operator based in Dharamshala, HP. Specialises in treks,</span></span>
+<span class="line"><span>> spiritual tours, and adventure packages across Himachal Pradesh.</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>## Services</span></span>
+<span class="line"><span>- [Trekking Packages](/treks)</span></span>
+<span class="line"><span>- [Spiritual Tours](/spiritual)</span></span>
+<span class="line"><span>- [Custom Group Tours](/group)</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>## Contact</span></span>
+<span class="line"><span>WhatsApp: +91-XXXXXXXXXX</span></span>
+<span class="line"><span>Location: Dharamshala, Himachal Pradesh, India</span></span></code></pre>
+<p>That’s it. A few lines. But what it does is give an AI model a clean, unambiguous summary of who you are, what you offer, and where to find the details — without having to parse your entire website, interpret your JavaScript, or guess at your structure from your navigation menu.</p>
+<hr>
+<h2 id="what-actually-happened">What actually happened</h2>
+<p>The proposal landed in late 2024 and the SEO industry got to it before the search engines did. By 2025 you could buy an “llms.txt optimisation package”. What nobody had was evidence that any of it worked.</p>
+<p>Here is what came out since, in the order it landed.</p>
+<p><strong>Google said it does not use the file.</strong> Google’s guidance on AI features, updated in June 2026, is explicit that its search systems — including the generative ones — do not consume <code>llms.txt</code>, and that you do not need to publish a machine-readable file of this kind to appear in Google Search. Earlier, at Search Central Live, Google’s Gary Illyes had already compared the idea to the keywords meta tag: a file where a site describes itself, with no way to verify the description against the site, which is exactly the pattern search engines learned to stop trusting decades ago.</p>
+<p><strong>Almost nothing requests it.</strong> Server-log analyses have repeatedly found AI crawler traffic to <code>/llms.txt</code> sitting around a tenth of a percent of those crawlers’ requests to the same sites. The bots overwhelmingly fetch HTML pages. They are not looking for the summary file; they are reading the site.</p>
+<p><strong>At scale, it doesn’t correlate with citations.</strong> An independent analysis across roughly 300,000 domains found no statistically significant relationship between having an <code>llms.txt</code> and being cited by AI assistants. Not a weak effect — no measurable effect. The sites getting cited were getting cited for other reasons.</p>
+<p>That’s a fairly complete answer, and it’s not the answer this post gave in 2025. The mechanism sounded right — hand the model a clean brief instead of making it parse your navigation — but the assistants never asked for the brief.</p>
+<hr>
+<h2 id="so-why-do-i-still-ship-one">So why do I still ship one</h2>
+<p>Three honest reasons, none of which is “rankings”.</p>
+<p><strong>It costs about thirty minutes, once.</strong> The asymmetry is what makes it worth doing: near-zero cost against a small but real payoff in the cases below. That is a different argument from “this will get you cited”, and it’s the only one the evidence supports.</p>
+<p><strong>It genuinely helps when something is pointed straight at your site.</strong> This is the narrow case that does work. An agent fetching your domain on demand, a developer pasting your URL into a model, a smaller answer engine that adopted the convention — none of those are running a search index. They’re reading whatever your domain hands them, and a curated brief beats a homepage with a cookie banner and three carousels. The effect is small. It is not zero.</p>
+<p><strong>Writing it is a useful exercise in itself.</strong> To produce a good <code>llms.txt</code> you have to state, in plain sentences, what the business does, who it serves, and what is not true about it. Most businesses cannot do this on demand. The file is cheap; the clarity it forces usually improves the actual pages — and the actual pages are what gets cited.</p>
+<p>So: ship it, spend thirty minutes on it, and don’t let anyone charge you for a strategy built on it.</p>
+<hr>
+<h2 id="what-ai-assistants-actually-read">What AI assistants actually read</h2>
+<p>If not the file, then what?</p>
+<p>Your pages. Assistants overwhelmingly retrieve from indexed HTML — the same pages classic search ranks. That’s the whole mechanism, and it’s why GEO doesn’t replace SEO so much as sit on top of it.</p>
+<p>Which makes the work concrete, and unglamorous:</p>
+<ul>
+<li><strong>Rank for the question in the first place.</strong> If a page isn’t indexed and isn’t ranking, it isn’t in the retrieval pool, and nothing you put at your domain root changes that.</li>
+<li><strong>Answer the question directly, early, on the page.</strong> Not after four paragraphs of throat-clearing about how the digital landscape is evolving.</li>
+<li><strong>Write sentences that survive being quoted alone.</strong> An assistant lifts one sentence out of its paragraph. If that sentence says “we offer a range of solutions”, it carries nothing. Name the subject instead of saying “we”.</li>
+<li><strong>Use structured data to say who wrote it and why they’d know.</strong> Schema is how a machine establishes that a claim has an author with a track record attached, rather than being anonymous text.</li>
+<li><strong>Be fast and server-rendered enough to be read at all.</strong> A crawler that gets half your page builds half a picture of your business.</li>
+</ul>
+<p>None of that is new or exotic. It is mostly good technical SEO plus writing that says something. The unsatisfying truth of GEO in 2026 is that the work which moves it is the work that was already worth doing.</p>
+<hr>
+<h2 id="what-this-looks-like-in-practice">What this looks like in practice</h2>
+<p>A site built to be read by AI crawlers doesn’t look exotic. It has <code>llms.txt</code> at the root, clean semantic HTML, JSON-LD schema describing what each page actually is, and load times fast enough that a crawler gets through the whole page instead of half of it.</p>
+<p>None of those four things is expensive, and only one of them is the file. The other three are what decide whether an assistant can describe your business accurately or has to guess from fragments.</p>
+<p>The honest position is that this is still early, and there is no ranking dashboard for AI answers — anyone selling you one is guessing. What you can do is check it yourself: ask ChatGPT, Claude and Perplexity about your category once a month, and watch your analytics for <code>chatgpt.com</code> and <code>perplexity.ai</code> referrers. That’s the whole scoreboard right now.</p>
+<p>Do that for three months and you’ll know more about your actual AI visibility than any package sold on the strength of a text file will tell you.</p>
+<hr>
+<h2 id="llmstxt-alongside-the-rest-of-the-seo-stack">llms.txt alongside the rest of the SEO stack</h2>
+<p>To be clear: <code>llms.txt</code> is not a replacement for Google SEO. It’s an addition to it.</p>
+<p>Every site I build ships with both:</p>
+<p><strong>For Google:</strong></p>
+<ul>
+<li>Meta titles and descriptions on every page</li>
+<li>JSON-LD schema (local business, service, review, FAQ as applicable)</li>
+<li>XML sitemap submitted to Search Console</li>
+<li>Open Graph tags for social sharing</li>
+<li>Lighthouse 90+ Core Web Vitals score</li>
+</ul>
+<p><strong>For AI search:</strong></p>
+<ul>
+<li>Clean semantic HTML that language models can parse without executing JavaScript</li>
+<li>Structured content hierarchy — clear headings, descriptive link text, unambiguous service descriptions</li>
+<li>Fast load times so crawlers complete the full page</li>
+<li>An entity graph in JSON-LD, so the author and the business are identifiable things rather than strings</li>
+<li><code>llms.txt</code> at the root — last on this list, and deliberately so</li>
+</ul>
+<p>These aren’t competing approaches. They’re layers. Note that the top of the AI list is nearly the same work as the Google list; that overlap is the point, and it is why a GEO proposal that consists mostly of a text file should worry you.</p>
+<hr>
+<h2 id="who-is-most-at-risk-from-ignoring-this">Who this matters most for</h2>
+<p>Not every business is equally exposed to AI search. Here’s who should care most — about the whole stack above, not about the file:</p>
+<p><strong>Travel and hospitality.</strong> “Best hotels near Kasol,” “trekking operators in Spiti,” “taxi from Chandigarh to Manali” — these are exactly the kinds of queries people are putting into AI tools. If you’re a Himachal travel business, the people searching for you on AI tools are high-intent and often international. You need to be in those answers.</p>
+<p><strong>Local service businesses.</strong> Clinics, CAs, coaching centres, salons. “Best chartered accountant in Ludhiana” or “dermatologist in Dharamshala” are queries AI tools increasingly answer with named businesses. If your site isn’t indexed, isn’t readable, and doesn’t state plainly what you do and where, you won’t be named.</p>
+<p><strong>D2C brands.</strong> Product comparisons, gift recommendations, category searches — AI tools are increasingly the first stop for “what should I buy.” Especially for categories that are hard to search on Google without knowing brand names.</p>
+<p><strong>Any business that relies on being discovered.</strong> If customers need to find you before they can hire you, AI search is part of that discovery journey now — and growing fast.</p>
+<hr>
+<h2 id="how-to-tell-if-youre-being-oversold">How to tell if you’re being oversold</h2>
+<p>GEO is a real discipline with a genuine problem underneath it. It also arrived with a lot of packages attached. Four things to listen for:</p>
+<p><strong>“We’ll get you ranked in ChatGPT.”</strong> There is no ranking to buy. There is no dashboard showing your position. Anyone quoting you a rank is describing something that doesn’t exist.</p>
+<p><strong>The deliverable is mostly the file.</strong> If <code>llms.txt</code> is the headline item on the proposal rather than a footnote, the proposal is selling the cheapest part of the work at the price of the expensive part.</p>
+<p><strong>No mention of your existing rankings.</strong> Assistants retrieve from indexed pages. A GEO plan that never looks at whether you’re indexed and ranking has skipped the load-bearing step.</p>
+<p><strong>Guaranteed citations.</strong> Nobody controls what a model says about you. What you can control is whether there’s an accurate, well-structured, findable page for it to draw on.</p>
+<hr>
+<h2 id="what-to-do-right-now">What to do right now</h2>
+<p>If you already have a website, in this order:</p>
+<ol>
+<li><strong>Check you’re actually indexed.</strong> Search <code>site:yourwebsite.com</code> on Google. If most of your pages aren’t there, nothing downstream matters yet — fix that first.</li>
+<li><strong>Ask the assistants about your category.</strong> ChatGPT, Claude, Perplexity, once a month. Note whether you’re named, and whether what they say about you is right. Being described wrongly is a more common problem than being invisible, and a more fixable one.</li>
+<li><strong>Check your page speed on mobile</strong> at <a href="https://pagespeed.web.dev/">PageSpeed Insights</a>. Below 70 means crawlers are likely struggling with your site too.</li>
+<li><strong>Then add <code>llms.txt</code>.</strong> Thirty minutes, once, at the bottom of the list where it belongs.</li>
+</ol>
+<p>If you’re building a new website: make sure whoever builds it ships semantic HTML, schema on every page that earns it, and real load speed — and treats the file as the small last step it is.</p>
+<p>Want to see what yours would look like? <a href="/tools/llms-txt-generator/">Generate a starter <code>llms.txt</code> free →</a> — fill in a few fields and copy the file. It’s free because it’s the cheap part, and because writing one is a good way to find out whether you can describe your own business in plain sentences.</p>
+<hr>
+<p><em>I’m Divyansh Sood. Every site I ship comes with server-rendered content, schema on every page that earns it, a Lighthouse score above 90 on mobile — and <code>llms.txt</code> at the root, which I’ll happily tell you is the least important item on that list. 9 live builds. If your business should be in the answer when AI tools get asked about your category and isn’t, <a href="mailto:hello@divyanshsood.com">email me</a> — I’ll tell you where the gap is in plain terms, including when the answer is that the file isn’t your problem.</em></p>
+<p><em>See the whole GEO stack, and what it costs to have it wired into your codebase: <a href="https://www.divyanshsood.com/services/seo-geo-services/">SEO &amp; GEO services →</a></em></p>
+      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </article>
+
+    <PostFaq faqs={faqs} />
+
+    <RelatedPosts slug={slug} audience={post.audience} />
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        {post.audience === "indian-smb" ? (
+          <>
+            <h2>Working on something in India?</h2>
+            <p>If a post here matches what you're building, send me the brief. WhatsApp reply in under an hour, 9 AM–9 PM IST — I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="https://wa.me/919816091875" target="_blank" rel="noopener"
+                >Message me on WhatsApp <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : post.audience === "d2c-brand" ? (
+          <>
+            <h2>Building a brand a theme can't carry?</h2>
+            <p>If your store has a model that off-the-shelf builders fight — hand-numbered drops, creator commerce, premium D2C — tell me about it. I read every brief personally.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : (
+          <>
+            <h2>Working on something similar?</h2>
+            <p>If a post here matches what you're building, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href={CALENDLY_URL} target="_blank" rel="noopener"
+                >Book a 15-min intro <span aria-hidden="true">↗</span></a
+              >
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+  </main>
+</Studio>

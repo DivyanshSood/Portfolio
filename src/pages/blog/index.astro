@@ -1,6 +1,6 @@
 ---
 import Studio from "../../layouts/Studio.astro";
-import { SITE, DEFAULT_OG, fmtDate, gradient, POSTS } from "../../lib/blog.mjs";
+import { SITE, DEFAULT_OG, fmtDate, gradient, POSTS, TOPICS } from "../../lib/blog.mjs";
 import { coverBase, coverSrcset, COVER_SIZES_CARD } from "../../lib/images.mjs";
 
 const canonical = `${SITE}/blog/`;
@@ -18,6 +18,7 @@ const jsonld = JSON.stringify({
       url: canonical,
       inLanguage: "en",
       publisher: { "@id": `${SITE}/#studio` },
+      about: [TOPICS.webDevelopment, TOPICS.webDesign, TOPICS.seo, TOPICS.ai],
     },
     {
       "@type": "ItemList",
@@ -52,7 +53,6 @@ const jsonld = JSON.stringify({
 >
   <main>
     <header class="post-hero">
-      <div class="post-hero-bg" aria-hidden="true"></div>
       <div class="wrap">
         <div class="eyebrow">
           <span>(Journal — {String(posts.length).padStart(2, "0")} posts)</span>
@@ -67,6 +67,19 @@ const jsonld = JSON.stringify({
       </div>
     </header>
 
+    {/* Topic hubs. The index lists posts in publish order, which is the wrong
+        shape for someone arriving on a subject rather than a date — and it left
+        the cluster hubs reachable only from inside individual posts. */}
+    <section class="wrap" aria-label="Browse by topic">
+      <nav class="post-hubs" style="margin:0 0 34px;">
+        <span
+          style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.14em;color:#8A8A93;align-self:center;text-transform:uppercase;"
+          >Start with a topic</span
+        >
+        <a href="/blog/topics/ai-web-development/">AI in web development →</a>
+      </nav>
+    </section>
+
     <section class="wrap" aria-label="All posts">
       <div class="blog-grid">
         {
@@ -74,10 +87,10 @@ const jsonld = JSON.stringify({
             <a class="blog-card" href={`/blog/${p.slug}/`} data-reveal>
               <div class="thumb">
                 {p.coverImage ? (
-                  /* This page shows every post at once, so it used to pull 38
-                     full-size JPEGs — 4.5 MB. Covers now come from the WebP
-                     ladder at card width. The first row is above the fold and
-                     holds the LCP element, so it loads eagerly; the rest wait. */
+                  /* This page shows every post at once, so covers come from
+                     the WebP ladder at card width rather than the full-size
+                     JPEG. The first row is above the fold and holds the LCP
+                     element, so it loads eagerly; the rest wait. */
                   <img
                     src={coverBase(p.coverImage)}
                     srcset={coverSrcset(p.coverImage)}

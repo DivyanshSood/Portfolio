@@ -1,6 +1,7 @@
 ---
 import Studio from "../layouts/Studio.astro";
 import { SITE, CALENDLY_URL, GOOGLE_MAPS_URL } from "../lib/site.mjs";
+import { TOPICS } from "../lib/entity.mjs";
 
 const canonical = `${SITE}/web-developer-kangra/`;
 const WA = "https://wa.me/919816091875?text=Hi%20Divyansh,%20I%20run%20a%20business%20in%20Kangra%20and%20need%20a%20website.";
@@ -56,11 +57,11 @@ const jsonld = JSON.stringify({
   keywords="web developer Kangra, website developer Kangra Himachal, website design Kangra, taxi website developer, school website developer Himachal, local business website Kangra"
   ogTitle="Web developer in Kangra"
   ogDescription="Taxi bookings, school portals and local business sites — built in Kangra district, not outsourced to a metro."
+  topics={[TOPICS.webDevelopment, TOPICS.himachal, TOPICS.india]}
   jsonld={jsonld}
 >
   <main>
     <header class="cs-hero">
-      <div class="cs-hero-bg" aria-hidden="true"></div>
       <div class="wrap">
         <div class="cs-eyebrow">
           <span>Himachal Pradesh</span><span>Kangra district</span><span>2026</span>

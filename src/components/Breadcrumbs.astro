@@ -1,0 +1,142 @@
+---
+/* ===========================================================================
+   Breadcrumbs — the visible trail, rendered from the page's own JSON-LD.
+
+   `crumbs` comes from breadcrumbTrail() in entity.mjs, which reads the
+   BreadcrumbList the page already emits. Nothing here is declared twice, so
+   the markup and the rendered trail cannot disagree.
+
+   Rendered by Studio.astro, not by pages: a page that ships breadcrumb schema
+   gets the trail automatically, and one that doesn't renders nothing at all.
+
+   Markup notes:
+   - <nav aria-label="Breadcrumb"> + <ol> is the pattern assistive tech expects.
+   - The last crumb is the current page, so it is not a link and carries
+     aria-current="page".
+   - The "/" separators are decorative and aria-hidden, so a screen reader
+     announces "Home, Blog, <title>" rather than "Home slash Blog slash".
+   =========================================================================== */
+export interface Props {
+  crumbs: { name: string; url: string }[];
+}
+const { crumbs } = Astro.props;
+---
+
+{
+  crumbs.length > 1 && (
+    <nav class="ds-crumbs" aria-label="Breadcrumb">
+      <div class="wrap">
+        <ol>
+          {crumbs.map((c, i) => {
+            const last = i === crumbs.length - 1;
+            return (
+              <li>
+                {last ? (
+                  <span aria-current="page">{c.name}</span>
+                ) : (
+                  <a href={c.url}>{c.name}</a>
+                )}
+                {!last && (
+                  <span class="ds-crumbs-sep" aria-hidden="true">
+                    /
+                  </span>
+                )}
+              </li>
+            );
+          })}
+        </ol>
+      </div>
+    </nav>
+  )
+}
+
+{/* Global, not scoped: the rule below has to reach the page's own hero, which
+    lives in the slot and is therefore outside this component's scope. */}
+<style is:global>
+  .ds-crumbs {
+    /* Sits under the fixed nav, above the page's own hero. Small and quiet —
+       it's a wayfinding aid and a crawl path, not a design element.
+       The top padding is the clearance the fixed header needs; the hero below
+       gives up its own matching padding (next rule) so the trail costs no
+       extra vertical space and the fold is unchanged.
+
+       Derived from --header-h, never a literal. The header has no background
+       and renders in mix-blend-mode:difference, so any clearance that goes to
+       zero doesn't just look tight — the two texts overlap and invert. Tying
+       this to the token makes that arithmetically impossible at every width. */
+    padding: calc(var(--header-h) + var(--sp-2xs)) 0 0;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: var(--fs-label-lg);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* Every page carrying a trail opens with <main> wrapping one of these two
+     heroes, both of which pad to clear the fixed header on their own. With the
+     trail above them doing that job, they only need breathing room.
+
+     This selector is (0,2,1) — it outranks both `main .cs-hero` (0,1,1) and
+     `.cs-hero` (0,1,0), and the trail renders on every page except the
+     homepage and 404. That makes it THE hero clearance site-wide. A padding-top
+     written on these heroes anywhere else will silently never apply, so if you
+     need to change the fold on an inner page, change it here. */
+  .ds-crumbs + main .cs-hero,
+  .ds-crumbs + main .post-hero {
+    padding-top: var(--sp-2xs);
+  }
+
+  .ds-crumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .ds-crumbs li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    /* The trail can wrap on a narrow screen; nothing should be clipped. */
+    min-width: 0;
+  }
+
+  .ds-crumbs a {
+    color: #8a8a93;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .ds-crumbs a:hover,
+  .ds-crumbs a:focus-visible {
+    color: var(--accent, #d9ff3c);
+    border-bottom-color: currentColor;
+  }
+
+  .ds-crumbs [aria-current="page"] {
+    color: #d9d7d0;
+    /* Long post titles are the only crumb that can run away with the line. */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: min(48ch, 60vw);
+  }
+
+  .ds-crumbs-sep {
+    color: #4a4a52;
+  }
+
+  /* No breakpoint of its own any more. --header-h, --sp-2xs and --fs-label-lg
+     all step at 720 with the rest of the site, so the trail follows them; the
+     620px block that used to live here is what produced the 0px clearance. */
+
+  /* The print stylesheet drops site chrome; the trail is chrome. */
+  @media print {
+    .ds-crumbs {
+      display: none;
+    }
+  }
+</style>

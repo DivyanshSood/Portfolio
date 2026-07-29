@@ -41,6 +41,26 @@ const QUALITY = 82;
 /* Headline copy, per slug. `lines` are rendered uppercase, one per line, and
    auto-fitted to the box; `accent` lists the zero-based lines painted neon. */
 const COVER_COPY = {
+  "how-ai-is-transforming-website-development": {
+    eyebrow: "AI · WEB DEVELOPMENT",
+    lines: ["HOW AI IS", "TRANSFORMING", "WEB DEV."],
+    accent: [2],
+  },
+  "benefits-of-ai-in-web-development": {
+    eyebrow: "AI · BENEFITS",
+    lines: ["THE BENEFITS", "THAT ACTUALLY", "SURVIVED."],
+    accent: [2],
+  },
+  "challenges-and-limitations-of-ai-in-web-development": {
+    eyebrow: "AI · LIMITS",
+    lines: ["WHERE AI", "ACTUALLY", "BREAKS."],
+    accent: [2],
+  },
+  "future-of-ai-assisted-web-development": {
+    eyebrow: "AI · FUTURE",
+    lines: ["THE FUTURE OF", "AI-ASSISTED", "DEVELOPMENT."],
+    accent: [2],
+  },
   "how-i-build-websites-with-claude-code": {
     eyebrow: "AI · WORKFLOW",
     lines: ["HOW I BUILD", "CLIENT SITES", "WITH AI."],

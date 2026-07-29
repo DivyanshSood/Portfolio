@@ -1,6 +1,7 @@
 ---
 import Studio from "../../layouts/Studio.astro";
 import { SITE } from "../../lib/site.mjs";
+import { TOPICS } from "../../lib/entity.mjs";
 
 const canonical = `${SITE}/tools/`;
 
@@ -10,8 +11,12 @@ const tools = [
     href: "/tools/llms-txt-generator/",
     tag: "GEO · AI search",
     name: "llms.txt generator",
-    desc: "Generate the file ChatGPT, Claude, Gemini and Perplexity read to understand your business. Free, in your browser, nothing stored.",
+    desc: "Write a spec-correct llms.txt — a plain-text brief of your business — from five fields. Free, in your browser, nothing stored. Includes a straight answer on what the file does and doesn't do.",
     live: true,
+    who: "Founders, marketers and developers who've been told they need an llms.txt and want one that's actually valid — plus anyone being quoted for a \"GEO package\" who wants to know what the cheap part looks like.",
+    what: "Five fields: business name, one-line summary, services, key pages, contact. It writes the H1, the blockquote summary and the linked sections in the order the spec calls for, then hands you the file to copy or download. Nothing is uploaded — the whole thing runs client-side.",
+    honest:
+      "Google has confirmed its search systems ignore llms.txt, and analysis across ~300,000 domains found no measurable link between having one and being cited by AI. This tool is free because the file is the cheap part of GEO, not the valuable part.",
   },
 ];
 
@@ -49,16 +54,16 @@ const jsonld = JSON.stringify({
 
 <Studio
   title="Free Web Tools — SEO, GEO & Site Utilities · Divyansh Sood"
-  description="Free, no-sign-up web tools by Divyansh Sood — starting with an llms.txt generator that makes your site readable by AI assistants. Runs in your browser."
+  description="Free, no-sign-up web tools by Divyansh Sood — starting with an llms.txt generator that writes a spec-correct file in your browser. Nothing stored, no email wall."
   canonical={canonical}
   keywords="free web tools, llms.txt generator, GEO tools, SEO tools, free developer tools, AI SEO tools"
   ogTitle="Free web tools"
   ogDescription="Practical, free tools for founders and marketers — starting with an llms.txt generator. No sign-up."
+  topics={[TOPICS.seo, TOPICS.ai, TOPICS.webDevelopment]}
   jsonld={jsonld}
 >
   <main>
     <header class="cs-hero">
-      <div class="cs-hero-bg" aria-hidden="true"></div>
       <div class="wrap">
         <div class="cs-eyebrow">
           <span>Tools</span><span>Free · no sign-up</span><span>2026</span>
@@ -68,6 +73,43 @@ const jsonld = JSON.stringify({
       </div>
     </header>
 
+    <section class="cs-sec" aria-labelledby="why-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="why-h">Why these exist</h2>
+          <span class="mono">The deal</span>
+        </div>
+        <div class="cs-body" data-reveal>
+          <div class="cs-card span2">
+            <span class="cs-tag">No email wall</span>
+            <p>
+              Every tool here came out of a job. A client needed something, I wrote it once properly instead of
+              twice badly, and it turned out to be useful to more than one person. So it's on the site, free, with
+              no form in front of it. You don't give me an email address, I don't get a lead, and you get the
+              thing you came for. If it's useful and you later want the full build done properly, you know where
+              I am — that's the entire funnel.
+            </p>
+          </div>
+          <div class="cs-card">
+            <span class="cs-tag">Runs in your browser</span>
+            <p>
+              Nothing you type is uploaded, logged or stored. These are static pages with the logic in
+              client-side JavaScript, so your business details, draft copy and URLs never leave your device.
+              Works offline once the page has loaded.
+            </p>
+          </div>
+          <div class="cs-card">
+            <span class="cs-tag">Honest about limits</span>
+            <p>
+              Each tool says what it does and what it doesn't. The llms.txt generator tells you up front that
+              Google ignores the file it produces — because a tool that oversells itself costs you more than the
+              half hour it saved.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="cs-sec" aria-labelledby="tools-h">
       <div class="wrap">
         <div class="cs-sec-head">
@@ -76,11 +118,26 @@ const jsonld = JSON.stringify({
         </div>
         <div class="cs-body" data-reveal>
           {tools.map((t) => (
-            <a class="cs-card" href={t.href} style="text-decoration:none;color:inherit;display:block;">
+            <a class="cs-card span2" href={t.href} style="text-decoration:none;color:inherit;display:block;">
               <span class="cs-tag">{t.tag}</span>
               <h3 class="cs-card-h2" style="font-family:'Anton',sans-serif;font-weight:400;text-transform:uppercase;font-size:clamp(22px,3vw,32px);letter-spacing:0;line-height:1;margin-bottom:12px;">{t.name}</h3>
               <p>{t.desc}</p>
-              <p style="margin-top:14px;color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;">Open the tool →</p>
+              {t.what && (
+                <p style="margin-top:12px;">
+                  <strong>What it does.</strong> {t.what}
+                </p>
+              )}
+              {t.who && (
+                <p style="margin-top:12px;">
+                  <strong>Who it's for.</strong> {t.who}
+                </p>
+              )}
+              {t.honest && (
+                <p style="margin-top:12px;color:#A8A69E;">
+                  <strong>The honest caveat.</strong> {t.honest}
+                </p>
+              )}
+              <p style="margin-top:14px;color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;">Open the {t.name} →</p>
             </a>
           ))}
         </div>

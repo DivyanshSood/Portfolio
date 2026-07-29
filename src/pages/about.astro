@@ -47,7 +47,12 @@ const jsonld = JSON.stringify({
       description:
         "Divyansh Sood runs a 1-person studio out of Himachal Pradesh, India — custom-coded websites, stores and web apps for founders worldwide.",
       isPartOf: { "@id": `${SITE}/#website` },
-      about: { "@type": "Person", name: "Divyansh Sood" },
+      // Points at the Person entity rather than repeating a bare name, so the
+      // subject of this page resolves to the node carrying the job title,
+      // photo, expertise and verified profiles. completeGraph() in
+      // Studio.astro defines that node in this same document.
+      about: { "@id": `${SITE}/#person` },
+      mainEntity: { "@id": `${SITE}/#person` },
     },
     {
       "@type": "BreadcrumbList",
@@ -74,11 +79,9 @@ const jsonld = JSON.stringify({
         "AI integration",
         "Conversion-focused design",
       ],
-      // Imported, never hardcoded. This array used to be a literal copy of
-      // SAME_AS, which meant /about/ silently drifted: the LinkedIn URL here
-      // stayed on the old numeric vanity long after site.mjs was the single
-      // source everywhere else — on the page most likely to be read as the
-      // identity record. Add a profile in site.mjs and it lands here too.
+      // Imported, never hardcoded. A literal copy here drifts from site.mjs
+      // on the one page most likely to be read as the identity record. Add a
+      // profile in site.mjs and it lands here too.
       sameAs: SAME_AS,
     },
   ],
@@ -100,7 +103,6 @@ const jsonld = JSON.stringify({
 >
   <main>
     <header class="cs-hero">
-      <div class="cs-hero-bg" aria-hidden="true"></div>
       <div class="wrap">
         <div class="cs-eyebrow">
           <span>About</span><span>Solo studio · Himalayas</span><span>2022 — 2026</span>
@@ -140,7 +142,7 @@ const jsonld = JSON.stringify({
               role="img"
             >
               <span style="font-family:'Archivo';font-weight:900;font-size:clamp(64px,12vw,120px);letter-spacing:-.05em;color:#fff;opacity:.9;">DS</span>
-              <span style="position:absolute;bottom:14px;left:0;right:0;text-align:center;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#fff;opacity:.5;">Founder photo</span>
+              <span style="position:absolute;bottom:14px;left:0;right:0;text-align:center;font-family:'JetBrains Mono',monospace;font-size:var(--fs-label);letter-spacing:var(--ls-label);text-transform:uppercase;color:#fff;opacity:.5;">Founder photo</span>
             </div>
           )}
 
@@ -148,7 +150,7 @@ const jsonld = JSON.stringify({
             <p style="margin:0;font-size:clamp(18px,2vw,21px);line-height:1.5;font-weight:600;max-width:620px;">I'm Divyansh. I run a 1-person studio from a small town in Himachal Pradesh, India — no agency floor, no account managers, just me, designing and building websites for founders who care about outcomes, not theme marketplaces.</p>
             <p style="margin:18px 0 0;font-size:16px;line-height:1.62;max-width:620px;opacity:.84;">Twenty-plus products shipped since 2022 — marketing sites, web apps, stores, dashboards, and my own AI product. Most in 3–4 weeks. Every one custom-coded, conversion-led, built to last longer than the trend that prompted it. IST working hours (10am–7pm) overlap with US mornings, UK afternoons and Gulf evenings — calls in your zone, async when you want it.</p>
 
-            <div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:auto;padding-top:26px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;opacity:.62;">
+            <div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:auto;padding-top:26px;font-family:'JetBrains Mono',monospace;font-size:var(--fs-label);letter-spacing:.12em;text-transform:uppercase;opacity:.62;">
               <span>Divyansh Sood — founder</span>
               <span>Himachal · India · IST +5:30</span>
             </div>
@@ -178,7 +180,7 @@ const jsonld = JSON.stringify({
                 >
                   <a
                     class="badge-base__link LI-simple-link about-li-card"
-                    href="https://in.linkedin.com/in/divyanshsood?trk=profile-badge"
+                    href="https://www.linkedin.com/in/divyanshsood/"
                     target="_blank"
                     rel="noopener"
                   >
@@ -206,7 +208,7 @@ const jsonld = JSON.stringify({
           <h2 id="num-h">By the numbers</h2>
           <span class="mono">Snapshot</span>
         </div>
-        <div class="cs-metrics" data-reveal>
+        <div class="cs-metrics cs-metrics-rail" data-reveal>
           {stats.map((m) => (
             <div class="cs-metric"><span class="cs-metric-v">{m.v}</span><span class="cs-metric-l">{m.l}</span></div>
           ))}
@@ -320,9 +322,9 @@ const jsonld = JSON.stringify({
        interaction only.
        ============================================================ */
 
-    /* Roomier rhythm + bigger, more editorial section headings. */
-    main .cs-sec { padding: clamp(58px, 7vw, 108px) 0; }
-    main .cs-sec-head { align-items: flex-end; margin-bottom: clamp(30px, 4vw, 52px); }
+    /* Rhythm, section-head alignment and hero clearance are shared — they live
+       in case-study.css and Breadcrumbs.astro now. What stays here is the one
+       thing that is genuinely this page's: a larger editorial heading scale. */
     main .cs-sec-head h2 {
       font-family: 'Anton', sans-serif;
       font-weight: 400;
@@ -333,8 +335,7 @@ const jsonld = JSON.stringify({
     }
     main .cs-sec-head .mono { color: #8A8A93; }
 
-    /* Hero: tighten the lead and add a hairline accent under the eyebrow. */
-    main .cs-hero { padding-top: clamp(120px, 16vw, 160px); }
+    /* Hero: tighten the lead. */
     main .cs-lead { max-width: 64ch; font-size: clamp(17px, 1.7vw, 21px); }
 
     /* ---- LinkedIn profile badge ----
@@ -388,13 +389,13 @@ const jsonld = JSON.stringify({
     main .about-li-go {
       margin-left: auto;
       flex: none;
-      font-size: 10px;
+      font-size: var(--fs-label);
       letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--accent, #d9ff3c);
       opacity: 0.85;
     }
-    @media (max-width: 560px) {
+    @media (max-width: 480px) {
       main .about-li-card { flex-wrap: wrap; }
       main .about-li-go { margin-left: 58px; }
     }
@@ -415,25 +416,10 @@ const jsonld = JSON.stringify({
     main .about-li-embed .LI-profile-badge { width: 100%; }
     main .about-li-embed :global(iframe) { max-width: 100%; border: 0; }
 
-    /* ---- By the numbers → borderless giant figures with hairlines ---- */
-    main .cs-metrics {
-      gap: 0;
-      border-top: 1px solid rgba(255, 255, 255, 0.16);
-    }
-    main .cs-metric {
-      border: 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 0;
-      background: none;
-      padding: clamp(22px, 3vw, 34px) 22px clamp(22px, 3vw, 34px) 0;
-    }
+    /* ---- By the numbers → borderless giant figures with hairlines ----
+       The rail itself is `.cs-metrics-rail` in case-study.css; only the figure
+       size is this page's (it runs the largest of the three). */
     main .cs-metric-v { font-size: clamp(40px, 6vw, 88px); line-height: 0.88; }
-    main .cs-metric-l { margin-top: 12px; }
-    @media (min-width: 721px) {
-      main .cs-metric { border-right: 1px solid rgba(255, 255, 255, 0.1); padding-left: clamp(20px, 2.4vw, 34px); }
-      main .cs-metric:first-child { padding-left: 0; }
-      main .cs-metric:last-child { border-right: 0; }
-    }
 
     /* ---- Cards: subtle lift + accent edge on hover ---- */
     main .cs-card {
@@ -526,14 +512,8 @@ const jsonld = JSON.stringify({
 
     /* ---- Responsive ---- */
     @media (max-width: 720px) {
-      /* `main .cs-sec` above out-specifies the shared responsive.css phone
-         rules, so re-tighten the section rhythm here. */
-      main .cs-sec { padding: 44px 0; }
-      main .cs-sec-head { margin-bottom: 22px; }
-      main .cs-hero { padding-top: 104px; }
       main .about-founder { grid-template-columns: 1fr; }
       main .about-founder-photo { max-width: 420px; }
-      main .cs-metrics { grid-template-columns: 1fr 1fr; }
       main .about-time-row { grid-template-columns: 1fr; gap: 4px; }
       main .about-time-year { padding-top: 0; }
     }

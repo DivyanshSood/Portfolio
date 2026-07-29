@@ -1,7 +1,8 @@
 ---
 import Studio from "../../layouts/Studio.astro";
 import RelatedPosts from "../../components/RelatedPosts.astro";
-import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+import PostFaq from "../../components/PostFaq.astro";
+import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
 import { coverBase, coverSrcset, COVER_SIZES_POST } from "../../lib/images.mjs";
 
 const slug = "how-to-choose-web-developer-himachal";
@@ -15,6 +16,29 @@ const readMins = post.readMins;
 const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
 const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
 
+const faqs = [
+  {
+    q: "What should I ask before hiring a web developer?",
+    a: "Ask to see something they built that's still live, and check it on your phone. Ask who owns the code and hosting when it's done. Ask what happens if you need a change in six months. Ask what's explicitly not included. Vague answers to any of those are the answer.",
+  },
+  {
+    q: "What are the red flags when hiring a developer?",
+    a: "No live work you can visit. Reluctance to put scope in writing. Pricing that only makes sense as a monthly fee you can never stop paying. Hosting or a domain registered in their name rather than yours. And anyone who agrees to every request without once pushing back \u2014 that's not service, it's a lack of judgment you'll pay for later.",
+  },
+  {
+    q: "How much should a business website cost in India?",
+    a: "There's no honest single figure, and anyone quoting one before understanding your scope is guessing. What moves the number is page count, whether you need to edit it yourself, and whether payments or logins are involved. What matters more than the number is that it's fixed and in writing before work starts, so it can't drift.",
+  },
+  {
+    q: "Should I hire a local developer or a remote one?",
+    a: "Local helps if you want to meet, and it means someone who understands your market. Remote widens the pool considerably. Either works \u2014 what actually predicts the outcome is whether they reply clearly and quickly, because that's exactly how the project will run once you've paid.",
+  },
+  {
+    q: "What should be in the contract?",
+    a: "Scope in specifics, a fixed price, a timeline with milestones, who supplies content and by when, what happens if that content is late, ownership of code and hosting transferring to you, and what post-launch support includes. Content deadlines are the clause most often missing and the most common cause of a project slipping.",
+  },
+];
+
 const jsonld = JSON.stringify({
   "@context": "https://schema.org",
   "@graph": [
@@ -25,18 +49,16 @@ const jsonld = JSON.stringify({
       description: post.description,
       datePublished: iso(post.pubDate),
       dateModified: iso(post.updatedDate || post.pubDate),
-      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
-      publisher: {
-        "@type": "Organization",
-        "@id": `${SITE}/#studio`,
-        name: "Divyansh Sood® Studio",
-        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
-      },
-      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      author: authorNode(SITE),
+      publisher: publisherNode(SITE),
+      isPartOf: websiteNode(SITE),
       mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
       image: ogImage,
       articleSection: primaryTag,
       keywords: post.tags.join(", "),
+      // Resolves the free-text tags above to public concept identifiers, so a
+      // parser knows "Astro" means the framework and "GEO" isn't geography.
+      about: topicsForTags(post.tags),
       wordCount: 1142,
       timeRequired: `PT${readMins}M`,
       speakable: {
@@ -53,6 +75,13 @@ const jsonld = JSON.stringify({
         { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
         { "@type": "ListItem", position: 3, name: post.title, item: canonical },
       ],
+    },
+    {
+      // FAQ rich results were retired by Google in May 2026, so this earns no
+      // SERP feature. It stays because answer engines still parse it and every
+      // question below is rendered visibly on the page.
+      "@type": "FAQPage",
+      mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
     },
   ],
 });
@@ -76,7 +105,6 @@ const jsonld = JSON.stringify({
 >
   <main>
     <header class="post-hero">
-      <div class="post-hero-bg" aria-hidden="true"></div>
       <div class="wrap narrow">
         <div class="eyebrow">
           <span>{primaryTag}</span>
@@ -194,6 +222,8 @@ const jsonld = JSON.stringify({
       <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
     </article>
 
+    <PostFaq faqs={faqs} idPrefix="faq-hc" />
+
     <RelatedPosts slug={slug} audience={post.audience} />
 
     <section class="post-foot-cta">
@@ -238,3 +268,4 @@ const jsonld = JSON.stringify({
     </section>
   </main>
 </Studio>
+

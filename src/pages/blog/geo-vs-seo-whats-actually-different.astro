@@ -1,7 +1,8 @@
 ---
 import Studio from "../../layouts/Studio.astro";
 import RelatedPosts from "../../components/RelatedPosts.astro";
-import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+import PostFaq from "../../components/PostFaq.astro";
+import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
 import { coverBase, coverSrcset, COVER_SIZES_POST } from "../../lib/images.mjs";
 
 const slug = "geo-vs-seo-whats-actually-different";
@@ -15,6 +16,33 @@ const readMins = post.readMins;
 const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
 const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
 
+/* Questions real buyers ask, answered in full. This array is the single
+   source for both the visible accordion and the FAQPage node above — Google
+   requires FAQ markup to match content on the page, and deriving both from one
+   array is what stops them drifting. */
+const faqs = [
+  {
+    q: "What is the difference between GEO and SEO?",
+    a: "SEO optimises to win a click; GEO — generative engine optimization — optimises to be the answer. Classic SEO competes for a position in a list of links a person then chooses from. GEO competes to be the source a model draws on when it writes the answer instead, which means the unit of success is a citation or a mention rather than a ranking position.",
+  },
+  {
+    q: "Does GEO replace SEO?",
+    a: "No, and treating it as a replacement is the fastest way to waste a quarter. The two compound: assistants overwhelmingly retrieve from pages that are already indexed and already ranking, so classic SEO remains the delivery mechanism. GEO is a layer on top that changes how you write and mark up what search already brings people to.",
+  },
+  {
+    q: "What actually changes in practice with GEO?",
+    a: "Mostly the shape of the writing. Answers move to the top of the page instead of the bottom. Sentences become self-contained, so a fragment quoted without its paragraph still makes sense. Claims get attached to evidence in the same breath. Structured data starts doing real work identifying who is speaking and what they're qualified to say. None of it is exotic; most of it is just writing that survives being excerpted.",
+  },
+  {
+    q: "How do you measure GEO?",
+    a: "Badly, compared to SEO, and anyone claiming otherwise is selling something. There's no Search Console for assistants. What you can do is track branded mentions, ask the assistants the questions your buyers ask and record what they say over time, and watch referral traffic from AI sources in analytics. It's closer to brand measurement than to rank tracking, and the honest version of the answer says so.",
+  },
+  {
+    q: "Is llms.txt part of GEO?",
+    a: "It's part of the toolkit and it is oversold. Google has confirmed its search systems ignore llms.txt entirely, and large-scale analysis has found no measurable relationship between having the file and being cited. It costs nothing and it's genuinely useful when an agent or a person points a model straight at your site — but it is not the lever, and treating it as one is how GEO budgets get wasted.",
+  },
+];
+
 const jsonld = JSON.stringify({
   "@context": "https://schema.org",
   "@graph": [
@@ -25,18 +53,16 @@ const jsonld = JSON.stringify({
       description: post.description,
       datePublished: iso(post.pubDate),
       dateModified: iso(post.updatedDate || post.pubDate),
-      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
-      publisher: {
-        "@type": "Organization",
-        "@id": `${SITE}/#studio`,
-        name: "Divyansh Sood® Studio",
-        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
-      },
-      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      author: authorNode(SITE),
+      publisher: publisherNode(SITE),
+      isPartOf: websiteNode(SITE),
       mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
       image: ogImage,
       articleSection: primaryTag,
       keywords: post.tags.join(", "),
+      // Resolves the free-text tags above to public concept identifiers, so a
+      // parser knows "Astro" means the framework and "GEO" isn't geography.
+      about: topicsForTags(post.tags),
       wordCount: post.wordCount,
       timeRequired: `PT${readMins}M`,
       speakable: {
@@ -53,6 +79,18 @@ const jsonld = JSON.stringify({
         { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
         { "@type": "ListItem", position: 3, name: post.title, item: canonical },
       ],
+    },
+    {
+      // Google retired FAQ rich results in May 2026, so this earns no SERP
+      // enhancement. It stays because answer engines read Q&A pairs well, and
+      // because every question below is rendered visibly by <PostFaq>.
+      "@type": "FAQPage",
+      "@id": `${canonical}#faq`,
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
     },
   ],
 });
@@ -76,7 +114,6 @@ const jsonld = JSON.stringify({
 >
   <main>
     <header class="post-hero">
-      <div class="post-hero-bg" aria-hidden="true"></div>
       <div class="wrap narrow">
         <div class="eyebrow">
           <span>{primaryTag}</span>
@@ -121,7 +158,7 @@ const jsonld = JSON.stringify({
 <h2 id="what-actually-changes-in-practice">What actually changes in practice</h2>
 <p><strong>The unit of competition shrinks.</strong> SEO competes page against page. GEO competes sentence against sentence. A model lifts the clearest, most self-contained factual statement it can find — so “Founded in 2022, the studio has shipped 20+ custom-coded sites” beats three paragraphs of brand story. You’re writing lines to be quoted, not pages to be ranked.</p>
 <p><strong>Keywords lose power; entities gain it.</strong> Models care less about matching a query string and more about understanding <em>who you are</em>: a consistent name, address, service list and history across your site, your schema, your Google Business Profile and every place you’re mentioned. Contradictions between them read as unreliability.</p>
-<p><strong>New files matter.</strong> An <a href="/blog/what-is-llms-txt-blog/">llms.txt</a> — a curated plain-text brief of your business at your domain root — plus robots rules that admit AI crawlers. Classic SEO has no equivalent, because Google never asked you to summarize yourself.</p>
+<p><strong>New files matter.</strong> An <a href="/blog/what-is-llms-txt/">llms.txt</a> — a curated plain-text brief of your business at your domain root — plus robots rules that admit AI crawlers. Classic SEO has no equivalent, because Google never asked you to summarize yourself.</p>
 <p><strong>Structure stops being optional.</strong> JSON-LD schema (Organization, Service, FAQ, Article) hands the model your facts in a format it can’t misread. In SEO, schema earns rich snippets — nice to have. In GEO, it’s closer to load-bearing.</p>
 <p><strong>Measurement changes.</strong> Rankings and clicks still measure SEO. GEO shows up as referrers from chatgpt.com and perplexity.ai in your analytics, and — more bluntly — in whether the assistants name you when asked about your category. Ask them monthly. It’s the most honest dashboard you’ll get.</p>
 <hr>
@@ -141,6 +178,8 @@ const jsonld = JSON.stringify({
 <p><em>I’m Divyansh Sood. I implement <a href="/services/seo-geo-services/">SEO and GEO together, directly in your codebase</a> — schema graphs, llms.txt, quotable copy, Core Web Vitals — as a developer, not a slide deck. The full playbook is in <a href="/blog/make-your-brand-quotable-by-ai-geo-2026/">how to make your brand quotable by AI</a>. Or just <a href="mailto:hello@divyanshsood.com">email me</a> — ask the assistants about your category first, and tell me what they said.</em></p>
       <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
     </article>
+
+    <PostFaq faqs={faqs} />
 
     <RelatedPosts slug={slug} audience={post.audience} />
 

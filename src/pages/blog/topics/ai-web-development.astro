@@ -1,0 +1,235 @@
+---
+// ===========================================================================
+// /blog/topics/ai-web-development/ — the AI cluster hub.
+//
+// The blog was flat: 37 posts reachable from /blog/ and from each other's
+// RelatedPosts block, with no page that owned a topic. Head terms like "AI in
+// web development" are too broad for any single post to rank for, so the
+// cluster had no centre — and no internal-link target that concentrated its
+// authority.
+//
+// Grouping is editorial (GROUPS below) rather than purely tag-derived, because
+// the sub-themes are a reading order, not a taxonomy. The safety net matters
+// though: any AI-tagged post NOT listed in a group still renders in the final
+// group, so adding a post to the manifest can never silently orphan it here.
+// ===========================================================================
+import Studio from "../../../layouts/Studio.astro";
+import { SITE, DEFAULT_OG, CALENDLY_URL, POSTS, TOPICS } from "../../../lib/blog.mjs";
+
+const canonical = `${SITE}/blog/topics/ai-web-development/`;
+
+/* Tags that mark a post as belonging to this cluster. Matched case-insensitively
+   against each post's `tags`, so "AI", "AI development" and "AI features" all
+   qualify without needing to be listed separately. */
+const AI_TAGS = ["ai", "ai development", "ai-assisted development", "ai features", "ai search", "llm", "rag", "geo", "claude", "claude code", "chatgpt", "gpt", "gemini", "chatbot", "llms.txt", "automation"];
+
+/** A manifest entry. POSTS comes from a .mjs, so the shape is inferred from it. */
+type Post = (typeof POSTS)[number];
+
+const isAiPost = (p: Post) =>
+  (p.tags || []).some((t: string) => AI_TAGS.includes(t.toLowerCase()));
+
+const aiPosts = POSTS.filter(isAiPost);
+const bySlug = new Map(aiPosts.map((p) => [p.slug, p]));
+
+/* Editorial reading order. Slugs that don't exist yet are filtered out, so this
+   file stays valid while posts are being added to the manifest one at a time. */
+const GROUPS = [
+  {
+    id: "building-with-ai",
+    title: "Building websites with AI",
+    blurb:
+      "What AI-assisted development actually looks like on a real client build — where it saves time, where it costs time, and what still has to be done by hand.",
+    slugs: [
+      "how-ai-is-transforming-website-development",
+      "benefits-of-ai-in-web-development",
+      "challenges-and-limitations-of-ai-in-web-development",
+      "future-of-ai-assisted-web-development",
+      "how-i-build-websites-with-claude-code",
+      "learn-ai-assisted-development-2026",
+    ],
+  },
+  {
+    id: "shipping-ai-features",
+    title: "Shipping AI features into production",
+    blurb:
+      "The engineering side: which AI features earn their place on a business website, how retrieval works when it's done honestly, and what differs between providers under real traffic.",
+    slugs: [
+      "ai-features-that-actually-work-on-websites",
+      "rag-for-business-websites",
+      "claude-vs-gpt-vs-gemini-for-product-features",
+      "ai-chatbot-for-indian-business",
+    ],
+  },
+  {
+    id: "ai-vs-developer",
+    title: "AI builders vs hiring a developer",
+    blurb:
+      "I build client sites by hand and I built an AI website generator. Both sides of that comparison, without the sales pitch from either direction.",
+    slugs: ["ai-website-builders-vs-developer-2026", "ai-website-builder-vs-developer-india"],
+  },
+  {
+    id: "found-by-ai",
+    title: "Being found and cited by AI",
+    blurb:
+      "The other half of AI and the web: not building with it, but being visible inside it when someone asks an assistant for a recommendation.",
+    slugs: [
+      "get-your-business-recommended-by-chatgpt",
+      "geo-vs-seo-whats-actually-different",
+      "make-your-brand-quotable-by-ai-geo-2026",
+      "what-is-llms-txt",
+      "how-indian-businesses-use-ai-2026",
+    ],
+  },
+];
+
+// The type predicate (rather than a bare `.filter(Boolean)`) is what tells
+// TypeScript the undefined entries are gone — otherwise every downstream `p`
+// stays `Post | undefined` and `astro check` fails on each use.
+const grouped = GROUPS.map((g) => ({
+  ...g,
+  posts: g.slugs.map((s) => bySlug.get(s)).filter((p): p is Post => Boolean(p)),
+})).filter((g) => g.posts.length > 0);
+
+// Safety net: anything AI-tagged that no group claimed.
+const claimed = new Set(grouped.flatMap((g) => g.posts.map((p) => p.slug)));
+const unclaimed = aiPosts.filter((p) => !claimed.has(p.slug));
+const sections = unclaimed.length
+  ? [...grouped, { id: "more", title: "More on AI", blurb: "Other writing that touches the same ground.", posts: unclaimed }]
+  : grouped;
+
+const total = sections.reduce((n, s) => n + s.posts.length, 0);
+const newest = aiPosts.map((p) => p.updatedDate || p.pubDate).sort().at(-1);
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "@id": `${canonical}#collection`,
+      name: "AI in web development — the complete guide",
+      description:
+        "Every article on AI and web development from Divyansh Sood® Studio: building sites with AI assistance, shipping AI features to production, AI builders versus hiring a developer, and being cited by AI assistants.",
+      url: canonical,
+      inLanguage: "en",
+      isPartOf: { "@id": `${SITE}/#website` },
+      // Was a bare `{ name: "Artificial intelligence in web development" }` — a
+      // string with nothing to resolve it to. These carry sameAs identifiers.
+      about: [TOPICS.ai, TOPICS.webDevelopment, TOPICS.llm],
+      ...(newest ? { dateModified: new Date(newest).toISOString().slice(0, 10) } : {}),
+    },
+    {
+      "@type": "ItemList",
+      "@id": `${canonical}#posts`,
+      name: "Articles on AI in web development",
+      numberOfItems: total,
+      itemListElement: sections
+        .flatMap((s) => s.posts)
+        .map((p, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          url: `${SITE}/blog/${p.slug}/`,
+          name: p.title,
+        })),
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: "AI in web development", item: canonical },
+      ],
+    },
+  ],
+});
+---
+
+<Studio
+  title="AI in Web Development — The Complete Guide"
+  description="Everything I've written on AI and web development: building with AI, shipping AI features, AI builders vs developers, being cited by assistants."
+  canonical={canonical}
+  keywords="AI web development, AI in web development, AI website development, AI assisted development, AI web design, artificial intelligence web development"
+  ogTitle="AI in web development — the complete guide"
+  ogDescription="Written from building client sites with AI assistance and running an AI website generator on three model providers."
+  ogImage={DEFAULT_OG}
+  ogImageW={1200}
+  ogImageH={630}
+  jsonld={jsonld}
+>
+  <main>
+    <header class="post-hero">
+      <div class="wrap">
+        <div class="eyebrow">
+          <span>Topic</span>
+          <span>({String(total).padStart(2, "0")} articles)</span>
+          <span>Divyansh Sood® Studio</span>
+        </div>
+        <h1 class="post-title">AI in web<br />development.</h1>
+        <p class="post-lead">
+          Everything I've written about AI and building for the web — from someone who
+          uses it daily on client work and who built an AI website generator that runs on
+          three different model providers.
+        </p>
+      </div>
+    </header>
+
+    <article class="wrap narrow post-body">
+      <p>Most writing about AI in web development is written by people who don't build websites. It arrives as a list of tools, a prediction that developers are finished, and a call to action for an agency that will sell you the future. I've read a lot of it and recognised very little.</p>
+      <p>This is the other version. I run a one-person studio and ship client sites with AI assistance every week, so the claims here are ones I've had to live with afterwards — including the ones that turned out to be wrong. I also built and run <a href="/projects/webseek/">WebSeek.ai</a>, an AI website generator that takes one prompt to a deployed site with a model picker for Claude, GPT and Gemini. Running the same product on three providers at once means the differences between them are things I've debugged at 2am rather than read in a comparison table.</p>
+      <p>That gives me two vantage points most writing on this topic doesn't have: I know what AI genuinely does to the economics of building a website, and I know exactly where it stops being useful — because I've shipped the product that hits that ceiling.</p>
+      <p>The short version, before the articles: AI has substantially changed how fast the mechanical parts of a build go, and has changed almost nothing about the parts that decide whether a website works. Judgment about what to build, why a visitor hesitates, which trade-off to accept — all still yours. Anyone selling you the opposite is selling something.</p>
+      <p>The articles below are grouped by what you're trying to do. If you're deciding whether to hire a developer at all, start with the third group. If you're a developer working out how to use these tools well, start with the first.</p>
+      <hr />
+    </article>
+
+    {
+      sections.map((s) => (
+        <section class="wrap narrow" aria-labelledby={`grp-${s.id}`}>
+          <nav class="post-related" aria-label={s.title}>
+            <h2 class="post-related-h" id={`grp-${s.id}`}>{s.title}</h2>
+            <p style="color:#B4B2AC;font-size:15px;line-height:1.66;max-width:62ch;margin:0 0 6px;">{s.blurb}</p>
+            <ul>
+              {s.posts.map((p) => (
+                <li>
+                  <a href={`/blog/${p.slug}/`}>
+                    <span class="rp-title">{p.title}</span>
+                    <span class="rp-meta">
+                      {p.tags?.[0]} · {p.readMins} min read
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </section>
+      ))
+    }
+
+    <article class="wrap narrow post-body" style="margin-top:40px;">
+      <hr />
+      <h2 id="working-together">If you'd rather not read all of it</h2>
+      <p>The practical summary: AI is worth using and not worth trusting unsupervised. It makes a good developer meaningfully faster and makes an inexperienced one produce more code they can't debug. If you're commissioning a website, what matters is not whether your developer uses AI — almost everyone does now — but whether they can tell you where they didn't, and why.</p>
+      <p>If you're weighing up a build, the <a href="/services/website-development/">website development</a> page covers how I work, and <a href="/services/ai-development/">AI development</a> covers shipping AI features into an existing product. If you'd rather see evidence first, the <a href="/portfolio/">work</a> and <a href="/results/">results</a> are there.</p>
+    </article>
+
+    <section class="wrap narrow" aria-label="More from the studio">
+      <nav class="post-hubs">
+        <a href="/services/website-development/">Website development</a>
+        <a href="/services/ai-development/">AI development</a>
+        <a href="/projects/webseek/">WebSeek.ai case study</a>
+        <a href="/blog/">All writing</a>
+      </nav>
+    </section>
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        <h2>Building something with AI in it?</h2>
+        <p>Tell me what you're trying to do in three sentences. I'll tell you whether a model is the right tool, what the smallest useful version looks like — and if the honest answer is that you don't need AI for this, you'll get that instead.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="mailto:hello@divyanshsood.com">Email me <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost" href={CALENDLY_URL} target="_blank" rel="noopener">Book a 15-min intro <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Studio>

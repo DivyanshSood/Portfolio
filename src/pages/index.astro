@@ -5,6 +5,7 @@ import { SITE, CALENDLY_URL } from "../lib/site.mjs";
 import { projects as allProjects } from "../lib/projects/data.mjs";
 import { POSTS } from "../lib/blog.mjs";
 import { isLocalImage, localSrcset } from "../lib/images.mjs";
+import { TOPICS } from "../lib/entity.mjs";
 
 // The homepage is by far the strongest page on the site (it takes ~95% of all
 // search impressions) and it linked to /blog/ but to no individual post, and to
@@ -164,6 +165,7 @@ const ARROW = "M7 17 17 7M8 7h9v9";
   canonical={`${SITE}/`}
   keywords="freelance web developer, freelance web designer, hire freelance developer, Divyansh Sood, custom website design and development, hire web developer, conversion-focused website, Next.js developer, Astro developer, ecommerce website developer, web app MVP developer, SEO web developer, Himachal Pradesh, India"
   ogDescription="Custom-coded websites that convert — designed, built and live in 3–4 weeks. You own the code."
+  topics={[TOPICS.webDevelopment, TOPICS.webDesign, TOPICS.ecommerce, TOPICS.seo]}
   jsonld={jsonld}
   preloadImage={{ href: DECK[0].img, srcset: DECK[0].srcset, sizes: "(max-width:900px) 86vw, 46vw" }}
   preloader
@@ -179,12 +181,12 @@ const ARROW = "M7 17 17 7M8 7h9v9";
       reads as keyword repetition and says nothing a buyer actually searches.
       The bands stay exactly as designed; the headline below them is now real,
       visible, crawlable text. ---------------------------------------------- */}
-  <section id="top" style="position:relative;">
+  <section id="top">
     <div class="hero-fold">
       <div aria-hidden="true" style="display:flex; flex-direction:column; gap:1vw;">
         <div style="overflow:hidden;">
           <div class="dsx-r" data-intro="0">
-            <div data-drift="l" style="display:inline-flex; white-space:nowrap; font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(40px, 8.2vw, 112px); line-height:0.94; text-transform:uppercase; will-change:transform;">
+            <div data-drift="l" style="display:inline-flex; white-space:nowrap; font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(32px, 8.2vw, 112px); line-height:0.94; text-transform:uppercase; will-change:transform;">
               <span style="display:inline-block; padding-right:4vw;">Web Design <span style="color:var(--accent, #D9FF3C);">✦</span> Web Design <span style="color:var(--accent, #D9FF3C);">✦</span> Web Design <span style="color:var(--accent, #D9FF3C);">✦</span></span>
               <span style="display:inline-block; padding-right:4vw;">Web Design <span style="color:var(--accent, #D9FF3C);">✦</span> Web Design <span style="color:var(--accent, #D9FF3C);">✦</span> Web Design <span style="color:var(--accent, #D9FF3C);">✦</span></span>
             </div>
@@ -192,7 +194,7 @@ const ARROW = "M7 17 17 7M8 7h9v9";
         </div>
         <div style="overflow:hidden;">
           <div class="dsx-r" data-intro="110">
-            <div data-drift="r" style="display:inline-flex; white-space:nowrap; font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(40px, 8.2vw, 112px); line-height:0.94; text-transform:uppercase; color:transparent; -webkit-text-stroke:1.5px #F4F2EC; will-change:transform;">
+            <div data-drift="r" class="hero-band-stroke" style="display:inline-flex; white-space:nowrap; font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(32px, 8.2vw, 112px); line-height:0.94; text-transform:uppercase; color:transparent; will-change:transform;">
               <span style="display:inline-block; padding-right:4vw;">Development ► Development ► Development ►</span>
               <span style="display:inline-block; padding-right:4vw;">Development ► Development ► Development ►</span>
             </div>
@@ -200,7 +202,7 @@ const ARROW = "M7 17 17 7M8 7h9v9";
         </div>
         <div style="overflow:hidden;">
           <div class="dsx-r" data-intro="220">
-            <div data-drift="l2" style="display:inline-flex; white-space:nowrap; font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(40px, 8.2vw, 112px); line-height:0.94; text-transform:uppercase; will-change:transform;">
+            <div data-drift="l2" style="display:inline-flex; white-space:nowrap; font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(32px, 8.2vw, 112px); line-height:0.94; text-transform:uppercase; will-change:transform;">
               <span style="display:inline-block; padding-right:4vw;">Conversion <span style="color:var(--accent, #D9FF3C);">↗</span> Conversion <span style="color:var(--accent, #D9FF3C);">↗</span> Conversion <span style="color:var(--accent, #D9FF3C);">↗</span></span>
               <span style="display:inline-block; padding-right:4vw;">Conversion <span style="color:var(--accent, #D9FF3C);">↗</span> Conversion <span style="color:var(--accent, #D9FF3C);">↗</span> Conversion <span style="color:var(--accent, #D9FF3C);">↗</span></span>
             </div>
@@ -231,7 +233,7 @@ const ARROW = "M7 17 17 7M8 7h9v9";
   </section>
 
   {/* ---------- Marquee band ---------- */}
-  <div style="border-top:1px solid rgba(244,242,236,0.14); border-bottom:1px solid rgba(244,242,236,0.14); padding:20px 0; overflow:hidden;">
+  <div class="hp-band">
     <div data-marquee-track style="display:inline-flex; white-space:nowrap; will-change:transform; font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(30px, 4.6vw, 64px); text-transform:uppercase; line-height:1;">
       <span style="display:inline-block; padding-right:3vw;">Custom-coded <span style="color:var(--accent, #D9FF3C);">✦</span> Conversion-focused <span style="color:var(--accent, #D9FF3C);">✦</span> Live in 3–4 weeks <span style="color:var(--accent, #D9FF3C);">✦</span> You own the code <span style="color:var(--accent, #D9FF3C);">✦</span></span>
       <span aria-hidden="true" style="display:inline-block; padding-right:3vw;">Custom-coded <span style="color:var(--accent, #D9FF3C);">✦</span> Conversion-focused <span style="color:var(--accent, #D9FF3C);">✦</span> Live in 3–4 weeks <span style="color:var(--accent, #D9FF3C);">✦</span> You own the code <span style="color:var(--accent, #D9FF3C);">✦</span></span>
@@ -268,9 +270,9 @@ const ARROW = "M7 17 17 7M8 7h9v9";
   </section>
 
   {/* ---------- About statement — sticky, word-by-word scroll reveal ---------- */}
-  <section data-stmt-sec style="height:150vh; position:relative;">
-    <div style="position:sticky; top:0; height:100svh; display:flex; flex-direction:column; justify-content:center; padding:0 4vw;">
-      <div style="font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.14em; color:#8A8A93; display:flex; justify-content:space-between; gap:16px; margin-bottom:4vh;">
+  <section data-stmt-sec class="hp-stmt">
+    <div class="hp-stmt-pin">
+      <div class="hp-eyebrow">
         <span>(ABOUT — 01)</span>
         <span data-hide-m>WHY FOUNDERS HIRE ME</span>
       </div>
@@ -280,13 +282,13 @@ const ARROW = "M7 17 17 7M8 7h9v9";
   </section>
 
   {/* ---------- Selected work — sticky deck of cards ---------- */}
-  <section id="work" style="position:relative;">
-    <div style="padding:12vh 4vw 7vh; display:flex; align-items:flex-end; justify-content:space-between; gap:24px;">
+  <section id="work">
+    <div class="hp-work-head">
       <div>
-        <div style="font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.14em; color:#8A8A93; margin-bottom:22px;">(WORK — 02)</div>
+        <div class="hp-eyebrow">(WORK — 02)</div>
         <h2 style="margin:0; overflow:hidden;"><span class="dsx-r" data-rev style="display:block; font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(52px, 9vw, 130px); line-height:0.92; text-transform:uppercase;">Selected work</span></h2>
       </div>
-      <div data-hide-m style="font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.14em; color:#8A8A93; text-align:right; line-height:1.9;">2024 — 2026<br><span style="color:var(--accent, #D9FF3C);">{String(DECK.length).padStart(2, "0")}</span> OF 09 PROJECTS</div>
+      <div data-hide-m class="hp-eyebrow hp-eyebrow-stack">2024 — 2026<br><span style="color:var(--accent, #D9FF3C);">{String(DECK.length).padStart(2, "0")}</span> OF 09 PROJECTS</div>
     </div>
 
     {/* A single laptop, pinned centre-stage. On scroll the screenshot inside its
@@ -294,7 +296,7 @@ const ARROW = "M7 17 17 7M8 7h9v9";
         swaps in sync — the chassis never moves. The engine (Studio.astro) drives
         [data-screen]/[data-copy] opacity off the same scroll-progress math the
         old clip-path deck used. */}
-    <div data-deck-sec style="height:400vh; position:relative;">
+    <div data-deck-sec class="hp-deck" style={`--deck-n:${DECK.length};`}>
       <div class="dsx-lap-stage">
         {/* Copy column — one block per project, absolutely stacked + cross-faded. */}
         <div class="dsx-lap-copy">
@@ -322,8 +324,12 @@ const ARROW = "M7 17 17 7M8 7h9v9";
                 <span class="dsx-lap-url" data-lap-url>{DECK[0].domain}</span>
               </div>
               <div class="dsx-lap-shots">
+                {/* width/height are the intrinsic 16:10 of the generated ladder
+                    (1920x1200 base). The shots are absolutely positioned and sized by
+                    CSS, so these change no layout — they declare the aspect ratio in
+                    markup instead of leaving it to be inferred after download. */}
                 {DECK.map((p, i) => (
-                  <img data-screen data-idx={i} src={p.img} srcset={p.srcset} sizes="(max-width:900px) 86vw, 46vw" alt={`${p.name} — ${p.tags}`} loading={i === 0 ? "eager" : "lazy"} decoding="async" />
+                  <img data-screen data-idx={i} src={p.img} srcset={p.srcset} sizes="(max-width:900px) 86vw, 46vw" alt={`${p.name} — ${p.tags}`} width="1440" height="900" loading={i === 0 ? "eager" : "lazy"} decoding="async" />
                 ))}
               </div>
             </div>
@@ -331,13 +337,14 @@ const ARROW = "M7 17 17 7M8 7h9v9";
           </div>
         </div>
 
-        <div style="position:absolute; top:88px; right:4vw; font-family:'JetBrains Mono',monospace; letter-spacing:0.14em; display:flex; gap:8px; align-items:baseline;"><span data-deck-num style="color:var(--accent, #D9FF3C); font-size:20px;">01</span><span style="color:#8A8A93; font-size:12px;">/ {String(DECK.length).padStart(2, "0")}</span></div>
-        <div style="position:absolute; left:4vw; right:4vw; bottom:26px; height:1px; background:rgba(244,242,236,0.2);"><div data-deck-bar style="position:absolute; inset:0; transform:scaleX(0); transform-origin:left center; background:var(--accent, #D9FF3C);"></div></div>
+        <div class="hp-deck-count"><span data-deck-num style="color:var(--accent, #D9FF3C); font-size:20px;">01</span><span style="color:#8A8A93; font-size:12px;">/ {String(DECK.length).padStart(2, "0")}</span></div>
+        <div class="hp-deck-rail"><div data-deck-bar style="position:absolute; inset:0; transform:scaleX(0); transform-origin:left center; background:var(--accent, #D9FF3C);"></div></div>
       </div>
     </div>
 
-    {/* The deck shows five of nine and used to offer no way to the other four —
-        /portfolio was reachable only from the burger menu and the footer. */}
+    {/* The deck shows five of nine; this is the only in-page route to the
+        other four. Without it /portfolio is reachable from the burger menu and
+        the footer alone. */}
     <div class="hp-work-out">
       <a href="/portfolio/" class="hp-work-out-a">See all nine projects <span aria-hidden="true">→</span></a>
       <span class="mono">Case studies · live links · results</span>
@@ -345,9 +352,9 @@ const ARROW = "M7 17 17 7M8 7h9v9";
   </section>
 
   {/* ---------- Services ---------- */}
-  <section id="services" style="position:relative;">
-    <div style="padding:clamp(64px, 9vw, 120px) 4vw clamp(56px, 8vw, 104px);">
-      <div style="font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.14em; color:#8A8A93; display:flex; justify-content:space-between; gap:16px; margin-bottom:22px;">
+  <section id="services">
+    <div class="hp-svc">
+      <div class="hp-eyebrow">
         <span>(SERVICES — 03)</span>
         <span data-hide-m>ONE PERSON, END TO END</span>
       </div>
@@ -418,26 +425,28 @@ const ARROW = "M7 17 17 7M8 7h9v9";
   </section>
 
   {/* ---------- Contact ---------- */}
-  <section id="contact" style="position:relative; padding:clamp(64px, 11vh, 130px) 4vw 0; overflow:hidden;">
-    <div style="font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.14em; color:#8A8A93; display:flex; justify-content:space-between; gap:16px; margin-bottom:4vh;">
+  <section id="contact">
+    <div class="hp-eyebrow">
       <span>(CONTACT — 05)</span>
       <span>NEXT STEP</span>
     </div>
     <div style="overflow:hidden;">
       <h2 class="dsx-r" data-rev style="margin:0; font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(80px, 19vw, 300px); line-height:0.85; text-transform:uppercase; letter-spacing:-0.005em;">Let's build<span style="color:var(--accent, #D9FF3C);">.</span></h2>
     </div>
-    <div style="display:flex; flex-wrap:wrap; align-items:center; gap:20px 28px; margin:6vh 0 5vh;">
+    <div class="hp-contact-cta">
       <a class="dsx-cta" data-cursor="BOOK" href={CALENDLY_URL} target="_blank" rel="noopener" style="background:var(--accent, #D9FF3C); color:#0B0B0C; font-weight:600; font-size:15px; letter-spacing:0.02em; padding:20px 34px; border-radius:999px; display:inline-flex; align-items:center; gap:10px;">BOOK A 15-MIN INTRO <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d={ARROW}></path></svg></a>
       <a href="mailto:hello@divyanshsood.com" style="font-family:'JetBrains Mono',monospace; font-size:13px; letter-spacing:0.06em; border-bottom:1px solid rgba(244,242,236,0.3); padding-bottom:4px;">HELLO@DIVYANSHSOOD.COM</a>
-      <span data-hide-m style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.08em; color:#8A8A93; max-width:320px; line-height:1.8;">“I'LL PERSONALLY REVIEW YOUR BRIEF AND REPLY WITHIN TWO HOURS.” — DIVYANSH, FOUNDER</span>
+      {/* No data-hide-m on purpose: this is the trust line directly above the
+          form, on the device most visitors submit from. */}
+      <span class="hp-contact-trust">“I'LL PERSONALLY REVIEW YOUR BRIEF AND REPLY WITHIN TWO HOURS.” — DIVYANSH, FOUNDER</span>
     </div>
 
     {/* Prefer-not-to-call door: a compact project brief. Reuses the existing
         ds-start-form handler (src/scripts/contact-form.js) — same fields as the
         /website-audit intake, so no bespoke copy. WhatsApp sits alongside as a
         delivery-independent fallback. */}
-    <div class="dsx-brief" style="max-width:560px; margin:0 0 12vh; border-top:1px solid rgba(244,242,236,0.14); padding-top:5vh;">
-      <div style="font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.14em; color:#8A8A93; margin-bottom:24px;">OR SEND A BRIEF — NO CALL NEEDED</div>
+    <div class="dsx-brief">
+      <div class="hp-eyebrow">OR SEND A BRIEF — NO CALL NEEDED</div>
       <form id="ds-start-form">
         <div class="dsx-brief-grid">
           <div>
@@ -463,7 +472,7 @@ const ARROW = "M7 17 17 7M8 7h9v9";
 
   {/* ---------- Case overlay (populated + shown by the engine) ---------- */}
   <div data-overlay role="dialog" aria-modal="true" aria-label="Case study" style="display:none; position:fixed; inset:0; z-index:90; background:#0B0B0C; overflow:auto;">
-    <div style="max-width:1240px; margin:0 auto; padding:22px 4vw 90px;">
+    <div style="max-width:1240px; margin:0 auto; padding:var(--sp-2xs) var(--gutter) var(--sp-l);">
       <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; padding-bottom:5vh;">
         <span style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.14em; color:var(--accent, #D9FF3C);">CASE — <span data-o-num>01</span></span>
         <button data-o-close data-cursor="CLOSE" class="dsx-pill" style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.12em; border:1px solid rgba(244,242,236,0.35); border-radius:999px; padding:10px 18px; cursor:pointer; display:inline-flex; align-items:center; gap:8px;">CLOSE <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 5l14 14M19 5 5 19"></path></svg></button>
@@ -476,7 +485,22 @@ const ARROW = "M7 17 17 7M8 7h9v9";
         <div><span style="color:#8A8A93;">SCOPE</span><br><span data-o-scope></span></div>
       </div>
       <div style="position:relative; overflow:hidden; aspect-ratio:16 / 9; background:#131316; margin-bottom:5vh;">
-        <img data-o-img src="" alt="" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover;" />
+        {/* src/alt are filled by the engine when the overlay opens. The wrapper
+            already reserves the box via aspect-ratio, so nothing here can shift
+            layout; the attributes just declare the ladder's intrinsic 16:10.
+            src is a 1×1 transparent GIF, not "" — an empty src makes several
+            browsers resolve it against the document and re-request the current
+            page as if it were an image. */}
+        <img
+          data-o-img
+          src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+          alt=""
+          width="1440"
+          height="900"
+          loading="lazy"
+          decoding="async"
+          style="width:100%; height:100%; object-fit:cover;"
+        />
       </div>
       <p data-o-blurb style="margin:0 0 4vh; max-width:700px; font-size:clamp(17px, 2vw, 21px); line-height:1.65; color:#D9D7D0;"></p>
       <blockquote data-o-quote style="margin:0 0 6vh; max-width:760px; border-left:2px solid var(--accent, #D9FF3C); padding-left:24px;">
@@ -495,15 +519,15 @@ const ARROW = "M7 17 17 7M8 7h9v9";
 
   <style>
     /* ---- Hero headline block --------------------------------------------
-       Anchored to the bottom of the fold, where the old 10.5px footnote sat.
-       The marquee bands above it are decoration; this is the part Google and
-       a first-time visitor actually read, so it carries the H1, the subhead
-       and the only two CTAs in the fold. */
-    /* Bands and headline are stacked flex children, not headline-over-bands.
-       Absolute positioning the headline meant its height (which changes with
-       viewport width as the copy rewraps) had to be guessed as bottom padding,
-       and any guess that was wrong put the H1 straight through the middle of
-       the marquees. Stacking makes the collision structurally impossible. */
+       Anchored to the bottom of the fold. The marquee bands above it are
+       decoration; this is the part Google and a first-time visitor actually
+       read, so it carries the H1, the subhead and the only two CTAs in the fold.
+
+       Bands and headline are stacked flex children, never headline-over-bands.
+       Absolutely positioning the headline means guessing its height as bottom
+       padding — and it changes with viewport width as the copy rewraps, so a
+       wrong guess puts the H1 through the middle of the marquees. Stacking
+       makes that collision structurally impossible. */
     .hero-fold {
       min-height: 100svh; display: flex; flex-direction: column; justify-content: center;
       overflow: hidden; position: relative;
@@ -511,16 +535,24 @@ const ARROW = "M7 17 17 7M8 7h9v9";
          above the fold at 1440x900 — putting a CTA in the first screen is the
          entire point of the block. */
       gap: clamp(20px, 3.4vh, 44px);
-      padding: 88px 0 clamp(32px, 4.5vh, 56px);
+      padding: calc(var(--header-h) + var(--sp-2xs)) 0 var(--sp-xs);
     }
+    /* 1.5px is a hairline against the desktop 112px but reads as muddy fill at
+       the mobile size, where it is proportionally ~3x heavier. */
+    .hero-band-stroke { -webkit-text-stroke: 1.5px #F4F2EC; }
+    @media (max-width: 720px) { .hero-band-stroke { -webkit-text-stroke-width: 1px; } }
     .hero-say {
-      padding: 0 4vw;
+      padding: 0 var(--gutter);
       display: flex; align-items: flex-end; justify-content: space-between; gap: 32px;
     }
     .hero-say-main { max-width: min(62ch, 58vw); }
+    /* The 2.9vw term does not engage until an 828px viewport, so on every phone
+       this rendered at its 24px floor — smaller than the aria-hidden marquee
+       bands above it, which meant the decoration outweighed the actual pitch.
+       Raising the floor only; the desktop curve is untouched. */
     .hero-say h1 {
       margin: 0; font-weight: 600; letter-spacing: -0.02em;
-      font-size: clamp(24px, 2.9vw, 42px); line-height: 1.14; text-wrap: balance;
+      font-size: clamp(28px, 2.9vw, 42px); line-height: 1.14; text-wrap: balance;
     }
     .hero-say h1 em { font-style: normal; color: var(--accent, #D9FF3C); }
     .hero-sub {
@@ -540,25 +572,33 @@ const ARROW = "M7 17 17 7M8 7h9v9";
     }
     .hero-say-meta {
       flex: none; text-align: right; line-height: 1.8; color: #8A8A93;
-      font-family: "JetBrains Mono", monospace; font-size: 10.5px; letter-spacing: 0.1em;
+      font-family: "JetBrains Mono", monospace; font-size: var(--fs-label); letter-spacing: 0.1em;
     }
-    @media (max-width: 900px) {
-      .hero-fold { padding: 92px 0 clamp(40px, 6vh, 68px); }
-      .hero-say-main { max-width: none; }
+
+    /* ---- Shared section furniture ---------------------------------------
+       One class, one ramp (see the tokens in base.css). Sections do not
+       hand-roll their own eyebrow or padding, and never in an inline style=. */
+    .hp-eyebrow {
+      font-family: "JetBrains Mono", monospace;
+      font-size: var(--fs-label); letter-spacing: var(--ls-label); color: #8A8A93;
+      display: flex; justify-content: space-between; gap: 16px;
+      margin: 0 0 var(--sp-xs);
     }
-    @media (max-width: 560px) {
-      .hero-cta { gap: 12px 18px; }
-      .hero-cta-1 { padding: 15px 24px; font-size: 13px; }
+    /* Two stacked lines rather than a row — flex would swallow the <br>. */
+    .hp-eyebrow-stack { display: block; text-align: right; line-height: 1.9; margin: 0; }
+    .hp-band {
+      border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+      padding: var(--sp-2xs) 0; overflow: hidden;
     }
 
     /* ---- FAQ -------------------------------------------------------------
        Plain <dl>, always expanded. An accordion would hide answers behind a
        click on the one section whose whole job is answering the question
        before the visitor has to ask it. */
-    .hp-faq { padding: clamp(56px, 8vw, 110px) 4vw clamp(20px, 3vw, 40px); }
+    .hp-faq { padding: var(--sp-m) var(--gutter); }
     .hp-faq-head {
       display: flex; justify-content: space-between; gap: 16px; margin-bottom: 22px;
-      font-size: 10.5px; letter-spacing: 0.14em; color: #8A8A93;
+      font-size: var(--fs-label); letter-spacing: var(--ls-label); color: #8A8A93;
     }
     .hp-faq-h {
       margin: 0 0 clamp(30px, 4vw, 54px); font-family: "Anton", sans-serif; font-weight: 400;
@@ -582,14 +622,10 @@ const ARROW = "M7 17 17 7M8 7h9v9";
       margin: 0; color: #B8B8BF; max-width: 62ch;
       font-size: clamp(14px, 1.1vw, 16.5px); line-height: 1.68;
     }
-    @media (max-width: 760px) {
-      .hp-faq-row { grid-template-columns: 1fr; gap: 12px; }
-    }
-
     /* ---- Work section outro --------------------------------------------- */
     .hp-work-out {
       display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
-      gap: 14px 28px; padding: clamp(30px, 4vw, 52px) 4vw clamp(10px, 2vw, 24px);
+      gap: 14px 28px; padding: var(--sp-s) var(--gutter) var(--sp-m);
     }
     .hp-work-out-a {
       font-family: "Anton", sans-serif; font-weight: 400; text-transform: uppercase;
@@ -597,11 +633,11 @@ const ARROW = "M7 17 17 7M8 7h9v9";
     }
     .hp-work-out-a:hover { color: var(--accent, #D9FF3C); }
     .hp-work-out .mono {
-      font-size: 10.5px; letter-spacing: 0.14em; color: #8A8A93; text-transform: uppercase;
+      font-size: var(--fs-label); letter-spacing: var(--ls-label); color: #8A8A93; text-transform: uppercase;
     }
 
     /* ---- Proof strip ----------------------------------------------------- */
-    .hp-proof { padding: clamp(56px, 8vw, 104px) 4vw clamp(48px, 6vw, 84px); }
+    .hp-proof { padding: var(--sp-m) var(--gutter); }
     .hp-stats {
       list-style: none; margin: 0; padding: 0;
       display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
@@ -617,7 +653,7 @@ const ARROW = "M7 17 17 7M8 7h9v9";
       font-size: clamp(32px, 4vw, 58px); color: var(--accent, #D9FF3C);
     }
     .hp-stat-l {
-      font-family: "JetBrains Mono", monospace; font-size: 10.5px; letter-spacing: 0.08em;
+      font-family: "JetBrains Mono", monospace; font-size: var(--fs-label); letter-spacing: 0.08em;
       line-height: 1.7; color: #8A8A93; text-transform: uppercase;
     }
     .hp-quotes {
@@ -633,32 +669,66 @@ const ARROW = "M7 17 17 7M8 7h9v9";
     }
     .hp-quotes cite {
       display: block; margin-top: 12px; font-style: normal; color: #8A8A93;
-      font-family: "JetBrains Mono", monospace; font-size: 10.5px; letter-spacing: 0.1em;
+      font-family: "JetBrains Mono", monospace; font-size: var(--fs-label); letter-spacing: 0.1em;
     }
     .hp-proof-links {
       margin-top: clamp(26px, 3vw, 40px); display: flex; flex-wrap: wrap; gap: 12px 28px;
       font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
     }
     .hp-proof-links a { border-bottom: 1px solid rgba(244, 242, 236, 0.3); padding-bottom: 4px; }
-    @media (max-width: 900px) {
-      .hp-stats { grid-template-columns: 1fr 1fr; }
-      .hp-quotes { grid-template-columns: 1fr; gap: 20px; }
+    /* ---- About statement + work-section frames --------------------------
+       Both scroll-driven sections: a tall track with a pinned child. Both are
+       sized in svh, never vh. vh resolves to lvh on mobile (URL bar hidden)
+       while the pinned child is svh — that mismatch is what left a dark band
+       under the laptop, and it made every URL-bar slide fire a resize that
+       rewrote the track height mid-scroll. svh does not move. */
+    .hp-stmt { height: 150svh; }
+    .hp-stmt-pin {
+      position: sticky; top: 0; height: 100svh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 0 var(--gutter);
     }
-    @media (max-width: 480px) {
-      .hp-stats { grid-template-columns: 1fr; }
+    .hp-work-head {
+      padding: var(--sp-l) var(--gutter) var(--sp-m);
+      display: flex; align-items: flex-end; justify-content: space-between; gap: 24px;
+    }
+    /* 100svh holds the pin, then one step per transition — N-1 of them, not N.
+       Counting N ships a step no card can reach. The background lives here
+       rather than on the pinned stage so the lvh/svh delta can never show
+       through as a seam. */
+    .hp-deck {
+      --deck-step: 75svh;
+      height: calc(100svh + (var(--deck-n) - 1) * var(--deck-step));
+      position: relative; background: #131316;
+    }
+    .hp-deck-count {
+      position: absolute; top: calc(var(--header-h) + var(--sp-2xs)); right: var(--gutter);
+      font-family: 'JetBrains Mono', monospace; letter-spacing: var(--ls-label);
+      display: flex; gap: 8px; align-items: baseline;
+    }
+    .hp-deck-rail {
+      position: absolute; inset-inline: var(--gutter); bottom: var(--sp-2xs);
+      height: 1px; background: rgba(244, 242, 236, 0.2);
     }
 
     /* ---- Pinned-laptop work gallery ------------------------------------- */
     /* The stage is the sticky, viewport-height frame. Two columns on desktop
        (copy | laptop); stacks to one column on phones (still pinned — option A). */
     .dsx-lap-stage {
-      position: sticky; top: 0; height: 100svh; overflow: hidden; background: #131316;
+      position: sticky; top: 0; height: 100svh; overflow: hidden;
       display: flex; flex-direction: row; align-items: stretch;
-      gap: clamp(24px, 4vw, 64px); padding: 0 4vw;
+      gap: clamp(24px, 4vw, 64px); padding: 0 var(--gutter);
     }
-    .dsx-lap-copy { position: relative; flex: 1 1 40%; min-width: 0; align-self: stretch; }
+    /* Grid-stacked, not absolutely stacked: as an absolute child each card
+       contributed no height, so the column had to guess one (34svh) and the
+       stage's overflow:hidden silently cut the blurb and the VIEW CASE pill off
+       on shorter phones. Grid areas overlap without leaving the flow. */
+    .dsx-lap-copy {
+      position: relative; flex: 1 1 40%; min-width: 0; align-self: stretch;
+      display: grid; align-content: center;
+    }
     .dsx-copy {
-      position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center;
+      grid-area: 1 / 1; display: flex; flex-direction: column; justify-content: center;
       opacity: 0; will-change: opacity, transform;
     }
     .dsx-lap-wrap { flex: 1 1 60%; min-width: 0; display: flex; align-items: center; justify-content: center; }
@@ -679,7 +749,7 @@ const ARROW = "M7 17 17 7M8 7h9v9";
     .dsx-lap-dots i { width: 9px; height: 9px; border-radius: 50%; background: #3a3a42; }
     .dsx-lap-url {
       flex: 1 1 auto; min-width: 0; text-align: center; background: #0f0f12; border-radius: 7px;
-      padding: 5px 14px; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.03em;
+      padding: 5px 14px; font-family: 'JetBrains Mono', monospace; font-size: var(--fs-label); letter-spacing: 0.03em;
       color: #8A8A93; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
     .dsx-lap-shots { position: absolute; left: 0; right: 0; top: 34px; bottom: 0; }
@@ -704,6 +774,7 @@ const ARROW = "M7 17 17 7M8 7h9v9";
     .dsx-copy[data-idx="0"], .dsx-lap-shots img[data-idx="0"] { opacity: 1; }
 
     /* Services rows. */
+    .hp-svc { padding: var(--sp-m) var(--gutter); }
     #services .svc { list-style: none; margin: 0; padding: 0; border-top: 1px solid rgba(244, 242, 236, 0.16); }
     #services .svc-row {
       display: grid; grid-template-columns: 64px 1fr minmax(240px, 380px);
@@ -727,7 +798,7 @@ const ARROW = "M7 17 17 7M8 7h9v9";
     #services .svc-links a:hover { border-color: var(--accent, #D9FF3C); color: var(--accent, #D9FF3C); }
 
     #services .hp-writing { margin: clamp(44px, 6vw, 76px) 0 0; border-top: 1px solid rgba(244, 242, 236, 0.16); padding-top: clamp(22px, 3vw, 32px); }
-    #services .hp-writing-head { display: flex; justify-content: space-between; gap: 16px; font-size: 10.5px; letter-spacing: 0.14em; color: #8A8A93; margin-bottom: 18px; }
+    #services .hp-writing-head { display: flex; justify-content: space-between; gap: 16px; font-size: var(--fs-label); letter-spacing: var(--ls-label); color: #8A8A93; margin-bottom: 18px; }
     #services .hp-writing-head a { color: #8A8A93; text-decoration: none; transition: color 0.3s ease; }
     #services .hp-writing-head a:hover { color: var(--accent, #D9FF3C); }
     #services .hp-posts { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
@@ -740,35 +811,97 @@ const ARROW = "M7 17 17 7M8 7h9v9";
     #services .hp-posts a:hover { border-color: var(--accent, #D9FF3C); background: rgba(217, 255, 60, 0.06); }
     #services .hp-post-t { font-weight: 600; font-size: 15px; line-height: 1.35; letter-spacing: -0.01em; }
     #services .hp-post-m { font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: #8A8A93; }
-    @media (max-width: 900px) { #services .hp-posts { grid-template-columns: 1fr 1fr; } }
-    @media (max-width: 600px) { #services .hp-posts { grid-template-columns: 1fr; } }
+
+    /* ---- Contact --------------------------------------------------------
+       This was the only section on the page whose padding was driven by
+       viewport HEIGHT (clamp(64px, 11vh, 130px)) while every neighbour was
+       width-driven — the single biggest source of the uneven rhythm. */
+    #contact { padding: var(--sp-l) var(--gutter) 0; overflow: hidden; overflow: clip; }
+    .hp-contact-cta {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 20px 28px;
+      margin: var(--sp-m) 0 var(--sp-s);
+    }
+    .hp-contact-trust {
+      font-family: 'JetBrains Mono', monospace; font-size: var(--fs-label);
+      letter-spacing: 0.08em; color: #8A8A93; max-width: 320px; line-height: 1.8;
+    }
 
     /* Homepage project-brief form — matches the Portfolio-2026 field styling. */
+    /* --sp-m, not --sp-l: the footer already opens with --sp-l, and stacking
+       the two made contact→footer the largest boundary on the page (203px at
+       1440 against a 132px standard). */
+    .dsx-brief {
+      max-width: 560px; margin: 0 0 var(--sp-m);
+      border-top: 1px solid var(--rule); padding-top: var(--sp-s);
+    }
     #contact .dsx-brief-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
-    #contact .dsx-brief-l { display: block; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #8A8A93; margin-bottom: 8px; }
-    #contact .dsx-brief-i { width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(244, 242, 236, 0.25); color: #F4F2EC; font-family: 'JetBrains Mono', monospace; font-size: 14px; padding: 12px 2px; outline: none; }
+    #contact .dsx-brief-l { display: block; font-family: 'JetBrains Mono', monospace; font-size: var(--fs-label); letter-spacing: var(--ls-label); text-transform: uppercase; color: #8A8A93; margin-bottom: 8px; }
+    /* 16px, not 14px: iOS Safari zooms the viewport on focus below 16px and,
+       because the viewport meta correctly omits maximum-scale, never zooms
+       back out — one tap left the visitor zoomed-in for the rest of the visit. */
+    #contact .dsx-brief-i { width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(244, 242, 236, 0.25); color: #F4F2EC; font-family: 'JetBrains Mono', monospace; font-size: 16px; padding: 12px 2px; outline: none; }
     #contact .dsx-brief-i:focus { border-bottom-color: var(--accent, #D9FF3C); }
-    #contact .dsx-brief-t { width: 100%; background: transparent; border: 1px solid rgba(244, 242, 236, 0.18); border-radius: 6px; color: #F4F2EC; font-family: 'JetBrains Mono', monospace; font-size: 14px; padding: 12px; outline: none; resize: vertical; margin-top: 8px; }
+    #contact .dsx-brief-t { width: 100%; background: transparent; border: 1px solid rgba(244, 242, 236, 0.18); border-radius: 6px; color: #F4F2EC; font-family: 'JetBrains Mono', monospace; font-size: 16px; padding: 12px; outline: none; resize: vertical; margin-top: 8px; }
     #contact .dsx-brief-t:focus { border-color: var(--accent, #D9FF3C); }
 
-    /* Phones: pull the section rhythm in. Desktop values live inline on the
-       elements above, hence the !important overrides here. */
+    /* ---- Breakpoints ----------------------------------------------------
+       Three, matching the rest of the site: 900 (layout switch), 720 (the
+       site-wide mobile line, hard-wired into Studio.astro's [data-hide-m] and
+       burger) and 480 (small-phone tail). Adding a fourth is how components end
+       up half-collapsed against each other in the band between two steps. */
     @media (max-width: 900px) {
+      .hero-say-main { max-width: none; }
+      .hp-stats { grid-template-columns: 1fr 1fr; }
+      .hp-quotes { grid-template-columns: 1fr; gap: 20px; }
+      #services .hp-posts { grid-template-columns: 1fr 1fr; }
+      /* Shorten the pin on phones: 400svh of scroll-jacking between the fold
+         and the services section is a lot of thumb work on the device most
+         visitors are on. 100 + 4x38 = 252svh. Desktop keeps its 400. */
+      .hp-deck { --deck-step: 38svh; }
+      .hp-stmt { height: 120svh; }
       /* Laptop gallery stays pinned but stacks: laptop on top, copy below. */
-      .dsx-lap-stage { flex-direction: column; justify-content: center; gap: clamp(22px, 4vh, 40px); padding: 9vh 6vw 8vh; }
+      .dsx-lap-stage {
+        flex-direction: column; justify-content: center;
+        gap: clamp(22px, 4vh, 40px); padding: var(--sp-m) var(--gutter);
+        --copy-h: 300px;
+      }
       .dsx-lap-wrap { order: -1; flex: 0 0 auto; width: 100%; }
-      .dsx-lap { width: 100%; }
-      .dsx-lap-copy { flex: 0 0 auto; width: 100%; align-self: auto; min-height: 34svh; }
+      /* Cap the laptop by what is left after the copy needs its space, so the
+         VIEW CASE pill can never be pushed under the stage's overflow:hidden.
+         16/10 screen + chrome ≈ 1.6:1. */
+      .dsx-lap { width: min(100%, calc((100svh - var(--copy-h) - 2 * var(--sp-m) - 28px) * 1.6)); }
+      .dsx-lap-copy { flex: 0 0 auto; width: 100%; align-self: auto; }
       .dsx-copy { justify-content: flex-start; }
+      /* Bounds the tallest card (Baglamukhi wraps to 6 lines at 375px). */
+      .dsx-copy p { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
     }
 
     @media (max-width: 720px) {
-      #work > div:first-child { padding: 7vh 4vw 4.5vh !important; }
-      #contact > div:last-of-type { margin: 4vh 0 7vh !important; }
+      .hp-faq-row { grid-template-columns: 1fr; gap: 12px; }
       #contact .dsx-brief-grid { grid-template-columns: 1fr; gap: 0; }
       #contact .dsx-brief-grid > div { margin-bottom: 22px; }
+      /* Full-width under the CTA row instead of a 320px column beside it. */
+      .hp-contact-trust { max-width: none; flex: 1 0 100%; }
       #services .svc-row { grid-template-columns: 34px 1fr; gap: 6px 14px; padding: 20px 0; }
       #services .svc-d { grid-column: 2; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-cta { gap: 12px 18px; }
+      .hero-cta-1 { padding: 15px 24px; font-size: 13px; }
+      .hp-stats { grid-template-columns: 1fr; }
+      #services .hp-posts { grid-template-columns: 1fr; }
+      .dsx-lap-stage { --copy-h: 280px; }
+    }
+
+    /* Reduced motion: the statement's word-by-word reveal is skipped by the
+       engine, so collapse its scroll track too — otherwise it is 120svh of
+       empty scrolling past static text. The deck keeps its cross-fade (that is
+       scroll-position state, not autonomous motion) at half the scroll cost. */
+    @media (prefers-reduced-motion: reduce) {
+      .hp-stmt { height: auto; }
+      .hp-stmt-pin { position: static; height: auto; padding-block: var(--sp-m); }
+      .hp-deck { --deck-step: 38svh; }
     }
   </style>
 </Studio>

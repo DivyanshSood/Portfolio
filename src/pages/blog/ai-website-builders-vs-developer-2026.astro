@@ -1,7 +1,8 @@
 ---
 import Studio from "../../layouts/Studio.astro";
 import RelatedPosts from "../../components/RelatedPosts.astro";
-import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+import PostFaq from "../../components/PostFaq.astro";
+import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
 import { coverBase, coverSrcset, COVER_SIZES_POST } from "../../lib/images.mjs";
 
 const slug = "ai-website-builders-vs-developer-2026";
@@ -15,6 +16,29 @@ const readMins = post.readMins;
 const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
 const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
 
+const faqs = [
+  {
+    q: "Are AI website builders good enough for a real business?",
+    a: "For some businesses, genuinely yes. If you need a few pages, aren't competing hard on search, and want to manage it yourself, an AI builder is a reasonable buy and it's a much better starting point than a template was. It stops being enough when the site needs to do something specific or look like nobody else's.",
+  },
+  {
+    q: "Can an AI website builder replace a developer?",
+    a: "It replaces the part of the job that was assembling standard pages. It doesn't replace deciding what the site should say, noticing that your strongest proof is buried, or being accountable when a form silently stops working. I built an AI website generator and I still build sites by hand, which is the most honest answer I can give you.",
+  },
+  {
+    q: "What can't AI website builders do?",
+    a: "Know which decisions matter. Given a short prompt they invent a hundred choices nobody made \u2014 and they invent them plausibly, never knowingly. They also converge on the average of everything they've seen, which is precisely what a brand is trying not to be.",
+  },
+  {
+    q: "Do AI-built websites rank on Google?",
+    a: "They can. Google doesn't penalise a site for how it was built; it responds to speed, structure, and whether the content is worth ranking. Where generated sites tend to lose is on the last one \u2014 thin, generic copy that says what every competitor says. That's a content problem, not an AI problem, and it's fixable.",
+  },
+  {
+    q: "Should a small business use an AI builder or hire someone?",
+    a: "Start with what the site has to achieve. If it's presence \u2014 people already know you and need your details, hours and a way to get in touch \u2014 a builder is fine and I'd rather you spent the money elsewhere. If the site itself has to generate business, the parts that make that happen are exactly the parts a generator can't decide for you.",
+  },
+];
+
 const jsonld = JSON.stringify({
   "@context": "https://schema.org",
   "@graph": [
@@ -25,18 +49,16 @@ const jsonld = JSON.stringify({
       description: post.description,
       datePublished: iso(post.pubDate),
       dateModified: iso(post.updatedDate || post.pubDate),
-      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
-      publisher: {
-        "@type": "Organization",
-        "@id": `${SITE}/#studio`,
-        name: "Divyansh Sood® Studio",
-        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
-      },
-      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      author: authorNode(SITE),
+      publisher: publisherNode(SITE),
+      isPartOf: websiteNode(SITE),
       mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
       image: ogImage,
       articleSection: primaryTag,
       keywords: post.tags.join(", "),
+      // Resolves the free-text tags above to public concept identifiers, so a
+      // parser knows "Astro" means the framework and "GEO" isn't geography.
+      about: topicsForTags(post.tags),
       wordCount: 734,
       timeRequired: `PT${readMins}M`,
       speakable: {
@@ -53,6 +75,13 @@ const jsonld = JSON.stringify({
         { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
         { "@type": "ListItem", position: 3, name: post.title, item: canonical },
       ],
+    },
+    {
+      // FAQ rich results were retired by Google in May 2026, so this earns no
+      // SERP feature. It stays because answer engines still parse it and every
+      // question below is rendered visibly on the page.
+      "@type": "FAQPage",
+      mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
     },
   ],
 });
@@ -76,7 +105,6 @@ const jsonld = JSON.stringify({
 >
   <main>
     <header class="post-hero">
-      <div class="post-hero-bg" aria-hidden="true"></div>
       <div class="wrap narrow">
         <div class="eyebrow">
           <span>{primaryTag}</span>
@@ -180,6 +208,8 @@ const jsonld = JSON.stringify({
       <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
     </article>
 
+    <PostFaq faqs={faqs} idPrefix="faq-ab" />
+
     <RelatedPosts slug={slug} audience={post.audience} />
 
     <section class="post-foot-cta">
@@ -224,3 +254,4 @@ const jsonld = JSON.stringify({
     </section>
   </main>
 </Studio>
+

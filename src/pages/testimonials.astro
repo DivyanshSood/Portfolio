@@ -32,11 +32,10 @@ const jsonld = JSON.stringify({
         { "@type": "ListItem", position: 2, name: "Testimonials", item: canonical },
       ],
     },
-    // itemReviewed must carry its own @type. It previously held a bare
-    // { "@id": ".../#studio" } reference, but that node is only *defined* in
-    // the homepage graph — on this page it resolves to nothing, which is
-    // exactly the "Invalid object type for field itemReviewed" Search Console
-    // flags. Restating the type and name here makes each Review self-contained
+    // itemReviewed must carry its own @type, not a bare { "@id" } reference:
+    // that node is only *defined* in the homepage graph, so here it resolves to
+    // nothing and Search Console flags "Invalid object type for field
+    // itemReviewed". Restating type and name keeps each Review self-contained
     // while the @id still stitches it to the same entity site-wide.
     ...reviews.map((r) => ({
       "@type": "Review",
@@ -65,7 +64,6 @@ const jsonld = JSON.stringify({
 >
   <main>
     <header class="cs-hero">
-      <div class="cs-hero-bg" aria-hidden="true"></div>
       <div class="wrap">
         <div class="cs-eyebrow">
           <span>Testimonials</span><span>In their own words</span><span>2022—2026</span>
@@ -120,10 +118,9 @@ const jsonld = JSON.stringify({
        Portfolio; quote cards with hover lift and a lead card that
        spans the row.
        ============================================================ */
-    main .cs-sec { padding: clamp(58px, 7vw, 108px) 0; }
-    main .cs-hero { padding-top: clamp(120px, 16vw, 160px); }
+    /* Rhythm, section-head alignment and hero clearance are shared — they live
+       in case-study.css and Breadcrumbs.astro now. */
     main .cs-lead { max-width: 64ch; font-size: clamp(17px, 1.7vw, 21px); }
-    main .cs-sec-head { align-items: flex-end; margin-bottom: clamp(30px, 4vw, 52px); }
     main .cs-sec-head h2 {
       font-family: 'Anton', sans-serif;
       font-weight: 400;
@@ -190,14 +187,14 @@ const jsonld = JSON.stringify({
     }
     main .tm-who {
       font-family: "JetBrains Mono", monospace;
-      font-size: 11px;
+      font-size: var(--fs-label-lg);
       letter-spacing: 0.06em;
       text-transform: uppercase;
       opacity: 0.66;
     }
     main .tm-link {
       font-family: "JetBrains Mono", monospace;
-      font-size: 11px;
+      font-size: var(--fs-label-lg);
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--accent, #d9ff3c);
@@ -206,18 +203,11 @@ const jsonld = JSON.stringify({
     }
     main .tm-link:hover { text-decoration: underline; }
 
-    @media (max-width: 860px) {
+    @media (max-width: 900px) {
       main .tm-grid { grid-template-columns: 1fr 1fr; }
       main .tm-card:first-child { grid-column: span 2; }
     }
     @media (max-width: 720px) {
-      /* `main .cs-sec` above out-specifies the shared responsive.css phone
-         rules, so re-tighten the section rhythm here. */
-      main .cs-sec { padding: 44px 0; }
-      main .cs-sec-head { margin-bottom: 22px; }
-      main .cs-hero { padding-top: 104px; }
-    }
-    @media (max-width: 560px) {
       main .tm-grid { grid-template-columns: 1fr; }
       main .tm-card:first-child { grid-column: auto; }
     }

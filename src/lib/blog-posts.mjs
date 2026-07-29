@@ -4,6 +4,86 @@
 
 export const POSTS = [
   {
+    "slug": "how-ai-is-transforming-website-development",
+    "title": "How AI Is Transforming Website Development",
+    "seoTitle": "How AI Is Transforming Website Development · Divyansh Sood",
+    "description": "Written from shipping client sites with AI daily and running an AI website generator. What has genuinely changed in how websites get built — and what hasn't.",
+    "pubDate": "2026-07-29",
+    "updatedDate": "2026-07-29",
+    "coverImage": "/blog/how-ai-is-transforming-website-development.jpg",
+    "coverAlt": "Title card reading “How AI is transforming web dev” in bold type on a near-black background",
+    "tags": [
+      "AI",
+      "web development",
+      "AI-assisted development",
+      "developer workflow",
+      "automation"
+    ],
+    "audience": "international",
+    "readMins": 13,
+    "wordCount": 3034
+  },
+  {
+    "slug": "benefits-of-ai-in-web-development",
+    "title": "The Real Benefits of AI in Modern Web Development",
+    "seoTitle": "Real Benefits of AI in Web Development (2026) · Divyansh Sood",
+    "description": "Not the vendor list. The benefits of AI in web development that survived contact with real client work — measured from my own builds, with the ones that didn't.",
+    "pubDate": "2026-07-29",
+    "updatedDate": "2026-07-29",
+    "coverImage": "/blog/benefits-of-ai-in-web-development.jpg",
+    "coverAlt": "Title card reading “The benefits that actually survived” in bold type on a near-black background",
+    "tags": [
+      "AI development",
+      "productivity",
+      "web development",
+      "AI",
+      "code quality"
+    ],
+    "audience": "international",
+    "readMins": 12,
+    "wordCount": 2741
+  },
+  {
+    "slug": "challenges-and-limitations-of-ai-in-web-development",
+    "title": "The Challenges and Limitations of AI in Website Development",
+    "seoTitle": "Limits of AI in Website Development (2026) · Divyansh Sood",
+    "description": "Every way AI has cost me time, money or sleep on a real build — hallucinated APIs, plausible-wrong code, security gaps and the review tax nobody prices in.",
+    "pubDate": "2026-07-29",
+    "updatedDate": "2026-07-29",
+    "coverImage": "/blog/challenges-and-limitations-of-ai-in-web-development.jpg",
+    "coverAlt": "Title card reading “Where AI actually breaks” in bold type on a near-black background",
+    "tags": [
+      "AI limitations",
+      "AI",
+      "code quality",
+      "security",
+      "technical debt"
+    ],
+    "audience": "international",
+    "readMins": 12,
+    "wordCount": 2728
+  },
+  {
+    "slug": "future-of-ai-assisted-web-development",
+    "title": "The Future of AI-Assisted Web Development",
+    "seoTitle": "The Future of AI-Assisted Web Development · Divyansh Sood",
+    "description": "What actually changes next in AI-assisted development, from someone who built an AI website generator — including the predictions I think are wrong, and why.",
+    "pubDate": "2026-07-29",
+    "updatedDate": "2026-07-29",
+    "coverImage": "/blog/future-of-ai-assisted-web-development.jpg",
+    "coverAlt": "Title card reading “The future of AI-assisted development” in bold type on a near-black background",
+    "tags": [
+      "AI-assisted development",
+      "future of work",
+      "AI",
+      "web development",
+      "careers"
+    ],
+    "audience": "international",
+    "readMins": 12,
+    "wordCount": 2685
+  },
+  {
     "slug": "ai-website-builder-vs-developer-india",
     "title": "AI Website Builders vs Hiring a Developer — the India Edition",
     "seoTitle": "AI Website Builder vs Developer in India (2026) · Divyansh Sood",
@@ -27,7 +107,7 @@ export const POSTS = [
     "slug": "how-indian-businesses-use-ai-2026",
     "title": "How Indian Businesses Are Actually Using AI in 2026",
     "seoTitle": "How Indian Businesses Actually Use AI in 2026 · Divyansh Sood",
-    "description": "Not the version in the business press. What AI is really doing inside Indian small businesses — drafting, structuring messy input, and being found by assistants.",
+    "description": "Not the business-press version. What AI really does inside Indian small businesses — drafting, structuring messy input, being found by assistants.",
     "pubDate": "2026-07-27",
     "updatedDate": "2026-07-27",
     "coverImage": "/blog/how-indian-businesses-use-ai-2026.jpg",
@@ -47,7 +127,7 @@ export const POSTS = [
     "slug": "ai-chatbot-for-indian-business",
     "title": "Should Your Indian Business Add an AI Chatbot? An Honest Answer",
     "seoTitle": "AI Chatbot for Indian Business: Worth It? · Divyansh Sood",
-    "description": "For most Indian small businesses a website chatbot is the wrong first purchase — you already have WhatsApp. When it's genuinely worth building, and what to insist on.",
+    "description": "For most Indian small businesses a website chatbot is the wrong first purchase — you already have WhatsApp. When it's worth building, and what to insist on.",
     "pubDate": "2026-07-26",
     "updatedDate": "2026-07-26",
     "coverImage": "/blog/ai-chatbot-for-indian-business.jpg",
@@ -87,7 +167,7 @@ export const POSTS = [
     "slug": "rag-for-business-websites",
     "title": "RAG for Business Websites: When a Chatbot Should Actually Read Your Docs",
     "seoTitle": "RAG for Business Websites: When It's Worth It · Divyansh Sood",
-    "description": "Retrieval-augmented generation explained for people commissioning it — when it's worth building, when it's the wrong tool, and why your content matters more than the model.",
+    "description": "Retrieval-augmented generation for people commissioning it — when it's worth building, when it's the wrong tool, and why content beats the model.",
     "pubDate": "2026-07-23",
     "updatedDate": "2026-07-23",
     "coverImage": "/blog/rag-for-business-websites.jpg",
@@ -107,7 +187,7 @@ export const POSTS = [
     "slug": "claude-vs-gpt-vs-gemini-for-product-features",
     "title": "Claude vs GPT vs Gemini for Product Features: What I Learned Shipping All Three",
     "seoTitle": "Claude vs GPT vs Gemini for Product Features · Divyansh Sood",
-    "description": "I run one AI product on all three providers. What actually differs in production — prompt portability, failure modes, latency — and how to build so the choice can change.",
+    "description": "I run one AI product on all three providers. What differs in production — prompt portability, failure modes, latency — and how to keep the choice open.",
     "pubDate": "2026-07-22",
     "updatedDate": "2026-07-22",
     "coverImage": "/blog/claude-vs-gpt-vs-gemini-for-product-features.jpg",
@@ -126,8 +206,8 @@ export const POSTS = [
   {
     "slug": "ai-features-that-actually-work-on-websites",
     "title": "Adding AI Features to Your Website: What Actually Works in 2026",
-    "seoTitle": "AI Features for Websites: What Actually Works (2026) · Divyansh Sood",
-    "description": "Search, support, drafting, extraction — which AI features earn their keep on a business website, which are demos that never ship, and what production actually requires.",
+    "seoTitle": "AI Features for Websites: What Works · Divyansh Sood",
+    "description": "Search, support, drafting, extraction — which AI features earn their keep on a business website, which never ship, and what production really needs.",
     "pubDate": "2026-07-21",
     "updatedDate": "2026-07-21",
     "coverImage": "/blog/ai-features-that-actually-work-on-websites.jpg",
@@ -166,7 +246,7 @@ export const POSTS = [
   {
     "slug": "shopify-alternatives-for-premium-d2c",
     "title": "Shopify Alternatives for Premium D2C Brands, Honestly Ranked",
-    "seoTitle": "Shopify Alternatives for Premium D2C Brands (2026) · Divyansh Sood",
+    "seoTitle": "Shopify Alternatives for Premium D2C · Divyansh Sood",
     "description": "Customize Shopify, go Woo, headless, or fully custom? The four real options for premium D2C brands, judged on brand control and three-year economics.",
     "pubDate": "2026-07-18",
     "updatedDate": "2026-07-18",
@@ -206,7 +286,7 @@ export const POSTS = [
   {
     "slug": "hotel-homestay-website-himachal-direct-bookings",
     "title": "A Website for Your Himachal Homestay: The Commission Math",
-    "seoTitle": "Himachal Homestay & Hotel Websites: Direct Bookings · Divyansh Sood",
+    "seoTitle": "Himachal Hotel Websites: Direct Bookings · Divyansh Sood",
     "description": "OTAs take 15–30% of every Himachal booking. The direct-booking website playbook for hotels and homestays — WhatsApp-first, seasonal SEO, and the season math.",
     "pubDate": "2026-07-14",
     "updatedDate": "2026-07-14",
@@ -266,7 +346,7 @@ export const POSTS = [
   {
     "slug": "hire-web-developer-india-from-us",
     "title": "Hiring a Web Developer in India: A Buyer's Guide for US & UK Founders",
-    "seoTitle": "Hire a Web Developer in India: US/UK Buyer's Guide · Divyansh Sood",
+    "seoTitle": "Hire a Web Developer in India: A Guide · Divyansh Sood",
     "description": "India has two developer markets — body shops and senior independents — and the horror stories come from confusing them. Fair pricing, vetting, and how it works.",
     "pubDate": "2026-07-06",
     "updatedDate": "2026-07-06",
@@ -325,7 +405,7 @@ export const POSTS = [
   {
     "slug": "framer-vs-custom-code-2026",
     "title": "Framer vs Custom Code: When the Prettiest Builder Isn't Enough",
-    "seoTitle": "Framer vs Custom Code (2026): An Honest Comparison · Divyansh Sood",
+    "seoTitle": "Framer vs Custom Code: Honest Comparison · Divyansh Sood",
     "description": "Framer is the best website builder ever made — and funded startups still replace it. Where Framer genuinely wins, where it hits a ceiling, and how to decide.",
     "pubDate": "2026-06-24",
     "updatedDate": "2026-06-24",
@@ -345,6 +425,7 @@ export const POSTS = [
   {
     "slug": "why-premium-brands-leave-shopify",
     "title": "Why Premium Brands Are Leaving Shopify for Custom Code",
+    "seoTitle": "Why Premium Brands Leave Shopify · Divyansh Sood",
     "description": "Shopify is brilliant for getting a store live fast. But brands that want to feel like a brand keep hitting a theme-shaped ceiling. Where custom code wins.",
     "pubDate": "2026-06-18",
     "updatedDate": "2026-06-18",
@@ -383,6 +464,7 @@ export const POSTS = [
   {
     "slug": "make-your-brand-quotable-by-ai-geo-2026",
     "title": "How to Make Your Brand Quotable by AI (GEO in 2026)",
+    "seoTitle": "How to Make Your Brand Quotable by AI · Divyansh Sood",
     "description": "Search is splitting into links and answers, and most brands are invisible in the answer half. How to make ChatGPT, Claude, Gemini and Perplexity cite you.",
     "pubDate": "2026-06-02",
     "updatedDate": "2026-06-02",
@@ -631,13 +713,13 @@ export const POSTS = [
     "wordCount": 1268
   },
   {
-    "slug": "modernkbs-case-study-blog",
+    "slug": "modernkbs-school-website-case-study",
     "title": "A School Needed a Website and an Admissions Portal. Every Agency Said 6 Months. We Did It in 7 Days.",
     "seoTitle": "School Website + Admissions Portal in 7 Days · Divyansh Sood",
     "description": "Modern K.B.S. School needed a website and a working admissions portal at once. Every agency quoted 6 months. A case study in what's possible with custom code.",
     "pubDate": "2026-02-20",
     "updatedDate": "2026-02-20",
-    "coverImage": "/blog/modernkbs-case-study-blog.jpg",
+    "coverImage": "/blog/modernkbs-school-website-case-study.jpg",
     "coverAlt": "A bright yellow primary classroom with a green chalkboard and colourful chairs",
     "tags": [
       "case study",
@@ -689,13 +771,13 @@ export const POSTS = [
     "wordCount": 1401
   },
   {
-    "slug": "what-is-llms-txt-blog",
-    "title": "What Is llms.txt — And Why Your Business Website Needs One in 2025",
-    "seoTitle": "What Is llms.txt & Why Your Site Needs One · Divyansh Sood",
-    "description": "What llms.txt is, why AI tools like ChatGPT and Perplexity use it to find businesses, and why most Indian websites are invisible to this growing search channel.",
+    "slug": "what-is-llms-txt",
+    "title": "What Is llms.txt — And Does Your Website Actually Need One?",
+    "seoTitle": "What Is llms.txt & Does It Actually Work? · Divyansh Sood",
+    "description": "What llms.txt is, what belongs in one, and an honest answer on whether it works — Google confirmed in 2026 that Search ignores the file entirely.",
     "pubDate": "2025-12-01",
-    "updatedDate": "2026-06-24",
-    "coverImage": "/blog/what-is-llms-txt-blog.jpg",
+    "updatedDate": "2026-07-29",
+    "coverImage": "/blog/what-is-llms-txt.jpg",
     "coverAlt": "A vintage rubber gas mask lying on a wooden floor beside a denim jacket",
     "tags": [
       "AI search",
@@ -704,8 +786,8 @@ export const POSTS = [
       "web development"
     ],
     "audience": "international",
-    "readMins": 7,
-    "wordCount": 1460
+    "readMins": 11,
+    "wordCount": 2290
   },
   {
     "slug": "why-indian-websites-dont-generate-leads",
@@ -727,13 +809,13 @@ export const POSTS = [
     "wordCount": 1648
   },
   {
-    "slug": "nandini-travels-case-study-blog",
+    "slug": "nandini-travels-case-study",
     "title": "How a Taxi Business in Kangra Moved from Google Maps to Direct Website Bookings",
     "seoTitle": "Taxi Business: Google Maps to Direct Bookings · Divyansh Sood",
     "description": "Nandini Travels was the most-reviewed taxi operator in Kangra — and had zero direct bookings. Here's how a WhatsApp-first website changed that within weeks.",
     "pubDate": "2025-10-15",
     "updatedDate": "2025-10-15",
-    "coverImage": "/blog/nandini-travels-case-study-blog.jpg",
+    "coverImage": "/blog/nandini-travels-case-study.jpg",
     "coverAlt": "Yellow taxis parked on a roadside in Kangra, a woman walking past",
     "tags": [
       "case study",

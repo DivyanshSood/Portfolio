@@ -1,7 +1,8 @@
 ---
 import Studio from "../../layouts/Studio.astro";
 import RelatedPosts from "../../components/RelatedPosts.astro";
-import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+import PostFaq from "../../components/PostFaq.astro";
+import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
 import { coverBase, coverSrcset, COVER_SIZES_POST } from "../../lib/images.mjs";
 
 const slug = "school-website-admissions-portal-india";
@@ -15,6 +16,33 @@ const readMins = post.readMins;
 const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
 const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
 
+/* Questions real buyers ask, answered in full. This array is the single
+   source for both the visible accordion and the FAQPage node above — Google
+   requires FAQ markup to match content on the page, and deriving both from one
+   array is what stops them drifting. */
+const faqs = [
+  {
+    q: "What do parents actually look for on a school website?",
+    a: "Fees, admission dates, curriculum, results, safety, and how to reach a human — usually in that order, usually on a phone, usually in a hurry. Most Indian school websites lead with a principal's message and a photo gallery and bury all six. The single highest-return change is putting the answers parents came for on the page they land on.",
+  },
+  {
+    q: "Does a school need an ERP or an admissions portal?",
+    a: "Most schools need the admissions portal and are being sold the ERP. A portal handles the part that's genuinely painful — enquiry to application to document upload to status, with an admin view of where every applicant is. A full ERP adds attendance, fees, timetabling and payroll, carries a recurring subscription, and typically gets used at a fraction of its capacity.",
+  },
+  {
+    q: "How long does a school website with an admissions portal take to build?",
+    a: "Weeks, not months. Divyansh Sood built the Modern K.B.S. school website plus its admissions web app and admin panel in 7 days, where other agencies had quoted six months. That was a compressed timeline for a specific scope, not the standard promise — but it establishes what the honest ceiling looks like when the requirements are clear.",
+  },
+  {
+    q: "Should a school website be built for parents or for the school?",
+    a: "For parents, and this is where most school sites go wrong. A site organised around the school's internal structure — departments, committees, notices — makes sense to the people who commissioned it and fails the parent trying to find out whether admissions are open. If the homepage doesn't answer the top three parent questions, the rest of the site is decoration.",
+  },
+  {
+    q: "What should a school insist on when commissioning a website?",
+    a: "Ownership of the code and the data, a working admissions flow tested on a real phone on a real connection, the ability to update dates and notices without calling the developer, and a plan for what happens when three hundred parents apply in the same week. Ask about the last one specifically — it's where cheap builds fall over.",
+  },
+];
+
 const jsonld = JSON.stringify({
   "@context": "https://schema.org",
   "@graph": [
@@ -25,18 +53,16 @@ const jsonld = JSON.stringify({
       description: post.description,
       datePublished: iso(post.pubDate),
       dateModified: iso(post.updatedDate || post.pubDate),
-      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
-      publisher: {
-        "@type": "Organization",
-        "@id": `${SITE}/#studio`,
-        name: "Divyansh Sood® Studio",
-        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
-      },
-      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      author: authorNode(SITE),
+      publisher: publisherNode(SITE),
+      isPartOf: websiteNode(SITE),
       mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
       image: ogImage,
       articleSection: primaryTag,
       keywords: post.tags.join(", "),
+      // Resolves the free-text tags above to public concept identifiers, so a
+      // parser knows "Astro" means the framework and "GEO" isn't geography.
+      about: topicsForTags(post.tags),
       wordCount: post.wordCount,
       timeRequired: `PT${readMins}M`,
       speakable: {
@@ -53,6 +79,18 @@ const jsonld = JSON.stringify({
         { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
         { "@type": "ListItem", position: 3, name: post.title, item: canonical },
       ],
+    },
+    {
+      // Google retired FAQ rich results in May 2026, so this earns no SERP
+      // enhancement. It stays because answer engines read Q&A pairs well, and
+      // because every question below is rendered visibly by <PostFaq>.
+      "@type": "FAQPage",
+      "@id": `${canonical}#faq`,
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
     },
   ],
 });
@@ -76,7 +114,6 @@ const jsonld = JSON.stringify({
 >
   <main>
     <header class="post-hero">
-      <div class="post-hero-bg" aria-hidden="true"></div>
       <div class="wrap narrow">
         <div class="eyebrow">
           <span>{primaryTag}</span>
@@ -142,11 +179,13 @@ const jsonld = JSON.stringify({
 <li>An admissions portal if you process more than a handful of applications — staff time saved pays for it.</li>
 <li>Ownership: the school should own its domain, its hosting and its code. Not the vendor. In writing.</li>
 </ul>
-<p>The full build story — what shipped on each of the seven days — is in the <a href="/blog/modernkbs-case-study-blog/">Modern K.B.S. case study</a>.</p>
+<p>The full build story — what shipped on each of the seven days — is in the <a href="/blog/modernkbs-school-website-case-study/">Modern K.B.S. case study</a>.</p>
 <hr>
 <p><em>I’m Divyansh Sood, a developer based in Kangra district, Himachal — I build school websites and <a href="/services/web-app-development/">admissions portals</a> as one-time projects with no recurring fees, and schools anywhere in India can work with me remotely. If you’re near <a href="/web-developer-kangra/">Kangra</a>, we can even meet. Message me on <a href="https://wa.me/919816091875">WhatsApp</a> with your school’s name — I’ll reply with what I’d build and a fixed written quote.</em></p>
       <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
     </article>
+
+    <PostFaq faqs={faqs} />
 
     <RelatedPosts slug={slug} audience={post.audience} />
 

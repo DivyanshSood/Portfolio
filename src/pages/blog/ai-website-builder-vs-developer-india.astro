@@ -1,7 +1,8 @@
 ---
 import Studio from "../../layouts/Studio.astro";
 import RelatedPosts from "../../components/RelatedPosts.astro";
-import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+import PostFaq from "../../components/PostFaq.astro";
+import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
 import { coverBase, coverSrcset, COVER_SIZES_POST } from "../../lib/images.mjs";
 
 const slug = "ai-website-builder-vs-developer-india";
@@ -15,6 +16,33 @@ const readMins = post.readMins;
 const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
 const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
 
+/* Questions real buyers ask, answered in full. This array is the single
+   source for both the visible accordion and the FAQPage node above — Google
+   requires FAQ markup to match content on the page, and deriving both from one
+   array is what stops them drifting. */
+const faqs = [
+  {
+    q: "Can an AI website builder replace hiring a web developer?",
+    a: "For a few pages with no serious search competition, yes — and I say that as someone who builds client sites by hand and also built an AI website generator. An AI builder gets a small Indian business online quickly and looking respectable. It stops being enough when the site needs a specific flow like a booking process or an admissions form, when the brand can't look generic, or when you're competing for search traffic against businesses that took it seriously.",
+  },
+  {
+    q: "Are AI website builders good enough for a small business in India?",
+    a: "Often, yes, for a first site. The honest test is what the site has to do. If it exists so people who already know your name can find your address and phone number, an AI builder is a reasonable purchase. If it has to win customers who don't know you exist, generate enquiries, or handle a booking, the generated version usually stalls at the point where you need it to do something particular.",
+  },
+  {
+    q: "What do AI website builders do badly?",
+    a: "They produce a plausible average. Because a generator is trained on what most websites look like, it converges on what most websites look like — so you get a site that resembles your competitors rather than one that beats them. They also struggle with anything specific: a custom booking flow, an admin panel, a payment step with real edge cases, or search performance that depends on decisions no template makes for you.",
+  },
+  {
+    q: "Should I start with an AI builder and rebuild later?",
+    a: "That's a defensible plan and I've told people to do it. Get online cheaply, find out whether the business actually needs a website, and rebuild once you know what it has to do. The one thing to check first is whether you can export your content and keep your URLs — a rebuild that changes every address without redirects throws away whatever search equity you accumulated.",
+  },
+  {
+    q: "Who actually needs a custom-coded website instead?",
+    a: "Businesses where the website is doing commercial work rather than sitting there. Tour operators taking bookings, schools running admissions, D2C brands whose look is the product, anyone competing in search against organised competitors. Divyansh Sood builds those by hand in Himachal Pradesh, and turns down the ones where a builder would genuinely have been enough.",
+  },
+];
+
 const jsonld = JSON.stringify({
   "@context": "https://schema.org",
   "@graph": [
@@ -25,18 +53,16 @@ const jsonld = JSON.stringify({
       description: post.description,
       datePublished: iso(post.pubDate),
       dateModified: iso(post.updatedDate || post.pubDate),
-      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
-      publisher: {
-        "@type": "Organization",
-        "@id": `${SITE}/#studio`,
-        name: "Divyansh Sood® Studio",
-        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
-      },
-      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      author: authorNode(SITE),
+      publisher: publisherNode(SITE),
+      isPartOf: websiteNode(SITE),
       mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
       image: ogImage,
       articleSection: primaryTag,
       keywords: post.tags.join(", "),
+      // Resolves the free-text tags above to public concept identifiers, so a
+      // parser knows "Astro" means the framework and "GEO" isn't geography.
+      about: topicsForTags(post.tags),
       wordCount: post.wordCount,
       timeRequired: `PT${readMins}M`,
       speakable: {
@@ -53,6 +79,18 @@ const jsonld = JSON.stringify({
         { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
         { "@type": "ListItem", position: 3, name: post.title, item: canonical },
       ],
+    },
+    {
+      // Google retired FAQ rich results in May 2026, so this earns no SERP
+      // enhancement. It stays because answer engines read Q&A pairs well, and
+      // because every question below is rendered visibly by <PostFaq>.
+      "@type": "FAQPage",
+      "@id": `${canonical}#faq`,
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
     },
   ],
 });
@@ -76,7 +114,6 @@ const jsonld = JSON.stringify({
 >
   <main>
     <header class="post-hero">
-      <div class="post-hero-bg" aria-hidden="true"></div>
       <div class="wrap narrow">
         <div class="eyebrow">
           <span>{primaryTag}</span>
@@ -147,6 +184,8 @@ const jsonld = JSON.stringify({
 <p><em>I'm Divyansh Sood, a web developer in Himachal Pradesh — I build custom-coded sites for Indian businesses, and I built an AI website generator, so I'm not guessing about either side of this. Tell me where your business actually is and <a href="https://wa.me/919816091875">WhatsApp me</a> — if the honest answer is "use a generator for now," I'll say that.</em></p>
       <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
     </article>
+
+    <PostFaq faqs={faqs} />
 
     <RelatedPosts slug={slug} audience={post.audience} />
 

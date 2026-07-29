@@ -1,13 +1,14 @@
 ---
 import Studio from "../../layouts/Studio.astro";
 import { SITE, CALENDLY_URL } from "../../lib/site.mjs";
+import { TOPICS } from "../../lib/entity.mjs";
 
 const canonical = `${SITE}/services/seo-geo-services/`;
 
 const offers = [
   { t: "Technical SEO, done in code", d: "Clean semantic markup, structured data graphs, honest sitemaps, canonical discipline, Core Web Vitals — built into the site, not sprinkled on after." },
   { t: "GEO — be the answer, not a link", d: "Search is splitting into links and answers. Generative Engine Optimization makes ChatGPT, Claude, Gemini and Perplexity cite you when buyers ask." },
-  { t: "llms.txt & AI-crawler strategy", d: "A machine-readable brief of your business (llms.txt), robots rules that welcome answer-engine crawlers, and quotable copy AI can lift verbatim." },
+  { t: "AI-crawler access & llms.txt", d: "Robots rules that welcome answer-engine crawlers, server-rendered pages they can actually read, and an llms.txt at the root. Google ignores that file and I'll say so — the crawler access and the readable pages are what carry this line." },
   { t: "Schema that search trusts", d: "Organization, Service, FAQ, Breadcrumb and Article graphs wired to your real entities — your Google Business Profile, your reviews, your work." },
 ];
 
@@ -20,7 +21,7 @@ const how = [
 
 const faqs = [
   { q: "What is GEO (Generative Engine Optimization)?", a: "GEO is optimizing your site so AI assistants — ChatGPT, Claude, Gemini, Perplexity — cite and recommend your business in their answers. It combines structured data, quotable factual copy, llms.txt and crawler access, and it compounds with classic SEO rather than replacing it." },
-  { q: "Does llms.txt actually work?", a: "It's an emerging standard: a machine-readable summary of your business that AI crawlers read. Every site I ship has one at the root, and this site runs the full stack in the open — llms.txt, a JSON-LD entity graph, and 25+ AI crawlers explicitly welcomed in robots.txt. It's low-cost, zero-risk, and it positions you before your competitors move." },
+  { q: "Does llms.txt actually work?", a: "Not the way it's usually sold. Google confirmed in 2026 that its search systems ignore llms.txt entirely, and independent analysis across roughly 300,000 domains found no statistically significant relationship between having the file and being cited by AI. I publish that despite selling GEO and giving away an llms.txt generator. Every site I ship still gets one, because it costs half an hour and genuinely helps when an agent or a person points a model straight at your domain — but it is the smallest part of this service. What actually moves AI citations is the structured data, the entity graph and the quotable copy, which is the bulk of what you're buying here." },
   { q: "Is this a retainer or a one-time project?", a: "Both exist. A technical SEO + GEO implementation is a one-time project on your codebase. Ongoing content, tracking and iteration can run as a light monthly engagement — but nothing here requires a forever-contract." },
   { q: "Do you also handle classic SEO?", a: "Yes — technical SEO is the foundation: crawlability, structured data, Core Web Vitals, canonical hygiene, honest sitemaps. GEO is built on top of that. A site that's illegible to Googlebot is illegible to AI crawlers too." },
   { q: "What does SEO / GEO work cost?", a: "It depends on whether it rides along with a build or stands alone, and on how much of the technical foundation already exists. The honest first step costs nothing: send your URL for a free website audit and you'll get the findings whether or not you hire me. If implementation makes sense after that, it's quoted fixed and in writing." },
@@ -39,6 +40,16 @@ const jsonld = JSON.stringify({
       description:
         "Technical SEO and Generative Engine Optimization implemented directly in your codebase — structured data, Core Web Vitals, llms.txt and AI-crawler strategy, so both Google and AI assistants recommend you.",
       url: canonical,
+      // Derived from the same `offers` array the page renders, so the catalogue
+      // can never advertise something the page doesn't actually describe.
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: "SEO and Generative Engine Optimization",
+        itemListElement: offers.map((o) => ({
+          "@type": "Offer",
+          itemOffered: { "@type": "Service", name: o.t, description: o.d },
+        })),
+      },
     },
     {
       "@type": "BreadcrumbList",
@@ -63,11 +74,11 @@ const jsonld = JSON.stringify({
   keywords="generative engine optimization services, GEO services, AI SEO consultant, llms.txt implementation, AEO services, technical SEO developer, get cited by ChatGPT, structured data implementation"
   ogTitle="SEO & GEO services"
   ogDescription="Search is splitting into links and answers. I make you visible in both halves — implemented in code, not slides."
+  topics={[TOPICS.seo, TOPICS.ai, TOPICS.webDevelopment]}
   jsonld={jsonld}
 >
   <main>
     <header class="cs-hero">
-      <div class="cs-hero-bg" aria-hidden="true"></div>
       <div class="wrap">
         <div class="cs-eyebrow">
           <span>Services</span><span>SEO · GEO · AEO</span><span>2026</span>
@@ -152,19 +163,19 @@ const jsonld = JSON.stringify({
         <div class="cs-body" data-reveal>
           <div class="cs-card span2" style="border-color:rgba(217,255,60,.34);">
             <span class="cs-tag">Free tool</span>
-            <p><strong>Try the free llms.txt generator.</strong> Build the file AI assistants read to understand your business — in your browser, no sign-up. A taste of the GEO work, on the house. <a href="/tools/llms-txt-generator/">Open the tool →</a></p>
+            <p><strong>Try the free llms.txt generator.</strong> Write a clean plain-text brief of your business in your browser, no sign-up. Google ignores the file; the exercise of stating plainly what you do is the part that pays. <a href="/tools/llms-txt-generator/">Open the free llms.txt generator →</a></p>
           </div>
           <div class="cs-card">
             <span class="cs-tag">Make your brand quotable by AI</span>
-            <p>The GEO playbook for 2026 — how AI assistants pick who to cite, and how to become that source. <a href="/blog/make-your-brand-quotable-by-ai-geo-2026/">Read →</a></p>
+            <p>The GEO playbook for 2026 — how AI assistants pick who to cite, and how to become that source. <a href="/blog/make-your-brand-quotable-by-ai-geo-2026/">Read the 2026 GEO playbook →</a></p>
           </div>
           <div class="cs-card">
             <span class="cs-tag">What is llms.txt?</span>
-            <p>The emerging standard that briefs AI crawlers on your business — and how to write one. <a href="/blog/what-is-llms-txt-blog/">Read →</a></p>
+            <p>What the file is, what the evidence says about it, and why I still ship one. <a href="/blog/what-is-llms-txt/">An honest answer on whether llms.txt works →</a></p>
           </div>
           <div class="cs-card span2">
             <span class="cs-tag">AI website builders vs a human developer</span>
-            <p>Where AI tooling genuinely helps, and where judgment still wins. <a href="/blog/ai-website-builders-vs-developer-2026/">Read →</a></p>
+            <p>Where AI tooling genuinely helps, and where judgment still wins. <a href="/blog/ai-website-builders-vs-developer-2026/">AI website builders vs a human developer →</a></p>
           </div>
         </div>
       </div>

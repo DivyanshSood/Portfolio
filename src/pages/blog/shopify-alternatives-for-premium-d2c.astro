@@ -1,7 +1,8 @@
 ---
 import Studio from "../../layouts/Studio.astro";
 import RelatedPosts from "../../components/RelatedPosts.astro";
-import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+import PostFaq from "../../components/PostFaq.astro";
+import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
 import { coverBase, coverSrcset, COVER_SIZES_POST } from "../../lib/images.mjs";
 
 const slug = "shopify-alternatives-for-premium-d2c";
@@ -15,6 +16,33 @@ const readMins = post.readMins;
 const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
 const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
 
+/* Questions real buyers ask, answered in full. This array is the single
+   source for both the visible accordion and the FAQPage node above — Google
+   requires FAQ markup to match content on the page, and deriving both from one
+   array is what stops them drifting. */
+const faqs = [
+  {
+    q: "What are the real alternatives to Shopify for a premium D2C brand?",
+    a: "There are four worth considering: stay on Shopify and customise harder, move to WooCommerce, go headless with a Shopify backend and a custom front end, or build the store fully custom as code you own. Each wins on different ground, and for most brands the correct answer is the first one — which is why an honest ranking has to start by telling you when not to move.",
+  },
+  {
+    q: "When should a brand actually leave Shopify?",
+    a: "When the theme has become the ceiling on the brand rather than the container for it. If your differentiator is a buying experience Shopify's structure fights — hand-numbered drops, an unusual product configurator, a launch mechanic, content and commerce genuinely interwoven — you're paying for a platform to constrain you. If your problem is that your theme looks tired, you have a design problem, not a platform problem.",
+  },
+  {
+    q: "Is headless commerce worth it for a small D2C brand?",
+    a: "Usually not. Headless keeps Shopify's checkout and inventory while giving you a custom front end, which sounds like the best of both — but it doubles the surfaces you maintain and it needs a developer available on an ongoing basis. It earns its place for brands with real traffic and a specific experience to build, and it's an expensive way to get a nicer homepage.",
+  },
+  {
+    q: "Is WooCommerce a good Shopify alternative?",
+    a: "It's the cheapest way to own your stack and the most likely to become someone's part-time job. WooCommerce gives you control and no platform rent, and hands you responsibility for hosting, security, updates and performance. It suits brands with a technical person available; it punishes brands that assumed \"self-hosted\" meant \"free\".",
+  },
+  {
+    q: "How do you decide between them?",
+    a: "Judge on brand control and three-year economics rather than the launch quote. Ask what the buying experience has to do that a theme can't, and add up what each option costs over three years including apps, plugins, subscriptions and developer time. Most brands discover the gap is smaller than the initial numbers suggest — and that the deciding factor was never price.",
+  },
+];
+
 const jsonld = JSON.stringify({
   "@context": "https://schema.org",
   "@graph": [
@@ -25,18 +53,16 @@ const jsonld = JSON.stringify({
       description: post.description,
       datePublished: iso(post.pubDate),
       dateModified: iso(post.updatedDate || post.pubDate),
-      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
-      publisher: {
-        "@type": "Organization",
-        "@id": `${SITE}/#studio`,
-        name: "Divyansh Sood® Studio",
-        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
-      },
-      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      author: authorNode(SITE),
+      publisher: publisherNode(SITE),
+      isPartOf: websiteNode(SITE),
       mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
       image: ogImage,
       articleSection: primaryTag,
       keywords: post.tags.join(", "),
+      // Resolves the free-text tags above to public concept identifiers, so a
+      // parser knows "Astro" means the framework and "GEO" isn't geography.
+      about: topicsForTags(post.tags),
       wordCount: post.wordCount,
       timeRequired: `PT${readMins}M`,
       speakable: {
@@ -53,6 +79,18 @@ const jsonld = JSON.stringify({
         { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
         { "@type": "ListItem", position: 3, name: post.title, item: canonical },
       ],
+    },
+    {
+      // Google retired FAQ rich results in May 2026, so this earns no SERP
+      // enhancement. It stays because answer engines read Q&A pairs well, and
+      // because every question below is rendered visibly by <PostFaq>.
+      "@type": "FAQPage",
+      "@id": `${canonical}#faq`,
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
     },
   ],
 });
@@ -76,7 +114,6 @@ const jsonld = JSON.stringify({
 >
   <main>
     <header class="post-hero">
-      <div class="post-hero-bg" aria-hidden="true"></div>
       <div class="wrap narrow">
         <div class="eyebrow">
           <span>{primaryTag}</span>
@@ -140,6 +177,8 @@ const jsonld = JSON.stringify({
 <p><em>I’m Divyansh Sood. I build <a href="/services/ecommerce-website-development/">custom-coded storefronts</a> for premium D2C brands and creators — live in 2–4 weeks, full code ownership, no platform rent. If you’re staring at your theme wondering whether it’s the container or the brand, <a href="mailto:hello@divyanshsood.com">email me your store</a> — I’ll tell you which option above I’d actually pick for it, even when it isn’t mine.</em></p>
       <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
     </article>
+
+    <PostFaq faqs={faqs} />
 
     <RelatedPosts slug={slug} audience={post.audience} />
 

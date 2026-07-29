@@ -1,7 +1,7 @@
 ---
 import Studio from "../../layouts/Studio.astro";
 import RelatedPosts from "../../components/RelatedPosts.astro";
-import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
 import { coverBase, coverSrcset, COVER_SIZES_POST } from "../../lib/images.mjs";
 
 const slug = "get-your-business-recommended-by-chatgpt";
@@ -25,18 +25,16 @@ const jsonld = JSON.stringify({
       description: post.description,
       datePublished: iso(post.pubDate),
       dateModified: iso(post.updatedDate || post.pubDate),
-      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
-      publisher: {
-        "@type": "Organization",
-        "@id": `${SITE}/#studio`,
-        name: "Divyansh Sood® Studio",
-        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
-      },
-      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      author: authorNode(SITE),
+      publisher: publisherNode(SITE),
+      isPartOf: websiteNode(SITE),
       mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
       image: ogImage,
       articleSection: primaryTag,
       keywords: post.tags.join(", "),
+      // Resolves the free-text tags above to public concept identifiers, so a
+      // parser knows "Astro" means the framework and "GEO" isn't geography.
+      about: topicsForTags(post.tags),
       wordCount: post.wordCount,
       timeRequired: `PT${readMins}M`,
       speakable: {
@@ -76,7 +74,6 @@ const jsonld = JSON.stringify({
 >
   <main>
     <header class="post-hero">
-      <div class="post-hero-bg" aria-hidden="true"></div>
       <div class="wrap narrow">
         <div class="eyebrow">
           <span>{primaryTag}</span>
@@ -132,7 +129,7 @@ const jsonld = JSON.stringify({
 <h2 id="step-3-ship-llms-txt-and-open-the-door">Step 3: Ship llms.txt and open the door</h2>
 <p>Two files at your domain root:</p>
 <ul>
-<li><strong>llms.txt</strong> — a curated plain-text brief of your business: who you are, what you offer, proof, links. The AI-era sitemap. (<a href="/blog/what-is-llms-txt-blog/">Full guide here</a>.)</li>
+<li><strong>llms.txt</strong> — a curated plain-text brief of your business: who you are, what you offer, proof, links. Cheap and worth shipping, but don’t expect much from it: Google has confirmed its search systems ignore the file, and it shows no measurable effect on citations at scale. The crawler access below is the part of this step that matters. (<a href="/blog/what-is-llms-txt/">The full evidence, and what does work</a>.)</li>
 <li><strong>robots.txt</strong> — check you’re not blocking GPTBot, ClaudeBot, PerplexityBot and friends. Plenty of businesses block AI crawlers with a copy-pasted robots file, then wonder why they’re invisible to AI.</li>
 </ul>
 <hr>

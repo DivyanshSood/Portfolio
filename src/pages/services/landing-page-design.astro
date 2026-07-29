@@ -1,6 +1,7 @@
 ---
 import Studio from "../../layouts/Studio.astro";
 import { SITE, CALENDLY_URL } from "../../lib/site.mjs";
+import { TOPICS } from "../../lib/entity.mjs";
 
 const canonical = `${SITE}/services/landing-page-design/`;
 
@@ -39,6 +40,16 @@ const jsonld = JSON.stringify({
       description:
         "Conversion-focused landing page design — custom-coded, fast, with copy, tracking and iteration built in. One page, one job: turn visitors into leads or sales.",
       url: canonical,
+      // Derived from the same `offers` array the page renders, so the catalogue
+      // can never advertise something the page doesn't actually describe.
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: "Landing page design",
+        itemListElement: offers.map((o) => ({
+          "@type": "Offer",
+          itemOffered: { "@type": "Service", name: o.t, description: o.d },
+        })),
+      },
     },
     {
       "@type": "BreadcrumbList",
@@ -63,11 +74,11 @@ const jsonld = JSON.stringify({
   keywords="high converting landing page design, conversion focused website design, landing page developer, CRO landing pages, custom coded landing page, landing page copywriting, conversion rate optimization"
   ogTitle="High-converting landing page design"
   ogDescription="One page, one job. Custom-coded, fast, measured — built to turn visitors into customers."
+  topics={[TOPICS.cro, TOPICS.webDesign, TOPICS.webDevelopment]}
   jsonld={jsonld}
 >
   <main>
     <header class="cs-hero">
-      <div class="cs-hero-bg" aria-hidden="true"></div>
       <div class="wrap">
         <div class="cs-eyebrow">
           <span>Services</span><span>Landing pages · CRO</span><span>2026</span>
@@ -156,15 +167,15 @@ const jsonld = JSON.stringify({
         <div class="cs-body" data-reveal>
           <div class="cs-card">
             <span class="cs-tag">Your landing page doesn't have a traffic problem</span>
-            <p>Why more visitors won't fix a page that doesn't make an argument. <a href="/blog/landing-page-conversion-not-traffic/">Read →</a></p>
+            <p>Why more visitors won't fix a page that doesn't make an argument. <a href="/blog/landing-page-conversion-not-traffic/">Fix landing page conversion, not traffic →</a></p>
           </div>
           <div class="cs-card">
             <span class="cs-tag">Page speed is a brand statement</span>
-            <p>What a slow page says about you before a single word is read. <a href="/blog/page-speed-is-a-brand-statement/">Read →</a></p>
+            <p>What a slow page says about you before a single word is read. <a href="/blog/page-speed-is-a-brand-statement/">Why page speed is a brand statement →</a></p>
           </div>
           <div class="cs-card span2">
             <span class="cs-tag">Why business websites don't generate leads</span>
-            <p>The five patterns that quietly kill conversion — and what to do instead. <a href="/blog/why-indian-websites-dont-generate-leads/">Read →</a></p>
+            <p>The five patterns that quietly kill conversion — and what to do instead. <a href="/blog/why-indian-websites-dont-generate-leads/">Five patterns that quietly kill conversion →</a></p>
           </div>
         </div>
       </div>

@@ -1,6 +1,7 @@
 ---
 import Studio from "../../layouts/Studio.astro";
 import { SITE, CALENDLY_URL } from "../../lib/site.mjs";
+import { TOPICS } from "../../lib/entity.mjs";
 
 const canonical = `${SITE}/services/ai-development/`;
 
@@ -39,6 +40,16 @@ const jsonld = JSON.stringify({
       description:
         "AI development services — LLM integration, retrieval over your own content (RAG), AI search and support, and full AI products. Built on Claude, GPT or Gemini, shipped into production with evaluation, fallbacks and cost control.",
       url: canonical,
+      // Derived from the same `offers` array the page renders, so the catalogue
+      // can never advertise something the page doesn't actually describe.
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: "AI development and LLM integration",
+        itemListElement: offers.map((o) => ({
+          "@type": "Offer",
+          itemOffered: { "@type": "Service", name: o.t, description: o.d },
+        })),
+      },
     },
     {
       "@type": "BreadcrumbList",
@@ -58,16 +69,16 @@ const jsonld = JSON.stringify({
 
 <Studio
   title="AI Development Services — LLM Integration & AI Features"
-  description="AI development services: LLM integration, RAG over your own content, AI search and support. Built on Claude, GPT or Gemini and shipped to production, not demoed."
+  description="AI development services: LLM integration, RAG over your content, AI search and support. Built on Claude, GPT or Gemini and shipped, not demoed."
   canonical={canonical}
   keywords="AI development services, AI features for websites, LLM integration developer, hire AI developer, RAG development, Claude GPT Gemini integration, AI product development, AI chatbot developer"
   ogTitle="AI development & LLM integration"
   ogDescription="I run my own AI product on Claude, GPT and Gemini. AI features shipped into production — with evaluation, fallbacks and cost control."
+  topics={[TOPICS.ai, TOPICS.llm, TOPICS.rag, TOPICS.webDevelopment]}
   jsonld={jsonld}
 >
   <main>
     <header class="cs-hero">
-      <div class="cs-hero-bg" aria-hidden="true"></div>
       <div class="wrap">
         <div class="cs-eyebrow">
           <span>Services</span><span>AI features · LLM integration</span><span>2026</span>
@@ -156,15 +167,19 @@ const jsonld = JSON.stringify({
         <div class="cs-body" data-reveal>
           <div class="cs-card">
             <span class="cs-tag">AI features that actually work</span>
-            <p>Which AI features earn their keep on a business website, and which are demos that never ship. <a href="/blog/ai-features-that-actually-work-on-websites/">Read →</a></p>
+            <p>Which AI features earn their keep on a business website, and which are demos that never ship. <a href="/blog/ai-features-that-actually-work-on-websites/">Which AI features actually work on websites →</a></p>
           </div>
           <div class="cs-card">
             <span class="cs-tag">Claude vs GPT vs Gemini</span>
-            <p>What I learned shipping all three behind one product, and how I choose between them now. <a href="/blog/claude-vs-gpt-vs-gemini-for-product-features/">Read →</a></p>
+            <p>What I learned shipping all three behind one product, and how I choose between them now. <a href="/blog/claude-vs-gpt-vs-gemini-for-product-features/">Compare Claude, GPT and Gemini for product features →</a></p>
           </div>
           <div class="cs-card span2">
             <span class="cs-tag">RAG for business websites</span>
-            <p>When a chatbot should actually read your docs — and when retrieval is the wrong tool entirely. <a href="/blog/rag-for-business-websites/">Read →</a></p>
+            <p>When a chatbot should actually read your docs — and when retrieval is the wrong tool entirely. <a href="/blog/rag-for-business-websites/">When RAG is the right tool for a business website →</a></p>
+          </div>
+          <div class="cs-card span2">
+            <span class="cs-tag">The whole cluster</span>
+            <p>Every article on AI and web development in one place — building with it, shipping features, and where it stops being useful. <a href="/blog/topics/ai-web-development/">AI in web development →</a></p>
           </div>
         </div>
       </div>

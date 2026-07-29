@@ -1,7 +1,8 @@
 ---
 import Studio from "../../layouts/Studio.astro";
 import RelatedPosts from "../../components/RelatedPosts.astro";
-import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+import PostFaq from "../../components/PostFaq.astro";
+import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
 import { coverBase, coverSrcset, COVER_SIZES_POST } from "../../lib/images.mjs";
 
 const slug = "rag-for-business-websites";
@@ -15,6 +16,33 @@ const readMins = post.readMins;
 const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
 const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
 
+/* Questions real buyers ask, answered in full. This array is the single
+   source for both the visible accordion and the FAQPage node above — Google
+   requires FAQ markup to match content on the page, and deriving both from one
+   array is what stops them drifting. */
+const faqs = [
+  {
+    q: "What is RAG in plain English?",
+    a: "RAG — retrieval-augmented generation — means the AI looks something up in your own content before it answers, instead of answering from memory. Your documents are indexed; a question retrieves the relevant passages; the model writes an answer grounded in those passages and can cite where each part came from. The point is that it can say \"I don't know\" instead of inventing your refund policy.",
+  },
+  {
+    q: "When is RAG worth building for a business website?",
+    a: "When you have a real body of content people genuinely need answers from, and the same questions arrive repeatedly. Documentation, policy libraries, large catalogues, technical support archives. The test is whether a human currently spends meaningful time finding answers inside your own material — if nobody does, retrieval has nothing to retrieve and you've built an expensive search box.",
+  },
+  {
+    q: "When is RAG the wrong tool?",
+    a: "Most of the time, on most business websites. If your site is twelve pages, a visitor can read them faster than a chatbot can summarise them. If your content is thin, contradictory or out of date, retrieval will surface exactly that with more confidence than it deserves. Bad content plus retrieval is worse than bad content alone, because now it speaks with authority.",
+  },
+  {
+    q: "Does the choice of AI model matter for RAG?",
+    a: "Less than people expect, and much less than the content does. The quality of what gets retrieved sets the ceiling on the answer; the model just writes it up. Teams that are unhappy with a RAG system almost always have a retrieval and content problem being blamed on the model, and swapping providers doesn't fix it.",
+  },
+  {
+    q: "What should a good RAG implementation include?",
+    a: "Citations back to the source page, so a person can check the answer. An honest \"I don't know\" when retrieval comes back empty, rather than a fluent guess. A way to keep the index current as your content changes. And an evaluation set of real questions you can re-run whenever anything changes, because otherwise you have no way to tell whether a change helped.",
+  },
+];
+
 const jsonld = JSON.stringify({
   "@context": "https://schema.org",
   "@graph": [
@@ -25,18 +53,16 @@ const jsonld = JSON.stringify({
       description: post.description,
       datePublished: iso(post.pubDate),
       dateModified: iso(post.updatedDate || post.pubDate),
-      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
-      publisher: {
-        "@type": "Organization",
-        "@id": `${SITE}/#studio`,
-        name: "Divyansh Sood® Studio",
-        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
-      },
-      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      author: authorNode(SITE),
+      publisher: publisherNode(SITE),
+      isPartOf: websiteNode(SITE),
       mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
       image: ogImage,
       articleSection: primaryTag,
       keywords: post.tags.join(", "),
+      // Resolves the free-text tags above to public concept identifiers, so a
+      // parser knows "Astro" means the framework and "GEO" isn't geography.
+      about: topicsForTags(post.tags),
       wordCount: post.wordCount,
       timeRequired: `PT${readMins}M`,
       speakable: {
@@ -53,6 +79,18 @@ const jsonld = JSON.stringify({
         { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
         { "@type": "ListItem", position: 3, name: post.title, item: canonical },
       ],
+    },
+    {
+      // Google retired FAQ rich results in May 2026, so this earns no SERP
+      // enhancement. It stays because answer engines read Q&A pairs well, and
+      // because every question below is rendered visibly by <PostFaq>.
+      "@type": "FAQPage",
+      "@id": `${canonical}#faq`,
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
     },
   ],
 });
@@ -76,7 +114,6 @@ const jsonld = JSON.stringify({
 >
   <main>
     <header class="post-hero">
-      <div class="post-hero-bg" aria-hidden="true"></div>
       <div class="wrap narrow">
         <div class="eyebrow">
           <span>{primaryTag}</span>
@@ -147,6 +184,8 @@ const jsonld = JSON.stringify({
 <p><em>I'm Divyansh Sood. I build <a href="/services/ai-development/">retrieval and AI features</a> into websites and products. If you're wondering whether your content is in a shape that would support this — that's the first thing I'd look at, and I'll tell you honestly if the answer is "fix the docs first." <a href="mailto:hello@divyanshsood.com">Email me</a>.</em></p>
       <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
     </article>
+
+    <PostFaq faqs={faqs} />
 
     <RelatedPosts slug={slug} audience={post.audience} />
 

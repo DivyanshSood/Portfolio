@@ -1,7 +1,8 @@
 ---
 import Studio from "../../layouts/Studio.astro";
 import RelatedPosts from "../../components/RelatedPosts.astro";
-import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+import PostFaq from "../../components/PostFaq.astro";
+import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
 import { coverBase, coverSrcset, COVER_SIZES_POST } from "../../lib/images.mjs";
 
 const slug = "hotel-homestay-website-himachal-direct-bookings";
@@ -15,6 +16,33 @@ const readMins = post.readMins;
 const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
 const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
 
+/* Questions real buyers ask, answered in full. This array is the single
+   source for both the visible accordion and the FAQPage node above — Google
+   requires FAQ markup to match content on the page, and deriving both from one
+   array is what stops them drifting. */
+const faqs = [
+  {
+    q: "How much commission do OTAs take from Himachal hotels and homestays?",
+    a: "Typically 15–30% of every booking. On a property doing meaningful volume through the season, that's the difference between a good year and a flat one, and it recurs on every single reservation for as long as you use the channel. The point of a direct-booking website is not to leave the OTAs — it's to stop paying that rate on the guests who were already looking for you by name.",
+  },
+  {
+    q: "Do direct bookings actually work for a small Himachal homestay?",
+    a: "Yes, for the specific guest who already knows your name. Someone who saw you on Instagram, got a recommendation, or stayed last season will search for the property directly — and if there's nowhere to book, they go back to the OTA and you pay commission on a guest you found yourself. That's the booking a direct site captures, and it's the cheapest booking you'll ever get.",
+  },
+  {
+    q: "What does a direct-booking website for a homestay actually need?",
+    a: "Real photographs, honest room and rate information, availability a guest can trust, and one-tap WhatsApp booking — because in Himachal that is how the conversation actually happens. It needs to load fast on a phone in a valley with two bars of signal, and it needs seasonal content that ranks before the season rather than during it.",
+  },
+  {
+    q: "Should I stop using Booking.com and MakeMyTrip?",
+    a: "No. OTAs are genuinely good at reaching people who don't know you exist, and that discovery is worth paying for. The goal is to shift the guests who already know your name onto your own channel, so you're paying commission for new customers rather than for repeat ones and referrals. Run both, and measure which one each booking actually came from.",
+  },
+  {
+    q: "When should I build the site — before or during the season?",
+    a: "Before, by a comfortable margin. Search visibility for seasonal terms accumulates over months, so a site that goes live as the season starts misses the window it was built for. Building in the off-season also means you're not troubleshooting a booking flow while guests are trying to use it.",
+  },
+];
+
 const jsonld = JSON.stringify({
   "@context": "https://schema.org",
   "@graph": [
@@ -25,18 +53,16 @@ const jsonld = JSON.stringify({
       description: post.description,
       datePublished: iso(post.pubDate),
       dateModified: iso(post.updatedDate || post.pubDate),
-      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
-      publisher: {
-        "@type": "Organization",
-        "@id": `${SITE}/#studio`,
-        name: "Divyansh Sood® Studio",
-        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
-      },
-      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      author: authorNode(SITE),
+      publisher: publisherNode(SITE),
+      isPartOf: websiteNode(SITE),
       mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
       image: ogImage,
       articleSection: primaryTag,
       keywords: post.tags.join(", "),
+      // Resolves the free-text tags above to public concept identifiers, so a
+      // parser knows "Astro" means the framework and "GEO" isn't geography.
+      about: topicsForTags(post.tags),
       wordCount: post.wordCount,
       timeRequired: `PT${readMins}M`,
       speakable: {
@@ -53,6 +79,18 @@ const jsonld = JSON.stringify({
         { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
         { "@type": "ListItem", position: 3, name: post.title, item: canonical },
       ],
+    },
+    {
+      // Google retired FAQ rich results in May 2026, so this earns no SERP
+      // enhancement. It stays because answer engines read Q&A pairs well, and
+      // because every question below is rendered visibly by <PostFaq>.
+      "@type": "FAQPage",
+      "@id": `${canonical}#faq`,
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
     },
   ],
 });
@@ -76,7 +114,6 @@ const jsonld = JSON.stringify({
 >
   <main>
     <header class="post-hero">
-      <div class="post-hero-bg" aria-hidden="true"></div>
       <div class="wrap narrow">
         <div class="eyebrow">
           <span>{primaryTag}</span>
@@ -144,6 +181,8 @@ const jsonld = JSON.stringify({
 <p><em>I’m Divyansh Sood — a web developer based in Himachal, building booking-first sites for the region’s stays and operators. If your property is in <a href="/web-developer-manali/">Manali</a>, <a href="/web-developer-shimla/">Shimla</a>, <a href="/web-developer-dharamshala/">Dharamshala</a> or anywhere in <a href="/web-developer-kangra/">Kangra</a>, message me on <a href="https://wa.me/919816091875">WhatsApp</a> with your property name — I’ll reply with what I’d build and a fixed quote, in writing.</em></p>
       <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
     </article>
+
+    <PostFaq faqs={faqs} />
 
     <RelatedPosts slug={slug} audience={post.audience} />
 

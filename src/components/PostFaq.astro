@@ -1,0 +1,86 @@
+---
+/* ===========================================================================
+   PostFaq — the visible FAQ accordion for a blog post.
+
+   The section markup and its 30-line toggle script were hand-copied into every
+   post that had an FAQ. Ten copies of the same IIFE is already too many, and
+   this pass adds fifteen more — so it becomes a component instead.
+
+   `idPrefix` keeps `aria-controls` unique per page. It defaults to "faq", which
+   is fine because only one of these renders per page; pass one explicitly if
+   that ever stops being true.
+
+   The answers rendered here are the same array the page's FAQPage JSON-LD is
+   built from. That is the whole point: markup describing questions a visitor
+   can't actually see on the page is the thing Google's guidance rules out, and
+   deriving both from one array makes the two impossible to drift apart.
+   =========================================================================== */
+export interface Props {
+  faqs: { q: string; a: string }[];
+  heading?: string;
+  idPrefix?: string;
+}
+const { faqs, heading = "Frequently asked", idPrefix = "faq" } = Astro.props;
+---
+
+<section class="wrap narrow" aria-labelledby={`${idPrefix}-h`}>
+  <div class="cs-sec-head" style="margin-bottom:6px;">
+    <h2 id={`${idPrefix}-h`} class="post-related-h">{heading}</h2>
+  </div>
+  <div class="cs-faq">
+    {
+      faqs.map((f, i) => (
+        <div class="cs-faq-row">
+          <button class="cs-faq-q" data-faqtog={i} aria-expanded="false" aria-controls={`${idPrefix}-${i}`}>
+            <span>{f.q}</span>
+            <span class="cs-faq-icon" data-faqicon={i} aria-hidden="true">
+              +
+            </span>
+          </button>
+          <div class="cs-faq-a" id={`${idPrefix}-${i}`} data-faqbody={i}>
+            <p>{f.a}</p>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+  {/* Four posts close this section with their tag list rather than putting it
+      at the end of the article body. Slotting it keeps their markup identical
+      instead of forcing a layout change to fit the component. */}
+  <slot />
+</section>
+
+<script is:inline>
+  (function () {
+    var root = document.getElementById("ds-root");
+    if (!root) return;
+    var faq = -1;
+    function sync() {
+      root.querySelectorAll("[data-faqbody]").forEach(function (el) {
+        var open = Number(el.getAttribute("data-faqbody")) === faq;
+        el.style.maxHeight = open ? el.scrollHeight + "px" : "0px";
+        el.style.opacity = open ? "1" : "0";
+      });
+      root.querySelectorAll("[data-faqicon]").forEach(function (el) {
+        el.style.transform = Number(el.getAttribute("data-faqicon")) === faq ? "rotate(45deg)" : "rotate(0deg)";
+      });
+      root.querySelectorAll("[data-faqtog]").forEach(function (el) {
+        el.setAttribute("aria-expanded", Number(el.getAttribute("data-faqtog")) === faq ? "true" : "false");
+      });
+    }
+    root.querySelectorAll("[data-faqtog]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        var i = Number(el.getAttribute("data-faqtog"));
+        faq = faq === i ? -1 : i;
+        sync();
+      });
+    });
+    var rt;
+    window.addEventListener("resize", function () {
+      if (faq < 0) return;
+      clearTimeout(rt);
+      rt = setTimeout(sync, 120);
+    });
+    sync();
+  })();
+</script>

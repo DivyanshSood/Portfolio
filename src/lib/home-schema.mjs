@@ -5,6 +5,7 @@
    =========================================================================== */
 
 import { FOUNDER_PHOTO, GOOGLE_MAPS_CID_URL, SAME_AS } from "./site.mjs";
+import { KNOWS_ABOUT, JOB_TITLE, PERSON_DESCRIPTION } from "./entity.mjs";
 import { projects } from "./projects/data.mjs";
 
 /* Homepage FAQ — the SINGLE source for both the visible accordion in
@@ -54,9 +55,11 @@ export function homeJsonLd(SITE) {
         "@id": `${SITE}/#person`,
         name: "Divyansh Sood",
         url: `${SITE}/`,
-        jobTitle: "Freelance Web Developer & Designer",
-        description:
-          "Freelance web designer and developer running a one-person studio (Divyansh Sood® Studio) from Himachal Pradesh, India — building custom-coded, conversion-focused websites, stores and web apps for founders worldwide.",
+        // Title, bio and expertise come from entity.mjs, which is also what the
+        // author node on all 42 blog posts uses. Two copies of these strings is
+        // how the homepage Person and the byline Person start disagreeing.
+        jobTitle: JOB_TITLE,
+        description: PERSON_DESCRIPTION,
         // The Person's image must be the person. This pointed at a WebSeek
         // product screenshot, so every consumer of the entity graph — Google's
         // knowledge panel included — was handed a UI mockup as the founder's
@@ -75,18 +78,7 @@ export function homeJsonLd(SITE) {
           skills:
             "Web design, front-end and full-stack development, React, Next.js, Astro, e-commerce, SEO, conversion rate optimization",
         },
-        knowsAbout: [
-          "Web design",
-          "Web development",
-          "React",
-          "Next.js",
-          "Astro",
-          "Angular",
-          "SEO",
-          "Generative Engine Optimization",
-          "Conversion rate optimization",
-          "E-commerce",
-        ],
+        knowsAbout: KNOWS_ABOUT,
         sameAs: [...SAME_AS],
       },
       {
@@ -140,6 +132,7 @@ export function homeJsonLd(SITE) {
           { "@type": "Offer", itemOffered: { "@type": "Service", name: "Design & Prototyping", description: "High-fidelity interface design and clickable prototypes before a line of code is written." } },
           { "@type": "Offer", itemOffered: { "@type": "Service", name: "Development", description: "Fast, accessible, search-friendly front-ends — React, Next.js, Astro or headless." } },
           { "@type": "Offer", itemOffered: { "@type": "Service", name: "Support & Growth", description: "Ongoing iteration, A/B tests, performance tuning and monthly reporting." } },
+          { "@type": "Offer", url: `${SITE}/services/website-development/`, itemOffered: { "@type": "Service", name: "Custom website development", description: "Hand-coded business websites, marketing sites and redesigns — technical SEO and Core Web Vitals built in from the first commit, live in 3–4 weeks, full code ownership." } },
           { "@type": "Offer", url: `${SITE}/services/ecommerce-website-development/`, itemOffered: { "@type": "Service", name: "Ecommerce website development", description: "Custom-coded D2C storefronts — Razorpay/Stripe payments, drop mechanics, full code ownership, no platform rent." } },
           { "@type": "Offer", url: `${SITE}/services/web-app-development/`, itemOffered: { "@type": "Service", name: "Web app & MVP development", description: "Portals, dashboards, admin panels and AI products — full-stack React/Next.js/Astro, live in weeks." } },
           { "@type": "Offer", url: `${SITE}/services/landing-page-design/`, itemOffered: { "@type": "Service", name: "Landing page design", description: "High-converting landing pages — copy, design and code as one argument, with tracking built in." } },
@@ -148,7 +141,6 @@ export function homeJsonLd(SITE) {
         // No aggregateRating or Review entries here on purpose: per
         // src/lib/site.mjs we only link out to the real Google reviews URL
         // and never publish star counts we can't independently verify.
-        // (Was previously emitting an AggregateRating — removed 2026-06.)
       },
       {
         "@type": "ItemList",

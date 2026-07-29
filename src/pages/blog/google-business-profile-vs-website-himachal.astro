@@ -1,7 +1,8 @@
 ---
 import Studio from "../../layouts/Studio.astro";
 import RelatedPosts from "../../components/RelatedPosts.astro";
-import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+import PostFaq from "../../components/PostFaq.astro";
+import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
 import { coverBase, coverSrcset, COVER_SIZES_POST } from "../../lib/images.mjs";
 
 const slug = "google-business-profile-vs-website-himachal";
@@ -15,6 +16,33 @@ const readMins = post.readMins;
 const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
 const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
 
+/* Questions real buyers ask, answered in full. This array is the single
+   source for both the visible accordion and the FAQPage node above — Google
+   requires FAQ markup to match content on the page, and deriving both from one
+   array is what stops them drifting. */
+const faqs = [
+  {
+    q: "Do I need a website if I have a Google Business Profile?",
+    a: "You need both, and they do different jobs. A Google Business Profile gets you onto the map and into local search — it's how people find you. A website is what convinces them once they have, because it's the only place you control the full story: your packages, your prices, your proof, your booking. The profile generates the visit; the website converts it.",
+  },
+  {
+    q: "What does a Google Business Profile do that a website can't?",
+    a: "It puts you on the map, literally — in Maps results, in the local pack, and in the panel beside a search for your name. It collects reviews where people look for them and shows your hours, phone number and directions without anyone visiting a site. For a walk-in business it is often the single highest-return thing you can set up, and it's free.",
+  },
+  {
+    q: "Where does a Google Business Profile stop being enough?",
+    a: "The moment a customer needs more than your address. You can't lay out packages properly, explain what makes you different, show a portfolio, publish policies, or take a booking on your own terms. And you're a policy change or a suspension away from losing the listing entirely, with no way to reach the customers it was bringing you.",
+  },
+  {
+    q: "Which should an Indian small business set up first?",
+    a: "The Google Business Profile, almost always — it's free, it's fast, and for a local business it produces results within weeks. Build the website next, and build it to answer what the profile can't. Doing it in the other order isn't wrong, but it means paying for a website before you've claimed the free thing that sends people to it.",
+  },
+  {
+    q: "What's the most common mistake businesses make here?",
+    a: "Treating them as alternatives and picking one. Businesses with a good profile and no website lose every customer who wanted detail before deciding; businesses with a good website and no profile are invisible to anyone searching on a map. They're two halves of the same job, and the businesses doing well locally are the ones running both properly.",
+  },
+];
+
 const jsonld = JSON.stringify({
   "@context": "https://schema.org",
   "@graph": [
@@ -25,18 +53,16 @@ const jsonld = JSON.stringify({
       description: post.description,
       datePublished: iso(post.pubDate),
       dateModified: iso(post.updatedDate || post.pubDate),
-      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
-      publisher: {
-        "@type": "Organization",
-        "@id": `${SITE}/#studio`,
-        name: "Divyansh Sood® Studio",
-        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
-      },
-      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      author: authorNode(SITE),
+      publisher: publisherNode(SITE),
+      isPartOf: websiteNode(SITE),
       mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
       image: ogImage,
       articleSection: primaryTag,
       keywords: post.tags.join(", "),
+      // Resolves the free-text tags above to public concept identifiers, so a
+      // parser knows "Astro" means the framework and "GEO" isn't geography.
+      about: topicsForTags(post.tags),
       wordCount: 987,
       timeRequired: `PT${readMins}M`,
       speakable: {
@@ -53,6 +79,18 @@ const jsonld = JSON.stringify({
         { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
         { "@type": "ListItem", position: 3, name: post.title, item: canonical },
       ],
+    },
+    {
+      // Google retired FAQ rich results in May 2026, so this earns no SERP
+      // enhancement. It stays because answer engines read Q&A pairs well, and
+      // because every question below is rendered visibly by <PostFaq>.
+      "@type": "FAQPage",
+      "@id": `${canonical}#faq`,
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
     },
   ],
 });
@@ -76,7 +114,6 @@ const jsonld = JSON.stringify({
 >
   <main>
     <header class="post-hero">
-      <div class="post-hero-bg" aria-hidden="true"></div>
       <div class="wrap narrow">
         <div class="eyebrow">
           <span>{primaryTag}</span>
@@ -163,6 +200,8 @@ const jsonld = JSON.stringify({
 <p><em><a href="/projects/baglamukhi-travels/">Baglamukhi Travels</a> is what happens when both are set up properly — the site averages position 5.7 on Google against aggregators with far bigger budgets. I build these as a <a href="/web-developer-kangra/">web developer in Kangra</a>. If your business has a Google Business Profile but no website — or vice versa — <a href="https://wa.me/919816091875">WhatsApp me</a> and I’ll tell you within a day what to fix first.</em></p>
       <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
     </article>
+
+    <PostFaq faqs={faqs} />
 
     <RelatedPosts slug={slug} audience={post.audience} />
 

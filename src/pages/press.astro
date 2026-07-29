@@ -63,7 +63,6 @@ const jsonld = JSON.stringify({
 >
   <main>
     <header class="cs-hero">
-      <div class="cs-hero-bg" aria-hidden="true"></div>
       <div class="wrap">
         <div class="cs-eyebrow">
           <span>Press &amp; brand kit</span><span>For writers, directories &amp; clients</span><span>2026</span>
@@ -162,13 +161,13 @@ const jsonld = JSON.stringify({
 <style>
   .pk-block { border:1px solid rgba(244,242,236,.16); border-radius:12px; overflow:hidden; background:#0b0b0c; }
   .pk-block-bar { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:11px 14px; border-bottom:1px solid rgba(244,242,236,.12); background:#131316; }
-  .pk-block-bar .mono { font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:#8A8A93; }
+  .pk-block-bar .mono { font-size:var(--fs-label-lg); letter-spacing:.12em; text-transform:uppercase; color:#8A8A93; }
   .pk-body { margin:0; padding:18px 16px; font-size:16px; line-height:1.72; color:#C9C7C0; }
-  .lg-btn { font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; padding:8px 14px; border-radius:999px; cursor:pointer; border:1px solid rgba(244,242,236,.28); background:transparent; color:#F4F2EC; transition:transform .15s ease, background .15s ease; }
+  .lg-btn { font-family:'JetBrains Mono',monospace; font-size:var(--fs-label); letter-spacing:.1em; text-transform:uppercase; padding:8px 14px; border-radius:999px; cursor:pointer; border:1px solid rgba(244,242,236,.28); background:transparent; color:#F4F2EC; transition:transform .15s ease, background .15s ease; }
   .lg-btn:hover { transform:translateY(-1px); }
   .lg-btn.is-done { background:var(--accent); color:#0b0b0c; border-color:var(--accent); }
   .lg-pre { margin:0; padding:16px; font-family:'JetBrains Mono',monospace; font-size:12.5px; line-height:1.7; color:#C9C7C0; white-space:pre-wrap; word-break:break-word; overflow:auto; }
-  .lg-note { margin-top:18px; font-size:11px; letter-spacing:.05em; color:#6f6f77; line-height:1.7; }
+  .lg-note { margin-top:18px; font-size:var(--fs-label-lg); letter-spacing:.05em; color:#6f6f77; line-height:1.7; }
   .lg-note b { color:#8A8A93; }
 </style>
 

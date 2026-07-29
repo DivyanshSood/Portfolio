@@ -69,7 +69,6 @@ const jsonld = JSON.stringify({
 >
   <main>
     <header class="cs-hero">
-      <div class="cs-hero-bg" aria-hidden="true"></div>
       <div class="wrap">
         <div class="cs-eyebrow">
           <span>Results</span><span>Real numbers, real projects</span><span>2022—2026</span>
@@ -89,7 +88,7 @@ const jsonld = JSON.stringify({
           <h2 id="top-h">The studio at a glance</h2>
           <span class="mono">Since 2022</span>
         </div>
-        <div class="cs-metrics" data-reveal>
+        <div class="cs-metrics cs-metrics-rail" data-reveal>
           {topStats.map((s) => (
             <div class="cs-metric"><span class="cs-metric-v">{s.v}</span><span class="cs-metric-l">{s.l}</span></div>
           ))}
@@ -161,10 +160,9 @@ const jsonld = JSON.stringify({
        interactive card state.
        ============================================================ */
 
-    main .cs-sec { padding: clamp(58px, 7vw, 108px) 0; }
-    main .cs-hero { padding-top: clamp(120px, 16vw, 160px); }
+    /* Rhythm, section-head alignment and hero clearance are shared — they live
+       in case-study.css and Breadcrumbs.astro now. */
     main .cs-lead { max-width: 66ch; font-size: clamp(17px, 1.7vw, 21px); }
-    main .cs-sec-head { align-items: flex-end; margin-bottom: clamp(30px, 4vw, 52px); }
     main .cs-sec-head h2 {
       font-family: 'Anton', sans-serif;
       font-weight: 400;
@@ -175,22 +173,9 @@ const jsonld = JSON.stringify({
     }
     main .cs-sec-head .mono { color: #8A8A93; }
 
-    /* ---- Studio-at-a-glance → borderless giant figures + hairlines ---- */
-    main .cs-metrics { gap: 0; border-top: 1px solid rgba(255, 255, 255, 0.16); }
-    main .cs-metric {
-      border: 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 0;
-      background: none;
-      padding: clamp(22px, 3vw, 34px) 22px clamp(22px, 3vw, 34px) 0;
-    }
+    /* ---- Studio-at-a-glance → borderless giant figures + hairlines ----
+       The rail itself is `.cs-metrics-rail` in case-study.css. */
     main .cs-metric-v { font-size: clamp(40px, 6vw, 84px); line-height: 0.88; }
-    main .cs-metric-l { margin-top: 12px; }
-    @media (min-width: 721px) {
-      main .cs-metric { border-right: 1px solid rgba(255, 255, 255, 0.1); padding-left: clamp(20px, 2.4vw, 34px); }
-      main .cs-metric:first-child { padding-left: 0; }
-      main .cs-metric:last-child { border-right: 0; }
-    }
 
     /* ---- Bento results grid ---- */
     main .results-grid {
@@ -232,7 +217,7 @@ const jsonld = JSON.stringify({
     main .results-l {
       margin-top: 6px;
       font-family: "JetBrains Mono", monospace;
-      font-size: 11px;
+      font-size: var(--fs-label-lg);
       letter-spacing: 0.08em;
       text-transform: uppercase;
       opacity: 0.6;
@@ -247,7 +232,7 @@ const jsonld = JSON.stringify({
     main .results-more {
       margin-top: 18px;
       font-family: "JetBrains Mono", monospace;
-      font-size: 11px;
+      font-size: var(--fs-label-lg);
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--accent, #d9ff3c);
@@ -302,7 +287,7 @@ const jsonld = JSON.stringify({
     main .results-quote-links { display: flex; gap: 20px; flex-wrap: wrap; }
     main .results-quote-links a {
       font-family: "JetBrains Mono", monospace;
-      font-size: 11px;
+      font-size: var(--fs-label-lg);
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--accent, #d9ff3c);
@@ -314,16 +299,11 @@ const jsonld = JSON.stringify({
     @media (max-width: 900px) {
       main .results-grid { grid-template-columns: 1fr 1fr; }
     }
-    @media (max-width: 620px) {
-      main .results-grid { grid-template-columns: 1fr; }
-      main .cs-metrics { grid-template-columns: 1fr 1fr; }
-    }
+    /* 720, not 620: a 2-up result card at 640px is ~300px wide and has to hold
+       a 36px Anton figure, a name and a paragraph. It goes single-column on the
+       same step as every other grid on the site. */
     @media (max-width: 720px) {
-      /* `main .cs-sec` above out-specifies the shared responsive.css phone
-         rules, so re-tighten the section rhythm here. */
-      main .cs-sec { padding: 44px 0; }
-      main .cs-sec-head { margin-bottom: 22px; }
-      main .cs-hero { padding-top: 104px; }
+      main .results-grid { grid-template-columns: 1fr; }
     }
   </style>
 </Studio>

@@ -1,7 +1,8 @@
 ---
 import Studio from "../../layouts/Studio.astro";
 import RelatedPosts from "../../components/RelatedPosts.astro";
-import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+import PostFaq from "../../components/PostFaq.astro";
+import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
 import { coverBase, coverSrcset, COVER_SIZES_POST } from "../../lib/images.mjs";
 
 const slug = "hire-web-developer-india-from-us";
@@ -15,6 +16,29 @@ const readMins = post.readMins;
 const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
 const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
 
+const faqs = [
+  {
+    q: "Is it safe to hire a web developer in India?",
+    a: "As safe as hiring anywhere, provided you're clear which market you're buying from. India has large low-cost body shops and it has senior independents running small practices, and almost every horror story comes from someone buying the first while expecting the second. Vet the individual, not the country.",
+  },
+  {
+    q: "How much does it cost to hire a web developer in India?",
+    a: "Less than the equivalent seniority in the US or UK, but the honest range is wide enough that a single figure would mislead you. Rates track experience rather than geography more than people expect \u2014 a senior independent in India is not priced like an offshore team, and shouldn't be. Insist on a fixed written quote after a scoping call.",
+  },
+  {
+    q: "How do time zones work with a developer in India?",
+    a: "IST overlaps US mornings, UK afternoons and Gulf evenings, which is enough for a real-time call most days without anyone working unsociable hours. The bigger factor is working style: async written updates and a staging link you can check any time matter more than overlapping hours.",
+  },
+  {
+    q: "How do I pay an Indian developer from the US or UK?",
+    a: "International bank transfer or a platform like Wise is standard, usually against milestone invoices. Expect a proper invoice with the right details for your accounting. Milestone billing protects both sides \u2014 you're never far ahead on payment, and neither is the work.",
+  },
+  {
+    q: "How do I avoid the offshore horror stories?",
+    a: "Almost all of them share a shape: no written scope, a price that was too good, no live work checked, and communication that was already vague before money changed hands. Check something they built on your own phone, get the scope in writing, pay in milestones, and treat slow or unclear replies during the sales conversation as information.",
+  },
+];
+
 const jsonld = JSON.stringify({
   "@context": "https://schema.org",
   "@graph": [
@@ -25,18 +49,16 @@ const jsonld = JSON.stringify({
       description: post.description,
       datePublished: iso(post.pubDate),
       dateModified: iso(post.updatedDate || post.pubDate),
-      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
-      publisher: {
-        "@type": "Organization",
-        "@id": `${SITE}/#studio`,
-        name: "Divyansh Sood® Studio",
-        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
-      },
-      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      author: authorNode(SITE),
+      publisher: publisherNode(SITE),
+      isPartOf: websiteNode(SITE),
       mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
       image: ogImage,
       articleSection: primaryTag,
       keywords: post.tags.join(", "),
+      // Resolves the free-text tags above to public concept identifiers, so a
+      // parser knows "Astro" means the framework and "GEO" isn't geography.
+      about: topicsForTags(post.tags),
       wordCount: post.wordCount,
       timeRequired: `PT${readMins}M`,
       speakable: {
@@ -53,6 +75,13 @@ const jsonld = JSON.stringify({
         { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
         { "@type": "ListItem", position: 3, name: post.title, item: canonical },
       ],
+    },
+    {
+      // FAQ rich results were retired by Google in May 2026, so this earns no
+      // SERP feature. It stays because answer engines still parse it and every
+      // question below is rendered visibly on the page.
+      "@type": "FAQPage",
+      mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
     },
   ],
 });
@@ -76,7 +105,6 @@ const jsonld = JSON.stringify({
 >
   <main>
     <header class="post-hero">
-      <div class="post-hero-bg" aria-hidden="true"></div>
       <div class="wrap narrow">
         <div class="eyebrow">
           <span>{primaryTag}</span>
@@ -145,6 +173,8 @@ const jsonld = JSON.stringify({
       <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
     </article>
 
+    <PostFaq faqs={faqs} idPrefix="faq-in" />
+
     <RelatedPosts slug={slug} audience={post.audience} />
 
     <section class="post-foot-cta">
@@ -189,3 +219,4 @@ const jsonld = JSON.stringify({
     </section>
   </main>
 </Studio>
+

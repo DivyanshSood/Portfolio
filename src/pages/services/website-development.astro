@@ -1,0 +1,356 @@
+---
+// ===========================================================================
+// /services/website-development/ — the head-term landing page.
+//
+// The site had five service pages (ecommerce, web apps, AI, landing pages,
+// SEO/GEO) and no page for "website development" itself, so the highest-value
+// commercial cluster was defended only by the /services/ hub — a router, built
+// to send people onward rather than to rank.
+//
+// The split with /services/ is deliberate and must be maintained: the hub
+// answers "which of these do I need?", this page answers "what is custom
+// website development and should I buy it?". Two intents, two pages, no
+// cannibalisation.
+// ===========================================================================
+import Studio from "../../layouts/Studio.astro";
+import { SITE, CALENDLY_URL } from "../../lib/site.mjs";
+import { TOPICS } from "../../lib/entity.mjs";
+
+const canonical = `${SITE}/services/website-development/`;
+
+const offers = [
+  { t: "Business & marketing websites", d: "The site most companies actually need: a handful of pages that load fast, say the right thing in the first screen, and turn a visitor into an enquiry. Custom-coded, so nothing is shaped by what a template allowed." },
+  { t: "Website redesigns that keep your rankings", d: "The redesign that loses a business its Google traffic is the one where nobody mapped the old URLs. Redirects, structure and schema are planned before design starts — the search visibility you already earned comes with you." },
+  { t: "Booking- and enquiry-first builds", d: "For travel, hospitality, clinics and local services: the whole page arranged around the one action that makes you money. WhatsApp-first where that's how your customers actually talk." },
+  { t: "Institutional & multi-page sites", d: "Schools, firms and organisations with real content to organise — navigation people can hold in their head, and a structure that doesn't collapse when you add a section next year." },
+];
+
+const included = [
+  { t: "Custom code, no page builder", d: "Hand-built front-ends. No Elementor, no theme marketplace, no plugin stack to maintain — and no monthly rent to keep your own site online." },
+  { t: "Technical SEO from the first commit", d: "Semantic markup, structured data, clean URLs, a real sitemap and canonical tags. Built in as the site is built, because retrofitting it costs more and works less well." },
+  { t: "Speed as a requirement, not a phase", d: "Responsive image ladders, self-hosted fonts, analytics off the critical path. Core Web Vitals are treated as an acceptance criterion, not something to look at afterwards." },
+  { t: "Accessible and responsive by default", d: "Keyboard navigation, real focus states, sensible contrast, and layouts tested on the phones your customers actually hold — not just a desktop browser resized." },
+  { t: "You own everything", d: "Clean repository, README, an architecture walkthrough and a signed IP transfer. Hosting in your name. Nothing forces the next developer to start over." },
+  { t: "One person, start to finish", d: "The person who scoped it writes it. No account manager relaying your feedback to a team you never meet, and no brief lost in translation." },
+];
+
+const how = [
+  { n: "01", t: "Understand the decision being made", d: "Before layouts, the question is what a visitor needs to believe before they contact you. Everything on the page then exists to move that along — or it gets cut." },
+  { n: "02", t: "Structure and content first", d: "Pages, URLs, headings and what each page is for. This is the SEO work and the UX work at the same time, and doing it before design is why the build doesn't get rearranged three times." },
+  { n: "03", t: "Design in the browser", d: "Real type, real content, real speed on a real device — reviewed on a staging link you can open any time, not a static mockup that hides how it actually feels." },
+  { n: "04", t: "Build, measure, launch", d: "Custom-coded, checked against Core Web Vitals and accessibility, redirects mapped if we're replacing an old site, analytics and Search Console wired up before it goes live." },
+  { n: "05", t: "Hand over and stay reachable", d: "Repo, walkthrough, and a person who answers when something needs changing. No retainer required to keep your own website working." },
+];
+
+const faqs = [
+  {
+    q: "What is custom website development?",
+    a: "Building a website by writing its code, rather than assembling it from a template or page builder. The practical difference is what happens when you need something the template didn't anticipate: with custom code it's a change, and with a builder it's either a compromise or a plugin. It also means nothing is loading on your site except what your site needs, which is most of why custom builds are faster.",
+  },
+  {
+    q: "How long does a website take to build?",
+    a: "Most business and marketing sites go live in 3–4 weeks. Larger builds with portals, logins or payments run 6–10 weeks. The fastest complete build I've shipped was a school website plus a working admissions portal in 7 days, where other agencies had quoted six months — that was an unusual sprint, not the standard promise.",
+  },
+  {
+    q: "What does website development cost?",
+    a: "Every project is quoted individually after a short call, and that quote is fixed and in writing before any work starts — no hourly creep and no change-order games. What moves the number is scope: how many pages, whether you need to edit the site yourself, and whether payments or logins are involved.",
+  },
+  {
+    q: "Is a custom website better than WordPress, Wix or Squarespace?",
+    a: "Not always, and I'll say so. If you need a handful of pages, want to edit everything yourself and aren't competing hard on search, a builder is a reasonable buy. Custom code earns its cost when speed matters commercially, when your brand needs to look like nobody else's, or when the site has to do something specific — a booking flow, a portal, an unusual checkout. Below that threshold I'd rather tell you to keep what you have.",
+  },
+  {
+    q: "Will a redesign hurt my Google rankings?",
+    a: "It can, and that's the most common way a redesign goes wrong: the new site launches with new URLs, nothing redirects, and months of accumulated search equity disappears. On a rebuild I map every existing URL to its replacement, keep the structured data intact, and check indexing after launch rather than assuming it worked.",
+  },
+  {
+    q: "Do I own the code and the website?",
+    a: "Yes, entirely. You get a clean repository, documentation, an architecture walkthrough and a signed IP transfer, with hosting in your own name. No platform lock-in, no monthly rent to me or anyone else, and any competent developer can pick it up — which is the point.",
+  },
+  {
+    q: "Can you work with a business outside India?",
+    a: "Most product work is international. I'm in Himachal Pradesh on IST, which overlaps US mornings, UK afternoons and Gulf evenings — calls in your time zone, async when you'd rather not meet, milestone billing, and a repository your future in-house team can take over on day one.",
+  },
+];
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "@id": `${canonical}#service`,
+      name: "Custom website design and development",
+      serviceType: "Website development",
+      provider: { "@id": `${SITE}/#person` },
+      areaServed: [{ "@type": "Country", name: "India" }, { "@type": "Place", name: "Worldwide" }],
+      description:
+        "Custom website development services — hand-coded business websites, marketing sites, redesigns and booking-first builds. Technical SEO and Core Web Vitals built in from the first commit, live in 3–4 weeks, and you own the code.",
+      url: canonical,
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: "Website development",
+        itemListElement: offers.map((o) => ({
+          "@type": "Offer",
+          itemOffered: { "@type": "Service", name: o.t, description: o.d },
+        })),
+      },
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Services", item: `${SITE}/services/` },
+        { "@type": "ListItem", position: 3, name: "Website development", item: canonical },
+      ],
+    },
+    {
+      // FAQ rich results were retired by Google in May 2026, so this earns no
+      // SERP enhancement. It stays because answer engines still parse it and
+      // every question below is rendered visibly on the page.
+      "@type": "FAQPage",
+      mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+    },
+  ],
+});
+---
+
+<Studio
+  title="Website Development Services — Custom-Coded, SEO-Ready"
+  description="Custom website development for businesses worldwide — hand-coded, fast, and built to rank. Live in 3–4 weeks, technical SEO included, and you own the code."
+  canonical={canonical}
+  keywords="website development services, custom website development, custom coded website, hire a website developer, freelance website developer, website redesign, business website development, professional website development"
+  ogTitle="Custom website development that's built to rank"
+  ogDescription="Hand-coded business websites with technical SEO and Core Web Vitals built in from the first commit. Live in 3–4 weeks. You own the code."
+  topics={[TOPICS.webDevelopment, TOPICS.website, TOPICS.seo, TOPICS.cwv]}
+  jsonld={jsonld}
+>
+  <main>
+    <header class="cs-hero">
+      <div class="wrap">
+        <div class="cs-eyebrow">
+          <span>Services</span><span>Website development</span><span>2026</span>
+        </div>
+        <h1 style="margin:14px 0 0;font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(44px,8vw,108px);line-height:.9;letter-spacing:-.01em;text-transform:uppercase;">Websites built<br /><span style="color:var(--accent);">to be found.</span></h1>
+        <p class="cs-lead">Custom website development for businesses that need the site to do a job — bring in enquiries, take bookings, and hold up in search. Every build is hand-coded rather than assembled from a template, with technical SEO and page speed treated as requirements from the first commit instead of a phase at the end. Most go live in 3–4 weeks, and you own everything.</p>
+        <div class="cs-cta-row">
+          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book a 15-min intro <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost" href="/portfolio/">See the work</a>
+        </div>
+        <div class="cs-meta">
+          <span>Fixed written quotes · you own the code</span><span>Himachal Pradesh, India · working worldwide</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="cs-sec" aria-labelledby="offer-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="offer-h">What I build</h2>
+          <span class="mono">Website development</span>
+        </div>
+        <div class="cs-body" data-reveal>
+          {offers.map((o) => (
+            <div class="cs-card">
+              <span class="cs-tag">{o.t}</span>
+              <p>{o.d}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="incl-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="incl-h">What every build includes</h2>
+          <span class="mono">Not extras</span>
+        </div>
+        <div class="cs-body" data-reveal>
+          {included.map((o) => (
+            <div class="cs-card">
+              <span class="cs-tag">{o.t}</span>
+              <p>{o.d}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="proof-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="proof-h">Proof it works</h2>
+          <span class="mono">Shipped, not promised</span>
+        </div>
+        <div class="cs-metrics" data-reveal>
+          <div class="cs-metric"><span class="cs-metric-v">20+</span><span class="cs-metric-l">Websites shipped since 2022</span></div>
+          <div class="cs-metric"><span class="cs-metric-v">7</span><span class="cs-metric-l">Days for the fastest full build — where agencies quoted 6 months</span></div>
+          <div class="cs-metric"><span class="cs-metric-v">5.7</span><span class="cs-metric-l">Average Google position for a client site built this way</span></div>
+          <div class="cs-metric"><span class="cs-metric-v">100%</span><span class="cs-metric-l">Code ownership transferred, every project</span></div>
+        </div>
+        <div class="cs-body" data-reveal style="margin-top:22px;">
+          <div class="cs-card span2">
+            <span class="cs-tag">Modern K.B.S. School · 7 days</span>
+            <p>A school website plus a working admissions portal, shipped in a week after every agency quoted six months. The clearest answer to what custom development actually buys you. <a href="/projects/modernkbs/">Read the case study →</a></p>
+          </div>
+          <div class="cs-card">
+            <span class="cs-tag">Baglamukhi Travels · position 5.7</span>
+            <p>A Kangra taxi and pilgrimage operator with a full local-business schema graph — now averaging position 5.7 in Google Search Console. <a href="/projects/baglamukhi-travels/">Read the case study →</a></p>
+          </div>
+          <div class="cs-card">
+            <span class="cs-tag">Nandini Travels · Maps to direct bookings</span>
+            <p>The most-reviewed taxi operator in Kangra had zero direct bookings. A WhatsApp-first site changed that within weeks. <a href="/projects/nandini/">Read the case study →</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="how-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="how-h">How a website gets built</h2>
+          <span class="mono">The process</span>
+        </div>
+        <div class="cs-body" data-reveal>
+          {how.map((s) => (
+            <div class="cs-card">
+              <span class="cs-tag">({s.n}) {s.t}</span>
+              <p>{s.d}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="next-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="next-h">If you need something more specific</h2>
+          <span class="mono">Related services</span>
+        </div>
+        <div class="cs-body" data-reveal>
+          <div class="cs-card">
+            <span class="cs-tag">Selling online</span>
+            <p>Custom storefronts for D2C brands and creators, without Shopify themes or platform rent. <a href="/services/ecommerce-website-development/">Ecommerce development →</a></p>
+          </div>
+          <div class="cs-card">
+            <span class="cs-tag">Logins, portals, dashboards</span>
+            <p>When it's software rather than a website — MVPs, admin panels and internal tools. <a href="/services/web-app-development/">Web app development →</a></p>
+          </div>
+          <div class="cs-card">
+            <span class="cs-tag">One page, one job</span>
+            <p>A campaign or launch page where the only measure is conversion. <a href="/services/landing-page-design/">Landing page design →</a></p>
+          </div>
+          <div class="cs-card">
+            <span class="cs-tag">Being found and cited</span>
+            <p>Technical SEO plus Generative Engine Optimization for a site that already exists. <a href="/services/seo-geo-services/">SEO &amp; GEO services →</a></p>
+          </div>
+          <div class="cs-card">
+            <span class="cs-tag">AI features</span>
+            <p>Retrieval over your own content, AI search and support, shipped to production. <a href="/services/ai-development/">AI development →</a></p>
+          </div>
+          <div class="cs-card">
+            <span class="cs-tag">Working locally</span>
+            <p>Himachal-based builds for businesses in <a href="/web-developer-kangra/">Kangra</a>, <a href="/web-developer-dharamshala/">Dharamshala</a>, <a href="/web-developer-shimla/">Shimla</a> and <a href="/web-developer-manali/">Manali</a>.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="read-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="read-h">Worth reading before you commission anything</h2>
+          <span class="mono">From the journal</span>
+        </div>
+        <div class="cs-body" data-reveal>
+          <div class="cs-card">
+            <span class="cs-tag">Custom vs WordPress</span>
+            <p>What WordPress ships well, where it costs you on speed and SEO, and when custom is worth it. <a href="/blog/custom-website-vs-wordpress/">Custom website vs WordPress, compared →</a></p>
+          </div>
+          <div class="cs-card">
+            <span class="cs-tag">How to choose a developer</span>
+            <p>What to ask, what the red flags look like, and how to vet someone before you pay. <a href="/blog/how-to-choose-web-developer-himachal/">How to choose a web developer in Himachal →</a></p>
+          </div>
+          <div class="cs-card">
+            <span class="cs-tag">Agency vs freelancer</span>
+            <p>What agency overhead actually buys, and when a senior independent ships faster. <a href="/blog/freelancer-vs-agency-web-development/">Freelancer vs agency for web development →</a></p>
+          </div>
+          <div class="cs-card span2">
+            <span class="cs-tag">Why most business sites get no leads</span>
+            <p>Six reasons a website produces zero enquiries — none of them expensive to fix. <a href="/blog/why-indian-websites-dont-generate-leads/">Why Indian business websites get no enquiries →</a></p>
+          </div>
+          <div class="cs-card">
+            <span class="cs-tag">AI and web development</span>
+            <p>How AI actually changes a build, and where it doesn't. <a href="/blog/topics/ai-web-development/">The AI cluster →</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="faq-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="faq-h">Frequently asked</h2>
+          <span class="mono">Website development</span>
+        </div>
+        <div class="cs-faq">
+          {faqs.map((f, i) => (
+            <div class="cs-faq-row">
+              <button class="cs-faq-q" data-faqtog={i} aria-expanded="false" aria-controls={`faq-wd-${i}`}>
+                <span>{f.q}</span><span class="cs-faq-icon" data-faqicon={i} aria-hidden="true">+</span>
+              </button>
+              <div class="cs-faq-a" id={`faq-wd-${i}`} data-faqbody={i}><p>{f.a}</p></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-endcta">
+      <div class="wrap">
+        <h2>Tell me what the website has to do.</h2>
+        <p>Three sentences is enough to start. I'll tell you what I'd build, roughly how long it takes, and whether you actually need a custom build — if a builder would serve you better, you'll get that answer instead.</p>
+        <div class="cs-cta-row" style="justify-content:center;">
+          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book a 15-min intro <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost" href="/website-audit/">Get a free website audit</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Studio>
+
+<script is:inline>
+  (function () {
+    var root = document.getElementById("ds-root");
+    if (!root) return;
+    var faq = -1;
+    function sync() {
+      root.querySelectorAll("[data-faqbody]").forEach(function (el) {
+        var open = Number(el.getAttribute("data-faqbody")) === faq;
+        el.style.maxHeight = open ? el.scrollHeight + "px" : "0px";
+        el.style.opacity = open ? "1" : "0";
+      });
+      root.querySelectorAll("[data-faqicon]").forEach(function (el) {
+        el.style.transform = Number(el.getAttribute("data-faqicon")) === faq ? "rotate(45deg)" : "rotate(0deg)";
+      });
+      root.querySelectorAll("[data-faqtog]").forEach(function (el) {
+        el.setAttribute("aria-expanded", Number(el.getAttribute("data-faqtog")) === faq ? "true" : "false");
+      });
+    }
+    root.querySelectorAll("[data-faqtog]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        var i = Number(el.getAttribute("data-faqtog"));
+        faq = faq === i ? -1 : i;
+        sync();
+      });
+    });
+    var rt;
+    window.addEventListener("resize", function () {
+      if (faq < 0) return;
+      clearTimeout(rt);
+      rt = setTimeout(sync, 120);
+    });
+    sync();
+  })();
+</script>

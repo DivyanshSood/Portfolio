@@ -1,7 +1,8 @@
 ---
 import Studio from "../../layouts/Studio.astro";
 import RelatedPosts from "../../components/RelatedPosts.astro";
-import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+import PostFaq from "../../components/PostFaq.astro";
+import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
 import { coverBase, coverSrcset, COVER_SIZES_POST } from "../../lib/images.mjs";
 
 const slug = "why-indian-websites-dont-generate-leads";
@@ -15,6 +16,33 @@ const readMins = post.readMins;
 const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
 const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
 
+/* Questions real buyers ask, answered in full. This array is the single
+   source for both the visible accordion and the FAQPage node above — Google
+   requires FAQ markup to match content on the page, and deriving both from one
+   array is what stops them drifting. */
+const faqs = [
+  {
+    q: "Why doesn't my business website generate any leads?",
+    a: "Almost always one of six things, and none of them expensive: the contact form goes somewhere nobody checks, the site is too slow on mobile, a visitor can't tell what you do within five seconds, there's no reason to contact you today rather than later, Google can't find you, or the site was built to please the owner rather than serve the customer. Check the form first — a broken form is the most common single cause and the cheapest to fix.",
+  },
+  {
+    q: "How do I check whether my website's contact form actually works?",
+    a: "Submit it yourself, from a phone, on mobile data, using an email address you don't own. Then check whether the message arrived, how long it took, and where it landed. A surprising number of business websites have forms that silently fail, or that deliver to an inbox nobody has opened since the site launched. This takes four minutes and is the highest-return thing on the list.",
+  },
+  {
+    q: "How fast does a business website need to be in India?",
+    a: "Fast on a mid-range Android phone on a patchy mobile connection, because that's what your customers are actually holding. A site that feels fine on the office broadband and takes eight seconds on 4G is losing most of its visitors before they see anything. Test it on a real phone away from your own wifi rather than trusting a desktop preview.",
+  },
+  {
+    q: "Why does Google not show my website?",
+    a: "Usually because there's nothing on it to find. A site with five pages of generic copy and no mention of the places you serve or the specific things you do has given Google nothing to match a search against. It's rarely a penalty and rarely technical — it's an absence of content that answers a real query.",
+  },
+  {
+    q: "What's the common thread behind all of these?",
+    a: "Every one is a website built as a brochure rather than as a salesperson. A brochure describes the business; a salesperson answers the question the customer walked in with and tells them what to do next. Most Indian business websites are competent brochures, which is why they produce nothing, and why the fixes are cheap once you see the pattern.",
+  },
+];
+
 const jsonld = JSON.stringify({
   "@context": "https://schema.org",
   "@graph": [
@@ -25,18 +53,16 @@ const jsonld = JSON.stringify({
       description: post.description,
       datePublished: iso(post.pubDate),
       dateModified: iso(post.updatedDate || post.pubDate),
-      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
-      publisher: {
-        "@type": "Organization",
-        "@id": `${SITE}/#studio`,
-        name: "Divyansh Sood® Studio",
-        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
-      },
-      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      author: authorNode(SITE),
+      publisher: publisherNode(SITE),
+      isPartOf: websiteNode(SITE),
       mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
       image: ogImage,
       articleSection: primaryTag,
       keywords: post.tags.join(", "),
+      // Resolves the free-text tags above to public concept identifiers, so a
+      // parser knows "Astro" means the framework and "GEO" isn't geography.
+      about: topicsForTags(post.tags),
       wordCount: 1648,
       timeRequired: `PT${readMins}M`,
       speakable: {
@@ -53,6 +79,18 @@ const jsonld = JSON.stringify({
         { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
         { "@type": "ListItem", position: 3, name: post.title, item: canonical },
       ],
+    },
+    {
+      // Google retired FAQ rich results in May 2026, so this earns no SERP
+      // enhancement. It stays because answer engines read Q&A pairs well, and
+      // because every question below is rendered visibly by <PostFaq>.
+      "@type": "FAQPage",
+      "@id": `${canonical}#faq`,
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
     },
   ],
 });
@@ -76,7 +114,6 @@ const jsonld = JSON.stringify({
 >
   <main>
     <header class="post-hero">
-      <div class="post-hero-bg" aria-hidden="true"></div>
       <div class="wrap narrow">
         <div class="eyebrow">
           <span>{primaryTag}</span>
@@ -202,6 +239,8 @@ const jsonld = JSON.stringify({
 <p><em>I’m Divyansh, solo developer out of Kangra Valley. I’ve rebuilt a dozen Indian SMB sites that weren’t generating leads — most of the fixes weren’t expensive. If the problem is one page rather than the whole site, that's <a href="/services/landing-page-design/">landing page design</a>. If you'd rather have the diagnosis in writing first, the <a href="/website-audit/">free website audit</a> covers exactly this. <a href="https://wa.me/919816091875">WhatsApp me your URL</a> and I’ll tell you honestly what’s costing you enquiries, before you spend a rupee.</em></p>
       <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
     </article>
+
+    <PostFaq faqs={faqs} />
 
     <RelatedPosts slug={slug} audience={post.audience} />
 

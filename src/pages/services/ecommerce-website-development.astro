@@ -1,6 +1,7 @@
 ---
 import Studio from "../../layouts/Studio.astro";
 import { SITE, CALENDLY_URL } from "../../lib/site.mjs";
+import { TOPICS } from "../../lib/entity.mjs";
 
 const canonical = `${SITE}/services/ecommerce-website-development/`;
 
@@ -39,6 +40,16 @@ const jsonld = JSON.stringify({
       description:
         "Custom-coded ecommerce websites and D2C storefronts — no Shopify themes, no platform rent. Razorpay and Stripe integration, drop mechanics, full code ownership, live in 2–4 weeks.",
       url: canonical,
+      // Derived from the same `offers` array the page renders, so the catalogue
+      // can never advertise something the page doesn't actually describe.
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: "Ecommerce website development",
+        itemListElement: offers.map((o) => ({
+          "@type": "Offer",
+          itemOffered: { "@type": "Service", name: o.t, description: o.d },
+        })),
+      },
     },
     {
       "@type": "BreadcrumbList",
@@ -63,11 +74,11 @@ const jsonld = JSON.stringify({
   keywords="custom ecommerce website development, D2C website developer, Shopify alternative developer, custom storefront development, ecommerce developer India, creator store developer, Razorpay integration developer"
   ogTitle="Custom ecommerce website development"
   ogDescription="Storefronts coded from scratch around your brand. No themes, no platform rent, full code ownership."
+  topics={[TOPICS.ecommerce, TOPICS.webDevelopment, TOPICS.shopify]}
   jsonld={jsonld}
 >
   <main>
     <header class="cs-hero">
-      <div class="cs-hero-bg" aria-hidden="true"></div>
       <div class="wrap">
         <div class="cs-eyebrow">
           <span>Services</span><span>Ecommerce · D2C</span><span>2026</span>
@@ -156,15 +167,15 @@ const jsonld = JSON.stringify({
         <div class="cs-body" data-reveal>
           <div class="cs-card">
             <span class="cs-tag">Why premium brands leave Shopify</span>
-            <p>Brands that want to feel like a brand keep hitting a theme-shaped ceiling. <a href="/blog/why-premium-brands-leave-shopify/">Read →</a></p>
+            <p>Brands that want to feel like a brand keep hitting a theme-shaped ceiling. <a href="/blog/why-premium-brands-leave-shopify/">Why premium brands leave Shopify →</a></p>
           </div>
           <div class="cs-card">
             <span class="cs-tag">The real cost of renting your storefront</span>
-            <p>What you actually pay over three years when your storefront is rented, not owned. <a href="/blog/the-real-cost-of-renting-your-storefront/">Read →</a></p>
+            <p>What you actually pay over three years when your storefront is rented, not owned. <a href="/blog/the-real-cost-of-renting-your-storefront/">The real cost of renting your storefront →</a></p>
           </div>
           <div class="cs-card span2">
             <span class="cs-tag">A storefront that feels like the brand</span>
-            <p>Not a theme — an experience where the product, the story and the buy flow belong together. <a href="/blog/storefront-that-feels-like-the-brand/">Read →</a></p>
+            <p>Not a theme — an experience where the product, the story and the buy flow belong together. <a href="/blog/storefront-that-feels-like-the-brand/">Build a storefront that feels like the brand →</a></p>
           </div>
         </div>
       </div>

@@ -6,10 +6,9 @@
    (`<name>.webp`) plus one pre-generated variant per width below
    (`<name>-<w>.webp`), written by scripts/gen-work-variants.mjs.
 
-   LOCAL_WIDTHS used to be redeclared in four places — render.mjs, index.astro,
-   DepthGallery.astro and the generator itself — so adding a width meant
-   remembering all four, and missing one produced 404s for images that had
-   simply never been generated. Import from here instead.
+   LOCAL_WIDTHS is consumed by render.mjs, index.astro, DepthGallery.astro and
+   the generator. Import it; never redeclare it. A copy that drifts from the
+   generator emits srcset entries for variants that were never written.
 
    Remote (ImageKit) sources resize with a `?tr=` query instead and are handled
    by their own callers; only the local ladder lives here.
@@ -78,12 +77,19 @@ export function coverSrcset(cover) {
 }
 
 /* `sizes` for each of the two places a cover appears. Both are measured from
-   the CSS rather than guessed: .wrap is 1180px max with 30px gutters, .narrow
-   caps at 760px, and .blog-grid is 3 / 2 / 1 columns at 980px and 620px. */
+   the CSS rather than guessed: `.wrap` is 1180px max with 30px gutters that
+   tighten to 20px at 480px, `.narrow` caps at 760px, `.blog-grid` runs a 26px
+   gap and steps 3 → 2 → 1 columns at 900px and 480px.
+
+   Keep these in step with responsive.css. They were last written against the
+   old 980 / 620 breakpoints, so between 621px and 900px the browser sized a
+   two-column card as if it were full width and downloaded the 1080px variant
+   for a ~350px slot. */
 
 /** A post's hero cover: full width of `.wrap.narrow`, so 700px at most. */
-export const COVER_SIZES_POST = "(max-width: 820px) calc(100vw - 40px), 700px";
+export const COVER_SIZES_POST =
+  "(max-width: 480px) calc(100vw - 40px), (max-width: 760px) calc(100vw - 60px), 700px";
 
 /** A card thumb in `/blog/`: one of three columns, then two, then full width. */
 export const COVER_SIZES_CARD =
-  "(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 40px), 356px";
+  "(max-width: 480px) calc(100vw - 40px), (max-width: 900px) calc(50vw - 43px), 356px";

@@ -1,7 +1,7 @@
 ---
 import Studio from "../../layouts/Studio.astro";
 import RelatedPosts from "../../components/RelatedPosts.astro";
-import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
 import { coverBase, coverSrcset, COVER_SIZES_POST } from "../../lib/images.mjs";
 
 const slug = "how-indian-businesses-use-ai-2026";
@@ -25,18 +25,16 @@ const jsonld = JSON.stringify({
       description: post.description,
       datePublished: iso(post.pubDate),
       dateModified: iso(post.updatedDate || post.pubDate),
-      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
-      publisher: {
-        "@type": "Organization",
-        "@id": `${SITE}/#studio`,
-        name: "Divyansh Sood® Studio",
-        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
-      },
-      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      author: authorNode(SITE),
+      publisher: publisherNode(SITE),
+      isPartOf: websiteNode(SITE),
       mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
       image: ogImage,
       articleSection: primaryTag,
       keywords: post.tags.join(", "),
+      // Resolves the free-text tags above to public concept identifiers, so a
+      // parser knows "Astro" means the framework and "GEO" isn't geography.
+      about: topicsForTags(post.tags),
       wordCount: post.wordCount,
       timeRequired: `PT${readMins}M`,
       speakable: {
@@ -76,7 +74,6 @@ const jsonld = JSON.stringify({
 >
   <main>
     <header class="post-hero">
-      <div class="post-hero-bg" aria-hidden="true"></div>
       <div class="wrap narrow">
         <div class="eyebrow">
           <span>{primaryTag}</span>
@@ -122,7 +119,7 @@ const jsonld = JSON.stringify({
 <p>Every business has them — check-in time, fee structure, whether you deliver to a particular district. Worth automating <em>once your content is good enough to answer from</em>. I've written the honest version of when this is and isn't worth it in <a href="/blog/ai-chatbot-for-indian-business/">should your Indian business add an AI chatbot</a>.</p>
 <h3 id="being-found-by-assistants">Being found by AI assistants at all</h3>
 <p>This is the one most Indian businesses haven't registered yet. A meaningful share of buyers now ask an assistant "best taxi service in Kangra" or "schools in Ladwara with a science stream" instead of searching. If your business isn't legible to those systems, you're invisible in a channel that didn't exist three years ago.</p>
-<p>It's also the cheapest thing on this list — structured data, clear factual pages, an <a href="/blog/what-is-llms-txt-blog/">llms.txt file</a>. <a href="/projects/baglamukhi-travels/">Baglamukhi Travels</a> ships all three and averages position 5.7 on Google against aggregators with far bigger budgets.</p>
+<p>It's also the cheapest thing on this list — structured data, clear factual pages, an <a href="/blog/what-is-llms-txt/">llms.txt file</a>. <a href="/projects/baglamukhi-travels/">Baglamukhi Travels</a> ships all three and averages position 5.7 on Google against aggregators with far bigger budgets.</p>
 <hr>
 <h2 id="what-is-mostly-theatre">What's mostly theatre</h2>
 <p><strong>"AI-powered" as a selling point to customers.</strong> Your customer wants a fast site, a clear price and a quick reply. Nobody chose a taxi operator because the website had AI.</p>

@@ -1,75 +1,60 @@
 /* ===========================================================================
-   Responsive layer.
-   Part 1 — existing breakpoints (ported verbatim from the original global.css).
-   Part 2 — additive mobile / multi-viewport hardening. These rules only take
-            effect on small screens (or notched / touch devices) and never
-            alter the desktop look: they are keyed off small-screen media
-            queries and helper classes that carry no desktop styling.
+   Responsive layer. Imported LAST, so at equal specificity anything here beats
+   base / case-study / blog on source order — put a rule in this file only if it
+   is meant to win.
+   Part 1 — breakpoints.
+   Part 2 — mobile / multi-viewport hardening: rules keyed off small-screen
+            media queries and touch devices that never alter the desktop look.
    =========================================================================== */
 
-/* ----------------------------- PART 1 — existing ----------------------------- */
-@media (max-width:980px){.blog-grid{grid-template-columns:1fr 1fr;}}
-@media (max-width:860px){
+/* ----------------------------- PART 1 — breakpoints -----------------------------
+   900 / 720 / 480 — the same three steps the homepage uses, and the only three
+   the site has. Everything on a page switches at the same width; adding a
+   fourth step is how components end up half-collapsed against each other.
+
+   Vertical rhythm is NOT here. .cs-sec, .cs-sec-head, .cs-hero, .post-hero,
+   .post-body, .post-foot-cta, .cs-endcta and .cs-feature are tokenised in
+   case-study.css / blog.css, whose clamp minimums are the phone values. Writing
+   a phone twin for any of them here would win on source order and undo the ramp.
+   ------------------------------------------------------------------------------- */
+@media (max-width:900px){
   h1,h2{word-break:break-word;}
-  /* Case study: collapse every multi-column grid down to a single column. */
+  /* Collapse every multi-column grid down. */
   .cs-body,.cs-glance,.cs-gallery,.cs-gallery.single{grid-template-columns:1fr;}
   .cs-card.span2{grid-column:auto;}
   .cs-metrics{grid-template-columns:1fr 1fr;}
   .cs-list{grid-template-columns:1fr;}
-  /* Tighter vertical rhythm + drop the inner cell borders that double up against
-     the container edge once "At a glance" is a single stacked column. */
-  .cs-sec{padding:52px 0;}
-  .cs-sec-head{margin-bottom:28px;}
+  .blog-grid{grid-template-columns:1fr 1fr;}
+  /* Drop the inner cell borders that double up against the container edge once
+     "At a glance" is a single stacked column. */
   .cs-glance div{border-right:0;}
   .cs-glance div:last-child{border-bottom:0;}
 }
-@media (max-width:640px){
+@media (max-width:720px){
   /* Phones: pull card / metric padding in so copy keeps its side margins, and let
      long "next project" names wrap instead of forcing sideways overflow. */
   .cs-card{padding:24px 22px;}
   .cs-metric{padding:22px 18px;}
   .cs-next .name{overflow-wrap:anywhere;}
-}
-@media (max-width:620px){
-  .blog-grid{grid-template-columns:1fr;}
-  .eyebrow{gap:4px 14px;font-size:9px;margin-bottom:22px;}
+  .eyebrow{gap:4px 14px;}
   .post-next{flex-direction:column;align-items:flex-start;}
   .post-related ul{grid-template-columns:1fr;}
-  /* Blog posts had no phone rhythm pass — pull the hero, body and foot CTA in
-     so sections sit closer together on a phone (desktop unchanged). */
-  .post-hero{padding:112px 0 28px;}
-  .post-body{padding:22px 0 12px;}
-  .post-body h2{margin:40px 0 16px;}
-  .post-body h3{margin:30px 0 12px;}
-  .post-body hr{margin:34px 0;}
-  .post-foot-cta{padding:42px 0 56px;margin-top:24px;}
-  .cs-endcta{padding:54px 0;}
+  /* Full-width, thumb-sized CTAs on every page that has a CTA row. */
+  .cs-cta-row,.cs-endcta .cs-cta-row{flex-direction:column;align-items:stretch;}
+  .cs-cta-row .btn,.cta-row .btn{justify-content:center;padding:16px 22px;}
 }
-@media (max-width:560px){
-  .cs-hero{padding:108px 0 36px;}
-  .cs-feature{margin-top:26px;}
-  .cs-sec{padding:42px 0;}
-  .cs-sec-head{margin-bottom:22px;}
+@media (max-width:480px){
+  .blog-grid{grid-template-columns:1fr;}
   /* Eyebrow: sit the three meta chips to the left and wrap naturally rather than
-     letting space-between stretch them unevenly across a narrow row. */
-  .cs-eyebrow{justify-content:flex-start;gap:4px 14px;font-size:9px;}
+     letting space-between stretch them unevenly across a narrow row. Do not add
+     a font-size here — --fs-label steps labels UP on a phone, which is the
+     direction 0.14em tracking actually needs. */
+  .cs-eyebrow{justify-content:flex-start;gap:4px 14px;}
   .cs-eyebrow span{flex:0 1 auto;word-break:break-word;}
-  .cs-cta-row{flex-direction:column;align-items:stretch;}
-  .cs-endcta .cs-cta-row{align-items:stretch;}
-  .btn{justify-content:center;}
   .cs-next{padding:24px 22px;}
 }
 
 /* ------------------ PART 2 — mobile / multi-viewport hardening ------------------ */
-
-/* Never allow accidental sideways scrolling on small screens. */
-html,body{max-width:100%;}
-
-/* Mobile browser chrome (URL bar) eats into 100vh; svh measures the *visible*
-   viewport so the hero and its scroll cue are never clipped on phones. */
-@supports (min-height:100svh){
-  #top{min-height:100svh !important;}
-}
 
 /* Remove the grey tap-flash on touch devices for a cleaner press state. */
 @media (pointer:coarse){
@@ -87,9 +72,6 @@ html,body{max-width:100%;}
   .wrap{padding-left:16px;padding-right:16px;}
 }
 
-/* ------------------------------ reduced motion (last) ------------------------------ */
-@media (prefers-reduced-motion:reduce){
-  html{scroll-behavior:auto;}
-  *{animation-duration:.001ms !important;transition-duration:.001ms !important;}
-  [data-reveal]{opacity:1 !important;transform:none !important;}
-}
+/* prefers-reduced-motion is handled in two places, neither of them here:
+   base.css freezes every transition/animation globally, and Studio.astro pins
+   [data-reveal] / .dsx-r / .dsx-f visible inside #dsx. */

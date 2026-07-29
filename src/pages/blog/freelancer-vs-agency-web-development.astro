@@ -1,7 +1,8 @@
 ---
 import Studio from "../../layouts/Studio.astro";
 import RelatedPosts from "../../components/RelatedPosts.astro";
-import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+import PostFaq from "../../components/PostFaq.astro";
+import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
 import { coverBase, coverSrcset, COVER_SIZES_POST } from "../../lib/images.mjs";
 
 const slug = "freelancer-vs-agency-web-development";
@@ -15,6 +16,29 @@ const readMins = post.readMins;
 const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
 const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
 
+const faqs = [
+  {
+    q: "Should I hire a freelancer or an agency?",
+    a: "Depends on the size of the job and your tolerance for single-person risk. A senior independent is usually faster and cheaper because there's no account layer between you and the person building \u2014 you talk to whoever writes the code. An agency is worth its overhead when the project needs several specialists at once, or when your organisation requires the structure.",
+  },
+  {
+    q: "Is hiring a freelancer riskier than an agency?",
+    a: "There's real key-person risk, and pretending otherwise would be dishonest. You reduce it by insisting on things that make you portable: code in a repository you own, hosting in your name, documentation good enough for someone else to continue. Do that and the worst case is inconvenient rather than catastrophic \u2014 and it's worth noting agencies fold too.",
+  },
+  {
+    q: "What does an agency's higher price actually buy?",
+    a: "Sometimes genuine specialisation \u2014 a researcher, a designer, a developer and a strategist who are each properly good at their part. Sometimes it buys account management, sales commission and office rent. Both are priced the same way from outside, so the question worth asking is which specific people will touch your project.",
+  },
+  {
+    q: "How do I vet an independent developer?",
+    a: "Visit their live work on your own phone. Ask what they'd change about a project they've shipped \u2014 anyone honest has an answer. Ask what they'd refuse to build. Then start with something small if you can; how someone handles a two-week job tells you almost everything about how they'd handle a three-month one.",
+  },
+  {
+    q: "What if the freelancer disappears mid-project?",
+    a: "It's the fair worry. Mitigate it structurally rather than by trusting harder: pay in milestones tied to delivered work, keep the repository in your own account from day one, and hold your own domain and hosting. Then a disappearance costs you time and a handover rather than the whole project.",
+  },
+];
+
 const jsonld = JSON.stringify({
   "@context": "https://schema.org",
   "@graph": [
@@ -25,18 +49,16 @@ const jsonld = JSON.stringify({
       description: post.description,
       datePublished: iso(post.pubDate),
       dateModified: iso(post.updatedDate || post.pubDate),
-      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
-      publisher: {
-        "@type": "Organization",
-        "@id": `${SITE}/#studio`,
-        name: "Divyansh Sood® Studio",
-        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
-      },
-      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      author: authorNode(SITE),
+      publisher: publisherNode(SITE),
+      isPartOf: websiteNode(SITE),
       mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
       image: ogImage,
       articleSection: primaryTag,
       keywords: post.tags.join(", "),
+      // Resolves the free-text tags above to public concept identifiers, so a
+      // parser knows "Astro" means the framework and "GEO" isn't geography.
+      about: topicsForTags(post.tags),
       wordCount: post.wordCount,
       timeRequired: `PT${readMins}M`,
       speakable: {
@@ -53,6 +75,13 @@ const jsonld = JSON.stringify({
         { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
         { "@type": "ListItem", position: 3, name: post.title, item: canonical },
       ],
+    },
+    {
+      // FAQ rich results were retired by Google in May 2026, so this earns no
+      // SERP feature. It stays because answer engines still parse it and every
+      // question below is rendered visibly on the page.
+      "@type": "FAQPage",
+      mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
     },
   ],
 });
@@ -76,7 +105,6 @@ const jsonld = JSON.stringify({
 >
   <main>
     <header class="post-hero">
-      <div class="post-hero-bg" aria-hidden="true"></div>
       <div class="wrap narrow">
         <div class="eyebrow">
           <span>{primaryTag}</span>
@@ -157,6 +185,8 @@ const jsonld = JSON.stringify({
       <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
     </article>
 
+    <PostFaq faqs={faqs} idPrefix="faq-fa" />
+
     <RelatedPosts slug={slug} audience={post.audience} />
 
     <section class="post-foot-cta">
@@ -201,3 +231,4 @@ const jsonld = JSON.stringify({
     </section>
   </main>
 </Studio>
+

@@ -1,7 +1,11 @@
 // Re-exported so a post's frontmatter needs one import, and so the booking
-// link lives in exactly one place — every post used to hard-code the Calendly
-// URL, which meant changing the event would have meant editing 38 files.
+// link lives in exactly one place rather than hard-coded into every post.
 export { SITE, CALENDLY_URL } from "./site.mjs";
+
+// Identity nodes for each post's JSON-LD. Re-exported here for the same reason
+// as the above: a post gets one import line, and the author/publisher facts
+// live in one file instead of being copy-pasted across the manifest.
+export { authorNode, publisherNode, websiteNode, topicsForTags, TOPICS } from "./entity.mjs";
 
 // Social card used by /blog/ and by any post without its own cover. This was a
 // WebSeek product screenshot hosted on ImageKit — so the journal's share card
@@ -32,11 +36,9 @@ export function iso(d) {
 /**
  * Topically-related posts for a given slug, best match first.
  *
- * Every post used to carry exactly one outbound internal link (`POSTS[idx+1]`,
- * i.e. whatever happened to be next in publish order), so the blog was a chain
- * with no cross-links and Google had almost no reason to crawl deeper than
- * /blog/. Scoring by shared tags gives each post a handful of *relevant*
- * inbound links from its own topic cluster instead.
+ * Scoring by shared tags gives each post a handful of *relevant* inbound links
+ * from its own topic cluster. Linking on publish order instead would make the
+ * blog one chain with no cross-links and little reason to crawl past /blog/.
  *
  * Shared tags dominate; a shared audience breaks ties between posts that share
  * none, so the fallback is still a sensible neighbour rather than a random one.

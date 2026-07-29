@@ -1,7 +1,8 @@
 ---
 import Studio from "../../layouts/Studio.astro";
 import RelatedPosts from "../../components/RelatedPosts.astro";
-import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+import PostFaq from "../../components/PostFaq.astro";
+import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
 import { coverBase, coverSrcset, COVER_SIZES_POST } from "../../lib/images.mjs";
 
 const slug = "ai-chatbot-for-indian-business";
@@ -15,6 +16,33 @@ const readMins = post.readMins;
 const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
 const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
 
+/* Questions real buyers ask, answered in full. This array is the single
+   source for both the visible accordion and the FAQPage node above — Google
+   requires FAQ markup to match content on the page, and deriving both from one
+   array is what stops them drifting. */
+const faqs = [
+  {
+    q: "Does my Indian business need an AI chatbot on its website?",
+    a: "Probably not, and you already have the better tool — WhatsApp. Your customers are on it, they expect a reply there, and a real person answering in ten minutes beats a bot answering instantly with something slightly wrong. For most Indian small businesses a website chatbot is the wrong first purchase, and the honest recommendation is to fix the reply time on the channel you've already got.",
+  },
+  {
+    q: "When is an AI chatbot actually worth building?",
+    a: "When the same questions arrive in genuinely high volume, the answers live in content you already maintain, and a human can't keep up. A school in admissions season, a support desk with a real documentation library, a catalogue too large to browse. The test is volume plus a real body of source material — without both, you're buying a slower FAQ page.",
+  },
+  {
+    q: "What should I insist on if I do build a chatbot?",
+    a: "Three things. It must answer only from your own content, so it can't invent a policy. It must be able to say \"I don't know\" and hand over to a human rather than guessing. And it must have a clear escalation path to WhatsApp or a phone number, because the moment it fails is the moment you're most likely to lose the customer.",
+  },
+  {
+    q: "Is a chatbot better than a WhatsApp number?",
+    a: "For most Indian small businesses, no. WhatsApp is where your customers already are, it keeps a record both sides can scroll back through, and it lets a human take over the moment the question gets specific. A chatbot is worth adding when WhatsApp volume has genuinely outgrown the people answering it — not as a way to avoid answering.",
+  },
+  {
+    q: "What should I do before buying an AI chatbot?",
+    a: "Write down the ten questions you're actually asked most, and put the answers on your website where anyone can find them. Most businesses discover that this removes the majority of the enquiries the chatbot was meant to handle, costs nothing, and helps every visitor including the ones who'd never have opened a chat window.",
+  },
+];
+
 const jsonld = JSON.stringify({
   "@context": "https://schema.org",
   "@graph": [
@@ -25,18 +53,16 @@ const jsonld = JSON.stringify({
       description: post.description,
       datePublished: iso(post.pubDate),
       dateModified: iso(post.updatedDate || post.pubDate),
-      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
-      publisher: {
-        "@type": "Organization",
-        "@id": `${SITE}/#studio`,
-        name: "Divyansh Sood® Studio",
-        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
-      },
-      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      author: authorNode(SITE),
+      publisher: publisherNode(SITE),
+      isPartOf: websiteNode(SITE),
       mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
       image: ogImage,
       articleSection: primaryTag,
       keywords: post.tags.join(", "),
+      // Resolves the free-text tags above to public concept identifiers, so a
+      // parser knows "Astro" means the framework and "GEO" isn't geography.
+      about: topicsForTags(post.tags),
       wordCount: post.wordCount,
       timeRequired: `PT${readMins}M`,
       speakable: {
@@ -53,6 +79,18 @@ const jsonld = JSON.stringify({
         { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
         { "@type": "ListItem", position: 3, name: post.title, item: canonical },
       ],
+    },
+    {
+      // Google retired FAQ rich results in May 2026, so this earns no SERP
+      // enhancement. It stays because answer engines read Q&A pairs well, and
+      // because every question below is rendered visibly by <PostFaq>.
+      "@type": "FAQPage",
+      "@id": `${canonical}#faq`,
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
     },
   ],
 });
@@ -76,7 +114,6 @@ const jsonld = JSON.stringify({
 >
   <main>
     <header class="post-hero">
-      <div class="post-hero-bg" aria-hidden="true"></div>
       <div class="wrap narrow">
         <div class="eyebrow">
           <span>{primaryTag}</span>
@@ -145,6 +182,8 @@ const jsonld = JSON.stringify({
 <p><em>I'm Divyansh Sood, a web developer in Himachal Pradesh building custom-coded sites for Indian businesses — and I ship <a href="/services/ai-development/">AI features</a> when they're genuinely the right answer. Tell me the twenty questions you keep getting and <a href="https://wa.me/919816091875">WhatsApp me</a> — I'll tell you honestly whether this is worth building for you.</em></p>
       <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
     </article>
+
+    <PostFaq faqs={faqs} />
 
     <RelatedPosts slug={slug} audience={post.audience} />
 

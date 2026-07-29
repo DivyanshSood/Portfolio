@@ -1,6 +1,7 @@
 ---
 import Studio from "../layouts/Studio.astro";
 import { SITE, CALENDLY_URL } from "../lib/site.mjs";
+import { TOPICS } from "../lib/entity.mjs";
 
 const canonical = `${SITE}/website-audit/`;
 
@@ -55,11 +56,11 @@ const jsonld = JSON.stringify({
   keywords="free website audit, website conversion audit, website teardown, SEO audit, page speed audit, UX audit, website review, Divyansh Sood"
   ogTitle="Free website audit — find what's costing you customers"
   ogDescription="A free walkthrough of the biggest conversion, speed and SEO wins on your site — plus an optional deep-dive teardown."
+  topics={[TOPICS.seo, TOPICS.cwv, TOPICS.cro, TOPICS.webDevelopment]}
   jsonld={jsonld}
 >
   <main>
     <header class="cs-hero">
-      <div class="cs-hero-bg" aria-hidden="true"></div>
       <div class="wrap">
         <div class="cs-eyebrow">
           <span>Website audit</span><span>Free + deep-dive</span><span>2026</span>
@@ -133,16 +134,16 @@ const jsonld = JSON.stringify({
           <span class="mono">Takes 30 seconds</span>
         </div>
         <form id="ds-audit-form" data-reveal style="max-width:620px;border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:30px;background:linear-gradient(180deg,rgba(255,255,255,.03),transparent);">
-          <label for="au-url" style="display:block;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.6;margin-bottom:8px;">Your website URL *</label>
+          <label for="au-url" style="display:block;font-family:'JetBrains Mono',monospace;font-size:var(--fs-label);letter-spacing:var(--ls-label);text-transform:uppercase;opacity:.6;margin-bottom:8px;">Your website URL *</label>
           <input id="au-url" type="url" required placeholder="https://yourwebsite.com" autocomplete="url" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.25);color:#F4F2EC;font-family:'JetBrains Mono',monospace;font-size:14px;padding:12px 2px;outline:none;margin-bottom:24px;" />
-          <label for="au-email" style="display:block;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.6;margin-bottom:8px;">Email</label>
+          <label for="au-email" style="display:block;font-family:'JetBrains Mono',monospace;font-size:var(--fs-label);letter-spacing:var(--ls-label);text-transform:uppercase;opacity:.6;margin-bottom:8px;">Email</label>
           <input id="au-email" type="email" placeholder="So I can send the teardown" autocomplete="email" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.25);color:#F4F2EC;font-family:'JetBrains Mono',monospace;font-size:14px;padding:12px 2px;outline:none;margin-bottom:24px;" />
-          <label for="au-goal" style="display:block;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.6;margin-bottom:8px;">What should this site do better? (optional)</label>
+          <label for="au-goal" style="display:block;font-family:'JetBrains Mono',monospace;font-size:var(--fs-label);letter-spacing:var(--ls-label);text-transform:uppercase;opacity:.6;margin-bottom:8px;">What should this site do better? (optional)</label>
           <input id="au-goal" type="text" placeholder="More leads, faster load, more sales…" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.25);color:#F4F2EC;font-family:'JetBrains Mono',monospace;font-size:14px;padding:12px 2px;outline:none;margin-bottom:30px;" />
           {/* Honeypot — invisible to humans; bots that fill it are dropped. */}
           <input id="au-hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none;" />
           <button type="submit" class="btn btn-primary">Get my free audit <span aria-hidden="true">↗</span></button>
-          <p style="margin:18px 0 0;font-family:'JetBrains Mono',monospace;font-size:11px;line-height:1.6;opacity:.5;">Goes straight to my inbox — no spam, no list.</p>
+          <p style="margin:18px 0 0;font-family:'JetBrains Mono',monospace;font-size:var(--fs-label-lg);line-height:1.6;opacity:.5;">Goes straight to my inbox — no spam, no list.</p>
         </form>
       </div>
     </section>
@@ -254,10 +255,9 @@ const jsonld = JSON.stringify({
        Portfolio, plus the merged 'start a project' qualifying form
        (moved here from /start).
        ============================================================ */
-    main .cs-sec { padding: clamp(58px, 7vw, 108px) 0; }
-    main .cs-hero { padding-top: clamp(120px, 16vw, 160px); }
+    /* Rhythm, section-head alignment and hero clearance are shared — they live
+       in case-study.css and Breadcrumbs.astro now. */
     main .cs-lead { max-width: 64ch; font-size: clamp(17px, 1.7vw, 21px); }
-    main .cs-sec-head { align-items: flex-end; margin-bottom: clamp(30px, 4vw, 52px); }
     main .cs-sec-head h2 {
       font-family: 'Anton', sans-serif;
       font-weight: 400;
@@ -299,7 +299,7 @@ const jsonld = JSON.stringify({
     main .au-label {
       display: block;
       font-family: "JetBrains Mono", monospace;
-      font-size: 10px;
+      font-size: var(--fs-label);
       letter-spacing: 0.14em;
       text-transform: uppercase;
       opacity: 0.6;
@@ -336,22 +336,17 @@ const jsonld = JSON.stringify({
     main .au-formnote {
       margin: 18px 0 0;
       font-family: "JetBrains Mono", monospace;
-      font-size: 11px;
+      font-size: var(--fs-label-lg);
       line-height: 1.6;
       opacity: 0.5;
     }
     main .au-formnote a { color: var(--accent, #d9ff3c); text-decoration: underline; }
 
-    @media (max-width: 620px) {
+    /* 720, not 620 — the section heads and every other grid on this page
+       switch at 720, and the form has to switch with them. */
+    @media (max-width: 720px) {
       main .au-grid2 { grid-template-columns: 1fr; gap: 0; }
       main .au-grid2 > div { margin-bottom: 22px; }
-    }
-    @media (max-width: 720px) {
-      /* `main .cs-sec` above out-specifies the shared responsive.css phone
-         rules, so re-tighten the section rhythm here. */
-      main .cs-sec { padding: 44px 0; }
-      main .cs-sec-head { margin-bottom: 22px; }
-      main .cs-hero { padding-top: 104px; }
     }
   </style>
 </Studio>

@@ -1,0 +1,264 @@
+---
+import Studio from "../../layouts/Studio.astro";
+import RelatedPosts from "../../components/RelatedPosts.astro";
+import PostFaq from "../../components/PostFaq.astro";
+import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
+import { coverBase, coverSrcset, COVER_SIZES_POST } from "../../lib/images.mjs";
+
+const slug = "challenges-and-limitations-of-ai-in-web-development";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+const faqs = [
+  {
+    q: "What are the biggest limitations of AI in web development?",
+    a: "Confident wrongness is the one that costs most: models produce code that runs, looks reasonable and does the wrong thing, which is far more dangerous than code that fails loudly. After that — no knowledge of your specific codebase or business, security gaps in generated code, design that converges on average, and a review burden most teams don't budget for.",
+  },
+  {
+    q: "Is AI-generated code secure?",
+    a: "Not by default. Generated code reflects the average of what it learned from, and a great deal of public example code was written to demonstrate a concept rather than to survive hostile input. The recurring gaps I see are missing authorisation checks on endpoints, trusting client-supplied values, and secrets ending up somewhere they shouldn't. None are exotic; all ship easily because the code looks fine.",
+  },
+  {
+    q: "Why does AI suggest outdated or deprecated code?",
+    a: "Because it learned from a snapshot of the past, and the web moves faster than that snapshot. You get patterns that were correct two or three years ago, recommended with total confidence and no indication that anything has changed. On fast-moving frameworks this is constant, and it's why checking against current documentation is not optional.",
+  },
+  {
+    q: "Can AI understand my existing codebase?",
+    a: "Only the part you show it. It has no memory of decisions made months ago and no sense of your conventions, so left unsupervised it will cheerfully write a second implementation of something you already have. Over time that's how a codebase fills with near-duplicates that all work and quietly disagree.",
+  },
+  {
+    q: "Does using AI create technical debt?",
+    a: "It can create a specific and unusually nasty kind: code nobody on the team ever understood. Ordinary technical debt is a shortcut someone chose and can explain. Debt from unreviewed generated code is a system where the reasoning was never in anyone's head, so the first serious bug has no one to fall back on.",
+  },
+  {
+    q: "How do you avoid these problems in practice?",
+    a: "One rule does most of the work: don't ship what you couldn't have written. Beyond that — verify anything version-specific against current docs, review generated code as adversarially as a stranger's pull request, pay special attention to anything touching auth, payments or user data, and keep writing some code by hand so the judgment needed to spot bad output doesn't decay.",
+  },
+];
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: authorNode(SITE),
+      publisher: publisherNode(SITE),
+      isPartOf: websiteNode(SITE),
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      // Resolves the free-text tags above to public concept identifiers, so a
+      // parser knows "Astro" means the framework and "GEO" isn't geography.
+      about: topicsForTags(post.tags),
+      wordCount: post.wordCount,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+    },
+  ],
+});
+---
+
+<Studio
+  title={post.seoTitle ?? `${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  preloadImage={{ href: coverBase(post.coverImage), srcset: coverSrcset(post.coverImage), sizes: COVER_SIZES_POST }}
+  jsonld={jsonld}
+>
+  <main>
+    <header class="post-hero">
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img
+            src={coverBase(post.coverImage)}
+            srcset={coverSrcset(post.coverImage)}
+            sizes={COVER_SIZES_POST}
+            alt={post.coverAlt ?? post.title}
+            width="1200"
+            height="750"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+<p>I use AI on client work every week and I built <a href="/projects/webseek/">an AI website generator</a> that runs on Claude, GPT and Gemini. I'm not writing this as a sceptic. I'm writing it because I've spent more hours than I'd like recovering from the specific ways these tools fail, and almost nobody selling them will tell you what those are.</p>
+<p>The benefits are real — I've written about <a href="/blog/benefits-of-ai-in-web-development/">the ones that survived contact with real projects</a>. This is the other column of the ledger.</p>
+<p>None of these limitations are reasons to avoid AI. They're the things you have to design around, and the cost of not knowing them is paid in production.</p>
+<hr>
+<h2 id="confident-wrongness">1. Confident wrongness is the expensive one</h2>
+<p>The defining problem is not that models are wrong. It's that being wrong looks exactly like being right.</p>
+<p>A model is optimised to produce plausible output. Plausible is not the same as correct, and the two are indistinguishable at a glance. So the failure mode isn't code that won't run — that's cheap, you find it immediately. It's code that runs, looks entirely reasonable, and does something subtly different from what you asked.</p>
+<p>The version that costs real money: a function that handles the normal case perfectly and gets an edge case wrong. It passes your quick check because you tested the normal case. It ships. Six weeks later someone submits a form with an apostrophe in their name, or a booking spanning a month boundary, and you're debugging something you never wrote.</p>
+<p>Compare that to a human colleague. When a person is unsure, you can usually tell — hedged language, a comment, a question. A model produces uncertain output in exactly the same confident register as certain output. That signal, which is most of how code review works between people, simply isn't there.</p>
+<h3 id="invented-apis">Invented functions that ought to exist</h3>
+<p>The sharpest version: models invent methods that don't exist but plausibly should. A utility function with exactly the right name for the job, on a library that never shipped one. It reads perfectly. It fails immediately, which makes it a cheap bug — but it tells you something important about what the tool is doing, which is producing what the answer would look like rather than recalling what the answer is.</p>
+<hr>
+<h2 id="stale-knowledge">2. It's confidently out of date</h2>
+<p>Models learn from a snapshot. The web does not hold still.</p>
+<p>So you get patterns that were correct two or three years ago, delivered with no indication anything has changed: deprecated APIs, configuration that moved, approaches the ecosystem has since abandoned for good reasons. On fast-moving frameworks this is constant.</p>
+<p>What makes it costly is that outdated code often <em>works</em>. You don't get an error — you get a site built on a pattern that's been superseded, and you find out at upgrade time. Anything version-specific has to be checked against current documentation, every time. That check is now a permanent part of the workflow.</p>
+<hr>
+<h2 id="no-context">3. It doesn't know your project</h2>
+<p>A model knows what you showed it in this conversation. It has no memory of the decision you made three months ago and no feel for your conventions.</p>
+<p>The practical result is duplication. You ask for a date formatter; you get a good one. You already had one, two folders away, with the timezone edge case handled. Now you have two, they disagree in one specific case, and nobody will notice until a booking shows the wrong day.</p>
+<p>Multiply that across a project and you get a codebase of near-duplicates that all work individually and quietly contradict each other. This is one of the strongest arguments for the boring discipline of reading everything that gets added, and it gets worse the larger the codebase is — which is the opposite of how most tools are marketed.</p>
+<hr>
+<h2 id="security">4. Security is the gap that scares me most</h2>
+<p>Generated code reflects the average of what it learned from, and an enormous amount of public example code exists to demonstrate a concept, not to survive hostile input. Tutorials skip authorisation because it's noise in a tutorial. Sample code trusts its inputs because the sample controls them.</p>
+<p>The recurring gaps I see:</p>
+<ul>
+<li><strong>Missing authorisation checks.</strong> An endpoint that correctly verifies who you are and never checks whether you're allowed to touch <em>this particular record</em>. It works flawlessly in testing, because in testing you only ever request your own.</li>
+<li><strong>Trusting client-supplied values.</strong> Prices, quantities, IDs and roles that arrive from the browser and get used as-is.</li>
+<li><strong>Secrets in the wrong place.</strong> Keys that end up in client-side code or committed to the repository, because the example that pattern came from was a local demo.</li>
+<li><strong>Error messages that overshare.</strong> Stack traces and query fragments returned to the user, which is a debugging convenience in development and a map of your system in production.</li>
+</ul>
+<p>None of this is exotic. All of it ships easily, because none of it looks wrong. Anything touching authentication, payments or user data gets read line by line — that's a rule, not a preference. If you're commissioning work, this is the single most important thing to ask how someone handles.</p>
+<hr>
+<h2 id="review-tax">5. The review burden nobody budgets for</h2>
+<p>Here's the trade that doesn't make it into the pitch: you spend less time producing and more time checking.</p>
+<p>Reviewing code is genuinely harder than writing it. Writing, you build the mental model as you go. Reviewing, you have to reconstruct someone else's — and generated code has no author to ask, no reasoning to recover, no commit message explaining the choice.</p>
+<p>The volume makes it worse. When output was limited by typing speed, review scaled naturally. Now you can produce more in an hour than you can carefully review in three, and that gap is precisely where things slip through. Skipping the review doesn't remove the cost; it moves it somewhere far more expensive.</p>
+<hr>
+<h2 id="design-convergence">6. Design converges on the average</h2>
+<p>Ask for a layout and you get the statistical centre of everything the model has seen. Competent, familiar, forgettable — which is the exact opposite of what a brand is paying for.</p>
+<p>This is why AI-generated sites have a recognisable look. Not bad, just deeply average, and average is a commercial problem when the entire point is not resembling your competitors. For <a href="/projects/chinkiz/">a creator with 600,000 subscribers</a>, "competent and familiar" was the problem we were hired to solve — her store had to feel like her, and there is no prompt for that.</p>
+<p>The same applies to copy. Models default to a register that reads as slightly corporate and slightly empty. It's serviceable as a draft for a client to react to; publishing it undermines the reason to build a custom site at all.</p>
+<hr>
+<h2 id="skill-atrophy">7. Skill atrophy, and the junior developer problem</h2>
+<p>This is the limitation with the longest tail, and it isn't really about the tool.</p>
+<p>Judging generated code requires knowing what good looks like. That knowledge came from writing a lot of code by hand, including badly. If the next generation of developers skips that, they'll be able to produce far more than they can debug — which is fine right up until production breaks and there's no mental model to fall back on.</p>
+<p>I notice it in myself on things I've stopped doing by hand. The muscle fades. My compromise is to keep writing some code from scratch even when generating would be faster, specifically to keep the judgment sharp — the judgment is the part that's actually worth money. If you're learning now, <a href="/blog/learn-ai-assisted-development-2026/">the path I'd take</a> puts fundamentals first for exactly this reason.</p>
+<hr>
+<h2 id="accessibility-theatre">8. Accessibility theatre</h2>
+<p>Ask a model to make a component accessible and you'll get ARIA attributes. Often correct ones. That's a real improvement over nothing.</p>
+<p>But accessibility isn't an attribute problem, it's an experience problem. A model can add <code>aria-label</code> everywhere and still produce a flow that's incoherent with a screen reader, a focus order that jumps around, or a modal you can't escape. The markup passes automated checks; the experience fails a real user.</p>
+<p>The gap between "passes the linter" and "works for someone using it" is not something generation closes. It needs testing with actual assistive technology, which is a different activity entirely.</p>
+<hr>
+<h2 id="ai-features">9. If the AI is in the product, the limits get harder</h2>
+<p>Everything above is about building <em>with</em> AI. Shipping AI features <em>inside</em> a site adds a separate set of constraints that surprise people commissioning them.</p>
+<p><strong>Non-determinism.</strong> The same input can produce different output. Traditional testing assumes it doesn't. Testing a feature whose correct answer is a range rather than a value is a genuinely different discipline.</p>
+<p><strong>Latency.</strong> Model calls take seconds, not milliseconds. That has to be designed for honestly, and "it feels slow" is a conversion problem long before it's a technical one.</p>
+<p><strong>Cost per call.</strong> Every interaction costs money. A feature that's cheap in testing can be alarming at real traffic, and I've watched that arithmetic kill more concepts than any technical limitation.</p>
+<p><strong>Failure states.</strong> Providers have outages and rate limits. A feature without a sensible degraded mode is a feature that takes part of your site down with someone else's API.</p>
+<p><strong>It will confidently make things up to your customers.</strong> The mitigation is retrieval plus citations plus a real "I don't know" path — covered properly in <a href="/blog/rag-for-business-websites/">RAG for business websites</a>. Without that you've built a machine for inventing policies you don't have, at scale, in your own voice.</p>
+<hr>
+<h2 id="vendor-dependency">10. You're building on someone else's terms</h2>
+<p>A limitation that isn't technical and gets ignored until it matters.</p>
+<p>If AI is part of how you build, a chunk of your capability now sits behind an API you don't control. Pricing changes. Rate limits change. Behaviour changes between releases in ways that are hard to predict — a prompt that worked reliably for months starts producing something subtly different, and nothing in your code changed.</p>
+<p>For development assistance this is survivable; worst case you work the old way for a week. For a shipped AI <em>feature</em> it's a real operational risk, because your product's behaviour depends on a third party's decisions. Building so the model can be swapped is the mitigation, and it costs real effort up front that's tempting to skip.</p>
+<p>There's a quieter version of this for clients: if your site was built in a way only one tool can maintain, you've acquired a dependency you didn't agree to. That's the same argument as <a href="/blog/own-your-stack-code-portability/">owning your stack</a>, pointed at a newer risk.</p>
+<hr>
+<h2 id="the-table">The failure modes, and what actually helps</h2>
+<table>
+<thead>
+<tr><th>Limitation</th><th>How it shows up</th><th>Mitigation</th></tr>
+</thead>
+<tbody>
+<tr><td>Confident wrongness</td><td>Runs fine, subtly incorrect</td><td>Review as if from a stranger; test edge cases first</td></tr>
+<tr><td>Stale knowledge</td><td>Deprecated patterns, no warning</td><td>Verify anything version-specific against current docs</td></tr>
+<tr><td>No project context</td><td>Duplicate, disagreeing implementations</td><td>Read every addition; keep conventions explicit</td></tr>
+<tr><td>Security gaps</td><td>Missing authorisation, trusted input</td><td>Line-by-line on auth, payments, user data</td></tr>
+<tr><td>Review burden</td><td>Output outpaces careful checking</td><td>Budget review time explicitly; slow down output</td></tr>
+<tr><td>Design convergence</td><td>Competent but generic</td><td>Use for structure, not for the parts that differentiate</td></tr>
+<tr><td>Skill atrophy</td><td>Can't debug what you generated</td><td>Keep writing some code by hand, deliberately</td></tr>
+<tr><td>Accessibility theatre</td><td>Passes linters, fails users</td><td>Test with real assistive technology</td></tr>
+<tr><td>Non-determinism (AI features)</td><td>Untestable by normal means</td><td>Evaluate on real cases; design for a range</td></tr>
+</tbody>
+</table>
+<hr>
+<h2 id="what-i-learned-building">The limitation I only saw by building the generator</h2>
+<p>Building an AI website generator taught me the ceiling better than building sites by hand ever could.</p>
+<p>WebSeek does what it claims — one prompt, a working custom-coded site. Every genuinely hard problem in it turned out to be about <em>knowing what the user meant</em>, not generating code. Someone types "website for my restaurant" and the model must invent a hundred decisions nobody made: how many dishes, whether bookings matter more than the menu, whether people come for the food or the view.</p>
+<p>It invents them plausibly. Sometimes well. Never knowingly — and that distinction is the whole limitation in one sentence. A model cannot know which decisions matter, because it has no stake in the outcome.</p>
+<p>Running it across three providers made the second lesson obvious: swapping models changes the texture of the output and almost nothing about this problem. The ceiling isn't a model-quality issue that the next release fixes. It's structural.</p>
+<hr>
+<h2 id="if-youre-hiring">If you're commissioning work</h2>
+<p>Three questions that separate supervision from delegation:</p>
+<p><strong>"What did you write by hand on this, and why?"</strong> A specific answer means someone is making decisions about where the tool is trusted. "We use the latest AI" means the tool is making them.</p>
+<p><strong>"How do you review generated code touching payments or user data?"</strong> You want to hear something process-shaped and slightly boring. Hesitation here is the answer.</p>
+<p><strong>"What have you rejected from a model recently?"</strong> Anyone working seriously with these tools has a recent example. No example means either no critical reading or no real use.</p>
+<p>And treat compressed timelines carefully. AI shortens the build, not the project — discovery, content and review are untouched. When <a href="/projects/modernkbs/">the school portal shipped in seven days</a>, that was possible because the client answered questions the same day, every day. The scheduling was as much of the achievement as the engineering.</p>
+<hr>
+<h2 id="the-summary">The honest summary</h2>
+<p>The limitations of AI in web development are not that it's bad at writing code. It's good at writing code. The limitations are that it doesn't know what you're trying to build, can't tell when it's wrong, has no memory of your project, and produces work that requires more review than it saves in typing if you're careless about it.</p>
+<p>Design around those and it's the most useful tool to arrive in years. Ignore them and you'll ship something that looks finished, works in testing, and fails in the specific way nobody checked.</p>
+<p>That's the whole trade. <a href="/blog/how-ai-is-transforming-website-development/">What genuinely changed</a>, <a href="/blog/benefits-of-ai-in-web-development/">what you gain</a>, and <a href="/blog/future-of-ai-assisted-web-development/">where it goes next</a> are the rest of the picture.</p>
+</article>
+
+    <PostFaq faqs={faqs} idPrefix="faq-lm">
+      <div class="tags" style="margin-top:26px;">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </PostFaq>
+
+    <RelatedPosts slug={slug} audience={post.audience} />
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        <h2>Want a straight answer about your build?</h2>
+        <p>If you're weighing up an AI-assisted project and want to know honestly where it helps and where it'll bite, send me the brief. I'll tell you which parts I'd trust a model with and which I wouldn't.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="mailto:hello@divyanshsood.com">Email me <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost" href={CALENDLY_URL} target="_blank" rel="noopener">Book a 15-min intro <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Studio>
+

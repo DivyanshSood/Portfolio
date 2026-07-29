@@ -1,0 +1,264 @@
+---
+import Studio from "../../layouts/Studio.astro";
+import RelatedPosts from "../../components/RelatedPosts.astro";
+import PostFaq from "../../components/PostFaq.astro";
+import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
+import { coverBase, coverSrcset, COVER_SIZES_POST } from "../../lib/images.mjs";
+
+const slug = "how-ai-is-transforming-website-development";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+const faqs = [
+  {
+    q: "Will AI replace web developers?",
+    a: "Not on the evidence so far. AI has replaced a large share of the typing involved in building a website, but almost none of the deciding. The work that determines whether a site succeeds — what it should say, why a visitor hesitates, which trade-off to accept — is still judgment, and models are weakest exactly there. What is genuinely disappearing is the market for developers whose only offer was assembling a template slowly.",
+  },
+  {
+    q: "Can AI build a complete website on its own?",
+    a: "It can build something that looks complete, which is not the same thing. I built and run an AI website generator, so this is a first-hand answer: a model can produce a coherent, deployable site from one prompt, and that output is genuinely useful as a starting point. What it cannot do is know that your booking form needs to work at 2am on a bad hotel wifi connection, or that your strongest proof point is buried on page four. Someone still has to care about the result.",
+  },
+  {
+    q: "Does using AI make websites lower quality?",
+    a: "It makes bad developers faster at producing bad code and good developers faster at producing good code. The variable is not the tool, it's whether anyone reviews the output with a real understanding of what it should do. Code that is never read by someone who could have written it is where quality actually degrades.",
+  },
+  {
+    q: "How much faster is AI-assisted web development?",
+    a: "Dramatically faster on the mechanical middle of a build — scaffolding, boilerplate, format conversion, first-draft components. Barely faster on the parts that take the longest, which are scoping, content, decisions and review. My builds are meaningfully quicker overall, but the ratio has shifted: less time typing, proportionally more time reviewing and deciding.",
+  },
+  {
+    q: "Should I hire a developer who uses AI?",
+    a: "Almost all of us do now, so that's not the useful question. The useful question is whether they can tell you where they didn't use it and why — which parts they wrote by hand, what they rejected from a model's output, and how they verify what ships. A developer who can't answer that isn't supervising the tool.",
+  },
+  {
+    q: "Is an AI website builder good enough for a small business?",
+    a: "Sometimes, genuinely. If you need a few pages, aren't competing hard on search, and want to edit it yourself, an AI builder or a template is a reasonable purchase and I'll say so. It stops being enough when speed matters commercially, when your brand has to look like nobody else's, or when the site needs to do something specific like a booking flow or a portal.",
+  },
+];
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: authorNode(SITE),
+      publisher: publisherNode(SITE),
+      isPartOf: websiteNode(SITE),
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      // Resolves the free-text tags above to public concept identifiers, so a
+      // parser knows "Astro" means the framework and "GEO" isn't geography.
+      about: topicsForTags(post.tags),
+      wordCount: post.wordCount,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+    {
+      // FAQ rich results were retired by Google in May 2026. This node stays
+      // because answer engines still parse it and every question is visible
+      // on the page — not because it earns a SERP feature.
+      "@type": "FAQPage",
+      mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+    },
+  ],
+});
+---
+
+<Studio
+  title={post.seoTitle ?? `${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  preloadImage={{ href: coverBase(post.coverImage), srcset: coverSrcset(post.coverImage), sizes: COVER_SIZES_POST }}
+  jsonld={jsonld}
+>
+  <main>
+    <header class="post-hero">
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img
+            src={coverBase(post.coverImage)}
+            srcset={coverSrcset(post.coverImage)}
+            sizes={COVER_SIZES_POST}
+            alt={post.coverAlt ?? post.title}
+            width="1200"
+            height="750"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+<p>Almost everything written about AI and web development is written by people who don't build websites. It arrives as a list of tools, a prediction that developers are finished, and a call to action for an agency that will sell you the future. I've read a lot of it and recognised very little of my own work in it.</p>
+<p>So here is the version from inside. I run a one-person studio and I've shipped client sites with AI assistance every week for over a year. I also built and run <a href="/projects/webseek/">WebSeek.ai</a>, an AI website generator that turns one prompt into a deployed site, with a model picker for Claude, GPT and Gemini. Running the same product on three providers at once means the differences between them are things I've debugged at 2am, not things I've read in a comparison table.</p>
+<p>That leaves me in an odd position for this topic: I sell custom development, and I also built the machine that's supposed to make it obsolete. This post is what I actually think, which is more interesting than either sales pitch.</p>
+<hr>
+<h2 id="the-short-version">The short version</h2>
+<p>AI has substantially changed how fast the mechanical parts of a build go. It has changed almost nothing about the parts that decide whether a website works.</p>
+<p>That sentence sounds like a hedge. It isn't — it's a description of where the time goes. When I look at a finished project honestly, the typing was never the expensive part. The expensive parts were working out what the site needed to say, getting content out of a client who is busy running their business, and the hundred small decisions about what to cut. AI is extraordinary at the first thing and useless at the other two.</p>
+<hr>
+<h2 id="what-actually-changed">What actually changed</h2>
+<p>Four things, and they're real. I'd have been sceptical about all four two years ago.</p>
+<h3 id="scaffolding-collapsed">The scaffolding cost collapsed</h3>
+<p>Starting a project used to have a tax on it. Config, build setup, the boilerplate every site needs and nobody enjoys writing — a day, sometimes two, before anything visible existed. That tax is now close to zero. I describe the shape of the thing and get a working skeleton back in minutes.</p>
+<p>This matters more than it sounds, because the tax was heaviest on small projects. A one-page site carried nearly the same setup cost as a ten-page one, which is why so many developers push small clients onto templates — the economics didn't work otherwise. They work now.</p>
+<h3 id="translation-is-free">Translation between formats became free</h3>
+<p>A surprising share of web development is moving information between shapes. A client's spreadsheet becomes structured data. A PDF menu becomes a page. Design tokens become CSS. A hand-written list becomes JSON.</p>
+<p>This was tedious, error-prone, and impossible to charge properly for. It's now something I hand off and check. On <a href="/projects/modernkbs/">the school project</a>, a genuinely large amount of the work was information architecture of exactly this kind — turning what a school knows into what a website can show. That's the sort of thing that used to eat a week.</p>
+<h3 id="debugging-became-conversation">Debugging became a conversation</h3>
+<p>The old loop was: hit an error, search it, read three forum threads from 2019, find that the answer applies to a different version, try something. The new loop is: paste the error and the surrounding code, get a hypothesis, test it.</p>
+<p>The hypothesis is wrong reasonably often. But a wrong hypothesis you can test in thirty seconds is worth more than a correct forum post you spend twenty minutes finding — and this is the change I'd least want to give back.</p>
+<h3 id="research-collapsed">The research phase compressed</h3>
+<p>"How do other people solve this?" used to be an afternoon. Now it's a few minutes of conversation, followed by verification. The verification part is not optional, and I'll come back to that, because this is also where AI does the most damage.</p>
+<hr>
+<h2 id="where-the-time-goes">Where the time actually goes now</h2>
+<p>This is my honest before-and-after for a typical small business site. The point isn't the exact proportions — it's the shape of the change.</p>
+<table>
+<thead>
+<tr><th>Phase</th><th>Before</th><th>With AI</th><th>Real change</th></tr>
+</thead>
+<tbody>
+<tr><td>Scoping &amp; discovery</td><td>Days</td><td>Days</td><td>None. Still conversations with a human.</td></tr>
+<tr><td>Content gathering</td><td>Weeks</td><td>Weeks</td><td>None — and it's still the top cause of delay.</td></tr>
+<tr><td>Setup &amp; scaffolding</td><td>1–2 days</td><td>Under an hour</td><td>Very large.</td></tr>
+<tr><td>Layout &amp; components</td><td>Days</td><td>Roughly half</td><td>Large, but first drafts need work.</td></tr>
+<tr><td>Content &amp; data wiring</td><td>Days</td><td>Hours</td><td>Large.</td></tr>
+<tr><td>Debugging</td><td>Unpredictable</td><td>Faster, still unpredictable</td><td>Moderate.</td></tr>
+<tr><td>Review &amp; correction</td><td>Modest</td><td>Substantially more</td><td>Larger — this is the new cost.</td></tr>
+<tr><td>Judgment &amp; decisions</td><td>Constant</td><td>Constant</td><td>None whatsoever.</td></tr>
+</tbody>
+</table>
+<p>Two rows deserve attention. Content gathering hasn't moved at all — the bottleneck on most projects was never engineering, and no model fixes a client who hasn't sent their photos. And review went <em>up</em>. That's the trade nobody puts in the pitch deck: you spend less time producing and more time checking, and if you skip the checking you have simply moved the cost somewhere more expensive. I've written about <a href="/blog/challenges-and-limitations-of-ai-in-web-development/">where that goes wrong</a> in detail.</p>
+<hr>
+<h2 id="what-didnt-change">What didn't change at all</h2>
+<h3 id="deciding-what-to-build">Deciding what to build</h3>
+<p>A model will happily build whatever you describe. It will not tell you that the thing you described is the wrong thing — that your homepage leads with your company history when your customers care about whether you deliver on time, or that the form asking for nine fields is why nobody completes it.</p>
+<p>Nearly every website that fails, fails here. It's rarely built badly. It's built well and pointed at nothing.</p>
+<h3 id="knowing-when-something-is-wrong">Knowing when something is subtly wrong</h3>
+<p>This is the skill AI has made <em>more</em> valuable, not less. Model output is plausible by construction — it's optimised to look like a correct answer. Which means the failure mode isn't obviously broken code, it's code that runs, looks reasonable, and is wrong in a way you'll discover in production.</p>
+<p>Spotting that requires knowing what correct looks like. You cannot supervise work you couldn't have done.</p>
+<h3 id="taste">Taste</h3>
+<p>AI-generated design converges on the average of everything it has seen, which is precisely what a brand is trying not to be. It produces competent, familiar, forgettable layouts. For <a href="/projects/chinkiz/">a creator with 600,000 subscribers</a>, competent and familiar was the entire problem — her store needed to feel like her, and average is the opposite of that.</p>
+<h3 id="accountability">Accountability</h3>
+<p>When a booking form silently drops enquiries, the client calls a person. No model is on the hook. That asymmetry hasn't shifted at all, and it's most of what a client is actually buying.</p>
+<hr>
+<h2 id="the-generator-question">What I learned building the generator</h2>
+<p>Building an AI website generator taught me more about the limits of AI website generation than building sites by hand ever did.</p>
+<p>WebSeek does the thing it says: one prompt, a working custom-coded site, in any language. It's genuinely useful and people ship real pages with it. But every hard problem in it turned out to be a problem of <em>knowing what the user meant</em>, not generating code. Someone types "website for my restaurant" and the model has to invent a hundred decisions nobody made — how many dishes to show, whether bookings matter more than the menu, whether the location or the food is the reason people come.</p>
+<p>It invents them plausibly. Sometimes it invents them well. It never invents them <em>knowingly</em>, and the difference shows up exactly where the money is.</p>
+<p>Running it on three providers made a second thing obvious: the model is the least interesting variable. Swapping between Claude, GPT and Gemini changes the texture of the output and very little else. What actually decided quality was the structure around the model — what context it got, how the output was validated, what happened when it failed. I've written that comparison up <a href="/blog/claude-vs-gpt-vs-gemini-for-product-features/">in more detail</a>.</p>
+<hr>
+<h2 id="beyond-code">Where AI shows up in a build besides writing code</h2>
+<p>"AI in web development" gets read as "AI writes the code", and that's the least of it now. On a current project it turns up in six places, and the code is only one.</p>
+<p><strong>First drafts of content.</strong> Not final copy — clients don't want a website that sounds like everyone else's, and models default to exactly that. But the blank page is the real enemy on most projects. A rough draft a client can react to gets content out of them ten times faster than an empty document and a polite reminder, because reacting is easier than creating.</p>
+<p><strong>Structured data and schema.</strong> Marking up a business properly — the entity, the services, the location, the FAQs — is fiddly, repetitive and easy to get subtly wrong. It's a good fit for generation plus validation. On <a href="/projects/baglamukhi-travels/">the Baglamukhi Travels build</a> the schema graph is a real part of why it averages position 5.7 in Search Console, and building that by hand would have been an afternoon of tedium.</p>
+<p><strong>Accessibility and edge-case review.</strong> Asking a model to go through a component looking for missing labels, contrast problems and keyboard traps catches a useful proportion of the obvious ones. It doesn't replace real testing, and it won't tell you a flow is confusing. It's a first pass, not an audit.</p>
+<p><strong>Test cases.</strong> Enumerating what could go wrong with a form is a job models are unreasonably good at, because it's a breadth problem rather than a judgment one.</p>
+<p><strong>Explaining code to clients.</strong> Turning an architecture decision into something a non-technical owner can follow used to take real effort. It's now a rewrite request.</p>
+<p><strong>The features themselves.</strong> Distinct from all of the above: AI inside the finished site — search that understands a question, support that answers from real documentation. That's a different discipline with different failure modes, and I've covered which of those <a href="/blog/ai-features-that-actually-work-on-websites/">actually earn their place</a> separately.</p>
+<hr>
+<h2 id="a-real-week">What a week of this actually looks like</h2>
+<p>Abstractions are easy to argue with, so here's the concrete version — a typical week on a small business site, and where the tool does and doesn't appear.</p>
+<p><strong>Monday</strong> is a call and no AI at all. What does the business do, who buys, what's the one action the site needs to produce, what's gone wrong with the current site. Nothing here is a model's job. This is also where most of the project's real decisions get made.</p>
+<p><strong>Tuesday</strong> is structure — pages, URLs, headings, what each page is for. I'll think out loud against a model here, mostly to argue with it. It suggests the conventional structure, which is genuinely useful as a baseline to deviate from. The deviations are where the value is, and it never proposes those.</p>
+<p><strong>Wednesday</strong> is the heaviest AI day: scaffolding, components, first-draft layouts, wiring content. This is the day that used to take three and now takes one. It's also the day I review the most, because volume of output is exactly when things slip through.</p>
+<p><strong>Thursday</strong> is the parts that are mine — the specific interaction that makes the site feel like the brand rather than a template, the performance work, the bits where "average of everything seen" is the wrong answer.</p>
+<p><strong>Friday</strong> is checking: real devices, real network throttling, forms actually submitting, redirects mapped if we're replacing something, Search Console wired up. Little AI, high stakes. A broken form on a site that looks perfect is worse than an ugly site that works.</p>
+<p>Add it up and the tool is heavily involved in about a day and a half of five. That day and a half used to be three or four days, which is a genuine transformation. It is also not the same story as "AI builds websites now".</p>
+<hr>
+<h2 id="found-by-ai">The change nobody planned for: being found</h2>
+<p>There's a second transformation running alongside the building one, and for most business owners it will matter more.</p>
+<p>People increasingly ask an assistant for a recommendation instead of scrolling a results page. That's a different game with a different referee: search rewards the page that earns the click, assistants reward the source that's easiest to quote accurately. Being quotable means clear factual claims, real structured data, and content that answers a question in a self-contained way rather than teasing it.</p>
+<p>The practical consequence is that AI has changed what a website is <em>for</em> at the margins. It's no longer only a destination — it's also the training and retrieval surface that determines how you get described when you're not in the room. I've written about the difference between <a href="/blog/geo-vs-seo-whats-actually-different/">optimising for a click and optimising to be the answer</a>, and the concrete steps for <a href="/blog/get-your-business-recommended-by-chatgpt/">getting recommended by ChatGPT</a>.</p>
+<p>This one is genuinely new. It isn't a faster version of something we already did.</p>
+<hr>
+<h2 id="if-youre-commissioning">If you're commissioning a website</h2>
+<p>Three practical consequences.</p>
+<p><strong>The floor rose, so a bad website is now inexcusable.</strong> Slow, ugly and broken used to have a budget defence. It doesn't any more — the baseline is cheap to reach. If a developer is charging real money, what you're paying for is everything above that floor.</p>
+<p><strong>Ask about supervision, not tools.</strong> "Do you use AI?" is a dead question; nearly everyone does. Ask what they wrote by hand and why. Ask what they've rejected from a model's output recently. Someone who can answer specifically is supervising the tool. Someone who says "we use the latest AI" is being supervised by it.</p>
+<p><strong>Speed claims deserve more scepticism, not less.</strong> AI compresses the build, not the project. If someone promises a week, ask what happens to discovery, content and review — because those didn't get faster, and the school portal we shipped <a href="/projects/modernkbs/">in seven days</a> only worked because the client answered questions the same day, every day. That was a scheduling achievement as much as an engineering one.</p>
+<p>If you want the fuller decision framework, <a href="/blog/ai-website-builders-vs-developer-2026/">AI builders versus a developer</a> covers where each one genuinely wins.</p>
+<hr>
+<h2 id="if-youre-a-developer">If you're a developer</h2>
+<p>The uncomfortable part first: if your value was knowing syntax, that value is gone. Not declining — gone. The same is true of assembling standard layouts slowly.</p>
+<p>What's worth more now is everything that was previously hard to charge for. Understanding a business well enough to argue with the brief. Recognising when generated code is subtly wrong. Knowing which corner is safe to cut. Owning the outcome when it breaks.</p>
+<p>The practical risk is skill atrophy in the middle. Junior developers can now produce code far beyond their ability to debug it, which is fine until something breaks in production and there's no mental model to fall back on. If you're early in this, the discipline worth keeping is simple: don't ship what you couldn't have written. My own workflow, including where I deliberately don't use it, is written up in <a href="/blog/how-i-build-websites-with-claude-code/">how I build client sites with Claude Code</a>.</p>
+<hr>
+<h2 id="the-honest-summary">The honest summary</h2>
+<p>AI has been transformative for web development in the way electric tools were transformative for carpentry. The work is faster, the floor is higher, fewer people are needed for the same output, and none of it made the design decisions for anybody.</p>
+<p>The carpenters who did well weren't the ones who refused the tools or the ones who believed the tools would do the thinking. They were the ones who got faster at the boring parts and spent the time saved on the parts that were always the point.</p>
+<p>That's where this is. The <a href="/blog/benefits-of-ai-in-web-development/">benefits are real and worth taking</a>, <a href="/blog/challenges-and-limitations-of-ai-in-web-development/">the limitations are real and worth respecting</a>, and <a href="/blog/future-of-ai-assisted-web-development/">what comes next</a> is more of the same, faster. Anyone telling you it's simpler than that is selling something.</p>
+</article>
+
+    <PostFaq faqs={faqs} idPrefix="faq-tr">
+      <div class="tags" style="margin-top:26px;">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </PostFaq>
+
+    <RelatedPosts slug={slug} audience={post.audience} />
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        <h2>Working on something similar?</h2>
+        <p>If you're weighing up a build and want a straight answer about where AI helps and where it won't, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="mailto:hello@divyanshsood.com">Email me <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost" href={CALENDLY_URL} target="_blank" rel="noopener">Book a 15-min intro <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Studio>
+

@@ -1,7 +1,8 @@
 ---
 import Studio from "../../layouts/Studio.astro";
 import RelatedPosts from "../../components/RelatedPosts.astro";
-import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+import PostFaq from "../../components/PostFaq.astro";
+import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
 import { coverBase, coverSrcset, COVER_SIZES_POST } from "../../lib/images.mjs";
 
 const slug = "custom-website-vs-wordpress";
@@ -15,6 +16,29 @@ const readMins = post.readMins;
 const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
 const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
 
+const faqs = [
+  {
+    q: "Is a custom website better than WordPress?",
+    a: "Better at different things. WordPress gets you a capable site quickly with an editor your team already half-understands, and for a content-heavy site you update daily that's a real advantage. Custom code wins when speed matters commercially, when your brand can't look like a theme, or when the site has to do something specific. Below that threshold I'd tell you to stay on WordPress.",
+  },
+  {
+    q: "Is WordPress bad for SEO?",
+    a: "WordPress itself is fine for SEO \u2014 plenty of well-ranked sites run on it. What hurts is the usual accumulation: a page builder, a dozen plugins, a theme doing far more than your site needs, and the load time that follows. That's a weight problem rather than a platform problem, and it's fixable on WordPress. It's just rarely fixed.",
+  },
+  {
+    q: "Is a custom website more expensive than WordPress?",
+    a: "Higher to build, usually lower to run. WordPress carries recurring costs that are easy to overlook \u2014 premium plugins, maintenance, and the developer time that security updates and breakages eventually require. Over three years the gap narrows a lot more than the initial quotes suggest, and on a small site AI-assisted builds have brought the starting figure down too.",
+  },
+  {
+    q: "Can I update a custom website myself?",
+    a: "Yes, if you say so at the start \u2014 that requirement changes what gets built. You can have a proper editing interface for the parts that genuinely change and leave the rest fixed, which is usually cheaper and calmer than making every pixel editable. What you should refuse is a site only its developer can touch.",
+  },
+  {
+    q: "When should I stay on WordPress?",
+    a: "When you publish frequently and non-technical staff need to do it, when your budget is genuinely tight, or when your existing site works and its problems are content problems rather than platform ones. Rebuilding a site that's fine is the most common waste of money I see in this category.",
+  },
+];
+
 const jsonld = JSON.stringify({
   "@context": "https://schema.org",
   "@graph": [
@@ -25,18 +49,16 @@ const jsonld = JSON.stringify({
       description: post.description,
       datePublished: iso(post.pubDate),
       dateModified: iso(post.updatedDate || post.pubDate),
-      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
-      publisher: {
-        "@type": "Organization",
-        "@id": `${SITE}/#studio`,
-        name: "Divyansh Sood® Studio",
-        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
-      },
-      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      author: authorNode(SITE),
+      publisher: publisherNode(SITE),
+      isPartOf: websiteNode(SITE),
       mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
       image: ogImage,
       articleSection: primaryTag,
       keywords: post.tags.join(", "),
+      // Resolves the free-text tags above to public concept identifiers, so a
+      // parser knows "Astro" means the framework and "GEO" isn't geography.
+      about: topicsForTags(post.tags),
       wordCount: 1401,
       timeRequired: `PT${readMins}M`,
       speakable: {
@@ -53,6 +75,13 @@ const jsonld = JSON.stringify({
         { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
         { "@type": "ListItem", position: 3, name: post.title, item: canonical },
       ],
+    },
+    {
+      // FAQ rich results were retired by Google in May 2026, so this earns no
+      // SERP feature. It stays because answer engines still parse it and every
+      // question below is rendered visibly on the page.
+      "@type": "FAQPage",
+      mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
     },
   ],
 });
@@ -76,7 +105,6 @@ const jsonld = JSON.stringify({
 >
   <main>
     <header class="post-hero">
-      <div class="post-hero-bg" aria-hidden="true"></div>
       <div class="wrap narrow">
         <div class="eyebrow">
           <span>{primaryTag}</span>
@@ -249,6 +277,8 @@ const jsonld = JSON.stringify({
       <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
     </article>
 
+    <PostFaq faqs={faqs} idPrefix="faq-wp" />
+
     <RelatedPosts slug={slug} audience={post.audience} />
 
     <section class="post-foot-cta">
@@ -293,3 +323,4 @@ const jsonld = JSON.stringify({
     </section>
   </main>
 </Studio>
+

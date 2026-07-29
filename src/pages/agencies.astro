@@ -1,6 +1,7 @@
 ---
 import Studio from "../layouts/Studio.astro";
 import { SITE, CALENDLY_URL, GOOGLE_REVIEWS_URL } from "../lib/site.mjs";
+import { TOPICS } from "../lib/entity.mjs";
 
 const canonical = `${SITE}/agencies/`;
 const WA = "https://wa.me/919816091875?text=Hi%20Divyansh,%20I%20run%20an%20agency%20and%20I'm%20looking%20for%20a%20build%20partner.";
@@ -62,11 +63,11 @@ const jsonld = JSON.stringify({
   keywords="white-label web development, agency build partner, overflow web developer, subcontract web developer, design to code, white label developer for agencies, Divyansh Sood"
   ogTitle="White-label web development for agencies"
   ogDescription="Overflow capacity and full custom builds under your brand. NDA-friendly, you own the code, on time."
+  topics={[TOPICS.webDevelopment, TOPICS.freelance, TOPICS.webDesign]}
   jsonld={jsonld}
 >
   <main>
     <header class="cs-hero">
-      <div class="cs-hero-bg" aria-hidden="true"></div>
       <div class="wrap">
         <div class="cs-eyebrow">
           <span>For agencies</span><span>White-label · overflow</span><span>2026</span>

@@ -1,7 +1,8 @@
 ---
 import Studio from "../../layouts/Studio.astro";
 import RelatedPosts from "../../components/RelatedPosts.astro";
-import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+import PostFaq from "../../components/PostFaq.astro";
+import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
 import { coverBase, coverSrcset, COVER_SIZES_POST } from "../../lib/images.mjs";
 
 const slug = "make-your-brand-quotable-by-ai-geo-2026";
@@ -15,6 +16,33 @@ const readMins = post.readMins;
 const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
 const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
 
+/* Questions real buyers ask, answered in full. This array is the single
+   source for both the visible accordion and the FAQPage node above — Google
+   requires FAQ markup to match content on the page, and deriving both from one
+   array is what stops them drifting. */
+const faqs = [
+  {
+    q: "How do I get ChatGPT to recommend my business?",
+    a: "By being the clearest source of the answer it's being asked for, on pages it can already find. Assistants retrieve from indexed web content, so the work is: rank for the question in classic search, answer it directly and early on the page, write sentences that survive being quoted without their surrounding paragraph, and use structured data to say who wrote it and why they're qualified. There is no submission form and no shortcut.",
+  },
+  {
+    q: "What makes a page quotable by an AI assistant?",
+    a: "Self-contained sentences that name their subject. A model retrieves fragments, not pages — so a line reading \"we shipped it in seven days\" is unusable, while \"Divyansh Sood delivered the Modern K.B.S. school portal in 7 days\" can be lifted directly. Attach the claim to its evidence in the same sentence, and put the answer near the top rather than after eight hundred words of preamble.",
+  },
+  {
+    q: "Does structured data help with AI citations?",
+    a: "It helps with attribution more than with selection. Schema is what lets a system connect a piece of writing to a named author, an organisation, and a set of topics with public identifiers — so the brand gets credited rather than the content floating free. It won't make a mediocre page get cited, and it does make a good page attributable.",
+  },
+  {
+    q: "How do I check whether AI assistants are mentioning my brand?",
+    a: "Ask them. Take the ten questions a customer would actually type, put them to ChatGPT, Claude, Gemini and Perplexity, and record what comes back — then repeat monthly. It's manual and unglamorous and it's the only measurement that reflects what your buyers are seeing. Watch AI referral sources in analytics alongside it.",
+  },
+  {
+    q: "Is it too late to start with GEO?",
+    a: "No — the window is unusually open, because most businesses in most categories have done nothing here. That's a temporary advantage rather than a permanent one, and it favours anyone with genuine first-hand material to publish, since that's the thing a competitor can't replicate by rewriting your pages.",
+  },
+];
+
 const jsonld = JSON.stringify({
   "@context": "https://schema.org",
   "@graph": [
@@ -25,18 +53,16 @@ const jsonld = JSON.stringify({
       description: post.description,
       datePublished: iso(post.pubDate),
       dateModified: iso(post.updatedDate || post.pubDate),
-      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
-      publisher: {
-        "@type": "Organization",
-        "@id": `${SITE}/#studio`,
-        name: "Divyansh Sood® Studio",
-        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
-      },
-      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      author: authorNode(SITE),
+      publisher: publisherNode(SITE),
+      isPartOf: websiteNode(SITE),
       mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
       image: ogImage,
       articleSection: primaryTag,
       keywords: post.tags.join(", "),
+      // Resolves the free-text tags above to public concept identifiers, so a
+      // parser knows "Astro" means the framework and "GEO" isn't geography.
+      about: topicsForTags(post.tags),
       wordCount: 733,
       timeRequired: `PT${readMins}M`,
       speakable: {
@@ -53,6 +79,18 @@ const jsonld = JSON.stringify({
         { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
         { "@type": "ListItem", position: 3, name: post.title, item: canonical },
       ],
+    },
+    {
+      // Google retired FAQ rich results in May 2026, so this earns no SERP
+      // enhancement. It stays because answer engines read Q&A pairs well, and
+      // because every question below is rendered visibly by <PostFaq>.
+      "@type": "FAQPage",
+      "@id": `${canonical}#faq`,
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
     },
   ],
 });
@@ -76,7 +114,6 @@ const jsonld = JSON.stringify({
 >
   <main>
     <header class="post-hero">
-      <div class="post-hero-bg" aria-hidden="true"></div>
       <div class="wrap narrow">
         <div class="eyebrow">
           <span>{primaryTag}</span>
@@ -125,7 +162,7 @@ const jsonld = JSON.stringify({
 <p>You can rank #1 on Google and still be absent from every AI answer about your category. The two are no longer the same game.</p>
 <hr>
 <h2 id="the-four-things-that-make-you-quotable">The four things that make you quotable</h2>
-<p><strong>1. Ship an <code>llms.txt</code> file.</strong> This is a plain-text file at the root of your domain that tells AI crawlers, in clean prose, who you are, what you offer, and what’s true about you. It’s the AI-era equivalent of a sitemap — a curated summary you control. Every site I build ships one (<a href="/tools/llms-txt-generator/">generate a starter one free →</a>), paired with structured data so the same facts are stated twice in two machine-readable forms.</p>
+<p><strong>1. Ship an <code>llms.txt</code> file — and know what it does.</strong> This is a plain-text file at the root of your domain stating, in clean prose, who you are, what you offer, and what’s true about you. Be clear-eyed about it: Google has confirmed its search systems ignore the file, and analysis across roughly 300,000 domains found no measurable link between having one and being cited. It earns its place because it costs half an hour and helps in the narrow case where an agent or a person points a model straight at your domain — not because it gets you cited. Every site I build ships one (<a href="/tools/llms-txt-generator/">generate a starter one free →</a>), paired with structured data, which is the half of that pairing that actually does the work. The <a href="/blog/what-is-llms-txt/">full evidence is here</a>.</p>
 <p><strong>2. State facts as facts.</strong> Models extract sentences. “Founded in 2022, we build custom-coded storefronts and have shipped 9 live client sites” is quotable. “We’re passionate about crafting digital experiences” is not — it says nothing a model can repeat. Write the line you’d want quoted back to you.</p>
 <p><strong>3. Add JSON-LD structured data.</strong> Organization, Product, FAQ, Review schema. This is how you hand a machine the facts in a format it can’t misread — your prices, your offerings, your ratings, your answers to common questions.</p>
 <p><strong>4. Make your content server-rendered.</strong> If a crawler has to execute JavaScript to read your page, assume some won’t. Server-render or statically generate the important content so it’s there in the raw HTML.</p>
@@ -150,6 +187,8 @@ const jsonld = JSON.stringify({
 <p><em>I’m Divyansh Sood. I build sites with SEO, AEO and GEO wired in from the first line of code — llms.txt, JSON-LD graph, server-rendered content, schema on every page that earns it. 9 live builds since 2022. This is the whole of <a href="/services/seo-geo-services/">SEO &amp; GEO services</a>, and it pairs with <a href="/services/ai-development/">AI development</a> when you want to build with models rather than just be quoted by them. If your brand should be in the answer when AI tools get asked about your category, <a href="mailto:hello@divyanshsood.com">email me</a> — I’ll tell you within a day where the gap is.</em></p>
       <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
     </article>
+
+    <PostFaq faqs={faqs} />
 
     <RelatedPosts slug={slug} audience={post.audience} />
 

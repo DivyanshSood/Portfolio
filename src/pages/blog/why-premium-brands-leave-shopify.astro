@@ -1,7 +1,8 @@
 ---
 import Studio from "../../layouts/Studio.astro";
 import RelatedPosts from "../../components/RelatedPosts.astro";
-import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+import PostFaq from "../../components/PostFaq.astro";
+import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
 import { coverBase, coverSrcset, COVER_SIZES_POST } from "../../lib/images.mjs";
 
 const slug = "why-premium-brands-leave-shopify";
@@ -15,6 +16,33 @@ const readMins = post.readMins;
 const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
 const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
 
+/* Questions real buyers ask, answered in full. This array is the single
+   source for both the visible accordion and the FAQPage node above — Google
+   requires FAQ markup to match content on the page, and deriving both from one
+   array is what stops them drifting. */
+const faqs = [
+  {
+    q: "Why do premium brands leave Shopify?",
+    a: "Because the theme becomes the ceiling. Shopify is excellent at getting a store live and selling quickly, and its structure quietly decides what your store can be — product page, collection page, cart, checkout, in that shape. Brands whose value is partly in how buying feels eventually find they're designing around the platform rather than for their customer.",
+  },
+  {
+    q: "Where does Shopify actually start costing you?",
+    a: "In the accumulation rather than the subscription. Apps for the things the theme can't do, each with its own monthly fee and its own scripts loading on every page, plus transaction costs and the developer hours spent making apps coexist. The published plan price is rarely what a premium brand is actually paying by year two.",
+  },
+  {
+    q: "When should a brand stay on Shopify?",
+    a: "When the store is doing its job and the complaints are cosmetic. If you're shipping products, the checkout converts, and your team can run it without a developer, moving is an expensive way to solve a design brief. A well-customised Shopify store beats a badly-specified custom build every time, and I'll tell a brand that rather than take the project.",
+  },
+  {
+    q: "What does a custom-coded storefront actually give you?",
+    a: "Control over the parts that make the brand feel like itself, and ownership of the code underneath. A custom storefront can express a drop mechanic, a lore-driven browse, a configurator or a launch sequence as a first-class part of the experience rather than a plugin bolted to a theme — and you can take the repository to any developer or host later.",
+  },
+  {
+    q: "Do you lose Shopify's checkout if you go custom?",
+    a: "You replace it, which is the part worth thinking hardest about. Shopify's checkout is genuinely very good and rebuilding it badly is the fastest way to lose money. A custom storefront uses a payment provider directly — Razorpay or Stripe, for example — and the build has to take that path as seriously as Shopify does, because that's where the revenue actually happens.",
+  },
+];
+
 const jsonld = JSON.stringify({
   "@context": "https://schema.org",
   "@graph": [
@@ -25,18 +53,16 @@ const jsonld = JSON.stringify({
       description: post.description,
       datePublished: iso(post.pubDate),
       dateModified: iso(post.updatedDate || post.pubDate),
-      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
-      publisher: {
-        "@type": "Organization",
-        "@id": `${SITE}/#studio`,
-        name: "Divyansh Sood® Studio",
-        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
-      },
-      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      author: authorNode(SITE),
+      publisher: publisherNode(SITE),
+      isPartOf: websiteNode(SITE),
       mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
       image: ogImage,
       articleSection: primaryTag,
       keywords: post.tags.join(", "),
+      // Resolves the free-text tags above to public concept identifiers, so a
+      // parser knows "Astro" means the framework and "GEO" isn't geography.
+      about: topicsForTags(post.tags),
       wordCount: 758,
       timeRequired: `PT${readMins}M`,
       speakable: {
@@ -53,6 +79,18 @@ const jsonld = JSON.stringify({
         { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
         { "@type": "ListItem", position: 3, name: post.title, item: canonical },
       ],
+    },
+    {
+      // Google retired FAQ rich results in May 2026, so this earns no SERP
+      // enhancement. It stays because answer engines read Q&A pairs well, and
+      // because every question below is rendered visibly by <PostFaq>.
+      "@type": "FAQPage",
+      "@id": `${canonical}#faq`,
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
     },
   ],
 });
@@ -76,7 +114,6 @@ const jsonld = JSON.stringify({
 >
   <main>
     <header class="post-hero">
-      <div class="post-hero-bg" aria-hidden="true"></div>
       <div class="wrap narrow">
         <div class="eyebrow">
           <span>{primaryTag}</span>
@@ -158,6 +195,8 @@ const jsonld = JSON.stringify({
 <p><em>If your brand has outgrown the theme-shaped ceiling and you want to talk headless commerce, <a href="mailto:hello@divyanshsood.com">email me</a> — I read every brief personally.</em></p>
       <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
     </article>
+
+    <PostFaq faqs={faqs} />
 
     <RelatedPosts slug={slug} audience={post.audience} />
 

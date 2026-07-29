@@ -1,7 +1,8 @@
 ---
 import Studio from "../../layouts/Studio.astro";
 import RelatedPosts from "../../components/RelatedPosts.astro";
-import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS } from "../../lib/blog.mjs";
+import PostFaq from "../../components/PostFaq.astro";
+import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
 import { coverBase, coverSrcset, COVER_SIZES_POST } from "../../lib/images.mjs";
 
 const slug = "custom-code-vs-webflow-for-startups";
@@ -15,6 +16,33 @@ const readMins = post.readMins;
 const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
 const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
 
+/* Questions real buyers ask, answered in full. This array is the single
+   source for both the visible accordion and the FAQPage node above — Google
+   requires FAQ markup to match content on the page, and deriving both from one
+   array is what stops them drifting. */
+const faqs = [
+  {
+    q: "Is Webflow good enough for a funded startup?",
+    a: "Yes, until it isn't — and the switching point is usually growth, not dissatisfaction. Webflow gets a funded startup a beautiful, credible marketing site fast, with a team that can edit it. The tax arrives later: per-seat and per-site costs that scale awkwardly, a CMS that fights complex content models, and the moment your product and your marketing site need to share components and can't.",
+  },
+  {
+    q: "When should a startup move from Webflow to custom code?",
+    a: "When the marketing site starts needing to behave like part of the product. Shared design system, gated content tied to real accounts, programmatic pages generated from your own data, or performance budgets you can actually control. If you're describing workarounds to your own team more than once a month, you've already crossed the line.",
+  },
+  {
+    q: "Is custom code more expensive than Webflow?",
+    a: "Higher upfront, and the comparison changes shape over a few years rather than a few months. Webflow's cost is recurring and grows with seats, sites and the plugins you bolt on; custom code's cost is mostly the build, after which hosting a static marketing site is close to free. The number that actually matters is the engineering time each option consumes month after month, and that's the one nobody puts in the spreadsheet.",
+  },
+  {
+    q: "Can you run Webflow and custom code together?",
+    a: "Yes, and it's what most teams should actually do. Keep the fast-moving marketing pages where marketing can edit them without a deploy, and build the parts that need real engineering — app, docs, programmatic pages — in code. The mistake is treating it as an all-or-nothing migration when the sensible answer is a boundary drawn in the right place.",
+  },
+  {
+    q: "What's the one question that settles it?",
+    a: "Ask who needs to change the site, and how often. If the answer is \"marketing, weekly, without waiting for a developer\", Webflow is earning its keep. If the answer is \"engineering, because every change touches something the builder can't express\", you're paying a subscription for a constraint.",
+  },
+];
+
 const jsonld = JSON.stringify({
   "@context": "https://schema.org",
   "@graph": [
@@ -25,18 +53,16 @@ const jsonld = JSON.stringify({
       description: post.description,
       datePublished: iso(post.pubDate),
       dateModified: iso(post.updatedDate || post.pubDate),
-      author: { "@type": "Person", name: "Divyansh Sood", url: `${SITE}/`, "@id": `${SITE}/#person` },
-      publisher: {
-        "@type": "Organization",
-        "@id": `${SITE}/#studio`,
-        name: "Divyansh Sood® Studio",
-        logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
-      },
-      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website` },
+      author: authorNode(SITE),
+      publisher: publisherNode(SITE),
+      isPartOf: websiteNode(SITE),
       mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
       image: ogImage,
       articleSection: primaryTag,
       keywords: post.tags.join(", "),
+      // Resolves the free-text tags above to public concept identifiers, so a
+      // parser knows "Astro" means the framework and "GEO" isn't geography.
+      about: topicsForTags(post.tags),
       wordCount: 717,
       timeRequired: `PT${readMins}M`,
       speakable: {
@@ -53,6 +79,18 @@ const jsonld = JSON.stringify({
         { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
         { "@type": "ListItem", position: 3, name: post.title, item: canonical },
       ],
+    },
+    {
+      // Google retired FAQ rich results in May 2026, so this earns no SERP
+      // enhancement. It stays because answer engines read Q&A pairs well, and
+      // because every question below is rendered visibly by <PostFaq>.
+      "@type": "FAQPage",
+      "@id": `${canonical}#faq`,
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
     },
   ],
 });
@@ -76,7 +114,6 @@ const jsonld = JSON.stringify({
 >
   <main>
     <header class="post-hero">
-      <div class="post-hero-bg" aria-hidden="true"></div>
       <div class="wrap narrow">
         <div class="eyebrow">
           <span>{primaryTag}</span>
@@ -195,6 +232,8 @@ const jsonld = JSON.stringify({
 <p><em>I’m Divyansh Sood — I build custom-coded marketing sites and web apps for funded startups in React, Next.js and Astro. 9 live builds, including <a href="https://www.divyanshsood.com/projects/webseek/">WebSeek.ai</a>, where the marketing surface and product share one codebase. If you’re at the Webflow-or-custom decision point, <a href={CALENDLY_URL}>book a 15-min intro</a> — I’ll tell you honestly which way I’d go for your specific case.</em></p>
       <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
     </article>
+
+    <PostFaq faqs={faqs} />
 
     <RelatedPosts slug={slug} audience={post.audience} />
 

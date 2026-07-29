@@ -1,6 +1,7 @@
 ---
 import Studio from "../../layouts/Studio.astro";
 import { SITE, CALENDLY_URL } from "../../lib/site.mjs";
+import { TOPICS } from "../../lib/entity.mjs";
 
 const canonical = `${SITE}/services/web-app-development/`;
 
@@ -39,6 +40,16 @@ const jsonld = JSON.stringify({
       description:
         "Custom web application and MVP development for startups and businesses — portals, dashboards, admin panels and AI-powered products. Full-stack (React, Next.js, Astro, Node), live in weeks, full code ownership.",
       url: canonical,
+      // Derived from the same `offers` array the page renders, so the catalogue
+      // can never advertise something the page doesn't actually describe.
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: "Web app and MVP development",
+        itemListElement: offers.map((o) => ({
+          "@type": "Offer",
+          itemOffered: { "@type": "Service", name: o.t, description: o.d },
+        })),
+      },
     },
     {
       "@type": "BreadcrumbList",
@@ -63,11 +74,11 @@ const jsonld = JSON.stringify({
   keywords="web app development services, MVP development for startups, hire full-stack developer, custom web application development, admin panel development, AI product development, Next.js developer"
   ogTitle="Web app & MVP development"
   ogDescription="The version of your product that can meet users this month. Full-stack, live in weeks, yours to scale."
+  topics={[TOPICS.webApp, TOPICS.webDevelopment, TOPICS.react, TOPICS.startup]}
   jsonld={jsonld}
 >
   <main>
     <header class="cs-hero">
-      <div class="cs-hero-bg" aria-hidden="true"></div>
       <div class="wrap">
         <div class="cs-eyebrow">
           <span>Services</span><span>Web apps · MVPs</span><span>2026</span>
@@ -156,15 +167,15 @@ const jsonld = JSON.stringify({
         <div class="cs-body" data-reveal>
           <div class="cs-card">
             <span class="cs-tag">Custom code vs Webflow for startups</span>
-            <p>Where no-code stops and product engineering starts — and when each is right. <a href="/blog/custom-code-vs-webflow-for-startups/">Read →</a></p>
+            <p>Where no-code stops and product engineering starts — and when each is right. <a href="/blog/custom-code-vs-webflow-for-startups/">Custom code vs Webflow for startups →</a></p>
           </div>
           <div class="cs-card">
             <span class="cs-tag">Own your stack</span>
-            <p>Code portability is leverage: what it means to actually own what you paid for. <a href="/blog/own-your-stack-code-portability/">Read →</a></p>
+            <p>Code portability is leverage: what it means to actually own what you paid for. <a href="/blog/own-your-stack-code-portability/">Why code portability is leverage →</a></p>
           </div>
           <div class="cs-card span2">
             <span class="cs-tag">School site + portal in 7 days</span>
-            <p>The full story of the build other agencies quoted six months for. <a href="/blog/modernkbs-case-study-blog/">Read →</a></p>
+            <p>The full story of the build other agencies quoted six months for. <a href="/blog/modernkbs-school-website-case-study/">Read the Modern K.B.S. build in full →</a></p>
           </div>
         </div>
       </div>

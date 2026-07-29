@@ -16,6 +16,8 @@
 import "../styles/global.css";
 import BaseScripts from "../components/BaseScripts.astro";
 import { CALENDLY_URL } from "../lib/site.mjs";
+import { completeGraph, breadcrumbTrail } from "../lib/entity.mjs";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
 
 const FAVICON =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230b0b0c'/%3E%3Ctext x='50' y='70' font-family='Arial,sans-serif' font-weight='900' font-size='56' fill='%23f4f2ec' text-anchor='middle'%3EDS%3C/text%3E%3Crect x='28' y='80' width='44' height='6' fill='%23d9ff3c'/%3E%3C/svg%3E";
@@ -46,6 +48,13 @@ export interface Props {
   preloader?: boolean;
   /** Homepage: header/footer use in-page smooth-scroll anchors instead of /#… links. */
   home?: boolean;
+  /**
+   * Concepts this page is genuinely about, from TOPICS in src/lib/entity.mjs.
+   * Used as `about` on the page-level WebPage node, which resolves an ambiguous
+   * phrase to a public identifier. Keep it to what the page actually covers —
+   * a long list is keyword stuffing wearing a schema costume.
+   */
+  topics?: object[];
 }
 
 const {
@@ -68,6 +77,7 @@ const {
   preloadImage,
   preloader = false,
   home = false,
+  topics,
 } = Astro.props;
 
 const STAR =
@@ -166,7 +176,18 @@ const MENU = [
     <link rel="preload" as="font" type="font/woff2" href="/fonts/jetbrains-mono.woff2" crossorigin />
     <link rel="preload" as="font" type="font/woff2" href="/fonts/archivo.woff2" crossorigin />
 
-    {jsonld && <script type="application/ld+json" is:inline set:html={jsonld} />}
+    {/* completeGraph appends any identity node (#person / #studio / #website) the
+        page references by @id but never defines, plus a WebPage node for pages
+        that have no node representing themselves — see src/lib/entity.mjs. Doing
+        it here rather than in each page means a new page cannot reintroduce
+        either gap by forgetting. */}
+    {jsonld && (
+      <script
+        type="application/ld+json"
+        is:inline
+        set:html={completeGraph(jsonld, { canonical, name: ogTitle ?? title, description, topics })}
+      />
+    )}
 
     {/* ---- Analytics: GA4 + Yandex Metrica ----
         Loaded unconditionally for every visitor — the consent banner that used
@@ -175,11 +196,10 @@ const MENU = [
         session replay / clickmap.
         IDs are duplicated in BaseScripts.astro (dsTrack) — keep them in sync.
 
-        Deferred, not removed. Both tags used to fetch from their third-party
-        origins straight out of <head>, which put two DNS + TLS handshakes ahead
-        of the LCP image on every page. They now start after `load` (or on the
-        first idle slot, whichever comes first), so they compete with nothing
-        that the visitor can see.
+        Deferred, not removed. Both tags start after `load` (or on the first
+        idle slot, whichever comes first) so they compete with nothing the
+        visitor can see. Fetching them from <head> instead puts two DNS + TLS
+        handshakes ahead of the LCP image on every page.
 
         The queue shims matter: `gtag` and `ym` are stubbed synchronously so any
         call made before the real tags arrive is buffered rather than thrown.
@@ -277,7 +297,7 @@ const MENU = [
 
         {
           preloader && (
-            <div data-loader style="position:fixed; inset:0; z-index:150; background:#0E0E10; flex-direction:column; justify-content:space-between; padding:24px 4vw 20px; will-change:transform;">
+            <div data-loader style="position:fixed; inset:0; z-index:150; background:#0E0E10; flex-direction:column; justify-content:space-between; padding:24px var(--gutter) 20px; will-change:transform;">
               <div style="display:flex; justify-content:space-between; font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.14em; color:#8A8A93;">
                 <span>DIVYANSH SOOD®</span>
                 <span>PORTFOLIO — 2026</span>
@@ -308,12 +328,12 @@ const MENU = [
         {/* Header — shared minimal nav. Hides on scroll-down, returns on
             scroll-up (engine toggles .dsx-hh). Desktop links get a rolling
             double-label hover; ≤720px the links collapse into the burger. */}
-        <header data-header style="position:fixed; top:0; left:0; right:0; z-index:60; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:16px 4vw; mix-blend-mode:difference;">
+        <header data-header class="dsx-head">
           <a href={topHref} data-goto={home ? "top" : undefined} aria-label="Divyansh Sood — home" style="display:inline-flex; align-items:center; gap:10px; font-weight:600; font-size:13px; letter-spacing:0.06em;">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--accent, #D9FF3C)" aria-hidden="true"><path d={STAR}></path></svg>
             <span>DIVYANSH SOOD<span style="color:var(--accent, #D9FF3C);">®</span></span>
           </a>
-          <nav data-hide-m style="display:flex; gap:28px; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.12em;">
+          <nav data-hide-m class="dsx-head-nav">
             <a href={workHref} data-goto={home ? "work" : undefined} class="dsx-nav-link"><span class="dsx-roll"><span>WORK</span><span aria-hidden="true">WORK</span></span></a>
             <a href="/portfolio/" class="dsx-nav-link" aria-current={isActive("/portfolio") ? "page" : undefined}><span class="dsx-roll"><span>PORTFOLIO</span><span aria-hidden="true">PORTFOLIO</span></span></a>
             <a href="/results/" class="dsx-nav-link" aria-current={isActive("/results") ? "page" : undefined}><span class="dsx-roll"><span>RESULTS</span><span aria-hidden="true">RESULTS</span></span></a>
@@ -321,7 +341,7 @@ const MENU = [
             <a href={contactHref} data-goto={home ? "contact" : undefined} class="dsx-nav-link"><span class="dsx-roll"><span>CONTACT</span><span aria-hidden="true">CONTACT</span></span></a>
           </nav>
           <div style="display:inline-flex; align-items:center; gap:10px;">
-            <a href={CALENDLY_URL} target="_blank" rel="noopener" style="font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.12em; border:1px solid rgba(244,242,236,0.45); border-radius:999px; padding:9px 16px; white-space:nowrap; display:inline-flex; align-items:center; gap:8px;">START A PROJECT <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d={ARROW}></path></svg></a>
+            <a href={CALENDLY_URL} target="_blank" rel="noopener" class="dsx-head-cta">START A PROJECT <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d={ARROW}></path></svg></a>
             <button data-menu-btn class="dsx-burger" aria-label="Open menu" aria-expanded="false" aria-controls="dsx-menu">
               <span></span>
               <span></span>
@@ -365,20 +385,27 @@ const MENU = [
           </div>
         </div>
 
+        {/* Visible breadcrumb trail, read straight out of the page's own
+            BreadcrumbList (see breadcrumbTrail in entity.mjs). Rendered here so
+            every page that ships the schema also ships the trail — and so the
+            two can never disagree. Pages with no BreadcrumbList (the homepage,
+            404) render nothing. */}
+        <Breadcrumbs crumbs={breadcrumbTrail(jsonld)} />
+
         <slot />
 
         {/* Footer — shared */}
         <footer style="border-top:1px solid rgba(244,242,236,0.14); position:relative; overflow:hidden; background:#0E0E10;">
-          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(210px, 1fr)); gap:44px 24px; padding:9vh 4vw 6vh;">
+          <div class="dsx-foot-grid">
             <div style="display:flex; flex-direction:column; gap:18px; align-items:flex-start;">
               <a href={topHref} data-goto={home ? "top" : undefined} aria-label="Back to top" style="display:inline-flex; align-items:center; gap:10px; font-weight:600; font-size:14px; letter-spacing:0.06em;">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="var(--accent, #D9FF3C)" aria-hidden="true"><path d={STAR}></path></svg>
                 <span>DIVYANSH SOOD<span style="color:var(--accent, #D9FF3C);">®</span></span>
               </a>
-              <p style="margin:0; font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.1em; line-height:1.9; color:#8A8A93; max-width:280px;">INDEPENDENT WEB DESIGNER &amp; DEVELOPER. CUSTOM-CODED, CONVERSION-FOCUSED, WORLDWIDE.</p>
+              <p style="margin:0; font-family:'JetBrains Mono',monospace; font-size:var(--fs-label); letter-spacing:0.1em; line-height:1.9; color:#8A8A93; max-width:280px;">INDEPENDENT WEB DESIGNER &amp; DEVELOPER. CUSTOM-CODED, CONVERSION-FOCUSED, WORLDWIDE.</p>
             </div>
             <nav style="display:flex; flex-direction:column; gap:12px; align-items:flex-start;">
-              <span style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.14em; color:#55555C; margin-bottom:4px;">SITEMAP</span>
+              <span style="font-family:'JetBrains Mono',monospace; font-size:var(--fs-label); letter-spacing:var(--ls-label); color:#55555C; margin-bottom:4px;">SITEMAP</span>
               <a href={workHref} data-goto={home ? "work" : undefined} style="font-weight:500; font-size:14px;">Work</a>
               <a href="/services/" style="font-weight:500; font-size:14px;">Services</a>
               <a href="/portfolio/" style="font-weight:500; font-size:14px;">Portfolio</a>
@@ -396,7 +423,7 @@ const MENU = [
                 boilerplate pages above had 60+ — so the pages meant to rank for
                 "web developer <city>" were the least linked on the site. */}
             <nav style="display:flex; flex-direction:column; gap:12px; align-items:flex-start;">
-              <span style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.14em; color:#55555C; margin-bottom:4px;">SERVICES</span>
+              <span style="font-family:'JetBrains Mono',monospace; font-size:var(--fs-label); letter-spacing:var(--ls-label); color:#55555C; margin-bottom:4px;">SERVICES</span>
               <a href="/services/web-app-development/" style="font-weight:500; font-size:14px;">Web app development</a>
               <a href="/services/ai-development/" style="font-weight:500; font-size:14px;">AI development</a>
               <a href="/services/ecommerce-website-development/" style="font-weight:500; font-size:14px;">E-commerce websites</a>
@@ -405,30 +432,30 @@ const MENU = [
               <a href="/agencies/" style="font-weight:500; font-size:14px;">For agencies</a>
             </nav>
             <nav style="display:flex; flex-direction:column; gap:12px; align-items:flex-start;">
-              <span style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.14em; color:#55555C; margin-bottom:4px;">LOCATIONS</span>
+              <span style="font-family:'JetBrains Mono',monospace; font-size:var(--fs-label); letter-spacing:var(--ls-label); color:#55555C; margin-bottom:4px;">LOCATIONS</span>
               <a href="/web-developer-kangra/" style="font-weight:500; font-size:14px;">Web developer Kangra</a>
               <a href="/web-developer-dharamshala/" style="font-weight:500; font-size:14px;">Web developer Dharamshala</a>
               <a href="/web-developer-shimla/" style="font-weight:500; font-size:14px;">Web developer Shimla</a>
               <a href="/web-developer-manali/" style="font-weight:500; font-size:14px;">Web developer Manali</a>
             </nav>
             <nav style="display:flex; flex-direction:column; gap:12px; align-items:flex-start;">
-              <span style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.14em; color:#55555C; margin-bottom:4px;">SOCIALS</span>
+              <span style="font-family:'JetBrains Mono',monospace; font-size:var(--fs-label); letter-spacing:var(--ls-label); color:#55555C; margin-bottom:4px;">SOCIALS</span>
               <a href="https://github.com/DivyanshSood" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:10px; font-weight:500; font-size:14px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.69 1.25 3.34.96.1-.75.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.15 1.18a10.9 10.9 0 0 1 5.74 0c2.19-1.49 3.15-1.18 3.15-1.18.62 1.59.23 2.76.11 3.05.73.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.26 5.66.41.36.78 1.06.78 2.14 0 1.54-.01 2.79-.01 3.17 0 .31.21.68.8.56A10.52 10.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"></path></svg>GitHub</a>
               <a href="https://www.linkedin.com/in/divyanshsood/" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:10px; font-weight:500; font-size:14px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"></path></svg>LinkedIn</a>
               <a href="https://wa.me/919816091875" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:10px; font-weight:500; font-size:14px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.4-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.44-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.49s1.07 2.89 1.22 3.09c.15.2 2.11 3.22 5.1 4.51.71.31 1.27.49 1.7.63.72.23 1.37.2 1.88.12.57-.09 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.13-.27-.2-.57-.35Zm-5.42 7.4h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.9-9.88a9.83 9.83 0 0 1 6.99 2.9 9.83 9.83 0 0 1 2.89 7c0 5.45-4.44 9.88-9.89 9.88Zm8.42-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.94L.06 24l6.3-1.65a11.88 11.88 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.89 0-3.18-1.24-6.16-3.47-8.4Z"></path></svg>WhatsApp</a>
               <a href="mailto:hello@divyanshsood.com" style="display:inline-flex; align-items:center; gap:10px; font-weight:500; font-size:14px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m2 7 10 7L22 7"></path></svg>Email</a>
             </nav>
             <div style="display:flex; flex-direction:column; gap:12px; align-items:flex-start; font-weight:500; font-size:14px;">
-              <span style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.14em; color:#55555C; margin-bottom:4px;">STUDIO</span>
+              <span style="font-family:'JetBrains Mono',monospace; font-size:var(--fs-label); letter-spacing:var(--ls-label); color:#55555C; margin-bottom:4px;">STUDIO</span>
               <span>Himachal Pradesh, IN</span>
               <span>Working worldwide</span>
               <span style="color:#8A8A93;">IST <span data-ist>––:––</span> · EST. 2022</span>
             </div>
           </div>
-          <div style="padding:0 4vw; overflow:hidden;">
+          <div style="padding:0 var(--gutter); overflow:hidden;">
             <div style="overflow:hidden;"><div class="dsx-r" data-rev style="font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(37px, 10vw, 185px); line-height:1; text-transform:uppercase; text-align:center; white-space:nowrap; color:transparent; -webkit-text-stroke:1px rgba(244,242,236,0.38);">Divyansh Sood®</div></div>
           </div>
-          <div style="margin:0 4vw; border-top:1px solid rgba(244,242,236,0.14); display:flex; flex-wrap:wrap; gap:14px 28px; justify-content:space-between; align-items:center; padding:20px 0 24px; font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.12em; color:#8A8A93;">
+          <div style="margin:0 var(--gutter); border-top:1px solid var(--rule); display:flex; flex-wrap:wrap; gap:14px 28px; justify-content:space-between; align-items:center; padding:20px 0 24px; font-family:'JetBrains Mono',monospace; font-size:var(--fs-label); letter-spacing:0.12em; color:#8A8A93;">
             <span>© 2026 DIVYANSH SOOD STUDIO</span>
             <span data-hide-m>DESIGNED &amp; CODED BY ONE PERSON</span>
             <a href="/privacy/" style="letter-spacing:0.12em;">PRIVACY</a>
@@ -455,13 +482,12 @@ const MENU = [
   ::-webkit-scrollbar-thumb { background: #26262b; }
   ::-webkit-scrollbar-track { background: #0b0b0c; }
 
-  /* These used to be written `#dsx a` / `#dsx button`. An ID selector scores
-     1-0-1, which silently outranked EVERY class-based button rule on the site:
-     `.btn-primary` (0-1-0) in base.css and `.hero-cta-1` (0-1-0) in
-     index.astro both lost, so their labels inherited the off-white body colour
-     and rendered on a neon-green pill at 1.01:1 contrast — an invisible label
-     on the site's main call to action, on 94 buttons across 67 pages. On hover
-     `#dsx a:hover` made it green-on-green.
+  /* Scoped by element, NOT as `#dsx a` / `#dsx button`. An ID selector scores
+     1-0-1 and silently outranks every class-based button rule on the site —
+     `.btn-primary` (0-1-0) in base.css, `.hero-cta-1` (0-1-0) in index.astro —
+     so their labels inherit the off-white body colour and render on a
+     neon-green pill at 1.01:1 contrast: an invisible label on the main call to
+     action, across every page. Never raise the specificity here.
 
      Only the `.dsx-cta` buttons escaped, because they carry an inline
      style="color:#0B0B0C" and inline beats an ID. That is exactly why this
@@ -511,6 +537,46 @@ const MENU = [
   /* ------------------------------------------------------------------------
      Header behaviour + desktop nav polish.
      ------------------------------------------------------------------------ */
+  /* Laid out in CSS, not inline: the mobile rules below need to shrink and then
+     drop the CTA pill, and `display:none` cannot beat an inline display value. */
+  #dsx .dsx-head {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 60;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    /* viewport-fit=cover is set on the meta, so in landscape on a notched phone
+       a flat 4vw put the wordmark under the notch. */
+    padding: 16px calc(var(--gutter) + env(safe-area-inset-right, 0px))
+             16px calc(var(--gutter) + env(safe-area-inset-left, 0px));
+    mix-blend-mode: difference;
+  }
+  #dsx .dsx-head-cta {
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.12em;
+    border: 1px solid rgba(244, 242, 236, 0.45); border-radius: 999px;
+    padding: 9px 16px; white-space: nowrap;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  #dsx .dsx-head-nav {
+    display: flex; gap: 28px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em;
+  }
+  /* The burger holds until 860px, carrying the same links. Bringing the five
+     desktop links back any earlier doesn't fit — wordmark + nav + pill wraps
+     the wordmark to two lines and butts the three items together. This is also
+     why --header-h steps at 860 (see base.css). Only the nav and burger move
+     here, not the site-wide [data-hide-m] line, which stays at 720. */
+  @media (max-width: 860px) {
+    #dsx .dsx-head-nav { display: none; }
+  }
+  /* At 375px the header measured ~393px of content in 345px of space: wordmark
+     ~159 + gap + a nowrap pill ~166 + gap + the 42px burger. Shrink the pill,
+     then drop it — the burger menu already carries the identical CTA. */
+  @media (max-width: 720px) {
+    #dsx .dsx-head-cta { padding: 8px 12px; font-size: 10px; letter-spacing: 0.08em; }
+    #dsx .dsx-head-cta svg { display: none; }
+  }
+  @media (max-width: 480px) {
+    #dsx .dsx-head-cta { display: none; }
+  }
+
   /* Hide on scroll-down, return on scroll-up (engine toggles .dsx-hh). */
   #dsx [data-header] { transition: transform 0.5s cubic-bezier(0.22, 1, 0.22, 1); }
   #dsx [data-header].dsx-hh { transform: translateY(-110%); }
@@ -538,11 +604,19 @@ const MENU = [
   }
   #dsx .dsx-burger:hover { border-color: var(--accent, #d9ff3c); }
   #dsx .dsx-burger span { display: block; width: 16px; height: 1.6px; background: #f4f2ec; }
-  @media (max-width: 720px) {
+  /* Must sit after the display:none above — same specificity, so source order
+     decides. Pairs with .dsx-head-nav hiding at the same width. */
+  @media (max-width: 860px) {
     #dsx .dsx-burger { display: inline-flex; }
-    /* Footer columns stack on phones — pull the grid gap and top padding in
-       (desktop values live inline on the element, hence !important). */
-    #dsx footer > div:first-child { padding: 6vh 4vw 5vh !important; gap: 32px 24px !important; }
+  }
+  /* Footer columns. Laid out here rather than inline so the phone override
+     below is a plain rule instead of an !important fight with the element. */
+  #dsx .dsx-foot-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 44px 24px; padding: var(--sp-l) var(--gutter) var(--sp-m);
+  }
+  @media (max-width: 720px) {
+    #dsx .dsx-foot-grid { gap: 32px 24px; }
   }
 
   /* ------------------------------------------------------------------------
@@ -552,7 +626,7 @@ const MENU = [
   #dsx .dsx-menu {
     position: fixed; inset: 0; z-index: 95; background: #0e0e10;
     display: flex; flex-direction: column; overflow: auto;
-    padding: 16px 4vw calc(28px + env(safe-area-inset-bottom, 0px));
+    padding: 16px var(--gutter) calc(28px + env(safe-area-inset-bottom, 0px));
     visibility: hidden; clip-path: inset(0 0 100% 0);
     transition: clip-path 0.65s cubic-bezier(0.76, 0, 0.24, 1), visibility 0s linear 0.65s;
   }
@@ -619,6 +693,10 @@ const MENU = [
     transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   }
   html.motion-fallback #dsx [data-reveal] { opacity: 1 !important; transform: none !important; }
+  /* The word-splitter writes opacity:0.13 inline on every span before the frame
+     loop starts, so a throw in between left the statement 87% transparent with
+     nothing to reset it. Inline opacity means this needs !important. */
+  html.motion-fallback #dsx [data-split-words] span { opacity: 1 !important; }
   @media (prefers-reduced-motion: reduce) {
     html.motion #dsx [data-reveal],
     html.motion #dsx .dsx-r,
@@ -645,6 +723,13 @@ const MENU = [
   // Everything homepage-specific is guarded, so this no-ops elsewhere.
   // ==========================================================================
   const root = document.getElementById("dsx");
+  // The whole engine sits inside one try/catch, and `motion-ready` — which
+  // cancels the head script's 3s failsafe — is only set once boot has actually
+  // finished (see the bottom of this block). Setting it any earlier disarms the
+  // failsafe before the work happens, so a throw below would leave the H1 and
+  // both hero CTAs at opacity:0 permanently. Keep it last; any throw then still
+  // lands on motion-fallback.
+  try {
   if (root) {
     const doc = document.documentElement;
     const fine = window.matchMedia("(pointer: fine)").matches;
@@ -657,9 +742,6 @@ const MENU = [
     let loaderDone = false;
     let introRan = false;
     let overlayIdx: number | null = null;
-
-    // Signal the engine is alive — cancels the head script's 3s failsafe.
-    doc.classList.add("motion-ready");
 
     // ---- Node collection (static DOM — collected once) ----------------------
     const mk = (t: HTMLElement, i: number) => ({
@@ -707,40 +789,54 @@ const MENU = [
 
     // Split the statement paragraphs into per-word spans (JS-off keeps the
     // plain, fully readable paragraphs).
-    q("[data-split-words]").forEach((el) => {
-      const words = (el.textContent || "").trim().split(/\s+/);
-      el.textContent = "";
-      words.forEach((w) => {
-        const s = document.createElement("span");
-        s.textContent = w;
-        s.style.cssText = "display:inline-block;opacity:0.13;transition:opacity 0.25s linear;margin-right:0.27em;";
-        el.appendChild(s);
+    // Skipped entirely under reduced motion. The guard has to live here rather
+    // than on the frame loop: the splitter writes opacity:0.13 inline on every
+    // span, so guarding only the loop would leave the whole statement at 13%
+    // opacity — invisible text instead of a disabled animation.
+    if (!reduced) {
+      q("[data-split-words]").forEach((el) => {
+        const words = (el.textContent || "").trim().split(/\s+/);
+        el.textContent = "";
+        words.forEach((w) => {
+          const s = document.createElement("span");
+          s.textContent = w;
+          s.style.cssText = "display:inline-block;opacity:0.13;transition:opacity 0.25s linear;margin-right:0.27em;";
+          el.appendChild(s);
+        });
       });
-    });
+    }
     const words = q("[data-split-words] span");
 
     // ---- Measurement ---------------------------------------------------------
     let maxSc = 99999;
     let deckTop = 0;
+    let deckTravel = 1;
     let stmtTop = 0;
     let stmtLen = 1;
+    // The pinned children of the two scroll-driven sections. Travel is measured
+    // against these rather than against window.innerHeight: the tracks are sized
+    // in svh (CSS) while innerHeight tracks lvh, and mixing the two is what used
+    // to leave a dark band under the pinned laptop on phones.
+    const deckStage = deckSec ? deckSec.querySelector<HTMLElement>(".dsx-lap-stage") : null;
+    const stmtPin = stmtSec ? (stmtSec.firstElementChild as HTMLElement | null) : null;
     const measure = () => {
       const vh = window.innerHeight;
       marquees.concat(drifts).forEach((m) => {
         if (m.copy) m.w = m.copy.offsetWidth;
       });
       if (deckSec && deckScreens.length) {
-        // 1vh holds the pin, then 0.6vh of scroll per project. This was 1vh per
-        // project, which put ~500vh of scroll-jacking between the fold and the
-        // services section — the longest stretch on the site with no CTA in it.
-        // At 0.6 the cross-fade still reads comfortably and a fifth project
-        // costs less total scroll than four did before.
-        deckSec.style.height = Math.round(vh * (1 + deckScreens.length * 0.6)) + "px";
         deckTop = deckSec.getBoundingClientRect().top + window.scrollY;
+        // Pin travel is the track minus the pinned stage — NOT one viewport.
+        // The old code divided progress by vh while the track allotted only
+        // 0.6vh per project, so p capped at 3 of the 4 it needed: project 05
+        // never faded in while pinned, was never clickable, and the progress
+        // bar stopped at 75%. Measuring both ends keeps them in step whatever
+        // unit either is written in.
+        deckTravel = Math.max(1, deckSec.offsetHeight - (deckStage ? deckStage.offsetHeight : vh));
       }
       if (stmtSec) {
         stmtTop = stmtSec.getBoundingClientRect().top + window.scrollY;
-        stmtLen = Math.max(stmtSec.offsetHeight - vh, 1);
+        stmtLen = Math.max(1, stmtSec.offsetHeight - (stmtPin ? stmtPin.offsetHeight : vh));
       }
       maxSc = Math.max(doc.scrollHeight - vh, 0);
       target = Math.min(target, maxSc);
@@ -931,9 +1027,9 @@ const MENU = [
       const el = e.target as Element | null;
       if (el && el.closest && el.closest("a")) setMenu(false);
     });
-    // The burger only exists ≤720px — close the menu if the viewport leaves it.
+    // The burger only exists ≤860px — close the menu if the viewport leaves it.
     window.addEventListener("resize", () => {
-      if (menuOpen && window.innerWidth > 720) setMenu(false);
+      if (menuOpen && window.innerWidth > 860) setMenu(false);
     });
 
     // ---- Cursor ----------------------------------------------------------------
@@ -984,7 +1080,34 @@ const MENU = [
       },
       { passive: true }
     );
-    window.addEventListener("resize", measureSoon);
+    // Mobile browsers fire `resize` every time the URL bar slides in or out.
+    // That is not a layout change — the document width is identical and every
+    // scroll-linked length is in svh, which does not move either. Honouring it
+    // re-derived deckTop mid-pin and jumped the gallery under the reader's
+    // thumb. Rotation, split-view and desktop window drags all change width.
+    const coarse = window.matchMedia("(pointer: coarse)").matches;
+    let lastW = window.innerWidth;
+    window.addEventListener(
+      "resize",
+      () => {
+        const w = window.innerWidth;
+        const widthChanged = w !== lastW;
+        lastW = w;
+        if (coarse && !widthChanged) return;
+        measureSoon();
+      },
+      { passive: true }
+    );
+    // innerWidth is not always updated yet at orientationchange time, so force
+    // the resize that follows to count.
+    window.addEventListener(
+      "orientationchange",
+      () => {
+        lastW = -1;
+        measureSoon();
+      },
+      { passive: true }
+    );
     window.addEventListener("keydown", (e) => {
       if (e.key !== "Escape") return;
       if (menuOpen) setMenu(false);
@@ -1050,7 +1173,6 @@ const MENU = [
     let wc = -1;
     const frame = () => {
       requestAnimationFrame(frame);
-      const vh = window.innerHeight;
 
       if (fine && !reduced && overlayIdx == null && loaderDone) {
         if (Math.abs(target - cur) > 0.4) {
@@ -1099,21 +1221,30 @@ const MENU = [
 
       if (deckSec && deckScreens.length) {
         const N = deckScreens.length;
-        const p = Math.min(N - 1, Math.max(0, (y - deckTop) / vh));
+        // Normalise the measured travel to 0..N-1 so the last project reaches
+        // full opacity exactly as the stage unpins, whatever the per-card step.
+        const p = Math.min(N - 1, Math.max(0, ((y - deckTop) / deckTravel) * (N - 1)));
         const i = Math.floor(p);
         const tt = p - i;
         const te = tt * tt * (3 - 2 * tt);
         // Cross-fade the active project's screen + copy into the next one. Copy
         // also slides a touch vertically to feel deliberate rather than a dissolve.
         for (let k = 0; k < N; k++) {
+          // The vertical slide is decoration on top of the cross-fade; the
+          // cross-fade itself is scroll-position state, not autonomous motion,
+          // so it stays. Reduced motion keeps the content, drops the travel.
+          const slide = reduced ? 0 : 28;
           let so = 0, co = 0, ty = 0;
-          if (k === i) { so = 1 - te; co = 1 - te; ty = -te * 28; }
-          else if (k === i + 1) { so = te; co = te; ty = (1 - te) * 28; }
+          if (k === i) { so = 1 - te; co = 1 - te; ty = -te * slide; }
+          else if (k === i + 1) { so = te; co = te; ty = (1 - te) * slide; }
           const sc = deckScreens[k], cp = deckCopies[k];
           if (sc) sc.style.opacity = so.toFixed(3);
           if (cp) {
             cp.style.opacity = co.toFixed(3);
             cp.style.transform = "translate3d(0," + ty.toFixed(1) + "px,0)";
+            // The inactive cards sit stacked on top of each other at opacity 0
+            // but stayed clickable and keyboard-focusable.
+            cp.style.pointerEvents = co > 0.5 ? "auto" : "none";
           }
         }
         const active = Math.min(N - 1, Math.round(p));
@@ -1144,10 +1275,18 @@ const MENU = [
       }
     };
 
+    // Boot succeeded — only now cancel the head script's 3s failsafe.
+    doc.classList.add("motion-ready");
+
     measure();
     requestAnimationFrame(frame);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => measure());
     [600, 1500, 3000].forEach((t) => setTimeout(measure, t));
     window.addEventListener("load", measure);
+  }
+  } catch (e) {
+    // Boot threw. Force-reveal everything the pre-paint head script hid rather
+    // than waiting out the 3s failsafe with an invisible headline.
+    document.documentElement.classList.add("motion-fallback");
   }
 </script>
