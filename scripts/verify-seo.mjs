@@ -156,7 +156,19 @@ console.log("\n3. No redirect shadows a real page");
 console.log("\n4. Redirect destinations resolve and don't chain");
 {
   const bad = [];
+  // Vanity redirects that hand off to an off-site profile (/upwork, /fiverr,
+  // /github, /whatsapp…) have no built page to check — and toPath() would
+  // otherwise read upwork.com's pathname as if it were ours and fail it. Only
+  // the origin decides: an absolute URL on a different host is out of scope.
+  const isExternal = (u) => {
+    try {
+      return new URL(u, SITE).origin !== new URL(SITE).origin;
+    } catch {
+      return false;
+    }
+  };
   for (const r of redirects) {
+    if (isExternal(r.destination)) continue;
     const d = slash(toPath(r.destination) ?? r.destination);
     if (sources.has(d)) bad.push(`${r.source} → ${r.destination}, which is itself a redirect source (chain)`);
     else if (!pages.has(d) && !existsSync(join(DIST, d.replace(/^\//, "")))) {
@@ -164,7 +176,10 @@ console.log("\n4. Redirect destinations resolve and don't chain");
     }
   }
   if (bad.length) bad.forEach(fail);
-  else pass(`all ${redirects.length} redirect destinations are single-hop and resolve`);
+  else {
+    const ext = redirects.filter((r) => isExternal(r.destination)).length;
+    pass(`all ${redirects.length - ext} on-site redirect destinations are single-hop and resolve (${ext} off-site vanity redirects skipped)`);
+  }
 }
 
 /* ── 5. Every sitemap URL carries a lastmod ──────────────────────────────── */

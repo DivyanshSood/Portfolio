@@ -44,6 +44,23 @@ export const GOOGLE_MAPS_URL = "https://maps.app.goo.gl/ACwV9EfEteWVoTD49";
 const GBP_CID = "6503761533006416527";
 export const GOOGLE_MAPS_CID_URL = `https://www.google.com/maps?cid=${GBP_CID}`;
 
+/* ---------------------------------------------------------------------------
+   Google Knowledge Graph MID for the business entity — the stable identifier
+   behind the knowledge panel that Google shows for "Divyansh Sood Web
+   Developer". Both share.google tokens the owner has handed over
+   (x2v3pvXR9RIjYF1z0 in GOOGLE_REVIEWS_URL above, and M7xIpivlCgdxBSKZy)
+   resolve to the same panel: google.com/search?kgmid=/g/11z9n1tjmg. The MID is
+   recorded here because it outlives those tokens, which are opaque redirects
+   Google can retire at any time.
+
+   Deliberately NOT added to `sameAs`: a sameAs URL is meant to be a fetchable
+   profile page, and google.com/search is Disallow-ed in Google's own
+   robots.txt — pointing an identity claim at a URL no crawler may fetch is a
+   dead end. It goes in `identifier` on the Studio node instead (entity.mjs),
+   which is where a stated-not-fetched ID belongs.
+--------------------------------------------------------------------------- */
+export const GOOGLE_KG_MID = "/g/11z9n1tjmg";
+
 /* NOTE: there is deliberately no price constant here. Pricing was removed from
    the site entirely by owner decision (2026-07-28) — every project is quoted in
    writing after a call, so no figure is published anywhere. Do not reintroduce
@@ -61,12 +78,26 @@ export const GOOGLE_MAPS_CID_URL = `https://www.google.com/maps?cid=${GBP_CID}`;
 
    To activate a profile: create it, set its "website" field to point back to
    https://www.divyanshsood.com/, then (1) uncomment its line here with the real
-   handle, and (2) mirror the URL into public/llms.txt `## Contact` and the
-   footer socials in src/layouts/Studio.astro. The schema updates automatically.
+   handle, and (2) mirror the URL into public/llms.txt `## Contact`. Schema
+   `sameAs`, the head `rel="me"` links, the footer socials column and the
+   fullscreen-menu links all derive from this array — llms.txt is the only file
+   that still needs a manual edit.
+
+   URLs here are the CANONICAL profile form: no `?mp_source=`/`?utm_` tracking
+   params, because sameAs is an identity claim and a tracked URL is a different
+   string to a parser. The marketplace vanity redirects in vercel.json
+   (/upwork, /fiverr, /freelancer, /linkedin, /github) point at these same URLs.
 --------------------------------------------------------------------------- */
-const SOCIAL_PROFILES = [
+export const SOCIAL_PROFILES = [
   { name: "GitHub", url: "https://github.com/DivyanshSood" },
   { name: "LinkedIn", url: "https://www.linkedin.com/in/divyanshsood/" },
+  { name: "Upwork", url: "https://www.upwork.com/freelancers/~016c567f0fc1a21f68" },
+  // Seller username `divyansh_sood`, taken from the owner's Fiverr dashboard
+  // URL. This is the public profile form — NOT /sellers/<user>/edit (a
+  // logged-in-only dashboard page) and not the fiverr.com/s/… share token,
+  // which is an opaque redirect that Fiverr can retire.
+  { name: "Fiverr", url: "https://www.fiverr.com/divyansh_sood" },
+  { name: "Freelancer", url: "https://www.freelancer.in/u/sooddivyansh007" },
   // ↓ Uncomment each once the profile is live and its website field links back here:
   // { name: "dev.to", url: "https://dev.to/<handle>" },
   // { name: "Hashnode", url: "https://hashnode.com/@<handle>" },

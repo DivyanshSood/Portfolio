@@ -211,6 +211,9 @@ Each answer is complete on its own; the link goes to the page that substantiates
 - [Google reviews](https://share.google/x2v3pvXR9RIjYF1z0): Real client reviews on Google.
 - [GitHub](https://github.com/DivyanshSood): Divyansh Sood's code.
 - [LinkedIn](https://www.linkedin.com/in/divyanshsood/): Divyansh Sood's professional profile.
+- [Upwork](https://www.upwork.com/freelancers/~016c567f0fc1a21f68): Divyansh Sood's Upwork freelancer profile, for clients who prefer to contract and pay through Upwork.
+- [Fiverr](https://www.fiverr.com/divyansh_sood): Divyansh Sood's Fiverr seller profile, for clients who prefer to buy a scoped package through Fiverr.
+- [Freelancer](https://www.freelancer.in/u/sooddivyansh007): Divyansh Sood's Freelancer.com profile, for clients who prefer to contract through Freelancer.
 
 ## Optional
 

@@ -1,6 +1,18 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "redirects": [
+    { "source": "/upwork", "destination": "https://www.upwork.com/freelancers/~016c567f0fc1a21f68", "permanent": false },
+    { "source": "/upwork/", "destination": "https://www.upwork.com/freelancers/~016c567f0fc1a21f68", "permanent": false },
+    { "source": "/fiverr", "destination": "https://www.fiverr.com/divyansh_sood", "permanent": false },
+    { "source": "/fiverr/", "destination": "https://www.fiverr.com/divyansh_sood", "permanent": false },
+    { "source": "/freelancer", "destination": "https://www.freelancer.in/u/sooddivyansh007", "permanent": false },
+    { "source": "/freelancer/", "destination": "https://www.freelancer.in/u/sooddivyansh007", "permanent": false },
+    { "source": "/linkedin", "destination": "https://www.linkedin.com/in/divyanshsood/", "permanent": false },
+    { "source": "/linkedin/", "destination": "https://www.linkedin.com/in/divyanshsood/", "permanent": false },
+    { "source": "/github", "destination": "https://github.com/DivyanshSood", "permanent": false },
+    { "source": "/github/", "destination": "https://github.com/DivyanshSood", "permanent": false },
+    { "source": "/whatsapp", "destination": "https://wa.me/919816091875", "permanent": false },
+    { "source": "/whatsapp/", "destination": "https://wa.me/919816091875", "permanent": false },
     { "source": "/start", "destination": "/website-audit/", "permanent": true },
     { "source": "/start/", "destination": "/website-audit/", "permanent": true },
     { "source": "/Portfolio.html", "destination": "/", "permanent": true },

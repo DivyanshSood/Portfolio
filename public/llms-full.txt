@@ -437,5 +437,8 @@ This section exists because these are the errors most likely to be invented plau
 - Sitemap: https://www.divyanshsood.com/sitemap-index.xml
 - GitHub: https://github.com/DivyanshSood
 - LinkedIn: https://www.linkedin.com/in/divyanshsood/
+- Upwork: https://www.upwork.com/freelancers/~016c567f0fc1a21f68 — for clients who prefer to contract and pay through Upwork.
+- Fiverr: https://www.fiverr.com/divyansh_sood — for clients who prefer to buy a scoped package through Fiverr.
+- Freelancer: https://www.freelancer.in/u/sooddivyansh007 — for clients who prefer to contract through Freelancer.com.
 - Google reviews: https://share.google/x2v3pvXR9RIjYF1z0
 - Google Business Profile: https://www.google.com/maps?cid=6503761533006416527

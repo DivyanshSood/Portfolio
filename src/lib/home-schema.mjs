@@ -4,7 +4,7 @@
    same serialised string as before.
    =========================================================================== */
 
-import { FOUNDER_PHOTO, GOOGLE_MAPS_CID_URL, SAME_AS } from "./site.mjs";
+import { FOUNDER_PHOTO, GOOGLE_KG_MID, GOOGLE_MAPS_CID_URL, SAME_AS } from "./site.mjs";
 import { KNOWS_ABOUT, JOB_TITLE, PERSON_DESCRIPTION } from "./entity.mjs";
 import { projects } from "./projects/data.mjs";
 
@@ -120,6 +120,10 @@ export function homeJsonLd(SITE) {
         address: { "@type": "PostalAddress", addressRegion: "Himachal Pradesh", addressCountry: "IN" },
         hasMap: GOOGLE_MAPS_CID_URL,
         sameAs: [...SAME_AS, GOOGLE_MAPS_CID_URL],
+        // Same Knowledge Graph MID the publisher node carries (entity.mjs) — the
+        // homepage LocalBusiness and the article publisher must name the same
+        // entity, or they read as two businesses that happen to share a name.
+        identifier: { "@type": "PropertyValue", propertyID: "Google Knowledge Graph MID", value: GOOGLE_KG_MID },
         contactPoint: {
           "@type": "ContactPoint",
           telephone: "+91-98160-91875",

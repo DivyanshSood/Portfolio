@@ -1,6 +1,6 @@
 ---
 import Studio from "../layouts/Studio.astro";
-import { SITE, FOUNDER_PHOTO, FOUNDER_PHOTO_ALT } from "../lib/site.mjs";
+import { SITE, FOUNDER_PHOTO, FOUNDER_PHOTO_ALT, SOCIAL_PROFILES } from "../lib/site.mjs";
 
 const canonical = `${SITE}/press/`;
 
@@ -103,6 +103,32 @@ const jsonld = JSON.stringify({
       </div>
     </section>
 
+    {/* Official profiles. A press kit's job is to let someone cite the right
+        person, so the verified profile list belongs here as much as the bio —
+        and it gives directories, journalists and assistants one page that
+        states every account as being the same entity. Rendered from
+        SOCIAL_PROFILES so it can never disagree with the schema `sameAs`. */}
+    <section class="cs-sec" aria-labelledby="profiles-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="profiles-h">Official profiles</h2>
+          <span class="mono">Verified accounts</span>
+        </div>
+        <p class="cs-lead" style="margin-top:0;">These are the only accounts run by Divyansh Sood. Anything else using the name isn't him.</p>
+        <ul class="pk-profiles">
+          {SOCIAL_PROFILES.map((p) => (
+            <li>
+              <a href={p.url} target="_blank" rel="me noopener">
+                <span class="pk-profile-name">{p.name}</span>
+                <span class="mono pk-profile-url">{p.url.replace(/^https:\/\/(www\.)?/, "")}</span>
+                <span aria-hidden="true">↗</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
     <section class="cs-sec" aria-labelledby="assets-h">
       <div class="wrap">
         <div class="cs-sec-head">
@@ -169,6 +195,14 @@ const jsonld = JSON.stringify({
   .lg-pre { margin:0; padding:16px; font-family:'JetBrains Mono',monospace; font-size:12.5px; line-height:1.7; color:#C9C7C0; white-space:pre-wrap; word-break:break-word; overflow:auto; }
   .lg-note { margin-top:18px; font-size:var(--fs-label-lg); letter-spacing:.05em; color:#6f6f77; line-height:1.7; }
   .lg-note b { color:#8A8A93; }
+
+  /* Official-profiles list. auto-fit so it's one column on a phone and two or
+     three on a wide screen without a breakpoint of its own. */
+  .pk-profiles { list-style:none; margin:22px 0 0; padding:0; display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:10px; }
+  .pk-profiles a { display:flex; align-items:center; gap:10px; padding:14px 16px; border:1px solid rgba(244,242,236,.16); border-radius:12px; background:#0b0b0c; color:#F4F2EC; text-decoration:none; transition:border-color .15s ease, transform .15s ease; }
+  .pk-profiles a:hover { border-color:var(--accent); transform:translateY(-1px); }
+  .pk-profile-name { font-weight:600; font-size:15px; }
+  .pk-profile-url { margin-left:auto; font-size:var(--fs-label); letter-spacing:.04em; color:#8A8A93; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 </style>
 
 <script is:inline>
