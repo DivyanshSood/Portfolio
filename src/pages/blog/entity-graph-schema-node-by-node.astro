@@ -1,0 +1,247 @@
+---
+import Studio from "../../layouts/Studio.astro";
+import PostFaq from "../../components/PostFaq.astro";
+import RelatedPosts from "../../components/RelatedPosts.astro";
+import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
+import { coverBase, coverSrcset, COVER_SIZES_POST } from "../../lib/images.mjs";
+
+const slug = "entity-graph-schema-node-by-node";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+/* Kept out of the template: Astro decodes HTML entities before parsing the
+   markup as JSX, so a literal `{` in the prose — even written as &#123; — is
+   read as the start of an expression and fails the build. */
+const TOPIC_SNIPPET = `{ "@type": "Thing",
+  "name": "Search engine optimization",
+  "sameAs": "https://en.wikipedia.org/wiki/Search_engine_optimization" }`;
+const AUTHOR_REF_SNIPPET = `author: { "@id": ".../#person" }`;
+
+const faqs = [
+  {
+    q: "What is an entity graph in structured data?",
+    a: "An entity graph is a set of JSON-LD nodes that reference each other by stable identifiers instead of repeating themselves. Rather than describing the author separately on every page, you define a Person node once with an @id like https://example.com/#person, and every page afterwards points at that identifier. The result is that a parser sees one person who wrote forty articles, rather than forty unconnected mentions of a similar name.",
+  },
+  {
+    q: "Does structured data improve my Google rankings?",
+    a: "No, not directly, and anyone promising otherwise is overselling it. Structured data does not act as a ranking signal you can turn up. What it does is remove ambiguity about who and what you are, which makes you eligible for rich results and — more importantly now — makes you safely citable by systems that answer on your behalf. The benefit is correct identification, not position.",
+  },
+  {
+    q: "What is a dangling @id and why does it matter?",
+    a: "A dangling @id is a reference to a node that is never defined anywhere in the graph — for example a page saying author: { \"@id\": \"…/#person\" } when no Person node with that identifier appears on that page. A strict parser treats it as a pointer to nothing, so the authorship claim silently evaporates. It is one of the most common structured-data faults precisely because validators often pass it without complaint.",
+  },
+  {
+    q: "Should I put my Google Business Profile in sameAs?",
+    a: "Yes. sameAs is where you list the other places on the internet that are demonstrably you — your Google Business Profile, LinkedIn, GitHub, marketplace profiles, anything with an independently verifiable presence. It is the corroboration layer: your own site claiming you exist is weak evidence, whereas your own site pointing at four external profiles that agree with it is considerably stronger.",
+  },
+  {
+    q: "What is the difference between sameAs and identifier?",
+    a: "sameAs takes URLs of pages that represent the same entity. identifier takes a coded value from an external system — a Google Knowledge Graph MID, a company registration number, an ISNI. A Knowledge Graph MID is not a URL, so it belongs in an identifier PropertyValue rather than being forced into sameAs. Using the right one matters because it states which existing entity a page is about rather than asking a parser to infer it.",
+  },
+  {
+    q: "How many topics should I put in the about property?",
+    a: "Few, and each backed by a public identifier. On this site the free-text tags on a post are resolved against a lookup table into schema.org Thing and Place nodes with Wikipedia sameAs links, capped at four per page. The cap is deliberate: four unambiguous concepts describe a page better than fifteen vague keywords, and the Wikipedia link is what tells a parser that \"GEO\" means generative engine optimization rather than geography.",
+  },
+];
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: authorNode(SITE),
+      publisher: publisherNode(SITE),
+      isPartOf: websiteNode(SITE),
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      about: topicsForTags(post.tags),
+      wordCount: post.wordCount,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${canonical}#faq`,
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    },
+  ],
+});
+---
+
+<Studio
+  title={post.seoTitle ?? `${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  preloadImage={{ href: coverBase(post.coverImage), srcset: coverSrcset(post.coverImage), sizes: COVER_SIZES_POST }}
+  jsonld={jsonld}
+>
+  <main>
+    <header class="post-hero">
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img
+            src={coverBase(post.coverImage)}
+            srcset={coverSrcset(post.coverImage)}
+            sizes={COVER_SIZES_POST}
+            alt={post.coverAlt ?? post.title}
+            width="1200"
+            height="750"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+<p>Almost everything written about structured data stops at the same place: add the Article schema, add the FAQ schema, run the validator, see green ticks, done.</p>
+<p>That gets you valid markup describing a page. It does not get you an <em>entity</em> — a thing the web agrees exists, with a stable identity that persists across every page you publish. The difference is what decides whether an assistant can confidently name you or has to hedge.</p>
+<p>This is the graph running on the site you're reading, node by node, including the two mistakes I made first.</p>
+<hr>
+<h2 id="the-core-idea">The core idea: reference, don't repeat</h2>
+<p>JSON-LD lets a node carry an <code>@id</code>, and lets other nodes point at that <code>@id</code> instead of describing the thing again.</p>
+<p>Without it, forty articles each carry a fresh author block, and a parser sees forty separate mentions of somebody with the same name. With it, they all point at one identifier — and a parser sees one person who wrote forty articles.</p>
+<p>Three stable identifiers carry this entire site:</p>
+<table>
+<thead><tr><th>Identifier</th><th>Node type</th><th>Represents</th></tr></thead>
+<tbody>
+<tr><td><code>/#person</code></td><td>Person</td><td>Me, the human</td></tr>
+<tr><td><code>/#studio</code></td><td>Organization</td><td>The business</td></tr>
+<tr><td><code>/#website</code></td><td>WebSite</td><td>The publication</td></tr>
+</tbody>
+</table>
+<p>Those three fragments never change. Every page on the site — article, case study, service page — hangs off them.</p>
+<hr>
+<h2 id="the-person-node">The Person node</h2>
+<p>The author node repeats on every article, so it carries only what establishes authority and leaves the exhaustive version to the homepage, which shares the same <code>@id</code>:</p>
+<ul>
+<li><strong><code>@id</code></strong> — the stable fragment. This is the whole point of the node.</li>
+<li><strong><code>jobTitle</code></strong> — a plain string a model can repeat. Mine says "Freelance Web Developer &amp; Designer".</li>
+<li><strong><code>description</code></strong> — one self-contained sentence naming who I am, where I work from, and for whom. Written to survive being quoted alone.</li>
+<li><strong><code>worksFor</code></strong> — a reference to <code>/#studio</code>.</li>
+<li><strong><code>knowsAbout</code></strong> — the expertise list. Sixteen topics, every one backed by shipped work I can point at.</li>
+<li><strong><code>sameAs</code></strong> — the external profiles. More on this below, because it's the load-bearing one.</li>
+</ul>
+<h3 id="knowsabout-honestly">On <code>knowsAbout</code>, honestly</h3>
+<p>It's tempting to list every technology you've heard of. Don't. <code>knowsAbout</code> is a claim, and claims that contradict the rest of your site make the whole graph less trustworthy, not more. My rule is that a topic only goes in if there is a project on the site demonstrating it.</p>
+<hr>
+<h2 id="the-organization-node">The Organization node</h2>
+<p>The studio node is where verifiability lives. Beyond the obvious name, URL and logo:</p>
+<ul>
+<li><strong><code>foundingDate: "2022"</code></strong> — a date is a fact. "Established for years" is not.</li>
+<li><strong><code>founder</code></strong> — points back at <code>/#person</code>. Person points to Organization via <code>worksFor</code>; Organization points to Person via <code>founder</code>. <strong>The link is deliberately bidirectional</strong>, so the relationship resolves whichever node a parser lands on first.</li>
+<li><strong><code>address</code></strong> — a real PostalAddress with region and country.</li>
+<li><strong><code>sameAs</code></strong> — the profiles plus the Google Business Profile URL.</li>
+<li><strong><code>identifier</code></strong> — the Google Knowledge Graph MID, as a PropertyValue.</li>
+</ul>
+<p>That last one is worth pausing on.</p>
+<hr>
+<h2 id="sameas-vs-identifier">Mistake one: putting everything in <code>sameAs</code></h2>
+<p><code>sameAs</code> takes <strong>URLs of pages that represent the same entity</strong> — LinkedIn, GitHub, a Google Business Profile listing, marketplace profiles. It is the corroboration layer, and it matters more than any other property here.</p>
+<p>Here's why. Your website claiming you exist and do good work is the weakest possible evidence, because every website claims that. Your website pointing at five external profiles that independently agree is a fundamentally different kind of claim. Assistants weight sources you don't control, and <code>sameAs</code> is you handing over the list of exactly those sources.</p>
+<p>A Google Knowledge Graph MID, though, is not a URL. It's a coded value in an external system. Forcing it into <code>sameAs</code> produces a malformed entry — so it belongs in <code>identifier</code> as a PropertyValue with a <code>propertyID</code> naming the system it came from. Same for a company registration number or an ISNI.</p>
+<p><strong>Rule of thumb:</strong> if you can open it in a browser, it's <code>sameAs</code>. If it's a code, it's <code>identifier</code>.</p>
+<hr>
+<h2 id="dangling-ids">Mistake two: the dangling <code>@id</code></h2>
+<p>This one cost me real time, and it's the most common serious fault I find on client sites.</p>
+<p>Once you learn to reference nodes by <code>@id</code>, the tempting next step is to shrink your pages: <code>{AUTHOR_REF_SNIPPET}</code> and nothing else, because the full definition lives on the homepage.</p>
+<p>That is broken. <strong>A parser reading one page has no access to your homepage.</strong> It sees a pointer to a node that doesn't exist in the document — a dangling reference. The authorship claim resolves to nothing, and validators frequently pass it without complaint, so you never find out.</p>
+<p>The fix is to define what you reference, on every page that references it. On this site the layout does that automatically: before a page's graph is written out, it walks the JSON-LD recording which identifiers are <em>defined</em> versus merely <em>referenced</em>, and repairs any reference left pointing at nothing. Once a system is generating hundreds of pages, catching this by hand is not realistic.</p>
+<hr>
+<h2 id="the-about-property">Disambiguating topics with <code>about</code></h2>
+<p>The last piece. Tags on a post are free text — "GEO", "AI", "React" — and free text is ambiguous. GEO could be geography. React could be a chemical reaction.</p>
+<p>So the tags are run through a lookup table that resolves them into schema.org <code>Thing</code> and <code>Place</code> nodes, each carrying a Wikipedia <code>sameAs</code>:</p>
+<pre><code>{TOPIC_SNIPPET}</code></pre>
+<p>Wikipedia here is not a citation for the reader — it's a public, stable identifier for a concept, of the kind knowledge graphs are already built on. Now "SEO" on my page and "SEO" on some other page are provably the same concept.</p>
+<p>Two deliberate constraints. <strong>Tags that aren't in the table are silently dropped</strong> rather than emitted as raw strings — an unresolvable topic adds nothing and dilutes the ones that resolve. And the list is <strong>capped at four per page</strong>, because four unambiguous concepts describe a page better than fifteen vague ones.</p>
+<hr>
+<h2 id="what-i-deliberately-dont-emit">What I deliberately don't emit</h2>
+<p>An entity graph is also defined by what you leave out.</p>
+<p>There is no <code>AggregateRating</code> anywhere on this site. I have real Google reviews and could put a star rating in my markup, and it would very likely render. I don't, because the number isn't independently verifiable from my own codebase, and self-reported ratings are exactly the kind of claim that erodes trust in everything around them.</p>
+<p>There is also no pricing in the schema, because there is no fixed price to state. Inventing a plausible one to fill an <code>Offer</code> node would be a lie with a validator's blessing.</p>
+<p>Structured data is a set of assertions about reality. The temptation is always to assert slightly more than is true, and it's the wrong trade.</p>
+<hr>
+<h2 id="the-honest-summary">The honest summary</h2>
+<p>None of this will raise your rankings, and I'd distrust anyone who says otherwise. What it does is make you <strong>unambiguously identifiable</strong> — so that when something answers a question on your behalf, it names you correctly instead of hedging or naming a competitor whose facts were easier to read.</p>
+<p>Start with three things: one stable <code>@id</code> per real entity, define every node you reference on the page that references it, and fill <code>sameAs</code> with profiles that corroborate you. That's most of the value.</p>
+<hr>
+<p><em>I'm Divyansh Sood. The graph described here is running on this page — open the source and read it. If you'd rather have this implemented in your codebase than explained, it's part of <a href="/services/seo-geo-services/">SEO &amp; GEO</a>; the vocabulary around it is sorted out in <a href="/blog/aeo-geo-llmo-ai-seo-explained/">the acronym guide</a>.</em></p>
+      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </article>
+
+    <PostFaq faqs={faqs} idPrefix="faq-eg" />
+
+    <RelatedPosts slug={slug} audience={post.audience} />
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        <h2>Working on something similar?</h2>
+        <p>If a post here matches what you're building, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+            >Email me <span aria-hidden="true">↗</span></a
+          >
+          <a class="btn btn-ghost" href={CALENDLY_URL} target="_blank" rel="noopener"
+            >Book a 15-min intro <span aria-hidden="true">↗</span></a
+          >
+        </div>
+      </div>
+    </section>
+  </main>
+</Studio>

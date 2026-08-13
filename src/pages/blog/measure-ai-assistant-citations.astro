@@ -1,0 +1,241 @@
+---
+import Studio from "../../layouts/Studio.astro";
+import PostFaq from "../../components/PostFaq.astro";
+import RelatedPosts from "../../components/RelatedPosts.astro";
+import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
+import { coverBase, coverSrcset, COVER_SIZES_POST } from "../../lib/images.mjs";
+
+const slug = "measure-ai-assistant-citations";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+const faqs = [
+  {
+    q: "Does Google Search Console show AI assistant traffic?",
+    a: "No. Search Console reports impressions and clicks from Google Search surfaces. It has no visibility into ChatGPT, Claude, Perplexity or any other third-party assistant, because those are different products on different infrastructure. If you are waiting for an AI tab to appear in Search Console before you start measuring, you will be measuring nothing for a long time.",
+  },
+  {
+    q: "What is the difference between a training crawler and a live retrieval fetch?",
+    a: "A training crawler collects content in bulk to build a dataset, with no connection to any individual user question. A live retrieval fetch happens at the moment someone asks a question and the assistant goes to read your page to answer it. The second kind is far more valuable to know about, because it means your page was selected as relevant to a real query right then. Crawler user-agent names usually distinguish the two — OpenAI, Anthropic and Perplexity each publish separate identifiers for bulk crawling and user-triggered fetching.",
+  },
+  {
+    q: "How do I see AI referral traffic in analytics?",
+    a: "Look for referrer hostnames belonging to the assistants — chatgpt.com, perplexity.ai, claude.ai, copilot.microsoft.com and gemini.google.com are the common ones — and build a segment or a custom channel group for them. Be aware this only captures people who clicked through. Someone who read your business's name and phone number inside an answer and then called you will never appear in referral data at all.",
+  },
+  {
+    q: "Is prompt-testing my own brand a reliable measurement?",
+    a: "It is directional, not precise. Model outputs are non-deterministic, personalised by account history and change as systems update, so the same prompt can produce different answers on consecutive runs. That makes any single test nearly worthless and a consistent monthly routine genuinely useful. Run the same fixed list of prompts each month, in a logged-out or fresh session, and record whether you were named, whether the facts were right, and who was named instead.",
+  },
+  {
+    q: "Should I block AI crawlers in robots.txt?",
+    a: "That depends on whether you want to be recommended. Blocking bulk training crawlers while allowing user-triggered retrieval fetchers is a defensible middle position for publishers protecting original content. For most businesses trying to be found, blocking is self-defeating — plenty of sites copy a restrictive robots.txt from somewhere, block everything, and then wonder why assistants never mention them. Check what your file actually says before you invest in anything else.",
+  },
+  {
+    q: "How long before AI optimization shows measurable results?",
+    a: "Longer than SEO, and with a much noisier signal. Crawler activity in your logs can shift within weeks of publishing, but appearing consistently in generated answers depends on retrieval and corroboration that build over months. Treat anyone quoting a fixed timeline with suspicion — nobody has enough reliable measurement in this area to promise one honestly.",
+  },
+];
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: authorNode(SITE),
+      publisher: publisherNode(SITE),
+      isPartOf: websiteNode(SITE),
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      about: topicsForTags(post.tags),
+      wordCount: post.wordCount,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${canonical}#faq`,
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    },
+  ],
+});
+---
+
+<Studio
+  title={post.seoTitle ?? `${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  preloadImage={{ href: coverBase(post.coverImage), srcset: coverSrcset(post.coverImage), sizes: COVER_SIZES_POST }}
+  jsonld={jsonld}
+>
+  <main>
+    <header class="post-hero">
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img
+            src={coverBase(post.coverImage)}
+            srcset={coverSrcset(post.coverImage)}
+            sizes={COVER_SIZES_POST}
+            alt={post.coverAlt ?? post.title}
+            width="1200"
+            height="750"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+<p>There is a lot of advice about getting recommended by AI assistants. I've written some of it. What's almost entirely missing is the part that comes afterwards: how you find out whether any of it worked.</p>
+<p>This matters because it is the ideal conditions for being sold nonsense. If nobody can measure the outcome, any invoice can claim it.</p>
+<p>Here is what can actually be measured today, what can only be estimated, and what nobody can tell you honestly.</p>
+<hr>
+<h2 id="why-search-console-wont-help">Start here: Search Console will never show you this</h2>
+<p>Google Search Console reports on Google Search. ChatGPT, Claude and Perplexity are different products run by different companies on different infrastructure. There is no AI tab coming.</p>
+<p>Google's own AI Overviews are a partial exception — clicks from them fold into your ordinary Search Console data, without being broken out as a separate line. So even for Google, you cannot isolate the number.</p>
+<p>Which means measurement has to be assembled from three imperfect sources.</p>
+<hr>
+<h2 id="source-one-server-logs">Source one: your server logs</h2>
+<p>This is the most reliable signal available, and almost nobody looks at it.</p>
+<p>Every time an AI system fetches your page, it identifies itself in the user-agent string. Your logs already contain this. The important thing is that <strong>these fetches come in two very different flavours</strong>:</p>
+<table>
+<thead><tr><th>Kind</th><th>What it means</th><th>Value to you</th></tr></thead>
+<tbody>
+<tr><td><strong>Bulk / training crawl</strong></td><td>Collecting content at scale, unconnected to any user</td><td>Low — you're in a dataset somewhere</td></tr>
+<tr><td><strong>Live retrieval fetch</strong></td><td>Someone asked a question <em>right now</em> and the assistant came to read your page</td><td><strong>High — you were selected as relevant</strong></td></tr>
+</tbody>
+</table>
+<p>OpenAI, Anthropic and Perplexity each publish separate user-agent names for these two behaviours, and their documentation lists the current identifiers. That distinction is the single most useful thing in your logs: a rise in live retrieval fetches means assistants are reaching for your pages to answer real questions.</p>
+<p>One naming trap worth knowing: <strong>Google-Extended is not a crawler.</strong> It's a robots.txt token that controls whether content Googlebot already fetched may be used for Gemini training. You will never see it as a user-agent in your logs, and people waste time looking for it.</p>
+<h3 id="what-to-do-with-logs">What to actually do</h3>
+<ol>
+<li>Get access to raw logs, or a hosting analytics view that reports user-agents. Most static hosts expose this.</li>
+<li>Group hits by AI user-agent, split into bulk versus live-retrieval.</li>
+<li>Record which <em>URLs</em> get fetched. This is the gold — it tells you which of your pages assistants consider worth reading.</li>
+<li>Track it monthly. The trend is the signal; a single month is noise.</li>
+</ol>
+<p>While you're in there, check <code>robots.txt</code>. I have lost count of the businesses paying for AI visibility work while blocking the crawlers with a robots file someone copied from a template years ago.</p>
+<hr>
+<h2 id="source-two-referral-traffic">Source two: referral traffic</h2>
+<p>When somebody clicks a citation inside an answer, they arrive with a referrer. Build a channel group or segment for the assistant hostnames — <code>chatgpt.com</code>, <code>perplexity.ai</code>, <code>claude.ai</code>, <code>copilot.microsoft.com</code>, <code>gemini.google.com</code> — and watch it as its own line rather than letting it dissolve into "Referral".</p>
+<p>Two caveats, and the second is the serious one.</p>
+<p>First, the volume will look small. That's expected and not a reason to dismiss it — this traffic tends to convert well, because the visitor arrives having already been told you're a good answer.</p>
+<p>Second, and much more important: <strong>this only counts the people who clicked.</strong> If someone asks for a taxi in Kangra, gets a recommendation with a name and a WhatsApp number, and messages directly — that is the system working perfectly, and it will never appear in your referral data. The assistant answered without needing to send anyone to a website.</p>
+<p>This is the honest measurement gap, and it's structural. Referral traffic is a floor, not a total.</p>
+<hr>
+<h2 id="source-three-prompt-testing">Source three: ask the assistants yourself</h2>
+<p>Crude, manual, and the only method that directly observes the outcome you care about.</p>
+<p>Write ten to fifteen prompts a real customer might use. Not your brand name — the questions that precede knowing you exist:</p>
+<ul>
+<li>"Best custom e-commerce developers for premium D2C brands"</li>
+<li>"Who builds admissions portals for schools in India"</li>
+<li>"Reliable taxi for the Devi Darshan circuit from Kangra"</li>
+</ul>
+<p>Run the same list, monthly, across the assistants your customers use. Log three things: were you named, were the facts correct, and who was named instead.</p>
+<p>Do it logged out or in a fresh session, because account history personalises the answers — testing while signed into your own account is how people convince themselves they're doing better than they are.</p>
+<p>The third column is the most valuable and the one people skip. <strong>The competitor who keeps getting named is a live specification for what you're missing.</strong> Go and look at their page. Usually you'll find they've stated a fact plainly that you've buried in a paragraph about your commitment to quality.</p>
+<h3 id="the-three-outcomes">The three outcomes and what each means</h3>
+<ul>
+<li><strong>Absent</strong> → a retrieval problem. Are you crawlable, indexed, and do you rank for anything at all? Nothing here works without that foundation.</li>
+<li><strong>Present but wrong</strong> → the most fixable and most urgent. Find the stale source — an old directory listing, a dead page, an outdated description — and correct it at origin. A wrong fact that spreads is much harder to undo later.</li>
+<li><strong>Present and accurate</strong> → keep the facts fresh and move on to something else.</li>
+</ul>
+<hr>
+<h2 id="what-nobody-can-tell-you">What nobody can honestly tell you</h2>
+<p>Being straight about the limits, because the gaps are where the overselling happens:</p>
+<ul>
+<li><strong>Share of voice in AI answers.</strong> There is no equivalent of impression share. Tools that claim it are extrapolating from their own sampled prompts, which is a survey, not a measurement.</li>
+<li><strong>Why a model named someone.</strong> The retrieval and ranking behind an answer is not exposed. Anyone explaining the specific reason you were or weren't cited is telling a story.</li>
+<li><strong>Whether one change caused an outcome.</strong> Non-deterministic systems that update continuously do not give you clean before-and-after tests.</li>
+</ul>
+<p>And the specific one I keep having to repeat: <strong>shipping an <code>llms.txt</code> is not measurement and barely counts as a lever.</strong> Google has confirmed its search systems ignore the file, analysis across hundreds of thousands of domains has found no significant relationship between having it and being cited, and AI crawlers request it in roughly 0.1% of their hits. I <a href="/tools/llms-txt-generator/">give the generator away free</a> because ten minutes is a fair price for a small chance. <a href="/blog/what-is-llms-txt/">The full evidence is here.</a></p>
+<hr>
+<h2 id="the-monthly-routine">The routine, in about an hour a month</h2>
+<ol>
+<li><strong>Logs</strong> — AI user-agent hits, split bulk vs live retrieval, and which URLs. (20 min)</li>
+<li><strong>Analytics</strong> — assistant referral segment, sessions and conversions. (10 min)</li>
+<li><strong>Prompts</strong> — the fixed list, logged out, three columns recorded. (20 min)</li>
+<li><strong>Fix one thing</strong> — usually a fact stated somewhere unquotably, or a wrong third-party listing. (10 min)</li>
+</ol>
+<p>An hour a month, and you'll know more about your AI visibility than most agencies selling it. The businesses that get this right over the next few years won't be the ones with the biggest budget. They'll be the ones who bothered to look.</p>
+<hr>
+<p><em>I'm Divyansh Sood, a freelance developer in Himachal Pradesh. If you'd like this set up properly — log parsing, a referral channel group, and a prompt panel you actually run — it's part of <a href="/services/seo-geo-services/">SEO &amp; GEO</a>. Or run the prompt test yourself and <a href="mailto:hello@divyanshsood.com">send me what the assistants said</a>. That transcript is the audit.</em></p>
+      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </article>
+
+    <PostFaq faqs={faqs} idPrefix="faq-meas" />
+
+    <RelatedPosts slug={slug} audience={post.audience} />
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        <h2>Working on something similar?</h2>
+        <p>If a post here matches what you're building, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+            >Email me <span aria-hidden="true">↗</span></a
+          >
+          <a class="btn btn-ghost" href={CALENDLY_URL} target="_blank" rel="noopener"
+            >Book a 15-min intro <span aria-hidden="true">↗</span></a
+          >
+        </div>
+      </div>
+    </section>
+  </main>
+</Studio>

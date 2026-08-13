@@ -1,0 +1,215 @@
+---
+import Studio from "../../layouts/Studio.astro";
+import PostFaq from "../../components/PostFaq.astro";
+import RelatedPosts from "../../components/RelatedPosts.astro";
+import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
+import { coverBase, coverSrcset, COVER_SIZES_POST } from "../../lib/images.mjs";
+
+const slug = "ranking-top-five-zero-clicks";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+const faqs = [
+  {
+    q: "Can you really rank on page one and get no traffic?",
+    a: "Yes, and it is now common. My own site sat at an average position of 5.0 for the term \"web development\" across 200 impressions and received zero clicks from it. Position measures where your link appeared in the organic list; it says nothing about how much of the page sat above that list. On a modern results page an AI overview, a map pack, paid results and rich panels can occupy the entire first screen, so a top-five organic result may never be seen.",
+  },
+  {
+    q: "Should I stop trying to rank for competitive head terms?",
+    a: "Stop treating them as a traffic source, but don't necessarily abandon them. Broad terms like \"web development\" still have value as evidence that a site is topically relevant, and they feed the retrieval systems that AI assistants draw on. What they will not do is send you qualified visitors. Budget your effort accordingly: chase the specific, intent-bearing queries for traffic, and let head terms be a by-product rather than a goal.",
+  },
+  {
+    q: "Which queries actually convert then?",
+    a: "Branded and intent-qualified ones. On my site the query \"divyansh sood\" converts at roughly 50% click-through, and \"divyansh sood web developer kangra\" at 13.2%. Both are enormously higher than anything generic. The pattern is consistent across the client sites I look after: the closer a query is to naming a specific thing — your business, your city, your exact service, a price — the more likely the click and the enquiry.",
+  },
+  {
+    q: "Is a low click-through rate always a title and description problem?",
+    a: "Not always, but check that first because it is cheap to fix. In my case it was genuinely part of the problem: the title was being truncated at 62 characters and the description at 172, so the snippet was cut mid-phrase, and the title carried no geography at all while every converting query was local or branded. Rewriting both to 58 and 148 characters fixed the truncation. What it cannot fix is a results page where nobody scrolls to the organic block at all.",
+  },
+  {
+    q: "How do I tell whether my rankings are worth anything?",
+    a: "Ignore average position as a headline number and open the queries report instead. Sort by impressions, then look at click-through rate per query rather than in aggregate. A term with thousands of impressions and a sub-1% click-through rate is telling you that something above the organic results is answering the question. A term with far fewer impressions and a double-digit rate is where your actual business comes from. Then check that the second group is what your pages are built for.",
+  },
+  {
+    q: "What replaces the click if the answer engine takes it?",
+    a: "Being named inside the answer. If a user asks an assistant or reads an AI overview and your business is the one cited, that is the modern equivalent of the click — except the traffic arrives already convinced. It is harder to measure and there is no dashboard for it yet, which is exactly why so many people are still optimising for a number that no longer describes their traffic. The practical work is making your facts quotable, structured and corroborated.",
+  },
+];
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: authorNode(SITE),
+      publisher: publisherNode(SITE),
+      isPartOf: websiteNode(SITE),
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      about: topicsForTags(post.tags),
+      wordCount: post.wordCount,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${canonical}#faq`,
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    },
+  ],
+});
+---
+
+<Studio
+  title={post.seoTitle ?? `${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  preloadImage={{ href: coverBase(post.coverImage), srcset: coverSrcset(post.coverImage), sizes: COVER_SIZES_POST }}
+  jsonld={jsonld}
+>
+  <main>
+    <header class="post-hero">
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img
+            src={coverBase(post.coverImage)}
+            srcset={coverSrcset(post.coverImage)}
+            sizes={COVER_SIZES_POST}
+            alt={post.coverAlt ?? post.title}
+            width="1200"
+            height="750"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+<p>Most people who sell SEO would not publish the numbers in this post. I'm going to, because the uncomfortable ones are the interesting ones.</p>
+<p>Here is a line straight out of my own Google Search Console. The query is <strong>"web development"</strong>. Two hundred impressions. Average position 5.0 — top five, first page, the thing an SEO invoice usually points at as evidence of a job well done.</p>
+<p><strong>Zero clicks.</strong> Not a low number. Zero.</p>
+<hr>
+<h2 id="the-short-version">The short version</h2>
+<p>Average position stopped describing traffic some time ago, and most people are still reporting it as though it does. A top-five organic result now frequently sits below an AI overview, a map pack, four paid results and a set of rich panels — which is to say, below the fold, on a page where the user already got their answer.</p>
+<p>Meanwhile the queries that actually feed my business look nothing like the ones a keyword tool would recommend.</p>
+<hr>
+<h2 id="what-converts">What converts, in my own data</h2>
+<table>
+<thead><tr><th>Query</th><th>Click-through rate</th></tr></thead>
+<tbody>
+<tr><td>"divyansh sood"</td><td><strong>~50%</strong></td></tr>
+<tr><td>"divyansh sood web developer kangra"</td><td><strong>13.2%</strong></td></tr>
+<tr><td>"web development" (position 5.0, 200 impressions)</td><td><strong>0%</strong></td></tr>
+</tbody>
+</table>
+<p>Read that table twice. The two queries carrying my business both name something specific — me, or me plus a place. The generic industry term, ranked respectably, produced nothing at all and always will.</p>
+<p>There's a second pattern in the same account worth naming: <strong>the homepage takes roughly 95% of all my search impressions.</strong> Dozens of service pages, location pages and articles, and one URL absorbs almost everything. That is a structural problem, not a content problem — it means internal linking was funnelling authority nowhere, which I've since spent real effort fixing.</p>
+<hr>
+<h2 id="the-part-that-was-my-fault">The part that was genuinely my fault</h2>
+<p>Before blaming the search results page, I checked the boring things, and found two.</p>
+<p>On desktop the site had <strong>327 impressions and one click at position 6.1</strong>. My title tag was 62 characters and my meta description 172 — both long enough to be truncated, so the snippet was being cut mid-phrase. Nobody clicks a sentence that stops halfway.</p>
+<p>Worse, the old title was <em>"Freelance Web Designer &amp; Developer — Divyansh Sood® Studio"</em>. Look at what's missing: any geography whatsoever. Every query that converted for me was branded or local, and my most prominent piece of text mentioned no place at all.</p>
+<p>The fix was unglamorous — a 58-character title carrying the role, the name and the country, and a 148-character description that finishes its own sentence. If your click-through rate is poor, check truncation before you write a theory. It's free.</p>
+<hr>
+<h2 id="what-changed-on-the-results-page">What changed on the results page</h2>
+<p>But truncation doesn't explain a flat zero across two hundred impressions. Something structural did that.</p>
+<p>Open any broad commercial query on a phone and inventory what appears before the first organic link: frequently an AI overview that answers in place, a pack of local businesses with a directions button, paid results, People Also Ask, sometimes a video carousel. On many queries the first organic result is the second or third screen of scrolling.</p>
+<p>So "position 5" no longer means "fifth thing the user sees". It means <em>fifth in a list that may itself be well below where attention ends.</em> The metric didn't change. The page around it did.</p>
+<p>This is not unique to my site. I see the same shape on client properties in a completely different sector — a Kangra taxi operator averaging position 5.4 across 19,100 impressions and converting at 1.4%, which I've <a href="/blog/baglamukhi-travels-local-seo-case-study/">written up with the full data</a>. Different industry, different country of customer, same story.</p>
+<hr>
+<h2 id="what-to-do-instead">What to do with this</h2>
+<p>Four changes, in order of how much they'll change your decisions.</p>
+<h3 id="stop-reporting-average-position">1. Stop reporting average position as a headline</h3>
+<p>It blends every query you appear for into one number that describes nothing. Use it as a diagnostic — a sudden drop still means something — but never as a measure of success. If a report you receive leads with average position, ask what it's hiding.</p>
+<h3 id="read-ctr-per-query">2. Read click-through rate per query, not in aggregate</h3>
+<p>Sort your queries by impressions. Anything with high impressions and sub-1% CTR is a query where something above the organic block is answering. Anything with modest impressions and a double-digit rate is where your revenue lives. Those two groups deserve completely different treatment, and an aggregate CTR blends them into mush.</p>
+<h3 id="build-for-the-specific-query">3. Build pages for the specific query, not the category</h3>
+<p>"Web development" is a category. "Gaggal airport to Dharamshala taxi fare" is a question with an answer. The second kind is where clicks still exist, because the searcher needs a specific thing your page can uniquely provide — and because a page that answers precisely is also the page an assistant quotes.</p>
+<h3 id="optimise-to-be-the-answer">4. Optimise to be named in the answer</h3>
+<p>If the AI overview is taking the click, the goal shifts from ranking above it to being cited inside it. That is a different discipline — quotable factual sentences, structured data that identifies you unambiguously, and corroboration from sources you don't control. I've laid out the mechanics in <a href="/blog/geo-vs-seo-whats-actually-different/">GEO vs SEO</a> and the practical steps in <a href="/blog/get-your-business-recommended-by-chatgpt/">getting recommended by ChatGPT</a>.</p>
+<hr>
+<h2 id="the-honest-summary">The honest summary</h2>
+<p>I rank in the top five for a term in my own industry and have received nothing from it. That isn't a failure of the ranking — the ranking is real. It's a failure of the assumption underneath it: that a position on a list still equals a visit.</p>
+<p>The businesses that will do well over the next few years are the ones that noticed the click was optional before their reporting told them so.</p>
+<hr>
+<p><em>I'm Divyansh Sood, a freelance developer in Himachal Pradesh. I publish my own numbers because most of what's written about search is written by people who won't. If you want this done properly in your codebase rather than in a monthly PDF, that's <a href="/services/seo-geo-services/">the service</a> — or start with the <a href="/website-audit/">free audit</a> and I'll tell you which of your queries are lying to you.</em></p>
+      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </article>
+
+    <PostFaq faqs={faqs} idPrefix="faq-zc" />
+
+    <RelatedPosts slug={slug} audience={post.audience} />
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        <h2>Working on something similar?</h2>
+        <p>If a post here matches what you're building, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+            >Email me <span aria-hidden="true">↗</span></a
+          >
+          <a class="btn btn-ghost" href={CALENDLY_URL} target="_blank" rel="noopener"
+            >Book a 15-min intro <span aria-hidden="true">↗</span></a
+          >
+        </div>
+      </div>
+    </section>
+  </main>
+</Studio>

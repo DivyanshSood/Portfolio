@@ -1,0 +1,226 @@
+---
+import Studio from "../../layouts/Studio.astro";
+import PostFaq from "../../components/PostFaq.astro";
+import RelatedPosts from "../../components/RelatedPosts.astro";
+import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
+import { coverBase, coverSrcset, COVER_SIZES_POST } from "../../lib/images.mjs";
+
+const slug = "scarcity-enforced-in-code";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+const faqs = [
+  {
+    q: "What is the difference between real and fake scarcity in e-commerce?",
+    a: "Real scarcity means a finite number of units exists and the system cannot sell more, because the constraint is enforced in the database. Fake scarcity is a message — a countdown timer, a \"only 3 left\" badge, a low-stock warning — that has no binding relationship to actual inventory and resets when the page reloads. Customers have learned to spot the second kind, and once they do, every other claim a brand makes is discounted along with it.",
+  },
+  {
+    q: "Can you run a hand-numbered drop on Shopify?",
+    a: "Partly, and it gets awkward at the edges. You can approximate numbering by creating individual variants or products, but you are working against a system designed around fungible stock — where one medium black tee is interchangeable with any other. Numbering makes each unit non-fungible, which changes carts, returns, exchanges and reporting. It is possible with apps and workarounds; it stops being possible to do elegantly at the point where the numbering is the product rather than a label on it.",
+  },
+  {
+    q: "Why does a numbered piece need a database constraint rather than a counter?",
+    a: "Because two people can check out at the same instant. A counter that reads the current number, adds one, and writes it back can hand the same number to both buyers if their requests interleave. A uniqueness constraint at the database level makes that physically impossible — the second write fails and can be retried with the next free number. This is the difference between a numbering system that survives a launch spike and one that quietly produces two pieces labelled 0417.",
+  },
+  {
+    q: "What should a sold-out product page do?",
+    a: "Stay up. The instinct is to hide or redirect sold-out items, but on a scarcity brand the sold-out page is the proof that the scarcity was real — it is evidence for the next drop, it keeps accumulated links and search rankings alive, and it gives buyers somewhere to point when they show people what they own. Mark it sold out clearly, keep the imagery, and offer notification for the next release rather than a dead end.",
+  },
+  {
+    q: "Does limited-edition numbering actually increase sales?",
+    a: "It changes what you are selling rather than reliably increasing volume. A numbered piece is bought partly as an artefact — evidence of having been early, of belonging to a small group — which supports a higher price and a stronger repeat relationship. It also caps your revenue per design by definition. It is a business-model choice, not a conversion tactic, and brands that adopt it as a tactic usually abandon it the first time a design sells out in an hour.",
+  },
+  {
+    q: "What happens if a numbered piece is returned?",
+    a: "It has to come back as itself. The returned unit is number 0417 and can only ever be resold as 0417, which means your returns flow must restore that specific record to available rather than incrementing a generic stock count. Most off-the-shelf return handling treats inventory as interchangeable, so this is one of the first places a bolted-on numbering system breaks — usually quietly, weeks after launch.",
+  },
+];
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: authorNode(SITE),
+      publisher: publisherNode(SITE),
+      isPartOf: websiteNode(SITE),
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      about: topicsForTags(post.tags),
+      wordCount: post.wordCount,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${canonical}#faq`,
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    },
+  ],
+});
+---
+
+<Studio
+  title={post.seoTitle ?? `${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  preloadImage={{ href: coverBase(post.coverImage), srcset: coverSrcset(post.coverImage), sizes: COVER_SIZES_POST }}
+  jsonld={jsonld}
+>
+  <main>
+    <header class="post-hero">
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img
+            src={coverBase(post.coverImage)}
+            srcset={coverSrcset(post.coverImage)}
+            sizes={COVER_SIZES_POST}
+            alt={post.coverAlt ?? post.title}
+            width="1200"
+            height="750"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+<p>You have seen the countdown timer. It sits under the buy button, says the offer ends in 14 minutes, and resets to 15 when you reload the page. You have seen "Only 3 left!" on a product that has said only 3 left for eight months.</p>
+<p>Customers worked this out years ago. What's interesting is what happens to a brand <em>after</em> they work it out: the discount doesn't stay contained. Once a buyer catches you lying about stock, they reasonably apply a discount to everything else you claim — the materials, the ethics, the small-batch story.</p>
+<p>So here's the more demanding version of the idea. Build the scarcity into the software, where it can't be faked, and let it be checkable.</p>
+<hr>
+<h2 id="the-example">The example: 0001 to 0666</h2>
+<p>CultXberserk is a gothic apparel brand I built a custom storefront for. The model is this: <strong>thirteen designs, each piece hand-numbered from 0001 to 0666, never reprinted.</strong></p>
+<p>Not "limited edition" as a phrase on a product page. Six hundred and sixty-six is the actual ceiling, and the system cannot exceed it — because it isn't a marketing claim, it's a constraint in the data layer.</p>
+<p>When the numbers are gone, they're gone. There is no restock button, and there is no way for an over-enthusiastic sales month to quietly produce a second run.</p>
+<hr>
+<h2 id="fungible-vs-not">Why this breaks ordinary e-commerce software</h2>
+<p>Almost every store platform is built on one assumption: <strong>units are interchangeable.</strong> One medium black tee is identical to every other medium black tee. Stock is a number you decrement. That assumption is baked into carts, checkout, returns, exchanges, and every report you'll ever run.</p>
+<p>Numbering breaks it. Piece 0417 is not piece 0418. Someone bought <em>that one</em>. It has an identity.</p>
+<p>The moment units stop being fungible, a chain of ordinary features stops working the way you expect:</p>
+<table>
+<thead><tr><th>Operation</th><th>Fungible stock</th><th>Numbered pieces</th></tr></thead>
+<tbody>
+<tr><td>Add to cart</td><td>Decrement a count</td><td>Reserve a specific unit, with a timeout</td></tr>
+<tr><td>Two simultaneous buyers</td><td>Fine — count handles it</td><td>Must not receive the same number</td></tr>
+<tr><td>Return</td><td>Increment the count</td><td>Restore <em>that</em> number to available</td></tr>
+<tr><td>Exchange for another size</td><td>Trivial swap</td><td>A different piece, so a different number</td></tr>
+<tr><td>Sold out</td><td>Hide it</td><td>Keep it up — it's the proof</td></tr>
+</tbody>
+</table>
+<p>None of these are exotic engineering problems. They're just problems that a platform designed around interchangeable stock will not solve for you, and each one is a place where a bolted-on numbering system quietly produces a wrong result weeks after launch.</p>
+<hr>
+<h2 id="the-race-condition">The one that bites everybody: two buyers, one number</h2>
+<p>This is the failure worth understanding even if you never build a drop brand, because the shape of it recurs everywhere.</p>
+<p>The naive implementation reads the highest number issued, adds one, and saves. It works perfectly while you test it. It fails on launch night, which is the only night that matters.</p>
+<p>Two customers check out in the same instant. Both requests read "the last number issued was 0416". Both add one. Both write 0417. Now two people own piece 0417, and the entire premise of the brand is a lie that a customer will discover — because on a numbered-drop brand, buyers absolutely do post their numbers.</p>
+<p>The fix isn't clever, it's just structural: <strong>make uniqueness the database's job, not the application's.</strong> A uniqueness constraint on the number means the second write is rejected rather than accepted, and can be retried with the next free number. The database refuses to hold an impossible state.</p>
+<p>Applications get this wrong under load. Databases are specifically designed not to. Push the guarantee down to the layer that can actually enforce it, and the guarantee stops depending on how lucky your traffic timing is.</p>
+<hr>
+<h2 id="sold-out-is-an-asset">Sold out is an asset, not an error</h2>
+<p>The reflex when something sells out is to hide it or redirect it. On a scarcity brand this is exactly backwards.</p>
+<p>A sold-out page is the only durable evidence that your scarcity is real. It shows a design that existed, was finite, and is now genuinely unavailable. It does four things at once:</p>
+<ul>
+<li><strong>Proves the model</strong> to anyone deciding whether to move fast on the next drop.</li>
+<li><strong>Keeps its search rankings and inbound links</strong> instead of throwing them away.</li>
+<li><strong>Gives owners somewhere to point</strong> when they show people what they have — which is free marketing you'd otherwise destroy.</li>
+<li><strong>Captures demand for next time</strong>, if you put a notify option where the buy button was.</li>
+</ul>
+<p>Keep the photography. Mark it sold out plainly. Say what number range it covered. A brand that deletes its history has no history.</p>
+<hr>
+<h2 id="numbering-as-identity">The part that isn't engineering</h2>
+<p>The technical work is the easy half. The interesting half is what numbering does to the relationship.</p>
+<p>A customer who owns 0417 of 0666 has not bought a black shirt. They've bought a position — evidence of being early, and membership of a group small enough to matter. That's why numbered pieces support a higher price and a much stronger repeat relationship than the same garment unnumbered.</p>
+<p>Which leads to the honest caveat, because this is not free money. <strong>You have capped your revenue per design, permanently, by your own hand.</strong> If a design sells out in an hour, you don't get to print more — that's the deal, and the deal only has value because you can't break it. Brands that adopt numbering as a conversion tactic invariably abandon it the first time it costs them a good month, and abandoning it is far more damaging than never having done it.</p>
+<p>Scarcity is a business model. Treating it as a growth hack is how you end up with a countdown timer that resets.</p>
+<hr>
+<h2 id="what-transfers">What transfers to other brands</h2>
+<p>You don't need to number anything for the principle to apply. It's this: <strong>every claim you make should be enforced somewhere a customer could check.</strong></p>
+<ul>
+<li>If a batch is limited, the system should refuse to exceed it.</li>
+<li>If a piece is made to order, the page should show its real production date, not a generic estimate.</li>
+<li>If something is one-of-one, there should be a record you can point at.</li>
+<li>If you don't restock, don't restock. Not even once, quietly.</li>
+</ul>
+<p>The brands that hold their prices in a discount-soaked market are the ones whose claims survive being checked. That's not a copywriting problem. It's an architecture problem — which is most of <a href="/blog/why-premium-brands-leave-shopify/">why premium brands eventually leave themes behind</a>, and what <a href="/blog/storefront-that-feels-like-the-brand/">a storefront that feels like the brand</a> is really made of.</p>
+<p>It applies well beyond drops, too. A creator selling handmade goods has a different unusual mechanic — real video, made-to-order timelines, an audience that already trusts them — and hits the same wall for the same reason, which is the story of <a href="/blog/chinkiz-creator-store-case-study/">a 600K-subscriber storefront built without Shopify</a>.</p>
+<hr>
+<p><em>I'm Divyansh Sood. I build custom-coded storefronts for brands whose model doesn't fit a template — the full build is written up as the <a href="/projects/cultxberserk/">CultXberserk case study</a>, and there's a <a href="/blog/scarcity-by-design-hand-numbered-drops/">companion piece on the business side of drops</a>. If your brand has a mechanic your platform keeps fighting, <a href="/services/ecommerce-website-development/">that's the work</a>.</em></p>
+      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </article>
+
+    <PostFaq faqs={faqs} idPrefix="faq-scar" />
+
+    <RelatedPosts slug={slug} audience={post.audience} />
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        <h2>Building a brand a theme can't carry?</h2>
+        <p>If your store has a model that off-the-shelf builders fight — hand-numbered drops, creator commerce, premium D2C — tell me about it. I read every brief personally.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+            >Email me <span aria-hidden="true">↗</span></a
+          >
+          <a class="btn btn-ghost" href="/#work">See the work</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Studio>

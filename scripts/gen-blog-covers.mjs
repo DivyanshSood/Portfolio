@@ -41,6 +41,56 @@ const QUALITY = 82;
 /* Headline copy, per slug. `lines` are rendered uppercase, one per line, and
    auto-fitted to the box; `accent` lists the zero-based lines painted neon. */
 const COVER_COPY = {
+  "baglamukhi-travels-local-seo-case-study": {
+    eyebrow: "CASE STUDY · LOCAL SEO",
+    lines: ["PUBLISH", "THE", "FARE."],
+    accent: [2],
+  },
+  "ranking-top-five-zero-clicks": {
+    eyebrow: "SEO · FIRST-PARTY DATA",
+    lines: ["TOP FIVE.", "ZERO", "CLICKS."],
+    accent: [2],
+  },
+  "aeo-geo-llmo-ai-seo-explained": {
+    eyebrow: "GEO · VOCABULARY",
+    lines: ["AEO. GEO.", "LLMO.", "AI SEO."],
+    accent: [2],
+  },
+  "entity-graph-schema-node-by-node": {
+    eyebrow: "STRUCTURED DATA · AEO",
+    lines: ["THE ENTITY", "GRAPH, NODE", "BY NODE."],
+    accent: [2],
+  },
+  "measure-ai-assistant-citations": {
+    eyebrow: "AI SEARCH · MEASUREMENT",
+    lines: ["IS AI", "ACTUALLY", "QUOTING YOU?"],
+    accent: [2],
+  },
+  "scarcity-enforced-in-code": {
+    eyebrow: "D2C · DROPS",
+    lines: ["0001", "TO", "0666."],
+    accent: [2],
+  },
+  "replatforming-without-losing-rankings": {
+    eyebrow: "SEO · MIGRATION",
+    lines: ["THE REDIRECT", "MAP NOBODY", "BUILDS."],
+    accent: [2],
+  },
+  "custom-website-year-two": {
+    eyebrow: "OWNERSHIP · MAINTENANCE",
+    lines: ["WHAT HAPPENS", "IN YEAR", "TWO."],
+    accent: [2],
+  },
+  "contact-form-dropping-leads": {
+    eyebrow: "LEADS · DEBUGGING",
+    lines: ["YOUR FORM", "IS EATING", "LEADS."],
+    accent: [2],
+  },
+  "mobile-first-booking-design": {
+    eyebrow: "MOBILE · CONVERSION",
+    lines: ["95% CAME", "FROM A", "PHONE."],
+    accent: [2],
+  },
   "how-ai-is-transforming-website-development": {
     eyebrow: "AI · WEB DEVELOPMENT",
     lines: ["HOW AI IS", "TRANSFORMING", "WEB DEV."],

@@ -1,0 +1,240 @@
+---
+import Studio from "../../layouts/Studio.astro";
+import PostFaq from "../../components/PostFaq.astro";
+import RelatedPosts from "../../components/RelatedPosts.astro";
+import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
+import { coverBase, coverSrcset, COVER_SIZES_POST } from "../../lib/images.mjs";
+
+const slug = "custom-website-year-two";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+const faqs = [
+  {
+    q: "Does a custom-coded website need ongoing maintenance?",
+    a: "It needs attention, but far less than people expect, and the kind depends entirely on what the site does. A static marketing site with no login and no payments can genuinely sit untouched for a year and keep working, because there is no server-side software exposed to the internet that can drift out of date. Anything handling payments, accounts or third-party APIs does need periodic review, because those integrations change on someone else's schedule rather than yours.",
+  },
+  {
+    q: "What happens if my developer disappears?",
+    a: "That depends on what you were given at handover, not on the technology. If you hold the repository, the hosting and domain accounts, the environment variables and a written description of how it deploys, any competent developer can take over — the work is a few hours of orientation. If any of those live only in someone else's account, you are stranded regardless of how well the site was built. Ask for all of it at handover rather than when you need it.",
+  },
+  {
+    q: "Is custom code harder to update than WordPress?",
+    a: "For content, usually not — a well-built custom site puts editable content somewhere a non-developer can reach, whether that is a CMS, a spreadsheet-like admin, or structured content files. For structural changes it needs a developer, which is also true of WordPress once you are past what the theme options allow. The real difference is that WordPress makes small changes feel free while accumulating plugin and update obligations, whereas custom code front-loads the cost and then mostly leaves you alone.",
+  },
+  {
+    q: "What actually breaks on a website over time?",
+    a: "Four things, roughly in order of likelihood: an expiring credential such as a domain registration or an API key, a third-party service changing or deprecating its API, a dependency with a security advisory that needs patching, and a browser or platform change that alters rendering. Notice that none of these are the code you paid for spontaneously failing. Websites do not decay on their own — their surroundings move.",
+  },
+  {
+    q: "Do I need a maintenance contract for a custom website?",
+    a: "Not necessarily, and be wary of one sold as insurance against vague future breakage. A retainer makes sense when the site is genuinely business-critical, handles payments or user data, or when you want a defined response time for the day something does go wrong. For a static marketing site, an occasional review is usually more honest than a monthly fee for watching nothing happen. Ask what specifically is being done each month before agreeing.",
+  },
+  {
+    q: "Who owns the code of a custom-built website?",
+    a: "You should, and it should be written down. A proper handover includes the repository, a signed transfer of intellectual property, and accounts registered in your business's name rather than your developer's. If any of this is unclear, ask before the project starts rather than after — the answer is much easier to obtain while an invoice is still outstanding.",
+  },
+];
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: authorNode(SITE),
+      publisher: publisherNode(SITE),
+      isPartOf: websiteNode(SITE),
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      about: topicsForTags(post.tags),
+      wordCount: post.wordCount,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${canonical}#faq`,
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    },
+  ],
+});
+---
+
+<Studio
+  title={post.seoTitle ?? `${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  preloadImage={{ href: coverBase(post.coverImage), srcset: coverSrcset(post.coverImage), sizes: COVER_SIZES_POST }}
+  jsonld={jsonld}
+>
+  <main>
+    <header class="post-hero">
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img
+            src={coverBase(post.coverImage)}
+            srcset={coverSrcset(post.coverImage)}
+            sizes={COVER_SIZES_POST}
+            alt={post.coverAlt ?? post.title}
+            width="1200"
+            height="750"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+<p>Every sales conversation about custom code reaches the same question, usually asked sideways: <em>"But what happens after? If it's not on a platform, who looks after it? What if you disappear?"</em></p>
+<p>It's a completely fair question and most of the answers to it are evasive. So here is the direct one: what actually happens to a custom-built website in the year after the developer stops working on it.</p>
+<hr>
+<h2 id="the-short-version">The short version</h2>
+<p>Websites don't decay. <strong>Their surroundings move.</strong></p>
+<p>The code you paid for does not get worse while you sleep. What changes is everything around it — credentials expire, third-party services change their APIs, dependencies get security advisories, browsers ship updates. How exposed you are to that depends almost entirely on <em>what your site does</em>, not on whether it was custom-built.</p>
+<hr>
+<h2 id="the-spectrum">Two very different kinds of site</h2>
+<p>"Custom website" covers two things with wildly different upkeep, and conflating them is why the advice on this topic is so confused.</p>
+<table>
+<thead><tr><th></th><th>Static marketing site</th><th>App-like site</th></tr></thead>
+<tbody>
+<tr><td>What it is</td><td>Pages, images, forms. No login.</td><td>Payments, accounts, dashboards, APIs</td></tr>
+<tr><td>Server software exposed</td><td>Essentially none</td><td>Yes</td></tr>
+<tr><td>Can it sit untouched a year?</td><td><strong>Genuinely, yes</strong></td><td>No — needs periodic review</td></tr>
+<tr><td>Main risk</td><td>An expired credential</td><td>A third-party API changing</td></tr>
+</tbody>
+</table>
+<p>A static site is delivered as pre-built files. There is no database to compromise, no admin login to brute-force, no plugin ecosystem updating itself at 3am. This is the underrated part of the model: <strong>a large class of maintenance simply doesn't apply</strong>, because the software that would have needed maintaining isn't running.</p>
+<p>An app-like site is different, and anyone telling you otherwise is selling. If it takes payments or holds user data, it has real obligations.</p>
+<hr>
+<h2 id="what-actually-breaks">What actually breaks, in order of likelihood</h2>
+<h3 id="expiring-credentials">1. Something expires</h3>
+<p>By a wide margin the most common cause of a site going down, and it's never the code. A domain registration lapses. A card on the hosting account fails. An API key hits its expiry.</p>
+<p>The fix is administrative, not technical: keep every account in your business's name with a shared billing address, turn on auto-renew, and put the domain expiry in a calendar. I have seen a business lose its site for three days because a renewal notice went to a former employee's inbox.</p>
+<h3 id="third-party-changes">2. A third party changes something</h3>
+<p>Your payment gateway deprecates an API version. A maps or reviews integration changes its terms. An embedded service shuts down.</p>
+<p>This is the real ongoing obligation for anything transactional, and it arrives on someone else's schedule. Mitigation is mostly about not having twelve integrations you forgot about — every third-party service is a small standing commitment.</p>
+<h3 id="dependencies">3. A dependency needs patching</h3>
+<p>Any modern build has dependencies, and occasionally one gets a security advisory. What matters is a distinction most people aren't told:</p>
+<ul>
+<li><strong>Build-time dependencies</strong> run on the developer's machine while generating the site. A vulnerability here is largely a non-event for a static site — the code isn't exposed to visitors.</li>
+<li><strong>Runtime dependencies</strong> run on a live server handling real requests. These matter, and they need patching promptly.</li>
+</ul>
+<p>A static marketing site is almost all the first kind. That is why "you have dependencies, therefore you need a monthly retainer" is usually an overstatement.</p>
+<h3 id="browsers-move">4. The platform shifts underneath</h3>
+<p>Rare, gradual, and rarely urgent. A browser changes default behaviour, a CSS feature is deprecated, a mobile OS alters how it handles something. Effects are usually cosmetic and show up over years, not months.</p>
+<hr>
+<h2 id="the-cms-myth">"No subscription" doesn't mean "no attention"</h2>
+<p>The honest correction to my own side of the argument.</p>
+<p>Custom code removes recurring <em>platform</em> costs, and that's a real advantage compounding over years. But it doesn't remove the need for someone to occasionally look at the thing. What it does is convert a fixed monthly obligation into an occasional variable one.</p>
+<p>For most small businesses that's a good trade. It stops being a good trade if "occasional" becomes "never" and you discover in year three that nobody has looked at the site since launch, three integrations have quietly stopped working, and the contact form has been failing silently for eight months. <a href="/blog/contact-form-dropping-leads/">That last one happens more than you'd think.</a></p>
+<hr>
+<h2 id="the-vanish-test">The test that actually matters</h2>
+<p>Forget the technology question. Ask this one:</p>
+<blockquote><p>If my developer vanished tomorrow, could a competent stranger take over on Monday?</p></blockquote>
+<p>That's answered by your handover, not your stack. Here's the checklist — and the right time to ask for it is before the final invoice is paid, not when you need it:</p>
+<ul>
+<li><strong>The repository</strong>, in an account your business controls. Not a zip file emailed to you.</li>
+<li><strong>Hosting and domain accounts</strong> registered to your business, with billing you control.</li>
+<li><strong>Environment variables and API keys</strong>, documented — what each one is and which service it belongs to. This is the most commonly missed item and the most painful to reconstruct.</li>
+<li><strong>How it deploys.</strong> One page. "Push to main, the host builds and publishes it."</li>
+<li><strong>DNS access</strong>, and a record of what points where.</li>
+<li><strong>A written IP transfer</strong>, so ownership isn't a conversation.</li>
+</ul>
+<p>If you're commissioning a build rather than inheriting one, ask for all six in the first conversation — a developer who hesitates over any of them has told you something useful, and the rest of the vetting questions are in <a href="/blog/hire-web-developer-india-from-us/">the buyer's guide to hiring a developer in India</a>.</p>
+<p>Hold all six and you are genuinely portable — you can hire anyone, and your leverage in every future conversation is real. Miss the credentials or the repository and you are dependent on one person's goodwill, whatever technology it was built with. That's the substance of <a href="/blog/own-your-stack-code-portability/">owning your stack</a>, and it's what I hand over on every project.</p>
+<hr>
+<h2 id="what-year-two-looks-like">What year two actually looks like</h2>
+<p>For a typical static marketing site handed over properly:</p>
+<ul>
+<li><strong>Months 1–3:</strong> some content edits, a couple of small fixes as real traffic finds edge cases. Normal settling.</li>
+<li><strong>Months 4–12:</strong> usually nothing. The site serves the same files it served on day one. This is the part people don't believe until they've lived it.</li>
+<li><strong>Somewhere in there:</strong> a domain renewal, ideally automatic.</li>
+<li><strong>Around the year mark:</strong> worth an afternoon — check the forms actually deliver, glance at dependency advisories, confirm nothing third-party has silently broken, look at what the analytics say people came for.</li>
+</ul>
+<p>That's it. Not zero, but nothing like the ongoing obligation people brace for — and considerably less than the update-and-plugin cycle it replaced.</p>
+<hr>
+<h2 id="the-honest-summary">The honest summary</h2>
+<p>The fear that custom code strands you is really a fear about <strong>dependency on one person</strong>, and it's the right fear pointed at the wrong thing. A platform doesn't protect you from it — plenty of businesses are just as stranded on WordPress because the agency holds the logins.</p>
+<p>What protects you is the handover. Get the repository, the accounts, the credentials and the deploy instructions, and year two is a quiet year with a website you own.</p>
+<hr>
+<p><em>I'm Divyansh Sood, a freelance developer in Himachal Pradesh. Every project I ship hands over a clean repository, documentation, an architecture walkthrough, a signed IP transfer and 30 days of support — because <a href="/blog/own-your-stack-code-portability/">portability is the point</a>. If you're weighing a custom build and the after-part is what's stopping you, <a href="mailto:hello@divyanshsood.com">ask me about it directly</a>.</em></p>
+      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </article>
+
+    <PostFaq faqs={faqs} idPrefix="faq-yr2" />
+
+    <RelatedPosts slug={slug} audience={post.audience} />
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        <h2>Working on something similar?</h2>
+        <p>If a post here matches what you're building, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+            >Email me <span aria-hidden="true">↗</span></a
+          >
+          <a class="btn btn-ghost" href={CALENDLY_URL} target="_blank" rel="noopener"
+            >Book a 15-min intro <span aria-hidden="true">↗</span></a
+          >
+        </div>
+      </div>
+    </section>
+  </main>
+</Studio>

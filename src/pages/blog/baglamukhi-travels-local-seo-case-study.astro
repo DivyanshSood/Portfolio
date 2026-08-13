@@ -1,0 +1,224 @@
+---
+import Studio from "../../layouts/Studio.astro";
+import PostFaq from "../../components/PostFaq.astro";
+import RelatedPosts from "../../components/RelatedPosts.astro";
+import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
+import { coverBase, coverSrcset, COVER_SIZES_POST } from "../../lib/images.mjs";
+
+const slug = "baglamukhi-travels-local-seo-case-study";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+const faqs = [
+  {
+    q: "How long does a new website take to start ranking on Google?",
+    a: "For a small local business in a niche without national competition, first impressions usually appear within two to four weeks of indexing, and a meaningful volume builds over the following two to three months. This site went from effectively zero impressions on 21 June 2026 to 19,100 across the following seven weeks. That timeline depends heavily on competition: a Kangra taxi operator is not competing with the same budgets as a Delhi hotel chain, and you should not assume the same curve in a crowded market.",
+  },
+  {
+    q: "Why publish your prices when competitors hide theirs behind a phone call?",
+    a: "Because the person searching is trying to answer a price question, and a page that answers it is the page that gets returned and quoted. Twenty-seven point-to-point routes published with all-in fares means twenty-seven pages of specific, matchable text against queries like \"Gaggal airport to Dharamshala taxi fare\". Hiding the number behind \"call for quote\" means the page has nothing to match against, and a competitor's page answers instead. The commercial objection — that competitors will see your prices — assumes they can't already call and ask.",
+  },
+  {
+    q: "What does an average position of 5.4 actually mean?",
+    a: "It is the mean position of every impression the site received across every query, so it blends genuinely competitive terms with easy branded ones. It means that on average the site appeared around the fifth or sixth organic result. It does not mean the site ranks fifth for any specific keyword, and it is not a number to celebrate on its own — as the 1.4% click-through rate in this case study shows, a strong average position now converts to far fewer clicks than it used to.",
+  },
+  {
+    q: "Why is the click-through rate only 1.4% at that position?",
+    a: "Because the organic result is no longer the first thing on the page. For local and travel queries, Google shows a map pack, an AI overview, aggregator listings and often paid results above the organic block. A position of 5.4 can easily sit below all of that. The impressions still matter — they are proof the pages match real demand — but treating position as a proxy for traffic is the mistake. Measure clicks and enquiries, not rank.",
+  },
+  {
+    q: "Do you need a big content operation to rank a local business?",
+    a: "No. This is a ten-page site. What it has instead of volume is specificity: every page answers one real question a customer types, with the actual answer on the page rather than a form to request it. Ten pages that each match a distinct intent will outperform fifty pages that all say roughly the same thing about a company's commitment to quality service.",
+  },
+  {
+    q: "Does structured data help a small local business get found?",
+    a: "It helps machines identify you correctly, which matters more each year. A complete LocalBusiness graph — name, geography, opening hours, service area, routes, the pilgrimage circuit as a described offering — is how a search engine or an AI assistant knows what the business is without inferring it from prose. It is not a ranking lever you can pull for more traffic, but it is what makes you eligible to be named accurately when something answers on your behalf.",
+  },
+];
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: authorNode(SITE),
+      publisher: publisherNode(SITE),
+      isPartOf: websiteNode(SITE),
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      about: topicsForTags(post.tags),
+      wordCount: post.wordCount,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${canonical}#faq`,
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    },
+  ],
+});
+---
+
+<Studio
+  title={post.seoTitle ?? `${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  preloadImage={{ href: coverBase(post.coverImage), srcset: coverSrcset(post.coverImage), sizes: COVER_SIZES_POST }}
+  jsonld={jsonld}
+>
+  <main>
+    <header class="post-hero">
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img
+            src={coverBase(post.coverImage)}
+            srcset={coverSrcset(post.coverImage)}
+            sizes={COVER_SIZES_POST}
+            alt={post.coverAlt ?? post.title}
+            width="1200"
+            height="750"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+<p>Kapil Dev and Sahil have been driving cabs out of Kangra since 2018. They own the cars, they do the driving, and until last year almost every booking reached them through somebody else — a commission agent, a hotel desk, a call centre that had never seen the road to Chintpurni.</p>
+<p>That is the normal arrangement in Himachal, and it is a bad one. The person who owns the customer relationship sets the price and keeps the margin. The person doing the work absorbs the fuel, the hours and the risk.</p>
+<p>In June 2026 they got a website. Here is what it did in the seven weeks that followed, what specifically caused it, and the part of the data that is less flattering than a case study normally admits.</p>
+<hr>
+<h2 id="the-numbers">The numbers, with the window stated</h2>
+<p>Google Search Console, domain property, web search, for the three-month report ending 8 August 2026. The traffic curve begins at effectively zero on 21 June, so this is functionally the site's first seven weeks:</p>
+<table>
+<thead><tr><th>Metric</th><th>Value</th></tr></thead>
+<tbody>
+<tr><td>Total impressions</td><td><strong>19,100</strong></td></tr>
+<tr><td>Total clicks</td><td><strong>261</strong></td></tr>
+<tr><td>Average CTR</td><td><strong>1.4%</strong></td></tr>
+<tr><td>Average position</td><td><strong>5.4</strong></td></tr>
+</tbody>
+</table>
+<p>Two things about that table before anyone quotes it.</p>
+<p>First, the shape matters more than the totals. The impressions line starts at zero, climbs through July, and is at its steepest in the final week of the window. A cumulative total from a growth curve understates where the site is now — the last seven days of that chart are running at several times the rate of the first seven.</p>
+<p>Second, <strong>a 1.4% click-through rate at position 5.4 is not a good ratio</strong>, and I am not going to bury it. I will come back to it, because it is the most useful thing in this entire dataset.</p>
+<hr>
+<h2 id="what-actually-caused-it">What actually caused the impressions</h2>
+<p>The site is ten pages. There is no blog, no content calendar, nobody writing weekly articles about the beauty of the Kangra valley. The whole strategy fits in one sentence:</p>
+<blockquote><p>Publish the fare.</p></blockquote>
+<p>Twenty-seven point-to-point routes, each with an all-in price stated as text on the page. Dharamshala to Gaggal airport. Kangra to Chintpurni. Palampur to Manali. The full six-temple Devi Darshan circuit, priced as a package with the stops named.</p>
+<p>That is it. That is the thing almost nobody in the category does.</p>
+<h3 id="why-hiding-the-price-costs-you">Why hiding the price costs you the search</h3>
+<p>Go and look at how taxi operators build websites. The pricing page says <em>call for quote</em>. The routes page says <em>we cover all of North India</em>. The homepage talks about a commitment to safe, comfortable and reliable journeys.</p>
+<p>Now think about what somebody actually types. They type <em>gaggal airport to dharamshala taxi fare</em>. They are asking a question with a number as its answer.</p>
+<p>A page saying "call for quote" has no number on it. There is nothing for the query to match, nothing for a snippet to pull, and nothing for an AI assistant to quote when it answers the question directly. A page saying "₹X, all inclusive, 40 minutes, Innova or Dzire" matches on every axis at once.</p>
+<p>The objection I hear is always the same: <em>competitors will see our prices.</em> They will. They could also have phoned and asked, any day for the last six years. Your competitors were never the constraint. The customer who couldn't find an answer was.</p>
+<hr>
+<h2 id="the-structural-work">The structural work underneath</h2>
+<p>Publishing fares is the strategy. These are the mechanics that let it land, all of which are ordinary and none of which are clever:</p>
+<ul>
+<li><strong>One page per intent.</strong> Airport transfers, outstation runs, the Devi Darshan yatra and local sightseeing are four different jobs a customer is hiring a car for. They are four pages, not four paragraphs on one page.</li>
+<li><strong>A complete LocalBusiness schema graph.</strong> Name, geography, service area, opening hours, the routes as offerings, the temple circuit described as what it is. This does not push rankings up. It makes the business machine-legible, so that anything answering on the operator's behalf gets the facts right.</li>
+<li><strong>Static HTML, fast on a bad connection.</strong> Built on Astro. The customer is often standing outside an airport on patchy 4G, which is a hostile environment for a heavy site.</li>
+<li><strong>One-tap WhatsApp with context pre-filled.</strong> Tapping the button on the Chintpurni page opens a message that already says which route. Nobody in this market is going to fill in a six-field enquiry form.</li>
+<li><strong>An <code>llms.txt</code> at the root.</strong> Honestly: this is the least important item on the list, and I have <a href="/blog/what-is-llms-txt/">written at length about why the file is oversold</a>. It costs ten minutes. It is not why the site works.</li>
+</ul>
+<hr>
+<h2 id="the-uncomfortable-part">The uncomfortable part: rank is not traffic</h2>
+<p>Back to that 1.4%.</p>
+<p>Historically, an average position around five would return something in the region of a 4–6% click-through rate. This site gets a quarter of that. The pages are not badly titled, and the queries are relevant. Something else is taking the click.</p>
+<p>Open a travel or local query on a phone and count what sits above the organic results: a map pack with three businesses and a directions button, frequently an AI overview that answers the question in place, aggregator listings that have bought the term, and paid results above all of it. An average position of 5.4 can sit below that entire stack. The user got their answer and never scrolled.</p>
+<p>So the impressions are doing real work — they prove the pages match genuine demand, and they are the reason the phone rings — but <strong>anyone selling you an average-position number as though it were traffic is selling you the wrong metric.</strong> I have the same pattern in my own Search Console, on a completely different kind of site, and <a href="/blog/ranking-top-five-zero-clicks/">wrote about it separately</a>.</p>
+<p>The right response is not to chase rank harder. It is to be the result that gets picked out of a crowded page — which means the fare visible in the snippet, the reviews visible in the map pack, and the facts structured well enough that when an AI overview answers, it answers with your name in it.</p>
+<hr>
+<h2 id="what-transfers">What transfers to other businesses</h2>
+<p>This was a taxi operator, but nothing here is about taxis:</p>
+<ol>
+<li><strong>Find the question your customers ask that has a number as its answer.</strong> A fare, a fee, a duration, a capacity, a delivery window. Publish it as text.</li>
+<li><strong>Give each real intent its own page.</strong> If a customer would phrase it as a separate question, it is a separate page.</li>
+<li><strong>Make the enquiry one tap</strong>, on the channel your customers already use. In India that is usually WhatsApp, not a form.</li>
+<li><strong>Structure your facts</strong> so machines don't have to guess them.</li>
+<li><strong>Measure enquiries, not position.</strong> Position is a diagnostic. Enquiries are the business.</li>
+</ol>
+<p>Ten pages, seven weeks, no advertising budget, no content mill. The operators own the site and the code. They still do their own driving — they just stopped paying somebody else for permission to be found.</p>
+<hr>
+<p><em>I'm Divyansh Sood. I build custom-coded websites from Himachal Pradesh — this one is written up in full on the <a href="/projects/baglamukhi-travels/">Baglamukhi Travels case study</a>, alongside <a href="/projects/nandini/">another Kangra operator</a> who had the same problem. If you run a business here and everything arrives through an agent, <a href="/web-developer-kangra/">that's the work I do</a>.</em></p>
+      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </article>
+
+    <PostFaq faqs={faqs} idPrefix="faq-bgt" />
+
+    <RelatedPosts slug={slug} audience={post.audience} />
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        <h2>Working on something in India?</h2>
+        <p>If a post here matches what you're building, send me the brief. WhatsApp reply in under an hour, 9 AM–9 PM IST — I'll tell you within a day if it's a fit.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="https://wa.me/919816091875" target="_blank" rel="noopener"
+            >Message me on WhatsApp <span aria-hidden="true">↗</span></a
+          >
+          <a class="btn btn-ghost" href="/#work">See the work</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Studio>

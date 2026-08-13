@@ -4,6 +4,206 @@
 
 export const POSTS = [
   {
+    "slug": "baglamukhi-travels-local-seo-case-study",
+    "title": "Publish the Fare: How a Kangra Taxi Site Got 19,100 Impressions in Seven Weeks",
+    "seoTitle": "Kangra Taxi Site: 19.1K Impressions in 7 Weeks · Divyansh Sood",
+    "description": "Ten pages, twenty-seven published fares, seven weeks of Search Console data — and the 1.4% click-through rate that says more about search now than the ranking.",
+    "pubDate": "2026-08-12",
+    "updatedDate": "2026-08-12",
+    "coverImage": "/blog/baglamukhi-travels-local-seo-case-study.jpg",
+    "coverAlt": "Title card reading “Publish the fare” in bold type on a near-black background",
+    "tags": [
+      "case study",
+      "local SEO",
+      "Himachal Pradesh",
+      "travel",
+      "structured data"
+    ],
+    "audience": "indian-smb",
+    "readMins": 5,
+    "wordCount": 1210
+  },
+  {
+    "slug": "ranking-top-five-zero-clicks",
+    "title": "I Rank Top 5 for “Web Development” and Get Zero Clicks",
+    "seoTitle": "Top-5 Ranking, Zero Clicks: My Own Data · Divyansh Sood",
+    "description": "Two hundred impressions at average position 5.0, and not one click. My own Search Console data on why ranking stopped meaning traffic, and which queries convert.",
+    "pubDate": "2026-08-11",
+    "updatedDate": "2026-08-11",
+    "coverImage": "/blog/ranking-top-five-zero-clicks.jpg",
+    "coverAlt": "Title card reading “Top five. Zero clicks.” in bold type on a near-black background",
+    "tags": [
+      "SEO",
+      "AI search",
+      "GEO",
+      "conversion",
+      "small business"
+    ],
+    "audience": "international",
+    "readMins": 4,
+    "wordCount": 993
+  },
+  {
+    "slug": "aeo-geo-llmo-ai-seo-explained",
+    "title": "AEO, GEO, LLMO, AI SEO: What Each Term Means, and Which Ones Are Invented",
+    "seoTitle": "AEO vs GEO vs LLMO vs AI SEO, Explained · Divyansh Sood",
+    "description": "Four acronyms, one underlying job. Which of these terms name something real, which is a rebrand with an invoice attached, and what the work actually collapses into.",
+    "pubDate": "2026-08-09",
+    "updatedDate": "2026-08-09",
+    "coverImage": "/blog/aeo-geo-llmo-ai-seo-explained.jpg",
+    "coverAlt": "Title card reading “AEO. GEO. LLMO. AI SEO.” in bold type on a near-black background",
+    "tags": [
+      "GEO",
+      "AI search",
+      "SEO",
+      "llms.txt",
+      "ChatGPT"
+    ],
+    "audience": "international",
+    "readMins": 5,
+    "wordCount": 1154
+  },
+  {
+    "slug": "entity-graph-schema-node-by-node",
+    "title": "The Entity Graph That Gets You Quoted: One Site’s Schema, Node by Node",
+    "seoTitle": "Entity Graph Schema, Node by Node · Divyansh Sood",
+    "description": "Most structured-data advice stops at valid markup. This is the graph running on this page — stable @ids, sameAs corroboration, and the two mistakes I made first.",
+    "pubDate": "2026-08-07",
+    "updatedDate": "2026-08-07",
+    "coverImage": "/blog/entity-graph-schema-node-by-node.jpg",
+    "coverAlt": "Title card reading “The entity graph, node by node” in bold type on a near-black background",
+    "tags": [
+      "structured data",
+      "GEO",
+      "AI search",
+      "web development",
+      "local business"
+    ],
+    "audience": "international",
+    "readMins": 5,
+    "wordCount": 1242
+  },
+  {
+    "slug": "measure-ai-assistant-citations",
+    "title": "How to Tell Whether AI Assistants Are Actually Recommending You",
+    "seoTitle": "How to Measure AI Assistant Citations · Divyansh Sood",
+    "description": "Plenty of advice on getting cited by AI, almost none on knowing if it worked. The three sources you can actually measure, and what nobody can honestly promise.",
+    "pubDate": "2026-08-05",
+    "updatedDate": "2026-08-05",
+    "coverImage": "/blog/measure-ai-assistant-citations.jpg",
+    "coverAlt": "Title card reading “Is AI actually quoting you?” in bold type on a near-black background",
+    "tags": [
+      "AI search",
+      "GEO",
+      "SEO",
+      "ChatGPT",
+      "small business"
+    ],
+    "audience": "international",
+    "readMins": 5,
+    "wordCount": 1233
+  },
+  {
+    "slug": "scarcity-enforced-in-code",
+    "title": "0001 to 0666: Enforcing Scarcity in Code, Not in a Caption",
+    "seoTitle": "Enforcing Scarcity in Code, Not a Caption · Divyansh Sood",
+    "description": "A countdown timer that resets is a lie customers spotted years ago. What makes a limited drop real in software: numbering, race conditions, sold-out pages.",
+    "pubDate": "2026-08-04",
+    "updatedDate": "2026-08-04",
+    "coverImage": "/blog/scarcity-enforced-in-code.jpg",
+    "coverAlt": "Title card reading “0001 to 0666” in bold type on a near-black background",
+    "tags": [
+      "D2C",
+      "e-commerce",
+      "drops",
+      "custom code",
+      "brand"
+    ],
+    "audience": "d2c-brand",
+    "readMins": 5,
+    "wordCount": 1177
+  },
+  {
+    "slug": "replatforming-without-losing-rankings",
+    "title": "Replatforming Without Losing Rankings: The Redirect Map Nobody Builds",
+    "seoTitle": "Replatform Without Losing Google Rankings · Divyansh Sood",
+    "description": "Migrations don’t lose rankings because the technology changed. They lose them because URLs disappeared and nobody made a map. The six steps that prevent it.",
+    "pubDate": "2026-08-03",
+    "updatedDate": "2026-08-03",
+    "coverImage": "/blog/replatforming-without-losing-rankings.jpg",
+    "coverAlt": "Title card reading “The redirect map nobody builds” in bold type on a near-black background",
+    "tags": [
+      "SEO",
+      "WordPress",
+      "custom code",
+      "web development",
+      "small business"
+    ],
+    "audience": "international",
+    "readMins": 5,
+    "wordCount": 1240
+  },
+  {
+    "slug": "custom-website-year-two",
+    "title": "What Actually Happens to a Custom Website in Year Two",
+    "seoTitle": "Custom Website Maintenance in Year Two · Divyansh Sood",
+    "description": "The objection nobody answers straight: what happens after the developer stops. What genuinely breaks, what doesn't, and the six-item handover that decides it.",
+    "pubDate": "2026-08-02",
+    "updatedDate": "2026-08-02",
+    "coverImage": "/blog/custom-website-year-two.jpg",
+    "coverAlt": "Title card reading “What happens in year two” in bold type on a near-black background",
+    "tags": [
+      "custom code",
+      "maintenance",
+      "web development",
+      "security",
+      "small business"
+    ],
+    "audience": "international",
+    "readMins": 5,
+    "wordCount": 1211
+  },
+  {
+    "slug": "contact-form-dropping-leads",
+    "title": "Your Contact Form Is Probably Dropping Leads. Here’s How to Prove It.",
+    "seoTitle": "Is Your Contact Form Dropping Leads? · Divyansh Sood",
+    "description": "My own form failed silently, on a site built by someone who sells websites. The five ways enquiries vanish without anyone noticing, and how to test yours.",
+    "pubDate": "2026-08-01",
+    "updatedDate": "2026-08-01",
+    "coverImage": "/blog/contact-form-dropping-leads.jpg",
+    "coverAlt": "Title card reading “Your form is eating leads” in bold type on a near-black background",
+    "tags": [
+      "lead generation",
+      "conversion",
+      "web development",
+      "small business",
+      "India"
+    ],
+    "audience": "indian-smb",
+    "readMins": 5,
+    "wordCount": 1276
+  },
+  {
+    "slug": "mobile-first-booking-design",
+    "title": "95% of These Bookings Came From a Phone",
+    "seoTitle": "95% of Bookings Are Mobile — Design For It · Divyansh Sood",
+    "description": "A travel site behind roughly 1,000 bookings a month sees 95%+ of traffic on phones. Why travel sites are still designed on a laptop, and the ten-minute fix list.",
+    "pubDate": "2026-07-31",
+    "updatedDate": "2026-07-31",
+    "coverImage": "/blog/mobile-first-booking-design.jpg",
+    "coverAlt": "Title card reading “95% came from a phone” in bold type on a near-black background",
+    "tags": [
+      "performance",
+      "Core Web Vitals",
+      "travel",
+      "conversion",
+      "direct bookings"
+    ],
+    "audience": "indian-smb",
+    "readMins": 5,
+    "wordCount": 1238
+  },
+  {
     "slug": "how-ai-is-transforming-website-development",
     "title": "How AI Is Transforming Website Development",
     "seoTitle": "How AI Is Transforming Website Development · Divyansh Sood",

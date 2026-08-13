@@ -1,0 +1,233 @@
+---
+import Studio from "../../layouts/Studio.astro";
+import PostFaq from "../../components/PostFaq.astro";
+import RelatedPosts from "../../components/RelatedPosts.astro";
+import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
+import { coverBase, coverSrcset, COVER_SIZES_POST } from "../../lib/images.mjs";
+
+const slug = "contact-form-dropping-leads";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+const faqs = [
+  {
+    q: "How do I know if my contact form is actually working?",
+    a: "Submit it yourself from a phone on mobile data, using an email address unconnected to your business, and check whether the message arrives — including in spam. Testing from your own office network while logged into your own site is the least representative test possible. Do this on a schedule rather than once, because forms rarely break on launch day; they break later, when a credential expires or a service changes.",
+  },
+  {
+    q: "Why do contact form emails go to spam?",
+    a: "Usually because the sending domain is not properly authenticated, or because the form sends mail that appears to come from the visitor's own address rather than from your domain. The reliable pattern is to send from an address on your own verified domain and put the visitor's address in the reply-to field. Then make sure SPF, DKIM and DMARC records exist for that domain, since providers increasingly treat unauthenticated mail as suspicious by default.",
+  },
+  {
+    q: "What is a mailto fallback and why is it risky?",
+    a: "A mailto fallback means that when the form cannot send a message itself, it opens the visitor's email client with the message pre-filled instead. It is well intentioned, and it fails quietly: many people have no mail client configured, the pre-filled draft frequently never gets sent, and the business receives nothing while the website appears to have worked. Worse, no error is recorded anywhere, so nobody discovers the problem.",
+  },
+  {
+    q: "Why does my form work locally but not in production?",
+    a: "Almost always an environment variable that exists on the developer's machine but was never added to the production environment. API keys and configuration values are deliberately kept out of the code, which means they have to be set separately wherever the site is deployed. A form that silently does nothing in production while working perfectly in development is the classic symptom of a missing key.",
+  },
+  {
+    q: "Should I use a form service or build my own endpoint?",
+    a: "A hosted form service is a reasonable choice for a simple site and removes a category of problems, at the cost of a subscription and less control over the data. A custom endpoint gives you control and no recurring fee but makes error handling your responsibility. The decision matters far less than whether either one is monitored — an unmonitored form service fails just as silently as an unmonitored endpoint.",
+  },
+  {
+    q: "How can I tell whether I have a traffic problem or a form problem?",
+    a: "Compare the number of people who reached your contact page with the number of enquiries you received. If analytics show meaningful traffic on that page and your inbox is empty, the problem is downstream of the visitor, not upstream. This is worth checking before spending anything on advertising, because more traffic through a broken form produces exactly as many enquiries as you are getting now.",
+  },
+];
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: authorNode(SITE),
+      publisher: publisherNode(SITE),
+      isPartOf: websiteNode(SITE),
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      about: topicsForTags(post.tags),
+      wordCount: post.wordCount,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${canonical}#faq`,
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    },
+  ],
+});
+---
+
+<Studio
+  title={post.seoTitle ?? `${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  preloadImage={{ href: coverBase(post.coverImage), srcset: coverSrcset(post.coverImage), sizes: COVER_SIZES_POST }}
+  jsonld={jsonld}
+>
+  <main>
+    <header class="post-hero">
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img
+            src={coverBase(post.coverImage)}
+            srcset={coverSrcset(post.coverImage)}
+            sizes={COVER_SIZES_POST}
+            alt={post.coverAlt ?? post.title}
+            width="1200"
+            height="750"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+<p>I'll start with my own, because it's the most useful example I have.</p>
+<p>Last year the contact form on this site — a site I built, belonging to a developer who sells websites for a living — was returning a server error when it tried to send. The endpoint reported <code>send_failed</code> and nothing else. No detail about which part failed, no way to tell a bad API key from an unverified sending domain except by guessing and redeploying.</p>
+<p>Meanwhile the form on the page looked completely normal.</p>
+<p>If it can happen here, it is certainly happening on sites where nobody reads server logs for fun. So this is the specific list of ways a contact form loses leads without ever telling you.</p>
+<hr>
+<h2 id="why-silence">Why the failure is always silent</h2>
+<p>Every other broken thing on a website announces itself. A dead page 404s. A broken image leaves a gap. A payment failure produces an angry customer.</p>
+<p>A broken contact form produces <strong>nothing at all</strong>. The visitor submits, sees a thank-you message, and leaves satisfied. You see an empty inbox, which is indistinguishable from an ordinary quiet week.</p>
+<p>Both parties believe the system worked. That's what makes this failure mode expensive — it can run for months, and the only symptom is a vague sense that the website "doesn't really bring in enquiries".</p>
+<hr>
+<h2 id="failure-one-missing-env">Failure 1: The credential that only exists on the developer's laptop</h2>
+<p>The most common one, and the cause of my own.</p>
+<p>API keys are deliberately kept out of source code. They live in environment variables, set separately in each place the site runs. Which means there are two environments — the developer's machine and production — and the key can easily exist in only the first.</p>
+<p>Locally, the form works perfectly. In production, the key is undefined, and what happens next depends entirely on how the code was written. Which brings us to the more interesting failure.</p>
+<hr>
+<h2 id="failure-two-mailto">Failure 2: The helpful fallback that eats leads</h2>
+<p>Here's a pattern that appears in a lot of codebases, including mine. If the mail service isn't configured, don't show the user an error — fall back to opening their email client with the message pre-filled.</p>
+<p>It's thoughtful. It is also, in practice, a lead shredder:</p>
+<ul>
+<li>Many people have <strong>no mail client configured at all</strong>, particularly on desktop. The link does nothing.</li>
+<li>Of those who do get a draft window, a large share <strong>never press send</strong> — the flow broke, and they were only mildly interested anyway.</li>
+<li>Nothing is logged. From your side, the visitor simply never existed.</li>
+</ul>
+<p>The lesson isn't "never build a fallback". It's that <strong>a fallback which cannot be observed is worse than an error you'd have noticed</strong>. If you have one, it must record that it fired. A fallback firing a hundred times a month is a five-alarm signal — and if it's silent, it looks exactly like nobody visiting.</p>
+<hr>
+<h2 id="failure-three-swallowed-errors">Failure 3: The error that was thrown away</h2>
+<p>This was the one I actually fixed, and it's worth describing precisely because the shape is so common.</p>
+<p>The endpoint called the mail provider. When the provider rejected the send, the code returned a bare "send failed" and <strong>discarded the provider's response body</strong> — which is exactly where the reason lives. The provider had been perfectly clear. Its answer said things like <em>domain is not verified</em>, or <em>invalid api key</em>, or <em>from address not allowed</em>. My code caught all of that and threw it in the bin.</p>
+<p>The result: every possible failure looked identical from the outside. A wrong key, an unverified sender domain and a permissions problem all produced the same useless message, and the only way to diagnose it was to guess, change something, redeploy and see.</p>
+<p>The fix took a few lines:</p>
+<ul>
+<li>Log the <strong>full status and response body</strong> to the server console, where the hosting platform captures it.</li>
+<li>Return only the <strong>status code</strong> to the browser — enough to distinguish an auth failure from a sender-validation failure, without exposing a provider's internals to a visitor.</li>
+<li>Log in the <strong>catch branch too</strong>. A network failure reaching the provider had also been completely silent.</li>
+</ul>
+<p>That last point is the general principle: <strong>an empty catch block is a decision to never find out.</strong> Handle the error, by all means — but write it down on the way past.</p>
+<hr>
+<h2 id="failure-four-deliverability">Failure 4: The mail sends, and lands in spam</h2>
+<p>Now the form is working, the provider accepts the send, everything reports success — and the message quietly lands in a spam folder.</p>
+<p>The usual cause is a form that sends mail appearing to come <em>from the visitor's own address</em>. It seems convenient, because then reply just works. But you are now sending mail claiming to be from a domain you don't control and can't authenticate, which is precisely the pattern spam filters exist to catch.</p>
+<p>The correct pattern:</p>
+<ul>
+<li><strong>From:</strong> an address on your own verified domain.</li>
+<li><strong>Reply-To:</strong> the visitor's address, so replying still works normally.</li>
+<li><strong>SPF, DKIM and DMARC</strong> configured for your domain. Providers increasingly treat unauthenticated mail as suspicious by default rather than as a tiebreaker.</li>
+</ul>
+<p>And check the spam folder during testing. A test you scored as a pass because "it didn't error" is not a pass.</p>
+<hr>
+<h2 id="failure-five-spam-filtering">Failure 5: Your own spam defence eating real enquiries</h2>
+<p>Forms need bot protection — leave one open and it fills with junk. But over-aggressive filtering rejects real people, and rejects them silently.</p>
+<p>The honeypot approach is my preference: an input field hidden from humans, which bots fill in anyway. Anything with a value in it is a bot. Crucially, <strong>return success to the bot</strong> rather than an error, so it believes it worked and moves on instead of retrying.</p>
+<p>Where this goes wrong is aggressive keyword or scoring rules. A genuine enquiry mentioning a budget, a URL and a deadline can look statistically spammy. If you filter, log what you rejected and read it occasionally.</p>
+<hr>
+<h2 id="how-to-prove-it">How to actually prove your form works</h2>
+<p>Not "it looks fine". Prove it:</p>
+<ol>
+<li><strong>Submit from a phone on mobile data</strong>, using an email address with no connection to your business. Not your office wifi, not your own laptop.</li>
+<li><strong>Check the inbox and the spam folder.</strong> Both.</li>
+<li><strong>Check the server logs</strong> for that submission. If nothing was logged, you have no visibility — fix that before anything else.</li>
+<li><strong>Compare traffic to enquiries.</strong> Open analytics, find how many people reached your contact page last month, and compare with what you received. A large gap is a plumbing problem, not a marketing one.</li>
+<li><strong>Put it in the calendar.</strong> Monthly. Forms almost never break on launch day — they break in month seven when a credential expires.</li>
+</ol>
+<hr>
+<h2 id="the-real-lesson">The real lesson</h2>
+<p>Before you spend money on advertising to fix "we don't get enquiries", spend twenty minutes proving the enquiry path works end to end. I've watched businesses conclude their website was useless when the truth was that every message it generated had been landing in a spam folder nobody opened.</p>
+<p>More traffic through a broken form produces exactly as many leads as you're getting now. <a href="/blog/why-indian-websites-dont-generate-leads/">The other five reasons Indian business websites don't generate leads</a> are worth reading too — but check the plumbing first, because it's the cheapest thing on the list and the most likely to be the whole answer.</p>
+<hr>
+<p><em>I'm Divyansh Sood, a freelance developer in Himachal Pradesh. I published my own broken form because the useful posts are the ones written by people who got it wrong first. If you want yours checked, the <a href="/website-audit/">free audit</a> includes an end-to-end test of the enquiry path — and I'll tell you plainly if the problem is traffic rather than plumbing.</em></p>
+      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </article>
+
+    <PostFaq faqs={faqs} idPrefix="faq-form" />
+
+    <RelatedPosts slug={slug} audience={post.audience} />
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        <h2>Working on something in India?</h2>
+        <p>If a post here matches what you're building, send me the brief. WhatsApp reply in under an hour, 9 AM–9 PM IST — I'll tell you within a day if it's a fit.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="https://wa.me/919816091875" target="_blank" rel="noopener"
+            >Message me on WhatsApp <span aria-hidden="true">↗</span></a
+          >
+          <a class="btn btn-ghost" href="/#work">See the work</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Studio>

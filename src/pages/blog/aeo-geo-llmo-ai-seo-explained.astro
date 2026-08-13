@@ -1,0 +1,234 @@
+---
+import Studio from "../../layouts/Studio.astro";
+import PostFaq from "../../components/PostFaq.astro";
+import RelatedPosts from "../../components/RelatedPosts.astro";
+import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
+import { coverBase, coverSrcset, COVER_SIZES_POST } from "../../lib/images.mjs";
+
+const slug = "aeo-geo-llmo-ai-seo-explained";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+const faqs = [
+  {
+    q: "What does AEO stand for?",
+    a: "AEO stands for Answer Engine Optimization: the practice of structuring content so it can be lifted directly as the answer to a question, rather than merely ranked as a link worth clicking. The term predates modern AI chatbots — it came out of the era of featured snippets and voice assistants, when Google and Alexa began reading a single answer aloud instead of returning a list.",
+  },
+  {
+    q: "What does GEO stand for, and who coined it?",
+    a: "GEO stands for Generative Engine Optimization: optimizing content to be cited by generative systems such as ChatGPT, Perplexity, Claude, Gemini and Google's AI Overviews. Unlike most terms in this space it has a genuine academic origin — it was introduced in a 2023 research paper titled \"GEO: Generative Engine Optimization\", which studied which content changes measurably increased the likelihood of being cited in generated answers.",
+  },
+  {
+    q: "Is LLMO a real thing or just a rebrand of GEO?",
+    a: "In practice it is a rebrand. LLMO — Large Language Model Optimization — describes the same activity as GEO and arrived later, from marketing rather than research. There is no technique in LLMO that is not already in GEO. If a vendor uses the two terms as though they were different services with different price tags, that is a sales structure rather than a methodological distinction.",
+  },
+  {
+    q: "What is the difference between AEO and GEO?",
+    a: "AEO is about being the extracted answer; GEO is about being the cited source inside a generated one. AEO's natural output is a featured snippet or a voice response lifted verbatim from your page. GEO's natural output is a paragraph the model wrote itself, with your business named as one of its sources. The underlying work overlaps heavily — clear factual sentences, good structure, corroboration — which is why the distinction matters less in practice than in a pitch deck.",
+  },
+  {
+    q: "Does \"AI SEO\" mean optimizing for AI, or using AI to do SEO?",
+    a: "Both, which is exactly the problem with the term. Some people use \"AI SEO\" to mean getting found by AI systems, and others use it to mean using AI tools to produce SEO work faster. These are unrelated activities with different costs and different outcomes. Whenever someone offers you AI SEO, ask which one they mean before discussing anything else — the ambiguity is where a lot of money gets wasted.",
+  },
+  {
+    q: "Do I need to hire someone separately for SEO and GEO?",
+    a: "No, and be careful of anyone selling them as two engagements. The overwhelming majority of the work is shared: crawlable HTML, accurate structured data, fast pages, content that answers real questions, and third-party corroboration. GEO adds a small amount of genuinely distinct work at the margin. A studio that quotes you separately for both is usually selling the same audit twice.",
+  },
+];
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: authorNode(SITE),
+      publisher: publisherNode(SITE),
+      isPartOf: websiteNode(SITE),
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      about: topicsForTags(post.tags),
+      wordCount: post.wordCount,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${canonical}#faq`,
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    },
+  ],
+});
+---
+
+<Studio
+  title={post.seoTitle ?? `${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  preloadImage={{ href: coverBase(post.coverImage), srcset: coverSrcset(post.coverImage), sizes: COVER_SIZES_POST }}
+  jsonld={jsonld}
+>
+  <main>
+    <header class="post-hero">
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img
+            src={coverBase(post.coverImage)}
+            srcset={coverSrcset(post.coverImage)}
+            sizes={COVER_SIZES_POST}
+            alt={post.coverAlt ?? post.title}
+            width="1200"
+            height="750"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+<p>In the last two years the search industry has produced more acronyms than techniques. A business owner trying to work out what to buy now faces AEO, GEO, LLMO, AI SEO, AIO and a few others, each presented as an urgent new discipline with its own retainer attached.</p>
+<p>Most of them describe the same work. Some of them were invented by people selling it. This page sorts out which is which, in plain terms, and says out loud which ones I think are made up.</p>
+<hr>
+<h2 id="the-table">The whole thing in one table</h2>
+<table>
+<thead><tr><th>Term</th><th>Stands for</th><th>Actually means</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td><strong>SEO</strong></td><td>Search Engine Optimization</td><td>Being found in a ranked list of links</td><td>Real, established, still the foundation</td></tr>
+<tr><td><strong>AEO</strong></td><td>Answer Engine Optimization</td><td>Being lifted <em>as</em> the answer, not linked beside it</td><td>Real, predates chatbots</td></tr>
+<tr><td><strong>GEO</strong></td><td>Generative Engine Optimization</td><td>Being cited inside an AI-generated answer</td><td>Real, has an academic origin</td></tr>
+<tr><td><strong>LLMO</strong></td><td>Large Language Model Optimization</td><td>Same as GEO</td><td>Rebrand — no distinct technique</td></tr>
+<tr><td><strong>AI SEO</strong></td><td>—</td><td>Two unrelated things, depending on speaker</td><td>Ambiguous, ask which is meant</td></tr>
+<tr><td><strong>AIO</strong></td><td>AI Optimization</td><td>Whatever the vendor wants</td><td>Marketing noise</td></tr>
+</tbody>
+</table>
+<hr>
+<h2 id="seo">SEO — the one that still pays the bills</h2>
+<p>Search Engine Optimization is the practice of making a site more likely to appear in a ranked list of results. It is thirty years old, well documented, and nothing about AI has made it obsolete.</p>
+<p>The reason it still matters is unglamorous but decisive: <strong>the systems that generate AI answers largely retrieve from the same index that ranks the links.</strong> If your page isn't crawlable, isn't indexed and doesn't rank for anything, it is not sitting in a separate AI-friendly pile waiting to be discovered. It's just absent. Every acronym below is built on top of SEO, not instead of it.</p>
+<hr>
+<h2 id="aeo">AEO — Answer Engine Optimization</h2>
+<p>AEO is older than most people assume. It came from the era of featured snippets and voice assistants, roughly the late 2010s, when Google started answering questions directly in a box at the top of results and Alexa began reading a single answer aloud. Suddenly there was a meaningful difference between <em>ranking</em> and <em>being the answer</em> — because when a speaker reads one response, position two doesn't exist.</p>
+<p>The techniques are concrete and have not changed much:</p>
+<ul>
+<li>Answer the question in the first sentence, then elaborate. Not the reverse.</li>
+<li>Write self-contained sentences that survive being quoted without their surrounding paragraph.</li>
+<li>Name the subject explicitly instead of relying on "we" and "it".</li>
+<li>Use question-and-answer structure where the content genuinely is a question and an answer.</li>
+</ul>
+<p><strong>Verdict: real.</strong> It named a genuine shift, and the writing habits it produced are the same ones that work now.</p>
+<hr>
+<h2 id="geo">GEO — Generative Engine Optimization</h2>
+<p>GEO is the practice of getting your content cited inside answers generated by systems like ChatGPT, Perplexity, Claude, Gemini and Google's AI Overviews.</p>
+<p>What separates it from the rest of this list is that <strong>it has a real research origin rather than a marketing one.</strong> The term was introduced in a 2023 academic paper called <em>GEO: Generative Engine Optimization</em>, which did something the acronym-inventors generally don't: it ran experiments on which content modifications measurably increased the chance of being cited in a generated answer. Adding citations, statistics and direct quotations helped. Keyword stuffing did not.</p>
+<p>The distinction from AEO is genuine but narrower than it sounds. AEO wants your sentence extracted verbatim. GEO accepts that the model will write its own sentence, and aims for your business to be the source it names. I've written the fuller comparison in <a href="/blog/geo-vs-seo-whats-actually-different/">GEO vs SEO</a>.</p>
+<p><strong>Verdict: real</strong>, and the most useful of the new terms — as long as nobody tells you it replaces SEO.</p>
+<hr>
+<h2 id="llmo">LLMO — Large Language Model Optimization</h2>
+<p>LLMO arrived after GEO, from agencies rather than researchers, and describes the same activity.</p>
+<p>I have looked for a technique that belongs to LLMO and not to GEO and have not found one. Both mean: write quotable facts, structure your data, be corroborated by sources you don't control, stay crawlable. If someone offers you GEO and LLMO as separate line items, you are being quoted twice for one audit.</p>
+<p><strong>Verdict: a rebrand.</strong> Harmless as a synonym, a red flag as a separate invoice.</p>
+<hr>
+<h2 id="ai-seo">AI SEO — the genuinely confusing one</h2>
+<p>This term means two completely different things and the speaker rarely tells you which:</p>
+<ol>
+<li><strong>Optimizing so AI systems find and cite you.</strong> That is GEO, described above.</li>
+<li><strong>Using AI tools to produce SEO work faster</strong> — generating articles, meta descriptions, schema, keyword clusters at volume.</li>
+</ol>
+<p>These have almost nothing in common. The first is a strategy. The second is a production method, and one that frequently <em>damages</em> the first, because a site padded with generated articles that restate each other gives an answer engine nothing distinctive to cite.</p>
+<p><strong>Verdict: ambiguous by construction.</strong> Ask "do you mean getting found by AI, or using AI to make the content?" before any other question. The answer tells you a lot.</p>
+<hr>
+<h2 id="the-terms-that-arent-strategies">Two terms people mistake for strategies</h2>
+<p><strong>AI Overviews</strong> is not a discipline — it's Google's product name for the generated summary at the top of results, previously launched under the name Search Generative Experience. You don't "do" AI Overviews any more than you "do" featured snippets. You optimise to be cited in them.</p>
+<p><strong>llms.txt</strong> is a file, not a methodology, and it is comprehensively oversold. Google has confirmed its search systems ignore it, and analysis at scale has found no significant relationship between having the file and being cited. I still <a href="/tools/llms-txt-generator/">give away a generator for it</a> because it costs ten minutes and occasionally helps in narrow cases — but <a href="/blog/what-is-llms-txt/">the honest evidence is here</a>, and anyone selling llms.txt as an AI ranking strategy is selling you a text file.</p>
+<hr>
+<h2 id="what-to-actually-do">What all of this collapses into</h2>
+<p>Strip the vocabulary away and the work is one list, in this order:</p>
+<ol>
+<li><strong>Be crawlable.</strong> Real HTML, not content that only exists after JavaScript runs. Don't block AI crawlers in robots.txt by accident.</li>
+<li><strong>Be quotable.</strong> Write sentences that state a fact, name their subject, and survive on their own. "We deliver excellence" is unquotable. "Custom-coded storefronts for premium D2C brands, live in 2–4 weeks, with full code ownership" is not.</li>
+<li><strong>Be identifiable.</strong> Structured data so machines know exactly who you are — covered in detail in <a href="/blog/entity-graph-schema-node-by-node/">the entity graph walkthrough</a>.</li>
+<li><strong>Be corroborated.</strong> Reviews, directories, press. One accurate third-party sentence about you outweighs a page of self-description.</li>
+<li><strong>Be measured.</strong> Then actually check whether any of it worked — <a href="/blog/measure-ai-assistant-citations/">here's how</a>.</li>
+</ol>
+<p>That list has not changed much in two years. The acronyms have changed constantly. That asymmetry is the most useful thing to understand about this whole subject.</p>
+<hr>
+<p><em>I'm Divyansh Sood, a freelance developer in Himachal Pradesh who sells this work — which is precisely why I'd rather you knew which parts of it are invented. If you want it implemented in your codebase instead of explained in a deck, that's <a href="/services/seo-geo-services/">the service</a>.</em></p>
+      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </article>
+
+    <PostFaq faqs={faqs} idPrefix="faq-gloss" />
+
+    <RelatedPosts slug={slug} audience={post.audience} />
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        <h2>Working on something similar?</h2>
+        <p>If a post here matches what you're building, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+            >Email me <span aria-hidden="true">↗</span></a
+          >
+          <a class="btn btn-ghost" href={CALENDLY_URL} target="_blank" rel="noopener"
+            >Book a 15-min intro <span aria-hidden="true">↗</span></a
+          >
+        </div>
+      </div>
+    </section>
+  </main>
+</Studio>

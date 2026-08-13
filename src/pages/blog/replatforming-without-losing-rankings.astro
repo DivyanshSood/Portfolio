@@ -1,0 +1,248 @@
+---
+import Studio from "../../layouts/Studio.astro";
+import PostFaq from "../../components/PostFaq.astro";
+import RelatedPosts from "../../components/RelatedPosts.astro";
+import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
+import { coverBase, coverSrcset, COVER_SIZES_POST } from "../../lib/images.mjs";
+
+const slug = "replatforming-without-losing-rankings";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+const faqs = [
+  {
+    q: "Will I lose my Google rankings if I rebuild my website?",
+    a: "Not if the URLs are preserved or correctly redirected. Rankings attach to URLs, not to the platform underneath them, so a rebuild that keeps every address reachable usually holds its positions. Traffic loss during a migration is almost always caused by URLs that changed without a redirect, pages that were quietly dropped from the new site, or content that got shortened during the redesign — not by the act of changing technology.",
+  },
+  {
+    q: "How do I find every URL on my old site before migrating?",
+    a: "Use three sources and combine them, because no single one is complete. Export the Pages report from Search Console for everything Google has actually indexed, crawl the live site with a crawler to catch pages that are linked but unindexed, and read the existing sitemap. Search Console is the most important of the three, because a URL that earns impressions is one that will cost you if it breaks, even if you had forgotten it existed.",
+  },
+  {
+    q: "Should I use 301 or 302 redirects for a site migration?",
+    a: "301, which signals a permanent move and passes ranking signals to the new URL. A 302 signals a temporary move and tells search engines to keep the old URL indexed, which is the opposite of what you want in a migration. The main legitimate use for a 302 is a genuinely temporary redirect, such as a vanity link or a short-lived campaign destination.",
+  },
+  {
+    q: "How long does it take to recover traffic after a migration?",
+    a: "A well-executed migration should show only a small dip that recovers within two to four weeks, as search engines recrawl and follow the redirects. A dip that deepens after a month, or does not recover at all, is not the migration settling — it is an unfixed problem, and the usual causes are redirect chains, a robots.txt or noindex left over from staging, or content that was cut during the redesign.",
+  },
+  {
+    q: "What is a redirect chain and why does it matter?",
+    a: "A redirect chain is when one URL redirects to a second, which redirects to a third, before finally reaching the live page. Each hop adds latency for the user and gives crawlers more opportunity to give up before arriving. Chains accumulate innocently across successive redesigns, so the fix is to always point old URLs at their final destination directly rather than at another redirect.",
+  },
+  {
+    q: "Should I redesign the content at the same time as replatforming?",
+    a: "Ideally not in one step. If you change the platform, the URLs, the design and the copy simultaneously and traffic falls, you have no way to identify which change caused it. Migrating first with content essentially intact, confirming stability for a few weeks, and then improving the content gives you a diagnosable sequence. When commercial pressure makes that impossible, at least keep the substance of the text — pages routinely lose rankings because a redesign replaced a thorough page with a sparse one.",
+  },
+];
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: authorNode(SITE),
+      publisher: publisherNode(SITE),
+      isPartOf: websiteNode(SITE),
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      about: topicsForTags(post.tags),
+      wordCount: post.wordCount,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${canonical}#faq`,
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    },
+  ],
+});
+---
+
+<Studio
+  title={post.seoTitle ?? `${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  preloadImage={{ href: coverBase(post.coverImage), srcset: coverSrcset(post.coverImage), sizes: COVER_SIZES_POST }}
+  jsonld={jsonld}
+>
+  <main>
+    <header class="post-hero">
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img
+            src={coverBase(post.coverImage)}
+            srcset={coverSrcset(post.coverImage)}
+            sizes={COVER_SIZES_POST}
+            alt={post.coverAlt ?? post.title}
+            width="1200"
+            height="750"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+<p>I've written a lot about why businesses outgrow WordPress, Squarespace, Webflow and Shopify. What I've never written is the thing that actually stops people acting on it.</p>
+<p>It isn't budget. It's the fear that they'll rebuild, launch, and watch a decade of search rankings evaporate — and everyone knows somebody it happened to.</p>
+<p>That fear is well-founded, and it's also almost entirely preventable. Migrations don't lose rankings because the technology changed. They lose rankings because <strong>URLs disappeared and nobody made a map.</strong></p>
+<hr>
+<h2 id="the-short-version">The short version</h2>
+<p>Google's rankings attach to <strong>URLs</strong>, not to platforms. Google does not know or care whether a page is served by WordPress, Astro or a stack of PHP files from 2009. It knows that <code>example.com/services/roof-repair</code> earned its position over several years.</p>
+<p>So the entire discipline of a safe migration reduces to one sentence: <em>every URL that had value must still resolve, or redirect permanently to the page that replaced it.</em></p>
+<p>Everything below is how to do that without missing anything.</p>
+<hr>
+<h2 id="step-one-inventory">Step 1: Inventory every URL — from three sources</h2>
+<p>You cannot preserve what you haven't listed, and this is where most migrations are already lost. Use all three of these, because each catches what the others miss:</p>
+<ol>
+<li><strong>Search Console → Pages report.</strong> The most important source. This is what Google has actually indexed, including pages you forgot existed. Export the lot.</li>
+<li><strong>A crawl of the live site.</strong> Catches pages that are linked but unindexed, and reveals your real internal link structure.</li>
+<li><strong>The existing sitemap.</strong> Least reliable — sitemaps go stale — but occasionally lists orphans the crawl won't reach.</li>
+</ol>
+<p>Then pull the <strong>Search Console performance export by page</strong> and sort by impressions. This turns a flat list into a priority order. The top fifty URLs by impressions deserve individual attention; a page with four impressions in a year does not need an hour of anyone's time.</p>
+<p>Expect a surprise here. There's usually an old blog post or a forgotten location page quietly earning a meaningful share of the site's traffic, and it is exactly the kind of page a redesign deletes because nobody in the meeting recognised it.</p>
+<hr>
+<h2 id="step-two-the-map">Step 2: Build the redirect map</h2>
+<p>A spreadsheet. Old URL, new URL, and a note. Every row in your inventory gets a decision:</p>
+<table>
+<thead><tr><th>Situation</th><th>What to do</th></tr></thead>
+<tbody>
+<tr><td>Page survives with the same address</td><td>Nothing — best possible outcome</td></tr>
+<tr><td>Page survives at a new address</td><td>301 to the new URL</td></tr>
+<tr><td>Page merged into a bigger one</td><td>301 to the merged page</td></tr>
+<tr><td>Page genuinely retired, close equivalent exists</td><td>301 to the closest real equivalent</td></tr>
+<tr><td>Page retired, no equivalent</td><td>Let it 404 or 410 — deliberately</td></tr>
+</tbody>
+</table>
+<p>Three rules that prevent most of the damage:</p>
+<p><strong>Never bulk-redirect everything to the homepage.</strong> It's the tempting shortcut and it's treated as a soft 404 — you get no benefit and you've made a bad user experience on top. A visitor looking for roof repair pricing lands on your homepage and leaves.</p>
+<p><strong>Use 301, not 302.</strong> Permanent, not temporary. A 302 tells search engines to keep indexing the old URL, which defeats the purpose.</p>
+<p><strong>Point at final destinations, never at another redirect.</strong> Chains — A to B to C — add latency and give crawlers more chances to give up. They accumulate silently across successive redesigns, so if the site has been rebuilt before, check whether your "old" URLs are themselves already redirects.</p>
+<hr>
+<h2 id="step-three-trailing-slashes">Step 3: Decide trailing slashes once, then enforce it everywhere</h2>
+<p>This one is small, boring, and causes an outsized share of real problems.</p>
+<p><code>/about</code> and <code>/about/</code> are different URLs. If both resolve with content, you have duplicates competing with each other. If your canonical tags say one thing, your sitemap says another, and your internal links say a third, you've split every page's signals across variants.</p>
+<p>Pick one convention. Enforce it at three layers: the framework's own routing config, the host's redirect rules, and every canonical tag and sitemap entry you generate. On this site the choice is trailing slashes everywhere, set in the Astro config and mirrored in the host's redirect rules — and it was worth the afternoon it took to make consistent.</p>
+<p>Check what your <em>current</em> site does before you decide, because matching the existing convention means fewer redirects to write.</p>
+<hr>
+<h2 id="step-four-preserve-substance">Step 4: Preserve the substance, not just the address</h2>
+<p>Here's the failure that redirect checklists miss entirely, and it's the one I see most often in redesigns that were technically flawless.</p>
+<p>The URL is preserved. The redirect is perfect. And the page ranks for a query it can no longer answer, because the redesign replaced 900 words of specific, useful content with a full-width hero image, a three-word headline and a button.</p>
+<p>The page looks enormously better. It ranks for nothing.</p>
+<p>So for your top pages by impressions, carry across:</p>
+<ul>
+<li><strong>The title tag and H1</strong>, or something very close in meaning.</li>
+<li><strong>The actual substance of the body text.</strong> You can rewrite it — but a page that answered five questions should still answer five questions.</li>
+<li><strong>Structured data</strong>, ported and re-validated rather than assumed.</li>
+<li><strong>Image alt text and filenames</strong>, if image search sends you anything.</li>
+<li><strong>Internal links</strong>, updated to point at final URLs rather than through redirects.</li>
+</ul>
+<p>My strong preference is to migrate <em>first</em> with content substantially intact, confirm stability for two or three weeks, and improve the copy after. Change one thing at a time and a traffic drop is diagnosable. Change four and it's a mystery you'll be arguing about for months.</p>
+<hr>
+<h2 id="step-five-launch">Step 5: Launch day, in order</h2>
+<ol>
+<li><strong>Check for a stray <code>noindex</code> or a blocking <code>robots.txt</code> from staging.</strong> Do this first. It is the single most common way to lose a site's entire index overnight, and it's a one-line mistake.</li>
+<li><strong>Test the redirect map</strong> against the live site — every row, automated. Not a sample.</li>
+<li><strong>Verify canonicals</strong> point at final, self-referencing URLs.</li>
+<li><strong>Submit the new sitemap</strong> in Search Console.</li>
+<li><strong>Keep the old property verified</strong> if the domain changed, so you can watch both sides.</li>
+</ol>
+<hr>
+<h2 id="step-six-watch">Step 6: What to watch, and when to worry</h2>
+<p>A small dip in the first fortnight is normal — search engines need to recrawl and follow the redirects. Recovery within two to four weeks is the expected shape.</p>
+<p>What is <em>not</em> normal, and means something is broken:</p>
+<ul>
+<li>A dip that deepens after week four.</li>
+<li>Rising 404s in Search Console → a gap in your map.</li>
+<li>Pages dropping out of the index → check indexability before anything else.</li>
+<li>Impressions holding while clicks collapse → your titles and descriptions changed for the worse.</li>
+</ul>
+<p>Watch the <strong>Pages</strong> report as closely as the performance graph. Performance tells you something is wrong; Pages usually tells you what.</p>
+<hr>
+<h2 id="the-honest-summary">The honest summary</h2>
+<p>Replatforming is a logistics exercise wearing a technical costume. The engineering is rarely the hard part — the hard part is the discipline to inventory every URL, decide what happens to each one, and verify the whole map after launch instead of spot-checking five and calling it done.</p>
+<p>Done properly, you keep your rankings and get a better site. Done casually, you spend a year rebuilding what you already had. The difference is a spreadsheet and a couple of unglamorous days.</p>
+<hr>
+<p><em>I'm Divyansh Sood. Redesigns that keep their rankings are a specific thing I do — see <a href="/services/website-development/">website development</a>, and <a href="/blog/custom-website-vs-wordpress/">the honest threshold</a> for when leaving WordPress is worth it at all. If you're weighing a rebuild and want to know what you'd be risking, the <a href="/website-audit/">free audit</a> covers exactly this.</em></p>
+      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </article>
+
+    <PostFaq faqs={faqs} idPrefix="faq-repl" />
+
+    <RelatedPosts slug={slug} audience={post.audience} />
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        <h2>Working on something similar?</h2>
+        <p>If a post here matches what you're building, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+            >Email me <span aria-hidden="true">↗</span></a
+          >
+          <a class="btn btn-ghost" href={CALENDLY_URL} target="_blank" rel="noopener"
+            >Book a 15-min intro <span aria-hidden="true">↗</span></a
+          >
+        </div>
+      </div>
+    </section>
+  </main>
+</Studio>

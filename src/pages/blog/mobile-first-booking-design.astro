@@ -1,0 +1,236 @@
+---
+import Studio from "../../layouts/Studio.astro";
+import PostFaq from "../../components/PostFaq.astro";
+import RelatedPosts from "../../components/RelatedPosts.astro";
+import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
+import { coverBase, coverSrcset, COVER_SIZES_POST } from "../../lib/images.mjs";
+
+const slug = "mobile-first-booking-design";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+const faqs = [
+  {
+    q: "What percentage of travel bookings happen on mobile?",
+    a: "On the Himalayan travel sites I build and look after, over 95% of traffic arrives on a phone, and the booking site behind roughly 1,000 packages a month sees the same pattern. Figures vary by market and price point — high-value international bookings skew more towards desktop research — but for regional and domestic travel in India, treating desktop as anything other than a minority case is a mistake.",
+  },
+  {
+    q: "Why do hero carousels hurt mobile conversions?",
+    a: "Three reasons at once. They push everything useful below the fold on a small screen, so the visitor sees a photograph instead of what you offer and what it costs. They load several large images when only one is visible, which delays the point at which the page becomes usable. And rotating content moves the thing someone was about to read or tap. Most visitors never see slides two through five, which means the effort spent on them is wasted twice.",
+  },
+  {
+    q: "Should a booking site use a form or WhatsApp?",
+    a: "In India, WhatsApp converts substantially better for regional travel, and it should usually be the primary action with a form as the alternative rather than the reverse. The reason is friction and familiarity: a message is one tap, it happens in an app the person already lives in, and it opens a conversation where questions can be asked. A six-field form asks someone standing at a bus stand to type carefully on a phone before they know whether you will even reply.",
+  },
+  {
+    q: "How fast does a booking site need to load on mobile?",
+    a: "Fast enough on a real connection in the place your customers actually are, which is a much harder target than a good score on a broadband test. If your visitors are on patchy mobile data in a hill town, test under throttling that resembles that rather than on office wifi. The practical benchmark is that the main content should be readable and the primary action tappable within a couple of seconds; beyond that you start losing people who have alternatives one tap away.",
+  },
+  {
+    q: "What is a thumb zone and why does it matter for design?",
+    a: "The thumb zone is the part of a phone screen a person can comfortably reach one-handed while holding the device — broadly the lower and middle portion, with the top corners hardest to reach. It matters because primary actions placed in the top corners require a grip change, and every grip change is a moment where the person can reconsider. Booking and enquiry buttons belong low on the screen, which is the opposite of where a desktop-shaped layout tends to put them.",
+  },
+  {
+    q: "Does a mobile-friendly test mean my site is good on mobile?",
+    a: "No. Automated mobile-friendly checks confirm that text is legible, tap targets are not overlapping and the layout does not require horizontal scrolling. They cannot tell you whether the price is visible without scrolling, whether the booking button is reachable one-handed, or whether the page is usable on a weak connection. Passing that test is a floor, not evidence that the experience is good.",
+  },
+];
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: authorNode(SITE),
+      publisher: publisherNode(SITE),
+      isPartOf: websiteNode(SITE),
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      about: topicsForTags(post.tags),
+      wordCount: post.wordCount,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${canonical}#faq`,
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    },
+  ],
+});
+---
+
+<Studio
+  title={post.seoTitle ?? `${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  preloadImage={{ href: coverBase(post.coverImage), srcset: coverSrcset(post.coverImage), sizes: COVER_SIZES_POST }}
+  jsonld={jsonld}
+>
+  <main>
+    <header class="post-hero">
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img
+            src={coverBase(post.coverImage)}
+            srcset={coverSrcset(post.coverImage)}
+            sizes={COVER_SIZES_POST}
+            alt={post.coverAlt ?? post.title}
+            width="1200"
+            height="750"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+<p>The travel booking site I look after in Dharamshala is part of roughly <strong>a thousand packages booked every month</strong>. Over <strong>95% of its traffic is on a phone.</strong></p>
+<p>That second number is the one worth sitting with. Not "mobile is important". Not "mobile-first matters". Ninety-five percent — which means desktop is a rounding error you are welcome to treat as an afterthought.</p>
+<p>Almost nobody designs that way. Including, for a long time, me.</p>
+<hr>
+<h2 id="the-process-problem">The problem starts in the process, not the design</h2>
+<p>Here's how a travel site normally gets made. A designer opens a large monitor and lays out a wide hero image with a headline across it. The client reviews it on a laptop in a meeting. Everyone approves. Someone then produces "the mobile version" by squeezing the desktop layout into a narrow column.</p>
+<p>Every judgement in that chain was made on the screen that 5% of visitors use.</p>
+<p>The fix isn't a technique, it's a rule: <strong>design the phone layout first and review it on a phone, in the room, held in a hand.</strong> If the phone version has to be compromised to make the desktop version work, compromise the desktop. That feels wrong for about a week and then feels obvious.</p>
+<hr>
+<h2 id="the-fold-is-real-again">The fold is real again, and it's tiny</h2>
+<p>"There is no fold, people scroll" was reasonable advice for desktop. On a phone the visible area before scrolling is small, and it is where the visitor decides whether you are worth their time.</p>
+<p>What most travel sites put there: a large photograph of mountains, a logo, a hamburger menu, and a headline about unforgettable Himalayan experiences.</p>
+<p>What the visitor is trying to find out: <em>do you do the trip I want, what does it cost, and how do I ask.</em></p>
+<p>None of the first list answers any of the second. The photograph is not doing nothing — it establishes that you are real and the place is beautiful — but it should not be doing that alone for an entire screen. Get the offer, an indication of price, and the primary action into the first view.</p>
+<h3 id="carousels">The hero carousel, specifically</h3>
+<p>Carousels are the single most common mobile conversion problem I find, and they lose in three ways at once:</p>
+<ul>
+<li>They push everything useful below the fold on the exact screen where the fold matters most.</li>
+<li>They load several large images when only one is visible, delaying the moment the page becomes usable.</li>
+<li>They move. Rotating content shifts the thing someone was mid-way through reading or reaching for.</li>
+</ul>
+<p>Most visitors never see slide three. The work that went into slides two through five was wasted twice — once producing it, once making the page slower for everybody.</p>
+<hr>
+<h2 id="thumb-zones">Where the button goes</h2>
+<p>Hold a phone one-handed. Your thumb comfortably sweeps the lower and middle portion of the screen. The top corners are the hardest reach, requiring a grip change or a second hand.</p>
+<p>So where do desktop-shaped layouts put the primary action? Top right, next to the logo — because that's where it goes on a website designed for a mouse.</p>
+<p>On a phone, the booking action belongs <strong>low</strong>. A persistent bar at the bottom with the primary action in it is not inelegant; it's the shape of every app your customer already uses. Every grip change is a moment where somebody can reconsider.</p>
+<p>Related and equally unglamorous: make tap targets genuinely large, and keep them apart. A phone number and a WhatsApp button sitting flush against each other will produce wrong taps, and a wrong tap on a phone is not a small mistake — it's a context switch out of your site.</p>
+<hr>
+<h2 id="the-connection">Test on the connection your customer actually has</h2>
+<p>This is where hill-station travel businesses differ from most e-commerce advice.</p>
+<p>Your visitor is frequently standing outside a bus stand in Dharamshala, or in a hotel lobby in Manali with congested wifi, or in a valley where the signal drops to something slower than anyone designs for. They are not on the fibre connection in your office.</p>
+<p>Practical consequences:</p>
+<ul>
+<li><strong>Test under throttling</strong> that resembles a weak mobile connection, not your broadband. Browser dev tools do this in two clicks and it is consistently sobering.</li>
+<li><strong>Serve appropriately sized images.</strong> A phone should never download a 2000px-wide photograph to display it 400px wide. Modern formats and a responsive image ladder are table stakes.</li>
+<li><strong>Beware of fonts and scripts blocking the first render.</strong> A page that shows nothing for four seconds while a font loads has lost people who had alternatives one tap away.</li>
+<li><strong>Remember data has a cost</strong> for a lot of users. A heavy page is not just slow, it is expensive.</li>
+</ul>
+<p>None of this is exotic. It's just invisible if you only ever look at the site on good internet.</p>
+<hr>
+<h2 id="the-form-problem">The enquiry: a form asks too much</h2>
+<p>The standard pattern is a form with name, email, phone, dates, number of travellers and a message box.</p>
+<p>Now picture that on a phone, one-handed, from someone who found you two minutes ago and doesn't yet know whether you'll reply. That's a lot of typing on faith.</p>
+<p>In India, the alternative that works is WhatsApp — and specifically, <strong>WhatsApp with context already filled in.</strong> Tapping the button on a package page should open a message that already says which package. The visitor sends it with one more tap.</p>
+<p>Why this converts so much better:</p>
+<ul>
+<li>One tap instead of six fields.</li>
+<li>It happens in an app they already live in, with a keyboard they're used to.</li>
+<li>It's a <em>conversation</em>, so they can ask the question they actually have rather than fitting it into a message box.</li>
+<li>They can see you replied. A form gives no such reassurance — <a href="/blog/contact-form-dropping-leads/">and sometimes there's nothing to reassure them about</a>.</li>
+</ul>
+<p>Keep a form for the people who prefer it, particularly international visitors. But on a site where 95% of traffic is Indian and on a phone, making the form primary is optimising for the minority.</p>
+<hr>
+<h2 id="what-to-check">The ten-minute audit</h2>
+<p>Take out your phone, open your site on mobile data, and answer honestly:</p>
+<ol>
+<li>Without scrolling, can I tell what you sell and roughly what it costs?</li>
+<li>Can I reach the primary action with my thumb, one-handed?</li>
+<li>How long until something useful is on screen, on this connection, not on wifi?</li>
+<li>How many taps and how much typing to make an enquiry?</li>
+<li>Is anything moving that I have to wait for?</li>
+<li>Are two tappable things close enough that I might hit the wrong one?</li>
+</ol>
+<p>Every one of those is fixable in a day. Together they are usually worth more than a redesign — and considerably more than another month of advertising sending traffic to a page that's hard to use.</p>
+<hr>
+<h2 id="the-honest-summary">The honest summary</h2>
+<p>The gap here isn't knowledge. Everybody knows mobile matters. The gap is that mobile is still treated as an adaptation of a desktop design rather than the design itself, because of where the work happens and who reviews it.</p>
+<p>Ninety-five percent of these bookings came from a phone. The site should be built as though the other five percent are the exception — because they are.</p>
+<hr>
+<p><em>I'm Divyansh Sood. I build booking-first travel sites from Himachal Pradesh — the one behind those numbers is the <a href="/projects/dharamshala-tours/">Dharamshala Tours case study</a>, and the commission side of the argument is in <a href="/blog/direct-bookings-without-aggregator-commission/">getting direct bookings</a>. If you run a hotel, homestay or tour business here, <a href="/web-developer-dharamshala/">that's the work I do</a>.</em></p>
+      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </article>
+
+    <PostFaq faqs={faqs} idPrefix="faq-mob" />
+
+    <RelatedPosts slug={slug} audience={post.audience} />
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        <h2>Working on something in India?</h2>
+        <p>If a post here matches what you're building, send me the brief. WhatsApp reply in under an hour, 9 AM–9 PM IST — I'll tell you within a day if it's a fit.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="https://wa.me/919816091875" target="_blank" rel="noopener"
+            >Message me on WhatsApp <span aria-hidden="true">↗</span></a
+          >
+          <a class="btn btn-ghost" href="/#work">See the work</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Studio>
