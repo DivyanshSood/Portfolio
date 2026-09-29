@@ -20,6 +20,23 @@
     }
   };
 
+  // GA4's Leads reports (Business objectives → Generate leads) count only the
+  // recommended `generate_lead` event, so the custom goals below never showed
+  // up there — the report read zero leads for months. Every lead-intent action
+  // now also sends `generate_lead`, with `lead_source` saying which one it was.
+  // Mark generate_lead as a key event in GA4 Admin for it to count.
+  (window as any).dsLead = function (source: string, params?: Record<string, unknown>) {
+    (window as any).dsTrack("generate_lead", { lead_source: source, ...(params || {}) });
+  };
+
+  // Where on the page a CTA sits, so "WhatsApp from the footer" and "WhatsApp
+  // from a case study's hero" can be told apart in reports.
+  const whereIs = (a: Element) =>
+    a.closest("footer") ? "footer"
+    : a.closest(".cs-endcta, .post-foot-cta") ? "end_cta"
+    : a.closest("header, .cs-hero, .post-hero, #top") ? "hero"
+    : "body";
+
   // Delegated CTA click tracking — one listener covers every page and every
   // Calendly / WhatsApp / phone / email / portfolio-PDF link on it.
   document.addEventListener("click", (ev) => {
@@ -33,6 +50,9 @@
     else if (href.startsWith("tel:")) goal = "phone_click";
     else if (href.startsWith("mailto:")) goal = "email_click";
     else if (href.includes("portfolio.pdf")) goal = "pdf_download";
-    if (goal) (window as any).dsTrack(goal, { href });
+    if (!goal) return;
+    const params = { href, link_location: whereIs(a), page_path: location.pathname };
+    (window as any).dsTrack(goal, params);
+    if (goal !== "pdf_download") (window as any).dsLead(goal.replace("_click", ""), params);
   });
 </script>

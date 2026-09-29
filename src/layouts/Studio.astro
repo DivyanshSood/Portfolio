@@ -250,6 +250,10 @@ const socialIcon = (name: string) => SOCIAL_ICON[name] ?? SOCIAL_ICON._fallback;
         snippet does the same via `m[i].a`. Nothing is lost by waiting. */}
     <script is:inline>
       (function () {
+        // Local builds and previews are not visitors: 127.0.0.1 and localhost
+        // were showing up in GA4 as referral sources. Without the stubs below,
+        // dsTrack's typeof guards turn every event into a no-op.
+        if (/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)) return;
         var GA_ID = "G-51WG6025T0";
         var YM_ID = 110027161;
 

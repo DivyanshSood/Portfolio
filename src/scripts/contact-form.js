@@ -166,6 +166,9 @@ async function submit(form, config) {
     const json = await res.json().catch(() => ({}));
     if (json && json.ok) {
       track("form_submit", { form: form.id });
+      try {
+        if (typeof window.dsLead === "function") window.dsLead("form", { form: form.id, page_path: location.pathname });
+      } catch (_e) {}
       showSuccess(form, config.success, false);
       return;
     }
