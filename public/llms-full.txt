@@ -66,6 +66,12 @@ On a redesign, every existing URL is mapped to its replacement with a permanent 
 
 Page: https://www.divyanshsood.com/services/website-development/
 
+Industry pages for the three verticals most of the Himachal client work sits in:
+
+- School websites — https://www.divyanshsood.com/services/school-website-development/ — CBSE Mandatory Public Disclosure, admissions over WhatsApp or a portal, notices and fees.
+- Hotel and homestay websites — https://www.divyanshsood.com/services/hotel-website-development/ — direct-booking sites where the call to action matches how the property actually confirms stays.
+- Travel and taxi websites — https://www.divyanshsood.com/services/travel-website-development/ — one page per route, trip and town, with WhatsApp booking.
+
 ### Ecommerce website development
 
 Custom-coded direct-to-consumer storefronts with Razorpay or Stripe payments, drop mechanics, and full code ownership. No Shopify themes, no per-app subscriptions, no platform rent. Live in 2–4 weeks.

@@ -27,13 +27,13 @@
 
 /** @type {Record<string, string>} URL path (trailing slash) → ISO date */
 export const PAGE_UPDATED = {
-  "/": "2026-07-28",
+  "/": "2026-09-29",
   "/about/": "2026-07-29",
   "/agencies/": "2026-07-28",
-  "/portfolio/": "2026-07-28",
+  "/portfolio/": "2026-09-29",
   "/press/": "2026-07-28",
   "/privacy/": "2026-07-28",
-  "/results/": "2026-07-28",
+  "/results/": "2026-09-29",
   "/testimonials/": "2026-07-28",
   "/website-audit/": "2026-07-28",
 
@@ -44,7 +44,7 @@ export const PAGE_UPDATED = {
 
   // Service pages — all six had their generic "Read →" cross-links rewritten
   // to descriptive anchor text this pass; seo-geo-services also gained an FAQ.
-  "/services/": "2026-07-28",
+  "/services/": "2026-09-29",
   "/services/ai-development/": "2026-07-29",
   "/services/ecommerce-website-development/": "2026-07-29",
   "/services/landing-page-design/": "2026-07-29",
@@ -52,9 +52,14 @@ export const PAGE_UPDATED = {
   "/services/web-app-development/": "2026-07-29",
   "/services/website-development/": "2026-07-29",
 
+  // Industry pages — content in src/lib/verticals.mjs.
+  "/services/school-website-development/": "2026-09-29",
+  "/services/hotel-website-development/": "2026-09-29",
+  "/services/travel-website-development/": "2026-09-29",
+
   // Location pages
-  "/web-developer-dharamshala/": "2026-07-28",
-  "/web-developer-kangra/": "2026-07-28",
-  "/web-developer-manali/": "2026-07-28",
-  "/web-developer-shimla/": "2026-07-28",
+  "/web-developer-dharamshala/": "2026-09-29",
+  "/web-developer-kangra/": "2026-09-29",
+  "/web-developer-manali/": "2026-09-29",
+  "/web-developer-shimla/": "2026-09-29",
 };

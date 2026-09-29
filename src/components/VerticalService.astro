@@ -1,0 +1,232 @@
+---
+// Industry service page (school / hotel / travel). Content lives in
+// src/lib/verticals.mjs; proof cards read the case studies from data.mjs by
+// slug so names, images and URLs stay in step with the /projects/ pages.
+import Studio from "../layouts/Studio.astro";
+import { SITE, CALENDLY_URL } from "../lib/site.mjs";
+import { TOPICS } from "../lib/entity.mjs";
+import { projects } from "../lib/projects/data.mjs";
+import { localVariant, localSrcset } from "../lib/images.mjs";
+import { verticalWa } from "../lib/verticals.mjs";
+
+const { v } = Astro.props;
+const canonical = `${SITE}/services/${v.slug}/`;
+const WA = verticalWa(v);
+
+const proof = v.proof.map((slug) => {
+  const p = projects.find((x) => x.slug === slug);
+  if (!p) throw new Error(`${v.slug}: unknown proof project ${slug}`);
+  return p;
+});
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "@id": `${canonical}#service`,
+      name: v.name,
+      serviceType: v.name,
+      provider: { "@id": `${SITE}/#studio` },
+      areaServed: [
+        { "@type": "State", name: "Himachal Pradesh", containedInPlace: { "@type": "Country", name: "India" } },
+        { "@type": "Country", name: "India" },
+      ],
+      description: v.description,
+      url: canonical,
+    },
+    {
+      "@type": "ItemList",
+      "@id": `${canonical}#work`,
+      name: `${v.name} — case studies`,
+      itemListElement: proof.map((p, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: p.name,
+        url: `${SITE}/projects/${p.slug}/`,
+      })),
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Services", item: `${SITE}/services/` },
+        { "@type": "ListItem", position: 3, name: v.name, item: canonical },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: v.faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+    },
+  ],
+});
+---
+
+<Studio
+  title={v.title}
+  description={v.description}
+  canonical={canonical}
+  keywords={v.keywords}
+  ogTitle={v.ogTitle}
+  ogDescription={v.ogDescription}
+  topics={v.topics.map((t) => TOPICS[t])}
+  jsonld={jsonld}
+>
+  <main>
+    <header class="cs-hero">
+      <div class="wrap">
+        <div class="cs-eyebrow">
+          {v.eyebrow.map((e) => <span>{e}</span>)}
+        </div>
+        <h1 style="margin:14px 0 0;font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(44px,8vw,108px);line-height:.9;letter-spacing:-.01em;text-transform:uppercase;">{v.h1[0]}<br /><span style="color:var(--accent);">{v.h1[1]}</span></h1>
+        <p class="cs-lead">{v.lead}</p>
+        <div class="cs-cta-row">
+          <a class="btn btn-ghost" href={WA} target="_blank" rel="noopener">Message on WhatsApp</a>
+          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book a call <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="cs-meta">
+          <span>Based in Kangra, Himachal Pradesh</span><span>Custom-coded · you own the code</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="cs-sec" aria-labelledby="must-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="must-h">{v.mustHead}</h2>
+          <span class="mono">The brief</span>
+        </div>
+        <div class="cs-body" data-reveal>
+          {v.must.map((m) => (
+            <div class="cs-card">
+              <h3 class="cs-card-h2">{m.t}</h3>
+              <p>{m.d}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="proof-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="proof-h">Built and live</h2>
+          <span class="mono">Case studies</span>
+        </div>
+        <div class="cs-body" data-reveal>
+          {proof.map((p) => (
+            <div class={`cs-card${proof.length === 1 ? " span2" : ""}`}>
+              <a href={`/projects/${p.slug}/`} style="display:block;margin:0 0 16px;">
+                <img
+                  src={localVariant(p.feature.src, 768)}
+                  srcset={localSrcset(p.feature.src)}
+                  sizes="(max-width:900px) 90vw, 540px"
+                  width="1600" height="1000" alt={p.feature.alt} loading="lazy" decoding="async"
+                  style="width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;border-radius:10px;display:block;"
+                />
+              </a>
+              <span class="cs-tag">{p.name} · {p.category}</span>
+              <p>{p.outcome} <a href={`/projects/${p.slug}/`}>Read the {p.name} case study →</a></p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="steps-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="steps-h">How the build runs</h2>
+          <span class="mono">Four steps</span>
+        </div>
+        <div class="cs-metrics" data-reveal>
+          {v.steps.map((s, i) => (
+            <div class="cs-metric"><span class="cs-metric-v">{String(i + 1).padStart(2, "0")}</span><span class="cs-metric-l"><strong>{s.t}.</strong> {s.d}</span></div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="faq-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="faq-h">Frequently asked</h2>
+          <span class="mono">{v.name}</span>
+        </div>
+        <div class="cs-faq">
+          {v.faqs.map((f, i) => (
+            <div class="cs-faq-row">
+              <button class="cs-faq-q" data-faqtog={i} aria-expanded="false" aria-controls={`faq-${v.slug}-${i}`}>
+                <span>{f.q}</span><span class="cs-faq-icon" data-faqicon={i} aria-hidden="true">+</span>
+              </button>
+              <div class="cs-faq-a" id={`faq-${v.slug}-${i}`} data-faqbody={i}><p>{f.a}</p></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="read-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="read-h">Further reading</h2>
+          <span class="mono">From the blog</span>
+        </div>
+        <div class="cs-body" data-reveal>
+          {v.reading.map((r) => (
+            <a class="cs-card" href={r.href} style="display:block;text-decoration:none;color:inherit;">
+              <span class="cs-tag">Article</span>
+              <p>{r.t} →</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-endcta">
+      <div class="wrap">
+        <h2>Tell me about yours.</h2>
+        <p>Message me what you run and where. I'll tell you honestly what a website would change, and what it would cost, fixed and in writing.</p>
+        <div class="cs-cta-row" style="justify-content:center;">
+          <a class="btn btn-primary" href={WA} target="_blank" rel="noopener">Message on WhatsApp</a>
+          <a class="btn btn-ghost" href="/services/">See all services</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Studio>
+
+<script is:inline>
+  (function () {
+    var root = document.getElementById("ds-root");
+    if (!root) return;
+    var faq = -1;
+    function sync() {
+      root.querySelectorAll("[data-faqbody]").forEach(function (el) {
+        var open = Number(el.getAttribute("data-faqbody")) === faq;
+        el.style.maxHeight = open ? el.scrollHeight + "px" : "0px";
+        el.style.opacity = open ? "1" : "0";
+      });
+      root.querySelectorAll("[data-faqicon]").forEach(function (el) {
+        el.style.transform = Number(el.getAttribute("data-faqicon")) === faq ? "rotate(45deg)" : "rotate(0deg)";
+      });
+      root.querySelectorAll("[data-faqtog]").forEach(function (el) {
+        el.setAttribute("aria-expanded", Number(el.getAttribute("data-faqtog")) === faq ? "true" : "false");
+      });
+    }
+    root.querySelectorAll("[data-faqtog]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        var i = Number(el.getAttribute("data-faqtog"));
+        faq = faq === i ? -1 : i;
+        sync();
+      });
+    });
+    var rt;
+    window.addEventListener("resize", function () {
+      if (faq < 0) return;
+      clearTimeout(rt);
+      rt = setTimeout(sync, 120);
+    });
+    sync();
+  })();
+</script>

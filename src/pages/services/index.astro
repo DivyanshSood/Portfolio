@@ -2,6 +2,7 @@
 import Studio from "../../layouts/Studio.astro";
 import { SITE, CALENDLY_URL } from "../../lib/site.mjs";
 import { TOPICS } from "../../lib/entity.mjs";
+import { VERTICAL_LIST } from "../../lib/verticals.mjs";
 
 const canonical = `${SITE}/services/`;
 
@@ -124,6 +125,25 @@ const jsonld = JSON.stringify({
               <p class="cs-card-h2">{s.name}</p>
               <p style="margin-top:12px;">{s.d}</p>
               <p style="margin-top:14px;color:var(--accent);">Explore the service →</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec" aria-labelledby="ind-h">
+      <div class="wrap">
+        <div class="cs-sec-head">
+          <h2 id="ind-h">By industry</h2>
+          <span class="mono">Schools · hotels · travel</span>
+        </div>
+        <div class="cs-body" data-reveal>
+          {VERTICAL_LIST.map((v) => (
+            <a class="cs-card" href={`/services/${v.slug}/`} style="display:block;text-decoration:none;color:inherit;">
+              <span class="cs-tag">{v.eyebrow[1]}</span>
+              <p class="cs-card-h2">{v.name}</p>
+              <p style="margin-top:12px;">{v.ogDescription}</p>
+              <p style="margin-top:14px;color:var(--accent);">Explore {v.name.toLowerCase()} →</p>
             </a>
           ))}
         </div>
