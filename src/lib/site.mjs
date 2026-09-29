@@ -47,9 +47,9 @@ export const GOOGLE_MAPS_CID_URL = `https://www.google.com/maps?cid=${GBP_CID}`;
 /* ---------------------------------------------------------------------------
    Google Knowledge Graph MID for the business entity — the stable identifier
    behind the knowledge panel that Google shows for "Divyansh Sood Web
-   Developer". Both share.google tokens the owner has handed over
-   (x2v3pvXR9RIjYF1z0 in GOOGLE_REVIEWS_URL above, and M7xIpivlCgdxBSKZy)
-   resolve to the same panel: google.com/search?kgmid=/g/11z9n1tjmg. The MID is
+   Developer". All three share.google tokens the owner has handed over
+   (x2v3pvXR9RIjYF1z0 in GOOGLE_REVIEWS_URL above, M7xIpivlCgdxBSKZy, and
+   dj4F3OwaltFtuvBIS, checked September 2026) resolve to the same panel: google.com/search?kgmid=/g/11z9n1tjmg. The MID is
    recorded here because it outlives those tokens, which are opaque redirects
    Google can retire at any time.
 
@@ -60,6 +60,23 @@ export const GOOGLE_MAPS_CID_URL = `https://www.google.com/maps?cid=${GBP_CID}`;
    which is where a stated-not-fetched ID belongs.
 --------------------------------------------------------------------------- */
 export const GOOGLE_KG_MID = "/g/11z9n1tjmg";
+
+/* ---------------------------------------------------------------------------
+   The studio's postal address — the SINGLE source for every PostalAddress in
+   JSON-LD (the homepage LocalBusiness node and the article publisher node).
+   It must match the Google Business Profile and the JustDial listing character
+   for character, or the three read as different businesses. Street and
+   locality are as published on the JustDial listing (Pushp Vihar Colony,
+   Kangra). postalCode is deliberately absent until it is confirmed against the
+   Business Profile — a wrong PIN is worse than none.
+--------------------------------------------------------------------------- */
+export const STUDIO_ADDRESS = {
+  "@type": "PostalAddress",
+  streetAddress: "Pushp Vihar Colony",
+  addressLocality: "Kangra",
+  addressRegion: "Himachal Pradesh",
+  addressCountry: "IN",
+};
 
 /* NOTE: there is deliberately no price constant here. Pricing was removed from
    the site entirely by owner decision (2026-07-28) — every project is quoted in
@@ -97,7 +114,11 @@ export const SOCIAL_PROFILES = [
   // logged-in-only dashboard page) and not the fiverr.com/s/… share token,
   // which is an opaque redirect that Fiverr can retire.
   { name: "Fiverr", url: "https://www.fiverr.com/divyansh_sood" },
-  { name: "Freelancer", url: "https://www.freelancer.in/u/sooddivyansh007" },
+  { name: "Freelancer", url: "https://www.freelancer.com/u/sooddivyansh007" },
+  // The Kangra listing behind the owner's jsdl.in/DT-99D82ZYCG6Q share link,
+  // stored as its canonical URL (share links are opaque redirects; the
+  // `?via=` tracking param is dropped for the same reason as above).
+  { name: "JustDial", url: "https://www.justdial.com/Kangra/Divyansh-Sood-Web-Developer-Pushp-Vihar-Colony/9999P1892-1892-260530045850-D7V7_BZDET" },
   // ↓ Uncomment each once the profile is live and its website field links back here:
   // { name: "dev.to", url: "https://dev.to/<handle>" },
   // { name: "Hashnode", url: "https://hashnode.com/@<handle>" },

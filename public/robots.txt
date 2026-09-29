@@ -1,9 +1,19 @@
 # robots.txt — Divyansh Sood® Studio
 # https://www.divyanshsood.com
 
-# Default: allow everything
+# Default: allow everything except redirect-only and API paths.
+# /upwork, /fiverr, /linkedin etc. are vanity redirects to profiles that refuse
+# crawlers (403 / 999), which Search Console reports as redirect errors; /api/
+# is the POST-only contact endpoint.
 User-agent: *
 Allow: /
+Disallow: /upwork
+Disallow: /fiverr
+Disallow: /freelancer
+Disallow: /linkedin
+Disallow: /github
+Disallow: /whatsapp
+Disallow: /api/
 
 # ── AI answer / generative engines (AEO + GEO) ──
 # Explicitly welcome assistants so the site can be cited and quoted.

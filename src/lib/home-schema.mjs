@@ -4,7 +4,7 @@
    same serialised string as before.
    =========================================================================== */
 
-import { FOUNDER_PHOTO, GOOGLE_KG_MID, GOOGLE_MAPS_CID_URL, SAME_AS } from "./site.mjs";
+import { FOUNDER_PHOTO, GOOGLE_KG_MID, GOOGLE_MAPS_CID_URL, SAME_AS, STUDIO_ADDRESS } from "./site.mjs";
 import { KNOWS_ABOUT, JOB_TITLE, PERSON_DESCRIPTION } from "./entity.mjs";
 import { projects } from "./projects/data.mjs";
 
@@ -68,7 +68,7 @@ export function homeJsonLd(SITE) {
         email: "hello@divyanshsood.com",
         telephone: "+91-98160-91875",
         worksFor: { "@id": `${SITE}/#studio` },
-        address: { "@type": "PostalAddress", addressRegion: "Himachal Pradesh", addressCountry: "IN" },
+        address: { "@type": "PostalAddress", addressLocality: "Kangra", addressRegion: "Himachal Pradesh", addressCountry: "IN" },
         nationality: { "@type": "Country", name: "India" },
         knowsLanguage: ["English", "Hindi"],
         hasOccupation: {
@@ -101,6 +101,9 @@ export function homeJsonLd(SITE) {
         telephone: "+91-98160-91875",
         serviceType: [
           "Custom website design and development",
+          "School website development",
+          "Hotel and homestay website development",
+          "Travel and taxi website development",
           "E-commerce store development",
           "Web application and MVP development",
           "SEO, AEO and Generative Engine Optimization",
@@ -117,7 +120,7 @@ export function homeJsonLd(SITE) {
           { "@type": "City", name: "Shimla", containedInPlace: { "@type": "State", name: "Himachal Pradesh" } },
           { "@type": "City", name: "Manali", containedInPlace: { "@type": "State", name: "Himachal Pradesh" } },
         ],
-        address: { "@type": "PostalAddress", addressRegion: "Himachal Pradesh", addressCountry: "IN" },
+        address: STUDIO_ADDRESS,
         hasMap: GOOGLE_MAPS_CID_URL,
         sameAs: [...SAME_AS, GOOGLE_MAPS_CID_URL],
         // Same Knowledge Graph MID the publisher node carries (entity.mjs) — the

@@ -26,7 +26,7 @@
    ratings, no prices — see the standing notes in site.mjs.
    =========================================================================== */
 
-import { FOUNDER_PHOTO, GOOGLE_KG_MID, GOOGLE_MAPS_CID_URL, SAME_AS, SITE } from "./site.mjs";
+import { FOUNDER_PHOTO, GOOGLE_KG_MID, GOOGLE_MAPS_CID_URL, SAME_AS, SITE, STUDIO_ADDRESS } from "./site.mjs";
 
 /* Topics of demonstrated expertise. Consumed by both the full Person node on
    the homepage and the compact author node on every post, so the two can't
@@ -104,7 +104,7 @@ export function publisherNode(SITE) {
     description: STUDIO_DESCRIPTION,
     foundingDate: "2022",
     founder: { "@id": `${SITE}/#person` },
-    address: { "@type": "PostalAddress", addressRegion: "Himachal Pradesh", addressCountry: "IN" },
+    address: STUDIO_ADDRESS,
     sameAs: [...SAME_AS, GOOGLE_MAPS_CID_URL],
     // Google Knowledge Graph MID for this business — states which existing
     // entity the page is about rather than asking a parser to infer it. See the

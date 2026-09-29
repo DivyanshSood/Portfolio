@@ -55,12 +55,17 @@ const PROOF_QUOTES = [
 // branded or local: "divyansh sood" (50% CTR) and "divyansh sood web developer
 // kangra" (13.2%). The generic head terms it did chase — "web development",
 // 200 impressions at position 5.0 — returned zero clicks and always will.
-// So: keep both role keywords, keep the name, add the country. The individual
-// cities stay the job of /web-developer-<city>/, which now have real internal
-// link equity pointing at them.
-const META_TITLE = "Freelance Web Developer & Designer in India · Divyansh Sood"; // 58 chars
+// So: keep both role keywords, keep the name, add the geography.
+//
+// September 2026: the geography is now the state, not the country. Search
+// Console showed the state-level commercial queries ("website designing company
+// in himachal pradesh", "website development company in himachal") arriving at
+// positions 69–82, and the homepage is the page the Google Business Profile
+// links to, so it is the one that has to carry them. Towns stay the job of
+// /web-developer-<city>/, verticals the job of /services/<vertical>-website-development/.
+const META_TITLE = "Web Designer & Developer in Himachal Pradesh · Divyansh Sood"; // 60 chars
 const META_DESCRIPTION =
-  "Freelance web designer & developer in Himachal Pradesh, India. Custom-coded, conversion-focused websites, stores and web apps — live in 3–4 weeks."; // 148
+  "Web designer & developer in Kangra, Himachal Pradesh. Custom-coded websites for schools, hotels, travel operators and brands across India. You own the code."; // 155
 
 const jsonld = homeJsonLd(SITE);
 
@@ -246,7 +251,7 @@ const ARROW = "M7 17 17 7M8 7h9v9";
       <div class="hero-say">
         <div class="hero-say-main">
           <h1 class="dsx-f" data-intro="300">
-            Freelance web designer &amp; developer — custom-coded websites, stores and web apps that <em>convert</em>.
+            Web designer &amp; developer in Himachal Pradesh — custom-coded websites, stores and web apps that <em>convert</em>.
           </h1>
           <p class="hero-sub dsx-f" data-intro="360">One person, end to end. Live in 3–4 weeks. You own the code.</p>
           <div class="hero-cta dsx-f" data-intro="420">

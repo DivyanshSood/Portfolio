@@ -68,7 +68,7 @@ const {
   ogImage = "https://www.divyanshsood.com/og-home.png",
   ogImageW = 1200,
   ogImageH = 630,
-  ogLocale = "en_US",
+  ogLocale = "en_IN",
   imageAlt = "Divyansh Sood® Studio — custom-coded, conversion-focused websites",
   jsonld,
   articlePublished,
@@ -129,6 +129,12 @@ const SOCIAL_ICON: Record<string, { d: string; rule?: "evenodd" }> = {
   },
   Freelancer: {
     d: "M14.096 3.076l1.634 2.292L24 3.076M5.503 20.924l4.474-4.374-2.692-2.89m6.133-10.584L11.027 5.23l4.022.15M4.124 3.077l.857 1.76 4.734.294m-3.058 7.072l3.497-6.522L0 5.13m7.064 7.485l3.303 3.548 3.643-3.57 1.13-6.652-4.439-.228Z",
+  },
+  // Map pin (evenodd, hole knocked out) — JustDial has no mark that survives
+  // being scaled to 15px, and the listing is a local-business directory entry.
+  JustDial: {
+    d: "M12 1.5a7.5 7.5 0 0 0-7.5 7.5c0 5.6 7.5 13.5 7.5 13.5s7.5-7.9 7.5-13.5A7.5 7.5 0 0 0 12 1.5Zm0 4.75a2.75 2.75 0 1 1 0 5.5 2.75 2.75 0 0 1 0-5.5Z",
+    rule: "evenodd",
   },
   // Neutral filled dot — the fallback for any profile added to SOCIAL_PROFILES
   // before its glyph lands here. Deliberately a fill (not a stroked outline):
@@ -730,6 +736,11 @@ const socialIcon = (name: string) => SOCIAL_ICON[name] ?? SOCIAL_ICON._fallback;
      ------------------------------------------------------------------------ */
   html.motion #dsx .dsx-r { transform: translateY(112%); }
   html.motion #dsx .dsx-f { opacity: 0; transform: translateY(24px); }
+  /* The hero H1 is the page's LCP element. Chrome doesn't count an opacity:0
+     element until it is revealed, so fading it in held LCP back until the
+     intro ran (~2.6s at 4x CPU). It keeps the slide, drops the fade, and paints
+     on the first frame. */
+  html.motion #dsx h1.dsx-f { opacity: 1; }
   html.motion-fallback #dsx .dsx-r,
   html.motion-fallback #dsx .dsx-f { transform: none !important; opacity: 1 !important; }
 
