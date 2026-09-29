@@ -150,6 +150,32 @@ const DECK = [
     quote: null,
     quoteBy: null,
   },
+  {
+    slug: "sunny-himachal-travels",
+    num: "06",
+    name: "Sunny Himachal Travels",
+    client: "Sunny Himachal Travels · Dharamshala",
+    tags: "Travel · Tours & Taxi",
+    year: "2026",
+    scope: "Site · Content system · SEO",
+    blurb:
+      "A Dharamshala tour operator with a page for every trip, transfer and town — 1.1 KB of JavaScript, Lighthouse 100 on all four desktop scores, and a build that refuses near-duplicate pages.",
+    quote: null,
+    quoteBy: null,
+  },
+  {
+    slug: "yash-rock-hotel",
+    num: "07",
+    name: "Yash Rock Hotel",
+    client: "Yash Rock Hotel · Kangra",
+    tags: "Hospitality · Hotel",
+    year: "2026",
+    scope: "Design system · Site · Local SEO",
+    blurb:
+      "A seven-room hillside hotel with a pool and no booking engine by design — every enquiry goes to WhatsApp or a call, and 14 “near” pages meet guests where they're headed.",
+    quote: null,
+    quoteBy: null,
+  },
 ].map((d) => {
   const c = caseFor(d.slug);
   const featSrc = c.feature.src;
@@ -288,7 +314,7 @@ const ARROW = "M7 17 17 7M8 7h9v9";
         <div class="hp-eyebrow">(WORK — 02)</div>
         <h2 style="margin:0; overflow:hidden;"><span class="dsx-r" data-rev style="display:block; font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(52px, 9vw, 130px); line-height:0.92; text-transform:uppercase;">Selected work</span></h2>
       </div>
-      <div data-hide-m class="hp-eyebrow hp-eyebrow-stack">2024 — 2026<br><span style="color:var(--accent, #D9FF3C);">{String(DECK.length).padStart(2, "0")}</span> OF 09 PROJECTS</div>
+      <div data-hide-m class="hp-eyebrow hp-eyebrow-stack">2024 — 2026<br><span style="color:var(--accent, #D9FF3C);">{String(DECK.length).padStart(2, "0")}</span> OF {String(allProjects.length).padStart(2, "0")} PROJECTS</div>
     </div>
 
     {/* A single laptop, pinned centre-stage. On scroll the screenshot inside its
@@ -342,11 +368,11 @@ const ARROW = "M7 17 17 7M8 7h9v9";
       </div>
     </div>
 
-    {/* The deck shows five of nine; this is the only in-page route to the
+    {/* The deck shows a curated few of twelve; this is the only in-page route to the
         other four. Without it /portfolio is reachable from the burger menu and
         the footer alone. */}
     <div class="hp-work-out">
-      <a href="/portfolio/" class="hp-work-out-a">See all nine projects <span aria-hidden="true">→</span></a>
+      <a href="/portfolio/" class="hp-work-out-a">See all twelve projects <span aria-hidden="true">→</span></a>
       <span class="mono">Case studies · live links · results</span>
     </div>
   </section>

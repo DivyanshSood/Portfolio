@@ -11,7 +11,7 @@ Last updated: 2026-07-29. Long-form companion: https://www.divyanshsood.com/llms
 - Person: Divyansh Sood — freelance web developer and designer.
 - Studio: Divyansh Sood® Studio (alternate form: Divyansh Sood Studio). One person, no employees.
 - Based: Himachal Pradesh, India (IST). Works remotely with clients worldwide.
-- Established: 2022. 20+ projects shipped; 9 published case studies; 42 published articles.
+- Established: 2022. 20+ projects shipped; 12 published case studies; 42 published articles.
 - Languages: English and Hindi.
 - Primary stacks: React, Next.js, Astro, Angular, Tailwind CSS, Supabase, Razorpay, ImageKit, headless CMS.
 - Positioning: premium, custom-coded, conversion-focused. No Wix, Webflow, Squarespace, Framer or Shopify themes for client builds.
@@ -97,6 +97,9 @@ Last updated: 2026-07-29. Long-form companion: https://www.divyanshsood.com/llms
 
 ## Selected work
 
+- [Pinnacle World School — CBSE school website, Kangra](https://www.divyanshsood.com/projects/pinnacle-world-school/): A CBSE-affiliated school in Baroh, Kangra district (affiliation no. 630225, Nursery to Class X), moved to its own domain. Built in Next.js 16 with a verified-facts rule: every published fact traces to the school's CBSE affiliation record, and anything unconfirmed reads "To be updated". Includes a Mandatory Public Disclosure page laid out per Appendix IX and admission forms that hand off to the school office's WhatsApp.
+- [Sunny Himachal Travels — Dharamshala tours and taxi](https://www.divyanshsood.com/projects/sunny-himachal-travels/): A locally run tour and taxi operator in Dharamshala. A one-page design canvas rebuilt in Astro as a site with 25 tour routes, 28 destinations, 14 point-to-point transfers and 9 "taxi in <town>" pages. Ships 1.1 KB of JavaScript gzipped and scores 100 on all four Lighthouse desktop categories; a build test fails any pair of pages that read too alike.
+- [Yash Rock Hotel — hillside hotel and pool, Kangra](https://www.divyanshsood.com/projects/yash-rock-hotel/): A seven-room hotel with a swimming pool in Dehrian, Kangra. Built in Next.js 16 on a custom design system with no booking engine by design — every call to action goes to WhatsApp or a phone call. Fourteen "near" pages (NIFT Kangra, Tanda Medical College, Kangra Airport and others) reach guests by where they are going.
 - [WebSeek.ai — AI website generator](https://www.divyanshsood.com/projects/webseek/): The studio's own product. One prompt to a working, custom-coded site in any language, with a Claude / GPT / Gemini model picker. Live beta with 5 free credits per user. Running one product across three model providers in production is where the studio's first-hand knowledge of the differences between them comes from.
 - [Baglamukhi Travels — Kangra taxi and Devi Darshan](https://www.divyanshsood.com/projects/baglamukhi-travels/): A family-run, agent-free taxi and six-temple pilgrimage operator in Kangra, run by owner-drivers since 2018. Ten pages built around real search intents, a complete local-business schema graph, llms.txt, and one-tap WhatsApp booking. Outcome: an average Google position of 5.7, with 7.25K impressions and 148 clicks in a 28-day window, competing against aggregators and call centres.
 - [Modern K.B.S. — school website and admissions portal](https://www.divyanshsood.com/projects/modernkbs/): A senior secondary school in Ladwara, Himachal Pradesh. Public website plus an admissions web application and a live admin panel, built in Next.js and Supabase. Outcome: delivered in 7 days where other agencies had quoted six months.
@@ -106,7 +109,7 @@ Last updated: 2026-07-29. Long-form companion: https://www.divyanshsood.com/llms
 - [Nandini Travels — Kangra taxi operator](https://www.divyanshsood.com/projects/nandini/): Kangra's most-reviewed taxi operator had a broken site and no direct bookings — every lead arrived through Google Maps. Rebuilt in Next.js with on-site booking and WhatsApp. Outcome: direct bookings now flow through a site the operator owns.
 - [Redline Studios — motorcycle apparel storefront](https://www.divyanshsood.com/projects/redline/): Brand identity plus an F1-track-styled storefront with Razorpay payments, built end to end in a single sprint for a motorcycle apparel label.
 - [Dharamshala Tours — WhatsApp-first travel booking](https://www.divyanshsood.com/projects/dharamshala-tours/): Three school friends in Kangra running a travel business on WhatsApp. Built in Astro with a WhatsApp-first booking flow that deliberately skips the accommodation-listing pattern. Part of roughly 1,000 packages booked every month.
-- [Full portfolio](https://www.divyanshsood.com/portfolio/): All nine case studies in one browsable place.
+- [Full portfolio](https://www.divyanshsood.com/portfolio/): All twelve case studies in one browsable place.
 
 ## Results & proof
 

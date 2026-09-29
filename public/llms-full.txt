@@ -135,6 +135,30 @@ A free website audit is available before any commitment: a walkthrough of the la
 
 Each project below is custom-coded and owned by the client.
 
+### Pinnacle World School — CBSE school website (2026)
+
+Pinnacle World School in Baroh, Kangra district, Himachal Pradesh, is CBSE-affiliated (affiliation no. 630225, school code 43260) and teaches Nursery to Class X. Divyansh Sood built its new site at pinnacleworldschool.co.in in Next.js 16 and React 19, prerendered as static pages on Vercel. The governing rule was that nothing is invented: every fact lives in one file with its source recorded beside it, checked against the school's CBSE affiliation record, and any gap shows "To be updated" rather than a guess.
+
+The site covers every page CBSE expects — Mandatory Public Disclosure per Appendix IX of the affiliation bye-laws, transfer certificates, committees, faculty, results, fees, the academic calendar and transport. Admission, contact and alumni forms have no backend: they validate in the browser and open WhatsApp with the message written to the school office. All 14 old-site URLs 308-redirect to their new pages.
+
+Page: https://www.divyanshsood.com/projects/pinnacle-world-school/
+
+### Sunny Himachal Travels — Dharamshala tours and taxi (2026)
+
+Sunny Himachal Travels is a private tour and taxi operator based in Dharamshala, run by people who live there. It arrived with a finished one-page design canvas that relied on a 69 KB runtime; Divyansh Sood rebuilt it in Astro with typed content collections so it has a page for each of its 25 tour routes, 28 destinations, 14 point-to-point transfers and 9 local "taxi in <town>" searches, plus planning guides and a blog.
+
+Outcome: the site ships 1.1 KB of JavaScript (gzipped) and scores 100 for performance, accessibility, best practices and SEO in Lighthouse on desktop. Drafts stay noindex until verified, the build fails if any colour pair drops below WCAG AA, and a duplication test fails any two pages above 0.23 five-word-shingle similarity.
+
+Page: https://www.divyanshsood.com/projects/sunny-himachal-travels/
+
+### Yash Rock Hotel — hillside hotel and pool, Kangra (2026)
+
+Yash Rock Hotel & Swimming Pool is a seven-room hillside property in Dehrian, Kangra. Divyansh Sood replaced a generic hotel-booking prototype with a Next.js 16 site on a custom design system and no booking engine: every call to action goes to WhatsApp or a phone call, because the owner confirms bookings personally and rates vary. Nothing is published until the owner has confirmed it.
+
+The site reaches guests by destination rather than by village name, with 14 "near" pages (NIFT Kangra, Tanda Medical College, Kangra Airport, temples and the HPCA stadium) and 19 local guides. About 3 MB of homepage video was removed for visitors on patchy hill mobile data, and it publishes Hotel, Restaurant and swimming-pool structured data.
+
+Page: https://www.divyanshsood.com/projects/yash-rock-hotel/
+
 ### WebSeek.ai — AI website generator (2026)
 
 WebSeek.ai is Divyansh Sood's own product and the studio's bet on where agencies go next: one credit, one prompt, any input language, and a working custom-coded site at the end. It is built in React and Tailwind and runs on Anthropic's Claude, OpenAI's GPT and Google's Gemini — three model providers in production behind a single picker, rather than one provider with the others in a roadmap. Output is HTML the user owns rather than markup locked inside an editor. It is in live beta with five free credits per user.
@@ -207,6 +231,9 @@ Page: https://www.divyanshsood.com/projects/dharamshala-tours/
 
 ## Results and proof
 
+- A CBSE school website where every published fact traces back to the school's affiliation record, with a Mandatory Public Disclosure page and WhatsApp admissions (Pinnacle World School).
+- A tour and taxi site shipping 1.1 KB of JavaScript with Lighthouse 100 across all four desktop categories, and a page for every trip, transfer and town (Sunny Himachal Travels).
+- A seven-room hotel site with no booking engine by design and 14 "near" pages for where guests are headed (Yash Rock Hotel).
 - A school website plus an admissions portal and admin panel delivered in 7 days, against a six-month quote from other agencies (Modern K.B.S.).
 - Roughly 1,000 travel packages booked every month through a site built by this studio (Dharamshala Tours).
 - A direct-to-consumer storefront serving a 600K+ subscriber creator audience, built without Shopify (ChinkiZ Knitting Knife).
@@ -297,7 +324,7 @@ Written from daily AI-assisted client work and from building and running WebSeek
 Divyansh Sood® Studio is based in the Kangra valley and builds for businesses across Himachal Pradesh, as well as internationally.
 
 - **Dharamshala** — https://www.divyanshsood.com/web-developer-dharamshala/ — booking-first websites for Dharamshala and McLeod Ganj tour operators, hotels, homestays and cafés.
-- **Kangra** — https://www.divyanshsood.com/web-developer-kangra/ — websites for Kangra taxi operators, schools and local service businesses, including booking forms, admissions portals and local SEO.
+- **Kangra** — https://www.divyanshsood.com/web-developer-kangra/ — websites for Kangra taxi operators, schools, hotels and local service businesses, including booking forms, admissions portals and local SEO. Kangra clients include Pinnacle World School (Baroh), Yash Rock Hotel (Dehrian), Nandini Travels and Baglamukhi Travels.
 - **Shimla** — https://www.divyanshsood.com/web-developer-shimla/ — hotels, institutions and professional firms, including SEO-safe redesigns.
 - **Manali** — https://www.divyanshsood.com/web-developer-manali/ — direct-booking websites for hotels, camps and adventure operators.
 

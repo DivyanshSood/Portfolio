@@ -107,7 +107,7 @@ function jsonLd(p) {
       "@id": `${canonical}#breadcrumb`,
       itemListElement: [
         { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
-        { "@type": "ListItem", position: 2, name: "Work", item: `${SITE}/#work` },
+        { "@type": "ListItem", position: 2, name: "Work", item: `${SITE}/portfolio/` },
         { "@type": "ListItem", position: 3, name: p.name, item: canonical },
       ],
     },
@@ -256,6 +256,7 @@ export function renderProjectMain(p) {
           <div><dt>Role</dt><dd>${esc(p.role)}</dd></div>
           <div><dt>Stack</dt><dd>${esc(p.stackLine)}</dd></div>
           <div><dt>Outcome</dt><dd>${esc(p.outcome)}</dd></div>
+          ${p.service ? `<div><dt>Service</dt><dd><a href="${esc(p.service.href)}">${esc(p.service.label)}</a></dd></div>` : ""}
         </dl>
       </div>
     </section>
@@ -337,7 +338,8 @@ export function renderProjectMain(p) {
         <p>Same brief, different scale. Tell me what you're building and I'll tell you within a day if it's a fit.</p>
         <div class="cs-cta-row" style="justify-content:center;">
           <a class="btn btn-primary" href="${esc(p.waHref)}" target="_blank" rel="noopener">Build something similar <span aria-hidden="true">↗</span></a>
-          <a class="btn btn-ghost" href="/#work">See all work</a>
+          ${p.service ? `<a class="btn btn-ghost" href="${esc(p.service.href)}">${esc(p.service.label)}</a>` : ""}
+          <a class="btn btn-ghost" href="/portfolio/">See all work</a>
         </div>
       </div>
     </section>
