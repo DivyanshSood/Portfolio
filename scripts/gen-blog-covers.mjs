@@ -41,9 +41,19 @@ const QUALITY = 82;
 /* Headline copy, per slug. `lines` are rendered uppercase, one per line, and
    auto-fitted to the box; `accent` lists the zero-based lines painted neon. */
 const COVER_COPY = {
-  "baglamukhi-travels-local-seo-case-study": {
-    eyebrow: "CASE STUDY · LOCAL SEO",
-    lines: ["PUBLISH", "THE", "FARE."],
+  "cbse-mandatory-public-disclosure-school-website": {
+    eyebrow: "SCHOOLS \u00b7 CBSE",
+    lines: ["PUBLISH", "THE", "RECORD."],
+    accent: [2],
+  },
+  "taxi-tour-operator-website-pages": {
+    eyebrow: "TRAVEL \u00b7 LOCAL SEO",
+    lines: ["ONE ROUTE.", "ONE", "PAGE."],
+    accent: [2],
+  },
+  "hotel-near-me-landing-pages": {
+    eyebrow: "HOTELS \u00b7 LOCAL SEO",
+    lines: ["STAY", "NEAR", "WHAT MATTERS."],
     accent: [2],
   },
   "ranking-top-five-zero-clicks": {
@@ -96,19 +106,9 @@ const COVER_COPY = {
     lines: ["HOW AI IS", "TRANSFORMING", "WEB DEV."],
     accent: [2],
   },
-  "benefits-of-ai-in-web-development": {
-    eyebrow: "AI · BENEFITS",
-    lines: ["THE BENEFITS", "THAT ACTUALLY", "SURVIVED."],
-    accent: [2],
-  },
   "challenges-and-limitations-of-ai-in-web-development": {
     eyebrow: "AI · LIMITS",
     lines: ["WHERE AI", "ACTUALLY", "BREAKS."],
-    accent: [2],
-  },
-  "future-of-ai-assisted-web-development": {
-    eyebrow: "AI · FUTURE",
-    lines: ["THE FUTURE OF", "AI-ASSISTED", "DEVELOPMENT."],
     accent: [2],
   },
   "how-i-build-websites-with-claude-code": {

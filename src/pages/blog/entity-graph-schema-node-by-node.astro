@@ -154,7 +154,7 @@ const jsonld = JSON.stringify({
 <p>That gets you valid markup describing a page. It does not get you an <em>entity</em> — a thing the web agrees exists, with a stable identity that persists across every page you publish. The difference is what decides whether an assistant can confidently name you or has to hedge.</p>
 <p>This is the graph running on the site you're reading, node by node, including the two mistakes I made first.</p>
 <hr>
-<h2 id="the-core-idea">The core idea: reference, don't repeat</h2>
+<h2 id="the-core-idea">The core idea: give every node a stable identifier, then reference it</h2>
 <p>JSON-LD lets a node carry an <code>@id</code>, and lets other nodes point at that <code>@id</code> instead of describing the thing again.</p>
 <p>Without it, forty articles each carry a fresh author block, and a parser sees forty separate mentions of somebody with the same name. With it, they all point at one identifier — and a parser sees one person who wrote forty articles.</p>
 <p>Three stable identifiers carry this entire site:</p>

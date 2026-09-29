@@ -1,0 +1,244 @@
+---
+import Studio from "../../layouts/Studio.astro";
+import RelatedPosts from "../../components/RelatedPosts.astro";
+import PostFaq from "../../components/PostFaq.astro";
+import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
+import { coverBase, coverSrcset, COVER_SIZES_POST } from "../../lib/images.mjs";
+
+const slug = "taxi-tour-operator-website-pages";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+/* Questions real buyers ask, answered in full. This array is the single
+   source for both the visible accordion and the FAQPage node above — Google
+   requires FAQ markup to match content on the page, and deriving both from one
+   array is what stops them drifting. */
+const faqs = [
+  {
+    q: "What pages should a taxi service website have?",
+    a: "A page for each route people book (for example, airport to town), a page for each tour or package, a page for each town where people search for “taxi service in <town>”, plus the fleet, an FAQ and a contact page. The homepage alone cannot rank for all of those searches.",
+  },
+  {
+    q: "Isn't a page per town just a doorway page?",
+    a: "Only if the pages are the same text with the town name swapped. A town page earns its place when it says something true and specific: where you pick up, which trips people book from that town, what the roads are like. If you have nothing specific to say about a town, don't make the page.",
+  },
+  {
+    q: "Should a taxi website publish its fares?",
+    a: "Where you can commit to them, yes. People search for fares as a question with a number as its answer, and a page that says “call for quote” gives search engines and AI assistants nothing to match or quote.",
+  },
+  {
+    q: "How many pages does a travel website need?",
+    a: "As many as there are real, distinct searches you can answer well — and no more. Sunny Himachal Travels has about a hundred, and its build fails if any two pages read too alike, so routes that would overlap an existing page are dropped instead of written thin.",
+  },
+  {
+    q: "Do blog posts help a taxi business get bookings?",
+    a: "Informational posts attract impressions, but many answer questions Google already answers on the results page, such as a distance. They only help bookings if every one links clearly to the commercial page for that route or trip.",
+  },
+];
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: authorNode(SITE),
+      publisher: publisherNode(SITE),
+      isPartOf: websiteNode(SITE),
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      // Resolves the free-text tags above to public concept identifiers, so a
+      // parser knows "Astro" means the framework and "GEO" isn't geography.
+      about: topicsForTags(post.tags),
+      wordCount: post.wordCount,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+    {
+      // Google retired FAQ rich results in May 2026, so this earns no SERP
+      // enhancement. It stays because answer engines read Q&A pairs well, and
+      // because every question below is rendered visibly by <PostFaq>.
+      "@type": "FAQPage",
+      "@id": `${canonical}#faq`,
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    },
+  ],
+});
+---
+
+<Studio
+  title={post.seoTitle ?? `${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  preloadImage={{ href: coverBase(post.coverImage), srcset: coverSrcset(post.coverImage), sizes: COVER_SIZES_POST }}
+  jsonld={jsonld}
+>
+  <main>
+    <header class="post-hero">
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img
+            src={coverBase(post.coverImage)}
+            srcset={coverSrcset(post.coverImage)}
+            sizes={COVER_SIZES_POST}
+            alt={post.coverAlt ?? post.title}
+            width="1200"
+            height="750"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+<p>Nobody searches for “travel agency”. They search for <em>Delhi to Dharamshala taxi</em>, <em>Spiti tour package</em>, <em>Gaggal airport taxi fare</em>, <em>taxi service in Palampur</em>. Each of those is a different question, and a travel website wins by having an honest page that answers each one — with WhatsApp at the bottom of it.</p>
+<p>This is how I structure taxi and tour operator websites, based on the four travel sites I've built in Kangra and Dharamshala.</p>
+<hr>
+<h2 id="the-page-types">The five page types a travel site needs</h2>
+<p><strong>1. Route pages (point-to-point transfers).</strong> One page per route people actually book: airport to town, railway station to hill station, city to city. The query is specific, so the page must be too.</p>
+<p><strong>2. Trip pages (tours and packages).</strong> One page per itinerary, with its own URL. A Spiti circuit and a Dalhousie–Khajjiar weekend are different searches with different buyers.</p>
+<p><strong>3. Town pages (“taxi service in &lt;town&gt;”).</strong> Local taxi searches are town by town. A page for each town you genuinely serve, written from what people book from there.</p>
+<p><strong>4. Destination pages.</strong> Where the trips go — what the place suits, when to go, which trips pass through. These link down to the trips and routes that reach them.</p>
+<p><strong>5. Guides and posts.</strong> Seasonal advice, altitude, how long drives really take. Useful, but read the warning further down before relying on them.</p>
+<hr>
+<h2 id="what-goes-on-a-route-page">What goes on a route page</h2>
+<ul>
+<li><strong>The route in the title and H1,</strong> worded the way people type it.</li>
+<li><strong>Distance, and an honest road time.</strong> Mountain roads average far slower than a map suggests; saying so builds trust.</li>
+<li><strong>Vehicles and who they suit</strong> — sedan, SUV, Tempo Traveller — and how many people and bags fit.</li>
+<li><strong>The fare, where you can commit to one,</strong> stated as text, with what's included: tolls, parking, permits, the driver's stay.</li>
+<li><strong>Pickup points</strong> — the airport, the station, the bus stand, the hotel.</li>
+<li><strong>A WhatsApp button that pre-fills the route,</strong> so the enquiry arrives already specific.</li>
+</ul>
+<p>On <a href="/projects/baglamukhi-travels/">Baglamukhi Travels</a>, twenty-seven routes are published this way with all-in fares. “Call for quote” has no number for a fare search to match; a stated fare matches on every axis at once.</p>
+<hr>
+<h2 id="town-pages-without-doorways">Town pages without writing doorway pages</h2>
+<p>This is where most travel sites go wrong. Twenty town pages with the same paragraph and a different town name are exactly what search engines are built to ignore — and they drag the rest of the site down with them.</p>
+<p>A town page earns its place when it says things that are only true of that town: where the car waits, which trips people start from there, the airport or railhead it's nearest to, the road that takes longest in winter. <a href="/projects/sunny-himachal-travels/">Sunny Himachal Travels</a> has nine of these pages, and each was written from what the business actually gets called for in that town. If there's nothing specific to say about a town, the page doesn't get made.</p>
+<hr>
+<h2 id="a-build-that-refuses-thin-pages">A build that refuses thin pages</h2>
+<p>At twenty pages you can check for duplication by reading. At a hundred you can't. On Sunny's site, a test compares every pair of pages and fails the build if any two read too alike, so a new route that would overlap an existing page is dropped rather than published thin. Drafts also stay out of the sitemap and out of search until someone who knows the road has checked them.</p>
+<p>You don't need that exact tooling. You do need the rule behind it: <strong>a page exists only if it answers a search no other page on the site already answers.</strong></p>
+<hr>
+<h2 id="link-the-pages-to-each-other">Link the pages to each other, both ways</h2>
+<p>A trip that passes through a destination should appear on that destination's page. A town page should link to the routes that start there. The simplest way to keep this consistent is to declare each relationship once and render it on both sides, rather than hand-maintaining links that drift.</p>
+<hr>
+<h2 id="the-informational-trap">The informational trap</h2>
+<p>Posts that answer distance and “how to reach” questions can collect a lot of impressions and very few clicks, because Google often answers the question on the results page. The people who do click arrive at an article with nothing to book at the end of it.</p>
+<p>Keep writing them if they're useful, but make every one link clearly to the commercial page it relates to: the route, the trip, the town. That link is where an informational visit turns into an enquiry.</p>
+<hr>
+<h2 id="the-short-version">The short version</h2>
+<ul>
+<li>One page per route, trip and town you genuinely serve.</li>
+<li>Fares stated where you can commit to them.</li>
+<li>Something specific and true on every page, or no page.</li>
+<li>WhatsApp, pre-filled, at the bottom of everything.</li>
+</ul>
+<p>What I build for travel and taxi businesses is on the <a href="/services/travel-website-development/">travel and taxi website development</a> page.</p>
+<hr>
+<p><em>I'm Divyansh Sood — a web developer in Kangra, Himachal Pradesh. I've built travel sites for four operators in Kangra and Dharamshala. If you run tours or taxis anywhere in India, message me on <a href="https://wa.me/919816091875">WhatsApp</a> with the routes you run most.</em></p>
+      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </article>
+
+    <PostFaq faqs={faqs} />
+
+    <RelatedPosts slug={slug} audience={post.audience} />
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        {post.audience === "indian-smb" ? (
+          <>
+            <h2>Working on something in India?</h2>
+            <p>If a post here matches what you're building, send me the brief. WhatsApp reply in under an hour, 9 AM–9 PM IST — I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="https://wa.me/919816091875" target="_blank" rel="noopener"
+                >Message me on WhatsApp <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : post.audience === "d2c-brand" ? (
+          <>
+            <h2>Building a brand a theme can't carry?</h2>
+            <p>If your store has a model that off-the-shelf builders fight — hand-numbered drops, creator commerce, premium D2C — tell me about it. I read every brief personally.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : (
+          <>
+            <h2>Working on something similar?</h2>
+            <p>If a post here matches what you're building, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href={CALENDLY_URL} target="_blank" rel="noopener"
+                >Book a 15-min intro <span aria-hidden="true">↗</span></a
+              >
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+  </main>
+</Studio>

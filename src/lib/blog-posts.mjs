@@ -4,24 +4,64 @@
 
 export const POSTS = [
   {
-    "slug": "baglamukhi-travels-local-seo-case-study",
-    "title": "Publish the Fare: How a Kangra Taxi Site Got 19,100 Impressions in Seven Weeks",
-    "seoTitle": "Kangra Taxi Site: 19.1K Impressions in 7 Weeks · Divyansh Sood",
-    "description": "Ten pages, twenty-seven published fares, seven weeks of Search Console data — and the 1.4% click-through rate that says more about search now than the ranking.",
-    "pubDate": "2026-08-12",
-    "updatedDate": "2026-08-12",
-    "coverImage": "/blog/baglamukhi-travels-local-seo-case-study.jpg",
-    "coverAlt": "Title card reading “Publish the fare” in bold type on a near-black background",
+    "slug": "cbse-mandatory-public-disclosure-school-website",
+    "title": "CBSE Mandatory Public Disclosure: What Your School Website Must Publish",
+    "seoTitle": "CBSE Mandatory Public Disclosure Checklist · Divyansh Sood",
+    "description": "The five Appendix IX sections every CBSE school must publish on its website, what goes in each, and the mistakes that make a disclosure page fail.",
+    "pubDate": "2026-09-29",
+    "updatedDate": "2026-09-29",
+    "coverImage": "/blog/cbse-mandatory-public-disclosure-school-website.jpg",
+    "coverAlt": "Title card reading “Publish the record” in bold type on a near-black background",
     "tags": [
-      "case study",
-      "local SEO",
-      "Himachal Pradesh",
-      "travel",
-      "structured data"
+      "school website",
+      "education",
+      "India",
+      "compliance",
+      "web development"
     ],
     "audience": "indian-smb",
-    "readMins": 5,
-    "wordCount": 1210
+    "readMins": 4,
+    "wordCount": 974
+  },
+  {
+    "slug": "taxi-tour-operator-website-pages",
+    "title": "Taxi and Tour Operator Websites: Why Every Route and Town Needs Its Own Page",
+    "seoTitle": "Taxi & Tour Operator Websites: Page per Route · Divyansh Sood",
+    "description": "Travellers search for a route, a trip or a town, not a travel agency. How to give each of those searches a page on a taxi or tour site without going thin.",
+    "pubDate": "2026-09-29",
+    "updatedDate": "2026-09-29",
+    "coverImage": "/blog/taxi-tour-operator-website-pages.jpg",
+    "coverAlt": "Title card reading “One route, one page” in bold type on a near-black background",
+    "tags": [
+      "travel",
+      "local SEO",
+      "small business",
+      "India",
+      "WhatsApp"
+    ],
+    "audience": "indian-smb",
+    "readMins": 4,
+    "wordCount": 851
+  },
+  {
+    "slug": "hotel-near-me-landing-pages",
+    "title": "“Near” Pages for a Small Hotel: Ranking for Where Guests Are Going",
+    "seoTitle": "“Near” Landing Pages for Small Hotels · Divyansh Sood",
+    "description": "Guests don't search for your village. They search for a stay near the college, hospital, airport or temple. How a small hotel builds pages for those places.",
+    "pubDate": "2026-09-29",
+    "updatedDate": "2026-09-29",
+    "coverImage": "/blog/hotel-near-me-landing-pages.jpg",
+    "coverAlt": "Title card reading “Stay near what matters” in bold type on a near-black background",
+    "tags": [
+      "hotels",
+      "local SEO",
+      "small business",
+      "direct bookings",
+      "India"
+    ],
+    "audience": "indian-smb",
+    "readMins": 4,
+    "wordCount": 757
   },
   {
     "slug": "ranking-top-five-zero-clicks",
@@ -49,7 +89,7 @@ export const POSTS = [
     "seoTitle": "AEO vs GEO vs LLMO vs AI SEO, Explained · Divyansh Sood",
     "description": "Four acronyms, one underlying job. Which of these terms name something real, which is a rebrand with an invoice attached, and what the work actually collapses into.",
     "pubDate": "2026-08-09",
-    "updatedDate": "2026-08-09",
+    "updatedDate": "2026-09-29",
     "coverImage": "/blog/aeo-geo-llmo-ai-seo-explained.jpg",
     "coverAlt": "Title card reading “AEO. GEO. LLMO. AI SEO.” in bold type on a near-black background",
     "tags": [
@@ -60,16 +100,16 @@ export const POSTS = [
       "ChatGPT"
     ],
     "audience": "international",
-    "readMins": 5,
-    "wordCount": 1154
+    "readMins": 6,
+    "wordCount": 1269
   },
   {
     "slug": "entity-graph-schema-node-by-node",
-    "title": "The Entity Graph That Gets You Quoted: One Site’s Schema, Node by Node",
-    "seoTitle": "Entity Graph Schema, Node by Node · Divyansh Sood",
-    "description": "Most structured-data advice stops at valid markup. This is the graph running on this page — stable @ids, sameAs corroboration, and the two mistakes I made first.",
+    "title": "Schema Node Identifiers and the Entity Graph: One Site’s Structured Data, Node by Node",
+    "seoTitle": "Schema Node Identifiers (@id) & Entity Graphs · Divyansh Sood",
+    "description": "How to give every structured-data node a stable @id and link them into one entity graph — this site's schema, node by node, and the two mistakes I made first.",
     "pubDate": "2026-08-07",
-    "updatedDate": "2026-08-07",
+    "updatedDate": "2026-09-29",
     "coverImage": "/blog/entity-graph-schema-node-by-node.jpg",
     "coverAlt": "Title card reading “The entity graph, node by node” in bold type on a near-black background",
     "tags": [
@@ -109,7 +149,7 @@ export const POSTS = [
     "seoTitle": "Enforcing Scarcity in Code, Not a Caption · Divyansh Sood",
     "description": "A countdown timer that resets is a lie customers spotted years ago. What makes a limited drop real in software: numbering, race conditions, sold-out pages.",
     "pubDate": "2026-08-04",
-    "updatedDate": "2026-08-04",
+    "updatedDate": "2026-09-29",
     "coverImage": "/blog/scarcity-enforced-in-code.jpg",
     "coverAlt": "Title card reading “0001 to 0666” in bold type on a near-black background",
     "tags": [
@@ -120,8 +160,8 @@ export const POSTS = [
       "brand"
     ],
     "audience": "d2c-brand",
-    "readMins": 5,
-    "wordCount": 1177
+    "readMins": 6,
+    "wordCount": 1320
   },
   {
     "slug": "replatforming-without-losing-rankings",
@@ -205,11 +245,11 @@ export const POSTS = [
   },
   {
     "slug": "how-ai-is-transforming-website-development",
-    "title": "How AI Is Transforming Website Development",
-    "seoTitle": "How AI Is Transforming Website Development · Divyansh Sood",
-    "description": "Written from shipping client sites with AI daily and running an AI website generator. What has genuinely changed in how websites get built — and what hasn't.",
+    "title": "How AI Is Transforming Website Development: Benefits, Limits and What's Next",
+    "seoTitle": "How AI Is Changing Web Development (2026) · Divyansh Sood",
+    "description": "From shipping client sites with AI daily and running an AI website generator: what genuinely changed, the benefits ranked honestly, and where it goes next.",
     "pubDate": "2026-07-29",
-    "updatedDate": "2026-07-29",
+    "updatedDate": "2026-09-29",
     "coverImage": "/blog/how-ai-is-transforming-website-development.jpg",
     "coverAlt": "Title card reading “How AI is transforming web dev” in bold type on a near-black background",
     "tags": [
@@ -221,27 +261,7 @@ export const POSTS = [
     ],
     "audience": "international",
     "readMins": 13,
-    "wordCount": 3034
-  },
-  {
-    "slug": "benefits-of-ai-in-web-development",
-    "title": "The Real Benefits of AI in Modern Web Development",
-    "seoTitle": "Real Benefits of AI in Web Development (2026) · Divyansh Sood",
-    "description": "Not the vendor list. The benefits of AI in web development that survived contact with real client work — measured from my own builds, with the ones that didn't.",
-    "pubDate": "2026-07-29",
-    "updatedDate": "2026-07-29",
-    "coverImage": "/blog/benefits-of-ai-in-web-development.jpg",
-    "coverAlt": "Title card reading “The benefits that actually survived” in bold type on a near-black background",
-    "tags": [
-      "AI development",
-      "productivity",
-      "web development",
-      "AI",
-      "code quality"
-    ],
-    "audience": "international",
-    "readMins": 12,
-    "wordCount": 2741
+    "wordCount": 3117
   },
   {
     "slug": "challenges-and-limitations-of-ai-in-web-development",
@@ -264,32 +284,12 @@ export const POSTS = [
     "wordCount": 2728
   },
   {
-    "slug": "future-of-ai-assisted-web-development",
-    "title": "The Future of AI-Assisted Web Development",
-    "seoTitle": "The Future of AI-Assisted Web Development · Divyansh Sood",
-    "description": "What actually changes next in AI-assisted development, from someone who built an AI website generator — including the predictions I think are wrong, and why.",
-    "pubDate": "2026-07-29",
-    "updatedDate": "2026-07-29",
-    "coverImage": "/blog/future-of-ai-assisted-web-development.jpg",
-    "coverAlt": "Title card reading “The future of AI-assisted development” in bold type on a near-black background",
-    "tags": [
-      "AI-assisted development",
-      "future of work",
-      "AI",
-      "web development",
-      "careers"
-    ],
-    "audience": "international",
-    "readMins": 12,
-    "wordCount": 2685
-  },
-  {
     "slug": "ai-website-builder-vs-developer-india",
     "title": "AI Website Builders vs Hiring a Developer — the India Edition",
     "seoTitle": "AI Website Builder vs Developer in India (2026) · Divyansh Sood",
     "description": "I build client websites and I built an AI website generator. The honest comparison for an Indian small business — what generators do well, and where they stop.",
     "pubDate": "2026-07-28",
-    "updatedDate": "2026-07-28",
+    "updatedDate": "2026-09-29",
     "coverImage": "/blog/ai-website-builder-vs-developer-india.jpg",
     "coverAlt": "Title card reading “AI builder vs developer” in bold type on a near-black background",
     "tags": [
@@ -300,8 +300,8 @@ export const POSTS = [
       "small business"
     ],
     "audience": "indian-smb",
-    "readMins": 4,
-    "wordCount": 799
+    "readMins": 5,
+    "wordCount": 1009
   },
   {
     "slug": "how-indian-businesses-use-ai-2026",
@@ -449,7 +449,7 @@ export const POSTS = [
     "seoTitle": "Shopify Alternatives for Premium D2C · Divyansh Sood",
     "description": "Customize Shopify, go Woo, headless, or fully custom? The four real options for premium D2C brands, judged on brand control and three-year economics.",
     "pubDate": "2026-07-18",
-    "updatedDate": "2026-07-18",
+    "updatedDate": "2026-09-29",
     "coverImage": "/blog/shopify-alternatives-for-premium-d2c.jpg",
     "coverAlt": "Title card reading “Shopify alternatives, honestly ranked” in bold type on a near-black background",
     "tags": [
@@ -460,16 +460,16 @@ export const POSTS = [
       "custom code"
     ],
     "audience": "d2c-brand",
-    "readMins": 3,
-    "wordCount": 608
+    "readMins": 4,
+    "wordCount": 952
   },
   {
     "slug": "school-website-admissions-portal-india",
-    "title": "School Websites in India: What Parents Want, What Portals Fix",
-    "seoTitle": "School Website & Admissions Portal Cost in India · Divyansh Sood",
+    "title": "School Website Cost and Features in India: What Parents Want, What Portals Fix",
+    "seoTitle": "School Website Cost & Features in India (2026) · Divyansh Sood",
     "description": "What parents actually look for on a school website, why an admissions portal beats an ERP subscription, and what a fair build costs — from a 7-day real build.",
     "pubDate": "2026-07-16",
-    "updatedDate": "2026-07-16",
+    "updatedDate": "2026-09-29",
     "coverImage": "/blog/school-website-admissions-portal-india.jpg",
     "coverAlt": "Title card reading “School sites: what parents actually want” in bold type on a near-black background",
     "tags": [
@@ -489,7 +489,7 @@ export const POSTS = [
     "seoTitle": "Himachal Hotel Websites: Direct Bookings · Divyansh Sood",
     "description": "OTAs take 15–30% of every Himachal booking. The direct-booking website playbook for hotels and homestays — WhatsApp-first, seasonal SEO, and the season math.",
     "pubDate": "2026-07-14",
-    "updatedDate": "2026-07-14",
+    "updatedDate": "2026-09-29",
     "coverImage": "/blog/hotel-homestay-website-himachal-direct-bookings.jpg",
     "coverAlt": "Title card reading “Your stay. Your guests. Not their commission” in bold type on a near-black background",
     "tags": [
@@ -501,7 +501,7 @@ export const POSTS = [
     ],
     "audience": "indian-smb",
     "readMins": 3,
-    "wordCount": 584
+    "wordCount": 682
   },
   {
     "slug": "get-your-business-recommended-by-chatgpt",
@@ -509,7 +509,7 @@ export const POSTS = [
     "seoTitle": "Get Your Business Recommended by ChatGPT (2026) · Divyansh Sood",
     "description": "AI assistants already recommend businesses in your category — the steps that decide whether yours is named: quotable facts, schema, llms.txt, corroboration.",
     "pubDate": "2026-07-12",
-    "updatedDate": "2026-07-12",
+    "updatedDate": "2026-09-29",
     "coverImage": "/blog/get-your-business-recommended-by-chatgpt.jpg",
     "coverAlt": "Title card reading “Be the business ChatGPT recommends” in bold type on a near-black background",
     "tags": [
@@ -520,28 +520,8 @@ export const POSTS = [
       "llms.txt"
     ],
     "audience": "international",
-    "readMins": 3,
-    "wordCount": 614
-  },
-  {
-    "slug": "geo-vs-seo-whats-actually-different",
-    "title": "GEO vs SEO: What's Actually Different",
-    "seoTitle": "GEO vs SEO: What's Actually Different (2026) · Divyansh Sood",
-    "description": "SEO optimizes to win a click; GEO optimizes to be the answer. What changes in practice — entities, llms.txt, schema, measurement — and how the two compound.",
-    "pubDate": "2026-07-09",
-    "updatedDate": "2026-07-09",
-    "coverImage": "/blog/geo-vs-seo-whats-actually-different.jpg",
-    "coverAlt": "Title card reading “GEO vs SEO: two games, two referees” in bold type on a near-black background",
-    "tags": [
-      "GEO",
-      "SEO",
-      "AI search",
-      "llms.txt",
-      "structured data"
-    ],
-    "audience": "international",
-    "readMins": 3,
-    "wordCount": 635
+    "readMins": 4,
+    "wordCount": 766
   },
   {
     "slug": "hire-web-developer-india-from-us",
@@ -605,10 +585,10 @@ export const POSTS = [
   {
     "slug": "framer-vs-custom-code-2026",
     "title": "Framer vs Custom Code: When the Prettiest Builder Isn't Enough",
-    "seoTitle": "Framer vs Custom Code: Honest Comparison · Divyansh Sood",
+    "seoTitle": "Framer vs Custom Code (2026): When to Switch · Divyansh Sood",
     "description": "Framer is the best website builder ever made — and funded startups still replace it. Where Framer genuinely wins, where it hits a ceiling, and how to decide.",
     "pubDate": "2026-06-24",
-    "updatedDate": "2026-06-24",
+    "updatedDate": "2026-09-29",
     "coverImage": "/blog/framer-vs-custom-code-2026.jpg",
     "coverAlt": "Title card reading “Framer vs custom code, settled honestly” in bold type on a near-black background",
     "tags": [
@@ -623,90 +603,12 @@ export const POSTS = [
     "wordCount": 621
   },
   {
-    "slug": "why-premium-brands-leave-shopify",
-    "title": "Why Premium Brands Are Leaving Shopify for Custom Code",
-    "seoTitle": "Why Premium Brands Leave Shopify · Divyansh Sood",
-    "description": "Shopify is brilliant for getting a store live fast. But brands that want to feel like a brand keep hitting a theme-shaped ceiling. Where custom code wins.",
-    "pubDate": "2026-06-18",
-    "updatedDate": "2026-06-18",
-    "coverImage": "/blog/why-premium-brands-leave-shopify.jpg",
-    "coverAlt": "Shoppers outside the lit window of a high-street fashion store",
-    "tags": [
-      "D2C",
-      "Shopify",
-      "e-commerce",
-      "brand",
-      "custom code"
-    ],
-    "audience": "d2c-brand",
-    "readMins": 4,
-    "wordCount": 758
-  },
-  {
-    "slug": "the-real-cost-of-renting-your-storefront",
-    "title": "The Real Cost of Renting Your Storefront",
-    "description": "SaaS plans feel cheap because the bill is small and the cost invisible. What you actually pay over three years when your storefront is rented, not owned.",
-    "pubDate": "2026-06-10",
-    "updatedDate": "2026-06-10",
-    "coverImage": "/blog/the-real-cost-of-renting-your-storefront.jpg",
-    "coverAlt": "A customer tapping a bank card against a handheld card payment terminal",
-    "tags": [
-      "e-commerce",
-      "ownership",
-      "custom code",
-      "D2C",
-      "SaaS"
-    ],
-    "audience": "d2c-brand",
-    "readMins": 4,
-    "wordCount": 725
-  },
-  {
-    "slug": "make-your-brand-quotable-by-ai-geo-2026",
-    "title": "How to Make Your Brand Quotable by AI (GEO in 2026)",
-    "seoTitle": "How to Make Your Brand Quotable by AI · Divyansh Sood",
-    "description": "Search is splitting into links and answers, and most brands are invisible in the answer half. How to make ChatGPT, Claude, Gemini and Perplexity cite you.",
-    "pubDate": "2026-06-02",
-    "updatedDate": "2026-06-02",
-    "coverImage": "/blog/make-your-brand-quotable-by-ai-geo-2026.jpg",
-    "coverAlt": "Close-up of a gold-pinned silicon chip on a circuit board",
-    "tags": [
-      "GEO",
-      "AI search",
-      "SEO",
-      "llms.txt",
-      "brand"
-    ],
-    "audience": "international",
-    "readMins": 4,
-    "wordCount": 733
-  },
-  {
-    "slug": "scarcity-by-design-hand-numbered-drops",
-    "title": "Scarcity by Design: What Hand-Numbered Drops Teach About D2C",
-    "seoTitle": "Scarcity by Design: Hand-Numbered D2C Drops · Divyansh Sood",
-    "description": "Limited drops aren't a gimmick — they're a different business model with different software needs. What a hand-numbered apparel brand taught me about scarcity.",
-    "pubDate": "2026-05-22",
-    "updatedDate": "2026-05-22",
-    "coverImage": "/blog/scarcity-by-design-hand-numbered-drops.jpg",
-    "coverAlt": "A neat stack of folded knitwear in red, navy, grey and cream",
-    "tags": [
-      "D2C",
-      "e-commerce",
-      "brand",
-      "drops",
-      "custom code"
-    ],
-    "audience": "d2c-brand",
-    "readMins": 3,
-    "wordCount": 690
-  },
-  {
     "slug": "custom-code-vs-webflow-for-startups",
-    "title": "Custom Code vs Webflow for Funded Startups",
-    "description": "Webflow gets you a beautiful site fast — until it taxes your team and roadmap. How funded startups should decide between Webflow and custom code.",
+    "title": "Webflow vs Custom Development for Funded Startups",
+    "seoTitle": "Webflow vs Custom Code for Startups (2026) · Divyansh Sood",
+    "description": "Webflow vs custom code, decided honestly: where Webflow wins, where it starts taxing a startup's team and roadmap, and the three-year cost of each.",
     "pubDate": "2026-05-12",
-    "updatedDate": "2026-05-12",
+    "updatedDate": "2026-09-29",
     "coverImage": "/blog/custom-code-vs-webflow-for-startups.jpg",
     "coverAlt": "Someone writing in a notebook at a desk beside an open laptop and a coffee",
     "tags": [
@@ -758,25 +660,6 @@ export const POSTS = [
     "audience": "indian-smb",
     "readMins": 5,
     "wordCount": 987
-  },
-  {
-    "slug": "direct-bookings-without-aggregator-commission",
-    "title": "How to Get Direct Bookings Without Paying Aggregator Commission",
-    "seoTitle": "Direct Bookings Without Aggregator Commission · Divyansh Sood",
-    "description": "MakeMyTrip and Booking.com take 15–25% of every booking they send. How Himalayan travel businesses escape that dependency and keep the margin they earn.",
-    "pubDate": "2026-04-20",
-    "updatedDate": "2026-04-20",
-    "coverImage": "/blog/direct-bookings-without-aggregator-commission.jpg",
-    "coverAlt": "An empty hotel reception desk in a warmly lit lobby",
-    "tags": [
-      "direct bookings",
-      "himalayan businesses",
-      "travel",
-      "Himachal Pradesh"
-    ],
-    "audience": "indian-smb",
-    "readMins": 7,
-    "wordCount": 1337
   },
   {
     "slug": "page-speed-is-a-brand-statement",
@@ -837,44 +720,6 @@ export const POSTS = [
     "wordCount": 1286
   },
   {
-    "slug": "ai-website-builders-vs-developer-2026",
-    "title": "AI Website Builders vs a Human Developer in 2026",
-    "description": "I build an AI website generator and I build sites by hand. The honest version of when AI is genuinely the right tool, and when it quietly costs you more.",
-    "pubDate": "2026-03-25",
-    "updatedDate": "2026-03-25",
-    "coverImage": "/blog/ai-website-builders-vs-developer-2026.jpg",
-    "coverAlt": "Syntax-highlighted code on a dark screen, shallow focus",
-    "tags": [
-      "AI",
-      "web development",
-      "custom code",
-      "no-code",
-      "WebSeek"
-    ],
-    "audience": "international",
-    "readMins": 4,
-    "wordCount": 734
-  },
-  {
-    "slug": "chinkiz-creator-store-case-study",
-    "title": "How a 600K YouTuber Sold Handmade Products Online Without Shopify",
-    "seoTitle": "600K YouTuber’s Handmade Store Without Shopify · Divyansh Sood",
-    "description": "Chinki had 600K YouTube subscribers and a store problem Shopify couldn't solve. A case study in custom-coded D2C — video gallery, Razorpay COD, zero templates.",
-    "pubDate": "2026-03-20",
-    "updatedDate": "2026-03-20",
-    "coverImage": "/blog/chinkiz-creator-store-case-study.jpg",
-    "coverAlt": "Balls of wool in bright green, yellow, pink, purple and brown",
-    "tags": [
-      "case study",
-      "creator economy",
-      "D2C",
-      "Shopify alternative"
-    ],
-    "audience": "d2c-brand",
-    "readMins": 7,
-    "wordCount": 1301
-  },
-  {
     "slug": "storefront-that-feels-like-the-brand",
     "title": "Designing a Storefront That Feels Like the Brand, Not a Theme",
     "seoTitle": "A Storefront That Feels Like the Brand · Divyansh Sood",
@@ -913,31 +758,12 @@ export const POSTS = [
     "wordCount": 1268
   },
   {
-    "slug": "modernkbs-school-website-case-study",
-    "title": "A School Needed a Website and an Admissions Portal. Every Agency Said 6 Months. We Did It in 7 Days.",
-    "seoTitle": "School Website + Admissions Portal in 7 Days · Divyansh Sood",
-    "description": "Modern K.B.S. School needed a website and a working admissions portal at once. Every agency quoted 6 months. A case study in what's possible with custom code.",
-    "pubDate": "2026-02-20",
-    "updatedDate": "2026-02-20",
-    "coverImage": "/blog/modernkbs-school-website-case-study.jpg",
-    "coverAlt": "A bright yellow primary classroom with a green chalkboard and colourful chairs",
-    "tags": [
-      "case study",
-      "Himachal Pradesh",
-      "school",
-      "admissions portal"
-    ],
-    "audience": "indian-smb",
-    "readMins": 6,
-    "wordCount": 1284
-  },
-  {
     "slug": "how-to-choose-web-developer-himachal",
-    "title": "How to Choose a Website Developer in India (Without Getting Burned)",
-    "seoTitle": "How to Choose a Website Developer in India · Divyansh Sood",
-    "description": "What to ask, what the red flags look like, and what good website work actually costs — a practical guide for Indian business owners hiring a web developer.",
+    "title": "How to Choose a Web Developer in Himachal (Without Getting Burned)",
+    "seoTitle": "How to Choose a Web Developer in Himachal · Divyansh Sood",
+    "description": "What to ask, the red flags, and what good website work costs — a practical guide for business owners in Himachal and across India hiring a web developer.",
     "pubDate": "2026-02-05",
-    "updatedDate": "2026-02-05",
+    "updatedDate": "2026-09-29",
     "coverImage": "/blog/how-to-choose-web-developer-himachal.jpg",
     "coverAlt": "A laptop showing code beside a cup of coffee, warm string lights behind",
     "tags": [
@@ -1007,24 +833,5 @@ export const POSTS = [
     "audience": "indian-smb",
     "readMins": 8,
     "wordCount": 1648
-  },
-  {
-    "slug": "nandini-travels-case-study",
-    "title": "How a Taxi Business in Kangra Moved from Google Maps to Direct Website Bookings",
-    "seoTitle": "Taxi Business: Google Maps to Direct Bookings · Divyansh Sood",
-    "description": "Nandini Travels was the most-reviewed taxi operator in Kangra — and had zero direct bookings. Here's how a WhatsApp-first website changed that within weeks.",
-    "pubDate": "2025-10-15",
-    "updatedDate": "2025-10-15",
-    "coverImage": "/blog/nandini-travels-case-study.jpg",
-    "coverAlt": "Yellow taxis parked on a roadside in Kangra, a woman walking past",
-    "tags": [
-      "case study",
-      "Himachal Pradesh",
-      "taxi",
-      "direct bookings"
-    ],
-    "audience": "indian-smb",
-    "readMins": 5,
-    "wordCount": 986
   }
 ];

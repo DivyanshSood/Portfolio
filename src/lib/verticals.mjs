@@ -51,7 +51,8 @@ export const VERTICALS = {
       { q: "Do you build school websites outside Himachal Pradesh?", a: "Yes. The work runs over WhatsApp, calls and screen-shares, so a school anywhere in India gets the same process. Schools in Kangra and nearby districts can also meet in person." },
     ],
     reading: [
-      { href: "/blog/school-website-admissions-portal-india/", t: "School websites in India: what they need and what they cost" },
+      { href: "/blog/cbse-mandatory-public-disclosure-school-website/", t: "CBSE Mandatory Public Disclosure: what your school website must publish" },
+      { href: "/blog/school-website-admissions-portal-india/", t: "School website cost and features in India" },
       { href: "/blog/why-indian-websites-dont-generate-leads/", t: "Why most Indian websites don't generate leads" },
     ],
   },
@@ -96,7 +97,8 @@ export const VERTICALS = {
       { q: "Do you build websites for homestays outside Himachal?", a: "Yes. The process runs over WhatsApp and calls, so a homestay anywhere in India gets the same build. Properties in the Kangra valley can also meet in person." },
     ],
     reading: [
-      { href: "/blog/hotel-homestay-website-himachal-direct-bookings/", t: "Hotel and homestay websites in Himachal: getting direct bookings" },
+      { href: "/blog/hotel-near-me-landing-pages/", t: "“Near” pages for a small hotel: ranking for where guests are going" },
+      { href: "/blog/hotel-homestay-website-himachal-direct-bookings/", t: "Hotel and homestay websites in Himachal: the commission math" },
       { href: "/blog/google-business-profile-vs-website-himachal/", t: "Google Business Profile vs a website for Himachal businesses" },
     ],
   },
@@ -141,6 +143,7 @@ export const VERTICALS = {
       { q: "Do you only build travel websites in Himachal?", a: "No. The four travel sites so far are in Kangra and Dharamshala, but the same approach works for any operator in India whose customers search by route and town." },
     ],
     reading: [
+      { href: "/blog/taxi-tour-operator-website-pages/", t: "Taxi and tour operator websites: why every route and town needs its own page" },
       { href: "/blog/mobile-first-booking-design/", t: "Mobile-first booking design" },
       { href: "/blog/google-business-profile-vs-website-himachal/", t: "Google Business Profile vs a website for Himachal businesses" },
     ],

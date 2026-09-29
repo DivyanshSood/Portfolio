@@ -1,0 +1,242 @@
+---
+import Studio from "../../layouts/Studio.astro";
+import RelatedPosts from "../../components/RelatedPosts.astro";
+import PostFaq from "../../components/PostFaq.astro";
+import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
+import { coverBase, coverSrcset, COVER_SIZES_POST } from "../../lib/images.mjs";
+
+const slug = "hotel-near-me-landing-pages";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+/* Questions real buyers ask, answered in full. This array is the single
+   source for both the visible accordion and the FAQPage node above — Google
+   requires FAQ markup to match content on the page, and deriving both from one
+   array is what stops them drifting. */
+const faqs = [
+  {
+    q: "What is a “near” page on a hotel website?",
+    a: "A page written about a place your guests travel to — a college, a hospital, an airport, a temple, a stadium — that explains how your property relates to it: the distance, who stays with you for it, and what else is nearby. It targets searches like “hotel near NIFT Kangra”.",
+  },
+  {
+    q: "Are “near” pages doorway pages?",
+    a: "They become doorway pages when they are the same text with the landmark's name swapped. Each page needs to be genuinely about its place: why people go there, when, and what they need from a stay. If you have nothing specific to say about a landmark, skip it.",
+  },
+  {
+    q: "Do “near me” searches depend on the website?",
+    a: "Mostly not. “Near me” results are driven by the searcher's location and your Google Business Profile. “Near <place>” searches are different: they name a place, and a page about that place can rank for them.",
+  },
+  {
+    q: "Should a hotel website list drive times to nearby places?",
+    a: "Only if you are sure of them. Distances in kilometres are stable and easy to verify; drive times change with traffic, season and weather. Yash Rock Hotel's site publishes distances and removed drive times nobody had actually timed.",
+  },
+  {
+    q: "How many “near” pages should a small hotel have?",
+    a: "One for each place that genuinely brings you guests, and no more. Yash Rock Hotel has fourteen, each linked from the site's footer so none of them is orphaned.",
+  },
+];
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: authorNode(SITE),
+      publisher: publisherNode(SITE),
+      isPartOf: websiteNode(SITE),
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      // Resolves the free-text tags above to public concept identifiers, so a
+      // parser knows "Astro" means the framework and "GEO" isn't geography.
+      about: topicsForTags(post.tags),
+      wordCount: post.wordCount,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+    {
+      // Google retired FAQ rich results in May 2026, so this earns no SERP
+      // enhancement. It stays because answer engines read Q&A pairs well, and
+      // because every question below is rendered visibly by <PostFaq>.
+      "@type": "FAQPage",
+      "@id": `${canonical}#faq`,
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    },
+  ],
+});
+---
+
+<Studio
+  title={post.seoTitle ?? `${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  preloadImage={{ href: coverBase(post.coverImage), srcset: coverSrcset(post.coverImage), sizes: COVER_SIZES_POST }}
+  jsonld={jsonld}
+>
+  <main>
+    <header class="post-hero">
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img
+            src={coverBase(post.coverImage)}
+            srcset={coverSrcset(post.coverImage)}
+            sizes={COVER_SIZES_POST}
+            alt={post.coverAlt ?? post.title}
+            width="1200"
+            height="750"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+<p>A small hotel in a village has a search problem that a city hotel doesn't: nobody searches for the village. Guests search for a place to stay <em>near</em> what they came for — the college where their child is sitting an admission test, the hospital a relative is in, the airport, the temple, the cricket stadium.</p>
+<p>A website that only talks about itself never meets those searches. A website with a page for each of those places does. This is how I built them for <a href="/projects/yash-rock-hotel/">Yash Rock Hotel</a>, a seven-room property in Dehrian, Kangra.</p>
+<hr>
+<h2 id="near-me-vs-near-place">“Near me” and “near &lt;place&gt;” are different searches</h2>
+<p>Be clear about which one a page can help with.</p>
+<p><strong>“Hotel near me”</strong> is resolved mostly from where the searcher is standing and from your Google Business Profile — its category, reviews and distance. A web page can support that listing by keeping your name, address and phone consistent with it, but it can't replace it.</p>
+<p><strong>“Hotel near NIFT Kangra”</strong> names a place. That's a question a page can answer directly, and it's the search these pages are for.</p>
+<hr>
+<h2 id="pick-the-places">Pick the places that actually bring guests</h2>
+<p>Start with the owner, not a keyword tool. Ask who has stayed in the last year and why they were in the area. For Yash Rock the answers were specific: families visiting NIFT Kangra and Tanda Medical College, travellers flying into Kangra Airport, pilgrims on the Devi temple circuit, visitors heading to Dharamshala and the HPCA stadium. That became fourteen pages.</p>
+<p>A place belongs on the list if it genuinely brings you guests. A place that's merely nearby does not.</p>
+<hr>
+<h2 id="what-goes-on-each-page">What goes on each page</h2>
+<ul>
+<li><strong>The place in the title and H1,</strong> worded the way people search: “Stay near Tanda Medical College”.</li>
+<li><strong>Why people go there, and when</strong> — admissions season, exam dates, match days, festival weeks.</li>
+<li><strong>Who stays with you for it,</strong> and what they need: a quiet room before an exam, parking, early check-out, food on request.</li>
+<li><strong>The distance, in kilometres,</strong> and the route.</li>
+<li><strong>What else is nearby</strong> that the same guest might want.</li>
+<li><strong>WhatsApp and call buttons,</strong> with the place pre-filled in the message.</li>
+</ul>
+<hr>
+<h2 id="distances-not-drive-times">Distances, not drive times</h2>
+<p>Drive times feel helpful and are usually wrong. They move with traffic, season and weather, and on hill roads a map's estimate can be far off. Yash Rock's site originally listed drive times that nobody had actually driven, and they were taken out. Road distances stayed: they're measured over map data, they don't change with the season, and anyone can check them.</p>
+<p>If a figure on the page is one you can't stand behind, it costs you more trust than it earns.</p>
+<hr>
+<h2 id="not-doorway-pages">How to avoid writing doorway pages</h2>
+<p>Search engines are built to ignore pages that are the same text with a place name swapped in. The test is simple: <strong>cover up the landmark's name, and ask whether you could still tell which page you're reading.</strong> If you can't, the page isn't about the place yet.</p>
+<p>Each of Yash Rock's pages is written about its landmark first and the hotel second. The one about NIFT talks about the campus and admissions; the one about the airport talks about flights and arrival times. The hotel is the answer at the end, not the subject of every paragraph.</p>
+<hr>
+<h2 id="make-them-findable">Make them findable on your own site</h2>
+<p>These pages are written for people arriving from a search, not for browsing, so they don't belong in the main menu. They do need to be linked. On Yash Rock's site the footer links every one of them from every page, which keeps them crawlable instead of orphaned.</p>
+<p>Underneath, the site's Hotel structured data carries the property's coordinates and address, so the pages, the site and the Business Profile all describe the same place.</p>
+<hr>
+<h2 id="the-short-version">The short version</h2>
+<ul>
+<li>Build a page for each place that genuinely brings you guests.</li>
+<li>Write each one about the place first and the hotel second.</li>
+<li>Publish distances you can verify; skip times you can't.</li>
+<li>Link them all from the footer, and keep your Google Business Profile consistent with the site.</li>
+</ul>
+<p>What I build for hotels and homestays is on the <a href="/services/hotel-website-development/">hotel website development</a> page, and the direct-booking economics are in <a href="/blog/hotel-homestay-website-himachal-direct-bookings/">this post on commission and direct bookings</a>.</p>
+<hr>
+<p><em>I'm Divyansh Sood — a web developer in Kangra, Himachal Pradesh, building hotel and homestay websites that end in a WhatsApp message. If your property is near something people travel to, message me on <a href="https://wa.me/919816091875">WhatsApp</a> with its name.</em></p>
+      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </article>
+
+    <PostFaq faqs={faqs} />
+
+    <RelatedPosts slug={slug} audience={post.audience} />
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        {post.audience === "indian-smb" ? (
+          <>
+            <h2>Working on something in India?</h2>
+            <p>If a post here matches what you're building, send me the brief. WhatsApp reply in under an hour, 9 AM–9 PM IST — I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="https://wa.me/919816091875" target="_blank" rel="noopener"
+                >Message me on WhatsApp <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : post.audience === "d2c-brand" ? (
+          <>
+            <h2>Building a brand a theme can't carry?</h2>
+            <p>If your store has a model that off-the-shelf builders fight — hand-numbered drops, creator commerce, premium D2C — tell me about it. I read every brief personally.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : (
+          <>
+            <h2>Working on something similar?</h2>
+            <p>If a post here matches what you're building, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href={CALENDLY_URL} target="_blank" rel="noopener"
+                >Book a 15-min intro <span aria-hidden="true">↗</span></a
+              >
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+  </main>
+</Studio>

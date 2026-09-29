@@ -41,6 +41,14 @@ const faqs = [
     q: "How do you decide between them?",
     a: "Judge on brand control and three-year economics rather than the launch quote. Ask what the buying experience has to do that a theme can't, and add up what each option costs over three years including apps, plugins, subscriptions and developer time. Most brands discover the gap is smaller than the initial numbers suggest — and that the deciding factor was never price.",
   },
+  {
+    q: "Why do premium brands leave Shopify?",
+    a: "Because the theme becomes the ceiling. Shopify is excellent at getting a store live and selling quickly, and its structure quietly decides what your store can be — product page, collection page, cart, checkout, in that shape. Brands whose value is partly in how buying feels eventually find they're designing around the platform rather than for their customer.",
+  },
+  {
+    q: "Do you lose Shopify's checkout if you go custom?",
+    a: "You replace it, which is the part worth thinking hardest about. Shopify's checkout is genuinely very good and rebuilding it badly is the fastest way to lose money. A custom storefront uses a payment provider directly — Razorpay or Stripe, for example — and the build has to take that path as seriously as Shopify does, because that's where the revenue actually happens.",
+  },
 ];
 
 const jsonld = JSON.stringify({
@@ -150,9 +158,24 @@ const jsonld = JSON.stringify({
 <p>You’re not looking for a Shopify alternative because Shopify is bad. You’re looking because your brand has started to feel bigger than its container — the theme that got you to your first hundred orders now makes you look like everyone else’s first hundred orders.</p>
 <p>Here are the actual options for a premium D2C brand in 2026, evaluated on the axis that matters at your stage: how much of the brand experience — and the economics — you control.</p>
 <hr>
+<h2 id="where-shopify-actually-starts-costing-you">Where Shopify actually starts costing you</h2>
+<p>The sticker price isn’t where it hurts. It’s the slow accumulation.</p>
+<p><strong>App rent.</strong> The features you assumed were “the platform” are usually apps — reviews, bundles, upsells, custom fields, a decent mega-menu. Each is ₹500–₹3,000/month. Five apps and you’re renting ₹10,000+/month for functionality you never own.</p>
+<p><strong>Performance tax.</strong> Every app injects its own JavaScript. A heavily-apped Shopify store on mobile routinely lands in the 40s–60s on Lighthouse. That’s not a vanity score — it’s slower checkouts and weaker Google rankings, forever.</p>
+<p><strong>The sameness.</strong> A trained eye spots a Shopify theme in two seconds. If your brand charges a premium <em>because</em> it feels rare, looking like the same Dawn theme as ten thousand other stores quietly undercuts the price you’re trying to defend.</p>
+
+<h2 id="where-shopify-wins">Where Shopify wins — and you should stay</h2>
+<p>I move brands off Shopify when it’s right. I also tell plenty to stay. You should stay when:</p>
+<ul>
+<li>You have <strong>hundreds of SKUs</strong> with variants, inventory sync, and warehouse integrations</li>
+<li>You need <strong>multi-currency, multi-region tax and fulfilment</strong> handled for you</li>
+<li>Your team is <strong>non-technical and self-managing</strong> the catalogue daily</li>
+<li>You’re <strong>still finding product-market fit</strong> and speed of iteration beats everything</li>
+</ul>
+<p>Shopify’s checkout, fraud handling, and payment reliability are genuinely excellent. Rebuilding those from scratch is rarely worth it.</p>
 <h2 id="option-1-stay-and-customize">Option 1: Stay on Shopify, customize harder</h2>
 <p>Liquid theme surgery, a custom theme from an agency, apps for everything else. It’s the lowest-risk move and sometimes the right one — if your constraint is time, not ceiling.</p>
-<p>But be honest about what you’re buying: a nicer room in a building you rent. The checkout is still Shopify’s. The fees continue. The apps stack up — each one a monthly line item and a seam in the experience. And a heavily customized theme is its own maintenance burden, without ever becoming yours. The full argument is in <a href="/blog/why-premium-brands-leave-shopify/">why premium brands are leaving Shopify</a>.</p>
+<p>But be honest about what you’re buying: a nicer room in a building you rent. The checkout is still Shopify’s. The fees continue. The apps stack up — each one a monthly line item and a seam in the experience. And a heavily customized theme is its own maintenance burden, without ever becoming yours. The full argument is in <a href="#where-shopify-actually-starts-costing-you">where Shopify starts costing you</a>, above.</p>
 <hr>
 <h2 id="option-2-woocommerce">Option 2: WooCommerce</h2>
 <p>The default “owned” alternative — and for premium brands, usually a sideways move. Yes, you escape platform rent into open source. But you inherit WordPress: plugin sprawl, security patching, hosting tuning, and a front end that fights you at the exact place you left Shopify — making the store feel like the brand. You traded a landlord for a fixer-upper.</p>
@@ -166,6 +189,11 @@ const jsonld = JSON.stringify({
 <p>This is what I build, so discount accordingly — but the receipts are real. <a href="/projects/chinkiz/">ChinkiZ</a>: a 600K-subscriber creator selling handmade products through a custom store with a native video gallery, live in two weeks. <a href="/projects/cultxberserk/">CultXberserk</a>: hand-numbered drops, 0001–0666, thirteen designs never reprinted — scarcity mechanics no app store sells. Neither was expensive by agency standards; both cost less over three years than the platform stack they replaced.</p>
 <p>The honest caveats: you need a developer you trust (here’s <a href="/blog/how-to-choose-web-developer-himachal/">how to vet one</a>), and a catalog of thousands of SKUs with complex ops is better served by options 1 or 3. Custom shines where premium D2C actually lives — focused catalogs, strong stories, drops.</p>
 <hr>
+<h2 id="the-three-year-math">The three-year math of renting vs owning</h2>
+<p>Here’s a realistic mid-tier setup for a growing D2C brand:</p>
+<table><thead><tr><th>Line item</th><th>Monthly</th><th>3-year total</th></tr></thead><tbody><tr><td>Platform plan</td><td>₹2,600</td><td>₹93,600</td></tr><tr><td>6 apps (avg ₹1,200 each)</td><td>₹7,200</td><td>₹2,59,200</td></tr><tr><td>Premium theme updates</td><td>₹400</td><td>₹14,400</td></tr><tr><td>Transaction fees (beyond gateway)</td><td>varies</td><td>₹50,000+</td></tr><tr><td><strong>Total</strong></td><td><strong>~₹10,200</strong></td><td><strong>~₹4,17,000</strong></td></tr></tbody></table>
+<p>Four lakh rupees over three years — and at the end of it, you own nothing. Stop paying and the store goes dark. You can’t take the theme, the app logic, or the custom fields with you.</p>
+<p>A custom-coded storefront inverts this. You pay once to build, then hosting is ₹0–₹6,000/year because a custom site is just files on a fast CDN. The asset is yours. There’s no monthly feature rent because the features are in your code.</p>
 <h2 id="the-decision-in-one-table">The decision, compressed</h2>
 <ul>
 <li><strong>Constraint is time</strong> → stay on Shopify, customize.</li>

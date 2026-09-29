@@ -1,6 +1,7 @@
 ---
 import Studio from "../../layouts/Studio.astro";
 import RelatedPosts from "../../components/RelatedPosts.astro";
+import PostFaq from "../../components/PostFaq.astro";
 import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
 import { coverBase, coverSrcset, COVER_SIZES_POST } from "../../lib/images.mjs";
 
@@ -14,6 +15,31 @@ const primaryTag = post.tags[0] || "Notes";
 const readMins = post.readMins;
 const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
 const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+/* Questions real buyers ask, answered in full. Single source for both the
+   visible accordion and the FAQPage node below, so the two cannot drift. */
+const faqs = [
+  {
+    q: "How do I get ChatGPT to recommend my business?",
+    a: "By being the clearest source of the answer it's being asked for, on pages it can already find. Assistants retrieve from indexed web content, so the work is: rank for the question in classic search, answer it directly and early on the page, write sentences that survive being quoted without their surrounding paragraph, and use structured data to say who wrote it and why they're qualified. There is no submission form and no shortcut.",
+  },
+  {
+    q: "What makes a page quotable by an AI assistant?",
+    a: "Self-contained sentences that name their subject. A model retrieves fragments, not pages — so a line reading \"we shipped it in seven days\" is unusable, while \"Divyansh Sood delivered the Modern K.B.S. school portal in 7 days\" can be lifted directly. Attach the claim to its evidence in the same sentence, and put the answer near the top rather than after eight hundred words of preamble.",
+  },
+  {
+    q: "Does structured data help with AI citations?",
+    a: "It helps with attribution more than with selection. Schema is what lets a system connect a piece of writing to a named author, an organisation, and a set of topics with public identifiers — so the brand gets credited rather than the content floating free. It won't make a mediocre page get cited, and it does make a good page attributable.",
+  },
+  {
+    q: "How do I check whether AI assistants are mentioning my brand?",
+    a: "Ask them. Take the ten questions a customer would actually type, put them to ChatGPT, Claude, Gemini and Perplexity, and record what comes back — then repeat monthly. It's manual and unglamorous and it's the only measurement that reflects what your buyers are seeing. Watch AI referral sources in analytics alongside it.",
+  },
+  {
+    q: "Is it too late to start with GEO?",
+    a: "No — the window is unusually open, because most businesses in most categories have done nothing here. That's a temporary advantage rather than a permanent one, and it favours anyone with genuine first-hand material to publish, since that's the thing a competitor can't replicate by rewriting your pages.",
+  },
+];
 
 const jsonld = JSON.stringify({
   "@context": "https://schema.org",
@@ -51,6 +77,15 @@ const jsonld = JSON.stringify({
         { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
         { "@type": "ListItem", position: 3, name: post.title, item: canonical },
       ],
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${canonical}#faq`,
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
     },
   ],
 });
@@ -126,6 +161,10 @@ const jsonld = JSON.stringify({
 <h2 id="step-2-hand-over-your-facts-in-schema">Step 2: Hand over your facts in schema</h2>
 <p>JSON-LD structured data — Organization, LocalBusiness or Service, FAQPage, Article — is your facts in a format that can’t be misread: name, services, area served, founding date, contact, links to your profiles. The FAQ part matters double, because question-and-answer is the exact shape of what users ask assistants. Answer the questions your customers actually type, in one or two self-contained sentences each.</p>
 <hr>
+<h2 id="write-the-faq-the-model-is-looking-for">Write the FAQ the model is looking for</h2>
+<p>AI assistants love a clear question-and-answer pair, because that’s the shape of what users ask them.</p>
+<p>Put a real FAQ on your key pages — product pages, your about page, your service pages. Phrase the questions the way a customer would type them into ChatGPT, and answer in one or two complete, self-contained sentences. Then wrap it in FAQ schema.</p>
+<p>Done well, your exact answer becomes the model’s answer. That’s the whole game: you’re not hoping to be summarised, you’re handing over the summary.</p>
 <h2 id="step-3-ship-llms-txt-and-open-the-door">Step 3: Ship llms.txt and open the door</h2>
 <p>Two files at your domain root:</p>
 <ul>
@@ -145,9 +184,11 @@ const jsonld = JSON.stringify({
 </ul>
 <p>Run the loop monthly rather than once. The answers move as the models refresh their sources, and the point is to catch a stale or wrong description early — while it’s still a fix at the origin rather than a story that has spread.</p>
 <hr>
-<p><em>I’m Divyansh Sood. Getting businesses recommended by AI is literally a service I sell — <a href="/services/seo-geo-services/">SEO and GEO, implemented in your codebase</a> — and the deeper theory is in <a href="/blog/geo-vs-seo-whats-actually-different/">GEO vs SEO</a>. Before you email me, ask the assistants about your category. Then <a href="mailto:hello@divyanshsood.com">send me what they said</a> — that transcript is the audit.</em></p>
+<p><em>I’m Divyansh Sood. Getting businesses recommended by AI is literally a service I sell — <a href="/services/seo-geo-services/">SEO and GEO, implemented in your codebase</a> — and the deeper theory is in <a href="/blog/aeo-geo-llmo-ai-seo-explained/">GEO vs SEO</a>. Before you email me, ask the assistants about your category. Then <a href="mailto:hello@divyanshsood.com">send me what they said</a> — that transcript is the audit.</em></p>
       <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
     </article>
+
+    <PostFaq faqs={faqs} idPrefix="faq-rec" />
 
     <RelatedPosts slug={slug} audience={post.audience} />
 

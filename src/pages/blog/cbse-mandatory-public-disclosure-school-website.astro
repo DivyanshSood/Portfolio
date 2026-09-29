@@ -1,0 +1,274 @@
+---
+import Studio from "../../layouts/Studio.astro";
+import RelatedPosts from "../../components/RelatedPosts.astro";
+import PostFaq from "../../components/PostFaq.astro";
+import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
+import { coverBase, coverSrcset, COVER_SIZES_POST } from "../../lib/images.mjs";
+
+const slug = "cbse-mandatory-public-disclosure-school-website";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
+const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
+
+/* Questions real buyers ask, answered in full. This array is the single
+   source for both the visible accordion and the FAQPage node above — Google
+   requires FAQ markup to match content on the page, and deriving both from one
+   array is what stops them drifting. */
+const faqs = [
+  {
+    q: "What is the CBSE Mandatory Public Disclosure?",
+    a: "It is the set of information every CBSE-affiliated school must publish on its own website in the format of Appendix IX of the CBSE Affiliation Bye-Laws: general information about the school, key documents and certificates, results and academics, teaching staff, and school infrastructure.",
+  },
+  {
+    q: "Which documents must a CBSE school upload to its website?",
+    a: "The Appendix IX list covers the affiliation or upgradation letter and its latest extension, the trust or society registration, the state NOC, the RTE recognition certificate, building safety and fire safety certificates, the DEO certificate or self-certification, and water, health and sanitation certificates. They are uploaded as self-attested copies.",
+  },
+  {
+    q: "Can a school just upload one PDF of the disclosure?",
+    a: "A single scanned PDF technically puts the information online, but it is hard to read on a phone, cannot be searched, and hides which items are missing. A disclosure laid out as a web page, with each document linked from its own row, serves parents and inspectors far better.",
+  },
+  {
+    q: "What if some documents are not ready yet?",
+    a: "Say so on the page. A row that reads “Document awaited” is honest and easy to update later. A download button that leads nowhere, or a figure copied from another school's template, is worse than an admitted gap.",
+  },
+  {
+    q: "Does the disclosure page help the school's Google ranking?",
+    a: "Indirectly. It is one of the pages parents and education portals look for by name, and it states the affiliation number, school code and address that help Google tie the website to the school's CBSE record and Business Profile.",
+  },
+];
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: authorNode(SITE),
+      publisher: publisherNode(SITE),
+      isPartOf: websiteNode(SITE),
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      // Resolves the free-text tags above to public concept identifiers, so a
+      // parser knows "Astro" means the framework and "GEO" isn't geography.
+      about: topicsForTags(post.tags),
+      wordCount: post.wordCount,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+    {
+      // Google retired FAQ rich results in May 2026, so this earns no SERP
+      // enhancement. It stays because answer engines read Q&A pairs well, and
+      // because every question below is rendered visibly by <PostFaq>.
+      "@type": "FAQPage",
+      "@id": `${canonical}#faq`,
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    },
+  ],
+});
+---
+
+<Studio
+  title={post.seoTitle ?? `${post.title} · Divyansh Sood`}
+  description={post.description}
+  canonical={canonical}
+  keywords={post.tags.join(", ")}
+  ogType="article"
+  ogTitle={post.title}
+  ogImage={ogImage}
+  ogImageW={1200}
+  ogImageH={750}
+  articlePublished={iso(post.pubDate)}
+  articleModified={iso(post.updatedDate || post.pubDate)}
+  tags={post.tags}
+  preloadImage={{ href: coverBase(post.coverImage), srcset: coverSrcset(post.coverImage), sizes: COVER_SIZES_POST }}
+  jsonld={jsonld}
+>
+  <main>
+    <header class="post-hero">
+      <div class="wrap narrow">
+        <div class="eyebrow">
+          <span>{primaryTag}</span>
+          <span>{fmtDate(post.pubDate)}</span>
+          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
+          <span>{readMins} min read</span>
+        </div>
+        <h1 class="post-title">{post.title}</h1>
+        <p class="post-lead">{post.description}</p>
+        <div class="post-meta">
+          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
+        </div>
+      </div>
+    </header>
+
+    {post.coverImage && (
+      <div class="wrap narrow">
+        <figure class="post-cover">
+          <img
+            src={coverBase(post.coverImage)}
+            srcset={coverSrcset(post.coverImage)}
+            sizes={COVER_SIZES_POST}
+            alt={post.coverAlt ?? post.title}
+            width="1200"
+            height="750"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </figure>
+      </div>
+    )}
+
+    <article class="wrap narrow post-body">
+<p>Every CBSE-affiliated school is required to publish a Mandatory Public Disclosure on its own website. Most schools know that. Far fewer have a disclosure that a parent can actually read on a phone, or that would stand up if someone checked the figures against the school's CBSE record.</p>
+<p>This is the checklist I work from when I build a school website. It follows the Appendix IX format of the CBSE Affiliation Bye-Laws, section by section, and ends with the mistakes I see most often.</p>
+<hr>
+<h2 id="the-five-sections">The five sections, in the order CBSE lists them</h2>
+<p>Appendix IX groups the disclosure into five parts. Keep the same order and the same labels on the page. Parents skim for a heading; an inspector looks for the section letter.</p>
+<h3>A. General information</h3>
+<ul>
+<li>Name of the school</li>
+<li>Affiliation number and school code</li>
+<li>Complete address with pin code</li>
+<li>Principal's name and qualification</li>
+<li>School email and contact number</li>
+</ul>
+<p>These values should be identical everywhere they appear on the site — header, footer, contact page, structured data — and they should match the school's record on SARAS, CBSE's affiliation portal, character for character.</p>
+<h3>B. Documents and information</h3>
+<ul>
+<li>Affiliation or upgradation letter, and the most recent extension of affiliation</li>
+<li>Trust, society or company registration and renewal certificate</li>
+<li>No Objection Certificate (NOC) from the state government or UT</li>
+<li>Recognition certificate under the RTE Act, 2009, and its renewal</li>
+<li>Valid building safety certificate as per the National Building Code</li>
+<li>Valid fire safety certificate from the competent authority</li>
+<li>DEO certificate submitted for affiliation or upgradation, or the school's self-certification</li>
+<li>Valid water, health and sanitation certificates</li>
+</ul>
+<p>These are uploaded as self-attested copies. Each one deserves its own row and its own link, not a single merged scan.</p>
+<h3>C. Result and academics</h3>
+<ul>
+<li>Fee structure</li>
+<li>Annual academic calendar</li>
+<li>School Management Committee (SMC) list</li>
+<li>Parent Teacher Association (PTA) members list</li>
+<li>Board examination results for the last three years, as applicable (Class X, Class XII)</li>
+</ul>
+<h3>D. Staff (teaching)</h3>
+<ul>
+<li>Principal</li>
+<li>Total number of teachers, split into PGT, TGT and PRT</li>
+<li>Teacher–section ratio</li>
+<li>Details of the special educator</li>
+<li>Details of the counsellor and wellness teacher</li>
+</ul>
+<h3>E. School infrastructure</h3>
+<ul>
+<li>Total campus area, in square metres</li>
+<li>Number and size of classrooms, in square metres</li>
+<li>Number and size of laboratories, including computer labs</li>
+<li>Internet facility (yes or no)</li>
+<li>Number of girls' toilets and boys' toilets</li>
+<li>Link to a YouTube video of the school inspection covering its infrastructure</li>
+</ul>
+<hr>
+<h2 id="page-not-pdf">Build it as a page, not a PDF</h2>
+<p>The most common disclosure is a single scanned PDF behind a button. It technically publishes the information. It also fails almost everyone who opens it: it is unreadable on a phone, unsearchable, and it hides which items are missing.</p>
+<p>What works better:</p>
+<ul>
+<li><strong>One web page, five sections,</strong> with a sticky index so a parent can jump straight to fees or results.</li>
+<li><strong>A row per item.</strong> The value is written on the page where it is a value (the affiliation number, the teacher count). Where it is a document, the row links to that document's own PDF.</li>
+<li><strong>A print stylesheet,</strong> because someone will print it for a file.</li>
+<li><strong>A summary of the CBSE record</strong> at the top — affiliation number, school code, affiliation period, level — so the essentials are visible before any scrolling.</li>
+</ul>
+<hr>
+<h2 id="the-mistakes">The mistakes that make a disclosure fail</h2>
+<p><strong>Download buttons that lead nowhere.</strong> A template disclosure often ships with a button for every document, and nobody ever uploads the files. A parent clicks “Fire safety certificate” and gets an error. That reads worse than having no button at all.</p>
+<p><strong>Figures copied from someone else's template.</strong> School website templates arrive pre-filled with plausible numbers: hundreds of teachers, dozens of labs, tens of thousands of square metres. If nobody replaces them, a small school ends up publishing figures that cannot be right for it. That is a problem the day anyone compares the page with the school.</p>
+<p><strong>Numbers that disagree with each other.</strong> A teacher count in section D that doesn't fit the sections implied by the classes offered, or a principal's name in the footer that differs from the one in section A. Keep every fact in one place and render it everywhere from there.</p>
+<p><strong>Stale results and calendars.</strong> A calendar for a session that ended, or results that stop two years ago. These are the two items most likely to be checked, and the easiest to keep current if the office can update them without a developer.</p>
+<hr>
+<h2 id="how-i-handle-gaps">How to handle the gaps honestly</h2>
+<p>No school has every document scanned and ready on day one. The fix is not to guess. On <a href="/projects/pinnacle-world-school/">Pinnacle World School's</a> site, every value was checked against the school's CBSE record; anything that could not be confirmed shows “To be updated”, and every document row reads “Document awaited” until the PDF arrives. Publishing one then turns that row into a “View PDF” link with a one-line change.</p>
+<p>Alongside the site, the school gets a plain-language list of exactly what is still missing, in order of importance. The page stays truthful the whole time, and it fills in as the office sends things over.</p>
+<hr>
+<h2 id="beyond-compliance">Beyond compliance: what parents actually look for</h2>
+<p>The disclosure is one page. The rest of the site is for parents: admissions (open or not, for which classes, how to apply), fees, transport routes, notices, the academic calendar and photographs of the real campus. If you are planning the whole site, the <a href="/services/school-website-development/">school website development</a> page covers what I build and how, and <a href="/blog/school-website-admissions-portal-india/">this post on school website features and cost</a> covers the parent-facing side.</p>
+<hr>
+<p><em>I'm Divyansh Sood — a web developer in Kangra, Himachal Pradesh, building school websites that parents can use and CBSE can inspect. If your school's disclosure page needs fixing, or the whole site does, message me on <a href="https://wa.me/919816091875">WhatsApp</a> with the school's name.</em></p>
+      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
+    </article>
+
+    <PostFaq faqs={faqs} />
+
+    <RelatedPosts slug={slug} audience={post.audience} />
+
+    <section class="post-foot-cta">
+      <div class="wrap narrow">
+        {post.audience === "indian-smb" ? (
+          <>
+            <h2>Working on something in India?</h2>
+            <p>If a post here matches what you're building, send me the brief. WhatsApp reply in under an hour, 9 AM–9 PM IST — I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="https://wa.me/919816091875" target="_blank" rel="noopener"
+                >Message me on WhatsApp <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : post.audience === "d2c-brand" ? (
+          <>
+            <h2>Building a brand a theme can't carry?</h2>
+            <p>If your store has a model that off-the-shelf builders fight — hand-numbered drops, creator commerce, premium D2C — tell me about it. I read every brief personally.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href="/#work">See the work</a>
+            </div>
+          </>
+        ) : (
+          <>
+            <h2>Working on something similar?</h2>
+            <p>If a post here matches what you're building, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="mailto:hello@divyanshsood.com"
+                >Email me <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn btn-ghost" href={CALENDLY_URL} target="_blank" rel="noopener"
+                >Book a 15-min intro <span aria-hidden="true">↗</span></a
+              >
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+  </main>
+</Studio>
