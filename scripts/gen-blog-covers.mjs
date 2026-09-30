@@ -60,11 +60,6 @@ const COVER_COPY = {
     lines: ["STAY", "NEAR", "WHAT MATTERS."],
     accent: [2],
   },
-  "ranking-top-five-zero-clicks": {
-    eyebrow: "SEO · FIRST-PARTY DATA",
-    lines: ["TOP FIVE.", "ZERO", "CLICKS."],
-    accent: [2],
-  },
   "aeo-geo-llmo-ai-seo-explained": {
     eyebrow: "GEO · VOCABULARY",
     lines: ["AEO. GEO.", "LLMO.", "AI SEO."],
@@ -80,19 +75,9 @@ const COVER_COPY = {
     lines: ["IS AI", "ACTUALLY", "QUOTING YOU?"],
     accent: [2],
   },
-  "scarcity-enforced-in-code": {
-    eyebrow: "D2C · DROPS",
-    lines: ["0001", "TO", "0666."],
-    accent: [2],
-  },
   "replatforming-without-losing-rankings": {
     eyebrow: "SEO · MIGRATION",
     lines: ["THE REDIRECT", "MAP NOBODY", "BUILDS."],
-    accent: [2],
-  },
-  "custom-website-year-two": {
-    eyebrow: "OWNERSHIP · MAINTENANCE",
-    lines: ["WHAT HAPPENS", "IN YEAR", "TWO."],
     accent: [2],
   },
   "contact-form-dropping-leads": {
@@ -113,11 +98,6 @@ const COVER_COPY = {
   "challenges-and-limitations-of-ai-in-web-development": {
     eyebrow: "AI · LIMITS",
     lines: ["WHERE AI", "ACTUALLY", "BREAKS."],
-    accent: [2],
-  },
-  "how-i-build-websites-with-claude-code": {
-    eyebrow: "AI · WORKFLOW",
-    lines: ["HOW I BUILD", "CLIENT SITES", "WITH AI."],
     accent: [2],
   },
   "ai-features-that-actually-work-on-websites": {

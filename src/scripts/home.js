@@ -1,7 +1,8 @@
 /* ===========================================================================
    Home motion — ported from Home.dc.html's component logic.
    - Intro sweep: red then ink chevron bands sweep left → right (1.5s), the
-     hero clips open, the name lines rise. (Brandbook 06 Motion.)
+     hero clips open, the name lines rise. (Brandbook 06 Motion.) Once per
+     browser session — the flag is read by the inline script in index.astro.
    - Corner wedges: the diagonal is computed so it runs parallel to the
      chevron above — never a fixed % angle.
    - Pit lane: vertical scroll drives the horizontal project track, with the
@@ -19,6 +20,7 @@ function intro() {
   const d = document.documentElement;
   if (!d.classList.contains("intro")) return;
   d.classList.add("intro-run");
+  try { sessionStorage.setItem("ds-intro", "1"); } catch (e) {}
   const red = document.querySelector("[data-band-red]");
   const ink = document.querySelector("[data-band-ink]");
   const hr = document.querySelector("[data-hero-red]");
@@ -70,7 +72,11 @@ function pitLane() {
   let dist = 0;
   return {
     layout() {
-      dist = Math.max(0, t.scrollWidth - innerWidth);
+      // Measured from the last card's box, not t.scrollWidth: content that
+      // overflows a clipped card would otherwise over-scroll the track.
+      const last = t.lastElementChild;
+      const end = last ? last.offsetLeft + last.offsetWidth + parseFloat(getComputedStyle(t).paddingRight) : t.scrollWidth;
+      dist = Math.max(0, end - innerWidth);
       o.style.height = innerHeight + dist + "px";
     },
     update() {

@@ -7,7 +7,8 @@ import Cards from "../components/brand/Cards.astro";
 import Steps from "../components/brand/Steps.astro";
 import ResultGrid from "../components/brand/ResultGrid.astro";
 import EndCta from "../components/brand/EndCta.astro";
-import { SITE, CALENDLY_URL, FOUNDER_PHOTO_ABOUT, FOUNDER_PHOTO_ALT, HAS_FOUNDER_PHOTO, SAME_AS } from "../lib/site.mjs";
+import SpecList from "../components/brand/SpecList.astro";
+import { SITE, CALENDLY_URL, FOUNDER_PHOTO_ABOUT, FOUNDER_PHOTO_ALT, HAS_FOUNDER_PHOTO, SAME_AS, GOOGLE_MAPS_URL, GOOGLE_REVIEWS_URL } from "../lib/site.mjs";
 
 const canonical = `${SITE}/about/`;
 
@@ -35,6 +36,31 @@ const milestones = [
   { year: "2025", t: "Modern K.B.S. in 7 days", d: "Admissions portal + admin panel for a school cycle other agencies quoted at six months. Shipped in seven days. The case study people keep referring back to." },
   { year: "2026", t: "Now", d: "Solo studio out of Himachal Pradesh. Limited projects at a time. Async across time zones, calls in yours. 9 of my last 9 clients still working with me." },
 ];
+
+/* ---------------------------------------------------------------------------
+   About me — the personal side. Each section renders only when its list has
+   entries, so the page never ships placeholder copy: fill these in and the
+   sections (and their numbering) appear.
+     life     paragraphs — where I grew up, how I got into this, life today
+     hobbies  { t, d }   — what I do away from the desk
+     facts    { k, v }   — quick facts; `v` may carry inline HTML
+--------------------------------------------------------------------------- */
+const life: string[] = [];
+const hobbies: { t: string; d: string }[] = [];
+const facts: { k: string; v: string }[] = [];
+
+// Section numbers follow whichever personal sections are present.
+let sn = 1;
+const num = {
+  life: life.length ? ++sn : 0,
+  hobbies: hobbies.length ? ++sn : 0,
+  facts: facts.length ? ++sn : 0,
+  stats: ++sn,
+  skills: ++sn,
+  principles: ++sn,
+  journey: ++sn,
+  working: ++sn,
+};
 
 const principles = [
   { n: "01", t: "Start from the decision, not the design", d: "Most sites are designed to look good. I design to make a decision easier — yours, your buyer's, whoever the page is for." },
@@ -107,17 +133,17 @@ const jsonld = JSON.stringify({
 >
   <main>
     <PageHero
-      display="Built from the Himalayas. Shipping for the world."
-      size="case"
-      kicker="About · Solo studio · Himalayas · 2022 — 2026"
+      display="About me"
+      h1="Built from the Himalayas. Shipping for the world."
+      kicker="About me · Himalayas · 2022 — 2026"
       lead="I'm Divyansh Sood — a freelance web designer &amp; developer in Himachal Pradesh, India. Since 2022 I've designed and shipped 20+ custom-coded websites, stores, web apps and AI features for founders worldwide. One person, end to end — no agency layers."
-      notes={["Solo · Design + Build", "Himachal Pradesh · India", "IST +5:30 · Overlap with US / UK / Gulf"]}
+      notes={["Solo · Design + Build", `Kangra, Himachal Pradesh · India · <a href="${GOOGLE_MAPS_URL}" rel="noopener">on Google Maps ↗</a>`, "IST +5:30 · Overlap with US / UK / Gulf"]}
     >
       <a class="btn btn--red" href={CALENDLY_URL}>Book a 15-min intro <span aria-hidden="true">→</span></a>
       <a class="btn btn--ink" href={WA}>Message on WhatsApp</a>
     </PageHero>
 
-    <Section n={1} term="Setup" note="One person, end to end" title="The founder">
+    <Section n={1} term="Hello" note="One person, end to end" title="Hi, I'm Divyansh">
       <div class="fd">
         <figure class="fd-photo">
           {HAS_FOUNDER_PHOTO && <img src={FOUNDER_PHOTO_ABOUT} alt={FOUNDER_PHOTO_ALT} width="1200" height="1499" fetchpriority="high" decoding="async" />}
@@ -131,30 +157,52 @@ const jsonld = JSON.stringify({
             <a class="btn btn--ink" href="/portfolio/">See the work</a>
           </div>
           <div>
-            <div class="chips-lbl">Verify on LinkedIn</div>
-            <a class="chip" href="https://www.linkedin.com/in/divyanshsood/" rel="me noopener">Divyansh Sood on LinkedIn ↗</a>
+            <div class="chips-lbl">Find me</div>
+            <div class="fd-chips">
+              <a class="chip" href="https://www.linkedin.com/in/divyanshsood/" rel="me noopener">LinkedIn ↗</a>
+              <a class="chip" href={GOOGLE_MAPS_URL} rel="noopener">Google Maps ↗</a>
+              <a class="chip" href={GOOGLE_REVIEWS_URL} rel="noopener">Google reviews ↗</a>
+            </div>
           </div>
         </div>
       </div>
     </Section>
 
-    <Section n={2} term="Telemetry" note="Snapshot" title="By the numbers">
+    {life.length > 0 && (
+      <Section n={num.life} term="Life" note="Off the clock" title="Where I'm from">
+        <div class="life">{life.map((para) => <p class="body" set:html={para} />)}</div>
+      </Section>
+    )}
+
+    {hobbies.length > 0 && (
+      <Section n={num.hobbies} term="Life" note="Away from the desk" title="Outside work">
+        <Rows items={hobbies} />
+      </Section>
+    )}
+
+    {facts.length > 0 && (
+      <Section n={num.facts} term="Life" note="Quick facts" title="The short version">
+        <SpecList items={facts} />
+      </Section>
+    )}
+
+    <Section n={num.stats} term="Telemetry" note="Snapshot" title="By the numbers">
       <ResultGrid stats={stats} />
     </Section>
 
-    <Section n={3} term="Setup" note="The skillset" title="What I actually do">
+    <Section n={num.skills} term="Setup" note="The skillset" title="What I actually do">
       <Rows items={skills} />
     </Section>
 
-    <Section n={4} term="Setup" note="Four principles" title="How I think about the work">
+    <Section n={num.principles} term="Setup" note="Four principles" title="How I think about the work">
       <Cards items={principles} />
     </Section>
 
-    <Section n={5} term="Pit lane" note="2022 — Now" title="The journey so far">
+    <Section n={num.journey} term="Pit lane" note="2022 — Now" title="The journey so far">
       <Rows items={milestones.map((m) => ({ n: m.year, t: m.t, d: m.d }))} />
     </Section>
 
-    <Section n={6} term="Race weekend" note="What to expect" title="Working with me looks like" tint>
+    <Section n={num.working} term="Race weekend" note="What to expect" title="Working with me looks like" tint>
       <Steps items={[
         { t: "A short call", d: "15 minutes, then an honest answer. Tell me what you're building and where it's stuck. I'll tell you whether I'm the right person for it — and if I'm not, who I'd point you toward. No sales script, no pressure." },
         { t: "A clear plan", d: "Fixed scope, real milestones. Within a couple of days you get a written plan with phases, deliverables and dates. You always know what's shipping next and where the budget is going." },
@@ -178,4 +226,7 @@ const jsonld = JSON.stringify({
   .fd-copy p{margin:0;max-width:58ch}
   .fd-big{font-weight:800;font-stretch:108%;font-size:clamp(24px,2.6vw,38px);line-height:1.1;letter-spacing:-0.02em;text-wrap:pretty}
   .fd-by{display:flex;flex-wrap:wrap;gap:6px 20px}
+  .fd-chips{display:flex;flex-wrap:wrap;gap:10px}
+  .life{display:flex;flex-direction:column;gap:20px}
+  .life p{margin:0;max-width:64ch}
 </style>

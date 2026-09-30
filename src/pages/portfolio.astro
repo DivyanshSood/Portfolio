@@ -1,5 +1,5 @@
 ---
-// Portfolio — a port of Portfolio.dc.html: "The grid" hero, sticky sector
+// Portfolio — a port of Portfolio.dc.html: "My portfolio" hero, sticky sector
 // filter, all twelve projects as C05 cards (design order, P01–P12), and the
 // ink "Your project. P13." CTA.
 import Base from "../layouts/Base.astro";
@@ -60,7 +60,7 @@ const jsonld = JSON.stringify({
   jsonld={jsonld}
 >
   <main>
-    <PageHero display="The grid" sup={String(projects.length)} lead="Twelve custom-coded websites, storefronts and web apps — schools, hotels, travel operators, D2C brands and an AI product. Every one owned by the client.">
+    <PageHero display="My portfolio" sup={String(projects.length)} lead="Twelve custom-coded websites, storefronts and web apps — schools, hotels, travel operators, D2C brands and an AI product. Every one owned by the client.">
       <div class="meta">2024 — 2026 · Showing <span class="pf-shown" data-shown>{pad(projects.length)}</span></div>
     </PageHero>
 

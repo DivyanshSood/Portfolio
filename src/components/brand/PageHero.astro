@@ -25,11 +25,32 @@ interface Props {
 }
 const { display, sup, h1, h1Class, lead, leadClass, meta, kicker, size = "grid", notes, crumbs = Astro.locals.crumbs ?? [] } = Astro.props;
 const DisplayTag = h1 ? "div" : "h1";
+// A closing full stop reads as a stray block at display scale (and can drop
+// onto a line of its own), so the chevron never shows one.
+const name = display.replace(/\.\s*$/, "");
+
+// The display's widest word, in em — the name's font-size is capped so that
+// word fits the column and never breaks mid-way ("DHARAMSH-ALA"). Advance
+// widths are measured from Archivo 900 italic at 125% with the display's
+// -0.03em tracking; anything unlisted counts as 1em, plus .15em for the
+// italic overhang. The superscript rides on the last word at ~.4em a glyph.
+const GLYPH: Record<string, number> = {
+  A: .924, B: .9, C: .909, D: .903, E: .83, F: .777, G: .982, H: .979, I: .365, J: .734, K: .958, L: .756, M: 1.148,
+  N: .977, O: .978, P: .835, Q: .978, R: .913, S: .852, T: .847, U: .959, V: .908, W: 1.2, X: .931, Y: .936, Z: .847,
+  "0": .781, "1": .701, "2": .779, "3": .783, "4": .789, "5": .783, "6": .785, "7": .716, "8": .798, "9": .785,
+  ".": .351, ",": .351, "&": 1.035, "'": .294, "’": .294, "?": .713, "-": .386, "®": .77,
+};
+const em = (w: string) => [...w.toUpperCase()].reduce((s, c) => s + (GLYPH[c] ?? 1), 0.15);
+const words = name.split(/\s+/);
+const widths = words.map(em);
+widths[widths.length - 1] += sup ? sup.length * 0.4 : 0;
+// 4% slack: glyph advances were measured in isolation, without kerning pairs.
+const fitEm = (Math.max(...widths) * 1.04).toFixed(2);
 const hasAside = Astro.slots.has("default");
 ---
 
 <section class="ph" data-hero>
-  <div class:list={["ph-red", `ph-red--${size}`, { "ph-red--long": display.length > 18 }]}>
+  <div class:list={["ph-red", `ph-red--${size}`, { "ph-red--long": name.length > 18 }]}>
     <div class="wrap">
       <div class="ph-top">
         {crumbs.length > 1 ? (
@@ -45,10 +66,10 @@ const hasAside = Astro.slots.has("default");
         {meta && <span>{meta}</span>}
       </div>
       {kicker && <div class="ph-kicker">{kicker}</div>}
-      <DisplayTag class:list={["ph-name", `ph-name--${size}`]}>{display}{sup && <span class="sup">{sup}</span>}</DisplayTag>
+      <DisplayTag class:list={["ph-name", `ph-name--${size}`]} style={`--fit:${fitEm}`}>{name}{sup && <span class="sup">{sup}</span>}</DisplayTag>
     </div>
   </div>
-  <div class="wrap ph-row">
+  <div class:list={["wrap", "ph-row", { "ph-row--h1": h1 && !Astro.slots.has("intro") }]}>
     {Astro.slots.has("intro") ? <slot name="intro" /> : (
       (h1 || lead || notes || Astro.slots.has("notes")) && (
         <div class="ph-copy">
@@ -70,18 +91,27 @@ const hasAside = Astro.slots.has("default");
   /* The chevron cuts the bottom 28% at the edges; a display that runs to three
      or four lines needs the extra depth or its last line falls into the cut. */
   .ph-red--long{padding-bottom:clamp(170px,22vw,330px)}
-  .ph-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:clamp(24px,4vw,48px)}
+  /* Everything inside the chevron is centred on its point. */
+  .ph-red .wrap{text-align:center}
+  .ph-top{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 24px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:clamp(24px,4vw,48px)}
   .ph-red--case .ph-top{margin-bottom:clamp(28px,4vw,56px)}
   .ph-crumbs a{color:#fff}
   .ph-crumbs a:hover{color:var(--ink)}
   .ph-kicker{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px}
-  /* overflow-wrap:anywhere — the brandbook's own answer for long names (Card
-     H3 spec); nothing may clip at 390px. */
-  .ph-name{margin:0;font-weight:900;font-style:italic;font-stretch:125%;text-transform:uppercase;line-height:.84;letter-spacing:-0.03em;font-size:clamp(56px,13vw,240px);overflow-wrap:anywhere}
+  /* Capped by --fit (the longest word, in em — set in the frontmatter) so no
+     word breaks mid-way; overflow-wrap:break-word stays as the last resort
+     (brandbook Card H3 spec: nothing may clip at 390px). */
+  .ph-name{margin:0 auto;font-weight:900;font-style:italic;font-stretch:125%;text-transform:uppercase;line-height:.84;letter-spacing:-0.03em;font-size:min(clamp(56px,13vw,240px),calc((100vw - 2 * var(--gutter)) / var(--fit)));overflow-wrap:break-word;text-wrap:balance}
   .ph-notes{margin:18px 0 0;display:flex;flex-wrap:wrap;gap:6px 20px}
-  .ph-name--case{line-height:.86;font-size:clamp(46px,9.6vw,184px);max-width:14ch;text-wrap:balance}
+  .ph-name--case{line-height:.86;font-size:min(clamp(46px,9.6vw,184px),calc((100vw - 2 * var(--gutter)) / var(--fit)));max-width:max(14ch,calc(var(--fit) * 1em))}
   .ph-row{margin-top:clamp(28px,3vw,44px);padding:0 var(--gutter);display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px 40px;align-items:flex-end}
   .ph-red--case + .ph-row{margin-top:clamp(24px,3vw,40px)}
+  /* A row carrying the page's H1 is centred under the chevron's point, with
+     its lead, notes and CTAs stacked beneath it. */
+  .ph-row--h1{flex-direction:column;align-items:center;text-align:center}
+  .ph-row--h1 .ph-copy{flex:none;max-width:760px}
+  .ph-row--h1 .h-lead{text-wrap:balance}
+  .ph-row--h1 .ph-notes,.ph-row--h1 .ph-aside{justify-content:center}
   .ph-copy{flex:1 1 420px;max-width:680px}
   .ph-copy .h-lead{margin-bottom:14px}
   .ph-sub{margin:0;color:var(--g5c);font-size:16px;line-height:1.5}

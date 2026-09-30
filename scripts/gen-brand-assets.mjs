@@ -4,7 +4,7 @@
    Divyansh Sood® Studio brandbook (ink / red / white, Archivo 900 italic at
    125% width, radius 0).
 
-     public/icon.svg            512² ink square, "DS" white, "®" red — the
+     public/icon.svg            512² red square, "DS" white, "®" ink — the
                                 letters are OUTLINED to paths, so the icon
                                 never depends on a font being available
      public/icon-512.png        maskable-safe (glyphs sit inside the 80% zone)
@@ -82,9 +82,9 @@ const dsPath = setText("DS", SIZE, DS_X, BASE, -0.02).d;
 const regPath = setText("®", SIZE * 0.3, DS_X + ds.width + SIZE * 0.04, BASE - SIZE * 0.72 + SIZE * 0.3 * 0.72).d;
 
 const iconSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Divyansh Sood® Studio">
-  <rect width="512" height="512" fill="${INK}"/>
+  <rect width="512" height="512" fill="${RED}"/>
   <path fill="#FFFFFF" d="${dsPath}"/>
-  <path fill="${RED}" d="${regPath}"/>
+  <path fill="${INK}" d="${regPath}"/>
 </svg>
 `;
 writeFileSync(join(PUB, "icon.svg"), iconSvg);

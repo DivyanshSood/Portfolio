@@ -64,26 +64,6 @@ export const POSTS = [
     "wordCount": 757
   },
   {
-    "slug": "ranking-top-five-zero-clicks",
-    "title": "I Rank Top 5 for “Web Development” and Get Zero Clicks",
-    "seoTitle": "Top-5 Ranking, Zero Clicks: My Own Data · Divyansh Sood",
-    "description": "Two hundred impressions at average position 5.0, and not one click. My own Search Console data on why ranking stopped meaning traffic, and which queries convert.",
-    "pubDate": "2026-08-11",
-    "updatedDate": "2026-08-11",
-    "coverImage": "/blog/ranking-top-five-zero-clicks.jpg",
-    "coverAlt": "Title card reading “Top five. Zero clicks.” in bold white type on a red chevron",
-    "tags": [
-      "SEO",
-      "AI search",
-      "GEO",
-      "conversion",
-      "small business"
-    ],
-    "audience": "international",
-    "readMins": 4,
-    "wordCount": 993
-  },
-  {
     "slug": "aeo-geo-llmo-ai-seo-explained",
     "title": "AEO, GEO, LLMO, AI SEO: What Each Term Means, and Which Ones Are Invented",
     "seoTitle": "AEO vs GEO vs LLMO vs AI SEO, Explained · Divyansh Sood",
@@ -144,26 +124,6 @@ export const POSTS = [
     "wordCount": 1233
   },
   {
-    "slug": "scarcity-enforced-in-code",
-    "title": "0001 to 0666: Enforcing Scarcity in Code, Not in a Caption",
-    "seoTitle": "Enforcing Scarcity in Code, Not a Caption · Divyansh Sood",
-    "description": "A countdown timer that resets is a lie customers spotted years ago. What makes a limited drop real in software: numbering, race conditions, sold-out pages.",
-    "pubDate": "2026-08-04",
-    "updatedDate": "2026-09-29",
-    "coverImage": "/blog/scarcity-enforced-in-code.jpg",
-    "coverAlt": "Title card reading “0001 to 0666” in bold white type on a red chevron",
-    "tags": [
-      "D2C",
-      "e-commerce",
-      "drops",
-      "custom code",
-      "brand"
-    ],
-    "audience": "d2c-brand",
-    "readMins": 6,
-    "wordCount": 1320
-  },
-  {
     "slug": "replatforming-without-losing-rankings",
     "title": "Replatforming Without Losing Rankings: The Redirect Map Nobody Builds",
     "seoTitle": "Replatform Without Losing Google Rankings · Divyansh Sood",
@@ -182,26 +142,6 @@ export const POSTS = [
     "audience": "international",
     "readMins": 5,
     "wordCount": 1240
-  },
-  {
-    "slug": "custom-website-year-two",
-    "title": "What Actually Happens to a Custom Website in Year Two",
-    "seoTitle": "Custom Website Maintenance in Year Two · Divyansh Sood",
-    "description": "The objection nobody answers straight: what happens after the developer stops. What genuinely breaks, what doesn't, and the six-item handover that decides it.",
-    "pubDate": "2026-08-02",
-    "updatedDate": "2026-08-02",
-    "coverImage": "/blog/custom-website-year-two.jpg",
-    "coverAlt": "Title card reading “What happens in year two” in bold white type on a red chevron",
-    "tags": [
-      "custom code",
-      "maintenance",
-      "web development",
-      "security",
-      "small business"
-    ],
-    "audience": "international",
-    "readMins": 5,
-    "wordCount": 1211
   },
   {
     "slug": "contact-form-dropping-leads",
@@ -422,26 +362,6 @@ export const POSTS = [
     "audience": "international",
     "readMins": 3,
     "wordCount": 691
-  },
-  {
-    "slug": "how-i-build-websites-with-claude-code",
-    "title": "How I Build Client Websites with Claude Code",
-    "seoTitle": "Building Client Websites with Claude Code (2026) · Divyansh Sood",
-    "description": "The real AI-assisted workflow behind a three-week custom build — where it speeds things up, where it doesn't, and what I never hand over to a model.",
-    "pubDate": "2026-07-19",
-    "updatedDate": "2026-07-19",
-    "coverImage": "/blog/how-i-build-websites-with-claude-code.jpg",
-    "coverAlt": "Title card reading “How I build client sites with AI” in bold white type on a red chevron",
-    "tags": [
-      "AI-assisted development",
-      "Claude Code",
-      "workflow",
-      "web development",
-      "custom code"
-    ],
-    "audience": "international",
-    "readMins": 3,
-    "wordCount": 732
   },
   {
     "slug": "shopify-alternatives-for-premium-d2c",

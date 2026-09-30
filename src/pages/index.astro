@@ -1,12 +1,12 @@
 ---
 // Home — a port of Home.dc.html (Divyansh Sood® Studio brandbook). Section
 // order and colours are locked by the brandbook: Hero (red) · Proof · About ·
-// Work · Services (white) · Process (tint) · Team radio · Writing · FAQ
+// Work · Services (white) · Process (tint) · Team radio · Blogs · FAQ
 // (white) · Contact (red) · Footer (ink). Motion lives in src/scripts/home.js.
 import Base from "../layouts/Base.astro";
 import Faq from "../components/brand/Faq.astro";
 import { homeJsonLd, HOME_FAQ } from "../lib/home-schema.mjs";
-import { SITE, CALENDLY_URL } from "../lib/site.mjs";
+import { SITE, CALENDLY_URL, GOOGLE_MAPS_URL } from "../lib/site.mjs";
 import { projects } from "../lib/projects/data.mjs";
 import { POSTS } from "../lib/blog.mjs";
 import { localVariant, localSrcset } from "../lib/images.mjs";
@@ -85,7 +85,7 @@ const RADIO = [
 
 // Writing — the six posts the design lists, titles from the post manifest.
 const WRITING = [
-  ["ranking-top-five-zero-clicks", "SEO · 4 min"],
+  ["measure-ai-assistant-citations", "AI search · 5 min"],
   ["aeo-geo-llmo-ai-seo-explained", "GEO · 6 min"],
   ["entity-graph-schema-node-by-node", "Structured data · 5 min"],
   ["taxi-tour-operator-website-pages", "Travel · 4 min"],
@@ -150,9 +150,11 @@ const WRITING = [
     </section>
     <script is:inline>
       // Arm the intro before first paint so the hero doesn't flash, then let
-      // home.js play it. Skipped under reduced motion; a failsafe shows the
-      // hero if the module never runs.
+      // home.js play it. Once per browser session (home.js sets the flag);
+      // skipped under reduced motion; a failsafe shows the hero if the module
+      // never runs.
       (function () {
+        try { if (sessionStorage.getItem("ds-intro")) return; } catch (e) {}
         try {
           if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
           var d = document.documentElement;
@@ -200,7 +202,7 @@ const WRITING = [
           <div class="spec-head"><span>Spec sheet</span><span style="color:var(--red)">No. 07</span></div>
           <dl class="spec">
             <div><dt>Studio</dt><dd>Divyansh Sood® Studio — one person, est. 2022</dd></div>
-            <div><dt>Based</dt><dd>Kangra valley, Himachal Pradesh, India · IST (UTC+5:30)</dd></div>
+            <div><dt>Based</dt><dd>Kangra valley, Himachal Pradesh, India · IST (UTC+5:30) · <a href={GOOGLE_MAPS_URL} rel="noopener">on Google Maps ↗</a></dd></div>
             <div><dt>Builds</dt><dd>Marketing sites, e-commerce, web apps &amp; MVPs, AI features</dd></div>
             <div><dt>Stack</dt><dd>Next.js, Astro, React, Angular, Supabase, Tailwind</dd></div>
             <div><dt>Timeline</dt><dd>3–4 weeks for sites &amp; MVPs · 6–10 weeks for larger builds</dd></div>
@@ -309,7 +311,7 @@ const WRITING = [
         <div class="sec-head writing-head">
           <div>
             <div class="lbl">(07) Journal — {POSTS.length} articles</div>
-            <h2 class="h2">Writing</h2>
+            <h2 class="h2">Blogs</h2>
           </div>
           <a href="/blog/" class="mono">All posts →</a>
         </div>
@@ -349,6 +351,7 @@ const WRITING = [
               <span>IST <span data-clock="full">--:--:--</span></span>
               <span data-avail>Online now</span>
               <a href="https://wa.me/919816091875">WhatsApp ↗</a>
+              <a href={GOOGLE_MAPS_URL} rel="noopener">Google Maps ↗</a>
             </div>
           </div>
           <div class="contact-card">
@@ -385,7 +388,8 @@ const WRITING = [
   /* ---- 01 Hero ---- */
   .hero{position:relative;padding-bottom:clamp(110px,14vw,170px)}
   .hero-red{background:var(--red);color:#fff;clip-path:var(--chevron);padding:110px var(--gutter) clamp(130px,17vw,260px)}
-  .hero-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:clamp(24px,4vw,48px)}
+  .hero-red .wrap{text-align:center}
+  .hero-top{display:flex;flex-direction:column;align-items:center;gap:18px;margin-bottom:clamp(24px,4vw,48px)}
   .hero-meta{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;line-height:1.7}
   .pill{display:flex;align-items:center;gap:10px;background:#fff;color:var(--ink);padding:9px 14px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;flex:none;clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%)}
   .pill-dot{width:8px;height:8px;border-radius:50%;background:var(--red)}
@@ -394,9 +398,10 @@ const WRITING = [
   .hero-line{overflow:hidden;margin-right:-.12em}
   .hero-line--1{padding:.06em .12em 0 0}
   .hero-line--2{padding:.02em .12em .02em 0}
-  .hero-body{margin-top:clamp(28px,3vw,44px);padding:0 var(--gutter);display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:24px 40px}
-  .hero-copy{flex:1 1 420px;max-width:680px}
-  .hero-copy .h-lead{margin-bottom:14px}
+  .hero-body{margin-top:clamp(28px,3vw,44px);padding:0 var(--gutter);display:flex;flex-direction:column;align-items:center;text-align:center;gap:24px}
+  .hero-copy{max-width:760px}
+  .hero-copy .h-lead{margin-bottom:14px;text-wrap:balance}
+  .hero-body .btn-row{justify-content:center}
   .hero-copy p{margin:0;color:var(--g5c);font-size:16px;line-height:1.5}
   .wedge{position:absolute;bottom:0;width:50%;height:clamp(44px,6.5vw,104px);background:var(--red)}
   .wedge--l{left:0;clip-path:polygon(0 0,100% 100%,0 100%)}
@@ -454,7 +459,9 @@ const WRITING = [
   .wcard-img{aspect-ratio:16/10;overflow:hidden;background:var(--tint)}
   .wcard-img img{width:100%;height:100%;object-fit:cover;display:block}
   .wcard p{margin:0;color:var(--g3e);font-size:15px;line-height:1.5;max-width:50ch}
-  .wcard-all{flex:none;width:clamp(280px,62vw,480px);align-self:stretch;background:var(--red);color:#fff;text-decoration:none;display:flex;flex-direction:column;justify-content:space-between;padding:clamp(22px,2.4vw,34px) clamp(22px,2.4vw,34px) clamp(22px,2.4vw,34px) calc(9% + 28px);clip-path:polygon(0 0,100% 0,100% 100%,0 100%,9% 50%)}
+  /* Left padding clears the 9% notch. Not written as 9%: percentage padding
+     resolves against the whole max-content track, not the card. */
+  .wcard-all{flex:none;width:clamp(280px,62vw,480px);align-self:stretch;background:var(--red);color:#fff;text-decoration:none;display:flex;flex-direction:column;justify-content:space-between;padding:clamp(22px,2.4vw,34px) clamp(22px,2.4vw,34px) clamp(22px,2.4vw,34px) calc(clamp(25px,5.58vw,43px) + 28px);clip-path:polygon(0 0,100% 0,100% 100%,0 100%,9% 50%)}
   .wcard-all:hover{color:#fff}
   .wcard-all-t{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;text-align:right}
   .wcard-all-h{font-weight:900;font-style:italic;font-stretch:125%;text-transform:uppercase;font-size:clamp(30px,3.4vw,52px);line-height:.92;letter-spacing:-0.01em;text-align:right;text-wrap:balance}

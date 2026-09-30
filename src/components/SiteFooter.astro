@@ -1,6 +1,7 @@
 ---
 // Footer — Home.dc.html, on every page. The "lap finished" stopwatch banner
 // from the design canvas is left out: the brandbook bans stopwatch readouts.
+import { GOOGLE_MAPS_URL, GOOGLE_REVIEWS_URL } from "../lib/site.mjs";
 ---
 
 <footer class="ft">
@@ -8,7 +9,7 @@
     <div class="ft-grid">
       <div>
         <p class="ft-about">Independent web designer &amp; developer. Custom-coded, conversion-focused, worldwide.</p>
-        <p class="ft-where">HIMACHAL PRADESH, IN<br />WORKING WORLDWIDE · EST. 2022</p>
+        <p class="ft-where"><a href={GOOGLE_MAPS_URL} rel="noopener">KANGRA, HIMACHAL PRADESH, IN ↗</a><br />WORKING WORLDWIDE · EST. 2022</p>
       </div>
       <nav aria-label="Sitemap" class="ft-col">
         <span>SITEMAP</span>
@@ -44,6 +45,8 @@
         <a href="https://www.upwork.com/freelancers/~016c567f0fc1a21f68" rel="me noopener">Upwork ↗</a>
         <a href="https://www.fiverr.com/divyansh_sood" rel="me noopener">Fiverr ↗</a>
         <a href="https://wa.me/919816091875">WhatsApp ↗</a>
+        <a href={GOOGLE_MAPS_URL} rel="noopener">Google Maps ↗</a>
+        <a href={GOOGLE_REVIEWS_URL} rel="noopener">Google reviews ↗</a>
       </nav>
     </div>
     <div class="ft-stripe" aria-hidden="true"><span></span><span></span><span></span></div>
@@ -62,6 +65,8 @@
   .ft-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:36px 24px}
   .ft-about{margin:0 0 16px;font-size:15px;line-height:1.5;color:var(--gbd);max-width:30ch}
   .ft-where{margin:0;font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--g8a);line-height:1.8}
+  .ft-where a{color:inherit;text-decoration:none}
+  .ft-where a:hover{color:var(--red)}
   .ft-col{display:flex;flex-direction:column;gap:10px;font-size:15px}
   .ft-col span{font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--red);margin-bottom:4px}
   .ft-col a{color:#fff;text-decoration:none}

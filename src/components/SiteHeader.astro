@@ -1,16 +1,17 @@
 ---
 // Header + mobile menu — Home.dc.html, used on every page. Transparent over
 // the red hero, ink once the page scrolls past 40px or the menu is open
-// (src/scripts/chrome.js). Desktop nav + clock from 900px; menu below.
+// (src/scripts/chrome.js); the DS® logo turns red on the ink bar.
+// Desktop nav + clock from 900px; menu below.
 // The current section is underlined as on Portfolio.dc.html.
-import { CALENDLY_URL } from "../lib/site.mjs";
+import { CALENDLY_URL, GOOGLE_MAPS_URL } from "../lib/site.mjs";
 
 const path = Astro.url.pathname;
 const NAV = [
   { label: "Work", href: "/#work" },
   { label: "Portfolio", href: "/portfolio/", current: path.startsWith("/portfolio") || path.startsWith("/projects/") },
-  { label: "Results", href: "/#proof" },
-  { label: "About", href: "/#about" },
+  { label: "Results", href: "/results/", current: path.startsWith("/results") },
+  { label: "About", href: "/about/", current: path.startsWith("/about") },
   { label: "Blog", href: "/blog/", current: path.startsWith("/blog/") },
   { label: "Contact", href: "/#contact" },
 ];
@@ -46,6 +47,7 @@ const NAV = [
     <a href="mailto:hello@divyanshsood.com">EMAIL ↗</a>
     <a href="https://github.com/DivyanshSood">GITHUB ↗</a>
     <a href="https://www.linkedin.com/in/divyanshsood/">LINKEDIN ↗</a>
+    <a href={GOOGLE_MAPS_URL} rel="noopener">GOOGLE MAPS ↗</a>
   </div>
 </div>
 
@@ -53,8 +55,9 @@ const NAV = [
   .hd{position:fixed;top:0;left:0;right:0;z-index:100;background:transparent;transition:background .35s;color:#fff}
   :global(.hd.is-solid){background:var(--ink)}
   .hd-in{max-width:1600px;margin:0 auto;height:64px;padding:0 var(--gutter);display:flex;align-items:center;justify-content:space-between;gap:16px}
-  .hd-logo{display:flex;align-items:center;gap:8px;color:#fff;text-decoration:none}
+  .hd-logo{display:flex;align-items:center;gap:8px;color:#fff;text-decoration:none;transition:color .35s}
   .hd-logo:hover{color:#fff}
+  :global(.hd.is-solid) .hd-logo,:global(.hd.is-solid) .hd-logo:hover{color:var(--red)}
   .hd-logo span{font-weight:900;font-stretch:125%;font-style:italic;font-size:22px;letter-spacing:-0.02em}
   .hd-nav{display:flex;gap:28px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
   .hd-nav a{color:#fff;text-decoration:none}
@@ -75,7 +78,7 @@ const NAV = [
   .menu{position:fixed;inset:0;z-index:200;background:var(--ink);color:#fff;padding:88px 20px 100px;display:flex;flex-direction:column;justify-content:space-between;overflow:auto}
   .menu-close{position:absolute;top:18px;right:18px;background:none;border:0;color:#fff;font-family:var(--mono);font-size:12px;letter-spacing:.1em;padding:10px;cursor:pointer}
   .menu-nav{display:flex;flex-direction:column;gap:6px}
-  .menu-nav a{display:flex;align-items:baseline;gap:14px;color:#fff;text-decoration:none;font-weight:900;font-style:italic;font-stretch:125%;text-transform:uppercase;font-size:clamp(40px,12vw,72px);line-height:1}
+  .menu-nav a{display:flex;align-items:baseline;gap:14px;color:#fff;text-decoration:none;font-weight:900;font-style:italic;font-stretch:125%;text-transform:uppercase;font-size:clamp(32px,10vw,72px);line-height:1}
   .menu-nav a span{font-family:var(--mono);font-style:normal;font-size:12px;color:var(--red)}
   .menu-foot{display:flex;flex-wrap:wrap;gap:10px 18px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;margin-top:32px}
   .menu-foot a{color:#fff}
