@@ -1,5 +1,9 @@
 ---
-import Studio from "../layouts/Studio.astro";
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/brand/PageHero.astro";
+import Section from "../components/brand/Section.astro";
+import EndCta from "../components/brand/EndCta.astro";
+import SpecList from "../components/brand/SpecList.astro";
 import { SITE, FOUNDER_PHOTO, FOUNDER_PHOTO_ALT, SOCIAL_PROFILES } from "../lib/site.mjs";
 
 const canonical = `${SITE}/press/`;
@@ -52,7 +56,7 @@ const jsonld = JSON.stringify({
 });
 ---
 
-<Studio
+<Base
   title="Press & Brand Kit — Divyansh Sood"
   description="Press kit for Divyansh Sood, freelance web designer & developer: bio, headshot, logo, fast facts and a site-credit snippet for clients. Cite accurately."
   canonical={canonical}
@@ -62,172 +66,128 @@ const jsonld = JSON.stringify({
   jsonld={jsonld}
 >
   <main>
-    <header class="cs-hero">
-      <div class="wrap">
-        <div class="cs-eyebrow">
-          <span>Press &amp; brand kit</span><span>For writers, directories &amp; clients</span><span>2026</span>
-        </div>
-        <h1 style="margin:14px 0 0;font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(44px,8vw,108px);line-height:.9;letter-spacing:-.01em;text-transform:uppercase;">Cite me<br /><span style="color:var(--accent);">correctly.</span></h1>
-        <p class="cs-lead">Everything you need to write about, list, or credit my work — a ready-to-paste bio, headshot, logo and the facts, plus a tidy site-credit snippet for clients. Grab what you need; no permission required for accurate use.</p>
-      </div>
-    </header>
+    <PageHero
+      display="Cite me correctly."
+      size="case"
+      kicker="Press & brand kit · For writers, directories & clients · 2026"
+      lead="Everything you need to write about, list, or credit my work — a ready-to-paste bio, headshot, logo and the facts, plus a tidy site-credit snippet for clients. Grab what you need; no permission required for accurate use."
+    />
 
-    <section class="cs-sec" aria-labelledby="facts-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="facts-h">Fast facts</h2>
-          <span class="mono">At a glance</span>
-        </div>
-        <dl class="cs-glance">
-          {facts.map((f) => (
-            <div><dt>{f.k}</dt><dd>{f.v}</dd></div>
-          ))}
-        </dl>
-      </div>
-    </section>
+    <Section n={1} term="Telemetry" note="At a glance" title="Fast facts">
+      <div class="pk-facts"><SpecList items={facts} /></div>
+    </Section>
 
-    <section class="cs-sec" aria-labelledby="bio-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="bio-h">Bio</h2>
-          <span class="mono">Copy &amp; paste</span>
-        </div>
+    <Section n={2} term="Team radio" note="Copy & paste" title="Bio">
+      <div class="pk-stack">
         <div class="pk-block">
-          <div class="pk-block-bar"><span class="mono">Short — one line</span><button class="lg-btn" type="button" data-copy="pk-short">Copy</button></div>
+          <div class="pk-bar"><span>Short — one line</span><button class="pk-copy" type="button" data-copy="pk-short">Copy</button></div>
           <p class="pk-body" id="pk-short">{bioShort}</p>
         </div>
-        <div class="pk-block" style="margin-top:18px;">
-          <div class="pk-block-bar"><span class="mono">Long — profile</span><button class="lg-btn" type="button" data-copy="pk-long">Copy</button></div>
+        <div class="pk-block">
+          <div class="pk-bar"><span>Long — profile</span><button class="pk-copy" type="button" data-copy="pk-long">Copy</button></div>
           <p class="pk-body" id="pk-long">{bioLong}</p>
         </div>
       </div>
-    </section>
+    </Section>
 
-    {/* Official profiles. A press kit's job is to let someone cite the right
-        person, so the verified profile list belongs here as much as the bio —
-        and it gives directories, journalists and assistants one page that
-        states every account as being the same entity. Rendered from
-        SOCIAL_PROFILES so it can never disagree with the schema `sameAs`. */}
-    <section class="cs-sec" aria-labelledby="profiles-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="profiles-h">Official profiles</h2>
-          <span class="mono">Verified accounts</span>
-        </div>
-        <p class="cs-lead" style="margin-top:0;">These are the only accounts run by Divyansh Sood. Anything else using the name isn't him.</p>
-        <ul class="pk-profiles">
-          {SOCIAL_PROFILES.map((p) => (
-            <li>
-              <a href={p.url} target="_blank" rel="me noopener">
-                <span class="pk-profile-name">{p.name}</span>
-                <span class="mono pk-profile-url">{p.url.replace(/^https:\/\/(www\.)?/, "")}</span>
-                <span aria-hidden="true">↗</span>
-              </a>
-            </li>
-          ))}
-        </ul>
+    {/* Official profiles — rendered from SOCIAL_PROFILES so they can never
+        disagree with the schema `sameAs`. */}
+    <Section n={3} term="Setup" note="Verified accounts" title="Official profiles">
+      <p class="body pk-note">These are the only accounts run by Divyansh Sood. Anything else using the name isn't him.</p>
+      <ul class="pk-prof">
+        {SOCIAL_PROFILES.map((p) => (
+          <li>
+            <a href={p.url} rel="me noopener">
+              <span class="pk-prof-n">{p.name}</span>
+              <span class="pk-prof-u">{p.url.replace(/^https:\/\/(www\.)?/, "")}</span>
+              <span aria-hidden="true">↗</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </Section>
+
+    <Section n={4} term="Setup" note="Headshot & logo" title="Assets">
+      <div class="pk-assets">
+        <figure class="pk-asset">
+          <span class="pk-tag">01 · Headshot</span>
+          <div class="pk-img"><img src={FOUNDER_PHOTO} alt={FOUNDER_PHOTO_ALT} width="480" height="480" loading="lazy" /></div>
+          <a class="btn btn--ink" href={FOUNDER_PHOTO} download>Download portrait</a>
+        </figure>
+        <figure class="pk-asset">
+          <span class="pk-tag">02 · Logo mark</span>
+          <div class="pk-img pk-img--logo"><img src="/icon.svg" alt="Divyansh Sood® Studio logo mark" width="160" height="160" loading="lazy" /></div>
+          <a class="btn btn--ink" href="/icon.svg" download>Download logo (SVG)</a>
+        </figure>
       </div>
-    </section>
+    </Section>
 
-    <section class="cs-sec" aria-labelledby="assets-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="assets-h">Assets</h2>
-          <span class="mono">Headshot &amp; logo</span>
+    <Section n={5} term="Chequered flag" note="Paste in your footer" title="Site credit — for clients">
+      <p class="body pk-note">Built you a site? Thank you — a small credit in your footer is genuinely appreciated and helps people find me. Use the branded snippet below (kept intentionally simple and un-spammy). Paste it wherever your footer lives.</p>
+      <div class="pk-stack">
+        <div class="pk-block">
+          <div class="pk-bar"><span>Text link</span><button class="pk-copy" type="button" data-copy="pk-credit1">Copy</button></div>
+          <pre class="pk-pre" id="pk-credit1">{creditPlain}</pre>
         </div>
-        <div class="cs-body" data-reveal>
-          <figure class="cs-card" style="margin:0;">
-            <span class="cs-tag">Headshot</span>
-            <img src={FOUNDER_PHOTO} alt={FOUNDER_PHOTO_ALT} width="480" height="480" loading="lazy" style="width:100%;max-width:280px;border-radius:10px;display:block;margin:6px 0 14px;" />
-            <a class="btn btn-ghost" href={FOUNDER_PHOTO} download>Download portrait</a>
-          </figure>
-          <figure class="cs-card" style="margin:0;">
-            <span class="cs-tag">Logo mark</span>
-            <div style="background:#131316;border-radius:10px;padding:26px;display:flex;align-items:center;justify-content:center;margin:6px 0 14px;max-width:280px;">
-              <img src="/icon.svg" alt="Divyansh Sood® Studio logo mark" width="120" height="120" loading="lazy" style="width:120px;height:120px;" />
-            </div>
-            <a class="btn btn-ghost" href="/icon.svg" download>Download logo (SVG)</a>
-          </figure>
+        <div class="pk-block">
+          <div class="pk-bar"><span>With star mark</span><button class="pk-copy" type="button" data-copy="pk-credit2">Copy</button></div>
+          <pre class="pk-pre" id="pk-credit2">{creditBadge}</pre>
         </div>
       </div>
-    </section>
+      <p class="meta pk-fine">The link uses a plain branded label and rel="nofollow" — the honest, search-safe form for a site credit. If you'd rather link to your own project write-up instead of my homepage, swap the URL for its case-study page; either is welcome.</p>
+    </Section>
 
-    <section class="cs-sec" aria-labelledby="credit-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="credit-h">Site credit — for clients</h2>
-          <span class="mono">Paste in your footer</span>
-        </div>
-        <p class="cs-lead" style="margin-top:0;">Built you a site? Thank you — a small credit in your footer is genuinely appreciated and helps people find me. Use the branded snippet below (kept intentionally simple and un-spammy). Paste it wherever your footer lives.</p>
-        <div class="pk-block" style="margin-top:22px;">
-          <div class="pk-block-bar"><span class="mono">Text link</span><button class="lg-btn" type="button" data-copy="pk-credit1">Copy</button></div>
-          <pre class="lg-pre" id="pk-credit1">{creditPlain}</pre>
-        </div>
-        <div class="pk-block" style="margin-top:18px;">
-          <div class="pk-block-bar"><span class="mono">With star mark</span><button class="lg-btn" type="button" data-copy="pk-credit2">Copy</button></div>
-          <pre class="lg-pre" id="pk-credit2">{creditBadge}</pre>
-        </div>
-        <p class="lg-note mono">The link uses a plain branded label and <b>rel="nofollow"</b> — the honest, search-safe form for a site credit. If you'd rather link to your own project write-up instead of my homepage, swap the URL for its case-study page; either is welcome.</p>
-      </div>
-    </section>
-
-    <section class="cs-endcta">
-      <div class="wrap">
-        <h2>Writing about the work?</h2>
-        <p>Happy to help with quotes, extra detail or higher-res assets. Reach out any time.</p>
-        <div class="cs-cta-row" style="justify-content:center;">
-          <a class="btn btn-primary" href="mailto:hello@divyanshsood.com">Email me</a>
-          <a class="btn btn-ghost" href="/about/">More about me</a>
-        </div>
-      </div>
-    </section>
+    <EndCta
+      title="Writing about the work?"
+      text="Happy to help with quotes, extra detail or higher-res assets. Reach out any time."
+      primary={{ href: "mailto:hello@divyanshsood.com", label: "Email me →" }}
+      secondary={{ href: "/about/", label: "More about me →" }}
+    />
   </main>
-</Studio>
+</Base>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>("[data-copy]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const el = document.getElementById(btn.dataset.copy || "");
+      if (!el) return;
+      const text = el.textContent || "";
+      const done = () => {
+        btn.textContent = "Copied ✓";
+        setTimeout(() => { btn.textContent = "Copy"; }, 1600);
+      };
+      if (navigator.clipboard?.writeText) navigator.clipboard.writeText(text).then(done, done);
+      else {
+        const ta = document.createElement("textarea");
+        ta.value = text; ta.style.position = "fixed"; ta.style.left = "-9999px";
+        document.body.appendChild(ta); ta.select();
+        try { document.execCommand("copy"); } catch (_e) {}
+        ta.remove(); done();
+      }
+    });
+  });
+</script>
 
 <style>
-  .pk-block { border:1px solid rgba(244,242,236,.16); border-radius:12px; overflow:hidden; background:#0b0b0c; }
-  .pk-block-bar { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:11px 14px; border-bottom:1px solid rgba(244,242,236,.12); background:#131316; }
-  .pk-block-bar .mono { font-size:var(--fs-label-lg); letter-spacing:.12em; text-transform:uppercase; color:#8A8A93; }
-  .pk-body { margin:0; padding:18px 16px; font-size:16px; line-height:1.72; color:#C9C7C0; }
-  .lg-btn { font-family:'JetBrains Mono',monospace; font-size:var(--fs-label); letter-spacing:.1em; text-transform:uppercase; padding:8px 14px; border-radius:999px; cursor:pointer; border:1px solid rgba(244,242,236,.28); background:transparent; color:#F4F2EC; transition:transform .15s ease, background .15s ease; }
-  .lg-btn:hover { transform:translateY(-1px); }
-  .lg-btn.is-done { background:var(--accent); color:#0b0b0c; border-color:var(--accent); }
-  .lg-pre { margin:0; padding:16px; font-family:'JetBrains Mono',monospace; font-size:12.5px; line-height:1.7; color:#C9C7C0; white-space:pre-wrap; word-break:break-word; overflow:auto; }
-  .lg-note { margin-top:18px; font-size:var(--fs-label-lg); letter-spacing:.05em; color:#6f6f77; line-height:1.7; }
-  .lg-note b { color:#8A8A93; }
-
-  /* Official-profiles list. auto-fit so it's one column on a phone and two or
-     three on a wide screen without a breakpoint of its own. */
-  .pk-profiles { list-style:none; margin:22px 0 0; padding:0; display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:10px; }
-  .pk-profiles a { display:flex; align-items:center; gap:10px; padding:14px 16px; border:1px solid rgba(244,242,236,.16); border-radius:12px; background:#0b0b0c; color:#F4F2EC; text-decoration:none; transition:border-color .15s ease, transform .15s ease; }
-  .pk-profiles a:hover { border-color:var(--accent); transform:translateY(-1px); }
-  .pk-profile-name { font-weight:600; font-size:15px; }
-  .pk-profile-url { margin-left:auto; font-size:var(--fs-label); letter-spacing:.04em; color:#8A8A93; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .pk-facts{max-width:900px}
+  .pk-stack{display:flex;flex-direction:column;gap:clamp(16px,2vw,28px);max-width:980px}
+  .pk-block{border:1px solid var(--gda)}
+  .pk-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--gda);font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--g5c)}
+  .pk-copy{background:var(--ink);color:#fff;border:0;min-height:36px;padding:0 18px;font-family:var(--display);font-weight:800;font-stretch:112%;font-size:12px;letter-spacing:.04em;text-transform:uppercase;cursor:pointer;clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%)}
+  .pk-copy:hover{background:var(--red)}
+  .pk-body{margin:0;padding:18px 16px;font-size:17px;line-height:1.6;color:var(--g3e)}
+  .pk-pre{margin:0;padding:18px 16px;overflow-x:auto;font-family:var(--mono);font-size:13px;line-height:1.6;color:var(--ink);white-space:pre-wrap;word-break:break-all}
+  .pk-note{margin:0 0 28px;max-width:60ch}
+  .pk-fine{margin:22px 0 0;max-width:90ch;line-height:1.6;text-transform:none;letter-spacing:.02em}
+  .pk-prof{list-style:none;margin:0;padding:0;border-top:3px solid var(--ink);max-width:980px}
+  .pk-prof a{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 24px;padding:18px 0;border-bottom:1px solid var(--gda);color:var(--ink);text-decoration:none}
+  .pk-prof a:hover{color:var(--red)}
+  .pk-prof-n{flex:0 0 160px;font-weight:750;font-stretch:106%;font-size:clamp(19px,1.9vw,24px)}
+  .pk-prof-u{flex:1 1 240px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--g5c);overflow-wrap:anywhere}
+  .pk-assets{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:clamp(16px,2vw,28px);max-width:980px}
+  .pk-asset{margin:0;border:1px solid var(--gda);padding:clamp(20px,2.4vw,28px);display:flex;flex-direction:column;gap:16px;align-items:flex-start}
+  .pk-tag{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--g5c)}
+  .pk-img{width:100%;aspect-ratio:1;background:var(--tint);overflow:hidden;display:flex;align-items:center;justify-content:center}
+  .pk-img img{width:100%;height:100%;object-fit:cover;display:block}
+  .pk-img--logo img{width:40%;height:auto}
 </style>
-
-<script is:inline>
-  (function () {
-    var root = document.getElementById("ds-root");
-    if (!root) return;
-    root.querySelectorAll("[data-copy]").forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        var el = document.getElementById(btn.getAttribute("data-copy"));
-        if (!el) return;
-        var text = el.textContent;
-        var done = function () {
-          btn.textContent = "Copied ✓"; btn.classList.add("is-done");
-          setTimeout(function () { btn.textContent = "Copy"; btn.classList.remove("is-done"); }, 1600);
-        };
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(text).then(done, function () { done(); });
-        } else {
-          var ta = document.createElement("textarea");
-          ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
-          document.body.appendChild(ta); ta.select();
-          try { document.execCommand("copy"); } catch (e) {}
-          document.body.removeChild(ta); done();
-        }
-      });
-    });
-  })();
-</script>

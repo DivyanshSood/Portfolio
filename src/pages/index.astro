@@ -1,202 +1,104 @@
 ---
-import Studio from "../layouts/Studio.astro";
+// Home — a port of Home.dc.html (Divyansh Sood® Studio brandbook). Section
+// order and colours are locked by the brandbook: Hero (red) · Proof · About ·
+// Work · Services (white) · Process (tint) · Team radio · Writing · FAQ
+// (white) · Contact (red) · Footer (ink). Motion lives in src/scripts/home.js.
+import Base from "../layouts/Base.astro";
+import Faq from "../components/brand/Faq.astro";
 import { homeJsonLd, HOME_FAQ } from "../lib/home-schema.mjs";
 import { SITE, CALENDLY_URL } from "../lib/site.mjs";
-import { projects as allProjects } from "../lib/projects/data.mjs";
+import { projects } from "../lib/projects/data.mjs";
 import { POSTS } from "../lib/blog.mjs";
-import { isLocalImage, localSrcset } from "../lib/images.mjs";
+import { localVariant, localSrcset } from "../lib/images.mjs";
 import { TOPICS } from "../lib/entity.mjs";
 
-// The homepage is by far the strongest page on the site (it takes ~95% of all
-// search impressions) and it linked to /blog/ but to no individual post, and to
-// /services/ but to none of the four service pages. These two lists pass some of
-// that authority down to the pages that actually target commercial queries.
-const SERVICE_LINKS = [
-  { label: "Website development", href: "/services/website-development/" },
-  { label: "School websites", href: "/services/school-website-development/" },
-  { label: "Hotel & homestay websites", href: "/services/hotel-website-development/" },
-  { label: "Travel & taxi websites", href: "/services/travel-website-development/" },
-  { label: "AI development", href: "/services/ai-development/" },
-  { label: "Web app development", href: "/services/web-app-development/" },
-  { label: "E-commerce websites", href: "/services/ecommerce-website-development/" },
-  { label: "Landing page design", href: "/services/landing-page-design/" },
-  { label: "SEO & GEO", href: "/services/seo-geo-services/" },
-  { label: "Web developer in Kangra", href: "/web-developer-kangra/" },
-  { label: "Web developer in Dharamshala", href: "/web-developer-dharamshala/" },
-  { label: "Web developer in Shimla", href: "/web-developer-shimla/" },
-  { label: "Web developer in Manali", href: "/web-developer-manali/" },
-];
-const LATEST_POSTS = POSTS.slice(0, 6);
-
-// Proof strip. Every figure here is already published elsewhere on the site
-// (/portfolio stats strip, /results, the Baglamukhi case study) — the homepage
-// simply never showed any of it. Keep these in sync with /portfolio and
-// /results if they change; nothing here is rounded up.
-const PROOF_STATS = [
-  { v: "20+", l: "Projects shipped since 2022" },
-  { v: "9/9", l: "Recent clients still on board" },
-  { v: "7 days", l: "Fastest full build, vs a 6-month quote" },
-  { v: "5.7", l: "Avg. Google position, Baglamukhi Travels" },
-];
-
-// Real client words, verbatim from /testimonials/.
-const PROOF_QUOTES = [
-  { q: "Every other agency said 6 months. Delivered in 7 days.", by: "Admin, Modern K.B.S." },
-  { q: "Looks 10 times more premium than our competitors. We started getting direct bookings instead of losing them to Google Maps.", by: "Founder, Nandini Travels" },
-  { q: "Exactly what we wanted. I will refer Divyansh within my circle for life.", by: "Founder, North Peak Power Systems" },
-];
-
-// Desktop SERP is where the CTR problem is: 327 impressions, 1 click, position
-// 6.1. Both of these were also being truncated there — the title at 62 chars,
-// the description at 172 — so the snippet was cut mid-phrase.
-//
-// The old title ("Freelance Web Designer & Developer — Divyansh Sood® Studio")
-// carried no geography at all, while every query that actually converts is
-// branded or local: "divyansh sood" (50% CTR) and "divyansh sood web developer
-// kangra" (13.2%). The generic head terms it did chase — "web development",
-// 200 impressions at position 5.0 — returned zero clicks and always will.
-// So: keep both role keywords, keep the name, add the geography.
-//
-// September 2026: the geography is now the state, not the country. Search
-// Console showed the state-level commercial queries ("website designing company
-// in himachal pradesh", "website development company in himachal") arriving at
-// positions 69–82, and the homepage is the page the Google Business Profile
-// links to, so it is the one that has to carry them. Towns stay the job of
-// /web-developer-<city>/, verticals the job of /services/<vertical>-website-development/.
+// Title and description are the live, Search-Console-tuned strings (the
+// September 2026 move to state-level geography) — the brandbook keeps SEO
+// titles intact.
 const META_TITLE = "Web Designer & Developer in Himachal Pradesh · Divyansh Sood"; // 60 chars
 const META_DESCRIPTION =
   "Web designer & developer in Kangra, Himachal Pradesh. Custom-coded websites for schools, hotels, travel operators and brands across India. You own the code."; // 155
 
 const jsonld = homeJsonLd(SITE);
 
-// ---------------------------------------------------------------------------
-// "Portfolio 2026" homepage — Anton/JetBrains Mono, near-black + neon green
-// (#D9FF3C), stack-marquee hero + sticky deck-of-cards work gallery. Chrome and
-// the motion engine come from the shared Studio layout; this page only carries
-// its own unique sections (hero, statement, deck, contact + the case overlay).
-//
-// Curated deck of four case studies. Copy lives here (bespoke to this design);
-// images come from data.mjs by slug so the deck can never drift from the real
-// case-study assets. Card URLs point at the internal case-study pages. The
-// remaining builds (incl. the personal projects) live on /portfolio.
-// ---------------------------------------------------------------------------
-const IMG_TR = "?tr=w-1600,q-80,f-auto";
-// The deck fills the viewport, so serve responsive sources: self-hosted /images
-// features ship width variants (`<name>-<w>.webp`); ImageKit URLs resize via ?tr.
-const deckImg = (s: string) => (isLocalImage(s) ? s.replace(/\.webp$/, "-1440.webp") : s + IMG_TR);
-const deckSrcset = (s: string) => (isLocalImage(s) ? localSrcset(s) : undefined);
-const bySlug = new Map(allProjects.map((p) => [p.slug, p]));
-const caseFor = (slug: string) => {
-  const p = bySlug.get(slug);
-  if (!p) throw new Error(`Homepage deck references unknown project slug: ${slug}`);
-  return p;
-};
-const DECK = [
-  {
-    slug: "redline",
-    num: "01",
-    name: "Redline Studios",
-    client: "Redline Studios",
-    tags: "Brand · E-commerce",
-    year: "2025",
-    scope: "Brand · Storefront · Payments",
-    blurb:
-      "A motorcycle-apparel brand born out of speed — F1-styled motion, race-car geometry and a colour system pulled from real racing liveries. Custom Next.js + Razorpay, nothing templated.",
-    quote: "Bro bro bro! What a thing you've built.",
-    quoteBy: "Founder, Redline Studios",
-  },
-  {
-    slug: "cultxberserk",
-    num: "02",
-    name: "CultXberserk",
-    client: "CultXberserk",
-    tags: "Brand · D2C",
-    year: "2026",
-    scope: "Brand · Storefront · Drops",
-    blurb:
-      "A Berserk-inspired apparel label where the lore and the buy flow are one experience — a custom Next.js storefront with a hand-numbered drop system, no Shopify theme.",
-    quote: "Apparel for the damned.",
-    quoteBy: "Brand voice, CultXberserk",
-  },
-  {
-    slug: "modernkbs",
-    num: "03",
-    name: "Modern K.B.S.",
-    client: "Modern K.B.S.",
-    tags: "Web App · Admin",
-    year: "2024",
-    scope: "Web App · Admin · Build",
-    blurb:
-      "A custom web application with a self-serve admin — the team updates everything themselves, with no developer on call.",
-    quote: null,
-    quoteBy: null,
-  },
-  {
-    slug: "chinkiz",
-    num: "04",
-    name: "ChinkiZ Knitting Knife",
-    client: "ChinkiZ · 600K+ subscribers",
-    tags: "D2C · Creator",
-    year: "2024",
-    scope: "Custom storefront",
-    blurb:
-      "Shopify and Webflow fought the way her audience shops. A custom-coded storefront puts the video right next to the buy button.",
-    quote: "I did not think it could be achieved without going to e-commerce builders and only using custom code.",
-    quoteBy: "Chinki, Founder",
-  },
-  {
-    // Added to the deck because it carries the hardest SEO proof on the site —
-    // avg position 5.7, 7.25K impressions, 148 clicks in 28 days — and had
-    // exactly one inbound link (the /portfolio grid). Best number, worst
-    // distribution; the homepage fixes both.
-    slug: "baglamukhi-travels",
-    num: "05",
-    name: "Baglamukhi Travels",
-    client: "Baglamukhi Travels · Kangra",
-    tags: "Travel · Local SEO",
-    year: "2026",
-    scope: "Site · Local SEO · Schema",
-    blurb:
-      "Owner-drivers competing against commission agents for Kangra's airport transfers and the Devi Darshan yatra. Built on Astro with a full local-business schema graph — now averaging position 5.7 on Google, 7.25K impressions in 28 days.",
-    quote: null,
-    quoteBy: null,
-  },
-  {
-    slug: "sunny-himachal-travels",
-    num: "06",
-    name: "Sunny Himachal Travels",
-    client: "Sunny Himachal Travels · Dharamshala",
-    tags: "Travel · Tours & Taxi",
-    year: "2026",
-    scope: "Site · Content system · SEO",
-    blurb:
-      "A Dharamshala tour operator with a page for every trip, transfer and town — 1.1 KB of JavaScript, Lighthouse 100 on all four desktop scores, and a build that refuses near-duplicate pages.",
-    quote: null,
-    quoteBy: null,
-  },
-  {
-    slug: "yash-rock-hotel",
-    num: "07",
-    name: "Yash Rock Hotel",
-    client: "Yash Rock Hotel · Kangra",
-    tags: "Hospitality · Hotel",
-    year: "2026",
-    scope: "Design system · Site · Local SEO",
-    blurb:
-      "A seven-room hillside hotel with a pool and no booking engine by design — every enquiry goes to WhatsApp or a call, and 14 “near” pages meet guests where they're headed.",
-    quote: null,
-    quoteBy: null,
-  },
-].map((d) => {
-  const c = caseFor(d.slug);
-  const featSrc = c.feature.src;
-  return { ...d, img: deckImg(featSrc), srcset: deckSrcset(featSrc), domain: c.domain, url: `/projects/${d.slug}/` };
+// Proof — exactly six real, sourced tiles (brandbook C01 + "Proof = 6").
+const PROOF = [
+  { ch: "CH.01", tag: "SINCE 2022", v: "20", dec: 0, pre: "", suf: "+", sufSm: false, w: 82, l: "Projects shipped since 2022" },
+  { ch: "CH.02", tag: "RETENTION", v: "9", dec: 0, pre: "", suf: "/9", sufSm: false, w: 100, l: "Recent clients still on board" },
+  { ch: "CH.03", tag: "FASTEST LAP", v: "7", dec: 0, pre: "", suf: " DAYS", sufSm: true, w: 96, l: "Fastest full build — against a 6-month quote" },
+  { ch: "CH.04", tag: "GRID POSITION", v: "5.7", dec: 1, pre: "P", suf: "", sufSm: true, w: 90, l: "Avg. Google position — Baglamukhi Travels" },
+  { ch: "CH.05", tag: "LIGHTHOUSE", v: "100", dec: 0, pre: "", suf: " /100", sufSm: true, w: 100, l: "Every category — Sunny Himachal Travels" },
+  { ch: "CH.06", tag: "PIT STOP", v: "2", dec: 0, pre: "", suf: " HRS", sufSm: true, w: 92, l: "Reply time to a new brief, 9 AM–9 PM IST" },
+];
+
+// Pit lane — the seven cards in the design, with the design's own copy.
+const WORK = [
+  { slug: "redline", tags: "Brand · E-commerce · 2025", alt: "Redline Studios motorcycle apparel storefront homepage", d: "A motorcycle-apparel brand born out of speed. Race-car geometry, racing-livery colours, custom Next.js + Razorpay." },
+  { slug: "cultxberserk", tags: "Brand · D2C · 2026", alt: "CultXberserk apparel storefront", d: "Lore and buy flow as one experience — a hand-numbered drop system enforced in code. No Shopify theme." },
+  { slug: "modernkbs", tags: "Web App · Admin · 2024", alt: "Modern K.B.S. school website and admissions portal", d: "School website, admissions portal and self-serve admin. Delivered in 7 days against a six-month quote." },
+  { slug: "chinkiz", tags: "D2C · Creator · 2024", alt: "ChinkiZ Knitting Knife creator storefront", d: "A 600K-subscriber creator's store with the video right next to the buy button. Live in two weeks." },
+  { slug: "baglamukhi-travels", tags: "Travel · Local SEO · 2026", alt: "Baglamukhi Travels Kangra taxi website", d: "Owner-drivers vs commission agents. Astro + a full schema graph — now averaging position 5.7 on Google." },
+  { slug: "sunny-himachal-travels", tags: "Travel · Tours & Taxi · 2026", alt: "Sunny Himachal Travels Dharamshala tours website", d: "A page for every trip, transfer and town. 1.1 KB of JavaScript, Lighthouse 100 across the board." },
+  { slug: "yash-rock-hotel", tags: "Hospitality · Hotel · 2026", alt: "Yash Rock Hotel Kangra website", d: "Seven rooms, no booking engine by design. Every enquiry to WhatsApp, and 14 “near” pages." },
+].map((w, i) => {
+  const p = projects.find((x) => x.slug === w.slug);
+  if (!p) throw new Error(`Home work card: unknown project "${w.slug}"`);
+  return { ...w, name: p.name, img: p.feature.src, pos: `P${String(i + 1).padStart(2, "0")}` };
 });
 
-const ARROW = "M7 17 17 7M8 7h9v9";
+const SERVICES = [
+  { t: "Web design", d: "The design that ships, not the one that wins a Figma award. I design in code, on a real URL." },
+  { t: "Web development", d: "Next.js, Astro, React — storefronts, web apps and marketing sites the next developer picks up clean." },
+  { t: "AI features", d: "Claude, GPT, Gemini — whichever fits. I run my own AI product on all three, so I integrate shipped code, not experiments." },
+  { t: "Strategy & copy", d: "What the homepage should say, in what order, to whom — decided before a single pixel moves." },
+];
+const CHIPS = [
+  { href: "/services/website-development/", label: "Website development" },
+  { href: "/services/school-website-development/", label: "School websites" },
+  { href: "/services/hotel-website-development/", label: "Hotel & homestay" },
+  { href: "/services/travel-website-development/", label: "Travel & taxi" },
+  { href: "/services/ai-development/", label: "AI development" },
+  { href: "/services/web-app-development/", label: "Web apps" },
+  { href: "/services/ecommerce-website-development/", label: "E-commerce" },
+  { href: "/services/landing-page-design/", label: "Landing pages" },
+  { href: "/services/seo-geo-services/", label: "SEO & GEO", kind: "red" },
+  { href: "/web-developer-kangra/", label: "Kangra", kind: "muted" },
+  { href: "/web-developer-dharamshala/", label: "Dharamshala", kind: "muted" },
+  { href: "/web-developer-shimla/", label: "Shimla", kind: "muted" },
+  { href: "/web-developer-manali/", label: "Manali", kind: "muted" },
+];
+
+const PROCESS = [
+  { code: "FP1", t: "Brief & fit", d: "Send what you're building. A personal reply within hours, a yes or no on fit within a day." },
+  { code: "FP2", t: "Strategy", d: "The customer journey, the commercial goal, and exactly what stops people acting today." },
+  { code: "QUALI", t: "Design & prototype", d: "High-fidelity screens and a clickable prototype, approved before any production code." },
+  { code: "RACE", t: "Build", d: "Custom-coded in clear milestones, with a revision round at each one. No surprises at the end.", hot: true },
+  { code: "FLAG", t: "Launch", d: "Clean repo, README, architecture walkthrough, signed IP transfer and 30 days of free support." },
+  { code: "SEASON", t: "Growth", d: "Optional retainer: iteration, A/B tests, new pages, performance tuning, monthly reports." },
+];
+
+const RADIO = [
+  { q: "Every other agency said 6 months. Delivered in 7 days.", by: "Admin — Modern K.B.S.", bars: [40, 90, 60, 100, 30, 70] },
+  { q: "Looks 10 times more premium than our competitors. We started getting direct bookings instead of losing them to Google Maps.", by: "Founder — Nandini Travels", bars: [70, 30, 100, 50, 85, 40], red: true },
+  { q: "Exactly what we wanted. I will refer Divyansh within my circle for life.", by: "Founder — North Peak Power Systems", bars: [55, 100, 35, 75, 45, 90] },
+];
+
+// Writing — the six posts the design lists, titles from the post manifest.
+const WRITING = [
+  ["ranking-top-five-zero-clicks", "SEO · 4 min"],
+  ["aeo-geo-llmo-ai-seo-explained", "GEO · 6 min"],
+  ["entity-graph-schema-node-by-node", "Structured data · 5 min"],
+  ["taxi-tour-operator-website-pages", "Travel · 4 min"],
+  ["hotel-near-me-landing-pages", "Hotels · 4 min"],
+  ["cbse-mandatory-public-disclosure-school-website", "School website · 4 min"],
+].map(([slug, meta], i) => {
+  const p = POSTS.find((x) => x.slug === slug);
+  if (!p) throw new Error(`Home writing list: unknown post "${slug}"`);
+  return { href: `/blog/${slug}/`, title: p.title, meta, n: String(i + 1).padStart(2, "0") };
+});
 ---
 
-<Studio
+<Base
   title={META_TITLE}
   description={META_DESCRIPTION}
   canonical={`${SITE}/`}
@@ -204,748 +106,429 @@ const ARROW = "M7 17 17 7M8 7h9v9";
   ogDescription="Custom-coded websites that convert — designed, built and live in 3–4 weeks. You own the code."
   topics={[TOPICS.webDevelopment, TOPICS.webDesign, TOPICS.ecommerce, TOPICS.seo]}
   jsonld={jsonld}
-  preloadImage={{ href: DECK[0].img, srcset: DECK[0].srcset, sizes: "(max-width:900px) 86vw, 46vw" }}
-  preloader
-  home
 >
-  {/* ---------- Hero — drift marquees (decoration) + the real headline ----------
-      The three Anton bands are DECORATION and are marked aria-hidden. Each one
-      repeats its phrase three times and is then duplicated for the seamless
-      loop, so the DOM carried "Web Design" x6, "Development" x6 and
-      "Conversion" x6 — as the largest text on the page — while the only <h1>
-      was clipped to 1x1px by .dsx-sr. An invisible H1 sitting next to a head
-      term repeated eighteen times is the worst possible pair of signals: it
-      reads as keyword repetition and says nothing a buyer actually searches.
-      The bands stay exactly as designed; the headline below them is now real,
-      visible, crawlable text. ---------------------------------------------- */}
-  <section id="top">
-    <div class="hero-fold">
-      <div aria-hidden="true" style="display:flex; flex-direction:column; gap:1vw;">
-        <div style="overflow:hidden;">
-          <div class="dsx-r" data-intro="0">
-            <div data-drift="l" style="display:inline-flex; white-space:nowrap; font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(32px, 8.2vw, 112px); line-height:0.94; text-transform:uppercase; will-change:transform;">
-              <span style="display:inline-block; padding-right:4vw;">Web Design <span style="color:var(--accent, #D9FF3C);">✦</span> Web Design <span style="color:var(--accent, #D9FF3C);">✦</span> Web Design <span style="color:var(--accent, #D9FF3C);">✦</span></span>
-              <span style="display:inline-block; padding-right:4vw;">Web Design <span style="color:var(--accent, #D9FF3C);">✦</span> Web Design <span style="color:var(--accent, #D9FF3C);">✦</span> Web Design <span style="color:var(--accent, #D9FF3C);">✦</span></span>
-            </div>
-          </div>
-        </div>
-        <div style="overflow:hidden;">
-          <div class="dsx-r" data-intro="110">
-            <div data-drift="r" class="hero-band-stroke" style="display:inline-flex; white-space:nowrap; font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(32px, 8.2vw, 112px); line-height:0.94; text-transform:uppercase; color:transparent; will-change:transform;">
-              <span style="display:inline-block; padding-right:4vw;">Development ► Development ► Development ►</span>
-              <span style="display:inline-block; padding-right:4vw;">Development ► Development ► Development ►</span>
-            </div>
-          </div>
-        </div>
-        <div style="overflow:hidden;">
-          <div class="dsx-r" data-intro="220">
-            <div data-drift="l2" style="display:inline-flex; white-space:nowrap; font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(32px, 8.2vw, 112px); line-height:0.94; text-transform:uppercase; will-change:transform;">
-              <span style="display:inline-block; padding-right:4vw;">Conversion <span style="color:var(--accent, #D9FF3C);">↗</span> Conversion <span style="color:var(--accent, #D9FF3C);">↗</span> Conversion <span style="color:var(--accent, #D9FF3C);">↗</span></span>
-              <span style="display:inline-block; padding-right:4vw;">Conversion <span style="color:var(--accent, #D9FF3C);">↗</span> Conversion <span style="color:var(--accent, #D9FF3C);">↗</span> Conversion <span style="color:var(--accent, #D9FF3C);">↗</span></span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* The fold's real content: headline, subhead, primary + secondary CTA. */}
-      <div class="hero-say">
-        <div class="hero-say-main">
-          <h1 class="dsx-f" data-intro="300">
-            Web designer &amp; developer in Himachal Pradesh — custom-coded websites, stores and web apps that <em>convert</em>.
-          </h1>
-          <p class="hero-sub dsx-f" data-intro="360">One person, end to end. Live in 3–4 weeks. You own the code.</p>
-          <div class="hero-cta dsx-f" data-intro="420">
-            <a class="dsx-cta hero-cta-1" data-cursor="BOOK" href={CALENDLY_URL} target="_blank" rel="noopener">
-              Book a 15-min intro
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d={ARROW}></path></svg>
-            </a>
-            <a class="hero-cta-2" href="/portfolio/">See the work <span aria-hidden="true">→</span></a>
-          </div>
-        </div>
-        <div data-hide-m class="hero-say-meta dsx-f" data-intro="480">
-          EST. 2022 — HIMACHAL PRADESH, IN<br />WORLDWIDE · IST <span data-ist>––:––</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  {/* ---------- Marquee band ---------- */}
-  <div class="hp-band">
-    <div data-marquee-track style="display:inline-flex; white-space:nowrap; will-change:transform; font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(30px, 4.6vw, 64px); text-transform:uppercase; line-height:1;">
-      <span style="display:inline-block; padding-right:3vw;">Custom-coded <span style="color:var(--accent, #D9FF3C);">✦</span> Conversion-focused <span style="color:var(--accent, #D9FF3C);">✦</span> Live in 3–4 weeks <span style="color:var(--accent, #D9FF3C);">✦</span> You own the code <span style="color:var(--accent, #D9FF3C);">✦</span></span>
-      <span aria-hidden="true" style="display:inline-block; padding-right:3vw;">Custom-coded <span style="color:var(--accent, #D9FF3C);">✦</span> Conversion-focused <span style="color:var(--accent, #D9FF3C);">✦</span> Live in 3–4 weeks <span style="color:var(--accent, #D9FF3C);">✦</span> You own the code <span style="color:var(--accent, #D9FF3C);">✦</span></span>
-    </div>
+  {/* Intro sweep bands (brandbook 06 Motion). Off-canvas until home.js runs. */}
+  <div aria-hidden="true" class="bands">
+    <div class="band-red" data-band-red></div>
+    <div class="band-ink" data-band-ink></div>
   </div>
 
-  {/* ---------- Proof ----------------------------------------------------
-      The homepage carried no proof of any kind — no numbers, no client words,
-      no logos — while /portfolio, /results and /testimonials held all of it
-      behind footer-only links. Every figure below is already published
-      elsewhere on the site and links to the page that substantiates it. --- */}
-  <section class="hp-proof" aria-labelledby="proof-h">
-    <h2 id="proof-h" class="dsx-sr">Proof</h2>
-    <ul class="hp-stats" role="list">
-      {PROOF_STATS.map((s) => (
-        <li data-reveal>
-          <span class="hp-stat-v">{s.v}</span>
-          <span class="hp-stat-l">{s.l}</span>
-        </li>
-      ))}
-    </ul>
-    <ul class="hp-quotes" role="list">
-      {PROOF_QUOTES.map((qt) => (
-        <li data-reveal>
-          <blockquote>“{qt.q}”</blockquote>
-          <cite>— {qt.by}</cite>
-        </li>
-      ))}
-    </ul>
-    <div class="hp-proof-links mono">
-      <a href="/results/">The numbers, per project →</a>
-      <a href="/testimonials/">Client reviews →</a>
-    </div>
-  </section>
-
-  {/* ---------- About statement — sticky, word-by-word scroll reveal ---------- */}
-  <section data-stmt-sec class="hp-stmt">
-    <div class="hp-stmt-pin">
-      <div class="hp-eyebrow">
-        <span>(ABOUT — 01)</span>
-        <span data-hide-m>WHY FOUNDERS HIRE ME</span>
+  <main>
+    <section class="hero" data-hero data-sec-hero>
+      <div class="hero-red" data-hero-red>
+        <div class="wrap">
+          <div class="hero-top">
+            <div class="hero-meta">
+              <div>Divyansh Sood® Studio — Portfolio 2026</div>
+              <div>Custom-coded · Conversion-focused · Worldwide</div>
+            </div>
+            <div class="pill">
+              <span class="pill-dot" data-avail-dot></span>
+              <span data-avail>Online now</span>
+              <span class="pill-t">IST <span data-clock="short">--:--</span></span>
+            </div>
+          </div>
+          <div class="hero-name">
+            <div class="hero-line hero-line--1"><div data-name-line>Divyansh</div></div>
+            <div class="hero-line hero-line--2"><div data-name-line>Sood<span class="sup">®</span></div></div>
+          </div>
+        </div>
       </div>
-      <p data-split-words style="margin:0; font-weight:600; font-size:clamp(26px, 4.8vw, 60px); line-height:1.16; letter-spacing:-0.02em; max-width:1150px;">I design, build and ship custom-coded websites, stores and web apps that convert — one person, end to end, for founders worldwide.</p>
-      <p data-split-words style="margin:0.5em 0 0; font-weight:600; font-size:clamp(26px, 4.8vw, 60px); line-height:1.16; letter-spacing:-0.02em; color:var(--accent, #D9FF3C);">No agency layers. You own the code.</p>
-    </div>
-  </section>
-
-  {/* ---------- Selected work — sticky deck of cards ---------- */}
-  <section id="work">
-    <div class="hp-work-head">
-      <div>
-        <div class="hp-eyebrow">(WORK — 02)</div>
-        <h2 style="margin:0; overflow:hidden;"><span class="dsx-r" data-rev style="display:block; font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(52px, 9vw, 130px); line-height:0.92; text-transform:uppercase;">Selected work</span></h2>
+      <div class="wrap hero-body" data-hero-body>
+        <div class="hero-copy">
+          <h1 class="h-lead">Web designer &amp; developer in Himachal Pradesh — custom-coded websites, stores and web apps that <em>convert</em>.</h1>
+          <p>One person, end to end. Live in 3–4 weeks. You own the code.</p>
+        </div>
+        <div class="btn-row">
+          <a href={CALENDLY_URL} class="btn btn--red">Book a 15-min intro <span aria-hidden="true">→</span></a>
+          <a href="#work" class="btn btn--ink">See the work</a>
+        </div>
       </div>
-      <div data-hide-m class="hp-eyebrow hp-eyebrow-stack">2024 — 2026<br><span style="color:var(--accent, #D9FF3C);">{String(DECK.length).padStart(2, "0")}</span> OF {String(allProjects.length).padStart(2, "0")} PROJECTS</div>
-    </div>
+      <div class="wedge wedge--l" aria-hidden="true" data-wedge></div>
+      <div class="wedge wedge--r" aria-hidden="true" data-wedge></div>
+      <div class="scroll-lbl" data-scroll-lbl>Scroll — lap 01</div>
+    </section>
+    <script is:inline>
+      // Arm the intro before first paint so the hero doesn't flash, then let
+      // home.js play it. Skipped under reduced motion; a failsafe shows the
+      // hero if the module never runs.
+      (function () {
+        try {
+          if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+          var d = document.documentElement;
+          d.classList.add("intro");
+          setTimeout(function () { if (!d.classList.contains("intro-run")) d.classList.remove("intro"); }, 2500);
+        } catch (e) {}
+      })();
+    </script>
 
-    {/* A single laptop, pinned centre-stage. On scroll the screenshot inside its
-        screen cross-fades from project to project and the copy column beside it
-        swaps in sync — the chassis never moves. The engine (Studio.astro) drives
-        [data-screen]/[data-copy] opacity off the same scroll-progress math the
-        old clip-path deck used. */}
-    <div data-deck-sec class="hp-deck" style={`--deck-n:${DECK.length};`}>
-      <div class="dsx-lap-stage">
-        {/* Copy column — one block per project, absolutely stacked + cross-faded. */}
-        <div class="dsx-lap-copy">
-          {DECK.map((p, i) => (
-            <div data-copy data-idx={i} class="dsx-copy">
-              <div style="display:flex; align-items:center; gap:14px; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.12em; color:rgba(244,242,236,0.85); margin-bottom:18px;">
-                <span style="color:var(--accent, #D9FF3C);">{p.num}</span>
-                <span>{p.tags}</span>
-                <span data-hide-m>· {p.year}</span>
-              </div>
-              <h3 style="margin:0; font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(40px, 5.2vw, 92px); line-height:0.9; text-transform:uppercase;">{p.name}</h3>
-              <p style="margin:22px 0 0; max-width:42ch; font-size:clamp(14px, 1.15vw, 17px); line-height:1.62; color:#B8B8BF;">{p.blurb}</p>
-              <a href={p.url} data-cursor="OPEN" style="margin-top:30px; display:inline-flex; align-items:center; gap:10px; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.12em; border:1px solid rgba(244,242,236,0.45); border-radius:999px; padding:13px 22px;">VIEW CASE <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d={ARROW}></path></svg></a>
+    <section id="proof" class="sec" data-sec-stats>
+      <div class="wrap">
+        <div class="sec-head">
+          <div>
+            <div class="lbl">(01) Telemetry</div>
+            <h2 class="h2 proof-h">Proof</h2>
+          </div>
+          <p class="sec-note">Numbers from shipped projects, since 2022. Recorded, not projected.</p>
+        </div>
+        <div class="tiles">
+          {PROOF.map((t) => (
+            <div class="tile">
+              <div class="tile-top"><span>{t.ch}</span><span>{t.tag}</span></div>
+              {/* One line on purpose: a line break between these spans renders as a space. */}
+              <div class="tile-v">{t.pre && <span class="tile-pre">{t.pre}</span>}<span data-count={t.v} data-dec={t.dec}>{t.v}</span>{t.suf && <span class:list={["tile-suf", { "tile-suf--sm": t.sufSm }]}>{t.suf}</span>}</div>
+              <div class="gauge"><div data-gauge={t.w} style={`width:${t.w}%`}></div></div>
+              <div class="tile-l">{t.l}</div>
             </div>
           ))}
         </div>
+        <div class="links-row proof-links">
+          <a href="/results/">The numbers, per project →</a>
+          <a href="/testimonials/">Client reviews →</a>
+        </div>
+      </div>
+    </section>
 
-        {/* The laptop. Screen is clickable (opens the case overlay for whichever
-            project is active — the engine keeps its data-idx in sync). */}
-        <div class="dsx-lap-wrap">
-          <div class="dsx-lap">
-            <div class="dsx-lap-screen" data-card data-deck-card data-idx="0" data-cursor="VIEW">
-              <div class="dsx-lap-chrome" aria-hidden="true">
-                <span class="dsx-lap-dots"><i></i><i></i><i></i></span>
-                <span class="dsx-lap-url" data-lap-url>{DECK[0].domain}</span>
-              </div>
-              <div class="dsx-lap-shots">
-                {/* width/height are the intrinsic 16:10 of the generated ladder
-                    (1920x1200 base). The shots are absolutely positioned and sized by
-                    CSS, so these change no layout — they declare the aspect ratio in
-                    markup instead of leaving it to be inferred after download. */}
-                {DECK.map((p, i) => (
-                  <img data-screen data-idx={i} src={p.img} srcset={p.srcset} sizes="(max-width:900px) 86vw, 46vw" alt={`${p.name} — ${p.tags}`} width="1440" height="900" loading={i === 0 ? "eager" : "lazy"} decoding="async" />
-                ))}
-              </div>
-            </div>
-            <div class="dsx-lap-base" aria-hidden="true"></div>
+    <section id="about" class="about">
+      <div class="wrap about-in">
+        <div class="about-l">
+          <div class="lbl about-lbl">(02) Why founders hire me</div>
+          <p class="about-big">I design, build and ship custom-coded websites, stores and web apps that <span>convert</span> — one person, end to end, for founders worldwide.</p>
+          <p class="about-sub">No agency layers. No handoff to a junior. The person who replies to your brief is the one who designs it, ships it and reports the results.</p>
+        </div>
+        <div class="about-r">
+          <div class="spec-head"><span>Spec sheet</span><span style="color:var(--red)">No. 07</span></div>
+          <dl class="spec">
+            <div><dt>Studio</dt><dd>Divyansh Sood® Studio — one person, est. 2022</dd></div>
+            <div><dt>Based</dt><dd>Kangra valley, Himachal Pradesh, India · IST (UTC+5:30)</dd></div>
+            <div><dt>Builds</dt><dd>Marketing sites, e-commerce, web apps &amp; MVPs, AI features</dd></div>
+            <div><dt>Stack</dt><dd>Next.js, Astro, React, Angular, Supabase, Tailwind</dd></div>
+            <div><dt>Timeline</dt><dd>3–4 weeks for sites &amp; MVPs · 6–10 weeks for larger builds</dd></div>
+            <div><dt>Handover</dt><dd>Clean repo, README, architecture walkthrough, signed IP transfer, 30 days support</dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <section id="work" class="work" data-work>
+      <div class="work-pin" data-work-pin>
+        <div class="wrap work-head">
+          <div>
+            <div class="lbl work-lbl">(03) Pit lane — 2024–2026</div>
+            <h2 class="h2 work-h">Selected work</h2>
+          </div>
+          <div class="work-count">
+            <div class="work-n"><span data-work-count>01</span> / {String(WORK.length).padStart(2, "0")}</div>
+            <div class="work-bar"><div data-work-bar></div></div>
           </div>
         </div>
-
-        <div class="hp-deck-count"><span data-deck-num style="color:var(--accent, #D9FF3C); font-size:20px;">01</span><span style="color:#8A8A93; font-size:12px;">/ {String(DECK.length).padStart(2, "0")}</span></div>
-        <div class="hp-deck-rail"><div data-deck-bar style="position:absolute; inset:0; transform:scaleX(0); transform-origin:left center; background:var(--accent, #D9FF3C);"></div></div>
-      </div>
-    </div>
-
-    {/* The deck shows a curated few of twelve; this is the only in-page route to the
-        other four. Without it /portfolio is reachable from the burger menu and
-        the footer alone. */}
-    <div class="hp-work-out">
-      <a href="/portfolio/" class="hp-work-out-a">See all twelve projects <span aria-hidden="true">→</span></a>
-      <span class="mono">Case studies · live links · results</span>
-    </div>
-  </section>
-
-  {/* ---------- Services ---------- */}
-  <section id="services">
-    <div class="hp-svc">
-      <div class="hp-eyebrow">
-        <span>(SERVICES — 03)</span>
-        <span data-hide-m>ONE PERSON, END TO END</span>
-      </div>
-      <h2 style="margin:0 0 clamp(30px, 4vw, 54px); overflow:hidden;"><span class="dsx-r" data-rev style="display:block; font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(52px, 9vw, 130px); line-height:0.92; text-transform:uppercase;">What I do</span></h2>
-      <ul class="svc" role="list">
-        <li class="svc-row" data-reveal>
-          <span class="svc-num">01</span>
-          <h3 class="svc-t">Web design</h3>
-          <p class="svc-d">The design that ships, not the one that wins a Figma community award — I design in code, on a real URL.</p>
-        </li>
-        <li class="svc-row" data-reveal>
-          <span class="svc-num">02</span>
-          <h3 class="svc-t">Web development</h3>
-          <p class="svc-d">Next.js, Astro, React — custom-coded storefronts, web apps and marketing sites the next developer picks up clean.</p>
-        </li>
-        <li class="svc-row" data-reveal>
-          <span class="svc-num">03</span>
-          <h3 class="svc-t">AI features</h3>
-          <p class="svc-d">Claude, GPT, Gemini — whichever fits the job. I run my own AI product on all three, so I integrate shipped code, not experiments.</p>
-        </li>
-        <li class="svc-row" data-reveal>
-          <span class="svc-num">04</span>
-          <h3 class="svc-t">Strategy &amp; copy</h3>
-          <p class="svc-d">What the homepage should say, in what order, to whom — decided before a single pixel moves.</p>
-        </li>
-      </ul>
-
-      <nav class="svc-links" aria-label="Service and location pages">
-        {SERVICE_LINKS.map((s) => <a href={s.href}>{s.label}</a>)}
-      </nav>
-
-      <div class="hp-writing">
-        <div class="hp-writing-head">
-          <span class="mono">(WRITING)</span>
-          <a class="mono" href="/blog/">All posts →</a>
+        <div class="work-track" data-work-track>
+          {WORK.map((w) => (
+            <a href={`/projects/${w.slug}/`} class="wcard">
+              <div class="wcard-top"><span>{w.pos}</span><span>{w.tags}</span></div>
+              <div class="wcard-img">
+                <img src={localVariant(w.img, 1080)} srcset={localSrcset(w.img)} sizes="(max-width: 700px) 80vw, 560px" alt={w.alt} loading="lazy" decoding="async" width="1600" height="1000" />
+              </div>
+              <h3 class="h3card">{w.name}</h3>
+              <p>{w.d}</p>
+            </a>
+          ))}
+          <a href="/portfolio/" class="wcard-all">
+            <span class="wcard-all-t">Case studies · live links · results</span>
+            <span class="wcard-all-h">All twelve projects →</span>
+          </a>
         </div>
-        <ul class="hp-posts" role="list">
-          {LATEST_POSTS.map((p) => (
-            <li>
-              <a href={`/blog/${p.slug}/`}>
-                <span class="hp-post-t">{p.title}</span>
-                <span class="hp-post-m mono">{p.tags?.[0]} · {p.readMins} min</span>
-              </a>
+      </div>
+    </section>
+
+    <section id="services" class="services">
+      <div class="wrap">
+        <div class="sec-head">
+          <div>
+            <div class="lbl">(04) Setup — one person, end to end</div>
+            <h2 class="h2 services-h">What I do</h2>
+          </div>
+        </div>
+        <div class="rule">
+          {SERVICES.map((s, i) => (
+            <div class="svc">
+              <span class="svc-n">{String(i + 1).padStart(2, "0")}</span>
+              <h3 class="svc-t">{s.t}</h3>
+              <p class="svc-d">{s.d}</p>
+            </div>
+          ))}
+        </div>
+        <div class="svc-chips">
+          <div class="chips-lbl">Specialist builds &amp; locations</div>
+          <div class="chips">
+            {CHIPS.map((c) => (
+              <a href={c.href} class:list={["chip", { "chip--red": c.kind === "red", "chip--muted": c.kind === "muted" }]}>{c.label}</a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="process" class="sec sec--tint">
+      <div class="wrap">
+        <div class="lbl">(05) Race weekend</div>
+        <h2 class="h2 process-h">How a project runs</h2>
+        <ol class="process">
+          {PROCESS.map((s, i) => (
+            <li class:list={[{ "is-hot": s.hot }]}>
+              <div class="process-top"><span>{s.code}</span><span>{String(i + 1).padStart(2, "0")}</span></div>
+              <h3 class="h-step">{s.t}</h3>
+              <p>{s.d}</p>
             </li>
           ))}
-        </ul>
+        </ol>
       </div>
-    </div>
-  </section>
+    </section>
 
-  {/* ---------- FAQ ------------------------------------------------------
-      Renders from HOME_FAQ, the same array that builds the FAQPage node in
-      home-schema.mjs — the markup and the visible answers cannot drift. --- */}
-  <section class="hp-faq" aria-labelledby="faq-h">
-    <div class="hp-faq-head">
-      <span class="mono">(FAQ — 04)</span>
-      <span class="mono" data-hide-m>BEFORE YOU ASK</span>
-    </div>
-    <h2 id="faq-h" class="hp-faq-h">Questions I get<span style="color:var(--accent, #D9FF3C);">.</span></h2>
-    <dl class="hp-faq-list">
-      {HOME_FAQ.map((f) => (
-        <div class="hp-faq-row" data-reveal>
-          <dt>{f.q}</dt>
-          <dd>{f.a}</dd>
+    <section id="radio" class="sec">
+      <div class="wrap">
+        <div class="lbl">(06) Team radio</div>
+        <h2 class="h2 radio-h">What clients say</h2>
+        <div class="radio">
+          {RADIO.map((r, i) => (
+            <figure class:list={["qt", { "qt--red": r.red }]}>
+              <div class="qt-top">
+                <span class="qt-ch"><span class="qt-dot"></span>RADIO · CH.{String(i + 1).padStart(2, "0")}</span>
+                <span class="qt-bars" aria-hidden="true">{r.bars.map((h) => <span style={`height:${h}%`}></span>)}</span>
+              </div>
+              <blockquote>“{r.q}”</blockquote>
+              <figcaption>{r.by}</figcaption>
+            </figure>
+          ))}
         </div>
-      ))}
-    </dl>
-  </section>
+      </div>
+    </section>
 
-  {/* ---------- Contact ---------- */}
-  <section id="contact">
-    <div class="hp-eyebrow">
-      <span>(CONTACT — 05)</span>
-      <span>NEXT STEP</span>
-    </div>
-    <div style="overflow:hidden;">
-      <h2 class="dsx-r" data-rev style="margin:0; font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(80px, 19vw, 300px); line-height:0.85; text-transform:uppercase; letter-spacing:-0.005em;">Let's build<span style="color:var(--accent, #D9FF3C);">.</span></h2>
-    </div>
-    <div class="hp-contact-cta">
-      <a class="dsx-cta" data-cursor="BOOK" href={CALENDLY_URL} target="_blank" rel="noopener" style="background:var(--accent, #D9FF3C); color:#0B0B0C; font-weight:600; font-size:15px; letter-spacing:0.02em; padding:20px 34px; border-radius:999px; display:inline-flex; align-items:center; gap:10px;">BOOK A 15-MIN INTRO <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d={ARROW}></path></svg></a>
-      <a href="mailto:hello@divyanshsood.com" style="font-family:'JetBrains Mono',monospace; font-size:13px; letter-spacing:0.06em; border-bottom:1px solid rgba(244,242,236,0.3); padding-bottom:4px;">HELLO@DIVYANSHSOOD.COM</a>
-      {/* No data-hide-m on purpose: this is the trust line directly above the
-          form, on the device most visitors submit from. */}
-      <span class="hp-contact-trust">“I'LL PERSONALLY REVIEW YOUR BRIEF AND REPLY WITHIN TWO HOURS.” — DIVYANSH, FOUNDER</span>
-    </div>
-
-    {/* Prefer-not-to-call door: a compact project brief. Reuses the existing
-        ds-start-form handler (src/scripts/contact-form.js) — same fields as the
-        /website-audit intake, so no bespoke copy. WhatsApp sits alongside as a
-        delivery-independent fallback. */}
-    <div class="dsx-brief">
-      <div class="hp-eyebrow">OR SEND A BRIEF — NO CALL NEEDED</div>
-      <form id="ds-start-form">
-        <div class="dsx-brief-grid">
+    <section id="writing" class="writing">
+      <div class="wrap">
+        <div class="sec-head writing-head">
           <div>
-            <label for="st-name" class="dsx-brief-l">Your name *</label>
-            <input id="st-name" type="text" required placeholder="Jane Founder" autocomplete="name" class="dsx-brief-i" />
+            <div class="lbl">(07) Journal — {POSTS.length} articles</div>
+            <h2 class="h2">Writing</h2>
           </div>
-          <div>
-            <label for="st-email" class="dsx-brief-l">Email *</label>
-            <input id="st-email" type="email" required placeholder="you@company.com" autocomplete="email" class="dsx-brief-i" />
+          <a href="/blog/" class="mono">All posts →</a>
+        </div>
+        <div class="rule">
+          {WRITING.map((p) => (
+            <a href={p.href} class="post">
+              <span class="post-n">{p.n}</span>
+              <span class="post-t">{p.title}</span>
+              <span class="post-m">{p.meta}</span>
+              <span aria-hidden="true" class="post-a">→</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="faq-sec">
+      <div class="wrap">
+        <Faq faqs={HOME_FAQ} />
+      </div>
+    </section>
+
+    <section id="contact" class="contact" data-sec-contact>
+      <div class="contact-notch" aria-hidden="true"></div>
+      <div class="wrap">
+        <div class="contact-top">
+          <div class="lbl lbl--ink contact-lbl">(09) Chequered flag</div>
+          <div class="flag" aria-hidden="true"></div>
+        </div>
+        <h2 class="contact-h">Let's build.</h2>
+        <div class="contact-in">
+          <div class="contact-l">
+            <a href={CALENDLY_URL} class="contact-cta">Book a 15-min intro <span aria-hidden="true">→</span></a>
+            <a href="mailto:hello@divyanshsood.com" class="contact-mail">hello@divyanshsood.com</a>
+            <blockquote class="contact-q">“I'll personally review your brief and reply within two hours.” <span>— Divyansh, founder</span></blockquote>
+            <div class="contact-row">
+              <span>IST <span data-clock="full">--:--:--</span></span>
+              <span data-avail>Online now</span>
+              <a href="https://wa.me/919816091875">WhatsApp ↗</a>
+            </div>
+          </div>
+          <div class="contact-card">
+            <div class="contact-card-top"><span>Or send a brief — no call needed</span><span style="color:var(--red)">●</span></div>
+            <form id="ds-start-form" class="form">
+              <label class="field" for="st-name">Your name *<input id="st-name" required name="name" autocomplete="name" /></label>
+              <label class="field" for="st-email">Email *<input id="st-email" required type="email" name="email" autocomplete="email" /></label>
+              <label class="field" for="st-msg">What are you building? *<textarea id="st-msg" required name="brief" rows="3"></textarea></label>
+              <div class="hp" aria-hidden="true"><label for="st-hp">Leave this empty</label><input id="st-hp" name="company_website" tabindex="-1" autocomplete="off" /></div>
+              <button type="submit" class="form-submit">Send brief →</button>
+            </form>
           </div>
         </div>
-        <label for="st-msg" class="dsx-brief-l" style="margin-top:24px;">What are you building? *</label>
-        <textarea id="st-msg" rows="3" required placeholder="One line on the project and what success looks like." class="dsx-brief-t"></textarea>
-        {/* Honeypot — invisible to humans; bots that fill it are dropped. */}
-        <input id="st-hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute; left:-9999px; width:1px; height:1px; opacity:0; pointer-events:none;" />
-        <div style="display:flex; flex-wrap:wrap; align-items:center; gap:16px 22px; margin-top:28px;">
-          <button type="submit" class="dsx-cta" data-cursor="SEND" style="background:var(--accent, #D9FF3C); color:#0B0B0C; font-weight:600; font-size:14px; letter-spacing:0.02em; padding:16px 28px; border-radius:999px; display:inline-flex; align-items:center; gap:10px; cursor:pointer;">SEND A BRIEF <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d={ARROW}></path></svg></button>
-          <a href="https://wa.me/919816091875" target="_blank" rel="noopener" style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.06em; border-bottom:1px solid rgba(244,242,236,0.3); padding-bottom:4px;">OR WHATSAPP ↗</a>
-        </div>
-      </form>
-    </div>
-  </section>
-
-  {/* ---------- Case overlay (populated + shown by the engine) ---------- */}
-  <div data-overlay role="dialog" aria-modal="true" aria-label="Case study" style="display:none; position:fixed; inset:0; z-index:90; background:#0B0B0C; overflow:auto;">
-    <div style="max-width:1240px; margin:0 auto; padding:var(--sp-2xs) var(--gutter) var(--sp-l);">
-      <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; padding-bottom:5vh;">
-        <span style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.14em; color:var(--accent, #D9FF3C);">CASE — <span data-o-num>01</span></span>
-        <button data-o-close data-cursor="CLOSE" class="dsx-pill" style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.12em; border:1px solid rgba(244,242,236,0.35); border-radius:999px; padding:10px 18px; cursor:pointer; display:inline-flex; align-items:center; gap:8px;">CLOSE <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 5l14 14M19 5 5 19"></path></svg></button>
       </div>
-      <h2 data-o-name style="margin:0 0 5vh; font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(48px, 10vw, 150px); line-height:0.92; text-transform:uppercase;"></h2>
-      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:16px; border-top:1px solid rgba(244,242,236,0.14); border-bottom:1px solid rgba(244,242,236,0.14); padding:18px 0; margin-bottom:5vh; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.08em; line-height:2;">
-        <div><span style="color:#8A8A93;">CLIENT</span><br><span data-o-client></span></div>
-        <div><span style="color:#8A8A93;">SECTOR</span><br><span data-o-tags></span></div>
-        <div><span style="color:#8A8A93;">YEAR</span><br><span data-o-year></span></div>
-        <div><span style="color:#8A8A93;">SCOPE</span><br><span data-o-scope></span></div>
-      </div>
-      <div style="position:relative; overflow:hidden; aspect-ratio:16 / 9; background:#131316; margin-bottom:5vh;">
-        {/* src/alt are filled by the engine when the overlay opens. The wrapper
-            already reserves the box via aspect-ratio, so nothing here can shift
-            layout; the attributes just declare the ladder's intrinsic 16:10.
-            src is a 1×1 transparent GIF, not "" — an empty src makes several
-            browsers resolve it against the document and re-request the current
-            page as if it were an image. */}
-        <img
-          data-o-img
-          src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
-          alt=""
-          width="1440"
-          height="900"
-          loading="lazy"
-          decoding="async"
-          style="width:100%; height:100%; object-fit:cover;"
-        />
-      </div>
-      <p data-o-blurb style="margin:0 0 4vh; max-width:700px; font-size:clamp(17px, 2vw, 21px); line-height:1.65; color:#D9D7D0;"></p>
-      <blockquote data-o-quote style="margin:0 0 6vh; max-width:760px; border-left:2px solid var(--accent, #D9FF3C); padding-left:24px;">
-        <p style="margin:0 0 10px; font-weight:600; font-size:clamp(19px, 2.4vw, 26px); line-height:1.4; letter-spacing:-0.01em;">“<span data-o-quote-text></span>”</p>
-        <cite style="font-style:normal; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.1em; color:#8A8A93;">— <span data-o-quote-by></span></cite>
-      </blockquote>
-      <div style="display:flex; flex-wrap:wrap; align-items:center; gap:16px;">
-        <a data-o-link class="dsx-cta" data-cursor="OPEN" href="#" style="background:var(--accent, #D9FF3C); color:#0B0B0C; font-weight:600; font-size:14px; padding:16px 26px; border-radius:999px; display:inline-flex; align-items:center; gap:10px;">OPEN FULL CASE STUDY <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d={ARROW}></path></svg></a>
-        <button data-o-next class="dsx-pill" style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.12em; border:1px solid rgba(244,242,236,0.35); border-radius:999px; padding:15px 24px; cursor:pointer; display:inline-flex; align-items:center; gap:8px;">NEXT PROJECT <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M4 12h16M13 5l7 7-7 7"></path></svg></button>
-      </div>
-    </div>
-  </div>
-
-  {/* Deck data for the engine (overlay content). */}
-  <script is:inline type="application/json" id="dsx-data" set:html={JSON.stringify(DECK)} />
-
-  <style>
-    /* ---- Hero headline block --------------------------------------------
-       Anchored to the bottom of the fold. The marquee bands above it are
-       decoration; this is the part Google and a first-time visitor actually
-       read, so it carries the H1, the subhead and the only two CTAs in the fold.
-
-       Bands and headline are stacked flex children, never headline-over-bands.
-       Absolutely positioning the headline means guessing its height as bottom
-       padding — and it changes with viewport width as the copy rewraps, so a
-       wrong guess puts the H1 through the middle of the marquees. Stacking
-       makes that collision structurally impossible. */
-    .hero-fold {
-      min-height: 100svh; display: flex; flex-direction: column; justify-content: center;
-      overflow: hidden; position: relative;
-      /* Tuned so the bands, the H1, the subhead AND the primary button all fit
-         above the fold at 1440x900 — putting a CTA in the first screen is the
-         entire point of the block. */
-      gap: clamp(20px, 3.4vh, 44px);
-      padding: calc(var(--header-h) + var(--sp-2xs)) 0 var(--sp-xs);
-    }
-    /* 1.5px is a hairline against the desktop 112px but reads as muddy fill at
-       the mobile size, where it is proportionally ~3x heavier. */
-    .hero-band-stroke { -webkit-text-stroke: 1.5px #F4F2EC; }
-    @media (max-width: 720px) { .hero-band-stroke { -webkit-text-stroke-width: 1px; } }
-    .hero-say {
-      padding: 0 var(--gutter);
-      display: flex; align-items: flex-end; justify-content: space-between; gap: 32px;
-    }
-    .hero-say-main { max-width: min(62ch, 58vw); }
-    /* The 2.9vw term does not engage until an 828px viewport, so on every phone
-       this rendered at its 24px floor — smaller than the aria-hidden marquee
-       bands above it, which meant the decoration outweighed the actual pitch.
-       Raising the floor only; the desktop curve is untouched. */
-    .hero-say h1 {
-      margin: 0; font-weight: 600; letter-spacing: -0.02em;
-      font-size: clamp(28px, 2.9vw, 42px); line-height: 1.14; text-wrap: balance;
-    }
-    .hero-say h1 em { font-style: normal; color: var(--accent, #D9FF3C); }
-    .hero-sub {
-      margin: 16px 0 0; max-width: 46ch; color: #B8B8BF;
-      font-size: clamp(14px, 1.15vw, 17px); line-height: 1.6;
-    }
-    .hero-cta { margin-top: 26px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px; }
-    .hero-cta-1 {
-      background: var(--accent, #D9FF3C); color: #0B0B0C; font-weight: 600;
-      font-size: 14px; letter-spacing: 0.02em; padding: 16px 28px; border-radius: 999px;
-      display: inline-flex; align-items: center; gap: 10px; white-space: nowrap;
-    }
-    .hero-cta-2 {
-      font-family: "JetBrains Mono", monospace; font-size: 12px; letter-spacing: 0.08em;
-      text-transform: uppercase; border-bottom: 1px solid rgba(244, 242, 236, 0.35);
-      padding-bottom: 4px; white-space: nowrap;
-    }
-    .hero-say-meta {
-      flex: none; text-align: right; line-height: 1.8; color: #8A8A93;
-      font-family: "JetBrains Mono", monospace; font-size: var(--fs-label); letter-spacing: 0.1em;
-    }
-
-    /* ---- Shared section furniture ---------------------------------------
-       One class, one ramp (see the tokens in base.css). Sections do not
-       hand-roll their own eyebrow or padding, and never in an inline style=. */
-    .hp-eyebrow {
-      font-family: "JetBrains Mono", monospace;
-      font-size: var(--fs-label); letter-spacing: var(--ls-label); color: #8A8A93;
-      display: flex; justify-content: space-between; gap: 16px;
-      margin: 0 0 var(--sp-xs);
-    }
-    /* Two stacked lines rather than a row — flex would swallow the <br>. */
-    .hp-eyebrow-stack { display: block; text-align: right; line-height: 1.9; margin: 0; }
-    .hp-band {
-      border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
-      padding: var(--sp-2xs) 0; overflow: hidden;
-    }
-
-    /* ---- FAQ -------------------------------------------------------------
-       Plain <dl>, always expanded. An accordion would hide answers behind a
-       click on the one section whose whole job is answering the question
-       before the visitor has to ask it. */
-    .hp-faq { padding: var(--sp-m) var(--gutter); }
-    .hp-faq-head {
-      display: flex; justify-content: space-between; gap: 16px; margin-bottom: 22px;
-      font-size: var(--fs-label); letter-spacing: var(--ls-label); color: #8A8A93;
-    }
-    .hp-faq-h {
-      margin: 0 0 clamp(30px, 4vw, 54px); font-family: "Anton", sans-serif; font-weight: 400;
-      font-size: clamp(44px, 8vw, 118px); line-height: 0.92; text-transform: uppercase;
-    }
-    .hp-faq-list {
-      margin: 0; padding: 0;
-      border-top: 1px solid rgba(244, 242, 236, 0.14);
-    }
-    .hp-faq-row {
-      display: grid; grid-template-columns: minmax(0, 38%) minmax(0, 1fr);
-      gap: clamp(18px, 3vw, 48px);
-      padding: clamp(22px, 2.8vw, 36px) 0;
-      border-bottom: 1px solid rgba(244, 242, 236, 0.14);
-    }
-    .hp-faq-row dt {
-      margin: 0; font-weight: 600; letter-spacing: -0.01em;
-      font-size: clamp(17px, 1.7vw, 24px); line-height: 1.3; text-wrap: balance;
-    }
-    .hp-faq-row dd {
-      margin: 0; color: #B8B8BF; max-width: 62ch;
-      font-size: clamp(14px, 1.1vw, 16.5px); line-height: 1.68;
-    }
-    /* ---- Work section outro --------------------------------------------- */
-    .hp-work-out {
-      display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
-      gap: 14px 28px; padding: var(--sp-s) var(--gutter) var(--sp-m);
-    }
-    .hp-work-out-a {
-      font-family: "Anton", sans-serif; font-weight: 400; text-transform: uppercase;
-      font-size: clamp(24px, 3.4vw, 48px); line-height: 1;
-    }
-    .hp-work-out-a:hover { color: var(--accent, #D9FF3C); }
-    .hp-work-out .mono {
-      font-size: var(--fs-label); letter-spacing: var(--ls-label); color: #8A8A93; text-transform: uppercase;
-    }
-
-    /* ---- Proof strip ----------------------------------------------------- */
-    .hp-proof { padding: var(--sp-m) var(--gutter); }
-    .hp-stats {
-      list-style: none; margin: 0; padding: 0;
-      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
-      background: rgba(244, 242, 236, 0.14);
-      border: 1px solid rgba(244, 242, 236, 0.14);
-    }
-    .hp-stats li {
-      background: #0B0B0C; padding: clamp(22px, 2.6vw, 34px) clamp(18px, 2vw, 28px);
-      display: flex; flex-direction: column; gap: 10px;
-    }
-    .hp-stat-v {
-      font-family: "Anton", sans-serif; font-weight: 400; line-height: 0.95;
-      font-size: clamp(32px, 4vw, 58px); color: var(--accent, #D9FF3C);
-    }
-    .hp-stat-l {
-      font-family: "JetBrains Mono", monospace; font-size: var(--fs-label); letter-spacing: 0.08em;
-      line-height: 1.7; color: #8A8A93; text-transform: uppercase;
-    }
-    .hp-quotes {
-      list-style: none; margin: clamp(28px, 3.5vw, 46px) 0 0; padding: 0;
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(18px, 2vw, 30px);
-    }
-    .hp-quotes li {
-      border-left: 2px solid var(--accent, #D9FF3C); padding-left: clamp(16px, 1.6vw, 22px);
-    }
-    .hp-quotes blockquote {
-      margin: 0; font-weight: 600; letter-spacing: -0.01em;
-      font-size: clamp(15px, 1.35vw, 19px); line-height: 1.5;
-    }
-    .hp-quotes cite {
-      display: block; margin-top: 12px; font-style: normal; color: #8A8A93;
-      font-family: "JetBrains Mono", monospace; font-size: var(--fs-label); letter-spacing: 0.1em;
-    }
-    .hp-proof-links {
-      margin-top: clamp(26px, 3vw, 40px); display: flex; flex-wrap: wrap; gap: 12px 28px;
-      font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
-    }
-    .hp-proof-links a { border-bottom: 1px solid rgba(244, 242, 236, 0.3); padding-bottom: 4px; }
-    /* ---- About statement + work-section frames --------------------------
-       Both scroll-driven sections: a tall track with a pinned child. Both are
-       sized in svh, never vh. vh resolves to lvh on mobile (URL bar hidden)
-       while the pinned child is svh — that mismatch is what left a dark band
-       under the laptop, and it made every URL-bar slide fire a resize that
-       rewrote the track height mid-scroll. svh does not move. */
-    .hp-stmt { height: 150svh; }
-    .hp-stmt-pin {
-      position: sticky; top: 0; height: 100svh;
-      display: flex; flex-direction: column; justify-content: center;
-      padding: 0 var(--gutter);
-    }
-    .hp-work-head {
-      padding: var(--sp-l) var(--gutter) var(--sp-m);
-      display: flex; align-items: flex-end; justify-content: space-between; gap: 24px;
-    }
-    /* 100svh holds the pin, then one step per transition — N-1 of them, not N.
-       Counting N ships a step no card can reach. The background lives here
-       rather than on the pinned stage so the lvh/svh delta can never show
-       through as a seam. */
-    .hp-deck {
-      --deck-step: 75svh;
-      height: calc(100svh + (var(--deck-n) - 1) * var(--deck-step));
-      position: relative; background: #131316;
-    }
-    .hp-deck-count {
-      position: absolute; top: calc(var(--header-h) + var(--sp-2xs)); right: var(--gutter);
-      font-family: 'JetBrains Mono', monospace; letter-spacing: var(--ls-label);
-      display: flex; gap: 8px; align-items: baseline;
-    }
-    .hp-deck-rail {
-      position: absolute; inset-inline: var(--gutter); bottom: var(--sp-2xs);
-      height: 1px; background: rgba(244, 242, 236, 0.2);
-    }
-
-    /* ---- Pinned-laptop work gallery ------------------------------------- */
-    /* The stage is the sticky, viewport-height frame. Two columns on desktop
-       (copy | laptop); stacks to one column on phones (still pinned — option A). */
-    .dsx-lap-stage {
-      position: sticky; top: 0; height: 100svh; overflow: hidden;
-      display: flex; flex-direction: row; align-items: stretch;
-      gap: clamp(24px, 4vw, 64px); padding: 0 var(--gutter);
-    }
-    /* Grid-stacked, not absolutely stacked: as an absolute child each card
-       contributed no height, so the column had to guess one (34svh) and the
-       stage's overflow:hidden silently cut the blurb and the VIEW CASE pill off
-       on shorter phones. Grid areas overlap without leaving the flow. */
-    .dsx-lap-copy {
-      position: relative; flex: 1 1 40%; min-width: 0; align-self: stretch;
-      display: grid; align-content: center;
-    }
-    .dsx-copy {
-      grid-area: 1 / 1; display: flex; flex-direction: column; justify-content: center;
-      opacity: 0; will-change: opacity, transform;
-    }
-    .dsx-lap-wrap { flex: 1 1 60%; min-width: 0; display: flex; align-items: center; justify-content: center; }
-
-    /* The device. A CSS-drawn laptop — bezel + browser chrome + hinge base. */
-    .dsx-lap { width: min(100%, 820px); }
-    .dsx-lap-screen {
-      position: relative; aspect-ratio: 16 / 10; background: #0B0B0C;
-      border: 9px solid #26262c; border-radius: 16px 16px 4px 4px; overflow: hidden;
-      box-shadow: 0 40px 80px -30px rgba(0,0,0,0.8), inset 0 0 0 1px rgba(255,255,255,0.04);
-      cursor: pointer;
-    }
-    .dsx-lap-chrome {
-      position: relative; z-index: 2; height: 34px; display: flex; align-items: center; gap: 14px;
-      padding: 0 14px; background: #1b1b20; border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-    .dsx-lap-dots { display: flex; gap: 7px; flex: 0 0 auto; }
-    .dsx-lap-dots i { width: 9px; height: 9px; border-radius: 50%; background: #3a3a42; }
-    .dsx-lap-url {
-      flex: 1 1 auto; min-width: 0; text-align: center; background: #0f0f12; border-radius: 7px;
-      padding: 5px 14px; font-family: 'JetBrains Mono', monospace; font-size: var(--fs-label); letter-spacing: 0.03em;
-      color: #8A8A93; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    }
-    .dsx-lap-shots { position: absolute; left: 0; right: 0; top: 34px; bottom: 0; }
-    .dsx-lap-shots img {
-      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top center;
-      opacity: 0; will-change: opacity;
-    }
-    /* Hinge / base bar under the screen. */
-    .dsx-lap-base {
-      position: relative; width: 116%; margin: 0 -8% ; height: 15px;
-      background: linear-gradient(#3a3a42, #17171a);
-      border-radius: 3px 3px 12px 12px;
-      box-shadow: 0 22px 30px -18px rgba(0,0,0,0.75);
-    }
-    .dsx-lap-base::before {
-      content: ""; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-      width: 13%; height: 7px; background: #0d0d10; border-radius: 0 0 8px 8px;
-    }
-
-    /* No-JS / pre-boot default: show the first project so the section is never
-       blank. The engine overrides these via inline opacity once running. */
-    .dsx-copy[data-idx="0"], .dsx-lap-shots img[data-idx="0"] { opacity: 1; }
-
-    /* Services rows. */
-    .hp-svc { padding: var(--sp-m) var(--gutter); }
-    #services .svc { list-style: none; margin: 0; padding: 0; border-top: 1px solid rgba(244, 242, 236, 0.16); }
-    #services .svc-row {
-      display: grid; grid-template-columns: 64px 1fr minmax(240px, 380px);
-      gap: 8px 28px; align-items: baseline;
-      padding: clamp(20px, 2.6vw, 30px) 0;
-      border-bottom: 1px solid rgba(244, 242, 236, 0.16);
-    }
-    #services .svc-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; color: var(--accent, #D9FF3C); }
-    #services .svc-t { margin: 0; font-family: 'Anton', sans-serif; font-weight: 400; font-size: clamp(30px, 4.6vw, 64px); line-height: 0.96; text-transform: uppercase; }
-    #services .svc-d { margin: 0; font-size: 15px; line-height: 1.62; color: #8A8A93; max-width: 46ch; }
-
-    /* Service / location chips + the latest-writing list under the services
-       block — the homepage's links down into the commercial and blog pages. */
-    #services .svc-links { display: flex; flex-wrap: wrap; gap: 10px; margin: clamp(26px, 3.4vw, 40px) 0 0; }
-    #services .svc-links a {
-      font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.06em;
-      border: 1px solid rgba(244, 242, 236, 0.22); border-radius: 999px;
-      padding: 8px 15px; color: #C9C7C0; text-decoration: none;
-      transition: border-color 0.3s ease, color 0.3s ease;
-    }
-    #services .svc-links a:hover { border-color: var(--accent, #D9FF3C); color: var(--accent, #D9FF3C); }
-
-    #services .hp-writing { margin: clamp(44px, 6vw, 76px) 0 0; border-top: 1px solid rgba(244, 242, 236, 0.16); padding-top: clamp(22px, 3vw, 32px); }
-    #services .hp-writing-head { display: flex; justify-content: space-between; gap: 16px; font-size: var(--fs-label); letter-spacing: var(--ls-label); color: #8A8A93; margin-bottom: 18px; }
-    #services .hp-writing-head a { color: #8A8A93; text-decoration: none; transition: color 0.3s ease; }
-    #services .hp-writing-head a:hover { color: var(--accent, #D9FF3C); }
-    #services .hp-posts { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-    #services .hp-posts a {
-      display: flex; flex-direction: column; gap: 6px; height: 100%;
-      border: 1px solid rgba(244, 242, 236, 0.12); border-radius: 10px;
-      padding: 16px 18px; color: #F4F2EC; text-decoration: none;
-      transition: border-color 0.3s ease, background 0.3s ease;
-    }
-    #services .hp-posts a:hover { border-color: var(--accent, #D9FF3C); background: rgba(217, 255, 60, 0.06); }
-    #services .hp-post-t { font-weight: 600; font-size: 15px; line-height: 1.35; letter-spacing: -0.01em; }
-    #services .hp-post-m { font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: #8A8A93; }
-
-    /* ---- Contact --------------------------------------------------------
-       This was the only section on the page whose padding was driven by
-       viewport HEIGHT (clamp(64px, 11vh, 130px)) while every neighbour was
-       width-driven — the single biggest source of the uneven rhythm. */
-    #contact { padding: var(--sp-l) var(--gutter) 0; overflow: hidden; overflow: clip; }
-    .hp-contact-cta {
-      display: flex; flex-wrap: wrap; align-items: center; gap: 20px 28px;
-      margin: var(--sp-m) 0 var(--sp-s);
-    }
-    .hp-contact-trust {
-      font-family: 'JetBrains Mono', monospace; font-size: var(--fs-label);
-      letter-spacing: 0.08em; color: #8A8A93; max-width: 320px; line-height: 1.8;
-    }
-
-    /* Homepage project-brief form — matches the Portfolio-2026 field styling. */
-    /* --sp-m, not --sp-l: the footer already opens with --sp-l, and stacking
-       the two made contact→footer the largest boundary on the page (203px at
-       1440 against a 132px standard). */
-    .dsx-brief {
-      max-width: 560px; margin: 0 0 var(--sp-m);
-      border-top: 1px solid var(--rule); padding-top: var(--sp-s);
-    }
-    #contact .dsx-brief-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
-    #contact .dsx-brief-l { display: block; font-family: 'JetBrains Mono', monospace; font-size: var(--fs-label); letter-spacing: var(--ls-label); text-transform: uppercase; color: #8A8A93; margin-bottom: 8px; }
-    /* 16px, not 14px: iOS Safari zooms the viewport on focus below 16px and,
-       because the viewport meta correctly omits maximum-scale, never zooms
-       back out — one tap left the visitor zoomed-in for the rest of the visit. */
-    #contact .dsx-brief-i { width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(244, 242, 236, 0.25); color: #F4F2EC; font-family: 'JetBrains Mono', monospace; font-size: 16px; padding: 12px 2px; outline: none; }
-    #contact .dsx-brief-i:focus { border-bottom-color: var(--accent, #D9FF3C); }
-    #contact .dsx-brief-t { width: 100%; background: transparent; border: 1px solid rgba(244, 242, 236, 0.18); border-radius: 6px; color: #F4F2EC; font-family: 'JetBrains Mono', monospace; font-size: 16px; padding: 12px; outline: none; resize: vertical; margin-top: 8px; }
-    #contact .dsx-brief-t:focus { border-color: var(--accent, #D9FF3C); }
-
-    /* ---- Breakpoints ----------------------------------------------------
-       Three, matching the rest of the site: 900 (layout switch), 720 (the
-       site-wide mobile line, hard-wired into Studio.astro's [data-hide-m] and
-       burger) and 480 (small-phone tail). Adding a fourth is how components end
-       up half-collapsed against each other in the band between two steps. */
-    @media (max-width: 900px) {
-      .hero-say-main { max-width: none; }
-      .hp-stats { grid-template-columns: 1fr 1fr; }
-      .hp-quotes { grid-template-columns: 1fr; gap: 20px; }
-      #services .hp-posts { grid-template-columns: 1fr 1fr; }
-      /* Shorten the pin on phones: 400svh of scroll-jacking between the fold
-         and the services section is a lot of thumb work on the device most
-         visitors are on. 100 + 4x38 = 252svh. Desktop keeps its 400. */
-      .hp-deck { --deck-step: 38svh; }
-      .hp-stmt { height: 120svh; }
-      /* Laptop gallery stays pinned but stacks: laptop on top, copy below. */
-      .dsx-lap-stage {
-        flex-direction: column; justify-content: center;
-        gap: clamp(22px, 4vh, 40px); padding: var(--sp-m) var(--gutter);
-        --copy-h: 300px;
-      }
-      .dsx-lap-wrap { order: -1; flex: 0 0 auto; width: 100%; }
-      /* Cap the laptop by what is left after the copy needs its space, so the
-         VIEW CASE pill can never be pushed under the stage's overflow:hidden.
-         16/10 screen + chrome ≈ 1.6:1. */
-      .dsx-lap { width: min(100%, calc((100svh - var(--copy-h) - 2 * var(--sp-m) - 28px) * 1.6)); }
-      .dsx-lap-copy { flex: 0 0 auto; width: 100%; align-self: auto; }
-      .dsx-copy { justify-content: flex-start; }
-      /* Bounds the tallest card (Baglamukhi wraps to 6 lines at 375px). */
-      .dsx-copy p { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-    }
-
-    @media (max-width: 720px) {
-      .hp-faq-row { grid-template-columns: 1fr; gap: 12px; }
-      #contact .dsx-brief-grid { grid-template-columns: 1fr; gap: 0; }
-      #contact .dsx-brief-grid > div { margin-bottom: 22px; }
-      /* Full-width under the CTA row instead of a 320px column beside it. */
-      .hp-contact-trust { max-width: none; flex: 1 0 100%; }
-      #services .svc-row { grid-template-columns: 34px 1fr; gap: 6px 14px; padding: 20px 0; }
-      #services .svc-d { grid-column: 2; }
-    }
-
-    @media (max-width: 480px) {
-      .hero-cta { gap: 12px 18px; }
-      .hero-cta-1 { padding: 15px 24px; font-size: 13px; }
-      .hp-stats { grid-template-columns: 1fr; }
-      #services .hp-posts { grid-template-columns: 1fr; }
-      .dsx-lap-stage { --copy-h: 280px; }
-    }
-
-    /* Reduced motion: the statement's word-by-word reveal is skipped by the
-       engine, so collapse its scroll track too — otherwise it is 120svh of
-       empty scrolling past static text. The deck keeps its cross-fade (that is
-       scroll-position state, not autonomous motion) at half the scroll cost. */
-    @media (prefers-reduced-motion: reduce) {
-      .hp-stmt { height: auto; }
-      .hp-stmt-pin { position: static; height: auto; padding-block: var(--sp-m); }
-      .hp-deck { --deck-step: 38svh; }
-    }
-  </style>
-</Studio>
+    </section>
+  </main>
+</Base>
 
 <script>
-  // Activates the homepage "Send a brief" form (ds-start-form). Posts to
-  // /api/contact; falls back to the visitor's mail client if Resend is unset.
+  import { initHome } from "../scripts/home.js";
   import initContactForms from "../scripts/contact-form.js";
+  initHome();
   initContactForms();
 </script>
+
+<style>
+  /* ---- Intro sweep ---- */
+  .bands{position:fixed;inset:0;z-index:300;pointer-events:none;overflow:hidden}
+  .band-red{position:absolute;top:0;bottom:0;left:0;width:240vw;background:var(--red);transform:translateX(-240vw);clip-path:polygon(0 0,93% 0,100% 50%,93% 100%,0 100%,7% 50%)}
+  .band-ink{position:absolute;top:0;bottom:0;left:0;width:46vw;background:var(--ink);transform:translateX(-46vw);clip-path:polygon(0 0,72% 0,100% 50%,72% 100%,0 100%,28% 50%)}
+  :global(html.intro) [data-hero-red],:global(html.intro) [data-hero-body]{opacity:0}
+  :global(html.intro) [data-name-line]{transform:translateY(110%)}
+
+  /* ---- 01 Hero ---- */
+  .hero{position:relative;padding-bottom:clamp(110px,14vw,170px)}
+  .hero-red{background:var(--red);color:#fff;clip-path:var(--chevron);padding:110px var(--gutter) clamp(130px,17vw,260px)}
+  .hero-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:clamp(24px,4vw,48px)}
+  .hero-meta{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;line-height:1.7}
+  .pill{display:flex;align-items:center;gap:10px;background:#fff;color:var(--ink);padding:9px 14px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;flex:none;clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%)}
+  .pill-dot{width:8px;height:8px;border-radius:50%;background:var(--red)}
+  .pill-t{color:var(--g5c)}
+  .hero-name{font-weight:900;font-style:italic;font-stretch:125%;text-transform:uppercase;line-height:.84;letter-spacing:-0.03em;font-size:clamp(52px,13vw,240px)}
+  .hero-line{overflow:hidden;margin-right:-.12em}
+  .hero-line--1{padding:.06em .12em 0 0}
+  .hero-line--2{padding:.02em .12em .02em 0}
+  .hero-body{margin-top:clamp(28px,3vw,44px);padding:0 var(--gutter);display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:24px 40px}
+  .hero-copy{flex:1 1 420px;max-width:680px}
+  .hero-copy .h-lead{margin-bottom:14px}
+  .hero-copy p{margin:0;color:var(--g5c);font-size:16px;line-height:1.5}
+  .wedge{position:absolute;bottom:0;width:50%;height:clamp(44px,6.5vw,104px);background:var(--red)}
+  .wedge--l{left:0;clip-path:polygon(0 0,100% 100%,0 100%)}
+  .wedge--r{right:0;clip-path:polygon(100% 0,100% 100%,0 100%)}
+  .scroll-lbl{position:absolute;left:50%;bottom:clamp(40px,5vw,72px);transform:translateX(-50%);font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--g5c);white-space:nowrap}
+
+  /* Shared section header row (Proof, Services, Writing) */
+  .sec-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:clamp(36px,5vw,64px)}
+  .sec-note{margin:0;max-width:34ch;color:var(--g5c);font-size:16px;line-height:1.5}
+
+  /* ---- 02 Proof ---- */
+  .proof-h{font-size:clamp(56px,10vw,160px)}
+  .tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,max(300px,calc((100% - 2px) / 3))),1fr));gap:1px;background:var(--gda);border:1px solid var(--gda)}
+  .tile{background:#fff;padding:clamp(20px,2.4vw,32px);display:flex;flex-direction:column;gap:18px}
+  .tile-top{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--g5c)}
+  .tile-v{font-weight:900;font-style:italic;font-stretch:125%;line-height:.9;font-size:clamp(64px,7.4vw,120px);letter-spacing:-0.03em}
+  .tile-pre{color:var(--red);font-size:.42em;margin-right:.14em}
+  .tile-suf{color:var(--red)}
+  .tile-suf--sm{font-size:.42em}
+  .gauge{height:3px;background:var(--gda)}
+  .gauge div{height:100%;background:var(--red)}
+  .tile-l{font-size:16px;color:var(--g3e);line-height:1.4}
+  .proof-links{margin-top:28px}
+
+  /* ---- 03 About ---- */
+  .about{padding:clamp(80px,11vw,170px) var(--gutter)}
+  .about-in{display:flex;flex-wrap:wrap;gap:clamp(40px,6vw,96px)}
+  .about-l{flex:1 1 520px}
+  .about-lbl{margin-bottom:22px}
+  .about-big{margin:0;font-weight:800;font-stretch:108%;font-size:clamp(30px,4.2vw,64px);line-height:1.02;letter-spacing:-0.025em;text-wrap:pretty}
+  .about-big span{color:var(--red);font-style:italic}
+  .about-sub{margin:28px 0 0;font-size:18px;line-height:1.5;color:var(--g5c);max-width:44ch}
+  .about-r{flex:1 1 380px;max-width:640px}
+
+  /* ---- 04 Work (pit lane) ----
+     Without JS the track simply scrolls sideways; home.js pins the section
+     and lets vertical scroll drive the track (.is-pinned). */
+  .work{position:relative;background:#fff;color:var(--ink)}
+  .work-pin{display:flex;flex-direction:column;justify-content:center;gap:clamp(20px,3.5vh,44px);padding:88px 0 56px}
+  :global(.work.is-pinned) .work-pin{position:sticky;top:0;height:100vh;overflow:hidden}
+  .work-track{display:flex;gap:clamp(16px,2.4vw,36px);padding:0 var(--gutter);overflow-x:auto}
+  :global(.work.is-pinned) .work-track{width:max-content;overflow:visible;will-change:transform}
+  .work-head{width:100%;padding:0 var(--gutter);display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px}
+  .work-lbl{margin-bottom:12px}
+  .work-h{font-size:clamp(40px,min(7vw,10vh),112px)}
+  .work-count{display:flex;flex-direction:column;align-items:flex-end;gap:8px;font-family:var(--mono)}
+  .work-n{font-size:clamp(20px,2vw,28px);letter-spacing:.04em}
+  .work-n span{color:var(--red)}
+  .work-bar{width:clamp(120px,14vw,200px);height:3px;background:var(--gda)}
+  .work-bar div{height:100%;width:0;background:var(--red)}
+  .wcard{flex:none;width:clamp(240px,min(80vw,calc((100vh - 460px) * 1.6)),560px);display:flex;flex-direction:column;gap:14px;color:var(--ink);text-decoration:none}
+  .wcard:hover{color:var(--ink)}
+  .wcard-top{display:flex;justify-content:space-between;gap:12px;white-space:nowrap;overflow:hidden;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--g5c)}
+  .wcard-top span:first-child{color:var(--red)}
+  .wcard-img{aspect-ratio:16/10;overflow:hidden;background:var(--tint)}
+  .wcard-img img{width:100%;height:100%;object-fit:cover;display:block}
+  .wcard p{margin:0;color:var(--g3e);font-size:15px;line-height:1.5;max-width:50ch}
+  .wcard-all{flex:none;width:clamp(280px,62vw,480px);align-self:stretch;background:var(--red);color:#fff;text-decoration:none;display:flex;flex-direction:column;justify-content:space-between;padding:clamp(22px,2.4vw,34px) clamp(22px,2.4vw,34px) clamp(22px,2.4vw,34px) calc(9% + 28px);clip-path:polygon(0 0,100% 0,100% 100%,0 100%,9% 50%)}
+  .wcard-all:hover{color:#fff}
+  .wcard-all-t{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;text-align:right}
+  .wcard-all-h{font-weight:900;font-style:italic;font-stretch:125%;text-transform:uppercase;font-size:clamp(30px,3.4vw,52px);line-height:.92;letter-spacing:-0.01em;text-align:right;text-wrap:balance}
+
+  /* ---- 05 Services ---- */
+  .services{position:relative;padding:clamp(100px,12vw,180px) var(--gutter) clamp(72px,10vw,140px)}
+  .services .sec-head{margin-bottom:clamp(32px,4vw,56px)}
+  .services-h{font-size:clamp(52px,9vw,148px)}
+  .svc{display:flex;flex-wrap:wrap;gap:12px 32px;padding:clamp(22px,2.6vw,36px) 0;border-bottom:1px solid var(--gda)}
+  .svc-n{flex:0 0 56px;font-family:var(--mono);font-size:14px;color:var(--red);padding-top:8px}
+  .svc-t{flex:1 1 280px;margin:0;font-weight:900;font-style:italic;font-stretch:125%;text-transform:uppercase;font-size:clamp(28px,3.4vw,52px);line-height:.95;letter-spacing:-0.02em}
+  .svc-d{flex:1 1 340px;margin:0;font-size:17px;line-height:1.55;color:var(--g3e);max-width:52ch}
+  .svc-chips{margin-top:clamp(28px,3vw,44px)}
+
+  /* ---- 06 Process (tint) ---- */
+  .process-h{margin-bottom:clamp(36px,5vw,64px);max-width:12ch}
+  .process{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:clamp(24px,2vw,32px) clamp(16px,1.6vw,24px)}
+  .process li{border-top:3px solid var(--ink);padding-top:18px;display:flex;flex-direction:column;gap:10px}
+  .process li.is-hot{border-top-color:var(--red)}
+  .process-top{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;letter-spacing:.1em}
+  .process-top span:first-child{color:var(--red)}
+  .process-top span:last-child{color:var(--g5c)}
+  .process p{margin:0;font-size:15px;line-height:1.5;color:var(--g3e)}
+
+  /* ---- 07 Team radio ---- */
+  .radio-h{margin-bottom:clamp(36px,5vw,64px)}
+  .radio{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:clamp(14px,1.6vw,24px)}
+  .qt{margin:0;border:1px solid var(--gda);padding:clamp(22px,2.4vw,32px);display:flex;flex-direction:column;gap:22px}
+  .qt--red{background:var(--red);border-color:var(--red);color:#fff}
+  .qt-top{display:flex;align-items:center;justify-content:space-between;font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--g5c)}
+  .qt--red .qt-top{color:#fff}
+  .qt-ch{display:flex;align-items:center;gap:8px}
+  .qt-dot{width:7px;height:7px;border-radius:50%;background:var(--red)}
+  .qt--red .qt-dot{background:#fff}
+  .qt-bars{display:flex;align-items:flex-end;gap:2px;height:14px}
+  .qt-bars span{width:2px;background:var(--red)}
+  .qt--red .qt-bars span{background:#fff}
+  .qt blockquote{margin:0;font-weight:700;font-stretch:104%;font-size:clamp(22px,2.2vw,30px);line-height:1.2;letter-spacing:-0.01em}
+  .qt figcaption{margin-top:auto;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--g5c)}
+  .qt--red figcaption{color:#fff}
+
+  /* ---- 08 Writing ---- */
+  .writing{padding:clamp(72px,10vw,150px) var(--gutter) clamp(40px,5vw,72px)}
+  .writing-head{gap:16px;margin-bottom:clamp(28px,4vw,48px)}
+  .writing-head a{color:var(--ink)}
+  .writing-head a:hover{color:var(--red)}
+  .post{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 24px;padding:clamp(18px,2vw,26px) 0;border-bottom:1px solid var(--gda);text-decoration:none;color:var(--ink)}
+  .post:hover{color:var(--red)}
+  .post-n{flex:0 0 40px;font-family:var(--mono);font-size:12px;color:var(--g5c)}
+  .post-t{flex:1 1 300px;font-weight:750;font-stretch:106%;font-size:clamp(19px,1.9vw,27px);line-height:1.2;letter-spacing:-0.01em}
+  .post-m{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--g5c)}
+  .post-a{font-size:20px}
+
+  /* ---- 09 FAQ ---- */
+  .faq-sec{padding:clamp(56px,8vw,120px) var(--gutter) clamp(80px,11vw,160px)}
+
+  /* ---- 10 Contact ---- */
+  .contact{position:relative;background:var(--red);color:#fff;padding:clamp(100px,12vw,180px) var(--gutter) clamp(72px,9vw,130px)}
+  .contact-notch{position:absolute;top:0;left:0;right:0;height:clamp(36px,5vw,72px);background:#fff;clip-path:polygon(0 0,100% 0,100% 0,50% 100%,0 0)}
+  .contact-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px;margin-bottom:clamp(24px,3vw,40px)}
+  .contact-lbl{margin:0}
+  .flag{width:clamp(96px,12vw,168px);aspect-ratio:3/2;background:repeating-conic-gradient(var(--ink) 0 25%,#fff 0 50%) 0 0/calc(100% / 3) calc(100% / 2);transform:skewX(-10deg);border:3px solid var(--ink)}
+  .contact-h{margin:0 0 clamp(36px,5vw,64px);font-weight:900;font-style:italic;font-stretch:125%;text-transform:uppercase;line-height:.84;letter-spacing:-0.03em;font-size:clamp(64px,15vw,260px)}
+  .contact-in{display:flex;flex-wrap:wrap;gap:clamp(32px,5vw,72px);align-items:flex-start}
+  .contact-l{flex:1 1 360px;display:flex;flex-direction:column;gap:26px}
+  .contact-cta{align-self:flex-start;display:inline-flex;align-items:center;gap:14px;min-height:64px;padding:0 32px;background:#fff;color:var(--ink);text-decoration:none;font-weight:900;font-stretch:118%;font-style:italic;text-transform:uppercase;font-size:clamp(16px,1.6vw,20px);clip-path:polygon(12px 0,100% 0,calc(100% - 12px) 100%,0 100%)}
+  .contact-cta:hover{background:var(--ink);color:#fff}
+  .contact-mail{color:#fff;font-weight:800;font-stretch:108%;font-size:clamp(22px,2.6vw,38px);letter-spacing:-0.01em;text-underline-offset:6px;text-decoration-thickness:2px;overflow-wrap:anywhere}
+  .contact-mail:hover{color:var(--ink)}
+  .contact-q{margin:0;max-width:40ch;font-size:18px;line-height:1.5}
+  .contact-q span{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;display:block;margin-top:8px}
+  .contact-row{display:flex;flex-wrap:wrap;gap:8px 20px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;border-top:1px solid #fff;padding-top:16px}
+  .contact-row a{color:#fff}
+  .contact-row a:hover{color:var(--ink)}
+  .contact-card{flex:1 1 380px;max-width:620px;background:#fff;color:var(--ink);padding:clamp(22px,2.6vw,36px)}
+  .contact-card-top{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:22px}
+</style>

@@ -1,0 +1,132 @@
+---
+// Industry service page (school / hotel / travel). Content lives in
+// src/lib/verticals.mjs; proof cards read the case studies from data.mjs by
+// slug so names, images and URLs stay in step with the /projects/ pages.
+import Base from "./Base.astro";
+import PageHero from "../components/brand/PageHero.astro";
+import Section from "../components/brand/Section.astro";
+import Cards from "../components/brand/Cards.astro";
+import Steps from "../components/brand/Steps.astro";
+import ProjectCard from "../components/brand/ProjectCard.astro";
+import PostList from "../components/brand/PostList.astro";
+import Faq from "../components/brand/Faq.astro";
+import EndCta from "../components/brand/EndCta.astro";
+import { SITE, CALENDLY_URL } from "../lib/site.mjs";
+import { TOPICS } from "../lib/entity.mjs";
+import { projects } from "../lib/projects/data.mjs";
+import { verticalWa } from "../lib/verticals.mjs";
+
+const { v } = Astro.props;
+const canonical = `${SITE}/services/${v.slug}/`;
+const WA = verticalWa(v);
+const pad = (n: number) => String(n).padStart(2, "0");
+
+const proof = v.proof.map((slug: string) => {
+  const p = projects.find((x) => x.slug === slug);
+  if (!p) throw new Error(`${v.slug}: unknown proof project ${slug}`);
+  return p;
+});
+// Card code P0N = the project's place on the Portfolio grid.
+const posOf = (slug: string) => `P${pad(projects.findIndex((x) => x.slug === slug) + 1)}`;
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "@id": `${canonical}#service`,
+      name: v.name,
+      serviceType: v.name,
+      provider: { "@id": `${SITE}/#studio` },
+      areaServed: [
+        { "@type": "State", name: "Himachal Pradesh", containedInPlace: { "@type": "Country", name: "India" } },
+        { "@type": "Country", name: "India" },
+      ],
+      description: v.description,
+      url: canonical,
+    },
+    {
+      "@type": "ItemList",
+      "@id": `${canonical}#work`,
+      name: `${v.name} — case studies`,
+      itemListElement: proof.map((p: any, i: number) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: p.name,
+        url: `${SITE}/projects/${p.slug}/`,
+      })),
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Services", item: `${SITE}/services/` },
+        { "@type": "ListItem", position: 3, name: v.name, item: canonical },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: v.faqs.map((f: any) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+    },
+  ],
+});
+---
+
+<Base
+  title={v.title}
+  description={v.description}
+  canonical={canonical}
+  keywords={v.keywords}
+  ogTitle={v.ogTitle}
+  ogDescription={v.ogDescription}
+  topics={v.topics.map((t: string) => (TOPICS as Record<string, object>)[t])}
+  jsonld={jsonld}
+>
+  <main>
+    <PageHero
+      display={`${v.h1[0]} ${v.h1[1]}`}
+      size="case"
+      kicker={v.eyebrow.join(" · ")}
+      lead={v.lead}
+      notes={["Based in Kangra, Himachal Pradesh", "Custom-coded · you own the code"]}
+    >
+      <a class="btn btn--red" href={CALENDLY_URL}>Book a call <span aria-hidden="true">→</span></a>
+      <a class="btn btn--ink" href={WA}>Message on WhatsApp</a>
+    </PageHero>
+
+    <Section n={1} term="Setup" note="The brief" title={v.mustHead}>
+      <Cards items={v.must} />
+    </Section>
+
+    <Section n={2} term="Pit lane" note="Case studies" title="Built and live">
+      <div class="vp">
+        {proof.map((p: any) => (
+          <ProjectCard href={`/projects/${p.slug}/`} pos={posOf(p.slug)} tags={p.tags} year={p.year} img={p.feature.src} alt={p.feature.alt} name={p.name} line={p.line} foot={p.stack} />
+        ))}
+      </div>
+    </Section>
+
+    <Section n={3} term="Race weekend" note="Four steps" title="How the build runs" tint>
+      <Steps items={v.steps} hot={3} />
+    </Section>
+
+    <Section bare>
+      <Faq faqs={v.faqs} label="(04) Before you ask" />
+    </Section>
+
+    <Section n={5} term="Journal" note="From the blog" title="Further reading">
+      <PostList items={v.reading.map((r: any) => ({ href: r.href, title: r.t, meta: "Article" }))} />
+    </Section>
+
+    <EndCta
+      title="Tell me about yours."
+      text="Message me what you run and where. I'll tell you honestly what a website would change, and what it would cost, fixed and in writing."
+      primary={{ href: WA, label: "Message on WhatsApp →" }}
+      secondary={{ href: "/services/", label: "See all services →" }}
+    />
+  </main>
+</Base>
+
+<style>
+  .vp{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,560px),1fr));gap:clamp(40px,4vw,64px) clamp(16px,2.4vw,36px)}
+</style>

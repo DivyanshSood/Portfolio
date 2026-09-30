@@ -1,0 +1,41 @@
+---
+// Team radio card (Home "(06) Team radio"). `red` is the highlighted card.
+interface Props {
+  text: string;
+  by: string;
+  ch?: number;
+  red?: boolean;
+}
+const { text, by, ch = 1, red = false } = Astro.props;
+const BARS = [[40, 90, 60, 100, 30, 70], [70, 30, 100, 50, 85, 40], [55, 100, 35, 75, 45, 90]];
+const bars = BARS[(ch - 1) % BARS.length];
+---
+
+<figure class:list={["qt", { "qt--red": red }]}>
+  <div class="qt-top">
+    <span class="qt-ch"><span class="qt-dot"></span>RADIO · CH.{String(ch).padStart(2, "0")}</span>
+    <span class="qt-bars" aria-hidden="true">{bars.map((h) => <span style={`height:${h}%`}></span>)}</span>
+  </div>
+  <blockquote>“{text}”</blockquote>
+  <figcaption>{by}</figcaption>
+  <slot />
+</figure>
+
+<style>
+  .qt{margin:0;border:1px solid var(--gda);padding:clamp(22px,2.4vw,32px);display:flex;flex-direction:column;gap:22px;background:#fff}
+  .qt--red{background:var(--red);border-color:var(--red);color:#fff}
+  .qt-top{display:flex;align-items:center;justify-content:space-between;font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--g5c)}
+  .qt--red .qt-top{color:#fff}
+  .qt-ch{display:flex;align-items:center;gap:8px}
+  .qt-dot{width:7px;height:7px;border-radius:50%;background:var(--red)}
+  .qt--red .qt-dot{background:#fff}
+  .qt-bars{display:flex;align-items:flex-end;gap:2px;height:14px}
+  .qt-bars span{width:2px;background:var(--red)}
+  .qt--red .qt-bars span{background:#fff}
+  blockquote{margin:0;font-weight:700;font-stretch:104%;font-size:clamp(22px,2.2vw,30px);line-height:1.2;letter-spacing:-0.01em}
+  figcaption{margin-top:auto;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--g5c)}
+  .qt--red figcaption{color:#fff}
+  .qt :global(.qt-link){font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--red)}
+  .qt--red :global(.qt-link){color:#fff}
+  .qt :global(.qt-link:hover){color:var(--ink)}
+</style>

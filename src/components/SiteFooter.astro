@@ -1,0 +1,79 @@
+---
+// Footer — Home.dc.html, on every page. The "lap finished" stopwatch banner
+// from the design canvas is left out: the brandbook bans stopwatch readouts.
+---
+
+<footer class="ft">
+  <div class="wrap">
+    <div class="ft-grid">
+      <div>
+        <p class="ft-about">Independent web designer &amp; developer. Custom-coded, conversion-focused, worldwide.</p>
+        <p class="ft-where">HIMACHAL PRADESH, IN<br />WORKING WORLDWIDE · EST. 2022</p>
+      </div>
+      <nav aria-label="Sitemap" class="ft-col">
+        <span>SITEMAP</span>
+        <a href="/#work">Work</a>
+        <a href="/portfolio/">Portfolio</a>
+        <a href="/results/">Results</a>
+        <a href="/about/">About</a>
+        <a href="/blog/">Blog</a>
+        <a href="/tools/">Free tools</a>
+        <a href="/website-audit/">Free website audit</a>
+        <a href="/press/">Press kit</a>
+      </nav>
+      <nav aria-label="Services" class="ft-col">
+        <span>SERVICES</span>
+        <a href="/services/website-development/">Website development</a>
+        <a href="/services/ecommerce-website-development/">E-commerce websites</a>
+        <a href="/services/web-app-development/">Web app development</a>
+        <a href="/services/ai-development/">AI development</a>
+        <a href="/services/seo-geo-services/">SEO &amp; GEO</a>
+        <a href="/agencies/">For agencies</a>
+      </nav>
+      <nav aria-label="Locations" class="ft-col">
+        <span>LOCATIONS</span>
+        <a href="/web-developer-kangra/">Web developer Kangra</a>
+        <a href="/web-developer-dharamshala/">Web developer Dharamshala</a>
+        <a href="/web-developer-shimla/">Web developer Shimla</a>
+        <a href="/web-developer-manali/">Web developer Manali</a>
+      </nav>
+      <nav aria-label="Socials" class="ft-col">
+        <span>ELSEWHERE</span>
+        <a href="https://github.com/DivyanshSood" rel="me noopener">GitHub ↗</a>
+        <a href="https://www.linkedin.com/in/divyanshsood/" rel="me noopener">LinkedIn ↗</a>
+        <a href="https://www.upwork.com/freelancers/~016c567f0fc1a21f68" rel="me noopener">Upwork ↗</a>
+        <a href="https://www.fiverr.com/divyansh_sood" rel="me noopener">Fiverr ↗</a>
+        <a href="https://wa.me/919816091875">WhatsApp ↗</a>
+      </nav>
+    </div>
+    <div class="ft-stripe" aria-hidden="true"><span></span><span></span><span></span></div>
+    <div class="ft-name">Divyansh Sood<span>®</span></div>
+    <div class="ft-bar">
+      <span>© 2026 DIVYANSH SOOD STUDIO</span>
+      <span>DESIGNED &amp; CODED BY ONE PERSON</span>
+      <a href="/privacy/" class="ft-muted">PRIVACY</a>
+      <a href="#top">BACK TO THE GRID ↑</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .ft{background:var(--ink);color:#fff;padding:clamp(64px,8vw,110px) var(--gutter) 76px;overflow:hidden}
+  .ft-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:36px 24px}
+  .ft-about{margin:0 0 16px;font-size:15px;line-height:1.5;color:var(--gbd);max-width:30ch}
+  .ft-where{margin:0;font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--g8a);line-height:1.8}
+  .ft-col{display:flex;flex-direction:column;gap:10px;font-size:15px}
+  .ft-col span{font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--red);margin-bottom:4px}
+  .ft-col a{color:#fff;text-decoration:none}
+  .ft-col a:hover{color:var(--red)}
+  .ft-stripe{margin-top:clamp(56px,7vw,96px);display:flex;height:10px}
+  .ft-stripe span:nth-child(1){flex:3;background:var(--red)}
+  .ft-stripe span:nth-child(2){flex:1;background:#fff}
+  .ft-stripe span:nth-child(3){flex:3;background:var(--red);clip-path:polygon(0 0,100% 0,96% 100%,0 100%)}
+  .ft-name{font-weight:900;font-style:italic;font-stretch:125%;text-transform:uppercase;line-height:.8;letter-spacing:-0.03em;font-size:clamp(40px,8.2vw,200px);margin-top:18px;overflow-wrap:anywhere}
+  .ft-name span{color:var(--red);font-size:.4em;vertical-align:top}
+  .ft-bar{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;margin-top:28px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--g8a)}
+  .ft-bar a{color:#fff}
+  .ft-bar a.ft-muted{color:var(--g8a)}
+  .ft-bar a:hover{color:var(--red)}
+</style>

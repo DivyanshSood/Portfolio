@@ -11,7 +11,7 @@ export { authorNode, publisherNode, websiteNode, topicsForTags, TOPICS } from ".
 // WebSeek product screenshot hosted on ImageKit — so the journal's share card
 // was a screenshot of an unrelated product, served from a third-party origin.
 // /og-home.png is the branded 1200x630 card the rest of the site already
-// defaults to in Studio.astro.
+// defaults to in Base.astro.
 export const DEFAULT_OG = "https://www.divyanshsood.com/og-home.png";
 
 // Post metadata now lives in a hand-maintained manifest (each post's prose is
@@ -60,17 +60,4 @@ export function related(slug, limit = 4) {
     .sort((a, b) => b.score - a.score || +new Date(b.post.pubDate) - +new Date(a.post.pubDate))
     .slice(0, limit)
     .map((x) => x.post);
-}
-
-export function gradient(slug = "") {
-  let n = 0;
-  for (const c of slug) n = (n * 31 + c.charCodeAt(0)) >>> 0;
-  const palettes = [
-    "linear-gradient(150deg,#ff1f1f 0%,#7a1e00 100%)",
-    "linear-gradient(150deg,#1f1f23 0%,#0b0b0c 100%)",
-    "linear-gradient(150deg,#3a2a1a 0%,#0b0b0c 100%)",
-    "linear-gradient(150deg,#ff1f1f 0%,#1f1f23 100%)",
-    "linear-gradient(150deg,#2a1206 0%,#0b0b0c 100%)",
-  ];
-  return palettes[n % palettes.length];
 }

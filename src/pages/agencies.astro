@@ -1,5 +1,13 @@
 ---
-import Studio from "../layouts/Studio.astro";
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/brand/PageHero.astro";
+import Section from "../components/brand/Section.astro";
+import Rows from "../components/brand/Rows.astro";
+import Cards from "../components/brand/Cards.astro";
+import Steps from "../components/brand/Steps.astro";
+import ResultGrid from "../components/brand/ResultGrid.astro";
+import Faq from "../components/brand/Faq.astro";
+import EndCta from "../components/brand/EndCta.astro";
 import { SITE, CALENDLY_URL, GOOGLE_REVIEWS_URL } from "../lib/site.mjs";
 import { TOPICS } from "../lib/entity.mjs";
 
@@ -56,7 +64,7 @@ const jsonld = JSON.stringify({
 });
 ---
 
-<Studio
+<Base
   title="White-Label Web Development for Agencies — Divyansh Sood® Studio"
   description="White-label web development partner for design and marketing agencies worldwide. Custom-coded builds under your brand — NDA-friendly, live in 3–4 weeks."
   canonical={canonical}
@@ -67,140 +75,48 @@ const jsonld = JSON.stringify({
   jsonld={jsonld}
 >
   <main>
-    <header class="cs-hero">
-      <div class="wrap">
-        <div class="cs-eyebrow">
-          <span>For agencies</span><span>White-label · overflow</span><span>2026</span>
-        </div>
-        <h1 style="margin:14px 0 0;font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(44px,8vw,108px);line-height:.9;letter-spacing:-.01em;text-transform:uppercase;">Your build partner<br /><span style="color:var(--accent);">behind the scenes.</span></h1>
-        <p class="cs-lead">When your pipeline outgrows your team, I ship custom-coded builds under your brand — white-label, NDA-friendly, everything routed through you. Design and marketing agencies worldwide use me for overflow capacity and the builds their in-house team can't take on.</p>
-        <div class="cs-cta-row">
-          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book a partner call <span aria-hidden="true">↗</span></a>
-          <a class="btn btn-ghost" href={WA} target="_blank" rel="noopener">Message on WhatsApp</a>
-        </div>
-        <div class="cs-meta">
-          <span>Under your brand · NDA-friendly</span><span>Async across 5 time zones</span>
-        </div>
-      </div>
-    </header>
+    <PageHero
+      display="Your build partner behind the scenes."
+      size="case"
+      kicker="For agencies · White-label · overflow · 2026"
+      lead={`When your pipeline outgrows your team, I ship custom-coded builds under your brand — white-label, NDA-friendly, everything routed through you. Design and marketing agencies worldwide use me for overflow capacity and the builds their in-house team can't take on.`}
+    >
+      <a class="btn btn--red" href={CALENDLY_URL}>Book a partner call <span aria-hidden="true">→</span></a>
+      <a class="btn btn--ink" href={WA}>Message on WhatsApp</a>
+      <Fragment slot="notes"><span>Under your brand · NDA-friendly</span><span>Async across 5 time zones</span></Fragment>
+    </PageHero>
 
-    <section class="cs-sec" aria-labelledby="offer-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="offer-h">How agencies use me</h2>
-          <span class="mono">The offering</span>
-        </div>
-        <div class="cs-body" data-reveal>
-          {offers.map((o) => (
-            <div class="cs-card">
-              <span class="cs-tag">{o.t}</span>
-              <p class="cs-card-h2">{o.d}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+    <Section n={1} term="Setup" note="The offering" title="How agencies use me">
+      <Rows items={offers} />
+    </Section>
 
-    <section class="cs-sec" aria-labelledby="how-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="how-h">How we'd work together</h2>
-          <span class="mono">You stay in front</span>
-        </div>
-        <div class="cs-body" data-reveal>
-          {how.map((s) => (
-            <div class="cs-card">
-              <span class="cs-tag">({s.n}) {s.t}</span>
-              <p class="cs-card-h2">{s.d}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+    <Section n={2} term="Race weekend" note="You stay in front" title="How we'd work together" tint>
+      <Steps items={how} hot={3} />
+    </Section>
 
-    <section class="cs-sec" aria-labelledby="proof-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="proof-h">Reliable, on the record</h2>
-          <span class="mono">Track record</span>
-        </div>
-        <div class="cs-metrics" data-reveal>
-          <div class="cs-metric"><span class="cs-metric-v">20+</span><span class="cs-metric-l">Projects shipped since 2022</span></div>
-          <div class="cs-metric"><span class="cs-metric-v">7 days</span><span class="cs-metric-l">Fastest full site delivered</span></div>
-          <div class="cs-metric"><span class="cs-metric-v">3–4 wks</span><span class="cs-metric-l">Typical time to live</span></div>
-          <div class="cs-metric"><span class="cs-metric-v">98%</span><span class="cs-metric-l">Client retention</span></div>
-        </div>
-        <figure class="cs-card cs-quote span2" data-reveal style="margin-top:22px;">
-          <span class="cs-tag">North Peak Power</span>
-          <blockquote>"Exactly what we wanted. I will refer Divyansh within my circle for life."</blockquote>
-          <figcaption>— Founder, North Peak Power · <a href="/testimonials/">more proof →</a> · <a href={GOOGLE_REVIEWS_URL} target="_blank" rel="noopener">Google reviews ↗</a></figcaption>
-        </figure>
+    <Section n={3} term="Telemetry" note="Track record" title="Reliable, on the record">
+      <ResultGrid stats={[
+        { v: `20+`, l: `Projects shipped since 2022` },
+        { v: `7 days`, l: `Fastest full site delivered` },
+        { v: `3–4 wks`, l: `Typical time to live` },
+        { v: `98%`, l: `Client retention` },
+      ]} />
+      <div class="gap-top">
+        <Cards items={[
+          { tag: `North Peak Power`, wide: true, d: `“Exactly what we wanted. I will refer Divyansh within my circle for life.” — Founder, North Peak Power · <a href="/testimonials/">more proof →</a> · <a href="${GOOGLE_REVIEWS_URL}" target="_blank" rel="noopener">Google reviews ↗</a>` },
+        ]} />
       </div>
-    </section>
+    </Section>
 
-    <section class="cs-sec" aria-labelledby="faq-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="faq-h">Frequently asked</h2>
-          <span class="mono">For partners</span>
-        </div>
-        <div class="cs-faq">
-          {faqs.map((f, i) => (
-            <div class="cs-faq-row">
-              <button class="cs-faq-q" data-faqtog={i} aria-expanded="false" aria-controls={`faq-agency-${i}`}>
-                <span>{f.q}</span><span class="cs-faq-icon" data-faqicon={i} aria-hidden="true">+</span>
-              </button>
-              <div class="cs-faq-a" id={`faq-agency-${i}`} data-faqbody={i}><p>{f.a}</p></div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+    <Section bare>
+      <Faq faqs={faqs} label="(04) Before you ask" />
+    </Section>
 
-    <section class="cs-endcta">
-      <div class="wrap">
-        <h2>Need a build partner?</h2>
-        <p>Send a brief. If it's a fit, I'll quote within 48 hours. If it isn't, I'll point you at someone who'd be a better fit.</p>
-        <div class="cs-cta-row" style="justify-content:center;">
-          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book a partner call <span aria-hidden="true">↗</span></a>
-          <a class="btn btn-ghost" href="/portfolio/">See the work</a>
-        </div>
-      </div>
-    </section>
+    <EndCta
+      title="Need a build partner?"
+      text={`Send a brief. If it's a fit, I'll quote within 48 hours. If it isn't, I'll point you at someone who'd be a better fit.`}
+      primary={{ href: CALENDLY_URL, label: "Book a partner call →" }}
+      secondary={{ href: "/portfolio/", label: "See the work →" }}
+    />
   </main>
-</Studio>
-
-<script is:inline>
-  (function () {
-    var root = document.getElementById("ds-root");
-    if (!root) return;
-    var faq = -1;
-    function sync() {
-      root.querySelectorAll("[data-faqbody]").forEach(function (el) {
-        var open = Number(el.getAttribute("data-faqbody")) === faq;
-        el.style.maxHeight = open ? el.scrollHeight + "px" : "0px";
-        el.style.opacity = open ? "1" : "0";
-      });
-      root.querySelectorAll("[data-faqicon]").forEach(function (el) {
-        el.style.transform = Number(el.getAttribute("data-faqicon")) === faq ? "rotate(45deg)" : "rotate(0deg)";
-      });
-      root.querySelectorAll("[data-faqtog]").forEach(function (el) {
-        el.setAttribute("aria-expanded", Number(el.getAttribute("data-faqtog")) === faq ? "true" : "false");
-      });
-    }
-    root.querySelectorAll("[data-faqtog]").forEach(function (el) {
-      el.addEventListener("click", function () {
-        var i = Number(el.getAttribute("data-faqtog"));
-        faq = faq === i ? -1 : i;
-        sync();
-      });
-    });
-    var rt;
-    window.addEventListener("resize", function () {
-      if (faq < 0) return;
-      clearTimeout(rt);
-      rt = setTimeout(sync, 120);
-    });
-    sync();
-  })();
-</script>
+</Base>

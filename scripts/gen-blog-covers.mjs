@@ -2,10 +2,13 @@
 /* ===========================================================================
    Blog cover generator — /public/blog/<slug>.jpg at 1200×750.
 
-   The first 30 covers were made by hand from the same template and are the
-   reference this script reproduces: near-black field, an Anton headline in
-   warm off-white with one line in the neon accent, a JetBrains Mono eyebrow
-   and footer rule. This exists so cover #31 doesn't drift from cover #1.
+   Brandbook title card: the red chevron block (same 72% cut as every hero)
+   with a Geist Mono eyebrow and the headline in Archivo 900 italic, 125%
+   width, uppercase, white — white is the only text colour on red. Below the
+   chevron, on paper: DIVYANSHSOOD.COM and a red JOURNAL over a 3px ink rule.
+
+   Only title-card posts are rendered (coverAlt starting "Title card"); posts
+   whose cover is a photograph are never touched.
 
    Copy lives in COVER_COPY below, keyed by post slug. A post with no entry
    falls back to its manifest title, which always renders but is rarely the
@@ -39,7 +42,8 @@ const H = 750;
 const QUALITY = 82;
 
 /* Headline copy, per slug. `lines` are rendered uppercase, one per line, and
-   auto-fitted to the box; `accent` lists the zero-based lines painted neon. */
+   auto-fitted to the box. (`accent` is left over from the previous template;
+   the brandbook allows only white on red, so it is ignored.) */
 const COVER_COPY = {
   "cbse-mandatory-public-disclosure-school-website": {
     eyebrow: "SCHOOLS \u00b7 CBSE",
@@ -167,51 +171,44 @@ if (!chrome) {
   process.exit(1);
 }
 
-const fontFace = (family, file, weight) =>
-  `@font-face{font-family:'${family}';font-style:normal;font-weight:${weight};font-display:block;src:url('file://${join(FONT_DIR, file)}') format('woff2');}`;
+const fontFace = (family, file, weight, style = "normal", stretch = "") =>
+  `@font-face{font-family:'${family}';font-style:${style};font-weight:${weight};${stretch ? `font-stretch:${stretch};` : ""}font-display:block;src:url('file://${join(FONT_DIR, file)}') format('woff2');}`;
 
-function html({ eyebrow, lines, accent, year }) {
-  const body = lines
-    .map((l, i) => `<span class="l${accent.includes(i) ? " a" : ""}">${esc(l)}</span>`)
-    .join("");
+function html({ eyebrow, lines, year }) {
+  const body = lines.map((l) => `<span class="l">${esc(l)}</span>`).join("");
   return `<!doctype html><meta charset="utf-8"><style>
-${fontFace("Anton", "anton-400.woff2", 400)}
-${fontFace("JetBrains Mono", "jetbrains-mono.woff2", "400 500")}
+${fontFace("Archivo", "archivo-italic.woff2", "100 900", "italic", "62% 125%")}
+${fontFace("Geist Mono", "geist-mono.woff2", "400 700")}
 *{margin:0;padding:0;box-sizing:border-box;}
-html,body{width:${W}px;height:${H}px;background:#0D0D0F;}
-.c{position:relative;width:${W}px;height:${H}px;overflow:hidden;
-   background:radial-gradient(70% 62% at 88% 2%,rgba(217,255,60,.055),transparent 58%),#0D0D0F;}
-/* The faint circular edge in the top-right of every hand-made cover. */
-.arc{position:absolute;top:-300px;right:-190px;width:900px;height:900px;border-radius:50%;
-     background:radial-gradient(circle at 50% 50%,rgba(217,255,60,.035),rgba(217,255,60,.018) 64%,transparent 71%);}
-.pad{position:absolute;inset:44px 68px;display:flex;flex-direction:column;}
-.mono{font-family:'JetBrains Mono',monospace;font-size:19px;font-weight:400;
-      letter-spacing:.17em;text-transform:uppercase;color:#75757C;}
-.top,.bot{display:flex;justify-content:space-between;align-items:baseline;}
-.top{padding-bottom:16px;border-bottom:1px solid rgba(244,242,236,.16);}
-.bot{padding-top:18px;border-top:1px solid rgba(244,242,236,.16);}
-.bot .j{color:#D9FF3C;}
-/* Uneven padding, not a true centre: it sits the headline slightly high in
-   the frame, the way the hand-made covers do. */
-.mid{flex:1;display:flex;flex-direction:column;justify-content:center;padding:20px 0 54px;}
-#h{font-family:'Anton',sans-serif;font-weight:400;text-transform:uppercase;
-   line-height:.96;letter-spacing:.005em;color:#F0EEE8;display:flex;flex-direction:column;}
-#h .a{color:#D9FF3C;}
+html,body{width:${W}px;height:${H}px;background:#fff;}
+.c{position:relative;width:${W}px;height:${H}px;overflow:hidden;background:#fff;}
+.red{position:absolute;left:0;top:0;width:${W}px;height:620px;background:#E4151F;
+     clip-path:polygon(0 0,100% 0,100% 72%,50% 100%,0 72%);}
+/* Content stays above the chevron's 72% edge so nothing falls into the cut. */
+.pad{position:absolute;left:64px;right:64px;top:48px;height:392px;display:flex;flex-direction:column;}
+.mono{font-family:'Geist Mono',monospace;font-size:18px;font-weight:400;letter-spacing:.1em;text-transform:uppercase;}
+.top{display:flex;justify-content:space-between;color:#fff;}
+.mid{flex:1;display:flex;flex-direction:column;justify-content:flex-end;padding-top:24px;}
+#h{font-family:'Archivo',sans-serif;font-weight:900;font-style:italic;font-stretch:125%;text-transform:uppercase;
+   line-height:.88;letter-spacing:-0.02em;color:#fff;display:flex;flex-direction:column;}
+.bot{position:absolute;left:64px;right:64px;bottom:40px;display:flex;justify-content:space-between;
+     padding-top:14px;border-top:3px solid #0B0B0C;color:#0B0B0C;}
+.bot .j{color:#E4151F;}
 </style>
-<div class="c"><div class="arc"></div><div class="pad">
+<div class="c"><div class="red"></div><div class="pad">
   <div class="top mono"><span>${esc(eyebrow)}</span><span>${year}</span></div>
   <div class="mid"><div id="h">${body}</div></div>
-  <div class="bot mono"><span>DIVYANSHSOOD.COM</span><span class="j">JOURNAL</span></div>
-</div></div>
+</div>
+<div class="bot mono"><span>DIVYANSHSOOD.COM</span><span class="j">(07) JOURNAL</span></div></div>
 <script>
-/* Auto-fit: the template is a fixed 1200×750 frame, so the headline is sized
-   down until the longest line and the whole block both clear their box. */
+/* Auto-fit: the headline is sized down until the longest line and the whole
+   block both clear their box. */
 (function(){
   var h=document.getElementById('h'), mid=h.parentElement;
-  for(var s=104;s>=30;s-=1){
+  for(var s=110;s>=30;s-=1){
     h.style.fontSize=s+'px';
     var wide=[].some.call(h.children,function(el){return el.scrollWidth>mid.clientWidth;});
-    if(!wide && h.scrollHeight<=mid.clientHeight) break;
+    if(!wide && h.scrollHeight<=mid.clientHeight-24) break;
   }
   document.documentElement.setAttribute('data-fitted','1');
 })();
@@ -228,6 +225,8 @@ for (const post of POSTS) {
   const slug = post.slug;
   if (ONLY && !ONLY.includes(slug)) continue;
   const out = resolve(OUT_DIR, `${slug}.jpg`);
+  // Photo covers are the author's own images — never overwrite them.
+  if (post.coverAlt && !/^Title card/.test(post.coverAlt)) continue;
   if (existsSync(out) && !FORCE) {
     skipped++;
     continue;

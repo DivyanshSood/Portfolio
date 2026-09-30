@@ -1,5 +1,9 @@
 ---
-import Studio from "../../layouts/Studio.astro";
+import Base from "../../layouts/Base.astro";
+import PageHero from "../../components/brand/PageHero.astro";
+import Section from "../../components/brand/Section.astro";
+import Rows from "../../components/brand/Rows.astro";
+import EndCta from "../../components/brand/EndCta.astro";
 import { SITE, CALENDLY_URL } from "../../lib/site.mjs";
 import { TOPICS } from "../../lib/entity.mjs";
 import { VERTICAL_LIST } from "../../lib/verticals.mjs";
@@ -85,7 +89,7 @@ const jsonld = JSON.stringify({
 });
 ---
 
-<Studio
+<Base
   title="Services — Websites, Stores, Apps, AI, Pages & SEO"
   description="Six ways an independent studio helps: website development, ecommerce, web apps, AI features, landing pages and SEO/GEO. Custom-coded, you own the code."
   canonical={canonical}
@@ -95,105 +99,48 @@ const jsonld = JSON.stringify({
   jsonld={jsonld}
 >
   <main>
-    <header class="cs-hero">
-      <div class="wrap">
-        <div class="cs-eyebrow">
-          <span>Services</span><span>Custom-coded · conversion-focused</span><span>2026</span>
-        </div>
-        <h1 style="margin:14px 0 0;font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(44px,8vw,108px);line-height:.9;letter-spacing:-.01em;text-transform:uppercase;">Six ways<br /><span style="color:var(--accent);">I move the needle.</span></h1>
-        <p class="cs-lead">Every engagement is custom-coded, conversion-focused and handed over with full code ownership. Pick the shape of the problem — a website that doesn't bring in enquiries, a store that undersells the product, software stuck on a roadmap, an AI feature that never left the demo, a page that doesn't convert, or a brand that's invisible to Google and AI assistants.</p>
-        <div class="cs-cta-row">
-          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book an intro call <span aria-hidden="true">↗</span></a>
-          <a class="btn btn-ghost" href="/portfolio/">See the work first</a>
-        </div>
-        <div class="cs-meta">
-          <span>Fixed written quotes · you own the code</span><span>Live in 3–4 weeks · fastest: 7 days</span>
-        </div>
-      </div>
-    </header>
+    <PageHero
+      display="Six ways I move the needle."
+      size="case"
+      kicker="Services · Custom-coded · conversion-focused · 2026"
+      lead="Every engagement is custom-coded, conversion-focused and handed over with full code ownership. Pick the shape of the problem — a website that doesn't bring in enquiries, a store that undersells the product, software stuck on a roadmap, an AI feature that never left the demo, a page that doesn't convert, or a brand that's invisible to Google and AI assistants."
+      notes={["Fixed written quotes · you own the code", "Live in 3–4 weeks · fastest: 7 days"]}
+    >
+      <a class="btn btn--red" href={CALENDLY_URL}>Book an intro call <span aria-hidden="true">→</span></a>
+      <a class="btn btn--ink" href="/portfolio/">See the work first</a>
+    </PageHero>
 
-    <section class="cs-sec" aria-labelledby="svc-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="svc-h">The services</h2>
-          <span class="mono">Pick your problem</span>
-        </div>
-        <div class="cs-body" data-reveal>
-          {services.map((s) => (
-            <a class="cs-card" href={s.href} style="display:block;text-decoration:none;color:inherit;">
-              <span class="cs-tag">{s.tag}</span>
-              <p class="cs-card-h2">{s.name}</p>
-              <p style="margin-top:12px;">{s.d}</p>
-              <p style="margin-top:14px;color:var(--accent);">Explore the service →</p>
-            </a>
-          ))}
-        </div>
-      </div>
-    </section>
+    <Section n={1} term="Setup" note="Pick your problem" title="The services">
+      <Rows items={services.map((s) => ({ t: s.name, href: s.href, d: `<span class="meta">${s.tag}</span><br />${s.d}` }))} />
+    </Section>
 
-    <section class="cs-sec" aria-labelledby="ind-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="ind-h">By industry</h2>
-          <span class="mono">Schools · hotels · travel</span>
-        </div>
-        <div class="cs-body" data-reveal>
-          {VERTICAL_LIST.map((v) => (
-            <a class="cs-card" href={`/services/${v.slug}/`} style="display:block;text-decoration:none;color:inherit;">
-              <span class="cs-tag">{v.eyebrow[1]}</span>
-              <p class="cs-card-h2">{v.name}</p>
-              <p style="margin-top:12px;">{v.ogDescription}</p>
-              <p style="margin-top:14px;color:var(--accent);">Explore {v.name.toLowerCase()} →</p>
-            </a>
-          ))}
-        </div>
-      </div>
-    </section>
+    <Section n={2} term="Pit lane" note="Schools · hotels · travel" title="By industry">
+      <Rows items={VERTICAL_LIST.map((v) => ({ t: v.name, href: `/services/${v.slug}/`, d: `<span class="meta">${v.eyebrow[1]}</span><br />${v.ogDescription}` }))} />
+    </Section>
 
-    <section class="cs-sec" aria-labelledby="also-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="also-h">Also on offer</h2>
-          <span class="mono">Partners & audits</span>
-        </div>
-        <div class="cs-body" data-reveal>
-          {alsoFor.map((s) => (
-            <a class="cs-card" href={s.href} style="display:block;text-decoration:none;color:inherit;">
-              <span class="cs-tag">{s.name}</span>
-              <p>{s.d} →</p>
-            </a>
-          ))}
-        </div>
-      </div>
-    </section>
+    <Section n={3} term="Setup" note="Partners & audits" title="Also on offer">
+      <Rows items={alsoFor.map((s) => ({ t: s.name, href: s.href, d: s.d }))} />
+    </Section>
 
-    <section class="cs-sec" aria-labelledby="where-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="where-h">Where I work</h2>
-          <span class="mono">Himachal · worldwide</span>
-        </div>
-        <div class="cs-body" data-reveal>
-          <div class="cs-card span2">
-            <span class="cs-tag">Built from the Himalayas, shipping for the world</span>
-            <p>
-              Based in Himachal Pradesh, working with founders worldwide — and with businesses across the region:
-              <a href="/web-developer-dharamshala/">Dharamshala</a> · <a href="/web-developer-kangra/">Kangra</a> · <a href="/web-developer-shimla/">Shimla</a> · <a href="/web-developer-manali/">Manali</a>.
-            </p>
-          </div>
-        </div>
+    <Section n={4} term="Setup" note="Himachal · worldwide" title="Where I work">
+      <p class="body where">Built from the Himalayas, shipping for the world. Based in Himachal Pradesh, working with founders worldwide — and with businesses across the region:</p>
+      <div class="chips">
+        <a class="chip chip--muted" href="/web-developer-dharamshala/">Dharamshala</a>
+        <a class="chip chip--muted" href="/web-developer-kangra/">Kangra</a>
+        <a class="chip chip--muted" href="/web-developer-shimla/">Shimla</a>
+        <a class="chip chip--muted" href="/web-developer-manali/">Manali</a>
       </div>
-    </section>
+    </Section>
 
-    <section class="cs-endcta">
-      <div class="wrap">
-        <h2>Not sure which fits?</h2>
-        <p>Describe the problem in plain words. I'll tell you which shape it is — and what I'd do about it — within 48 hours.</p>
-        <div class="cs-cta-row" style="justify-content:center;">
-          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book an intro call <span aria-hidden="true">↗</span></a>
-          <a class="btn btn-ghost" href="/website-audit/">Start with the free audit</a>
-        </div>
-      </div>
-    </section>
+    <EndCta
+      title="Not sure which fits?"
+      text="Describe the problem in plain words. I'll tell you which shape it is — and what I'd do about it — within 48 hours."
+      primary={{ href: CALENDLY_URL, label: "Book an intro call →" }}
+      secondary={{ href: "/website-audit/", label: "Start with the free audit →" }}
+    />
   </main>
-</Studio>
+</Base>
+
+<style>
+  .where{margin:0 0 22px;max-width:60ch}
+</style>

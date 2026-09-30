@@ -1,0 +1,89 @@
+---
+// The brandbook's one hero: Portfolio "grid" pattern — red chevron block with
+// the breadcrumb/meta row and the display name inside, intro row below on
+// white. (Brandbook 08: "Keep every hero on the Portfolio grid pattern.")
+//
+// - `display` is the big name in the chevron. If the page's real H1 is long,
+//   pass it as `h1`: it renders in the intro row in the brandbook's
+//   "LEAD / H1 SEO" style (as on Home), and the display becomes a <div>.
+// - `size="case"` is the Case Study scale (for multi-word names).
+// - Default slot = right side of the intro row (CTAs, meta). `intro` slot
+//   replaces the whole left side when a page needs more than a paragraph.
+interface Props {
+  display: string;
+  sup?: string;
+  h1?: string;
+  h1Class?: string;
+  lead?: string;
+  leadClass?: string;
+  meta?: string;
+  kicker?: string;
+  size?: "grid" | "case";
+  crumbs?: { name: string; url: string }[];
+  /** Mono meta lines under the lead (may carry a link). */
+  notes?: string[];
+}
+const { display, sup, h1, h1Class, lead, leadClass, meta, kicker, size = "grid", notes, crumbs = Astro.locals.crumbs ?? [] } = Astro.props;
+const DisplayTag = h1 ? "div" : "h1";
+const hasAside = Astro.slots.has("default");
+---
+
+<section class="ph" data-hero>
+  <div class:list={["ph-red", `ph-red--${size}`, { "ph-red--long": display.length > 18 }]}>
+    <div class="wrap">
+      <div class="ph-top">
+        {crumbs.length > 1 ? (
+          <nav aria-label="Breadcrumb" class="ph-crumbs">
+            {crumbs.map((c, i) => (
+              <>
+                {i > 0 && " / "}
+                {i < crumbs.length - 1 && c.url ? <a href={c.url}>{c.name}</a> : <span aria-current="page">{c.name}</span>}
+              </>
+            ))}
+          </nav>
+        ) : <span />}
+        {meta && <span>{meta}</span>}
+      </div>
+      {kicker && <div class="ph-kicker">{kicker}</div>}
+      <DisplayTag class:list={["ph-name", `ph-name--${size}`]}>{display}{sup && <span class="sup">{sup}</span>}</DisplayTag>
+    </div>
+  </div>
+  <div class="wrap ph-row">
+    {Astro.slots.has("intro") ? <slot name="intro" /> : (
+      (h1 || lead || notes || Astro.slots.has("notes")) && (
+        <div class="ph-copy">
+          {h1 && <h1 class:list={["h-lead", h1Class]}>{h1}</h1>}
+          {lead && <p class:list={[h1 ? "ph-sub" : "intro", leadClass]} set:html={lead} />}
+          {notes && <div class="meta ph-notes">{notes.map((n) => <span set:html={n} />)}</div>}
+          {Astro.slots.has("notes") && <div class="meta ph-notes"><slot name="notes" /></div>}
+        </div>
+      )
+    )}
+    {hasAside && <div class="ph-aside"><slot /></div>}
+  </div>
+</section>
+
+<style>
+  .ph{position:relative}
+  .ph-red{background:var(--red);color:#fff;clip-path:var(--chevron);padding:110px var(--gutter) clamp(110px,14vw,200px)}
+  .ph-red--case{padding-bottom:clamp(110px,13vw,190px)}
+  /* The chevron cuts the bottom 28% at the edges; a display that runs to three
+     or four lines needs the extra depth or its last line falls into the cut. */
+  .ph-red--long{padding-bottom:clamp(170px,22vw,330px)}
+  .ph-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:clamp(24px,4vw,48px)}
+  .ph-red--case .ph-top{margin-bottom:clamp(28px,4vw,56px)}
+  .ph-crumbs a{color:#fff}
+  .ph-crumbs a:hover{color:var(--ink)}
+  .ph-kicker{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px}
+  /* overflow-wrap:anywhere — the brandbook's own answer for long names (Card
+     H3 spec); nothing may clip at 390px. */
+  .ph-name{margin:0;font-weight:900;font-style:italic;font-stretch:125%;text-transform:uppercase;line-height:.84;letter-spacing:-0.03em;font-size:clamp(56px,13vw,240px);overflow-wrap:anywhere}
+  .ph-notes{margin:18px 0 0;display:flex;flex-wrap:wrap;gap:6px 20px}
+  .ph-name--case{line-height:.86;font-size:clamp(46px,9.6vw,184px);max-width:14ch;text-wrap:balance}
+  .ph-row{margin-top:clamp(28px,3vw,44px);padding:0 var(--gutter);display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px 40px;align-items:flex-end}
+  .ph-red--case + .ph-row{margin-top:clamp(24px,3vw,40px)}
+  .ph-copy{flex:1 1 420px;max-width:680px}
+  .ph-copy .h-lead{margin-bottom:14px}
+  .ph-sub{margin:0;color:var(--g5c);font-size:16px;line-height:1.5}
+  .ph-aside{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end}
+</style>

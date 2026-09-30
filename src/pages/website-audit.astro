@@ -1,5 +1,11 @@
 ---
-import Studio from "../layouts/Studio.astro";
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/brand/PageHero.astro";
+import Section from "../components/brand/Section.astro";
+import Cards from "../components/brand/Cards.astro";
+import Faq from "../components/brand/Faq.astro";
+import EndCta from "../components/brand/EndCta.astro";
+import Quote from "../components/brand/Quote.astro";
 import { SITE, CALENDLY_URL } from "../lib/site.mjs";
 import { TOPICS } from "../lib/entity.mjs";
 
@@ -49,7 +55,7 @@ const jsonld = JSON.stringify({
 });
 ---
 
-<Studio
+<Base
   title="Free Website Audit — Conversion, Speed & SEO · Divyansh Sood"
   description="Free website audit by Divyansh Sood — find the conversion, page-speed and SEO leaks costing you customers. Send your URL, get the top fixes walked through."
   canonical={canonical}
@@ -60,120 +66,60 @@ const jsonld = JSON.stringify({
   jsonld={jsonld}
 >
   <main>
-    <header class="cs-hero">
-      <div class="wrap">
-        <div class="cs-eyebrow">
-          <span>Website audit</span><span>Free + deep-dive</span><span>2026</span>
-        </div>
-        <h1 style="margin:14px 0 0;font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(44px,8vw,108px);line-height:.9;letter-spacing:-.01em;text-transform:uppercase;">Is your site<br />costing you <span style="color:var(--accent);">customers?</span></h1>
-        <p class="cs-lead">Most websites leak revenue in the same few places — a slow first load, a fuzzy message, a buy button that hides. Send me your URL and I'll show you exactly where yours leaks, and what I'd fix first.</p>
-        <div class="cs-cta-row">
-          <a class="btn btn-primary" href="#audit-form">Get my free audit ↓</a>
-          <a class="btn btn-ghost" href={CALENDLY_URL} target="_blank" rel="noopener">Book a call instead</a>
-        </div>
-      </div>
-    </header>
+    <PageHero
+      display="Is your site costing you customers?"
+      size="case"
+      kicker="Website audit · Free + deep-dive · 2026"
+      lead="Most websites leak revenue in the same few places — a slow first load, a fuzzy message, a buy button that hides. Send me your URL and I'll show you exactly where yours leaks, and what I'd fix first."
+    >
+      <a class="btn btn--red" href="#audit-form">Get my free audit <span aria-hidden="true">↓</span></a>
+      <a class="btn btn--ink" href={CALENDLY_URL}>Book a call instead</a>
+    </PageHero>
 
-    <section class="cs-sec" aria-labelledby="tiers-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="tiers-h">Two ways to get audited</h2>
-          <span class="mono">Free or deep</span>
-        </div>
-        <div class="cs-body" data-reveal>
-          <div class="cs-card">
-            <span class="cs-tag">Quick audit · 3–4 days · Free</span>
-            <p class="cs-card-h2">Send a URL. 3–4 day turnaround. A 5-min Loom of the 3–5 highest-impact fixes — what's broken, what I'd change, what I'd leave alone. Yours to keep.</p>
-            <div style="margin-top:18px;font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(30px,4.4vw,48px);letter-spacing:0;color:var(--accent);">No charge</div>
-          </div>
-          <div class="cs-card">
-            <span class="cs-tag">Deep dive · within a week · Full teardown + strategy call</span>
-            <p class="cs-card-h2">Written teardown across conversion, SEO, speed, UX. 30-min call. Hand the fix list to any developer — me, your in-house team, whoever. Up to you.</p>
-            <div style="margin-top:18px;font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(30px,4.4vw,48px);letter-spacing:0;color:var(--accent);">Quoted on the call</div>
-            <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener" style="margin-top:20px;">Book the deep dive <span aria-hidden="true">↗</span></a>
-          </div>
-        </div>
-      </div>
-    </section>
+    <Section n={1} term="Setup" note="Free or deep" title="Two ways to get audited">
+      <Cards min={380} items={[
+        { tag: "Quick audit · 3–4 days · Free", t: "No charge", d: "Send a URL. 3–4 day turnaround. A 5-min Loom of the 3–5 highest-impact fixes — what's broken, what I'd change, what I'd leave alone. Yours to keep." },
+        { tag: "Deep dive · within a week · Full teardown + strategy call", t: "Quoted on the call", d: "Written teardown across conversion, SEO, speed, UX. 30-min call. Hand the fix list to any developer — me, your in-house team, whoever. Up to you." },
+      ]} />
+      <div class="btn-row gap-top"><a class="btn btn--ink" href={CALENDLY_URL}>Book the deep dive <span aria-hidden="true">→</span></a></div>
+    </Section>
 
-    <section class="cs-sec" aria-labelledby="look-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="look-h">What I look at</h2>
-          <span class="mono">Six lenses</span>
-        </div>
-        <div class="cs-body" data-reveal>
-          {checks.map((c) => (
-            <div class="cs-card">
-              <span class="cs-tag">{c.t}</span>
-              <p class="cs-card-h2">{c.d}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+    <Section n={2} term="Telemetry" note="Six lenses" title="What I look at">
+      <Cards items={checks} />
+    </Section>
 
-    <section class="cs-sec" aria-labelledby="proof-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="proof-h">It works in practice</h2>
-          <span class="mono">From a real rebuild</span>
-        </div>
-        <figure class="cs-card cs-quote span2" data-reveal>
-          <span class="cs-tag">In their words</span>
-          <blockquote>"The website is so beautiful — looks 10 times more premium than our competitors. We started getting direct bookings instead of losing them to Google Maps."</blockquote>
-          <figcaption>— Founder, Nandini Travels</figcaption>
-        </figure>
-      </div>
-    </section>
+    <Section n={3} term="Team radio" note="From a real rebuild" title="It works in practice">
+      <div class="au-q"><Quote text="The website is so beautiful — looks 10 times more premium than our competitors. We started getting direct bookings instead of losing them to Google Maps." by="Founder, Nandini Travels" red /></div>
+    </Section>
 
-    <section class="cs-sec" id="audit-form" aria-labelledby="form-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="form-h">Get your free audit</h2>
-          <span class="mono">Takes 30 seconds</span>
-        </div>
-        <form id="ds-audit-form" data-reveal style="max-width:620px;border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:30px;background:linear-gradient(180deg,rgba(255,255,255,.03),transparent);">
-          <label for="au-url" style="display:block;font-family:'JetBrains Mono',monospace;font-size:var(--fs-label);letter-spacing:var(--ls-label);text-transform:uppercase;opacity:.6;margin-bottom:8px;">Your website URL *</label>
-          <input id="au-url" type="url" required placeholder="https://yourwebsite.com" autocomplete="url" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.25);color:#F4F2EC;font-family:'JetBrains Mono',monospace;font-size:14px;padding:12px 2px;outline:none;margin-bottom:24px;" />
-          <label for="au-email" style="display:block;font-family:'JetBrains Mono',monospace;font-size:var(--fs-label);letter-spacing:var(--ls-label);text-transform:uppercase;opacity:.6;margin-bottom:8px;">Email</label>
-          <input id="au-email" type="email" placeholder="So I can send the teardown" autocomplete="email" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.25);color:#F4F2EC;font-family:'JetBrains Mono',monospace;font-size:14px;padding:12px 2px;outline:none;margin-bottom:24px;" />
-          <label for="au-goal" style="display:block;font-family:'JetBrains Mono',monospace;font-size:var(--fs-label);letter-spacing:var(--ls-label);text-transform:uppercase;opacity:.6;margin-bottom:8px;">What should this site do better? (optional)</label>
-          <input id="au-goal" type="text" placeholder="More leads, faster load, more sales…" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.25);color:#F4F2EC;font-family:'JetBrains Mono',monospace;font-size:14px;padding:12px 2px;outline:none;margin-bottom:30px;" />
+    <Section n={4} term="Chequered flag" note="Takes 30 seconds" title="Get your free audit" id="audit-form">
+      <div class="au-card">
+        <div class="au-card-top"><span>Send a URL — get a Loom</span><span style="color:var(--red)">●</span></div>
+        <form id="ds-audit-form" class="form">
+          <label class="field" for="au-url">Your website URL *<input id="au-url" type="url" required placeholder="https://yourwebsite.com" autocomplete="url" /></label>
+          <label class="field" for="au-email">Email<input id="au-email" type="email" placeholder="So I can send the teardown" autocomplete="email" /></label>
+          <label class="field" for="au-goal">What should this site do better? (optional)<input id="au-goal" type="text" placeholder="More leads, faster load, more sales…" /></label>
           {/* Honeypot — invisible to humans; bots that fill it are dropped. */}
-          <input id="au-hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none;" />
-          <button type="submit" class="btn btn-primary">Get my free audit <span aria-hidden="true">↗</span></button>
-          <p style="margin:18px 0 0;font-family:'JetBrains Mono',monospace;font-size:var(--fs-label-lg);line-height:1.6;opacity:.5;">Goes straight to my inbox — no spam, no list.</p>
+          <div class="hp" aria-hidden="true"><label for="au-hp">Leave this empty</label><input id="au-hp" type="text" name="website" tabindex="-1" autocomplete="off" /></div>
+          <button type="submit" class="form-submit">Get my free audit →</button>
+          <p class="meta au-fine">Goes straight to my inbox — no spam, no list.</p>
         </form>
       </div>
-    </section>
+    </Section>
 
-    <section class="cs-sec" id="start-form" aria-labelledby="start-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="start-h">Skip the audit — start a project</h2>
-          <span class="mono">Already sold? Two minutes</span>
-        </div>
-        <p class="au-start-lead">Know you want a new build, not a teardown? Tell me the shape of it and you'll get a personal reply — usually within a couple of hours, from me, not an autoresponder.</p>
-        <form id="ds-start-form" data-reveal class="au-project-form">
-          <div class="au-grid2">
-            <div>
-              <label for="st-name" class="au-label">Your name *</label>
-              <input id="st-name" type="text" required placeholder="Jane Founder" autocomplete="name" class="au-input" />
-            </div>
-            <div>
-              <label for="st-email" class="au-label">Email *</label>
-              <input id="st-email" type="email" required placeholder="you@company.com" autocomplete="email" class="au-input" />
-            </div>
+    <Section n={5} term="Chequered flag" note="Already sold? Two minutes" title="Skip the audit — start a project" id="start-form">
+      <p class="body au-lead">Know you want a new build, not a teardown? Tell me the shape of it and you'll get a personal reply — usually within a couple of hours, from me, not an autoresponder.</p>
+      <div class="au-card">
+        <div class="au-card-top"><span>Start a project</span><span style="color:var(--red)">●</span></div>
+        <form id="ds-start-form" class="form">
+          <div class="au-two">
+            <label class="field" for="st-name">Your name *<input id="st-name" type="text" required placeholder="Jane Founder" autocomplete="name" /></label>
+            <label class="field" for="st-email">Email *<input id="st-email" type="email" required placeholder="you@company.com" autocomplete="email" /></label>
           </div>
-
-          <label for="st-company" class="au-label">Company or current website</label>
-          <input id="st-company" type="text" placeholder="company.com (optional)" class="au-input au-mb" />
-
-          <div class="au-grid2">
-            <div>
-              <label for="st-type" class="au-label">What do you need? *</label>
-              <select id="st-type" required class="au-input au-select">
+          <label class="field" for="st-company">Company or current website<input id="st-company" type="text" placeholder="company.com (optional)" /></label>
+          <div class="au-two">
+            <label class="field" for="st-type">What do you need? *
+              <select id="st-type" required>
                 <option value="">Select one…</option>
                 <option>New website</option>
                 <option>Web app / SaaS / MVP</option>
@@ -181,214 +127,61 @@ const jsonld = JSON.stringify({
                 <option>Redesign or rebuild</option>
                 <option>Something else</option>
               </select>
-            </div>
-            {/* Replaced the old budget-range select when pricing came off the
-                site. Stage qualifies a brief better than a number anyway — it
-                tells me how much is already decided, which is what actually
-                drives scope. */}
-            <div>
-              <label for="st-stage" class="au-label">Where are you now? *</label>
-              <select id="st-stage" required class="au-input au-select">
+            </label>
+            {/* Stage replaced the old budget select when pricing came off the
+                site: it tells me how much is already decided, which is what
+                actually drives scope. */}
+            <label class="field" for="st-stage">Where are you now? *
+              <select id="st-stage" required>
                 <option value="">Select one…</option>
                 <option>Just an idea so far</option>
                 <option>Designs or specs are ready</option>
                 <option>Existing site needs rebuilding</option>
                 <option>Live product, adding to it</option>
               </select>
-            </div>
+            </label>
           </div>
-
-          <label for="st-timeline" class="au-label">Timeline</label>
-          <select id="st-timeline" class="au-input au-select au-mb">
-            <option value="">When do you want it live?</option>
-            <option>As soon as possible</option>
-            <option>Within 1 month</option>
-            <option>1–3 months</option>
-            <option>Just exploring</option>
-          </select>
-
-          <label for="st-msg" class="au-label">Anything else?</label>
-          <textarea id="st-msg" rows="3" placeholder="One line on what you're building and what success looks like." class="au-textarea"></textarea>
-
+          <label class="field" for="st-timeline">Timeline
+            <select id="st-timeline">
+              <option value="">When do you want it live?</option>
+              <option>As soon as possible</option>
+              <option>Within 1 month</option>
+              <option>1–3 months</option>
+              <option>Just exploring</option>
+            </select>
+          </label>
+          <label class="field" for="st-msg">Anything else?<textarea id="st-msg" rows="3" placeholder="One line on what you're building and what success looks like."></textarea></label>
           {/* Honeypot — invisible to humans; bots that fill it are dropped. */}
-          <input id="st-hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none;" />
-          <button type="submit" class="btn btn-primary">Send it to Divyansh <span aria-hidden="true">↗</span></button>
-          <p class="au-formnote">Goes to my inbox. No list. If it's not a fit, I'll tell you straight away and point you somewhere better. (WhatsApp: <a href="https://wa.me/919816091875" target="_blank" rel="noopener">+91 98160 91875 ↗</a>)</p>
+          <div class="hp" aria-hidden="true"><label for="st-hp">Leave this empty</label><input id="st-hp" type="text" name="website" tabindex="-1" autocomplete="off" /></div>
+          <button type="submit" class="form-submit">Send it to Divyansh →</button>
+          <p class="meta au-fine">Goes to my inbox. No list. If it's not a fit, I'll tell you straight away and point you somewhere better. (WhatsApp: <a href="https://wa.me/919816091875">+91 98160 91875 ↗</a>)</p>
         </form>
       </div>
-    </section>
+    </Section>
 
-    <section class="cs-sec" aria-labelledby="faq-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="faq-h">Frequently asked</h2>
-          <span class="mono">About the audit</span>
-        </div>
-        <div class="cs-faq">
-          {faqs.map((f, i) => (
-            <div class="cs-faq-row">
-              <button class="cs-faq-q" data-faqtog={i} aria-expanded="false" aria-controls={`faq-audit-${i}`}>
-                <span>{f.q}</span><span class="cs-faq-icon" data-faqicon={i} aria-hidden="true">+</span>
-              </button>
-              <div class="cs-faq-a" id={`faq-audit-${i}`} data-faqbody={i}><p>{f.a}</p></div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+    <Section bare>
+      <Faq faqs={faqs} label="(06) Before you ask" />
+    </Section>
 
-    <section class="cs-endcta">
-      <div class="wrap">
-        <h2>Prefer to just talk it through?</h2>
-        <p>Book a 15-minute slot. We'll pull up your site live. I'll tell you what I'd fix first, free, and you decide on the rest.</p>
-        <div class="cs-cta-row" style="justify-content:center;">
-          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book an intro call <span aria-hidden="true">↗</span></a>
-          <a class="btn btn-ghost" href="/portfolio/">See the work</a>
-        </div>
-      </div>
-    </section>
+    <EndCta
+      title="Prefer to just talk it through?"
+      text="Book a 15-minute slot. We'll pull up your site live. I'll tell you what I'd fix first, free, and you decide on the rest."
+      primary={{ href: CALENDLY_URL, label: "Book an intro call →" }}
+      secondary={{ href: "/portfolio/", label: "See the work →" }}
+    />
   </main>
-
-  <style>
-    /* ============================================================
-       Website audit — UI polish (scoped). Matches About / Results /
-       Portfolio, plus the merged 'start a project' qualifying form
-       (moved here from /start).
-       ============================================================ */
-    /* Rhythm, section-head alignment and hero clearance are shared — they live
-       in case-study.css and Breadcrumbs.astro now. */
-    main .cs-lead { max-width: 64ch; font-size: clamp(17px, 1.7vw, 21px); }
-    main .cs-sec-head h2 {
-      font-family: 'Anton', sans-serif;
-      font-weight: 400;
-      font-size: clamp(30px, 4.8vw, 68px);
-      line-height: 0.96;
-      letter-spacing: 0;
-      text-transform: uppercase;
-    }
-    main .cs-sec-head .mono { color: #8A8A93; }
-
-    /* Cards: interactive lift + accent edge on hover. */
-    main .cs-card {
-      border-radius: 10px;
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, background 0.3s ease;
-    }
-    main .cs-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(217,255,60, 0.5);
-      background: linear-gradient(180deg, rgba(217,255,60, 0.06), transparent);
-    }
-    main .cs-quote:hover { transform: none; }
-
-    /* ---- Merged 'start a project' qualifying form ---- */
-    main .au-start-lead {
-      max-width: 60ch;
-      margin: 0 0 26px;
-      font-size: clamp(15px, 1.5vw, 17px);
-      line-height: 1.6;
-      opacity: 0.82;
-    }
-    main .au-project-form {
-      max-width: 680px;
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      border-radius: 12px;
-      padding: clamp(24px, 3vw, 32px);
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent);
-    }
-    main .au-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-bottom: 22px; }
-    main .au-label {
-      display: block;
-      font-family: "JetBrains Mono", monospace;
-      font-size: var(--fs-label);
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      opacity: 0.6;
-      margin-bottom: 8px;
-    }
-    main .au-input {
-      width: 100%;
-      background: transparent;
-      border: none;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.25);
-      color: #F4F2EC;
-      font-family: "JetBrains Mono", monospace;
-      font-size: 14px;
-      padding: 12px 2px;
-      outline: none;
-    }
-    main .au-input:focus { border-bottom-color: var(--accent, #d9ff3c); }
-    main .au-select { background: #0b0b0c; }
-    main .au-mb { margin-bottom: 22px; }
-    main .au-textarea {
-      width: 100%;
-      background: transparent;
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      border-radius: 6px;
-      color: #F4F2EC;
-      font-family: "JetBrains Mono", monospace;
-      font-size: 14px;
-      padding: 12px;
-      outline: none;
-      margin: 0 0 24px;
-      resize: vertical;
-    }
-    main .au-textarea:focus { border-color: var(--accent, #d9ff3c); }
-    main .au-formnote {
-      margin: 18px 0 0;
-      font-family: "JetBrains Mono", monospace;
-      font-size: var(--fs-label-lg);
-      line-height: 1.6;
-      opacity: 0.5;
-    }
-    main .au-formnote a { color: var(--accent, #d9ff3c); text-decoration: underline; }
-
-    /* 720, not 620 — the section heads and every other grid on this page
-       switch at 720, and the form has to switch with them. */
-    @media (max-width: 720px) {
-      main .au-grid2 { grid-template-columns: 1fr; gap: 0; }
-      main .au-grid2 > div { margin-bottom: 22px; }
-    }
-  </style>
-</Studio>
-
-<script is:inline>
-  (function () {
-    var root = document.getElementById("ds-root");
-    if (!root) return;
-
-    /* faq accordion */
-    var faq = -1;
-    function sync() {
-      root.querySelectorAll("[data-faqbody]").forEach(function (el) {
-        var open = Number(el.getAttribute("data-faqbody")) === faq;
-        el.style.maxHeight = open ? el.scrollHeight + "px" : "0px";
-        el.style.opacity = open ? "1" : "0";
-      });
-      root.querySelectorAll("[data-faqicon]").forEach(function (el) {
-        el.style.transform = Number(el.getAttribute("data-faqicon")) === faq ? "rotate(45deg)" : "rotate(0deg)";
-      });
-      root.querySelectorAll("[data-faqtog]").forEach(function (el) {
-        el.setAttribute("aria-expanded", Number(el.getAttribute("data-faqtog")) === faq ? "true" : "false");
-      });
-    }
-    root.querySelectorAll("[data-faqtog]").forEach(function (el) {
-      el.addEventListener("click", function () {
-        var i = Number(el.getAttribute("data-faqtog"));
-        faq = faq === i ? -1 : i;
-        sync();
-      });
-    });
-    var rt;
-    window.addEventListener("resize", function () {
-      if (faq < 0) return;
-      clearTimeout(rt);
-      rt = setTimeout(sync, 120);
-    });
-    sync();
-  })();
-</script>
+</Base>
 
 <script>
   import initContactForms from "../scripts/contact-form.js";
   initContactForms();
 </script>
+
+<style>
+  .au-q{max-width:760px}
+  .au-lead{margin:0 0 28px;max-width:60ch}
+  .au-card{max-width:680px;border:1px solid var(--gda);border-top:3px solid var(--ink);padding:clamp(22px,2.6vw,36px)}
+  .au-card-top{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:22px}
+  .au-two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:16px}
+  .au-fine{margin:6px 0 0;line-height:1.6;text-transform:none;letter-spacing:.02em}
+</style>

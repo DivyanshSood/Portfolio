@@ -1,0 +1,35 @@
+---
+// A content section on an inner page: white (or the page's one tint
+// section), a numbered "(0N) Term — note" label and an H2 at the Case Study
+// scale, then the content. Sections flow with the brandbook's section
+// padding between them.
+interface Props {
+  n?: number;
+  term?: string;
+  note?: string;
+  title?: string;
+  /** No label/H2 — the content brings its own head (e.g. <Faq>). */
+  bare?: boolean;
+  tint?: boolean;
+  id?: string;
+}
+const { n = 0, term = "", note, title, tint = false, id, bare = false } = Astro.props;
+const label = `(${String(n).padStart(2, "0")}) ${term}${note ? ` — ${note}` : ""}`;
+---
+
+<section class:list={["sf", { "sf--tint": tint }]} id={id}>
+  <div class="wrap">
+    {!bare && <div class="lbl">{label}</div>}
+    {!bare && <h2 class="sf-h">{title}</h2>}
+    <slot />
+  </div>
+</section>
+
+<style>
+  .sf{padding:var(--sec-y) var(--gutter) 0}
+  .sf--tint{background:var(--tint);padding-bottom:var(--sec-y);margin-top:var(--sec-y)}
+  .sf-h{margin:0 0 var(--head-gap);font-weight:900;font-style:italic;font-stretch:125%;text-transform:uppercase;line-height:.88;letter-spacing:-0.02em;font-size:clamp(40px,5vw,80px);max-width:22ch;overflow-wrap:anywhere}
+  /* A tint section directly after a white one: its own padding is the gap. */
+  :global(.sf + .sf--tint){margin-top:var(--sec-y)}
+  :global(.sf--tint + .sf){padding-top:var(--sec-y)}
+</style>

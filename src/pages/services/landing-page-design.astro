@@ -1,5 +1,13 @@
 ---
-import Studio from "../../layouts/Studio.astro";
+import Base from "../../layouts/Base.astro";
+import PageHero from "../../components/brand/PageHero.astro";
+import Section from "../../components/brand/Section.astro";
+import Rows from "../../components/brand/Rows.astro";
+import Cards from "../../components/brand/Cards.astro";
+import Steps from "../../components/brand/Steps.astro";
+import ResultGrid from "../../components/brand/ResultGrid.astro";
+import Faq from "../../components/brand/Faq.astro";
+import EndCta from "../../components/brand/EndCta.astro";
 import { SITE, CALENDLY_URL } from "../../lib/site.mjs";
 import { TOPICS } from "../../lib/entity.mjs";
 
@@ -67,7 +75,7 @@ const jsonld = JSON.stringify({
 });
 ---
 
-<Studio
+<Base
   title="High-Converting Landing Page Design — Divyansh Sood® Studio"
   description="Conversion-focused landing page design: custom-coded, fast, measured. Copy, design and build by one person — pages with one job: turning visitors into leads."
   canonical={canonical}
@@ -78,172 +86,58 @@ const jsonld = JSON.stringify({
   jsonld={jsonld}
 >
   <main>
-    <header class="cs-hero">
-      <div class="wrap">
-        <div class="cs-eyebrow">
-          <span>Services</span><span>Landing pages · CRO</span><span>2026</span>
-        </div>
-        <h1 style="margin:14px 0 0;font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(44px,8vw,108px);line-height:.9;letter-spacing:-.01em;text-transform:uppercase;">One page.<br /><span style="color:var(--accent);">One job: convert.</span></h1>
-        <p class="cs-lead">High-converting landing page design for launches, ads and offers. Your traffic isn't the problem — the page is. I write, design and code landing pages as one continuous argument: clear offer, proof next to every claim, a single action, and load speed that respects the visitor.</p>
-        <div class="cs-cta-row">
-          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book a page call <span aria-hidden="true">↗</span></a>
-          <a class="btn btn-ghost" href="/website-audit/">Get a free conversion audit</a>
-        </div>
-        <div class="cs-meta">
-          <span>Copy + design + code, one person</span><span>Live in about a week</span>
-        </div>
-      </div>
-    </header>
+    <PageHero
+      display="One page. One job: convert."
+      size="case"
+      kicker="Services · Landing pages · CRO · 2026"
+      lead={`High-converting landing page design for launches, ads and offers. Your traffic isn't the problem — the page is. I write, design and code landing pages as one continuous argument: clear offer, proof next to every claim, a single action, and load speed that respects the visitor.`}
+    >
+      <a class="btn btn--red" href={CALENDLY_URL}>Book a page call <span aria-hidden="true">→</span></a>
+      <a class="btn btn--ink" href="/website-audit/">Get a free conversion audit</a>
+      <Fragment slot="notes"><span>Copy + design + code, one person</span><span>Live in about a week</span></Fragment>
+    </PageHero>
 
-    <section class="cs-sec" aria-labelledby="offer-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="offer-h">What you get</h2>
-          <span class="mono">The offering</span>
-        </div>
-        <div class="cs-body" data-reveal>
-          {offers.map((o) => (
-            <div class="cs-card">
-              <span class="cs-tag">{o.t}</span>
-              <p class="cs-card-h2">{o.d}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+    <Section n={1} term="Setup" note="The offering" title="What you get">
+      <Rows items={offers} />
+    </Section>
 
-    <section class="cs-sec" aria-labelledby="proof-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="proof-h">Pages that pulled weight</h2>
-          <span class="mono">Proof, not promises</span>
-        </div>
-        <div class="cs-metrics" data-reveal>
-          <div class="cs-metric"><span class="cs-metric-v">~1,000</span><span class="cs-metric-l">Monthly bookings through one travel site</span></div>
-          <div class="cs-metric"><span class="cs-metric-v">10×</span><span class="cs-metric-l">"More premium than competitors" — client founder</span></div>
-          <div class="cs-metric"><span class="cs-metric-v">Direct</span><span class="cs-metric-l">Bookings recovered from Google Maps leakage</span></div>
-          <div class="cs-metric"><span class="cs-metric-v">100</span><span class="cs-metric-l">Lighthouse SEO / best-practices on this site</span></div>
-        </div>
-        <div class="cs-body" data-reveal style="margin-top:22px;">
-          <div class="cs-card">
-            <span class="cs-tag">Nandini Travels · conversion rebuild</span>
-            <p>A taxi operator losing every lead to Google Maps now takes direct bookings through an on-site form and one-tap WhatsApp CTA. <a href="/projects/nandini/">Read the case study →</a></p>
-          </div>
-          <div class="cs-card">
-            <span class="cs-tag">Dharamshala Tours · booking flow</span>
-            <p>Part of ~1,000 travel packages booked through the site every month — WhatsApp-first, built for phones on mountain networks. <a href="/projects/dharamshala-tours/">Read the case study →</a></p>
-          </div>
-          <div class="cs-card span2">
-            <span class="cs-tag">More outcomes</span>
-            <p>Bookings, admissions, sales and speed — the numbers clients actually got, collected in one place. <a href="/results/">See the results →</a></p>
-          </div>
-        </div>
+    <Section n={2} term="Telemetry" note="Proof, not promises" title="Pages that pulled weight">
+      <ResultGrid stats={[
+        { v: `~1,000`, l: `Monthly bookings through one travel site` },
+        { v: `10×`, l: `"More premium than competitors" — client founder` },
+        { v: `Direct`, l: `Bookings recovered from Google Maps leakage` },
+        { v: `100`, l: `Lighthouse SEO / best-practices on this site` },
+      ]} />
+      <div class="gap-top">
+        <Cards items={[
+          { tag: `Nandini Travels · conversion rebuild`, d: `A taxi operator losing every lead to Google Maps now takes direct bookings through an on-site form and one-tap WhatsApp CTA. <a href="/projects/nandini/">Read the case study →</a>` },
+          { tag: `Dharamshala Tours · booking flow`, d: `Part of ~1,000 travel packages booked through the site every month — WhatsApp-first, built for phones on mountain networks. <a href="/projects/dharamshala-tours/">Read the case study →</a>` },
+          { tag: `More outcomes`, wide: true, d: `Bookings, admissions, sales and speed — the numbers clients actually got, collected in one place. <a href="/results/">See the results →</a>` },
+        ]} />
       </div>
-    </section>
+    </Section>
 
-    <section class="cs-sec" aria-labelledby="how-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="how-h">How a page gets built</h2>
-          <span class="mono">The process</span>
-        </div>
-        <div class="cs-body" data-reveal>
-          {how.map((s) => (
-            <div class="cs-card">
-              <span class="cs-tag">({s.n}) {s.t}</span>
-              <p class="cs-card-h2">{s.d}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+    <Section n={3} term="Race weekend" note="The process" title="How a page gets built" tint>
+      <Steps items={how} hot={3} />
+    </Section>
 
-    <section class="cs-sec" aria-labelledby="read-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="read-h">Thinking on conversion</h2>
-          <span class="mono">From the journal</span>
-        </div>
-        <div class="cs-body" data-reveal>
-          <div class="cs-card">
-            <span class="cs-tag">Your landing page doesn't have a traffic problem</span>
-            <p>Why more visitors won't fix a page that doesn't make an argument. <a href="/blog/landing-page-conversion-not-traffic/">Fix landing page conversion, not traffic →</a></p>
-          </div>
-          <div class="cs-card">
-            <span class="cs-tag">Page speed is a brand statement</span>
-            <p>What a slow page says about you before a single word is read. <a href="/blog/page-speed-is-a-brand-statement/">Why page speed is a brand statement →</a></p>
-          </div>
-          <div class="cs-card span2">
-            <span class="cs-tag">Why business websites don't generate leads</span>
-            <p>The five patterns that quietly kill conversion — and what to do instead. <a href="/blog/why-indian-websites-dont-generate-leads/">Five patterns that quietly kill conversion →</a></p>
-          </div>
-        </div>
-      </div>
-    </section>
+    <Section n={4} term="Journal" note="From the journal" title="Thinking on conversion">
+      <Cards items={[
+        { tag: `Your landing page doesn't have a traffic problem`, d: `Why more visitors won't fix a page that doesn't make an argument. <a href="/blog/landing-page-conversion-not-traffic/">Fix landing page conversion, not traffic →</a>` },
+        { tag: `Page speed is a brand statement`, d: `What a slow page says about you before a single word is read. <a href="/blog/page-speed-is-a-brand-statement/">Why page speed is a brand statement →</a>` },
+        { tag: `Why business websites don't generate leads`, wide: true, d: `The five patterns that quietly kill conversion — and what to do instead. <a href="/blog/why-indian-websites-dont-generate-leads/">Five patterns that quietly kill conversion →</a>` },
+      ]} />
+    </Section>
 
-    <section class="cs-sec" aria-labelledby="faq-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="faq-h">Frequently asked</h2>
-          <span class="mono">Landing pages</span>
-        </div>
-        <div class="cs-faq">
-          {faqs.map((f, i) => (
-            <div class="cs-faq-row">
-              <button class="cs-faq-q" data-faqtog={i} aria-expanded="false" aria-controls={`faq-lp-${i}`}>
-                <span>{f.q}</span><span class="cs-faq-icon" data-faqicon={i} aria-hidden="true">+</span>
-              </button>
-              <div class="cs-faq-a" id={`faq-lp-${i}`} data-faqbody={i}><p>{f.a}</p></div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+    <Section bare>
+      <Faq faqs={faqs} label="(05) Before you ask" />
+    </Section>
 
-    <section class="cs-endcta">
-      <div class="wrap">
-        <h2>Launching something?</h2>
-        <p>Send the offer and where the traffic comes from. I'll tell you what the page needs to say — and quote the build in writing within 48 hours.</p>
-        <div class="cs-cta-row" style="justify-content:center;">
-          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book a page call <span aria-hidden="true">↗</span></a>
-          <a class="btn btn-ghost" href="/services/">All services</a>
-        </div>
-      </div>
-    </section>
+    <EndCta
+      title="Launching something?"
+      text={`Send the offer and where the traffic comes from. I'll tell you what the page needs to say — and quote the build in writing within 48 hours.`}
+      primary={{ href: CALENDLY_URL, label: "Book a page call →" }}
+      secondary={{ href: "/services/", label: "All services →" }}
+    />
   </main>
-</Studio>
-
-<script is:inline>
-  (function () {
-    var root = document.getElementById("ds-root");
-    if (!root) return;
-    var faq = -1;
-    function sync() {
-      root.querySelectorAll("[data-faqbody]").forEach(function (el) {
-        var open = Number(el.getAttribute("data-faqbody")) === faq;
-        el.style.maxHeight = open ? el.scrollHeight + "px" : "0px";
-        el.style.opacity = open ? "1" : "0";
-      });
-      root.querySelectorAll("[data-faqicon]").forEach(function (el) {
-        el.style.transform = Number(el.getAttribute("data-faqicon")) === faq ? "rotate(45deg)" : "rotate(0deg)";
-      });
-      root.querySelectorAll("[data-faqtog]").forEach(function (el) {
-        el.setAttribute("aria-expanded", Number(el.getAttribute("data-faqtog")) === faq ? "true" : "false");
-      });
-    }
-    root.querySelectorAll("[data-faqtog]").forEach(function (el) {
-      el.addEventListener("click", function () {
-        var i = Number(el.getAttribute("data-faqtog"));
-        faq = faq === i ? -1 : i;
-        sync();
-      });
-    });
-    var rt;
-    window.addEventListener("resize", function () {
-      if (faq < 0) return;
-      clearTimeout(rt);
-      rt = setTimeout(sync, 120);
-    });
-    sync();
-  })();
-</script>
+</Base>

@@ -1,0 +1,25 @@
+---
+// Case Study "(03) Telemetry — The result" grid: channel, big red value, label.
+interface Props {
+  stats: { v: string; l: string }[];
+}
+const { stats } = Astro.props;
+---
+
+<div class="rg">
+  {stats.map((s, i) => (
+    <div class="rg-c">
+      <span class="rg-ch">CH.{String(i + 1).padStart(2, "0")}</span>
+      <span class="rg-v">{s.v}</span>
+      <span class="rg-l">{s.l}</span>
+    </div>
+  ))}
+</div>
+
+<style>
+  .rg{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:0;border-top:3px solid var(--ink)}
+  .rg-c{padding:clamp(20px,2.4vw,32px) clamp(0px,1.4vw,24px) clamp(20px,2.4vw,32px) 0;border-bottom:1px solid var(--gda);display:flex;flex-direction:column;gap:14px}
+  .rg-ch{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--g5c)}
+  .rg-v{font-weight:900;font-style:italic;font-stretch:125%;line-height:.9;letter-spacing:-0.03em;font-size:clamp(56px,6.4vw,110px);color:var(--red);overflow-wrap:anywhere}
+  .rg-l{font-size:16px;line-height:1.4}
+</style>

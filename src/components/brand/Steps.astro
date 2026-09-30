@@ -1,0 +1,32 @@
+---
+// Process grid (Home "(05) Race weekend"). Sits on Tarmac Tint — the page's
+// one alt-surface section. Codes follow the race-weekend sequence; the step
+// marked `hot` gets the red top rule (Home marks the build step).
+interface Props {
+  items: { t: string; d: string }[];
+  hot?: number;
+}
+const { items, hot = -1 } = Astro.props;
+const CODES = ["FP1", "FP2", "QUALI", "RACE", "FLAG", "SEASON"];
+---
+
+<ol class="steps">
+  {items.map((s, i) => (
+    <li class:list={[{ "is-hot": i === hot }]}>
+      <div class="st-top"><span class="st-code">{CODES[i] ?? `S${String(i + 1).padStart(2, "0")}`}</span><span class="st-n">{String(i + 1).padStart(2, "0")}</span></div>
+      <h3 class="h-step">{s.t}</h3>
+      <p set:html={s.d} />
+    </li>
+  ))}
+</ol>
+
+<style>
+  .steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:clamp(24px,2vw,32px) clamp(16px,1.6vw,24px)}
+  li{border-top:3px solid var(--ink);padding-top:18px;display:flex;flex-direction:column;gap:10px}
+  li.is-hot{border-top-color:var(--red)}
+  .st-top{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;letter-spacing:.1em}
+  .st-code{color:var(--red)}
+  .st-n{color:var(--g5c)}
+  p{margin:0;font-size:15px;line-height:1.5;color:var(--g3e)}
+  p :global(a){color:var(--ink)}
+</style>

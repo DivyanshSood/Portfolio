@@ -1,5 +1,13 @@
 ---
-import Studio from "../../layouts/Studio.astro";
+import Base from "../../layouts/Base.astro";
+import PageHero from "../../components/brand/PageHero.astro";
+import Section from "../../components/brand/Section.astro";
+import Rows from "../../components/brand/Rows.astro";
+import Cards from "../../components/brand/Cards.astro";
+import Steps from "../../components/brand/Steps.astro";
+import ResultGrid from "../../components/brand/ResultGrid.astro";
+import Faq from "../../components/brand/Faq.astro";
+import EndCta from "../../components/brand/EndCta.astro";
 import { SITE, CALENDLY_URL } from "../../lib/site.mjs";
 import { TOPICS } from "../../lib/entity.mjs";
 
@@ -67,7 +75,7 @@ const jsonld = JSON.stringify({
 });
 ---
 
-<Studio
+<Base
   title="Custom Ecommerce Website Development — Divyansh Sood® Studio"
   description="Custom-coded ecommerce stores and D2C storefronts — no Shopify themes, no platform rent. Razorpay/Stripe, drop mechanics, full code ownership, live in weeks."
   canonical={canonical}
@@ -78,172 +86,58 @@ const jsonld = JSON.stringify({
   jsonld={jsonld}
 >
   <main>
-    <header class="cs-hero">
-      <div class="wrap">
-        <div class="cs-eyebrow">
-          <span>Services</span><span>Ecommerce · D2C</span><span>2026</span>
-        </div>
-        <h1 style="margin:14px 0 0;font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(44px,8vw,108px);line-height:.9;letter-spacing:-.01em;text-transform:uppercase;">Stores that sell,<br /><span style="color:var(--accent);">not themes that rent.</span></h1>
-        <p class="cs-lead">Custom ecommerce website development for D2C brands and creators who've outgrown the template look. I code storefronts from scratch — payments, drops, video galleries and all — so the store feels like the brand and the code belongs to you. No Shopify rent. No theme ceiling.</p>
-        <div class="cs-cta-row">
-          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book a store call <span aria-hidden="true">↗</span></a>
-          <a class="btn btn-ghost" href="/website-audit/">Get a free store audit</a>
-        </div>
-        <div class="cs-meta">
-          <span>Fixed written quotes · you own the code</span><span>Live in 2–4 weeks</span>
-        </div>
-      </div>
-    </header>
+    <PageHero
+      display="Stores that sell, not themes that rent."
+      size="case"
+      kicker="Services · Ecommerce · D2C · 2026"
+      lead={`Custom ecommerce website development for D2C brands and creators who've outgrown the template look. I code storefronts from scratch — payments, drops, video galleries and all — so the store feels like the brand and the code belongs to you. No Shopify rent. No theme ceiling.`}
+    >
+      <a class="btn btn--red" href={CALENDLY_URL}>Book a store call <span aria-hidden="true">→</span></a>
+      <a class="btn btn--ink" href="/website-audit/">Get a free store audit</a>
+      <Fragment slot="notes"><span>Fixed written quotes · you own the code</span><span>Live in 2–4 weeks</span></Fragment>
+    </PageHero>
 
-    <section class="cs-sec" aria-labelledby="offer-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="offer-h">What I build</h2>
-          <span class="mono">The offering</span>
-        </div>
-        <div class="cs-body" data-reveal>
-          {offers.map((o) => (
-            <div class="cs-card">
-              <span class="cs-tag">{o.t}</span>
-              <p class="cs-card-h2">{o.d}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+    <Section n={1} term="Setup" note="The offering" title="What I build">
+      <Rows items={offers} />
+    </Section>
 
-    <section class="cs-sec" aria-labelledby="proof-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="proof-h">Stores on the record</h2>
-          <span class="mono">Proof, not promises</span>
-        </div>
-        <div class="cs-metrics" data-reveal>
-          <div class="cs-metric"><span class="cs-metric-v">600K+</span><span class="cs-metric-l">Subscriber creator selling via a store I built</span></div>
-          <div class="cs-metric"><span class="cs-metric-v">2 wks</span><span class="cs-metric-l">ChinkiZ — brief to live storefront</span></div>
-          <div class="cs-metric"><span class="cs-metric-v">1 sprint</span><span class="cs-metric-l">Redline — brand + store + payments</span></div>
-          <div class="cs-metric"><span class="cs-metric-v">0</span><span class="cs-metric-l">Shopify themes used, ever</span></div>
-        </div>
-        <div class="cs-body" data-reveal style="margin-top:22px;">
-          <div class="cs-card">
-            <span class="cs-tag">ChinkiZ Knitting Knife · D2C creator</span>
-            <p>A 600K-subscriber YouTuber selling handmade products through a custom storefront with a native video gallery and Razorpay — UPI, cards, COD. <a href="/projects/chinkiz/">Read the case study →</a></p>
-          </div>
-          <div class="cs-card">
-            <span class="cs-tag">CultXberserk · drops</span>
-            <p>Hand-numbered units 0001–0666, thirteen designs never reprinted. The lore, the drop mechanics and the buy flow are one experience. <a href="/projects/cultxberserk/">Read the case study →</a></p>
-          </div>
-          <div class="cs-card span2">
-            <span class="cs-tag">Redline Studios · brand + store</span>
-            <p>Moto-apparel brand identity and storefront hand-built end-to-end in one sprint — not a Shopify theme dressed up in red and black. <a href="/projects/redline/">Read the case study →</a></p>
-          </div>
-        </div>
+    <Section n={2} term="Telemetry" note="Proof, not promises" title="Stores on the record">
+      <ResultGrid stats={[
+        { v: `600K+`, l: `Subscriber creator selling via a store I built` },
+        { v: `2 wks`, l: `ChinkiZ — brief to live storefront` },
+        { v: `1 sprint`, l: `Redline — brand + store + payments` },
+        { v: `0`, l: `Shopify themes used, ever` },
+      ]} />
+      <div class="gap-top">
+        <Cards items={[
+          { tag: `ChinkiZ Knitting Knife · D2C creator`, d: `A 600K-subscriber YouTuber selling handmade products through a custom storefront with a native video gallery and Razorpay — UPI, cards, COD. <a href="/projects/chinkiz/">Read the case study →</a>` },
+          { tag: `CultXberserk · drops`, d: `Hand-numbered units 0001–0666, thirteen designs never reprinted. The lore, the drop mechanics and the buy flow are one experience. <a href="/projects/cultxberserk/">Read the case study →</a>` },
+          { tag: `Redline Studios · brand + store`, wide: true, d: `Moto-apparel brand identity and storefront hand-built end-to-end in one sprint — not a Shopify theme dressed up in red and black. <a href="/projects/redline/">Read the case study →</a>` },
+        ]} />
       </div>
-    </section>
+    </Section>
 
-    <section class="cs-sec" aria-labelledby="how-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="how-h">How a store gets built</h2>
-          <span class="mono">The process</span>
-        </div>
-        <div class="cs-body" data-reveal>
-          {how.map((s) => (
-            <div class="cs-card">
-              <span class="cs-tag">({s.n}) {s.t}</span>
-              <p class="cs-card-h2">{s.d}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+    <Section n={3} term="Race weekend" note="The process" title="How a store gets built" tint>
+      <Steps items={how} hot={3} />
+    </Section>
 
-    <section class="cs-sec" aria-labelledby="read-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="read-h">Thinking on ecommerce</h2>
-          <span class="mono">From the journal</span>
-        </div>
-        <div class="cs-body" data-reveal>
-          <div class="cs-card">
-            <span class="cs-tag">Why premium brands leave Shopify</span>
-            <p>Brands that want to feel like a brand keep hitting a theme-shaped ceiling. <a href="/blog/shopify-alternatives-for-premium-d2c/">Why premium brands leave Shopify →</a></p>
-          </div>
-          <div class="cs-card">
-            <span class="cs-tag">The real cost of renting your storefront</span>
-            <p>What you actually pay over three years when your storefront is rented, not owned. <a href="/blog/shopify-alternatives-for-premium-d2c/">The real cost of renting your storefront →</a></p>
-          </div>
-          <div class="cs-card span2">
-            <span class="cs-tag">A storefront that feels like the brand</span>
-            <p>Not a theme — an experience where the product, the story and the buy flow belong together. <a href="/blog/storefront-that-feels-like-the-brand/">Build a storefront that feels like the brand →</a></p>
-          </div>
-        </div>
-      </div>
-    </section>
+    <Section n={4} term="Journal" note="From the journal" title="Thinking on ecommerce">
+      <Cards items={[
+        { tag: `Why premium brands leave Shopify`, d: `Brands that want to feel like a brand keep hitting a theme-shaped ceiling. <a href="/blog/shopify-alternatives-for-premium-d2c/">Why premium brands leave Shopify →</a>` },
+        { tag: `The real cost of renting your storefront`, d: `What you actually pay over three years when your storefront is rented, not owned. <a href="/blog/shopify-alternatives-for-premium-d2c/">The real cost of renting your storefront →</a>` },
+        { tag: `A storefront that feels like the brand`, wide: true, d: `Not a theme — an experience where the product, the story and the buy flow belong together. <a href="/blog/storefront-that-feels-like-the-brand/">Build a storefront that feels like the brand →</a>` },
+      ]} />
+    </Section>
 
-    <section class="cs-sec" aria-labelledby="faq-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="faq-h">Frequently asked</h2>
-          <span class="mono">Ecommerce</span>
-        </div>
-        <div class="cs-faq">
-          {faqs.map((f, i) => (
-            <div class="cs-faq-row">
-              <button class="cs-faq-q" data-faqtog={i} aria-expanded="false" aria-controls={`faq-ecom-${i}`}>
-                <span>{f.q}</span><span class="cs-faq-icon" data-faqicon={i} aria-hidden="true">+</span>
-              </button>
-              <div class="cs-faq-a" id={`faq-ecom-${i}`} data-faqbody={i}><p>{f.a}</p></div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+    <Section bare>
+      <Faq faqs={faqs} label="(05) Before you ask" />
+    </Section>
 
-    <section class="cs-endcta">
-      <div class="wrap">
-        <h2>Ready to own your store?</h2>
-        <p>Tell me what you sell and where it lives today. If it's a fit, I'll map the build in writing within 48 hours.</p>
-        <div class="cs-cta-row" style="justify-content:center;">
-          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book a store call <span aria-hidden="true">↗</span></a>
-          <a class="btn btn-ghost" href="/services/">All services</a>
-        </div>
-      </div>
-    </section>
+    <EndCta
+      title="Ready to own your store?"
+      text={`Tell me what you sell and where it lives today. If it's a fit, I'll map the build in writing within 48 hours.`}
+      primary={{ href: CALENDLY_URL, label: "Book a store call →" }}
+      secondary={{ href: "/services/", label: "All services →" }}
+    />
   </main>
-</Studio>
-
-<script is:inline>
-  (function () {
-    var root = document.getElementById("ds-root");
-    if (!root) return;
-    var faq = -1;
-    function sync() {
-      root.querySelectorAll("[data-faqbody]").forEach(function (el) {
-        var open = Number(el.getAttribute("data-faqbody")) === faq;
-        el.style.maxHeight = open ? el.scrollHeight + "px" : "0px";
-        el.style.opacity = open ? "1" : "0";
-      });
-      root.querySelectorAll("[data-faqicon]").forEach(function (el) {
-        el.style.transform = Number(el.getAttribute("data-faqicon")) === faq ? "rotate(45deg)" : "rotate(0deg)";
-      });
-      root.querySelectorAll("[data-faqtog]").forEach(function (el) {
-        el.setAttribute("aria-expanded", Number(el.getAttribute("data-faqtog")) === faq ? "true" : "false");
-      });
-    }
-    root.querySelectorAll("[data-faqtog]").forEach(function (el) {
-      el.addEventListener("click", function () {
-        var i = Number(el.getAttribute("data-faqtog"));
-        faq = faq === i ? -1 : i;
-        sync();
-      });
-    });
-    var rt;
-    window.addEventListener("resize", function () {
-      if (faq < 0) return;
-      clearTimeout(rt);
-      rt = setTimeout(sync, 120);
-    });
-    sync();
-  })();
-</script>
+</Base>

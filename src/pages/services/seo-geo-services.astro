@@ -1,5 +1,13 @@
 ---
-import Studio from "../../layouts/Studio.astro";
+import Base from "../../layouts/Base.astro";
+import PageHero from "../../components/brand/PageHero.astro";
+import Section from "../../components/brand/Section.astro";
+import Rows from "../../components/brand/Rows.astro";
+import Cards from "../../components/brand/Cards.astro";
+import Steps from "../../components/brand/Steps.astro";
+import ResultGrid from "../../components/brand/ResultGrid.astro";
+import Faq from "../../components/brand/Faq.astro";
+import EndCta from "../../components/brand/EndCta.astro";
 import { SITE, CALENDLY_URL } from "../../lib/site.mjs";
 import { TOPICS } from "../../lib/entity.mjs";
 
@@ -67,7 +75,7 @@ const jsonld = JSON.stringify({
 });
 ---
 
-<Studio
+<Base
   title="SEO & GEO Services — Get Found by Google and Cited by AI"
   description="Technical SEO plus Generative Engine Optimization, built into your codebase: structured data, Core Web Vitals, llms.txt and AI-crawler strategy. Be the answer."
   canonical={canonical}
@@ -78,172 +86,58 @@ const jsonld = JSON.stringify({
   jsonld={jsonld}
 >
   <main>
-    <header class="cs-hero">
-      <div class="wrap">
-        <div class="cs-eyebrow">
-          <span>Services</span><span>SEO · GEO · AEO</span><span>2026</span>
-        </div>
-        <h1 style="margin:14px 0 0;font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(44px,8vw,108px);line-height:.9;letter-spacing:-.01em;text-transform:uppercase;">Ranked by Google.<br /><span style="color:var(--accent);">Quoted by AI.</span></h1>
-        <p class="cs-lead">Search is splitting in two: links and answers. Classic SEO gets you the links half. Generative Engine Optimization — structured data, quotable copy, llms.txt, AI-crawler access — gets ChatGPT, Claude, Gemini and Perplexity to cite you in the answers half. I implement both, directly in your codebase, as a developer — not as a slide deck.</p>
-        <div class="cs-cta-row">
-          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book an SEO/GEO call <span aria-hidden="true">↗</span></a>
-          <a class="btn btn-ghost" href="/website-audit/">Get a free audit first</a>
-        </div>
-        <div class="cs-meta">
-          <span>Implemented in code, not reports</span><span>Google + AI assistants, both halves</span>
-        </div>
-      </div>
-    </header>
+    <PageHero
+      display="Ranked by Google. Quoted by AI."
+      size="case"
+      kicker="Services · SEO · GEO · AEO · 2026"
+      lead={`Search is splitting in two: links and answers. Classic SEO gets you the links half. Generative Engine Optimization — structured data, quotable copy, llms.txt, AI-crawler access — gets ChatGPT, Claude, Gemini and Perplexity to cite you in the answers half. I implement both, directly in your codebase, as a developer — not as a slide deck.`}
+    >
+      <a class="btn btn--red" href={CALENDLY_URL}>Book an SEO/GEO call <span aria-hidden="true">→</span></a>
+      <a class="btn btn--ink" href="/website-audit/">Get a free audit first</a>
+      <Fragment slot="notes"><span>Implemented in code, not reports</span><span>Google + AI assistants, both halves</span></Fragment>
+    </PageHero>
 
-    <section class="cs-sec" aria-labelledby="offer-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="offer-h">What's in the work</h2>
-          <span class="mono">The offering</span>
-        </div>
-        <div class="cs-body" data-reveal>
-          {offers.map((o) => (
-            <div class="cs-card">
-              <span class="cs-tag">{o.t}</span>
-              <p class="cs-card-h2">{o.d}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+    <Section n={1} term="Setup" note="The offering" title="What's in the work">
+      <Rows items={offers} />
+    </Section>
 
-    <section class="cs-sec" aria-labelledby="proof-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="proof-h">Practised, not preached</h2>
-          <span class="mono">Proof, not promises</span>
-        </div>
-        <div class="cs-metrics" data-reveal>
-          <div class="cs-metric"><span class="cs-metric-v">llms.txt</span><span class="cs-metric-l">At the root of every site I ship</span></div>
-          <div class="cs-metric"><span class="cs-metric-v">100</span><span class="cs-metric-l">Lighthouse SEO score, this site</span></div>
-          <div class="cs-metric"><span class="cs-metric-v">25+</span><span class="cs-metric-l">AI crawlers explicitly welcomed on this site</span></div>
-          <div class="cs-metric"><span class="cs-metric-v">JSON-LD</span><span class="cs-metric-l">Entity graph on every page, not just home</span></div>
-        </div>
-        <div class="cs-body" data-reveal style="margin-top:22px;">
-          <div class="cs-card">
-            <span class="cs-tag">Free tool · llms.txt generator</span>
-            <p>I built the generator I use on client work and left it open to everyone — fill in a few fields, get a valid file for your own root. <a href="/tools/llms-txt-generator/">Generate yours free →</a></p>
-          </div>
-          <div class="cs-card">
-            <span class="cs-tag">This site · the lab</span>
-            <p>Everything I sell runs here first: schema graphs, honest sitemaps, llms.txt, IndexNow, analytics. View source — it's all inspectable.</p>
-          </div>
-        </div>
+    <Section n={2} term="Telemetry" note="Proof, not promises" title="Practised, not preached">
+      <ResultGrid stats={[
+        { v: `llms.txt`, l: `At the root of every site I ship` },
+        { v: `100`, l: `Lighthouse SEO score, this site` },
+        { v: `25+`, l: `AI crawlers explicitly welcomed on this site` },
+        { v: `JSON-LD`, l: `Entity graph on every page, not just home` },
+      ]} />
+      <div class="gap-top">
+        <Cards items={[
+          { tag: `Free tool · llms.txt generator`, d: `I built the generator I use on client work and left it open to everyone — fill in a few fields, get a valid file for your own root. <a href="/tools/llms-txt-generator/">Generate yours free →</a>` },
+          { tag: `This site · the lab`, d: `Everything I sell runs here first: schema graphs, honest sitemaps, llms.txt, IndexNow, analytics. View source — it's all inspectable.` },
+        ]} />
       </div>
-    </section>
+    </Section>
 
-    <section class="cs-sec" aria-labelledby="how-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="how-h">How the work runs</h2>
-          <span class="mono">The process</span>
-        </div>
-        <div class="cs-body" data-reveal>
-          {how.map((s) => (
-            <div class="cs-card">
-              <span class="cs-tag">({s.n}) {s.t}</span>
-              <p class="cs-card-h2">{s.d}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+    <Section n={3} term="Race weekend" note="The process" title="How the work runs" tint>
+      <Steps items={how} hot={3} />
+    </Section>
 
-    <section class="cs-sec" aria-labelledby="read-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="read-h">Thinking on search & AI</h2>
-          <span class="mono">From the journal</span>
-        </div>
-        <div class="cs-body" data-reveal>
-          <div class="cs-card span2" style="border-color:rgba(217,255,60,.34);">
-            <span class="cs-tag">Free tool</span>
-            <p><strong>Try the free llms.txt generator.</strong> Write a clean plain-text brief of your business in your browser, no sign-up. Google ignores the file; the exercise of stating plainly what you do is the part that pays. <a href="/tools/llms-txt-generator/">Open the free llms.txt generator →</a></p>
-          </div>
-          <div class="cs-card">
-            <span class="cs-tag">Make your brand quotable by AI</span>
-            <p>The GEO playbook for 2026 — how AI assistants pick who to cite, and how to become that source. <a href="/blog/get-your-business-recommended-by-chatgpt/">Read the 2026 GEO playbook →</a></p>
-          </div>
-          <div class="cs-card">
-            <span class="cs-tag">What is llms.txt?</span>
-            <p>What the file is, what the evidence says about it, and why I still ship one. <a href="/blog/what-is-llms-txt/">An honest answer on whether llms.txt works →</a></p>
-          </div>
-          <div class="cs-card span2">
-            <span class="cs-tag">AI website builders vs a human developer</span>
-            <p>Where AI tooling genuinely helps, and where judgment still wins. <a href="/blog/ai-website-builder-vs-developer-india/">AI website builders vs a human developer →</a></p>
-          </div>
-        </div>
-      </div>
-    </section>
+    <Section n={4} term="Journal" note="From the journal" title="Thinking on search & AI">
+      <Cards items={[
+        { tag: `Free tool`, wide: true, d: `<strong>Try the free llms.txt generator.</strong> Write a clean plain-text brief of your business in your browser, no sign-up. Google ignores the file; the exercise of stating plainly what you do is the part that pays. <a href="/tools/llms-txt-generator/">Open the free llms.txt generator →</a>` },
+        { tag: `Make your brand quotable by AI`, d: `The GEO playbook for 2026 — how AI assistants pick who to cite, and how to become that source. <a href="/blog/get-your-business-recommended-by-chatgpt/">Read the 2026 GEO playbook →</a>` },
+        { tag: `What is llms.txt?`, d: `What the file is, what the evidence says about it, and why I still ship one. <a href="/blog/what-is-llms-txt/">An honest answer on whether llms.txt works →</a>` },
+        { tag: `AI website builders vs a human developer`, wide: true, d: `Where AI tooling genuinely helps, and where judgment still wins. <a href="/blog/ai-website-builder-vs-developer-india/">AI website builders vs a human developer →</a>` },
+      ]} />
+    </Section>
 
-    <section class="cs-sec" aria-labelledby="faq-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="faq-h">Frequently asked</h2>
-          <span class="mono">SEO & GEO</span>
-        </div>
-        <div class="cs-faq">
-          {faqs.map((f, i) => (
-            <div class="cs-faq-row">
-              <button class="cs-faq-q" data-faqtog={i} aria-expanded="false" aria-controls={`faq-geo-${i}`}>
-                <span>{f.q}</span><span class="cs-faq-icon" data-faqicon={i} aria-hidden="true">+</span>
-              </button>
-              <div class="cs-faq-a" id={`faq-geo-${i}`} data-faqbody={i}><p>{f.a}</p></div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+    <Section bare>
+      <Faq faqs={faqs} label="(05) Before you ask" />
+    </Section>
 
-    <section class="cs-endcta">
-      <div class="wrap">
-        <h2>Invisible in AI answers?</h2>
-        <p>Ask ChatGPT about your category. If a competitor comes up and you don't, send me your URL — the free audit will show you why.</p>
-        <div class="cs-cta-row" style="justify-content:center;">
-          <a class="btn btn-primary" href="/website-audit/">Get the free audit</a>
-          <a class="btn btn-ghost" href={CALENDLY_URL} target="_blank" rel="noopener">Book a call <span aria-hidden="true">↗</span></a>
-        </div>
-      </div>
-    </section>
+    <EndCta
+      title="Invisible in AI answers?"
+      text={`Ask ChatGPT about your category. If a competitor comes up and you don't, send me your URL — the free audit will show you why.`}
+      primary={{ href: "/website-audit/", label: "Get the free audit →" }}
+      secondary={{ href: CALENDLY_URL, label: "Book a call →" }}
+    />
   </main>
-</Studio>
-
-<script is:inline>
-  (function () {
-    var root = document.getElementById("ds-root");
-    if (!root) return;
-    var faq = -1;
-    function sync() {
-      root.querySelectorAll("[data-faqbody]").forEach(function (el) {
-        var open = Number(el.getAttribute("data-faqbody")) === faq;
-        el.style.maxHeight = open ? el.scrollHeight + "px" : "0px";
-        el.style.opacity = open ? "1" : "0";
-      });
-      root.querySelectorAll("[data-faqicon]").forEach(function (el) {
-        el.style.transform = Number(el.getAttribute("data-faqicon")) === faq ? "rotate(45deg)" : "rotate(0deg)";
-      });
-      root.querySelectorAll("[data-faqtog]").forEach(function (el) {
-        el.setAttribute("aria-expanded", Number(el.getAttribute("data-faqtog")) === faq ? "true" : "false");
-      });
-    }
-    root.querySelectorAll("[data-faqtog]").forEach(function (el) {
-      el.addEventListener("click", function () {
-        var i = Number(el.getAttribute("data-faqtog"));
-        faq = faq === i ? -1 : i;
-        sync();
-      });
-    });
-    var rt;
-    window.addEventListener("resize", function () {
-      if (faq < 0) return;
-      clearTimeout(rt);
-      rt = setTimeout(sync, 120);
-    });
-    sync();
-  })();
-</script>
+</Base>

@@ -1,7 +1,8 @@
 ---
-import Studio from "../../layouts/Studio.astro";
-import { SITE, DEFAULT_OG, fmtDate, gradient, POSTS, TOPICS } from "../../lib/blog.mjs";
-import { coverBase, coverSrcset, COVER_SIZES_CARD } from "../../lib/images.mjs";
+import Base from "../../layouts/Base.astro";
+import PageHero from "../../components/brand/PageHero.astro";
+import PostList from "../../components/brand/PostList.astro";
+import { SITE, DEFAULT_OG, fmtDate, POSTS, TOPICS } from "../../lib/blog.mjs";
 
 const canonical = `${SITE}/blog/`;
 const posts = POSTS;
@@ -40,7 +41,7 @@ const jsonld = JSON.stringify({
 });
 ---
 
-<Studio
+<Base
   title="Web Design & SEO Journal — Divyansh Sood® Studio"
   description="Notes and case studies from web developer Divyansh Sood — custom-coded websites, conversion, page speed, SEO and getting your brand cited in AI search."
   canonical={canonical}
@@ -52,72 +53,33 @@ const jsonld = JSON.stringify({
   jsonld={jsonld}
 >
   <main>
-    <header class="post-hero">
+    <PageHero
+      display="Writing"
+      sup={String(posts.length)}
+      meta="Notes & case studies"
+      h1="Notes on websites that earn."
+      lead="What I've learned shipping twenty-plus sites since 2022 — what works, what the consultants won't tell you, and the parts I keep changing my mind about."
+    >
+      <div class="meta">Journal · <span class="bl-n">{String(posts.length).padStart(2, "0")}</span> posts</div>
+    </PageHero>
+
+    <section class="bl">
       <div class="wrap">
-        <div class="eyebrow">
-          <span>(Journal — {String(posts.length).padStart(2, "0")} posts)</span>
-          <span>Notes &amp; case studies</span>
-          <span>Divyansh Sood® Studio</span>
-        </div>
-        <h1 class="post-title">Notes on websites<br />that earn.</h1>
-        <p class="post-lead">
-          What I've learned shipping twenty-plus sites since 2022 — what works, what the
-          consultants won't tell you, and the parts I keep changing my mind about.
-        </p>
-      </div>
-    </header>
-
-    {/* Topic hubs. The index lists posts in publish order, which is the wrong
-        shape for someone arriving on a subject rather than a date — and it left
-        the cluster hubs reachable only from inside individual posts. */}
-    <section class="wrap" aria-label="Browse by topic">
-      <nav class="post-hubs" style="margin:0 0 34px;">
-        <span
-          style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.14em;color:#8A8A93;align-self:center;text-transform:uppercase;"
-          >Start with a topic</span
-        >
-        <a href="/blog/topics/ai-web-development/">AI in web development →</a>
-      </nav>
-    </section>
-
-    <section class="wrap" aria-label="All posts">
-      <div class="blog-grid">
-        {
-          posts.map((p, i) => (
-            <a class="blog-card" href={`/blog/${p.slug}/`} data-reveal>
-              <div class="thumb">
-                {p.coverImage ? (
-                  /* This page shows every post at once, so covers come from
-                     the WebP ladder at card width rather than the full-size
-                     JPEG. The first row is above the fold and holds the LCP
-                     element, so it loads eagerly; the rest wait. */
-                  <img
-                    src={coverBase(p.coverImage)}
-                    srcset={coverSrcset(p.coverImage)}
-                    sizes={COVER_SIZES_CARD}
-                    alt={p.coverAlt ?? p.title}
-                    width="640"
-                    height="400"
-                    loading={i < 3 ? "eager" : "lazy"}
-                    fetchpriority={i === 0 ? "high" : undefined}
-                    decoding="async"
-                  />
-                ) : (
-                  <span class="thumb-grad" style={`background:${gradient(p.slug)}`} />
-                )}
-              </div>
-              <div class="pad">
-                <span class="date">
-                  {fmtDate(p.pubDate)} · {p.tags[0] || "Notes"}
-                </span>
-                <span class="ttl">{p.title}</span>
-                <span class="desc">{p.description}</span>
-                <span class="read">Read · {p.readMins} min →</span>
-              </div>
-            </a>
-          ))
-        }
+        {/* Topic hubs: the list below runs in publish order, which is the wrong
+            shape for someone arriving on a subject rather than a date. */}
+        <nav aria-label="Browse by topic" class="bl-topics">
+          <div class="chips-lbl">Start with a topic</div>
+          <div class="chips"><a class="chip chip--red" href="/blog/topics/ai-web-development/">AI in web development →</a></div>
+        </nav>
+        <div class="lbl">(01) Journal — all posts, newest first</div>
+        <PostList items={posts.map((p) => ({ href: `/blog/${p.slug}/`, title: p.title, meta: `${fmtDate(p.pubDate)} · ${p.tags[0] || "Notes"} · ${p.readMins} min` }))} />
       </div>
     </section>
   </main>
-</Studio>
+</Base>
+
+<style>
+  .bl-n{color:var(--red)}
+  .bl{padding:clamp(28px,4vw,48px) var(--gutter) var(--sec-y)}
+  .bl-topics{margin-bottom:clamp(40px,5vw,64px)}
+</style>

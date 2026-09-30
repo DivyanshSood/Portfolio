@@ -1,9 +1,6 @@
 ---
-import Studio from "../../layouts/Studio.astro";
-import RelatedPosts from "../../components/RelatedPosts.astro";
-import PostFaq from "../../components/PostFaq.astro";
-import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
-import { coverBase, coverSrcset, COVER_SIZES_POST } from "../../lib/images.mjs";
+import Post from "../../layouts/Post.astro";
+import { SITE, DEFAULT_OG, CALENDLY_URL, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
 
 const slug = "how-ai-is-transforming-website-development";
 const idx = POSTS.findIndex((p) => p.slug === slug);
@@ -13,8 +10,6 @@ const canonical = `${SITE}/blog/${slug}/`;
 const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
 const primaryTag = post.tags[0] || "Notes";
 const readMins = post.readMins;
-const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
-const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
 
 const faqs = [
   {
@@ -107,57 +102,7 @@ const jsonld = JSON.stringify({
 });
 ---
 
-<Studio
-  title={post.seoTitle ?? `${post.title} · Divyansh Sood`}
-  description={post.description}
-  canonical={canonical}
-  keywords={post.tags.join(", ")}
-  ogType="article"
-  ogTitle={post.title}
-  ogImage={ogImage}
-  ogImageW={1200}
-  ogImageH={750}
-  articlePublished={iso(post.pubDate)}
-  articleModified={iso(post.updatedDate || post.pubDate)}
-  tags={post.tags}
-  preloadImage={{ href: coverBase(post.coverImage), srcset: coverSrcset(post.coverImage), sizes: COVER_SIZES_POST }}
-  jsonld={jsonld}
->
-  <main>
-    <header class="post-hero">
-      <div class="wrap narrow">
-        <div class="eyebrow">
-          <span>{primaryTag}</span>
-          <span>{fmtDate(post.pubDate)}</span>
-          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
-          <span>{readMins} min read</span>
-        </div>
-        <h1 class="post-title">{post.title}</h1>
-        <p class="post-lead">{post.description}</p>
-        <div class="post-meta">
-          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
-        </div>
-      </div>
-    </header>
-
-    {post.coverImage && (
-      <div class="wrap narrow">
-        <figure class="post-cover">
-          <img
-            src={coverBase(post.coverImage)}
-            srcset={coverSrcset(post.coverImage)}
-            sizes={COVER_SIZES_POST}
-            alt={post.coverAlt ?? post.title}
-            width="1200"
-            height="750"
-            fetchpriority="high"
-            decoding="async"
-          />
-        </figure>
-      </div>
-    )}
-
-    <article class="wrap narrow post-body">
+<Post post={post} jsonld={jsonld} faqs={faqs} cta={{ title: "Working on something similar?", text: "If you're weighing up a build and want a straight answer about where AI helps and where it won't, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.", primary: { href: "mailto:hello@divyanshsood.com", label: "Email me →" }, secondary: { href: CALENDLY_URL, label: "Book a 15-min intro →" } }}>
 <p>Almost everything written about AI and web development is written by people who don't build websites. It arrives as a list of tools, a prediction that developers are finished, and a call to action for an agency that will sell you the future. I've read a lot of it and recognised very little of my own work in it.</p>
 <p>So here is the version from inside. I run a one-person studio and I've shipped client sites with AI assistance every week for over a year. I also built and run <a href="/projects/webseek/">WebSeek.ai</a>, an AI website generator that turns one prompt into a deployed site, with a model picker for Claude, GPT and Gemini. Running the same product on three providers at once means the differences between them are things I've debugged at 2am, not things I've read in a comparison table.</p>
 <p>That leaves me in an odd position for this topic: I sell custom development, and I also built the machine that's supposed to make it obsolete. This post is what I actually think, which is more interesting than either sales pitch.</p>
@@ -301,24 +246,4 @@ const jsonld = JSON.stringify({
 <p>AI has been transformative for web development in the way electric tools were transformative for carpentry. The work is faster, the floor is higher, fewer people are needed for the same output, and none of it made the design decisions for anybody.</p>
 <p>The carpenters who did well weren't the ones who refused the tools or the ones who believed the tools would do the thinking. They were the ones who got faster at the boring parts and spent the time saved on the parts that were always the point.</p>
 <p>That's where this is. The <a href="#benefits-ranked">benefits are real and worth taking</a>, <a href="/blog/challenges-and-limitations-of-ai-in-web-development/">the limitations are real and worth respecting</a>, and <a href="#what-comes-next">what comes next</a> is more of the same, faster. Anyone telling you it's simpler than that is selling something.</p>
-</article>
-
-    <PostFaq faqs={faqs} idPrefix="faq-tr">
-      <div class="tags" style="margin-top:26px;">{post.tags.map((t) => <span>{t}</span>)}</div>
-    </PostFaq>
-
-    <RelatedPosts slug={slug} audience={post.audience} />
-
-    <section class="post-foot-cta">
-      <div class="wrap narrow">
-        <h2>Working on something similar?</h2>
-        <p>If you're weighing up a build and want a straight answer about where AI helps and where it won't, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.</p>
-        <div class="cta-row">
-          <a class="btn btn-primary" href="mailto:hello@divyanshsood.com">Email me <span aria-hidden="true">↗</span></a>
-          <a class="btn btn-ghost" href={CALENDLY_URL} target="_blank" rel="noopener">Book a 15-min intro <span aria-hidden="true">↗</span></a>
-        </div>
-      </div>
-    </section>
-  </main>
-</Studio>
-
+</Post>

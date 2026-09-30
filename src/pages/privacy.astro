@@ -1,5 +1,9 @@
 ---
-import Studio from "../layouts/Studio.astro";
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/brand/PageHero.astro";
+import Section from "../components/brand/Section.astro";
+import Rows from "../components/brand/Rows.astro";
+import EndCta from "../components/brand/EndCta.astro";
 import { SITE, CALENDLY_URL, GOOGLE_REVIEWS_URL } from "../lib/site.mjs";
 
 const canonical = `${SITE}/privacy/`;
@@ -35,15 +39,11 @@ const sections = [
   },
   {
     h: "Cookies",
-    p: "The analytics tools set their own cookies to tell one visit from the next — Google's _ga family and Yandex's _ym family. They hold a random ID, not a name or an email. The LinkedIn badge on the About page may set LinkedIn's cookies as well. No advertising cookies, and nothing is sold or shared with anyone.",
+    p: "The analytics tools set their own cookies to tell one visit from the next — Google's _ga family and Yandex's _ym family. They hold a random ID, not a name or an email. No advertising cookies, and nothing is sold or shared with anyone.",
   },
   {
     h: "Analytics",
     p: "Google Analytics 4 runs with IP anonymisation enabled, and Yandex Metrica runs without session replay or clickmap. They record page views, country-level geolocation, and referrer. Yandex-verified domain only — not loaded for any other site that hotlinks these scripts. To opt out, use your browser's tracker blocking or Do Not Track signal, a content blocker such as uBlock Origin, or Google's official opt-out add-on.",
-  },
-  {
-    h: "LinkedIn badge",
-    p: "The About page embeds my LinkedIn profile badge, which loads in an iframe from platform.linkedin.com and can set LinkedIn's cookies. That embed is governed by LinkedIn's privacy policy, not mine. Blocking third-party frames in your browser removes it; the rest of the page is unaffected.",
   },
   {
     h: "What I don't collect",
@@ -67,7 +67,8 @@ const sections = [
   },
 ];
 ---
-<Studio
+
+<Base
   title="Privacy — what divyanshsood.com collects · Divyansh Sood® Studio"
   description="What divyanshsood.com collects (and doesn't). Cookies, anonymous analytics, no third-party ads, nothing sold. Plain English, GDPR/CCPA."
   canonical={canonical}
@@ -77,63 +78,31 @@ const sections = [
   jsonld={jsonld}
 >
   <main>
-    <header class="cs-hero">
-      <div class="wrap">
-        <div class="cs-eyebrow">
-          <span>Privacy</span><span>Plain English, no dark patterns</span><span>Updated 2026-06</span>
-        </div>
-        <h1 class="cs-domain">Privacy.<span class="arrow">↗</span></h1>
-        <p class="cs-h1">The short version: <span class="tail">two analytics tools count page views, I never sell anything to anyone, and there's no third-party ad script on the page.</span></p>
-        <p class="cs-lead">If you want the full policy, the section-by-section breakdown is below — what loads, what it stores, and how to switch it off from your browser.</p>
-        <div class="cs-cta-row">
-          <a class="btn btn-primary" href="#privacy-detail">Read the detail</a>
-          <a class="btn btn-ghost" href={CALENDLY_URL} target="_blank" rel="noopener">Get in touch instead</a>
-        </div>
-      </div>
-    </header>
+    <PageHero
+      display="Privacy."
+      kicker="Privacy · Plain English, no dark patterns · Updated 2026-06"
+      lead="The short version: two analytics tools count page views, I never sell anything to anyone, and there's no third-party ad script on the page. If you want the full policy, the section-by-section breakdown is below — what loads, what it stores, and how to switch it off from your browser."
+    >
+      <a class="btn btn--red" href="#privacy-detail">Read the detail <span aria-hidden="true">→</span></a>
+      <a class="btn btn--ink" href={CALENDLY_URL}>Get in touch instead</a>
+    </PageHero>
 
-    <section class="cs-sec" aria-labelledby="summary-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="summary-h">In 30 seconds</h2>
-          <span class="mono">TL;DR</span>
-        </div>
-        <div class="cs-body" data-reveal>
-          <div class="cs-card span2">
-            <span class="cs-tag">The one-line answer</span>
-            <p>This site is a portfolio. It does not collect personal data from visitors. The only thing it records is anonymous page-view counts, through two standard analytics tools that can't tie a visit to a name. That's it.</p>
-          </div>
-        </div>
-      </div>
-    </section>
+    <Section n={1} term="Telemetry" note="TL;DR" title="In 30 seconds">
+      <p class="pv-big">This site is a portfolio. It does not collect personal data from visitors. The only thing it records is anonymous page-view counts, through two standard analytics tools that can't tie a visit to a name. That's it.</p>
+    </Section>
 
-    <section class="cs-sec" id="privacy-detail" aria-labelledby="detail-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="detail-h">Section by section</h2>
-          <span class="mono">Full policy</span>
-        </div>
-        <div class="cs-body" data-reveal>
-          {sections.map((s, i) => (
-            <div class={"cs-card" + (i % 4 === 0 ? " span2" : "")}>
-              <span class="cs-tag">({String(i + 1).padStart(2, "0")})</span>
-              <p class="cs-card-h2">{s.h}</p>
-              <p>{s.p}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+    <Section n={2} term="Setup" note="Full policy" title="Section by section" id="privacy-detail">
+      <Rows items={sections.map((s) => ({ t: s.h, d: s.p }))} />
+    </Section>
 
-    <section class="cs-endcta">
-      <div class="wrap">
-        <h2>Still have questions?</h2>
-        <p>If something on this page is unclear, or you want a verifiable data request under GDPR / CCPA, email <a href="mailto:hello@divyanshsood.com" style="color:var(--accent,#d9ff3c);text-decoration:underline;">hello@divyanshsood.com</a> — I reply personally within a couple of hours during IST working hours.</p>
-        <div class="cs-cta-row" style="justify-content:center;">
-          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book a 15-min intro <span aria-hidden="true">↗</span></a>
-          <a class="btn btn-ghost" href={GOOGLE_REVIEWS_URL} target="_blank" rel="noopener">Read our Google reviews ↗</a>
-        </div>
-      </div>
-    </section>
+    <EndCta
+      title="Still have questions?"
+      text={`If something on this page is unclear, or you want a verifiable data request under GDPR / CCPA, email <a href="mailto:hello@divyanshsood.com">hello@divyanshsood.com</a> — I reply personally within a couple of hours during IST working hours.`}
+      secondary={{ href: GOOGLE_REVIEWS_URL, label: "Read our Google reviews ↗" }}
+    />
   </main>
-</Studio>
+</Base>
+
+<style>
+  .pv-big{margin:0;max-width:40ch;font-weight:800;font-stretch:108%;font-size:clamp(24px,2.8vw,40px);line-height:1.1;letter-spacing:-0.02em}
+</style>

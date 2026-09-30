@@ -13,7 +13,11 @@
 // though: any AI-tagged post NOT listed in a group still renders in the final
 // group, so adding a post to the manifest can never silently orphan it here.
 // ===========================================================================
-import Studio from "../../../layouts/Studio.astro";
+import Base from "../../../layouts/Base.astro";
+import PageHero from "../../../components/brand/PageHero.astro";
+import Section from "../../../components/brand/Section.astro";
+import PostList from "../../../components/brand/PostList.astro";
+import EndCta from "../../../components/brand/EndCta.astro";
 import { SITE, DEFAULT_OG, CALENDLY_URL, POSTS, TOPICS } from "../../../lib/blog.mjs";
 
 const canonical = `${SITE}/blog/topics/ai-web-development/`;
@@ -142,7 +146,7 @@ const jsonld = JSON.stringify({
 });
 ---
 
-<Studio
+<Base
   title="AI in Web Development — The Complete Guide"
   description="Everything I've written on AI and web development: building with AI, shipping AI features, AI builders vs developers, being cited by assistants."
   canonical={canonical}
@@ -155,79 +159,60 @@ const jsonld = JSON.stringify({
   jsonld={jsonld}
 >
   <main>
-    <header class="post-hero">
-      <div class="wrap">
-        <div class="eyebrow">
-          <span>Topic</span>
-          <span>({String(total).padStart(2, "0")} articles)</span>
-          <span>Divyansh Sood® Studio</span>
-        </div>
-        <h1 class="post-title">AI in web<br />development.</h1>
-        <p class="post-lead">
-          Everything I've written about AI and building for the web — from someone who
-          uses it daily on client work and who built an AI website generator that runs on
-          three different model providers.
-        </p>
-      </div>
-    </header>
+    <PageHero
+      display="AI in web development."
+      size="case"
+      kicker={`Topic · ${String(total).padStart(2, "0")} articles`}
+      lead="Everything I've written about AI and building for the web — from someone who uses it daily on client work and who built an AI website generator that runs on three different model providers."
+    />
 
-    <article class="wrap narrow post-body">
+    <section class="th">
+      <div class="wrap th-in">
+        <div class="lbl">(01) Journal — the short version</div>
+        <div class="prose">
       <p>Most writing about AI in web development is written by people who don't build websites. It arrives as a list of tools, a prediction that developers are finished, and a call to action for an agency that will sell you the future. I've read a lot of it and recognised very little.</p>
       <p>This is the other version. I run a one-person studio and ship client sites with AI assistance every week, so the claims here are ones I've had to live with afterwards — including the ones that turned out to be wrong. I also built and run <a href="/projects/webseek/">WebSeek.ai</a>, an AI website generator that takes one prompt to a deployed site with a model picker for Claude, GPT and Gemini. Running the same product on three providers at once means the differences between them are things I've debugged at 2am rather than read in a comparison table.</p>
       <p>That gives me two vantage points most writing on this topic doesn't have: I know what AI genuinely does to the economics of building a website, and I know exactly where it stops being useful — because I've shipped the product that hits that ceiling.</p>
       <p>The short version, before the articles: AI has substantially changed how fast the mechanical parts of a build go, and has changed almost nothing about the parts that decide whether a website works. Judgment about what to build, why a visitor hesitates, which trade-off to accept — all still yours. Anyone selling you the opposite is selling something.</p>
       <p>The articles below are grouped by what you're trying to do. If you're deciding whether to hire a developer at all, start with the third group. If you're a developer working out how to use these tools well, start with the first.</p>
-      <hr />
-    </article>
-
-    {
-      sections.map((s) => (
-        <section class="wrap narrow" aria-labelledby={`grp-${s.id}`}>
-          <nav class="post-related" aria-label={s.title}>
-            <h2 class="post-related-h" id={`grp-${s.id}`}>{s.title}</h2>
-            <p style="color:#B4B2AC;font-size:15px;line-height:1.66;max-width:62ch;margin:0 0 6px;">{s.blurb}</p>
-            <ul>
-              {s.posts.map((p) => (
-                <li>
-                  <a href={`/blog/${p.slug}/`}>
-                    <span class="rp-title">{p.title}</span>
-                    <span class="rp-meta">
-                      {p.tags?.[0]} · {p.readMins} min read
-                    </span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        </section>
-      ))
-    }
-
-    <article class="wrap narrow post-body" style="margin-top:40px;">
-      <hr />
-      <h2 id="working-together">If you'd rather not read all of it</h2>
-      <p>The practical summary: AI is worth using and not worth trusting unsupervised. It makes a good developer meaningfully faster and makes an inexperienced one produce more code they can't debug. If you're commissioning a website, what matters is not whether your developer uses AI — almost everyone does now — but whether they can tell you where they didn't, and why.</p>
-      <p>If you're weighing up a build, the <a href="/services/website-development/">website development</a> page covers how I work, and <a href="/services/ai-development/">AI development</a> covers shipping AI features into an existing product. If you'd rather see evidence first, the <a href="/portfolio/">work</a> and <a href="/results/">results</a> are there.</p>
-    </article>
-
-    <section class="wrap narrow" aria-label="More from the studio">
-      <nav class="post-hubs">
-        <a href="/services/website-development/">Website development</a>
-        <a href="/services/ai-development/">AI development</a>
-        <a href="/projects/webseek/">WebSeek.ai case study</a>
-        <a href="/blog/">All writing</a>
-      </nav>
-    </section>
-
-    <section class="post-foot-cta">
-      <div class="wrap narrow">
-        <h2>Building something with AI in it?</h2>
-        <p>Tell me what you're trying to do in three sentences. I'll tell you whether a model is the right tool, what the smallest useful version looks like — and if the honest answer is that you don't need AI for this, you'll get that instead.</p>
-        <div class="cta-row">
-          <a class="btn btn-primary" href="mailto:hello@divyanshsood.com">Email me <span aria-hidden="true">↗</span></a>
-          <a class="btn btn-ghost" href={CALENDLY_URL} target="_blank" rel="noopener">Book a 15-min intro <span aria-hidden="true">↗</span></a>
         </div>
       </div>
     </section>
+
+    {sections.map((s, i) => (
+      <Section n={i + 2} term="Journal" note={`${String(s.posts.length).padStart(2, "0")} articles`} title={s.title}>
+        <p class="body th-blurb">{s.blurb}</p>
+        <PostList items={s.posts.map((p) => ({ href: `/blog/${p.slug}/`, title: p.title, meta: `${p.tags?.[0] ?? "Notes"} · ${p.readMins} min read` }))} />
+      </Section>
+    ))}
+
+    <section class="th">
+      <div class="wrap th-in">
+        <div class="prose">
+      <h2 id="working-together">If you'd rather not read all of it</h2>
+      <p>The practical summary: AI is worth using and not worth trusting unsupervised. It makes a good developer meaningfully faster and makes an inexperienced one produce more code they can't debug. If you're commissioning a website, what matters is not whether your developer uses AI — almost everyone does now — but whether they can tell you where they didn't, and why.</p>
+      <p>If you're weighing up a build, the <a href="/services/website-development/">website development</a> page covers how I work, and <a href="/services/ai-development/">AI development</a> covers shipping AI features into an existing product. If you'd rather see evidence first, the <a href="/portfolio/">work</a> and <a href="/results/">results</a> are there.</p>
+        </div>
+        <div class="chips gap-top">
+          <a class="chip" href="/services/website-development/">Website development</a>
+          <a class="chip" href="/services/ai-development/">AI development</a>
+          <a class="chip" href="/projects/webseek/">WebSeek.ai case study</a>
+          <a class="chip chip--red" href="/blog/">All writing</a>
+        </div>
+      </div>
+    </section>
+
+    <EndCta
+      title="Building something with AI in it?"
+      text="Tell me what you're trying to do in three sentences. I'll tell you whether a model is the right tool, what the smallest useful version looks like — and if the honest answer is that you don't need AI for this, you'll get that instead."
+      primary={{ href: "mailto:hello@divyanshsood.com", label: "Email me →" }}
+      secondary={{ href: CALENDLY_URL, label: "Book a 15-min intro →" }}
+    />
   </main>
-</Studio>
+</Base>
+
+<style>
+  .th{padding:var(--sec-y) var(--gutter) 0}
+  .th-in{max-width:var(--max)}
+  .th-blurb{margin:calc(-1 * var(--head-gap) + 20px) 0 28px;max-width:62ch}
+</style>

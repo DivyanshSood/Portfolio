@@ -1,5 +1,9 @@
 ---
-import Studio from "../../layouts/Studio.astro";
+import Base from "../../layouts/Base.astro";
+import PageHero from "../../components/brand/PageHero.astro";
+import Section from "../../components/brand/Section.astro";
+import Cards from "../../components/brand/Cards.astro";
+import EndCta from "../../components/brand/EndCta.astro";
 import { SITE } from "../../lib/site.mjs";
 import { TOPICS } from "../../lib/entity.mjs";
 
@@ -52,7 +56,7 @@ const jsonld = JSON.stringify({
 });
 ---
 
-<Studio
+<Base
   title="Free Web Tools — SEO, GEO & Site Utilities · Divyansh Sood"
   description="Free, no-sign-up web tools by Divyansh Sood — starting with an llms.txt generator that writes a spec-correct file in your browser. Nothing stored, no email wall."
   canonical={canonical}
@@ -63,96 +67,54 @@ const jsonld = JSON.stringify({
   jsonld={jsonld}
 >
   <main>
-    <header class="cs-hero">
-      <div class="wrap">
-        <div class="cs-eyebrow">
-          <span>Tools</span><span>Free · no sign-up</span><span>2026</span>
-        </div>
-        <h1 style="margin:14px 0 0;font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(44px,8vw,108px);line-height:.9;letter-spacing:-.01em;text-transform:uppercase;">Free tools,<br /><span style="color:var(--accent);">no strings.</span></h1>
-        <p class="cs-lead">Small, genuinely useful utilities I've built while doing client work. No sign-up, no upsell wall — everything runs in your browser. If one saves you an afternoon, that's the point.</p>
-      </div>
-    </header>
+    <PageHero
+      display="Free tools, no strings."
+      size="case"
+      kicker="Tools · Free · no sign-up · 2026"
+      lead="Small, genuinely useful utilities I've built while doing client work. No sign-up, no upsell wall — everything runs in your browser. If one saves you an afternoon, that's the point."
+    />
 
-    <section class="cs-sec" aria-labelledby="why-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="why-h">Why these exist</h2>
-          <span class="mono">The deal</span>
-        </div>
-        <div class="cs-body" data-reveal>
-          <div class="cs-card span2">
-            <span class="cs-tag">No email wall</span>
-            <p>
-              Every tool here came out of a job. A client needed something, I wrote it once properly instead of
-              twice badly, and it turned out to be useful to more than one person. So it's on the site, free, with
-              no form in front of it. You don't give me an email address, I don't get a lead, and you get the
-              thing you came for. If it's useful and you later want the full build done properly, you know where
-              I am — that's the entire funnel.
-            </p>
-          </div>
-          <div class="cs-card">
-            <span class="cs-tag">Runs in your browser</span>
-            <p>
-              Nothing you type is uploaded, logged or stored. These are static pages with the logic in
-              client-side JavaScript, so your business details, draft copy and URLs never leave your device.
-              Works offline once the page has loaded.
-            </p>
-          </div>
-          <div class="cs-card">
-            <span class="cs-tag">Honest about limits</span>
-            <p>
-              Each tool says what it does and what it doesn't. The llms.txt generator tells you up front that
-              Google ignores the file it produces — because a tool that oversells itself costs you more than the
-              half hour it saved.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
+    <Section n={1} term="Setup" note="The deal" title="Why these exist">
+      <Cards items={[
+        { tag: "No email wall", wide: true, d: "Every tool here came out of a job. A client needed something, I wrote it once properly instead of twice badly, and it turned out to be useful to more than one person. So it's on the site, free, with no form in front of it. You don't give me an email address, I don't get a lead, and you get the thing you came for. If it's useful and you later want the full build done properly, you know where I am — that's the entire funnel." },
+        { tag: "Runs in your browser", d: "Nothing you type is uploaded, logged or stored. These are static pages with the logic in client-side JavaScript, so your business details, draft copy and URLs never leave your device. Works offline once the page has loaded." },
+        { tag: "Honest about limits", d: "Each tool says what it does and what it doesn't. The llms.txt generator tells you up front that Google ignores the file it produces — because a tool that oversells itself costs you more than the half hour it saved." },
+      ]} />
+    </Section>
 
-    <section class="cs-sec" aria-labelledby="tools-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="tools-h">The toolbox</h2>
-          <span class="mono">More coming</span>
-        </div>
-        <div class="cs-body" data-reveal>
-          {tools.map((t) => (
-            <a class="cs-card span2" href={t.href} style="text-decoration:none;color:inherit;display:block;">
-              <span class="cs-tag">{t.tag}</span>
-              <h3 class="cs-card-h2" style="font-family:'Anton',sans-serif;font-weight:400;text-transform:uppercase;font-size:clamp(22px,3vw,32px);letter-spacing:0;line-height:1;margin-bottom:12px;">{t.name}</h3>
-              <p>{t.desc}</p>
-              {t.what && (
-                <p style="margin-top:12px;">
-                  <strong>What it does.</strong> {t.what}
-                </p>
-              )}
-              {t.who && (
-                <p style="margin-top:12px;">
-                  <strong>Who it's for.</strong> {t.who}
-                </p>
-              )}
-              {t.honest && (
-                <p style="margin-top:12px;color:#A8A69E;">
-                  <strong>The honest caveat.</strong> {t.honest}
-                </p>
-              )}
-              <p style="margin-top:14px;color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;">Open the {t.name} →</p>
-            </a>
-          ))}
-        </div>
-      </div>
-    </section>
+    <Section n={2} term="Pit lane" note="More coming" title="The toolbox">
+      {tools.map((t, i) => (
+        <a class="tl" href={t.href}>
+          <div class="tl-top"><span class="tl-pos">T{String(i + 1).padStart(2, "0")}</span><span>{t.tag}</span></div>
+          <h3 class="tl-name">{t.name}</h3>
+          <p class="tl-lead">{t.desc}</p>
+          <dl class="spec tl-spec">
+            {t.what && <div><dt>What it does</dt><dd>{t.what}</dd></div>}
+            {t.who && <div><dt>Who it's for</dt><dd>{t.who}</dd></div>}
+            {t.honest && <div><dt>The caveat</dt><dd>{t.honest}</dd></div>}
+          </dl>
+          <span class="tl-cta">Open the {t.name} →</span>
+        </a>
+      ))}
+    </Section>
 
-    <section class="cs-endcta">
-      <div class="wrap">
-        <h2>Need the real thing, not a tool?</h2>
-        <p>Tools get you started. When you want it built and shipped properly, that's what the studio is for.</p>
-        <div class="cs-cta-row" style="justify-content:center;">
-          <a class="btn btn-primary" href="/services/">See services</a>
-          <a class="btn btn-ghost" href="/website-audit/">Free website audit</a>
-        </div>
-      </div>
-    </section>
+    <EndCta
+      title="Need the real thing, not a tool?"
+      text="Tools get you started. When you want it built and shipped properly, that's what the studio is for."
+      primary={{ href: "/services/", label: "See services →" }}
+      secondary={{ href: "/website-audit/", label: "Free website audit →" }}
+    />
   </main>
-</Studio>
+</Base>
+
+<style>
+  .tl{display:flex;flex-direction:column;gap:16px;max-width:980px;color:var(--ink);text-decoration:none}
+  .tl:hover{color:var(--ink)}
+  .tl-top{display:flex;justify-content:space-between;border-top:3px solid var(--ink);padding-top:10px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--g5c)}
+  .tl-pos{color:var(--red);font-weight:700}
+  .tl-name{margin:0;font-weight:900;font-style:italic;font-stretch:125%;text-transform:uppercase;font-size:clamp(28px,3vw,46px);line-height:.95}
+  .tl-lead{margin:0;font-size:18px;line-height:1.5;color:var(--g3e);max-width:60ch}
+  .tl-spec > div{grid-template-columns:140px 1fr}
+  .tl-cta{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--red)}
+  .tl:hover .tl-cta{color:var(--ink)}
+</style>

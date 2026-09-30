@@ -1,5 +1,9 @@
 ---
-import Studio from "../layouts/Studio.astro";
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/brand/PageHero.astro";
+import Section from "../components/brand/Section.astro";
+import EndCta from "../components/brand/EndCta.astro";
+import Quote from "../components/brand/Quote.astro";
 import { SITE, CALENDLY_URL, GOOGLE_REVIEWS_URL } from "../lib/site.mjs";
 
 const canonical = `${SITE}/testimonials/`;
@@ -53,7 +57,7 @@ const jsonld = JSON.stringify({
 });
 ---
 
-<Studio
+<Base
   title="Client Reviews & Testimonials — Divyansh Sood® Studio"
   description="What clients say about web developer Divyansh Sood — real founders, from a school admin to a 600K-subscriber creator and Kangra's most-reviewed taxi operator."
   canonical={canonical}
@@ -63,153 +67,36 @@ const jsonld = JSON.stringify({
   jsonld={jsonld}
 >
   <main>
-    <header class="cs-hero">
-      <div class="wrap">
-        <div class="cs-eyebrow">
-          <span>Testimonials</span><span>In their own words</span><span>2022—2026</span>
-        </div>
-        <h1 style="margin:14px 0 0;font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(44px,8vw,108px);line-height:.9;letter-spacing:-.01em;text-transform:uppercase;">What clients <span style="color:var(--accent);">actually say.</span></h1>
-        <p class="cs-lead">No stock quotes, no invented names. These are real founders — a school admin, a 600K-subscriber creator, a taxi operator — describing what changed after we shipped.</p>
-        <div class="cs-cta-row">
-          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book an intro call <span aria-hidden="true">↗</span></a>
-          <a class="btn btn-ghost" href={GOOGLE_REVIEWS_URL} target="_blank" rel="noopener">Read our Google reviews ↗</a>
-          <a class="btn btn-ghost" href="/results/">See the results</a>
-        </div>
-      </div>
-    </header>
+    <PageHero
+      display="What clients actually say."
+      size="case"
+      kicker="Testimonials · In their own words · 2022—2026"
+      lead="No stock quotes, no invented names. These are real founders — a school admin, a 600K-subscriber creator, a taxi operator — describing what changed after we shipped."
+    >
+      <a class="btn btn--red" href={CALENDLY_URL}>Book an intro call <span aria-hidden="true">→</span></a>
+      <a class="btn btn--ink" href={GOOGLE_REVIEWS_URL}>Read our Google reviews ↗</a>
+    </PageHero>
 
-    <section class="cs-sec" aria-labelledby="rev-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="rev-h">Every word is real</h2>
-          <span class="mono">Six clients</span>
-        </div>
-        <div class="tm-grid" data-reveal>
-          {reviews.map((r) => (
-            <figure class="tm-card">
-              <span class="tm-mark" aria-hidden="true">"</span>
-              <span class="cs-tag">{r.org.split(" · ")[0]}</span>
-              <blockquote class="tm-quote">{r.quote}</blockquote>
-              <figcaption class="tm-cap">
-                <span class="tm-who">{r.who}, {r.org}</span>
-                <a href={`/projects/${r.slug}/`} class="tm-link">Case study →</a>
-              </figcaption>
-            </figure>
-          ))}
-        </div>
+    <Section n={1} term="Team radio" note={`${reviews.length} clients`} title="Every word is real">
+      <div class="tm">
+        {reviews.map((r, i) => (
+          <Quote text={r.quote} by={`${r.who}, ${r.org}`} ch={i + 1} red={i === 0}>
+            <a href={`/projects/${r.slug}/`} class="qt-link">Case study →</a>
+          </Quote>
+        ))}
       </div>
-    </section>
+      <div class="links-row gap-top"><a href="/results/">See the results →</a></div>
+    </Section>
 
-    <section class="cs-endcta">
-      <div class="wrap">
-        <h2>Be the next one.</h2>
-        <p>Custom-coded, no builder lock-in, most projects live in 3–4 weeks. Tell me what you're building and I'll tell you within a day if it's a fit.</p>
-        <div class="cs-cta-row" style="justify-content:center;">
-          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book an intro call <span aria-hidden="true">↗</span></a>
-          <a class="btn btn-ghost" href="/portfolio/">See all work</a>
-        </div>
-      </div>
-    </section>
+    <EndCta
+      title="Be the next one."
+      text="Custom-coded, no builder lock-in, most projects live in 3–4 weeks. Tell me what you're building and I'll tell you within a day if it's a fit."
+      primary={{ href: CALENDLY_URL, label: "Book an intro call →" }}
+      secondary={{ href: "/portfolio/", label: "See all work →" }}
+    />
   </main>
+</Base>
 
-  <style>
-    /* ============================================================
-       Testimonials — UI polish (scoped). Matches About / Results /
-       Portfolio; quote cards with hover lift and a lead card that
-       spans the row.
-       ============================================================ */
-    /* Rhythm, section-head alignment and hero clearance are shared — they live
-       in case-study.css and Breadcrumbs.astro now. */
-    main .cs-lead { max-width: 64ch; font-size: clamp(17px, 1.7vw, 21px); }
-    main .cs-sec-head h2 {
-      font-family: 'Anton', sans-serif;
-      font-weight: 400;
-      font-size: clamp(32px, 5vw, 72px);
-      line-height: 0.94;
-      letter-spacing: 0;
-      text-transform: uppercase;
-    }
-    main .cs-sec-head .mono { color: #8A8A93; }
-
-    main .tm-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-    }
-    main .tm-card {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      margin: 0;
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      border-radius: 12px;
-      padding: 30px 26px 24px;
-      overflow: hidden;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent);
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, background 0.3s ease;
-    }
-    main .tm-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(217,255,60, 0.5);
-      background: linear-gradient(180deg, rgba(217,255,60, 0.06), transparent);
-    }
-    /* First quote reads as the lead — spans two columns. */
-    main .tm-card:first-child { grid-column: span 2; }
-    main .tm-mark {
-      position: absolute;
-      top: 2px; right: 20px;
-      font-family: "Anton", cursive;
-      font-size: 130px;
-      line-height: 1;
-      color: var(--accent, #d9ff3c);
-      opacity: 0.16;
-      pointer-events: none;
-    }
-    main .tm-card .cs-tag { position: relative; margin-bottom: 16px; }
-    main .tm-quote {
-      position: relative;
-      margin: 0 0 22px;
-      font-weight: 700;
-      font-size: clamp(18px, 1.7vw, 22px);
-      line-height: 1.38;
-      letter-spacing: -0.015em;
-      flex: 1;
-    }
-    main .tm-card:first-child .tm-quote { font-size: clamp(22px, 2.6vw, 34px); line-height: 1.3; }
-    main .tm-cap {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 14px;
-      flex-wrap: wrap;
-      padding-top: 18px;
-      border-top: 1px solid rgba(255, 255, 255, 0.14);
-    }
-    main .tm-who {
-      font-family: "JetBrains Mono", monospace;
-      font-size: var(--fs-label-lg);
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      opacity: 0.66;
-    }
-    main .tm-link {
-      font-family: "JetBrains Mono", monospace;
-      font-size: var(--fs-label-lg);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--accent, #d9ff3c);
-      text-decoration: none;
-      white-space: nowrap;
-    }
-    main .tm-link:hover { text-decoration: underline; }
-
-    @media (max-width: 900px) {
-      main .tm-grid { grid-template-columns: 1fr 1fr; }
-      main .tm-card:first-child { grid-column: span 2; }
-    }
-    @media (max-width: 720px) {
-      main .tm-grid { grid-template-columns: 1fr; }
-      main .tm-card:first-child { grid-column: auto; }
-    }
-  </style>
-</Studio>
+<style>
+  .tm{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:clamp(14px,1.6vw,24px)}
+</style>

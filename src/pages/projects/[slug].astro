@@ -1,53 +1,272 @@
 ---
-import Studio from "../../layouts/Studio.astro";
-import { projects, projectHead, renderProjectMain } from "../../lib/projects.mjs";
+// Case study — a port of Case Study.dc.html. The template's sections come
+// first, exactly as designed; after "The result" the extra material each case
+// study already had (build notes, gallery, mobile shots, FAQ) follows in the
+// same brandbook patterns. Head + JSON-LD: src/lib/projects/schema.mjs.
+import Base from "../../layouts/Base.astro";
+import PageHero from "../../components/brand/PageHero.astro";
+import ResultGrid from "../../components/brand/ResultGrid.astro";
+import Faq from "../../components/brand/Faq.astro";
+import EndCta from "../../components/brand/EndCta.astro";
+import { projects } from "../../lib/projects/data.mjs";
+import { projectHead, FEATURE_SIZES } from "../../lib/projects/schema.mjs";
+import { localVariant, localSrcset } from "../../lib/images.mjs";
 
 export function getStaticPaths() {
-  return projects.map((p) => ({ params: { slug: p.slug }, props: { p } }));
+  return projects.map((p, i) => ({ params: { slug: p.slug }, props: { p, i } }));
 }
 
-const { p } = Astro.props;
-const head = projectHead(p);
-const main = renderProjectMain(p);
+const { p, i } = Astro.props;
+const pad = (n: number) => String(n).padStart(2, "0");
+const pos = pad(i + 1);
+const n = projects[(i + 1) % projects.length];
+const nextPos = `P${pad(((i + 1) % projects.length) + 1)}`;
+
+const build = p.build.map((t: string, k: number) => ({ n: pad(k + 1), t }));
+const stats = p.stats.map((x: string[]) => ({ v: x[0], l: x[1] }));
+
+// Notes: the body cards the template doesn't already show. "The brief" and
+// "Stack" are in the hero spec sheet / brief block; a quote card is dropped
+// when the template's Team radio already carries the client's words.
+const notes = p.body.filter(
+  (w: any) => !/^the brief$/i.test(w.tag) && !/^stack$/i.test(w.tag) && !(w.type === "quote" && p.quote)
+);
+const gallery = p.gallery.filter((g: any) => g.src !== p.feature.src);
+const mobile = p.mobileShots ?? [];
+const hasFaq = p.faq?.length > 0;
+let sec = 3;
+const num = () => pad(++sec);
 ---
 
-<Studio {...head}>
-  <Fragment set:html={main} />
-</Studio>
+<Base {...projectHead(p)}>
+  <main>
+    <article>
+      <PageHero
+        display={p.name}
+        size="case"
+        kicker={`${p.tags} · ${p.year}`}
+        meta={`Case ${pos} of ${pad(projects.length)}`}
+        crumbs={[{ name: "Home", url: "/" }, { name: "Portfolio", url: "/portfolio/" }, { name: p.name, url: "" }]}
+      >
+        <div slot="intro" class="cs-row">
+          <div class="cs-line">
+            <div class="lbl cs-line-lbl">In one line</div>
+            <p>{p.line}</p>
+            <div class="chips cs-links">
+              <a href={p.liveUrl} class="chip" rel="noopener">Visit {p.domain} ↗</a>
+              {p.service && <a href={p.service.href} class="chip chip--muted">{p.service.label}</a>}
+            </div>
+          </div>
+          <dl class="cs-spec">
+            <div><dt>Client</dt><dd>{p.name}</dd></div>
+            <div><dt>Location</dt><dd>{p.location}</dd></div>
+            <div><dt>Sector</dt><dd>{p.tags}</dd></div>
+            <div><dt>Year</dt><dd>{p.year}</dd></div>
+            <div><dt>Stack</dt><dd>{p.stack}</dd></div>
+            <div><dt>Scope</dt><dd>{p.scope}</dd></div>
+          </dl>
+        </div>
+      </PageHero>
 
-<script is:inline>
-  (function () {
-    var root = document.getElementById("ds-root");
-    if (!root) return;
-    var faq = -1;
-    function sync() {
-      root.querySelectorAll("[data-faqbody]").forEach(function (el) {
-        var open = Number(el.getAttribute("data-faqbody")) === faq;
-        // Use the real content height so long answers never clip on narrow phones.
-        el.style.maxHeight = open ? el.scrollHeight + "px" : "0px";
-        el.style.opacity = open ? "1" : "0";
-      });
-      root.querySelectorAll("[data-faqicon]").forEach(function (el) {
-        el.style.transform = Number(el.getAttribute("data-faqicon")) === faq ? "rotate(45deg)" : "rotate(0deg)";
-      });
-      root.querySelectorAll("[data-faqtog]").forEach(function (el) {
-        el.setAttribute("aria-expanded", Number(el.getAttribute("data-faqtog")) === faq ? "true" : "false");
-      });
-    }
-    root.querySelectorAll("[data-faqtog]").forEach(function (el) {
-      el.addEventListener("click", function () {
-        var i = Number(el.getAttribute("data-faqtog"));
-        faq = faq === i ? -1 : i;
-        sync();
-      });
-    });
-    // Re-measure the open answer after a resize/rotate so it keeps its full height.
-    var rt;
-    window.addEventListener("resize", function () {
-      if (faq < 0) return;
-      clearTimeout(rt);
-      rt = setTimeout(sync, 120);
-    });
-    sync();
-  })();
-</script>
+      <section class="cs-shot">
+        <div class="wrap cs-shot-in">
+          <div class="cs-shot-bg" aria-hidden="true"></div>
+          <div class="cs-shot-frame">
+            <img src={localVariant(p.feature.src, 1440)} srcset={localSrcset(p.feature.src)} sizes={FEATURE_SIZES} alt={p.feature.alt} width="1600" height="1000" fetchpriority="high" decoding="async" />
+          </div>
+        </div>
+      </section>
+
+      <section class="sec cs-bb">
+        <div class="wrap cs-stack">
+          <div class="cs-two">
+            <div class="cs-left">
+              <div class="lbl">01 — Grid slot</div>
+              <h2 class="cs-h2">The brief</h2>
+            </div>
+            <p class="cs-brief">{p.brief}</p>
+          </div>
+          <div class="cs-two">
+            <div class="cs-left">
+              <div class="lbl">02 — Setup</div>
+              <h2 class="cs-h2">The build</h2>
+            </div>
+            <ol class="cs-list">
+              {build.map((b) => <li><span>{b.n}</span><span>{b.t}</span></li>)}
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <section class="sec">
+        <div class="wrap">
+          <div class="lbl">03 — Telemetry</div>
+          <h2 class="cs-h2 cs-result-h">The result</h2>
+          <ResultGrid stats={stats} />
+          {p.quote && (
+            <figure class="cs-quote">
+              <div class="cs-quote-top"><span></span>TEAM RADIO</div>
+              <blockquote>“{p.quote[0]}”</blockquote>
+              <figcaption>— {p.quote[1]}</figcaption>
+            </figure>
+          )}
+        </div>
+      </section>
+
+      {notes.length > 0 && (
+        <section class="sec cs-flush">
+          <div class="wrap cs-two">
+            <div class="cs-left">
+              <div class="lbl">{num()} — Debrief</div>
+              <h2 class="cs-h2">The notes</h2>
+            </div>
+            <ol class="cs-notes">
+              {notes.map((w: any, k: number) => (
+                <li>
+                  <span class="cs-notes-n">{pad(k + 1)}</span>
+                  <div>
+                    <h3 class="h-step">{w.tag}</h3>
+                    {w.type === "list" && <ul>{w.items.map((it: string) => <li>{it}</li>)}</ul>}
+                    {w.type === "quote" && (
+                      <figure class="cs-nq">
+                        <blockquote lang={w.lang || "en"}>{w.quote}</blockquote>
+                        {w.gloss && <p class="cs-nq-gloss">{w.glossLabel || "Translation"}: {w.gloss}</p>}
+                        {w.attribution && <figcaption>— {w.attribution}</figcaption>}
+                      </figure>
+                    )}
+                    {w.type === "prose" && (
+                      <>
+                        {w.title && <p class="cs-notes-t" set:html={w.title} />}
+                        <p set:html={w.html} />
+                      </>
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+      )}
+
+      {(gallery.length > 0 || mobile.length > 0) && (
+        <section class="sec cs-flush">
+          <div class="wrap">
+            <div class="lbl">{num()} — Onboard</div>
+            <h2 class="cs-h2 cs-result-h">Gallery</h2>
+            {gallery.length > 0 && (
+              <div class="cs-gal">
+                {gallery.map((g: any) => (
+                  <figure><img src={localVariant(g.src, 1080)} srcset={localSrcset(g.src)} sizes="(max-width: 900px) calc(100vw - 32px), 780px" alt={g.alt} width="1600" height="1000" loading="lazy" decoding="async" /></figure>
+                ))}
+              </div>
+            )}
+            {mobile.length > 0 && (
+              <>
+                <div class="chips-lbl cs-mob-lbl">On mobile</div>
+                <div class="cs-mob">
+                  {mobile.map((m: any) => (
+                    <figure><img src={m.src.replace(/\.webp$/, "-480.webp")} srcset={`${m.src.replace(/\.webp$/, "-480.webp")} 480w, ${m.src.replace(/\.webp$/, "-768.webp")} 768w`} sizes="(max-width: 700px) 45vw, 280px" alt={m.alt} width="420" height="910" loading="lazy" decoding="async" /></figure>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        </section>
+      )}
+
+      {hasFaq && (
+        <section class="sec cs-flush">
+          <div class="wrap">
+            <Faq faqs={p.faq} label={`${num()} — Before you ask`}/>
+          </div>
+        </section>
+      )}
+    </article>
+
+    <section class="cs-next">
+      <a href={`/projects/${n.slug}/`} class="cs-next-a">
+        <div class="wrap cs-next-in">
+          <div class="cs-next-l">
+            <div class="lbl">Next project → {nextPos}</div>
+            <div class="cs-next-name">{n.name}</div>
+            <div class="cs-next-meta">{n.tags} · {n.year}</div>
+          </div>
+          <div class="cs-next-img"><img src={localVariant(n.feature.src, 768)} srcset={localSrcset(n.feature.src)} sizes="(max-width: 520px) calc(100vw - 32px), 460px" alt={`${n.name} website`} width="1600" height="1000" loading="lazy" decoding="async" /></div>
+        </div>
+      </a>
+    </section>
+
+    <EndCta title="Want this pace?" above="ink" secondary={{ href: "/portfolio/", label: "← All twelve projects" }} />
+  </main>
+</Base>
+
+<style>
+  .cs-row{flex:1 1 100%;display:flex;flex-wrap:wrap;gap:clamp(28px,4vw,64px);align-items:flex-start}
+  .cs-line{flex:1 1 420px}
+  .cs-line-lbl{margin-bottom:12px}
+  .cs-line p{margin:0;font-weight:700;font-stretch:104%;font-size:clamp(22px,2.4vw,34px);line-height:1.2;letter-spacing:-0.015em;text-wrap:pretty;max-width:34ch}
+  .cs-links{margin-top:22px}
+  .cs-spec{flex:1 1 380px;margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-top:3px solid var(--ink)}
+  .cs-spec > div{padding:14px 0;border-bottom:1px solid var(--gda)}
+  .cs-spec > div:nth-child(odd){padding-right:12px}
+  .cs-spec dt{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--g5c);margin-bottom:6px}
+  .cs-spec dd{margin:0;font-size:16px;font-weight:600}
+
+  .cs-shot{padding:clamp(48px,6vw,96px) var(--gutter) 0}
+  .cs-shot-in{position:relative}
+  .cs-shot-bg{position:absolute;left:0;right:0;top:clamp(30px,5vw,80px);bottom:calc(-1 * clamp(30px,5vw,80px));background:var(--ink);clip-path:polygon(0 0,50% 12%,100% 0,100% 100%,0 100%)}
+  .cs-shot-frame{position:relative;margin:0 auto;width:min(100%,1280px);aspect-ratio:16/10;background:var(--tint);overflow:hidden}
+  .cs-shot-frame img{width:100%;height:100%;object-fit:cover;display:block}
+
+  .cs-bb{padding-top:clamp(80px,10vw,150px)}
+  .cs-stack{display:flex;flex-direction:column;gap:clamp(56px,7vw,110px)}
+  .cs-two{display:flex;flex-wrap:wrap;gap:20px clamp(28px,5vw,80px)}
+  .cs-left{flex:0 1 320px}
+  .cs-left .lbl{margin-bottom:12px}
+  .cs-h2{margin:0;font-weight:900;font-style:italic;font-stretch:125%;text-transform:uppercase;line-height:.88;letter-spacing:-0.02em;font-size:clamp(40px,5vw,80px)}
+  .cs-result-h{font-size:clamp(40px,6vw,100px);margin-bottom:clamp(32px,4vw,56px)}
+  .cs-brief{flex:1 1 420px;margin:0;font-size:clamp(20px,2vw,28px);line-height:1.4;color:var(--g3e);max-width:40ch;text-wrap:pretty}
+  .cs-list{flex:1 1 420px;list-style:none;margin:0;padding:0;border-top:1px solid var(--gda)}
+  .cs-list li{display:flex;gap:20px;align-items:baseline;padding:18px 0;border-bottom:1px solid var(--gda)}
+  .cs-list li span:first-child{font-family:var(--mono);font-size:12px;color:var(--red);flex:0 0 28px}
+  .cs-list li span:last-child{font-size:clamp(17px,1.5vw,21px);line-height:1.4}
+
+  .cs-quote{margin:clamp(48px,6vw,88px) 0 0;background:var(--red);color:#fff;padding:clamp(28px,4vw,56px);display:flex;flex-direction:column;gap:24px;clip-path:polygon(0 0,100% 0,100% 100%,24px 100%,0 calc(100% - 24px))}
+  .cs-quote-top{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12px;letter-spacing:.1em}
+  .cs-quote-top span{width:8px;height:8px;border-radius:50%;background:#fff}
+  .cs-quote blockquote{margin:0;font-weight:800;font-stretch:106%;font-size:clamp(26px,3.4vw,52px);line-height:1.1;letter-spacing:-0.02em;max-width:28ch}
+  .cs-quote figcaption{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+
+  .cs-flush{padding-top:0}
+  .cs-notes{flex:1 1 420px;list-style:none;margin:0;padding:0;border-top:3px solid var(--ink)}
+  .cs-notes > li{display:flex;gap:20px;align-items:baseline;padding:22px 0;border-bottom:1px solid var(--gda)}
+  .cs-notes-n{font-family:var(--mono);font-size:12px;color:var(--red);flex:0 0 28px}
+  .cs-notes > li > div{display:flex;flex-direction:column;gap:10px;min-width:0}
+  .cs-notes p{margin:0;font-size:17px;line-height:1.55;color:var(--g3e);max-width:62ch}
+  .cs-notes p :global(strong),.cs-notes p :global(em){color:var(--ink)}
+  .cs-notes .cs-notes-t{color:var(--ink);font-weight:700}
+  .cs-notes ul{margin:0;padding-left:20px;font-size:17px;line-height:1.55;color:var(--g3e)}
+  .cs-notes ul li::marker{color:var(--red)}
+  .cs-nq{margin:0;display:flex;flex-direction:column;gap:8px}
+  .cs-nq blockquote{margin:0;font-weight:700;font-stretch:104%;font-size:clamp(20px,2vw,26px);line-height:1.25;letter-spacing:-0.01em;color:var(--ink)}
+  .cs-nq figcaption{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--g5c)}
+
+  .cs-gal{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));gap:clamp(16px,2.4vw,36px)}
+  .cs-gal figure,.cs-mob figure{margin:0;background:var(--tint);overflow:hidden}
+  .cs-gal figure{aspect-ratio:16/10}
+  .cs-gal img,.cs-mob img{width:100%;height:100%;object-fit:cover;display:block}
+  .cs-mob-lbl{margin-top:clamp(40px,4vw,64px)}
+  .cs-mob{display:flex;flex-wrap:wrap;gap:clamp(16px,2.4vw,36px)}
+  .cs-mob figure{flex:none;width:clamp(150px,42vw,280px);aspect-ratio:9/19.5;border:1px solid var(--gda)}
+
+  .cs-next{position:relative;background:var(--ink);color:#fff}
+  .cs-next-a{display:block;color:#fff;text-decoration:none;padding:clamp(56px,8vw,120px) var(--gutter)}
+  .cs-next-a:hover{color:#fff}
+  .cs-next-in{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:28px}
+  .cs-next-l{flex:1 1 420px}
+  .cs-next-l .lbl{margin-bottom:16px}
+  .cs-next-name{font-weight:900;font-style:italic;font-stretch:125%;text-transform:uppercase;line-height:.86;letter-spacing:-0.03em;font-size:clamp(44px,8vw,140px);overflow-wrap:anywhere}
+  .cs-next-meta{margin-top:16px;color:var(--g8a);font-size:16px}
+  .cs-next-img{flex:0 1 460px;width:100%;aspect-ratio:16/10;overflow:hidden;background:var(--tint)}
+  .cs-next-img img{width:100%;height:100%;object-fit:cover;display:block}
+</style>

@@ -1,0 +1,54 @@
+---
+// End-of-page CTA — the Case Study "Want this pace?" block: red, a chevron
+// notch in the colour of the section above, headline left, the white
+// "Book a 15-min intro →" button and a mono link right.
+import { CALENDLY_URL } from "../../lib/site.mjs";
+
+interface Props {
+  title: string;
+  text?: string;
+  above?: "white" | "ink";
+  primary?: { href: string; label: string };
+  secondary?: { href: string; label: string };
+}
+const {
+  title,
+  text,
+  above = "white",
+  primary = { href: CALENDLY_URL, label: "Book a 15-min intro →" },
+  secondary,
+} = Astro.props;
+---
+
+<section class:list={["ec", `ec--${above}`]} data-endcta>
+  <div class="ec-notch" aria-hidden="true"></div>
+  <div class="wrap ec-in">
+    <div class="ec-l">
+      <h2 class:list={["ec-h", { "ec-h--long": title.length > 18 }]}>{title}</h2>
+      {text && <p class="ec-p" set:html={text} />}
+    </div>
+    <div class="ec-side">
+      <a href={primary.href} class="btn btn--xl btn--white">{primary.label}</a>
+      {secondary && <a href={secondary.href} class="ec-link">{secondary.label}</a>}
+      <slot />
+    </div>
+  </div>
+</section>
+
+<style>
+  .ec{position:relative;background:var(--red);color:#fff;padding:clamp(90px,11vw,160px) var(--gutter) clamp(64px,8vw,110px)}
+  .ec-notch{position:absolute;top:-2px;left:0;right:0;height:calc(clamp(36px,5vw,72px) + 2px);background:#fff;clip-path:polygon(0 0,100% 0,100% 0,50% 100%,0 0)}
+  .ec--ink .ec-notch{background:var(--ink)}
+  /* After white content sections (which carry no bottom padding). */
+  .ec--white{margin-top:var(--sec-y)}
+  .ec-in{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:28px}
+  .ec-h{margin:0;font-weight:900;font-style:italic;font-stretch:125%;text-transform:uppercase;line-height:.86;letter-spacing:-0.03em;font-size:clamp(48px,9vw,150px);overflow-wrap:anywhere}
+  /* Long headlines drop to the Case Study H2 scale so they stay a headline, not a wall. */
+  .ec-h--long{font-size:clamp(40px,5.6vw,92px);line-height:.88;max-width:16ch}
+  .ec-l{flex:1 1 520px}
+  .ec-p{margin:24px 0 0;max-width:44ch;font-size:18px;line-height:1.5}
+  .ec-p :global(a){color:#fff}
+  .ec-side{display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+  .ec-link,.ec-side :global(a.ec-link){color:#fff;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+  .ec-link:hover{color:var(--ink)}
+</style>

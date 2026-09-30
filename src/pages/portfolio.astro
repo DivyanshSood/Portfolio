@@ -1,27 +1,21 @@
 ---
-import Studio from "../layouts/Studio.astro";
-import DepthGallery from "../components/DepthGallery.astro";
+// Portfolio — a port of Portfolio.dc.html: "The grid" hero, sticky sector
+// filter, all twelve projects as C05 cards (design order, P01–P12), and the
+// ink "Your project. P13." CTA.
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/brand/PageHero.astro";
+import ProjectCard from "../components/brand/ProjectCard.astro";
 import { SITE, CALENDLY_URL } from "../lib/site.mjs";
 import { projects } from "../lib/projects/data.mjs";
 
 const canonical = `${SITE}/portfolio/`;
+const pad = (n: number) => String(n).padStart(2, "0");
 
-// Every shipped project, ordered by its case-study number.
-const work = [...projects].sort((a, b) => Number(a.num) - Number(b.num));
-// Personal projects (data.mjs `personal:true`) — the WebGL gallery above walks the
-// client work; these get their own labelled grid and are kept off the homepage deck.
-const personalWork = work.filter((p) => p.personal);
-// The same list the WebGL gallery walks — rendered again as plain anchors below
-// it, because the gallery's links are JS-swapped and don't exist for a crawler.
-const clientWork = work.filter((p) => !p.personal);
-
-// Real studio numbers — same figures used on /results and the homepage.
-const stats = [
-  { v: "20+", l: "Projects shipped since 2022" },
-  { v: "9/9", l: "Recent clients still on board" },
-  { v: "<1.5s", l: "Typical LCP on shipped sites" },
-  { v: "3–4 wks", l: "Kickoff to live" },
-];
+const SECTORS = ["All", "E-commerce", "Web app", "Travel", "Hospitality", "Education", "AI"];
+const filters = SECTORS.map((label) => ({
+  label,
+  count: label === "All" ? projects.length : projects.filter((p) => p.sector === label).length,
+}));
 
 const jsonld = JSON.stringify({
   "@context": "https://schema.org",
@@ -38,7 +32,7 @@ const jsonld = JSON.stringify({
     },
     {
       "@type": "ItemList",
-      itemListElement: work.map((p, i) => ({
+      itemListElement: projects.map((p, i) => ({
         "@type": "ListItem",
         position: i + 1,
         url: `${SITE}/projects/${p.slug}/`,
@@ -56,7 +50,7 @@ const jsonld = JSON.stringify({
 });
 ---
 
-<Studio
+<Base
   title="Web Design & Development Portfolio — Divyansh Sood® Studio"
   description="The portfolio of web developer Divyansh Sood — twelve custom-coded websites, e-commerce stores, web apps and AI products, each with a case study and live link."
   canonical={canonical}
@@ -66,145 +60,95 @@ const jsonld = JSON.stringify({
   jsonld={jsonld}
 >
   <main>
-    <header class="cs-hero">
-      <div class="wrap">
-        <div class="cs-eyebrow">
-          <span>Portfolio</span><span>Custom-coded · shipped</span><span>2022—2026</span>
-        </div>
-        <h1 style="margin:14px 0 0;font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(44px,8vw,108px);line-height:.9;letter-spacing:-.01em;text-transform:uppercase;">Selected <span style="color:var(--accent);">work.</span></h1>
-        <p class="cs-lead">Twelve projects, every one custom-coded — no page-builders, no theme marketplaces. School, hotel and travel sites, e-commerce storefronts, web apps and my own AI product. Open a case study, or visit it live.</p>
-        <div class="cs-cta-row">
-          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book an intro call <span aria-hidden="true">↗</span></a>
-          <a class="btn btn-ghost" href="/portfolio.pdf" target="_blank" rel="noopener">Download one-pager PDF ↗</a>
-        </div>
-      </div>
-    </header>
+    <PageHero display="The grid" sup={String(projects.length)} lead="Twelve custom-coded websites, storefronts and web apps — schools, hotels, travel operators, D2C brands and an AI product. Every one owned by the client.">
+      <div class="meta">2024 — 2026 · Showing <span class="pf-shown" data-shown>{pad(projects.length)}</span></div>
+    </PageHero>
 
-    <DepthGallery />
-
-    {/* The WebGL gallery above is the *experience* of the client work, but it
-        only ever renders one <a> — the rest of the case-study links are swapped
-        in by JS, and the whole section is display:none until WebGL is
-        confirmed. So the portfolio page linked exactly one client case study
-        crawlably, and /projects/baglamukhi-travels/ had no inbound link at all.
-        This grid is the plain-HTML index of the same list. */}
-    <section class="cs-sec pp-sec" aria-labelledby="client-h">
+    <section class="pf">
       <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="client-h">Client work</h2>
-          <span class="mono">{clientWork.length} case studies</span>
+        <div role="tablist" aria-label="Filter by sector" class="pf-tabs" data-filters>
+          {filters.map((f, i) => (
+            <button type="button" role="tab" aria-selected={i === 0 ? "true" : "false"} data-filter={f.label} class="pf-tab">
+              {f.label}<span>{f.count}</span>
+            </button>
+          ))}
         </div>
-        <div class="cs-body pp-grid" data-reveal>
-          {clientWork.map((p) => (
-            <article class="cs-card pp-card">
-              <span class="cs-tag">{p.num} · {p.category}</span>
-              <h3 class="pp-name"><a href={`/projects/${p.slug}/`}>{p.name}</a></h3>
-              <p>{p.outcome}</p>
-              <div class="pp-links mono">
-                <a href={`/projects/${p.slug}/`}>Case study →</a>
-                <a href={p.liveUrl} target="_blank" rel="noopener">Visit live ↗</a>
-              </div>
-            </article>
+        <div class="pf-grid">
+          {projects.map((p, i) => (
+            <ProjectCard
+              href={`/projects/${p.slug}/`}
+              pos={`P${pad(i + 1)}`}
+              tags={p.tags}
+              year={p.year}
+              img={p.feature.src}
+              alt={`${p.name} website — ${p.tags}`}
+              name={p.name}
+              line={p.line}
+              foot={p.stack}
+              tag="h2"
+              sizes="(max-width: 960px) calc(100vw - 32px), 760px"
+              attrs={{ "data-sector": p.sector }}
+            />
           ))}
         </div>
       </div>
     </section>
 
-    <section class="cs-sec pp-sec" aria-labelledby="personal-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="personal-h">Personal projects</h2>
-          <span class="mono">Independent builds</span>
+    <section class="pf-cta">
+      <div class="pf-notch" aria-hidden="true"></div>
+      <div class="wrap pf-cta-in">
+        <div>
+          <div class="lbl">Next on the grid</div>
+          <h2 class="pf-cta-h">Your project.<br /><span>P{pad(projects.length + 1)}.</span></h2>
         </div>
-        <p class="cs-lead pp-lead">A few builds I took on independently — each with a full case study and a live site to visit.</p>
-        <div class="cs-body pp-grid" data-reveal>
-          {personalWork.map((p) => (
-            <article class="cs-card pp-card">
-              <span class="cs-tag">{p.num} · {p.category}</span>
-              <h3 class="pp-name"><a href={`/projects/${p.slug}/`}>{p.name}</a></h3>
-              <p>{p.outcome}</p>
-              <div class="pp-links mono">
-                <a href={`/projects/${p.slug}/`}>Case study →</a>
-                <a href={p.liveUrl} target="_blank" rel="noopener">Visit live ↗</a>
-              </div>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <section class="cs-sec" aria-labelledby="stats-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="stats-h">The studio at a glance</h2>
-          <span class="mono">Since 2022</span>
-        </div>
-        <div class="cs-metrics cs-metrics-rail" data-reveal>
-          {stats.map((s) => (
-            <div class="cs-metric"><span class="cs-metric-v">{s.v}</span><span class="cs-metric-l">{s.l}</span></div>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <section class="cs-endcta">
-      <div class="wrap">
-        <h2>Yours could be number thirteen.</h2>
-        <p>Custom-coded, most projects live in 3–4 weeks, and you own every line. Tell me what you're building and I'll tell you within a day if it's a fit.</p>
-        <div class="cs-cta-row" style="justify-content:center;">
-          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book an intro call <span aria-hidden="true">↗</span></a>
-          <a class="btn btn-ghost" href="/results/">See the results</a>
+        <div class="pf-cta-side">
+          <a href={CALENDLY_URL} class="btn btn--xl btn--red">Book a 15-min intro →</a>
+          <span class="pf-cta-note">Fixed written quote · live in 3–4 weeks</span>
+          <a href="/portfolio.pdf" class="pf-cta-pdf">Download the portfolio (PDF) →</a>
         </div>
       </div>
     </section>
   </main>
+</Base>
 
-  <style>
-    /* ============================================================
-       Portfolio — browsable project listing. Image-forward cards,
-       matching the About / Results treatment.
-       ============================================================ */
-    /* Rhythm, section-head alignment and hero clearance are shared — they live
-       in case-study.css and Breadcrumbs.astro now. */
-    main .cs-lead { max-width: 66ch; font-size: clamp(17px, 1.7vw, 21px); }
-    main .cs-sec-head h2 {
-      font-family: 'Anton', sans-serif;
-      font-weight: 400;
-      font-size: clamp(32px, 5vw, 72px);
-      line-height: 0.94;
-      letter-spacing: 0;
-      text-transform: uppercase;
-    }
-    main .cs-sec-head .mono { opacity: 0.5; }
+<script>
+  // Sector filter — every card is server-rendered, so with no JS the grid is
+  // simply "All".
+  const tabs = [...document.querySelectorAll<HTMLButtonElement>("[data-filter]")];
+  const cards = [...document.querySelectorAll<HTMLElement>("[data-sector]")];
+  const shown = document.querySelector("[data-shown]");
+  tabs.forEach((tab) =>
+    tab.addEventListener("click", () => {
+      const f = tab.dataset.filter;
+      tabs.forEach((t) => t.setAttribute("aria-selected", String(t === tab)));
+      let n = 0;
+      cards.forEach((c) => {
+        const on = f === "All" || c.dataset.sector === f;
+        c.hidden = !on;
+        if (on) n++;
+      });
+      if (shown) shown.textContent = String(n).padStart(2, "0");
+    })
+  );
+</script>
 
-    /* Studio stats → borderless giant figures + hairlines.
-       The rail itself is `.cs-metrics-rail` in case-study.css — this page's
-       2-up phone treatment is the one that got promoted there. */
-    main .cs-metric-v { font-size: clamp(38px, 5.5vw, 78px); line-height: 0.88; }
+<style>
+  .pf-shown{color:var(--red)}
+  .pf{padding:clamp(28px,4vw,48px) var(--gutter) clamp(80px,10vw,150px)}
+  .pf-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:clamp(28px,4vw,48px);position:sticky;top:64px;z-index:5;background:#fff;padding:12px 0;border-bottom:3px solid var(--ink)}
+  .pf-tab{min-height:44px;padding:0 16px;border:1.5px solid var(--ink);background:#fff;color:var(--ink);font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;gap:8px}
+  .pf-tab span{color:var(--g5c)}
+  .pf-tab[aria-selected="true"]{background:var(--ink);color:#fff}
+  .pf-tab[aria-selected="true"] span{color:var(--g8a)}
+  .pf-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));gap:clamp(40px,4vw,64px) clamp(16px,2.4vw,36px)}
 
-    /* Curves everywhere on this page — sharp edges are banned. Buttons match
-       the nav/Book-a-call pills. */
-    main .btn { border-radius: 999px; }
-
-    /* Personal projects — a labelled card grid below the client-work gallery. */
-    main .pp-lead { max-width: 60ch; margin-bottom: clamp(28px, 3.4vw, 44px); }
-    main .pp-grid { grid-template-columns: repeat(3, 1fr); }
-    main .pp-card { display: flex; flex-direction: column; gap: 12px; }
-    main .pp-name { margin: 0; font-family: 'Anton', sans-serif; font-weight: 400; font-size: clamp(24px, 2.6vw, 34px); line-height: 0.98; letter-spacing: 0; text-transform: uppercase; }
-    main .pp-name a { color: inherit; text-decoration: none; transition: color 0.2s ease; }
-    main .pp-name a:hover { color: var(--accent); }
-    main .pp-card p { flex: 1; }
-    main .pp-links { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 6px; font-size: var(--fs-label); letter-spacing: 0.12em; text-transform: uppercase; }
-    main .pp-links a { color: #8A8A93; text-decoration: none; border-bottom: 1px solid rgba(244, 242, 236, 0.2); padding-bottom: 3px; transition: color 0.2s ease, border-color 0.2s ease; }
-    main .pp-links a:hover { color: var(--accent); border-bottom-color: var(--accent); }
-    @media (max-width: 900px) { main .pp-grid { grid-template-columns: 1fr 1fr; } }
-
-    /* Most visitors are on phones — the mobile layout is the primary one.
-       CTA stacking and the 2-up stat gutters are site-wide (responsive.css /
-       case-study.css); only this page's figure size and card grid live here. */
-    @media (max-width: 720px) {
-      main .cs-metric-v { font-size: clamp(30px, 9vw, 40px); }
-      main .pp-grid { grid-template-columns: 1fr; }
-    }
-  </style>
-</Studio>
+  .pf-cta{position:relative;background:var(--ink);color:#fff;padding:clamp(100px,12vw,170px) var(--gutter) clamp(80px,10vw,140px)}
+  .pf-notch{position:absolute;top:0;left:0;right:0;height:clamp(36px,5vw,72px);background:#fff;clip-path:polygon(0 0,100% 0,100% 0,50% 100%,0 0)}
+  .pf-cta-in{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:32px}
+  .pf-cta-h{margin:0;font-weight:900;font-style:italic;font-stretch:125%;text-transform:uppercase;line-height:.86;letter-spacing:-0.03em;font-size:clamp(52px,10vw,170px)}
+  .pf-cta-h span{color:var(--red)}
+  .pf-cta-side{display:flex;flex-direction:column;gap:14px;align-items:flex-start}
+  .pf-cta-note{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--g8a)}
+  .pf-cta-pdf{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#fff}
+  .pf-cta-pdf:hover{color:var(--red)}
+</style>

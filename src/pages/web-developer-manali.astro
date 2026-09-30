@@ -1,5 +1,12 @@
 ---
-import Studio from "../layouts/Studio.astro";
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/brand/PageHero.astro";
+import Section from "../components/brand/Section.astro";
+import Rows from "../components/brand/Rows.astro";
+import Cards from "../components/brand/Cards.astro";
+import ResultGrid from "../components/brand/ResultGrid.astro";
+import Faq from "../components/brand/Faq.astro";
+import EndCta from "../components/brand/EndCta.astro";
 import { SITE, CALENDLY_URL, GOOGLE_MAPS_URL } from "../lib/site.mjs";
 import { TOPICS } from "../lib/entity.mjs";
 
@@ -50,7 +57,7 @@ const jsonld = JSON.stringify({
 });
 ---
 
-<Studio
+<Base
   title="Web Developer in Manali — Direct-Booking Websites for Stays"
   description="Web developer in Manali, Himachal — direct-booking websites for hotels, camps and adventure operators. Stop paying aggregator commission; live in 1–3 weeks."
   canonical={canonical}
@@ -61,144 +68,49 @@ const jsonld = JSON.stringify({
   jsonld={jsonld}
 >
   <main>
-    <header class="cs-hero">
-      <div class="wrap">
-        <div class="cs-eyebrow">
-          <span>Himachal Pradesh</span><span>Manali · Kullu valley</span><span>2026</span>
-        </div>
-        <h1 style="margin:14px 0 0;font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(44px,8vw,108px);line-height:.9;letter-spacing:-.01em;text-transform:uppercase;">Web developer<br /><span style="color:var(--accent);">in Manali.</span></h1>
-        <p class="cs-lead">Every season, Manali's hotels, camps and adventure operators hand aggregators a commission on bookings that started as a Google search. I build direct-booking websites that capture those searches yourself — custom-coded, WhatsApp-first, built by a Himachal developer who works this market from the inside.</p>
-        <div class="cs-cta-row">
-          <a class="btn btn-ghost" href={WA} target="_blank" rel="noopener">Message on WhatsApp</a>
-          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book a call <span aria-hidden="true">↗</span></a>
-        </div>
-        <div class="cs-meta">
-          <span>Himachal-based · <a href={GOOGLE_MAPS_URL} target="_blank" rel="noopener">on Google Maps ↗</a></span><span>Live in 1–3 weeks</span>
-        </div>
-      </div>
-    </header>
+    <PageHero
+      display="Web developer in Manali."
+      size="case"
+      kicker="Himachal Pradesh · Manali · Kullu valley · 2026"
+      lead={`Every season, Manali's hotels, camps and adventure operators hand aggregators a commission on bookings that started as a Google search. I build direct-booking websites that capture those searches yourself — custom-coded, WhatsApp-first, built by a Himachal developer who works this market from the inside.`}
+    >
+      <a class="btn btn--red" href={CALENDLY_URL}>Book a call <span aria-hidden="true">→</span></a>
+      <a class="btn btn--ink" href={WA}>Message on WhatsApp</a>
+      <Fragment slot="notes"><span>Himachal-based · <a href={GOOGLE_MAPS_URL} target="_blank" rel="noopener">on Google Maps ↗</a></span><span>Live in 1–3 weeks</span></Fragment>
+    </PageHero>
 
-    <section class="cs-sec" aria-labelledby="offer-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="offer-h">Built for the valley's business</h2>
-          <span class="mono">The offering</span>
-        </div>
-        <div class="cs-body" data-reveal>
-          {offers.map((o) => (
-            <div class="cs-card">
-              <span class="cs-tag">{o.t}</span>
-              <p class="cs-card-h2">{o.d}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+    <Section n={1} term="Setup" note="The offering" title="Built for the valley's business">
+      <Rows items={offers} />
+    </Section>
 
-    <section class="cs-sec" aria-labelledby="proof-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="proof-h">Mountain tourism, on the record</h2>
-          <span class="mono">Proof, not promises</span>
-        </div>
-        <div class="cs-metrics" data-reveal>
-          <div class="cs-metric"><span class="cs-metric-v">~1,000</span><span class="cs-metric-l">Monthly bookings via one Himachal travel site</span></div>
-          <div class="cs-metric"><span class="cs-metric-v">0%</span><span class="cs-metric-l">Commission on direct bookings</span></div>
-          <div class="cs-metric"><span class="cs-metric-v">1-tap</span><span class="cs-metric-l">WhatsApp booking on every package</span></div>
-          <div class="cs-metric"><span class="cs-metric-v">llms.txt</span><span class="cs-metric-l">AI-search files on every build</span></div>
-        </div>
-        <div class="cs-body" data-reveal style="margin-top:22px;">
-          <div class="cs-card">
-            <span class="cs-tag">Dharamshala Tours · operator</span>
-            <p>A WhatsApp-first booking site with a self-serve package editor — part of ~1,000 travel packages booked through it every month. The same build works for Kullu–Manali operators. <a href="/projects/dharamshala-tours/">Read the case study →</a></p>
-          </div>
-          <div class="cs-card">
-            <span class="cs-tag">Nandini Travels · Kangra</span>
-            <p>Kangra's most-reviewed taxi operator was losing every enquiry to a Google Maps listing. Now the bookings land on a site he owns. <a href="/projects/nandini/">Read the case study →</a></p>
-          </div>
-          <div class="cs-card">
-            <span class="cs-tag">Sunny Himachal Travels · Dharamshala</span>
-            <p>A tour and taxi operator with a page for every trip, transfer and town it serves, plus 1.1 KB of JavaScript and Lighthouse 100 across all four desktop scores. <a href="/projects/sunny-himachal-travels/">Read the case study →</a></p>
-          </div>
-          <div class="cs-card">
-            <span class="cs-tag">Yash Rock Hotel · Dehrian, Kangra</span>
-            <p>Seven rooms, a pool, and no booking engine: every enquiry goes to WhatsApp or a call, and 14 “near” pages reach guests heading for NIFT, Tanda Medical College and the airport. <a href="/projects/yash-rock-hotel/">Read the case study →</a></p>
-          </div>
-          <div class="cs-card span2">
-            <span class="cs-tag">By industry</span>
-            <p>What I build most in Himachal: <a href="/services/school-website-development/">school websites</a>, <a href="/services/hotel-website-development/">hotel and homestay websites</a>, and <a href="/services/travel-website-development/">travel and taxi websites</a>.</p>
-          </div>
-          <div class="cs-card span2">
-            <span class="cs-tag">The commission math</span>
-            <p>What aggregator commission actually costs a Himalayan stay across a season — and what shifting even a fraction of bookings direct is worth. <a href="/blog/hotel-homestay-website-himachal-direct-bookings/">Read the breakdown →</a></p>
-          </div>
-        </div>
+    <Section n={2} term="Telemetry" note="Proof, not promises" title="Mountain tourism, on the record">
+      <ResultGrid stats={[
+        { v: `~1,000`, l: `Monthly bookings via one Himachal travel site` },
+        { v: `0%`, l: `Commission on direct bookings` },
+        { v: `1-tap`, l: `WhatsApp booking on every package` },
+        { v: `llms.txt`, l: `AI-search files on every build` },
+      ]} />
+      <div class="gap-top">
+        <Cards items={[
+          { tag: `Dharamshala Tours · operator`, d: `A WhatsApp-first booking site with a self-serve package editor — part of ~1,000 travel packages booked through it every month. The same build works for Kullu–Manali operators. <a href="/projects/dharamshala-tours/">Read the case study →</a>` },
+          { tag: `Nandini Travels · Kangra`, d: `Kangra's most-reviewed taxi operator was losing every enquiry to a Google Maps listing. Now the bookings land on a site he owns. <a href="/projects/nandini/">Read the case study →</a>` },
+          { tag: `Sunny Himachal Travels · Dharamshala`, d: `A tour and taxi operator with a page for every trip, transfer and town it serves, plus 1.1 KB of JavaScript and Lighthouse 100 across all four desktop scores. <a href="/projects/sunny-himachal-travels/">Read the case study →</a>` },
+          { tag: `Yash Rock Hotel · Dehrian, Kangra`, d: `Seven rooms, a pool, and no booking engine: every enquiry goes to WhatsApp or a call, and 14 “near” pages reach guests heading for NIFT, Tanda Medical College and the airport. <a href="/projects/yash-rock-hotel/">Read the case study →</a>` },
+          { tag: `By industry`, wide: true, d: `What I build most in Himachal: <a href="/services/school-website-development/">school websites</a>, <a href="/services/hotel-website-development/">hotel and homestay websites</a>, and <a href="/services/travel-website-development/">travel and taxi websites</a>.` },
+          { tag: `The commission math`, wide: true, d: `What aggregator commission actually costs a Himalayan stay across a season — and what shifting even a fraction of bookings direct is worth. <a href="/blog/hotel-homestay-website-himachal-direct-bookings/">Read the breakdown →</a>` },
+        ]} />
       </div>
-    </section>
+    </Section>
 
-    <section class="cs-sec" aria-labelledby="faq-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="faq-h">Frequently asked</h2>
-          <span class="mono">Manali</span>
-        </div>
-        <div class="cs-faq">
-          {faqs.map((f, i) => (
-            <div class="cs-faq-row">
-              <button class="cs-faq-q" data-faqtog={i} aria-expanded="false" aria-controls={`faq-mnl-${i}`}>
-                <span>{f.q}</span><span class="cs-faq-icon" data-faqicon={i} aria-hidden="true">+</span>
-              </button>
-              <div class="cs-faq-a" id={`faq-mnl-${i}`} data-faqbody={i}><p>{f.a}</p></div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+    <Section bare>
+      <Faq faqs={faqs} label="(03) Before you ask" />
+    </Section>
 
-    <section class="cs-endcta">
-      <div class="wrap">
-        <h2>Run a stay or operation in Manali?</h2>
-        <p>Message me your property or activity and how bookings come in today. I'll show you what a direct-booking site would change — with a fixed quote in writing.</p>
-        <div class="cs-cta-row" style="justify-content:center;">
-          <a class="btn btn-primary" href={WA} target="_blank" rel="noopener">Message on WhatsApp</a>
-          <a class="btn btn-ghost" href="/services/">See all services</a>
-        </div>
-      </div>
-    </section>
+    <EndCta
+      title="Run a stay or operation in Manali?"
+      text={`Message me your property or activity and how bookings come in today. I'll show you what a direct-booking site would change — with a fixed quote in writing.`}
+      primary={{ href: WA, label: "Message on WhatsApp →" }}
+      secondary={{ href: "/services/", label: "See all services →" }}
+    />
   </main>
-</Studio>
-
-<script is:inline>
-  (function () {
-    var root = document.getElementById("ds-root");
-    if (!root) return;
-    var faq = -1;
-    function sync() {
-      root.querySelectorAll("[data-faqbody]").forEach(function (el) {
-        var open = Number(el.getAttribute("data-faqbody")) === faq;
-        el.style.maxHeight = open ? el.scrollHeight + "px" : "0px";
-        el.style.opacity = open ? "1" : "0";
-      });
-      root.querySelectorAll("[data-faqicon]").forEach(function (el) {
-        el.style.transform = Number(el.getAttribute("data-faqicon")) === faq ? "rotate(45deg)" : "rotate(0deg)";
-      });
-      root.querySelectorAll("[data-faqtog]").forEach(function (el) {
-        el.setAttribute("aria-expanded", Number(el.getAttribute("data-faqtog")) === faq ? "true" : "false");
-      });
-    }
-    root.querySelectorAll("[data-faqtog]").forEach(function (el) {
-      el.addEventListener("click", function () {
-        var i = Number(el.getAttribute("data-faqtog"));
-        faq = faq === i ? -1 : i;
-        sync();
-      });
-    });
-    var rt;
-    window.addEventListener("resize", function () {
-      if (faq < 0) return;
-      clearTimeout(rt);
-      rt = setTimeout(sync, 120);
-    });
-    sync();
-  })();
-</script>
+</Base>

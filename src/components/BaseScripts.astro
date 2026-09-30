@@ -1,15 +1,14 @@
 ---
-// Site-wide runtime (inlined, no framework), shared by every page via the
-// Studio layout. Chrome + reveal motion now live in the Studio engine; this
-// file is just the analytics conversion-event helper + delegated CTA tracking.
+// Analytics conversion-event helper + delegated CTA tracking, shared by every
+// page via the Base layout.
 ---
 
 <script>
   // ---- Conversion events -------------------------------------------------
   // window.dsTrack(name, params) forwards a goal to GA4 + Yandex Metrica.
-  // Both are loaded in the head by Studio.astro; the typeof guards below keep
+  // Both are loaded in the head by Base.astro; the typeof guards below keep
   // this a silent no-op if a content blocker stripped either one.
-  const YM_ID = 110027161; // must match the loader in Studio.astro
+  const YM_ID = 110027161; // must match the loader in Base.astro
   (window as any).dsTrack = function (name: string, params?: Record<string, unknown>) {
     try {
       const w = window as any;
@@ -33,8 +32,8 @@
   // from a case study's hero" can be told apart in reports.
   const whereIs = (a: Element) =>
     a.closest("footer") ? "footer"
-    : a.closest(".cs-endcta, .post-foot-cta") ? "end_cta"
-    : a.closest("header, .cs-hero, .post-hero, #top") ? "hero"
+    : a.closest("[data-endcta], #contact") ? "end_cta"
+    : a.closest("header, [data-hero]") ? "hero"
     : "body";
 
   // Delegated CTA click tracking — one listener covers every page and every

@@ -146,7 +146,7 @@ export function websiteNode(SITE) {
    target.
 
    Fixing those 33 graphs by hand would work exactly once; page 34 would
-   reintroduce it. So Studio.astro runs every page's JSON-LD through here
+   reintroduce it. So Base.astro runs every page's JSON-LD through here
    instead, and any identity node that is referenced but not defined gets
    appended. The loop runs to a fixpoint because the nodes reference each other
    (Person worksFor Studio, Studio founder Person, WebSite publisher Studio) —

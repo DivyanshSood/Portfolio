@@ -1,5 +1,10 @@
 ---
-import Studio from "../layouts/Studio.astro";
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/brand/PageHero.astro";
+import Section from "../components/brand/Section.astro";
+import ResultGrid from "../components/brand/ResultGrid.astro";
+import EndCta from "../components/brand/EndCta.astro";
+import Quote from "../components/brand/Quote.astro";
 import { SITE, CALENDLY_URL, GOOGLE_REVIEWS_URL } from "../lib/site.mjs";
 
 const canonical = `${SITE}/results/`;
@@ -15,18 +20,18 @@ const topStats = [
 // One headline result per project. Every number is pulled from a real case study
 // you can open and read — no rounded-up vanity metrics.
 const results = [
-  { slug: "pinnacle-world-school", name: "Pinnacle World School", cat: "CBSE school site", v: "0", l: "facts published without a source", icon: "/projects/icons/pinnacle.svg", o: "A CBSE school in Kangra on a new domain. Every fact is checked against its affiliation record, anything unconfirmed says “To be updated”, and admission enquiries land in the office's WhatsApp." },
-  { slug: "sunny-himachal-travels", name: "Sunny Himachal Travels", cat: "Tours + taxi", v: "1.1 KB", l: "of JavaScript · Lighthouse 100 ×4", icon: "/projects/icons/sunny.svg", o: "A one-page design canvas rebuilt as a real site with a page for every trip, transfer and town, and a build that fails if two pages read too alike." },
-  { slug: "yash-rock-hotel", name: "Yash Rock Hotel", cat: "Hillside hotel", v: "14", l: "“near” pages for where guests are going", icon: "/projects/icons/yashrock.svg", o: "A seven-room hotel with a pool, and no booking engine by design. Every call to action goes to WhatsApp or a call, and the site ranks for the places guests are actually heading." },
-  { slug: "modernkbs", name: "Modern K.B.S.", cat: "Web app + admin", v: "7 days", l: "vs. a 6-month quote", icon: "/projects/icons/modernkbs.svg", o: "A full admissions portal for a live school cycle — public site plus an admin panel the office staff run themselves. Others quoted six months; it shipped in seven days." },
-  { slug: "webseek", name: "WebSeek.ai", cat: "AI product", v: "3", l: "AI models, one prompt bar", icon: "/projects/icons/webseek.svg", o: "My own product, in real use. Three models behind one prompt bar that ships a deployed site — not a demo." },
-  { slug: "chinkiz", name: "ChinkiZ Knitting Knife", cat: "Creator D2C", v: "600K+", l: "subscriber creator's store", icon: "/projects/icons/chinkiz.svg", o: "A 600K-subscriber creator who'd already outgrown Shopify and Webflow. Custom storefront with the demo video sitting right next to the buy button." },
-  { slug: "dharamshala-tours", name: "Dharamshala Tours", cat: "Travel CMS", v: "~1,000", l: "packages booked a month", icon: "/projects/icons/dharamshala.svg", o: "A WhatsApp-first travel site where the booking flow ends in a chat, not a dead form. Around a thousand packages move through it every month." },
-  { slug: "nandini", name: "Nandini Travels", cat: "Local travel", v: "10×", l: "“more premium” — the founder", icon: "/projects/icons/nandini.svg", o: "Was losing every booking to a Google Maps listing. Now enquiries land on a site the owner controls — and looks, in his words, ten times more premium than the competition." },
-  { slug: "baglamukhi-travels", name: "Baglamukhi Travels", cat: "Kangra taxi + yatra", v: "5.7", l: "average Google position", icon: "/projects/icons/baglamukhi.svg", o: "Owner-drivers competing against commission agents and aggregators. The site now averages position 5.7 on Google — 7.25K impressions and 148 clicks in 28 days." },
-  { slug: "northpeak", name: "North Peak Power", cat: "Infra portal", v: "15", l: "pages, self-serve admin", icon: "/projects/icons/northpeak.svg", o: "Fifteen pages and an admin the marketing team edits on their own. No dev on retainer, no ticket to change a headline." },
-  { slug: "redline", name: "Redline Studios", cat: "Brand + store", v: "1", l: "sprint, end to end", icon: "/projects/icons/redline.svg", o: "Brand, store and payments delivered in a single sprint. No phase gates, no deck, no “discovery week” to bill for." },
-  { slug: "cultxberserk", name: "CultXberserk", cat: "Lore-driven D2C", v: "0001–0666", l: "hand-numbered units", icon: "/projects/icons/cultxberserk.svg", o: "A lore-driven drop where the story, the numbering mechanic and the buy button all live on one screen — built to make collectors act." },
+  { slug: "pinnacle-world-school", name: "Pinnacle World School", cat: "CBSE school site", v: "0", l: "facts published without a source", o: "A CBSE school in Kangra on a new domain. Every fact is checked against its affiliation record, anything unconfirmed says “To be updated”, and admission enquiries land in the office's WhatsApp." },
+  { slug: "sunny-himachal-travels", name: "Sunny Himachal Travels", cat: "Tours + taxi", v: "1.1 KB", l: "of JavaScript · Lighthouse 100 ×4", o: "A one-page design canvas rebuilt as a real site with a page for every trip, transfer and town, and a build that fails if two pages read too alike." },
+  { slug: "yash-rock-hotel", name: "Yash Rock Hotel", cat: "Hillside hotel", v: "14", l: "“near” pages for where guests are going", o: "A seven-room hotel with a pool, and no booking engine by design. Every call to action goes to WhatsApp or a call, and the site ranks for the places guests are actually heading." },
+  { slug: "modernkbs", name: "Modern K.B.S.", cat: "Web app + admin", v: "7 days", l: "vs. a 6-month quote", o: "A full admissions portal for a live school cycle — public site plus an admin panel the office staff run themselves. Others quoted six months; it shipped in seven days." },
+  { slug: "webseek", name: "WebSeek.ai", cat: "AI product", v: "3", l: "AI models, one prompt bar", o: "My own product, in real use. Three models behind one prompt bar that ships a deployed site — not a demo." },
+  { slug: "chinkiz", name: "ChinkiZ Knitting Knife", cat: "Creator D2C", v: "600K+", l: "subscriber creator's store", o: "A 600K-subscriber creator who'd already outgrown Shopify and Webflow. Custom storefront with the demo video sitting right next to the buy button." },
+  { slug: "dharamshala-tours", name: "Dharamshala Tours", cat: "Travel CMS", v: "~1,000", l: "packages booked a month", o: "A WhatsApp-first travel site where the booking flow ends in a chat, not a dead form. Around a thousand packages move through it every month." },
+  { slug: "nandini", name: "Nandini Travels", cat: "Local travel", v: "10×", l: "“more premium” — the founder", o: "Was losing every booking to a Google Maps listing. Now enquiries land on a site the owner controls — and looks, in his words, ten times more premium than the competition." },
+  { slug: "baglamukhi-travels", name: "Baglamukhi Travels", cat: "Kangra taxi + yatra", v: "5.7", l: "average Google position", o: "Owner-drivers competing against commission agents and aggregators. The site now averages position 5.7 on Google — 7.25K impressions and 148 clicks in 28 days." },
+  { slug: "northpeak", name: "North Peak Power", cat: "Infra portal", v: "15", l: "pages, self-serve admin", o: "Fifteen pages and an admin the marketing team edits on their own. No dev on retainer, no ticket to change a headline." },
+  { slug: "redline", name: "Redline Studios", cat: "Brand + store", v: "1", l: "sprint, end to end", o: "Brand, store and payments delivered in a single sprint. No phase gates, no deck, no “discovery week” to bill for." },
+  { slug: "cultxberserk", name: "CultXberserk", cat: "Lore-driven D2C", v: "0001–0666", l: "hand-numbered units", o: "A lore-driven drop where the story, the numbering mechanic and the buy button all live on one screen — built to make collectors act." },
 ];
 
 const jsonld = JSON.stringify({
@@ -61,7 +66,7 @@ const jsonld = JSON.stringify({
 });
 ---
 
-<Studio
+<Base
   title="Website Results — Bookings, Sales & Speed · Divyansh Sood® Studio"
   description="Real results from Divyansh Sood's custom-coded websites — a school portal live in 7 days, ~1,000 monthly bookings, a 600K-subscriber storefront."
   canonical={canonical}
@@ -71,242 +76,70 @@ const jsonld = JSON.stringify({
   jsonld={jsonld}
 >
   <main>
-    <header class="cs-hero">
-      <div class="wrap">
-        <div class="cs-eyebrow">
-          <span>Results</span><span>Real numbers, real projects</span><span>2022—2026</span>
-        </div>
-        <h1 style="margin:14px 0 0;font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(44px,8vw,108px);line-height:.9;letter-spacing:-.01em;text-transform:uppercase;">The work, <span style="color:var(--accent);">by the numbers.</span></h1>
-        <p class="cs-lead">Anyone can promise a pretty website. Here's what mine actually did — bookings won back from aggregators, six-month quotes shipped in days, storefronts that outgrew the builders they replaced. Every figure links to its case study.</p>
-        <div class="cs-cta-row">
-          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book an intro call <span aria-hidden="true">↗</span></a>
-          <a class="btn btn-ghost" href="/portfolio/">See all work</a>
-        </div>
-      </div>
-    </header>
+    <PageHero
+      display="The work, by the numbers."
+      size="case"
+      kicker="Results · Real numbers, real projects · 2022—2026"
+      lead="Anyone can promise a pretty website. Here's what mine actually did — bookings won back from aggregators, six-month quotes shipped in days, storefronts that outgrew the builders they replaced. Every figure links to its case study."
+    >
+      <a class="btn btn--red" href={CALENDLY_URL}>Book an intro call <span aria-hidden="true">→</span></a>
+      <a class="btn btn--ink" href="/portfolio/">See all work</a>
+    </PageHero>
 
-    <section class="cs-sec" aria-labelledby="top-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="top-h">The studio at a glance</h2>
-          <span class="mono">Since 2022</span>
-        </div>
-        <div class="cs-metrics cs-metrics-rail" data-reveal>
-          {topStats.map((s) => (
-            <div class="cs-metric"><span class="cs-metric-v">{s.v}</span><span class="cs-metric-l">{s.l}</span></div>
-          ))}
-        </div>
-      </div>
-    </section>
+    <Section n={1} term="Telemetry" note="Since 2022" title="The studio at a glance">
+      <ResultGrid stats={topStats} />
+    </Section>
 
-    <section class="cs-sec" aria-labelledby="proj-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="proj-h">One headline result per project</h2>
-          <span class="mono">Twelve projects · twelve outcomes</span>
-        </div>
-
-        <div class="results-grid" data-reveal>
-          {results.map((r) => (
-            <a class="results-card" href={`/projects/${r.slug}/`}>
-              <div class="results-head">
-                <img class="results-icon" src={r.icon} alt="" width="40" height="40" loading="lazy" />
-                <span class="cs-tag">{r.cat}</span>
+    <Section n={2} term="Telemetry" note="Twelve projects · twelve outcomes" title="One headline result per project">
+      <ol class="rs">
+        {results.map((r, i) => (
+          <li>
+            <a href={`/projects/${r.slug}/`} class="rs-row">
+              <div class="rs-top"><span class="rs-pos">P{String(i + 1).padStart(2, "0")}</span><span>{r.cat}</span></div>
+              <div class="rs-v"><span class="rs-num">{r.v}</span><span class="rs-l">{r.l}</span></div>
+              <div class="rs-copy">
+                <h3 class="h-step">{r.name}</h3>
+                <p>{r.o}</p>
+                <span class="rs-more">Read the case study →</span>
               </div>
-              <div class="results-v">{r.v}</div>
-              <div class="results-l">{r.l}</div>
-              <h3 class="results-name">{r.name}</h3>
-              <p class="results-o">{r.o}</p>
-              <span class="results-more">Read the case study →</span>
             </a>
-          ))}
-        </div>
-      </div>
-    </section>
+          </li>
+        ))}
+      </ol>
+    </Section>
 
-    <section class="cs-sec" aria-labelledby="say-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="say-h">In their words</h2>
-          <span class="mono">Clients</span>
-        </div>
-        <figure class="results-quote" data-reveal>
-          <span class="results-quote-mark" aria-hidden="true">"</span>
-          <blockquote>The website is so beautiful — it looks 10 times more premium than our competitors. We started getting direct bookings instead of losing them to Google Maps.</blockquote>
-          <figcaption>
-            <span class="results-quote-who">Founder, Nandini Travels</span>
-            <span class="results-quote-links">
-              <a href="/testimonials/">More testimonials →</a>
-              <a href={GOOGLE_REVIEWS_URL} target="_blank" rel="noopener">Google reviews ↗</a>
-            </span>
-          </figcaption>
-        </figure>
+    <Section n={3} term="Team radio" note="Clients" title="In their words">
+      <div class="rq">
+        <Quote text="The website is so beautiful — it looks 10 times more premium than our competitors. We started getting direct bookings instead of losing them to Google Maps." by="Founder, Nandini Travels" red />
       </div>
-    </section>
+      <div class="links-row gap-top">
+        <a href="/testimonials/">More testimonials →</a>
+        <a href={GOOGLE_REVIEWS_URL} rel="noopener">Google reviews ↗</a>
+      </div>
+    </Section>
 
-    <section class="cs-endcta">
-      <div class="wrap">
-        <h2>Want results like these?</h2>
-        <p>Send me what you're building. If I'd win on it, I'll tell you which page I'd build first and what I'd cut. If I wouldn't, I'll tell you that too.</p>
-        <div class="cs-cta-row" style="justify-content:center;">
-          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book an intro call <span aria-hidden="true">↗</span></a>
-          <a class="btn btn-ghost" href="/website-audit/">Get a free audit</a>
-        </div>
-      </div>
-    </section>
+    <EndCta
+      title="Want results like these?"
+      text="Send me what you're building. If I'd win on it, I'll tell you which page I'd build first and what I'd cut. If I wouldn't, I'll tell you that too."
+      primary={{ href: CALENDLY_URL, label: "Book an intro call →" }}
+      secondary={{ href: "/website-audit/", label: "Get a free audit →" }}
+    />
   </main>
+</Base>
 
-  <style>
-    /* ============================================================
-       Results page — UI polish (scoped). Matches the homepage/About:
-       a bento result grid with a featured lead, project icons and an
-       interactive card state.
-       ============================================================ */
-
-    /* Rhythm, section-head alignment and hero clearance are shared — they live
-       in case-study.css and Breadcrumbs.astro now. */
-    main .cs-lead { max-width: 66ch; font-size: clamp(17px, 1.7vw, 21px); }
-    main .cs-sec-head h2 {
-      font-family: 'Anton', sans-serif;
-      font-weight: 400;
-      font-size: clamp(32px, 5vw, 72px);
-      line-height: 0.94;
-      letter-spacing: 0;
-      text-transform: uppercase;
-    }
-    main .cs-sec-head .mono { color: #8A8A93; }
-
-    /* ---- Studio-at-a-glance → borderless giant figures + hairlines ----
-       The rail itself is `.cs-metrics-rail` in case-study.css. */
-    main .cs-metric-v { font-size: clamp(40px, 6vw, 84px); line-height: 0.88; }
-
-    /* ---- Bento results grid ---- */
-    main .results-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-    }
-    main .results-card {
-      display: flex;
-      flex-direction: column;
-      text-decoration: none;
-      color: inherit;
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      border-radius: 12px;
-      padding: 26px 24px;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent);
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-                  border-color 0.3s ease, background 0.3s ease;
-    }
-    main .results-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(217,255,60, 0.55);
-      background: linear-gradient(180deg, rgba(217,255,60, 0.07), transparent);
-    }
-    main .results-head { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
-    main .results-icon {
-      width: 40px; height: 40px; border-radius: 9px; flex: none;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-    }
-    main .results-head .cs-tag { margin: 0; }
-    main .results-v {
-      font-family: 'Anton', sans-serif;
-      font-weight: 400;
-      font-size: clamp(36px, 4.6vw, 58px);
-      letter-spacing: 0;
-      line-height: 0.95;
-      color: var(--accent, #d9ff3c);
-    }
-    main .results-l {
-      margin-top: 6px;
-      font-family: "JetBrains Mono", monospace;
-      font-size: var(--fs-label-lg);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      opacity: 0.6;
-    }
-    main .results-name {
-      margin: 16px 0 8px;
-      font-weight: 800;
-      font-size: clamp(18px, 2vw, 23px);
-      letter-spacing: -0.02em;
-    }
-    main .results-o { margin: 0; font-size: 14px; line-height: 1.55; opacity: 0.74; flex: 1; }
-    main .results-more {
-      margin-top: 18px;
-      font-family: "JetBrains Mono", monospace;
-      font-size: var(--fs-label-lg);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--accent, #d9ff3c);
-    }
-
-    /* ---- Client quote ---- */
-    main .results-quote {
-      position: relative;
-      margin: 0;
-      border: 1px solid rgba(217,255,60, 0.3);
-      border-radius: 14px;
-      padding: clamp(32px, 4vw, 56px);
-      background: radial-gradient(120% 140% at 0% 0%, rgba(217,255,60, 0.1), transparent 55%);
-      overflow: hidden;
-    }
-    main .results-quote-mark {
-      position: absolute;
-      top: -18px; right: 26px;
-      font-family: "Anton", cursive;
-      font-size: 180px;
-      line-height: 1;
-      color: var(--accent, #d9ff3c);
-      opacity: 0.16;
-      pointer-events: none;
-    }
-    main .results-quote blockquote {
-      position: relative;
-      margin: 0;
-      font-weight: 700;
-      font-size: clamp(20px, 2.6vw, 34px);
-      line-height: 1.32;
-      letter-spacing: -0.02em;
-      max-width: 24ch;
-    }
-    main .results-quote figcaption {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-      margin-top: 26px;
-      padding-top: 20px;
-      border-top: 1px solid rgba(255, 255, 255, 0.14);
-    }
-    main .results-quote-who {
-      font-family: "JetBrains Mono", monospace;
-      font-size: 12px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      opacity: 0.72;
-    }
-    main .results-quote-links { display: flex; gap: 20px; flex-wrap: wrap; }
-    main .results-quote-links a {
-      font-family: "JetBrains Mono", monospace;
-      font-size: var(--fs-label-lg);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--accent, #d9ff3c);
-      text-decoration: none;
-    }
-    main .results-quote-links a:hover { text-decoration: underline; }
-
-    /* ---- Responsive ---- */
-    @media (max-width: 900px) {
-      main .results-grid { grid-template-columns: 1fr 1fr; }
-    }
-    /* 720, not 620: a 2-up result card at 640px is ~300px wide and has to hold
-       a 36px Anton figure, a name and a paragraph. It goes single-column on the
-       same step as every other grid on the site. */
-    @media (max-width: 720px) {
-      main .results-grid { grid-template-columns: 1fr; }
-    }
-  </style>
-</Studio>
+<style>
+  .rs{list-style:none;margin:0;padding:0;border-top:3px solid var(--ink)}
+  .rs li{border-bottom:1px solid var(--gda)}
+  .rs-row{display:flex;flex-wrap:wrap;gap:14px clamp(24px,4vw,64px);padding:clamp(22px,2.6vw,36px) 0;color:var(--ink);text-decoration:none}
+  .rs-row:hover{color:var(--ink)}
+  .rs-row:hover .rs-more{color:var(--ink)}
+  .rs-top{flex:0 0 180px;display:flex;flex-direction:column;gap:6px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--g5c)}
+  .rs-pos{color:var(--red);font-weight:700}
+  .rs-v{flex:1 1 280px;display:flex;flex-direction:column;gap:10px}
+  .rs-num{font-weight:900;font-style:italic;font-stretch:125%;line-height:.9;letter-spacing:-0.03em;font-size:clamp(44px,5vw,84px);color:var(--red);overflow-wrap:anywhere}
+  .rs-l{font-size:16px;line-height:1.4}
+  .rs-copy{flex:1 1 380px;display:flex;flex-direction:column;gap:10px}
+  .rs-copy p{margin:0;font-size:16px;line-height:1.55;color:var(--g3e);max-width:56ch}
+  .rs-more{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--red)}
+  .rq{max-width:760px}
+</style>

@@ -1,0 +1,19 @@
+---
+// Spec sheet (Home About): mono head row over a 3px ink rule, then
+// label / value rows. Values may carry inline HTML.
+interface Props {
+  head?: string;
+  headRight?: string;
+  items: { k: string; v: string }[];
+}
+const { head, headRight, items } = Astro.props;
+---
+
+<div>
+  {head && <div class="spec-head"><span>{head}</span>{headRight && <span style="color:var(--red)">{headRight}</span>}</div>}
+  <dl class="spec" style={head ? undefined : "border-top:3px solid var(--ink)"}>
+    {items.map((it) => (
+      <div><dt>{it.k}</dt><dd set:html={it.v} /></div>
+    ))}
+  </dl>
+</div>

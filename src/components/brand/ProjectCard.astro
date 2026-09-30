@@ -1,0 +1,49 @@
+---
+// C05 Project card, Portfolio grid version: code P0N in red, 16:10 image,
+// title (letter-spacing 0 so punctuation never collides), one line, stack.
+import { localVariant, localSrcset } from "../../lib/images.mjs";
+
+interface Props {
+  href: string;
+  pos: string;
+  tags: string;
+  year?: string;
+  img?: string;
+  alt?: string;
+  name: string;
+  line: string;
+  foot?: string;
+  cta?: string;
+  tag?: "h2" | "h3";
+  sizes?: string;
+  attrs?: Record<string, string>;
+}
+const { href, pos, tags, year, img, alt = "", name, line, foot, cta = "View case →", tag = "h3", sizes = "(max-width: 960px) calc(100vw - 32px), 760px", attrs = {} } = Astro.props;
+const H = tag;
+---
+
+<a href={href} class="pc" {...attrs}>
+  <div class="pc-top"><span class="pc-pos">{pos}</span><span>{tags}{year && ` · ${year}`}</span></div>
+  <div class="pc-img">
+    {img && (img.endsWith(".webp") && img.startsWith("/images/")
+      ? <img src={localVariant(img, 1080)} srcset={localSrcset(img)} sizes={sizes} alt={alt} loading="lazy" decoding="async" width="1600" height="1000" />
+      : <img src={img} alt={alt} loading="lazy" decoding="async" width="1600" height="1000" />)}
+  </div>
+  <H class="pc-name">{name}</H>
+  <p class="pc-line">{line}</p>
+  <div class="pc-foot">{foot ? <span class="pc-stack">{foot}</span> : <span />}<span class="pc-cta">{cta}</span></div>
+</a>
+
+<style>
+  .pc{display:flex;flex-direction:column;gap:14px;text-decoration:none;color:var(--ink)}
+  .pc:hover{color:var(--ink);transform:translateY(-4px)}
+  .pc-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;border-top:3px solid var(--ink);padding-top:10px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--g5c)}
+  .pc-pos{color:var(--red);font-weight:700}
+  .pc-img{aspect-ratio:16/10;overflow:hidden;background:var(--tint)}
+  .pc-img img{width:100%;height:100%;object-fit:cover;display:block}
+  .pc-name{margin:0;font-weight:900;font-style:italic;font-stretch:125%;text-transform:uppercase;font-size:clamp(28px,3vw,46px);line-height:.95;letter-spacing:0;overflow-wrap:anywhere}
+  .pc-line{margin:0;font-size:16px;line-height:1.5;color:var(--g3e);max-width:56ch}
+  .pc-foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+  .pc-stack{color:var(--g5c)}
+  .pc-cta{color:var(--red)}
+</style>

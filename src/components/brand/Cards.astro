@@ -1,0 +1,32 @@
+---
+// Text cards — the brandbook's "Parts bin" card: 1px #DADADA frame, mono
+// label, optional 800-weight title, supporting copy (may carry inline links).
+// `wide` cards span two columns where there is room.
+interface Props {
+  items: { tag?: string; t?: string; d?: string; wide?: boolean }[];
+  min?: number;
+}
+const { items, min = 300 } = Astro.props;
+---
+
+<div class="cards" style={`--min:${min}px`}>
+  {items.map((c, i) => (
+    <div class:list={["card", { "card--wide": c.wide }]}>
+      <span class="card-tag">{String(i + 1).padStart(2, "0")}{c.tag && ` · ${c.tag}`}</span>
+      {c.t && <h3 class="card-t" set:html={c.t} />}
+      {c.d && <p class="card-d" set:html={c.d} />}
+    </div>
+  ))}
+</div>
+
+<style>
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,var(--min)),1fr));gap:clamp(16px,2vw,28px)}
+  .card{border:1px solid var(--gda);background:#fff;padding:clamp(20px,2.4vw,28px);display:flex;flex-direction:column;gap:14px}
+  @media (min-width:900px){.card--wide{grid-column:span 2}}
+  .card-tag{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--g5c)}
+  .card-t{margin:0;font-weight:800;font-stretch:112%;font-size:22px;line-height:1.2;letter-spacing:-0.01em}
+  .card-d{margin:0;font-size:16px;line-height:1.55;color:var(--g3e)}
+  .card-d :global(a){color:var(--ink)}
+  .card-d :global(a:hover){color:var(--red)}
+  .card-d :global(strong){color:var(--ink)}
+</style>

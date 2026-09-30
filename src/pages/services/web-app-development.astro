@@ -1,5 +1,13 @@
 ---
-import Studio from "../../layouts/Studio.astro";
+import Base from "../../layouts/Base.astro";
+import PageHero from "../../components/brand/PageHero.astro";
+import Section from "../../components/brand/Section.astro";
+import Rows from "../../components/brand/Rows.astro";
+import Cards from "../../components/brand/Cards.astro";
+import Steps from "../../components/brand/Steps.astro";
+import ResultGrid from "../../components/brand/ResultGrid.astro";
+import Faq from "../../components/brand/Faq.astro";
+import EndCta from "../../components/brand/EndCta.astro";
 import { SITE, CALENDLY_URL } from "../../lib/site.mjs";
 import { TOPICS } from "../../lib/entity.mjs";
 
@@ -67,7 +75,7 @@ const jsonld = JSON.stringify({
 });
 ---
 
-<Studio
+<Base
   title="Web App Development Services — MVPs, Portals & AI Products"
   description="Custom web app and MVP development — portals, dashboards, admin panels, AI products. Full-stack React/Next.js/Astro, live in weeks, you own the code."
   canonical={canonical}
@@ -78,172 +86,58 @@ const jsonld = JSON.stringify({
   jsonld={jsonld}
 >
   <main>
-    <header class="cs-hero">
-      <div class="wrap">
-        <div class="cs-eyebrow">
-          <span>Services</span><span>Web apps · MVPs</span><span>2026</span>
-        </div>
-        <h1 style="margin:14px 0 0;font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(44px,8vw,108px);line-height:.9;letter-spacing:-.01em;text-transform:uppercase;">Software shipped<br /><span style="color:var(--accent);">in weeks, not quarters.</span></h1>
-        <p class="cs-lead">Web app development services for founders who need working software, not a six-month roadmap. MVPs, customer portals, admin dashboards and AI-powered products — designed and coded by one person, full-stack, with a staging link in your inbox every Friday.</p>
-        <div class="cs-cta-row">
-          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book a product call <span aria-hidden="true">↗</span></a>
-          <a class="btn btn-ghost" href="/projects/modernkbs/">See a 7-day build</a>
-        </div>
-        <div class="cs-meta">
-          <span>Fixed written quotes · you own the code</span><span>React · Next.js · Astro · Node</span>
-        </div>
-      </div>
-    </header>
+    <PageHero
+      display="Software shipped in weeks, not quarters."
+      size="case"
+      kicker="Services · Web apps · MVPs · 2026"
+      lead={`Web app development services for founders who need working software, not a six-month roadmap. MVPs, customer portals, admin dashboards and AI-powered products — designed and coded by one person, full-stack, with a staging link in your inbox every Friday.`}
+    >
+      <a class="btn btn--red" href={CALENDLY_URL}>Book a product call <span aria-hidden="true">→</span></a>
+      <a class="btn btn--ink" href="/projects/modernkbs/">See a 7-day build</a>
+      <Fragment slot="notes"><span>Fixed written quotes · you own the code</span><span>React · Next.js · Astro · Node</span></Fragment>
+    </PageHero>
 
-    <section class="cs-sec" aria-labelledby="offer-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="offer-h">What I build</h2>
-          <span class="mono">The offering</span>
-        </div>
-        <div class="cs-body" data-reveal>
-          {offers.map((o) => (
-            <div class="cs-card">
-              <span class="cs-tag">{o.t}</span>
-              <p class="cs-card-h2">{o.d}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+    <Section n={1} term="Setup" note="The offering" title="What I build">
+      <Rows items={offers} />
+    </Section>
 
-    <section class="cs-sec" aria-labelledby="proof-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="proof-h">Apps on the record</h2>
-          <span class="mono">Proof, not promises</span>
-        </div>
-        <div class="cs-metrics" data-reveal>
-          <div class="cs-metric"><span class="cs-metric-v">7 days</span><span class="cs-metric-l">Site + admissions portal (agencies quoted 6 months)</span></div>
-          <div class="cs-metric"><span class="cs-metric-v">15</span><span class="cs-metric-l">Pages + self-serve admin, North Peak portal</span></div>
-          <div class="cs-metric"><span class="cs-metric-v">3</span><span class="cs-metric-l">AI models in one product (WebSeek.ai)</span></div>
-          <div class="cs-metric"><span class="cs-metric-v">0</span><span class="cs-metric-l">SaaS fees left behind for clients</span></div>
-        </div>
-        <div class="cs-body" data-reveal style="margin-top:22px;">
-          <div class="cs-card">
-            <span class="cs-tag">Modern K.B.S. · web app + admin</span>
-            <p>Public school site and an admissions admin panel for classes I–XII, delivered in the same 7-day sprint — no recurring SaaS fees. <a href="/projects/modernkbs/">Read the case study →</a></p>
-          </div>
-          <div class="cs-card">
-            <span class="cs-tag">WebSeek.ai · AI product</span>
-            <p>One prompt to a custom-coded site, with a Claude / GPT / Gemini model picker. Built and shipped as a real product. <a href="/projects/webseek/">Read the case study →</a></p>
-          </div>
-          <div class="cs-card span2">
-            <span class="cs-tag">North Peak Power Systems · portal</span>
-            <p>A 15-page Angular portal with a self-serve admin that lets the team publish projects and lead with a private-sector pitch. <a href="/projects/northpeak/">Read the case study →</a></p>
-          </div>
-        </div>
+    <Section n={2} term="Telemetry" note="Proof, not promises" title="Apps on the record">
+      <ResultGrid stats={[
+        { v: `7 days`, l: `Site + admissions portal (agencies quoted 6 months)` },
+        { v: `15`, l: `Pages + self-serve admin, North Peak portal` },
+        { v: `3`, l: `AI models in one product (WebSeek.ai)` },
+        { v: `0`, l: `SaaS fees left behind for clients` },
+      ]} />
+      <div class="gap-top">
+        <Cards items={[
+          { tag: `Modern K.B.S. · web app + admin`, d: `Public school site and an admissions admin panel for classes I–XII, delivered in the same 7-day sprint — no recurring SaaS fees. <a href="/projects/modernkbs/">Read the case study →</a>` },
+          { tag: `WebSeek.ai · AI product`, d: `One prompt to a custom-coded site, with a Claude / GPT / Gemini model picker. Built and shipped as a real product. <a href="/projects/webseek/">Read the case study →</a>` },
+          { tag: `North Peak Power Systems · portal`, wide: true, d: `A 15-page Angular portal with a self-serve admin that lets the team publish projects and lead with a private-sector pitch. <a href="/projects/northpeak/">Read the case study →</a>` },
+        ]} />
       </div>
-    </section>
+    </Section>
 
-    <section class="cs-sec" aria-labelledby="how-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="how-h">How it ships</h2>
-          <span class="mono">The process</span>
-        </div>
-        <div class="cs-body" data-reveal>
-          {how.map((s) => (
-            <div class="cs-card">
-              <span class="cs-tag">({s.n}) {s.t}</span>
-              <p class="cs-card-h2">{s.d}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+    <Section n={3} term="Race weekend" note="The process" title="How it ships" tint>
+      <Steps items={how} hot={3} />
+    </Section>
 
-    <section class="cs-sec" aria-labelledby="read-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="read-h">Thinking on product builds</h2>
-          <span class="mono">From the journal</span>
-        </div>
-        <div class="cs-body" data-reveal>
-          <div class="cs-card">
-            <span class="cs-tag">Custom code vs Webflow for startups</span>
-            <p>Where no-code stops and product engineering starts — and when each is right. <a href="/blog/custom-code-vs-webflow-for-startups/">Custom code vs Webflow for startups →</a></p>
-          </div>
-          <div class="cs-card">
-            <span class="cs-tag">Own your stack</span>
-            <p>Code portability is leverage: what it means to actually own what you paid for. <a href="/blog/own-your-stack-code-portability/">Why code portability is leverage →</a></p>
-          </div>
-          <div class="cs-card span2">
-            <span class="cs-tag">School site + portal in 7 days</span>
-            <p>The full story of the build other agencies quoted six months for. <a href="/projects/modernkbs/">Read the Modern K.B.S. build in full →</a></p>
-          </div>
-        </div>
-      </div>
-    </section>
+    <Section n={4} term="Journal" note="From the journal" title="Thinking on product builds">
+      <Cards items={[
+        { tag: `Custom code vs Webflow for startups`, d: `Where no-code stops and product engineering starts — and when each is right. <a href="/blog/custom-code-vs-webflow-for-startups/">Custom code vs Webflow for startups →</a>` },
+        { tag: `Own your stack`, d: `Code portability is leverage: what it means to actually own what you paid for. <a href="/blog/own-your-stack-code-portability/">Why code portability is leverage →</a>` },
+        { tag: `School site + portal in 7 days`, wide: true, d: `The full story of the build other agencies quoted six months for. <a href="/projects/modernkbs/">Read the Modern K.B.S. build in full →</a>` },
+      ]} />
+    </Section>
 
-    <section class="cs-sec" aria-labelledby="faq-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="faq-h">Frequently asked</h2>
-          <span class="mono">Web apps</span>
-        </div>
-        <div class="cs-faq">
-          {faqs.map((f, i) => (
-            <div class="cs-faq-row">
-              <button class="cs-faq-q" data-faqtog={i} aria-expanded="false" aria-controls={`faq-app-${i}`}>
-                <span>{f.q}</span><span class="cs-faq-icon" data-faqicon={i} aria-hidden="true">+</span>
-              </button>
-              <div class="cs-faq-a" id={`faq-app-${i}`} data-faqbody={i}><p>{f.a}</p></div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+    <Section bare>
+      <Faq faqs={faqs} label="(05) Before you ask" />
+    </Section>
 
-    <section class="cs-endcta">
-      <div class="wrap">
-        <h2>Have a product in your head?</h2>
-        <p>Describe it in three sentences. I'll tell you what the two-week version looks like — and what it costs, in writing, within 48 hours.</p>
-        <div class="cs-cta-row" style="justify-content:center;">
-          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book a product call <span aria-hidden="true">↗</span></a>
-          <a class="btn btn-ghost" href="/services/">All services</a>
-        </div>
-      </div>
-    </section>
+    <EndCta
+      title="Have a product in your head?"
+      text={`Describe it in three sentences. I'll tell you what the two-week version looks like — and what it costs, in writing, within 48 hours.`}
+      primary={{ href: CALENDLY_URL, label: "Book a product call →" }}
+      secondary={{ href: "/services/", label: "All services →" }}
+    />
   </main>
-</Studio>
-
-<script is:inline>
-  (function () {
-    var root = document.getElementById("ds-root");
-    if (!root) return;
-    var faq = -1;
-    function sync() {
-      root.querySelectorAll("[data-faqbody]").forEach(function (el) {
-        var open = Number(el.getAttribute("data-faqbody")) === faq;
-        el.style.maxHeight = open ? el.scrollHeight + "px" : "0px";
-        el.style.opacity = open ? "1" : "0";
-      });
-      root.querySelectorAll("[data-faqicon]").forEach(function (el) {
-        el.style.transform = Number(el.getAttribute("data-faqicon")) === faq ? "rotate(45deg)" : "rotate(0deg)";
-      });
-      root.querySelectorAll("[data-faqtog]").forEach(function (el) {
-        el.setAttribute("aria-expanded", Number(el.getAttribute("data-faqtog")) === faq ? "true" : "false");
-      });
-    }
-    root.querySelectorAll("[data-faqtog]").forEach(function (el) {
-      el.addEventListener("click", function () {
-        var i = Number(el.getAttribute("data-faqtog"));
-        faq = faq === i ? -1 : i;
-        sync();
-      });
-    });
-    var rt;
-    window.addEventListener("resize", function () {
-      if (faq < 0) return;
-      clearTimeout(rt);
-      rt = setTimeout(sync, 120);
-    });
-    sync();
-  })();
-</script>
+</Base>

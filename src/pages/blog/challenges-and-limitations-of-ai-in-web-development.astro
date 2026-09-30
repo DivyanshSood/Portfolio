@@ -1,9 +1,6 @@
 ---
-import Studio from "../../layouts/Studio.astro";
-import RelatedPosts from "../../components/RelatedPosts.astro";
-import PostFaq from "../../components/PostFaq.astro";
-import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
-import { coverBase, coverSrcset, COVER_SIZES_POST } from "../../lib/images.mjs";
+import Post from "../../layouts/Post.astro";
+import { SITE, DEFAULT_OG, CALENDLY_URL, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
 
 const slug = "challenges-and-limitations-of-ai-in-web-development";
 const idx = POSTS.findIndex((p) => p.slug === slug);
@@ -13,8 +10,6 @@ const canonical = `${SITE}/blog/${slug}/`;
 const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
 const primaryTag = post.tags[0] || "Notes";
 const readMins = post.readMins;
-const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
-const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
 
 const faqs = [
   {
@@ -88,57 +83,7 @@ const jsonld = JSON.stringify({
 });
 ---
 
-<Studio
-  title={post.seoTitle ?? `${post.title} · Divyansh Sood`}
-  description={post.description}
-  canonical={canonical}
-  keywords={post.tags.join(", ")}
-  ogType="article"
-  ogTitle={post.title}
-  ogImage={ogImage}
-  ogImageW={1200}
-  ogImageH={750}
-  articlePublished={iso(post.pubDate)}
-  articleModified={iso(post.updatedDate || post.pubDate)}
-  tags={post.tags}
-  preloadImage={{ href: coverBase(post.coverImage), srcset: coverSrcset(post.coverImage), sizes: COVER_SIZES_POST }}
-  jsonld={jsonld}
->
-  <main>
-    <header class="post-hero">
-      <div class="wrap narrow">
-        <div class="eyebrow">
-          <span>{primaryTag}</span>
-          <span>{fmtDate(post.pubDate)}</span>
-          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
-          <span>{readMins} min read</span>
-        </div>
-        <h1 class="post-title">{post.title}</h1>
-        <p class="post-lead">{post.description}</p>
-        <div class="post-meta">
-          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
-        </div>
-      </div>
-    </header>
-
-    {post.coverImage && (
-      <div class="wrap narrow">
-        <figure class="post-cover">
-          <img
-            src={coverBase(post.coverImage)}
-            srcset={coverSrcset(post.coverImage)}
-            sizes={COVER_SIZES_POST}
-            alt={post.coverAlt ?? post.title}
-            width="1200"
-            height="750"
-            fetchpriority="high"
-            decoding="async"
-          />
-        </figure>
-      </div>
-    )}
-
-    <article class="wrap narrow post-body">
+<Post post={post} jsonld={jsonld} faqs={faqs} cta={{ title: "Want a straight answer about your build?", text: "If you're weighing up an AI-assisted project and want to know honestly where it helps and where it'll bite, send me the brief. I'll tell you which parts I'd trust a model with and which I wouldn't.", primary: { href: "mailto:hello@divyanshsood.com", label: "Email me →" }, secondary: { href: CALENDLY_URL, label: "Book a 15-min intro →" } }}>
 <p>I use AI on client work every week and I built <a href="/projects/webseek/">an AI website generator</a> that runs on Claude, GPT and Gemini. I'm not writing this as a sceptic. I'm writing it because I've spent more hours than I'd like recovering from the specific ways these tools fail, and almost nobody selling them will tell you what those are.</p>
 <p>The benefits are real — I've written about <a href="/blog/how-ai-is-transforming-website-development/">the ones that survived contact with real projects</a>. This is the other column of the ledger.</p>
 <p>None of these limitations are reasons to avoid AI. They're the things you have to design around, and the cost of not knowing them is paid in production.</p>
@@ -241,24 +186,4 @@ const jsonld = JSON.stringify({
 <p>The limitations of AI in web development are not that it's bad at writing code. It's good at writing code. The limitations are that it doesn't know what you're trying to build, can't tell when it's wrong, has no memory of your project, and produces work that requires more review than it saves in typing if you're careless about it.</p>
 <p>Design around those and it's the most useful tool to arrive in years. Ignore them and you'll ship something that looks finished, works in testing, and fails in the specific way nobody checked.</p>
 <p>That's the whole trade. <a href="/blog/how-ai-is-transforming-website-development/">What genuinely changed</a>, <a href="/blog/how-ai-is-transforming-website-development/">what you gain</a>, and <a href="/blog/how-ai-is-transforming-website-development/">where it goes next</a> are the rest of the picture.</p>
-</article>
-
-    <PostFaq faqs={faqs} idPrefix="faq-lm">
-      <div class="tags" style="margin-top:26px;">{post.tags.map((t) => <span>{t}</span>)}</div>
-    </PostFaq>
-
-    <RelatedPosts slug={slug} audience={post.audience} />
-
-    <section class="post-foot-cta">
-      <div class="wrap narrow">
-        <h2>Want a straight answer about your build?</h2>
-        <p>If you're weighing up an AI-assisted project and want to know honestly where it helps and where it'll bite, send me the brief. I'll tell you which parts I'd trust a model with and which I wouldn't.</p>
-        <div class="cta-row">
-          <a class="btn btn-primary" href="mailto:hello@divyanshsood.com">Email me <span aria-hidden="true">↗</span></a>
-          <a class="btn btn-ghost" href={CALENDLY_URL} target="_blank" rel="noopener">Book a 15-min intro <span aria-hidden="true">↗</span></a>
-        </div>
-      </div>
-    </section>
-  </main>
-</Studio>
-
+</Post>

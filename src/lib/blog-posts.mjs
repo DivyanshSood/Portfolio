@@ -11,7 +11,7 @@ export const POSTS = [
     "pubDate": "2026-09-29",
     "updatedDate": "2026-09-29",
     "coverImage": "/blog/cbse-mandatory-public-disclosure-school-website.jpg",
-    "coverAlt": "Title card reading “Publish the record” in bold type on a near-black background",
+    "coverAlt": "Title card reading “Publish the record” in bold white type on a red chevron",
     "tags": [
       "school website",
       "education",
@@ -31,7 +31,7 @@ export const POSTS = [
     "pubDate": "2026-09-29",
     "updatedDate": "2026-09-29",
     "coverImage": "/blog/taxi-tour-operator-website-pages.jpg",
-    "coverAlt": "Title card reading “One route, one page” in bold type on a near-black background",
+    "coverAlt": "Title card reading “One route, one page” in bold white type on a red chevron",
     "tags": [
       "travel",
       "local SEO",
@@ -51,7 +51,7 @@ export const POSTS = [
     "pubDate": "2026-09-29",
     "updatedDate": "2026-09-29",
     "coverImage": "/blog/hotel-near-me-landing-pages.jpg",
-    "coverAlt": "Title card reading “Stay near what matters” in bold type on a near-black background",
+    "coverAlt": "Title card reading “Stay near what matters” in bold white type on a red chevron",
     "tags": [
       "hotels",
       "local SEO",
@@ -71,7 +71,7 @@ export const POSTS = [
     "pubDate": "2026-08-11",
     "updatedDate": "2026-08-11",
     "coverImage": "/blog/ranking-top-five-zero-clicks.jpg",
-    "coverAlt": "Title card reading “Top five. Zero clicks.” in bold type on a near-black background",
+    "coverAlt": "Title card reading “Top five. Zero clicks.” in bold white type on a red chevron",
     "tags": [
       "SEO",
       "AI search",
@@ -91,7 +91,7 @@ export const POSTS = [
     "pubDate": "2026-08-09",
     "updatedDate": "2026-09-29",
     "coverImage": "/blog/aeo-geo-llmo-ai-seo-explained.jpg",
-    "coverAlt": "Title card reading “AEO. GEO. LLMO. AI SEO.” in bold type on a near-black background",
+    "coverAlt": "Title card reading “AEO. GEO. LLMO. AI SEO.” in bold white type on a red chevron",
     "tags": [
       "GEO",
       "AI search",
@@ -111,7 +111,7 @@ export const POSTS = [
     "pubDate": "2026-08-07",
     "updatedDate": "2026-09-29",
     "coverImage": "/blog/entity-graph-schema-node-by-node.jpg",
-    "coverAlt": "Title card reading “The entity graph, node by node” in bold type on a near-black background",
+    "coverAlt": "Title card reading “The entity graph, node by node” in bold white type on a red chevron",
     "tags": [
       "structured data",
       "GEO",
@@ -131,7 +131,7 @@ export const POSTS = [
     "pubDate": "2026-08-05",
     "updatedDate": "2026-08-05",
     "coverImage": "/blog/measure-ai-assistant-citations.jpg",
-    "coverAlt": "Title card reading “Is AI actually quoting you?” in bold type on a near-black background",
+    "coverAlt": "Title card reading “Is AI actually quoting you?” in bold white type on a red chevron",
     "tags": [
       "AI search",
       "GEO",
@@ -151,7 +151,7 @@ export const POSTS = [
     "pubDate": "2026-08-04",
     "updatedDate": "2026-09-29",
     "coverImage": "/blog/scarcity-enforced-in-code.jpg",
-    "coverAlt": "Title card reading “0001 to 0666” in bold type on a near-black background",
+    "coverAlt": "Title card reading “0001 to 0666” in bold white type on a red chevron",
     "tags": [
       "D2C",
       "e-commerce",
@@ -171,7 +171,7 @@ export const POSTS = [
     "pubDate": "2026-08-03",
     "updatedDate": "2026-08-03",
     "coverImage": "/blog/replatforming-without-losing-rankings.jpg",
-    "coverAlt": "Title card reading “The redirect map nobody builds” in bold type on a near-black background",
+    "coverAlt": "Title card reading “The redirect map nobody builds” in bold white type on a red chevron",
     "tags": [
       "SEO",
       "WordPress",
@@ -191,7 +191,7 @@ export const POSTS = [
     "pubDate": "2026-08-02",
     "updatedDate": "2026-08-02",
     "coverImage": "/blog/custom-website-year-two.jpg",
-    "coverAlt": "Title card reading “What happens in year two” in bold type on a near-black background",
+    "coverAlt": "Title card reading “What happens in year two” in bold white type on a red chevron",
     "tags": [
       "custom code",
       "maintenance",
@@ -211,7 +211,7 @@ export const POSTS = [
     "pubDate": "2026-08-01",
     "updatedDate": "2026-08-01",
     "coverImage": "/blog/contact-form-dropping-leads.jpg",
-    "coverAlt": "Title card reading “Your form is eating leads” in bold type on a near-black background",
+    "coverAlt": "Title card reading “Your form is eating leads” in bold white type on a red chevron",
     "tags": [
       "lead generation",
       "conversion",
@@ -231,7 +231,7 @@ export const POSTS = [
     "pubDate": "2026-07-31",
     "updatedDate": "2026-07-31",
     "coverImage": "/blog/mobile-first-booking-design.jpg",
-    "coverAlt": "Title card reading “95% came from a phone” in bold type on a near-black background",
+    "coverAlt": "Title card reading “95% came from a phone” in bold white type on a red chevron",
     "tags": [
       "performance",
       "Core Web Vitals",
@@ -251,7 +251,7 @@ export const POSTS = [
     "pubDate": "2026-07-29",
     "updatedDate": "2026-09-29",
     "coverImage": "/blog/how-ai-is-transforming-website-development.jpg",
-    "coverAlt": "Title card reading “How AI is transforming web dev” in bold type on a near-black background",
+    "coverAlt": "Title card reading “How AI is transforming web dev” in bold white type on a red chevron",
     "tags": [
       "AI",
       "web development",
@@ -271,7 +271,7 @@ export const POSTS = [
     "pubDate": "2026-07-29",
     "updatedDate": "2026-07-29",
     "coverImage": "/blog/challenges-and-limitations-of-ai-in-web-development.jpg",
-    "coverAlt": "Title card reading “Where AI actually breaks” in bold type on a near-black background",
+    "coverAlt": "Title card reading “Where AI actually breaks” in bold white type on a red chevron",
     "tags": [
       "AI limitations",
       "AI",
@@ -291,7 +291,7 @@ export const POSTS = [
     "pubDate": "2026-07-28",
     "updatedDate": "2026-09-29",
     "coverImage": "/blog/ai-website-builder-vs-developer-india.jpg",
-    "coverAlt": "Title card reading “AI builder vs developer” in bold type on a near-black background",
+    "coverAlt": "Title card reading “AI builder vs developer” in bold white type on a red chevron",
     "tags": [
       "AI",
       "website builders",
@@ -311,7 +311,7 @@ export const POSTS = [
     "pubDate": "2026-07-27",
     "updatedDate": "2026-07-27",
     "coverImage": "/blog/how-indian-businesses-use-ai-2026.jpg",
-    "coverAlt": "Title card reading “How India actually uses AI” in bold type on a near-black background",
+    "coverAlt": "Title card reading “How India actually uses AI” in bold white type on a red chevron",
     "tags": [
       "AI",
       "India",
@@ -331,7 +331,7 @@ export const POSTS = [
     "pubDate": "2026-07-26",
     "updatedDate": "2026-07-26",
     "coverImage": "/blog/ai-chatbot-for-indian-business.jpg",
-    "coverAlt": "Title card reading “You already have WhatsApp” in bold type on a near-black background",
+    "coverAlt": "Title card reading “You already have WhatsApp” in bold white type on a red chevron",
     "tags": [
       "AI",
       "chatbot",
@@ -351,7 +351,7 @@ export const POSTS = [
     "pubDate": "2026-07-24",
     "updatedDate": "2026-07-24",
     "coverImage": "/blog/learn-ai-assisted-development-2026.jpg",
-    "coverAlt": "Title card reading “Learn AI-assisted dev: the path I’d take” in bold type on a near-black background",
+    "coverAlt": "Title card reading “Learn AI-assisted dev: the path I’d take” in bold white type on a red chevron",
     "tags": [
       "AI development",
       "learning",
@@ -371,7 +371,7 @@ export const POSTS = [
     "pubDate": "2026-07-23",
     "updatedDate": "2026-07-23",
     "coverImage": "/blog/rag-for-business-websites.jpg",
-    "coverAlt": "Title card reading “When a bot should read your docs” in bold type on a near-black background",
+    "coverAlt": "Title card reading “When a bot should read your docs” in bold white type on a red chevron",
     "tags": [
       "RAG",
       "AI development",
@@ -391,7 +391,7 @@ export const POSTS = [
     "pubDate": "2026-07-22",
     "updatedDate": "2026-07-22",
     "coverImage": "/blog/claude-vs-gpt-vs-gemini-for-product-features.jpg",
-    "coverAlt": "Title card reading “Claude, GPT, Gemini: what I shipped” in bold type on a near-black background",
+    "coverAlt": "Title card reading “Claude, GPT, Gemini: what I shipped” in bold white type on a red chevron",
     "tags": [
       "AI development",
       "Claude",
@@ -411,7 +411,7 @@ export const POSTS = [
     "pubDate": "2026-07-21",
     "updatedDate": "2026-07-21",
     "coverImage": "/blog/ai-features-that-actually-work-on-websites.jpg",
-    "coverAlt": "Title card reading “AI features that actually work” in bold type on a near-black background",
+    "coverAlt": "Title card reading “AI features that actually work” in bold white type on a red chevron",
     "tags": [
       "AI features",
       "web development",
@@ -431,7 +431,7 @@ export const POSTS = [
     "pubDate": "2026-07-19",
     "updatedDate": "2026-07-19",
     "coverImage": "/blog/how-i-build-websites-with-claude-code.jpg",
-    "coverAlt": "Title card reading “How I build client sites with AI” in bold type on a near-black background",
+    "coverAlt": "Title card reading “How I build client sites with AI” in bold white type on a red chevron",
     "tags": [
       "AI-assisted development",
       "Claude Code",
@@ -451,7 +451,7 @@ export const POSTS = [
     "pubDate": "2026-07-18",
     "updatedDate": "2026-09-29",
     "coverImage": "/blog/shopify-alternatives-for-premium-d2c.jpg",
-    "coverAlt": "Title card reading “Shopify alternatives, honestly ranked” in bold type on a near-black background",
+    "coverAlt": "Title card reading “Shopify alternatives, honestly ranked” in bold white type on a red chevron",
     "tags": [
       "Shopify alternatives",
       "D2C",
@@ -471,7 +471,7 @@ export const POSTS = [
     "pubDate": "2026-07-16",
     "updatedDate": "2026-09-29",
     "coverImage": "/blog/school-website-admissions-portal-india.jpg",
-    "coverAlt": "Title card reading “School sites: what parents actually want” in bold type on a near-black background",
+    "coverAlt": "Title card reading “School sites: what parents actually want” in bold white type on a red chevron",
     "tags": [
       "school website",
       "admissions portal",
@@ -491,7 +491,7 @@ export const POSTS = [
     "pubDate": "2026-07-14",
     "updatedDate": "2026-09-29",
     "coverImage": "/blog/hotel-homestay-website-himachal-direct-bookings.jpg",
-    "coverAlt": "Title card reading “Your stay. Your guests. Not their commission” in bold type on a near-black background",
+    "coverAlt": "Title card reading “Your stay. Your guests. Not their commission” in bold white type on a red chevron",
     "tags": [
       "Himachal",
       "hotels",
@@ -511,7 +511,7 @@ export const POSTS = [
     "pubDate": "2026-07-12",
     "updatedDate": "2026-09-29",
     "coverImage": "/blog/get-your-business-recommended-by-chatgpt.jpg",
-    "coverAlt": "Title card reading “Be the business ChatGPT recommends” in bold type on a near-black background",
+    "coverAlt": "Title card reading “Be the business ChatGPT recommends” in bold white type on a red chevron",
     "tags": [
       "ChatGPT",
       "GEO",
@@ -531,7 +531,7 @@ export const POSTS = [
     "pubDate": "2026-07-06",
     "updatedDate": "2026-07-06",
     "coverImage": "/blog/hire-web-developer-india-from-us.jpg",
-    "coverAlt": "Title card reading “Hiring in India: the two markets” in bold type on a near-black background",
+    "coverAlt": "Title card reading “Hiring in India: the two markets” in bold white type on a red chevron",
     "tags": [
       "hire developer India",
       "offshore development",
@@ -550,7 +550,7 @@ export const POSTS = [
     "pubDate": "2026-07-02",
     "updatedDate": "2026-07-02",
     "coverImage": "/blog/freelancer-vs-agency-web-development.jpg",
-    "coverAlt": "Title card reading “Agency vs freelancer: who ships faster?” in bold type on a near-black background",
+    "coverAlt": "Title card reading “Agency vs freelancer: who ships faster?” in bold white type on a red chevron",
     "tags": [
       "agency vs freelancer",
       "hiring",
@@ -570,7 +570,7 @@ export const POSTS = [
     "pubDate": "2026-06-28",
     "updatedDate": "2026-06-28",
     "coverImage": "/blog/squarespace-vs-custom-website.jpg",
-    "coverAlt": "Title card reading “Squarespace is enough — until it isn’t” in bold type on a near-black background",
+    "coverAlt": "Title card reading “Squarespace is enough — until it isn’t” in bold white type on a red chevron",
     "tags": [
       "Squarespace",
       "custom code",
@@ -590,7 +590,7 @@ export const POSTS = [
     "pubDate": "2026-06-24",
     "updatedDate": "2026-09-29",
     "coverImage": "/blog/framer-vs-custom-code-2026.jpg",
-    "coverAlt": "Title card reading “Framer vs custom code, settled honestly” in bold type on a near-black background",
+    "coverAlt": "Title card reading “Framer vs custom code, settled honestly” in bold white type on a red chevron",
     "tags": [
       "Framer",
       "custom code",

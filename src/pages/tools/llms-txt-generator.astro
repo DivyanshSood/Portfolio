@@ -1,5 +1,10 @@
 ---
-import Studio from "../../layouts/Studio.astro";
+import Base from "../../layouts/Base.astro";
+import PageHero from "../../components/brand/PageHero.astro";
+import Section from "../../components/brand/Section.astro";
+import Cards from "../../components/brand/Cards.astro";
+import Faq from "../../components/brand/Faq.astro";
+import EndCta from "../../components/brand/EndCta.astro";
 import { SITE, CALENDLY_URL } from "../../lib/site.mjs";
 import { TOPICS } from "../../lib/entity.mjs";
 
@@ -46,7 +51,7 @@ const jsonld = JSON.stringify({
 });
 ---
 
-<Studio
+<Base
   title="Free llms.txt Generator — Make Your Site Readable by AI"
   description="Generate a spec-correct llms.txt — a plain-text brief of your business for language models. Free, no sign-up, nothing stored, plus an honest note on what it does."
   ogDescription="Write a spec-correct llms.txt from five fields, free and in your browser — with a straight answer on what the file actually does."
@@ -58,190 +63,63 @@ const jsonld = JSON.stringify({
   jsonld={jsonld}
 >
   <main>
-    <header class="cs-hero">
-      <div class="wrap">
-        <div class="cs-eyebrow">
-          <span>Free tool</span><span>GEO · AI search</span><span>No sign-up</span>
-        </div>
-        <h1 style="margin:14px 0 0;font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(40px,7.5vw,96px);line-height:.9;letter-spacing:-.01em;text-transform:uppercase;">The free<br /><span style="color:var(--accent);">llms.txt generator.</span></h1>
-        <p class="cs-lead">An <em>llms.txt</em> is a plain-text brief of your business at your domain root. Fill in five fields below, copy the file, drop it at <strong>yoursite.com/llms.txt</strong>. Runs entirely in your browser — nothing is stored or sent anywhere. <strong>Straight answer before you start:</strong> Google has confirmed its search systems ignore this file, and at ~300,000 domains there's no measurable link between having one and being cited by AI. It's worth thirty minutes, not a budget line — <a href="/blog/what-is-llms-txt/">here's the full evidence and what does work</a>.</p>
-      </div>
-    </header>
+    <PageHero
+      display="The free llms.txt generator."
+      size="case"
+      kicker="Free tool · GEO · AI search · No sign-up"
+      lead={`An <em>llms.txt</em> is a plain-text brief of your business at your domain root. Fill in five fields below, copy the file, drop it at <strong>yoursite.com/llms.txt</strong>. Runs entirely in your browser — nothing is stored or sent anywhere. <strong>Straight answer before you start:</strong> Google has confirmed its search systems ignore this file, and at ~300,000 domains there's no measurable link between having one and being cited by AI. It's worth thirty minutes, not a budget line — <a href="/blog/what-is-llms-txt/">here's the full evidence and what does work</a>.`}
+    />
 
-    <section class="cs-sec" aria-labelledby="tool-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="tool-h">Build your llms.txt</h2>
-          <span class="mono">Live preview →</span>
-        </div>
-
-        <div class="lg-grid">
-          <form class="lg-form" id="lg-form" autocomplete="off" novalidate>
-            <label class="lg-field">
-              <span class="lg-label">Business / brand name <b>*</b></span>
-              <input type="text" id="lg-name" placeholder="Acme Studio" required />
-            </label>
-            <label class="lg-field">
-              <span class="lg-label">Website URL <b>*</b></span>
-              <input type="url" id="lg-url" placeholder="https://acme.com" inputmode="url" required />
-            </label>
-            <label class="lg-field">
-              <span class="lg-label">One-line summary <b>*</b></span>
-              <input type="text" id="lg-summary" placeholder="Independent design studio for D2C brands." required />
-            </label>
-            <label class="lg-field">
-              <span class="lg-label">Services — one per line</span>
-              <textarea id="lg-services" rows="4" placeholder="Brand identity&#10;E-commerce design&#10;Packaging"></textarea>
-            </label>
-            <label class="lg-field">
-              <span class="lg-label">Key pages — <span class="mono lg-hint">Label | https://url</span> per line</span>
-              <textarea id="lg-pages" rows="4" placeholder="Services | https://acme.com/services&#10;Work | https://acme.com/work&#10;Contact | https://acme.com/contact"></textarea>
-            </label>
-            <div class="lg-two">
-              <label class="lg-field">
-                <span class="lg-label">Contact email</span>
-                <input type="email" id="lg-email" placeholder="hello@acme.com" inputmode="email" />
-              </label>
-              <label class="lg-field">
-                <span class="lg-label">Location <span class="lg-hint">(optional)</span></span>
-                <input type="text" id="lg-location" placeholder="Lisbon, Portugal" />
-              </label>
+    <Section n={1} term="Setup" note="Live preview" title="Build your llms.txt">
+      <div class="lg">
+        <form class="form lg-form" id="lg-form" autocomplete="off" novalidate>
+          <label class="field" for="lg-name">Business / brand name *<input type="text" id="lg-name" placeholder="Acme Studio" required /></label>
+          <label class="field" for="lg-url">Website URL *<input type="url" id="lg-url" placeholder="https://acme.com" inputmode="url" required /></label>
+          <label class="field" for="lg-summary">One-line summary *<input type="text" id="lg-summary" placeholder="Independent design studio for D2C brands." required /></label>
+          <label class="field" for="lg-services">Services — one per line<textarea id="lg-services" rows="4" placeholder="Brand identity&#10;E-commerce design&#10;Packaging"></textarea></label>
+          <label class="field" for="lg-pages">Key pages — Label | https://url per line<textarea id="lg-pages" rows="4" placeholder="Services | https://acme.com/services&#10;Work | https://acme.com/work&#10;Contact | https://acme.com/contact"></textarea></label>
+          <div class="lg-two">
+            <label class="field" for="lg-email">Contact email<input type="email" id="lg-email" placeholder="hello@acme.com" inputmode="email" /></label>
+            <label class="field" for="lg-location">Location (optional)<input type="text" id="lg-location" placeholder="Lisbon, Portugal" /></label>
+          </div>
+        </form>
+        <div class="lg-out">
+          <div class="lg-bar">
+            <span>llms.txt</span>
+            <div class="lg-actions">
+              <button type="button" class="lg-btn" id="lg-copy">Copy</button>
+              <button type="button" class="lg-btn lg-btn--red" id="lg-download">Download</button>
             </div>
-          </form>
-
-          <div class="lg-out">
-            <div class="lg-out-bar">
-              <span class="mono lg-file">llms.txt</span>
-              <div class="lg-actions">
-                <button type="button" class="lg-btn" id="lg-copy" data-cursor="COPY">Copy</button>
-                <button type="button" class="lg-btn lg-btn-solid" id="lg-download" data-cursor="SAVE">Download</button>
-              </div>
-            </div>
-            <pre class="lg-pre" id="lg-preview" aria-live="polite" tabindex="0"></pre>
           </div>
-        </div>
-
-        <p class="lg-note mono">Nothing here is uploaded — the file is built in your browser. After downloading, place it at your domain root so it resolves at <b>/llms.txt</b>, and allow AI crawlers in your robots.txt.</p>
-      </div>
-    </section>
-
-    <section class="cs-sec" aria-labelledby="next-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="next-h">llms.txt is the small step</h2>
-          <span class="mono">Go further</span>
-        </div>
-        <div class="cs-body" data-reveal>
-          <div class="cs-card">
-            <span class="cs-tag">Understand it</span>
-            <p>The plain-English explainer: what the file is, what Google and the research actually say about it, and why I still ship one. <a href="/blog/what-is-llms-txt/">An honest answer on whether llms.txt works →</a></p>
-          </div>
-          <div class="cs-card">
-            <span class="cs-tag">Get quoted by AI</span>
-            <p>This is the part that actually moves citations: rank for the question, answer it on the page, and write copy that survives being quoted. <a href="/blog/get-your-business-recommended-by-chatgpt/">The 2026 GEO playbook →</a></p>
-          </div>
-          <div class="cs-card span2">
-            <span class="cs-tag">Done properly, for you</span>
-            <p>Want the full implementation — llms.txt, schema graphs, AI-crawler strategy and quotable copy wired into your codebase so Google ranks you <strong>and</strong> AI assistants recommend you? That's my <a href="/services/seo-geo-services/">SEO &amp; GEO service →</a></p>
-          </div>
+          <pre class="lg-pre" id="lg-preview" aria-live="polite" tabindex="0"></pre>
         </div>
       </div>
-    </section>
+      <p class="meta lg-note">Nothing here is uploaded — the file is built in your browser. After downloading, place it at your domain root so it resolves at /llms.txt, and allow AI crawlers in your robots.txt.</p>
+    </Section>
 
-    <section class="cs-sec" aria-labelledby="faq-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="faq-h">Frequently asked</h2>
-          <span class="mono">llms.txt</span>
-        </div>
-        <div class="cs-faq">
-          {faqs.map((f, i) => (
-            <div class="cs-faq-row">
-              <button class="cs-faq-q" data-faqtog={i} aria-expanded="false" aria-controls={`faq-lg-${i}`}>
-                <span>{f.q}</span><span class="cs-faq-icon" data-faqicon={i} aria-hidden="true">+</span>
-              </button>
-              <div class="cs-faq-a" id={`faq-lg-${i}`} data-faqbody={i}><p>{f.a}</p></div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+    <Section n={2} term="Setup" note="Go further" title="llms.txt is the small step">
+      <Cards items={[
+        { tag: "Understand it", d: `The plain-English explainer: what the file is, what Google and the research actually say about it, and why I still ship one. <a href="/blog/what-is-llms-txt/">An honest answer on whether llms.txt works →</a>` },
+        { tag: "Get quoted by AI", d: `This is the part that actually moves citations: rank for the question, answer it on the page, and write copy that survives being quoted. <a href="/blog/get-your-business-recommended-by-chatgpt/">The 2026 GEO playbook →</a>` },
+        { tag: "Done properly, for you", wide: true, d: `Want the full implementation — llms.txt, schema graphs, AI-crawler strategy and quotable copy wired into your codebase so Google ranks you <strong>and</strong> AI assistants recommend you? That's my <a href="/services/seo-geo-services/">SEO &amp; GEO service →</a>` },
+      ]} />
+    </Section>
 
-    <section class="cs-endcta">
-      <div class="wrap">
-        <h2>Want AI to actually recommend you?</h2>
-        <p>The generator gets you a file. Getting cited in AI answers takes the full GEO stack — implemented in your codebase. Let's talk about your site.</p>
-        <div class="cs-cta-row" style="justify-content:center;">
-          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book a GEO call <span aria-hidden="true">↗</span></a>
-          <a class="btn btn-ghost" href="/tools/">More free tools</a>
-        </div>
-      </div>
-    </section>
+    <Section bare>
+      <Faq faqs={faqs} label="(03) Before you ask" />
+    </Section>
+
+    <EndCta
+      title="Want AI to actually recommend you?"
+      text="The generator gets you a file. Getting cited in AI answers takes the full GEO stack — implemented in your codebase. Let's talk about your site."
+      primary={{ href: CALENDLY_URL, label: "Book a GEO call →" }}
+      secondary={{ href: "/tools/", label: "More free tools →" }}
+    />
   </main>
-</Studio>
-
-<style>
-  .lg-grid { display:grid; grid-template-columns:1fr 1fr; gap:22px; align-items:start; }
-  @media (max-width:900px){ .lg-grid { grid-template-columns:1fr; } }
-  .lg-form { display:flex; flex-direction:column; gap:16px; }
-  .lg-two { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
-  @media (max-width:480px){ .lg-two { grid-template-columns:1fr; } }
-  .lg-field { display:flex; flex-direction:column; gap:7px; }
-  .lg-label { font-family:'JetBrains Mono',monospace; font-size:var(--fs-label-lg); letter-spacing:.1em; text-transform:uppercase; color:#8A8A93; }
-  .lg-label b { color:var(--accent); font-weight:400; }
-  .lg-hint { text-transform:none; letter-spacing:.02em; color:#6f6f77; }
-  .lg-field input, .lg-field textarea {
-    width:100%; background:#131316; border:1px solid rgba(244,242,236,.16); border-radius:9px;
-    color:#F4F2EC; font-family:inherit; font-size:15px; padding:12px 14px; line-height:1.5; resize:vertical;
-  }
-  .lg-field textarea { font-family:'JetBrains Mono',monospace; font-size:13px; }
-  .lg-field input:focus, .lg-field textarea:focus { outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(217,255,60,.14); }
-  .lg-field input::placeholder, .lg-field textarea::placeholder { color:#55555C; }
-
-  .lg-out { position:sticky; top:86px; border:1px solid rgba(244,242,236,.16); border-radius:12px; overflow:hidden; background:#0b0b0c; }
-  @media (max-width:900px){ .lg-out { position:static; } }
-  .lg-out-bar { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 14px; border-bottom:1px solid rgba(244,242,236,.12); background:#131316; }
-  .lg-file { font-size:var(--fs-label-lg); letter-spacing:var(--ls-label); text-transform:uppercase; color:#8A8A93; }
-  .lg-actions { display:flex; gap:8px; }
-  .lg-btn { font-family:'JetBrains Mono',monospace; font-size:var(--fs-label); letter-spacing:.1em; text-transform:uppercase; padding:8px 14px; border-radius:999px; cursor:pointer; border:1px solid rgba(244,242,236,.28); background:transparent; color:#F4F2EC; transition:transform .15s ease, background .15s ease; }
-  .lg-btn:hover { transform:translateY(-1px); }
-  .lg-btn-solid { background:var(--accent); color:#0b0b0c; border-color:var(--accent); }
-  .lg-btn.is-done { background:var(--accent); color:#0b0b0c; border-color:var(--accent); }
-  .lg-pre { margin:0; padding:18px 16px; font-family:'JetBrains Mono',monospace; font-size:12.5px; line-height:1.7; color:#C9C7C0; white-space:pre-wrap; word-break:break-word; max-height:560px; overflow:auto; }
-  .lg-note { margin-top:20px; font-size:var(--fs-label-lg); letter-spacing:.05em; color:#6f6f77; line-height:1.7; }
-  .lg-note b { color:#8A8A93; }
-</style>
+</Base>
 
 <script is:inline>
   (function () {
-    var root = document.getElementById("ds-root");
-    if (!root) return;
-
-    // ---- FAQ accordion (same pattern as the service pages) ----
-    var faq = -1;
-    function syncFaq() {
-      root.querySelectorAll("[data-faqbody]").forEach(function (el) {
-        var open = Number(el.getAttribute("data-faqbody")) === faq;
-        el.style.maxHeight = open ? el.scrollHeight + "px" : "0px";
-        el.style.opacity = open ? "1" : "0";
-      });
-      root.querySelectorAll("[data-faqicon]").forEach(function (el) {
-        el.style.transform = Number(el.getAttribute("data-faqicon")) === faq ? "rotate(45deg)" : "rotate(0deg)";
-      });
-      root.querySelectorAll("[data-faqtog]").forEach(function (el) {
-        el.setAttribute("aria-expanded", Number(el.getAttribute("data-faqtog")) === faq ? "true" : "false");
-      });
-    }
-    root.querySelectorAll("[data-faqtog]").forEach(function (el) {
-      el.addEventListener("click", function () {
-        var i = Number(el.getAttribute("data-faqtog"));
-        faq = faq === i ? -1 : i;
-        syncFaq();
-      });
-    });
-    window.addEventListener("resize", function () { if (faq >= 0) syncFaq(); });
-    syncFaq();
-
     // ---- llms.txt generator ----
     var $ = function (id) { return document.getElementById(id); };
     var fields = ["lg-name", "lg-url", "lg-summary", "lg-services", "lg-pages", "lg-email", "lg-location"];
@@ -320,8 +198,7 @@ const jsonld = JSON.stringify({
       var text = build();
       var done = function () {
         copyBtn.textContent = "Copied ✓";
-        copyBtn.classList.add("is-done");
-        setTimeout(function () { copyBtn.textContent = "Copy"; copyBtn.classList.remove("is-done"); }, 1600);
+        setTimeout(function () { copyBtn.textContent = "Copy"; }, 1600);
       };
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(text).then(done, function () { fallbackCopy(text); done(); });
@@ -346,3 +223,18 @@ const jsonld = JSON.stringify({
     });
   })();
 </script>
+
+<style>
+  .lg{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:clamp(28px,4vw,64px);align-items:start}
+  .lg-two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:16px}
+  .lg-out{border:1px solid var(--gda);border-top:3px solid var(--ink);position:sticky;top:88px}
+  .lg-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--gda);font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--g5c)}
+  .lg-actions{display:flex;gap:8px}
+  .lg-btn{background:var(--ink);color:#fff;border:0;min-height:40px;padding:0 18px;font-family:var(--display);font-weight:800;font-stretch:112%;font-size:12px;letter-spacing:.04em;text-transform:uppercase;cursor:pointer;clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%)}
+  .lg-btn:hover{background:var(--red)}
+  .lg-btn--red{background:var(--red)}
+  .lg-btn--red:hover{background:var(--ink)}
+  .lg-pre{margin:0;padding:18px 16px;min-height:320px;overflow-x:auto;font-family:var(--mono);font-size:13px;line-height:1.6;color:var(--ink);white-space:pre-wrap;word-break:break-word}
+  .lg-note{margin:28px 0 0;max-width:90ch;line-height:1.6;text-transform:none;letter-spacing:.02em}
+  @media (max-width:899.98px){.lg-out{position:static}}
+</style>

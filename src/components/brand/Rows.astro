@@ -1,0 +1,32 @@
+---
+// "What I do" rows (Home Services): number · H3 · description, 3px ink rule
+// on top and hairlines between. `d` may carry inline HTML (links, <strong>).
+interface Props {
+  items: { t: string; d?: string; href?: string; n?: string }[];
+  tag?: "h2" | "h3";
+}
+const { items, tag = "h3" } = Astro.props;
+const H = tag;
+---
+
+<div class="rows">
+  {items.map((it, i) => (
+    <div class="row">
+      <span class="row-n">{it.n ?? String(i + 1).padStart(2, "0")}</span>
+      <H class="row-t">{it.href ? <a href={it.href}>{it.t}</a> : it.t}</H>
+      {it.d && <p class="row-d" set:html={it.d} />}
+    </div>
+  ))}
+</div>
+
+<style>
+  .rows{border-top:3px solid var(--ink)}
+  .row{display:flex;flex-wrap:wrap;gap:12px 32px;padding:clamp(22px,2.6vw,36px) 0;border-bottom:1px solid var(--gda)}
+  .row-n{flex:0 0 56px;font-family:var(--mono);font-size:14px;color:var(--red);padding-top:8px}
+  .row-t{flex:1 1 280px;margin:0;font-weight:900;font-style:italic;font-stretch:125%;text-transform:uppercase;font-size:clamp(28px,3.4vw,52px);line-height:.95;letter-spacing:-0.02em;overflow-wrap:anywhere}
+  .row-t a{color:var(--ink);text-decoration:none}
+  .row-t a:hover{color:var(--red)}
+  .row-d{flex:1 1 340px;margin:0;font-size:17px;line-height:1.55;color:var(--g3e);max-width:52ch}
+  .row-d :global(a){color:var(--ink)}
+  .row-d :global(a:hover){color:var(--red)}
+</style>

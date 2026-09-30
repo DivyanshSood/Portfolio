@@ -1,0 +1,50 @@
+---
+// FAQ (Home "(08) Before you ask"). Accordion behaviour in
+// src/scripts/chrome.js; the first answer is open on load, as designed.
+// The page keeps its FAQPage JSON-LD built from the same array.
+interface Props {
+  faqs: { q: string; a: string }[];
+  label?: string;
+  title?: string;
+  html?: boolean;
+}
+const { faqs, label = "(08) Before you ask", title = "Questions I get.", html = false } = Astro.props;
+---
+
+<div class="fq">
+  <div class="fq-head">
+    <div class="lbl">{label}</div>
+    <h2 class="h2 fq-h">{title}</h2>
+  </div>
+  <div class="fq-list" data-faq>
+    {faqs.map((f, i) => (
+      <div class="fq-item" data-faq-item>
+        <h3>
+          <button type="button" aria-expanded={i === 0 ? "true" : "false"}>
+            <span class="fq-n">{String(i + 1).padStart(2, "0")}</span>
+            <span class="fq-q">{f.q}</span>
+            <span class:list={["fq-i", { "is-open": i === 0 }]} data-faq-icon aria-hidden="true">{i === 0 ? "−" : "+"}</span>
+          </button>
+        </h3>
+        {html ? <p class="fq-a" data-faq-a hidden={i !== 0} set:html={f.a} /> : <p class="fq-a" data-faq-a hidden={i !== 0}>{f.a}</p>}
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .fq{display:flex;flex-wrap:wrap;gap:clamp(28px,5vw,80px)}
+  .fq-head{flex:1 1 300px}
+  .fq-h{font-size:clamp(44px,6.4vw,104px)}
+  .fq-list{flex:2 1 480px;border-top:3px solid var(--ink)}
+  .fq-item{border-bottom:1px solid var(--gda)}
+  h3{margin:0}
+  button{width:100%;background:none;border:0;padding:22px 0;display:flex;align-items:center;gap:18px;text-align:left;cursor:pointer;color:var(--ink);font-family:var(--display)}
+  .fq-n{font-family:var(--mono);font-size:12px;color:var(--red);flex:0 0 28px}
+  .fq-q{flex:1;font-weight:750;font-stretch:106%;font-size:clamp(19px,1.8vw,25px);line-height:1.25;letter-spacing:-0.01em}
+  .fq-i{flex:0 0 32px;height:32px;display:flex;align-items:center;justify-content:center;background:var(--ink);color:#fff;font-size:18px;font-weight:700}
+  :global(.fq-i.is-open){background:var(--red)}
+  .fq-a{margin:0;padding:0 50px 26px 46px;font-size:17px;line-height:1.6;color:var(--g3e);max-width:70ch}
+  .fq-a :global(a){color:var(--ink)}
+  @media (max-width:480px){.fq-a{padding-right:0}}
+</style>

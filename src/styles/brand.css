@@ -1,0 +1,169 @@
+/* ===========================================================================
+   Divyansh Sood® Studio — the only global stylesheet.
+
+   Everything here is transcribed from the locked brandbook
+   (Brandbook.dc.html) and the three designed pages (Home, Portfolio,
+   Case Study). Values are copied, not invented: if a rule isn't in the book,
+   it isn't in the brand.
+
+   Colour: 4 surfaces + 6 neutrals, nothing else. No gradients (the chequered
+   flag's conic pattern is the one drawn in the book), no alpha text, no
+   shadows. Type: Archivo + Geist Mono only. Radius 0 everywhere; the only
+   circles are the status dot.
+   =========================================================================== */
+
+@font-face{font-family:'Archivo';font-style:normal;font-weight:100 900;font-stretch:62% 125%;font-display:swap;src:url('/fonts/archivo.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Archivo';font-style:italic;font-weight:100 900;font-stretch:62% 125%;font-display:swap;src:url('/fonts/archivo-italic.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Geist Mono';font-style:normal;font-weight:400 700;font-display:swap;src:url('/fonts/geist-mono.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+
+:root{
+  /* (01) Livery */
+  --red:#E4151F;   /* Racing Red — hero, contact, primary CTA, labels, accents */
+  --ink:#0B0B0C;   /* Ink — body text on white, nav, footer, secondary CTA */
+  --paper:#FFFFFF; /* Paper — every content section */
+  --tint:#F3F2EE;  /* Tarmac Tint — process section + image placeholders */
+  /* Neutrals — supporting only */
+  --g3e:#3E3E3E;   /* body copy on white */
+  --g5c:#5C5C5C;   /* meta, labels on white */
+  --gda:#DADADA;   /* rules, borders, tracks */
+  --g26:#262626;   /* rules on ink */
+  --g8a:#8A8A8A;   /* meta on ink only */
+  --gbd:#BDBDBD;   /* body copy on ink */
+
+  /* (02) Type */
+  --display:'Archivo',system-ui,sans-serif;
+  --mono:'Geist Mono',monospace;
+
+  /* (04) The circuit */
+  --max:1600px;
+  --gutter:clamp(16px,4vw,40px);
+  --sec-y:clamp(72px,10vw,150px);
+  --head-gap:clamp(36px,5vw,64px);
+  --chevron:polygon(0 0,100% 0,100% 72%,50% 100%,0 72%);
+}
+
+/* ---- Base (the design files' <helmet> styles) ---------------------------- */
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:#fff;color:var(--ink);-webkit-font-smoothing:antialiased;font-family:var(--display)}
+*{box-sizing:border-box}
+a{color:var(--ink)}
+a:hover{color:var(--red)}
+::selection{background:var(--red);color:#fff}
+img{max-width:100%}
+.site{background:#fff;color:var(--ink);font-family:var(--display);position:relative;overflow-x:clip}
+:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+[hidden]{display:none !important}
+
+/* ---- Layout ------------------------------------------------------------- */
+.wrap{max-width:var(--max);margin:0 auto}
+.sec{padding:var(--sec-y) var(--gutter)}
+.sec--tint{background:var(--tint)}
+.sec--flush-top{padding-top:0}
+.gap-top{margin-top:clamp(28px,3vw,44px)}
+
+/* ---- Type ramp ---------------------------------------------------------- */
+.lbl{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--red);margin-bottom:14px}
+.lbl--ink{color:inherit}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.meta{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--g5c)}
+.meta a{color:var(--ink)}
+.meta a:hover{color:var(--red)}
+.h-hero{margin:0;font-weight:900;font-style:italic;font-stretch:125%;text-transform:uppercase;line-height:.84;letter-spacing:-0.03em;font-size:clamp(56px,13vw,240px)}
+.h2{margin:0;font-weight:900;font-style:italic;font-stretch:125%;text-transform:uppercase;line-height:.86;letter-spacing:-0.02em;font-size:clamp(44px,7.4vw,120px)}
+.h3card{margin:0;font-weight:900;font-style:italic;font-stretch:125%;text-transform:uppercase;font-size:clamp(20px,min(2.4vw,3.4vh),40px);line-height:1;letter-spacing:0;overflow-wrap:anywhere}
+.h-lead{margin:0;font-weight:650;font-stretch:100%;font-size:clamp(20px,1.9vw,28px);line-height:1.22;letter-spacing:-0.01em;text-wrap:pretty}
+.h-lead em{color:var(--red);font-weight:900;font-stretch:115%}
+.h-step{margin:0;font-weight:800;font-stretch:112%;font-size:22px;letter-spacing:-0.01em}
+.body{font-size:17px;line-height:1.55;color:var(--g3e)}
+.intro{margin:0;max-width:52ch;font-size:clamp(18px,1.6vw,22px);line-height:1.45;font-weight:500;text-wrap:pretty}
+.sup{font-size:.3em;vertical-align:top;margin-left:.2em}
+
+/* ---- (03) Shape: parallelogram buttons ------------------------------------ */
+.btn{display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:0 26px;text-decoration:none;font-family:var(--display);font-weight:800;font-stretch:112%;text-transform:uppercase;font-size:14px;letter-spacing:.03em;border:0;cursor:pointer;clip-path:polygon(10px 0,100% 0,calc(100% - 10px) 100%,0 100%)}
+.btn--red{background:var(--red);color:#fff}
+.btn--red:hover{background:var(--ink);color:#fff}
+.btn--ink{background:var(--ink);color:#fff}
+.btn--ink:hover{background:var(--red);color:#fff}
+/* The big end-of-page CTA ("Book a 15-min intro →" on red / ink). */
+.btn--xl{gap:12px;min-height:60px;padding:0 30px;font-weight:900;font-style:italic;font-stretch:118%;font-size:17px;letter-spacing:0;clip-path:polygon(12px 0,100% 0,calc(100% - 12px) 100%,0 100%)}
+.btn--white{background:#fff;color:var(--ink)}
+.btn--white:hover{background:var(--ink);color:#fff}
+.btn--xl.btn--red:hover{background:#fff;color:var(--ink)}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px}
+
+/* ---- C03 Chips ---------------------------------------------------------- */
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;min-height:44px;border:1.5px solid var(--ink);padding:11px 14px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;color:var(--ink);background:transparent}
+a.chip:hover{background:var(--ink);color:#fff}
+.chip--red{border-color:var(--red);background:var(--red);color:#fff}
+a.chip--red:hover{background:var(--ink);border-color:var(--ink);color:#fff}
+.chip--muted{border-color:var(--gda);color:var(--g3e)}
+a.chip--muted:hover{background:transparent;border-color:var(--ink);color:var(--ink)}
+.chips-lbl{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--g5c);margin-bottom:14px}
+
+/* ---- Rules -------------------------------------------------------------- */
+.rule{border-top:3px solid var(--ink)}
+.links-row{display:flex;flex-wrap:wrap;gap:12px 28px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.links-row a{color:var(--ink)}
+.links-row a:hover{color:var(--red)}
+
+/* ---- Spec sheet (Home About / brandbook "The circuit") ------------------- */
+.spec{margin:0}
+.spec > div{display:grid;grid-template-columns:110px 1fr;gap:16px;padding:16px 0;border-bottom:1px solid var(--gda)}
+.spec dt{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--g5c);padding-top:3px}
+.spec dd{margin:0;font-size:16px;line-height:1.45}
+.spec-head{display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid var(--ink);padding-bottom:10px;font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase}
+
+/* ---- Forms (Home contact "Send a brief") --------------------------------- */
+.field{display:flex;flex-direction:column;gap:8px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--g3e)}
+.field input,.field textarea,.field select{font-family:var(--display);font-size:17px;letter-spacing:0;text-transform:none;padding:14px 0;border:0;border-bottom:2px solid var(--ink);border-radius:0;outline:none;background:transparent;color:var(--ink);width:100%}
+.field select{appearance:none;-webkit-appearance:none;cursor:pointer}
+.field textarea{resize:vertical}
+.field input:focus,.field textarea:focus,.field select:focus{border-bottom-color:var(--red)}
+.form{display:flex;flex-direction:column;gap:16px}
+.form-submit{margin-top:8px;min-height:56px;background:var(--ink);color:#fff;border:0;font-family:var(--display);font-weight:800;font-stretch:112%;text-transform:uppercase;font-size:15px;letter-spacing:.04em;cursor:pointer;clip-path:polygon(10px 0,100% 0,calc(100% - 10px) 100%,0 100%)}
+.form-submit:hover{background:var(--red)}
+.form-submit[disabled]{cursor:progress}
+.form-err{margin:0;font-size:15px;line-height:1.5;color:var(--red)}
+.form-done{padding:20px 0}
+.form-done-h{font-weight:900;font-style:italic;font-stretch:125%;text-transform:uppercase;font-size:40px;line-height:.9;color:var(--red)}
+.form-done p{margin:14px 0 0;font-size:17px;line-height:1.5;color:var(--ink)}
+.form-done .form-done-alt{display:flex;flex-wrap:wrap;gap:8px 20px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.form-done a{color:var(--ink)}
+.form-done a:hover{color:var(--red)}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+
+/* ---- Long-form text (blog posts, legal, press bios) ---------------------- */
+.prose{font-size:17px;line-height:1.6;color:var(--g3e)}
+.prose > *{max-width:70ch}
+.prose > :first-child{margin-top:0}
+.prose p{margin:0 0 1.1em}
+.prose h2{margin:2.2em 0 .7em;color:var(--ink);font-weight:900;font-style:italic;font-stretch:125%;text-transform:uppercase;font-size:clamp(26px,3vw,44px);line-height:1;letter-spacing:0;overflow-wrap:anywhere;scroll-margin-top:88px}
+.prose h3{margin:1.8em 0 .5em;color:var(--ink);font-weight:800;font-stretch:112%;font-size:22px;line-height:1.2;letter-spacing:-0.01em;scroll-margin-top:88px}
+.prose h4{margin:1.4em 0 .4em;color:var(--ink);font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase}
+.prose strong{color:var(--ink);font-weight:700}
+.prose a{color:var(--ink);text-underline-offset:3px;text-decoration-thickness:1.5px}
+.prose a:hover{color:var(--red)}
+.prose ul,.prose ol{margin:0 0 1.1em;padding-left:22px}
+.prose li{margin:0 0 .5em}
+.prose li::marker{color:var(--red)}
+.prose ol li::marker{font-family:var(--mono);font-size:14px}
+.prose hr{border:0;border-top:1px solid var(--gda);margin:2.4em 0;max-width:none}
+.prose hr + h2{margin-top:0}
+.prose blockquote{margin:1.6em 0;padding:18px 0 0;border-top:3px solid var(--ink);color:var(--ink);font-weight:500;font-size:18px;line-height:1.55}
+.prose blockquote p:last-child{margin-bottom:0}
+.prose code{font-family:var(--mono);font-size:.86em;color:var(--ink);border:1px solid var(--gda);padding:1px 5px}
+.prose pre{margin:1.4em 0;padding:18px 20px;overflow-x:auto;border:1px solid var(--gda);border-top:3px solid var(--ink);background:#fff;color:var(--ink);font-family:var(--mono);font-size:13.5px;line-height:1.6}
+.prose pre code{border:0;padding:0;font-size:inherit;background:none}
+.prose .table-wrap,.prose table{max-width:none}
+.prose table{width:100%;border-collapse:collapse;margin:1.6em 0;font-size:15px;line-height:1.45;border-top:3px solid var(--ink);display:block;overflow-x:auto}
+.prose th{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--g5c);text-align:left;padding:12px 16px 12px 0;border-bottom:1px solid var(--gda);vertical-align:bottom}
+.prose td{padding:12px 16px 12px 0;border-bottom:1px solid var(--gda);vertical-align:top}
+.prose td:first-child{color:var(--ink);font-weight:600}
+
+/* ---- Motion: everything respects prefers-reduced-motion ------------------ */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important}
+}

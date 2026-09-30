@@ -1,5 +1,12 @@
 ---
-import Studio from "../layouts/Studio.astro";
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/brand/PageHero.astro";
+import Section from "../components/brand/Section.astro";
+import Rows from "../components/brand/Rows.astro";
+import Cards from "../components/brand/Cards.astro";
+import ResultGrid from "../components/brand/ResultGrid.astro";
+import Faq from "../components/brand/Faq.astro";
+import EndCta from "../components/brand/EndCta.astro";
 import { SITE, CALENDLY_URL, GOOGLE_MAPS_URL } from "../lib/site.mjs";
 import { TOPICS } from "../lib/entity.mjs";
 
@@ -50,7 +57,7 @@ const jsonld = JSON.stringify({
 });
 ---
 
-<Studio
+<Base
   title="Web Developer in Kangra — Websites That Win Local Customers"
   description="Web developer in Kangra, Himachal — booking sites for taxi operators, school admissions portals, local business websites. Built in-district, live in 1–3 weeks."
   canonical={canonical}
@@ -61,144 +68,49 @@ const jsonld = JSON.stringify({
   jsonld={jsonld}
 >
   <main>
-    <header class="cs-hero">
-      <div class="wrap">
-        <div class="cs-eyebrow">
-          <span>Himachal Pradesh</span><span>Kangra district</span><span>2026</span>
-        </div>
-        <h1 style="margin:14px 0 0;font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(44px,8vw,108px);line-height:.9;letter-spacing:-.01em;text-transform:uppercase;">Web developer<br /><span style="color:var(--accent);">in Kangra.</span></h1>
-        <p class="cs-lead">I live and build in Kangra district — and the businesses I've built for are ones you know. The taxi operator winning direct bookings back from Google Maps. The school whose admissions portal went live in seven days. If you run a business here, your customers are already searching; the question is whose site they find.</p>
-        <div class="cs-cta-row">
-          <a class="btn btn-ghost" href={WA} target="_blank" rel="noopener">Message on WhatsApp</a>
-          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book a call <span aria-hidden="true">↗</span></a>
-        </div>
-        <div class="cs-meta">
-          <span>Based in Kangra · <a href={GOOGLE_MAPS_URL} target="_blank" rel="noopener">on Google Maps ↗</a></span><span>Live in 1–3 weeks · fastest: 7 days</span>
-        </div>
-      </div>
-    </header>
+    <PageHero
+      display="Web developer in Kangra."
+      size="case"
+      kicker="Himachal Pradesh · Kangra district · 2026"
+      lead={`I live and build in Kangra district — and the businesses I've built for are ones you know. The taxi operator winning direct bookings back from Google Maps. The school whose admissions portal went live in seven days. If you run a business here, your customers are already searching; the question is whose site they find.`}
+    >
+      <a class="btn btn--red" href={CALENDLY_URL}>Book a call <span aria-hidden="true">→</span></a>
+      <a class="btn btn--ink" href={WA}>Message on WhatsApp</a>
+      <Fragment slot="notes"><span>Based in Kangra · <a href={GOOGLE_MAPS_URL} target="_blank" rel="noopener">on Google Maps ↗</a></span><span>Live in 1–3 weeks · fastest: 7 days</span></Fragment>
+    </PageHero>
 
-    <section class="cs-sec" aria-labelledby="offer-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="offer-h">Built for Kangra's businesses</h2>
-          <span class="mono">The offering</span>
-        </div>
-        <div class="cs-body" data-reveal>
-          {offers.map((o) => (
-            <div class="cs-card">
-              <span class="cs-tag">{o.t}</span>
-              <p class="cs-card-h2">{o.d}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+    <Section n={1} term="Setup" note="The offering" title="Built for Kangra's businesses">
+      <Rows items={offers} />
+    </Section>
 
-    <section class="cs-sec" aria-labelledby="proof-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="proof-h">Kangra work, on the record</h2>
-          <span class="mono">Proof, not promises</span>
-        </div>
-        <div class="cs-metrics" data-reveal>
-          <div class="cs-metric"><span class="cs-metric-v">10×</span><span class="cs-metric-l">"More premium than competitors" — Nandini founder</span></div>
-          <div class="cs-metric"><span class="cs-metric-v">Direct</span><span class="cs-metric-l">Bookings recovered from Google Maps</span></div>
-          <div class="cs-metric"><span class="cs-metric-v">7 days</span><span class="cs-metric-l">School site + admissions portal, live</span></div>
-          <div class="cs-metric"><span class="cs-metric-v">0 SaaS</span><span class="cs-metric-l">Recurring fees for the school</span></div>
-        </div>
-        <div class="cs-body" data-reveal style="margin-top:22px;">
-          <div class="cs-card">
-            <span class="cs-tag">Nandini Travels · Kangra taxi</span>
-            <p>Kangra's most-positively-reviewed taxi operator, rebuilt in Next.js with an on-site booking form, WhatsApp CTA, outstation routes and airport pickup. Direct bookings now flow through the site. <a href="/projects/nandini/">Read the case study →</a></p>
-          </div>
-          <div class="cs-card">
-            <span class="cs-tag">Modern K.B.S. · school</span>
-            <p>Public website plus an admissions admin panel for classes I–XII, delivered in the same 7-day sprint — no recurring software fees. <a href="/projects/modernkbs/">Read the case study →</a></p>
-          </div>
-          <div class="cs-card">
-            <span class="cs-tag">Pinnacle World School · Baroh, Kangra</span>
-            <p>A CBSE school site where every published fact traces back to the school's affiliation record: Mandatory Public Disclosure, an admissions form that lands in the office's WhatsApp, and old URLs redirected. <a href="/projects/pinnacle-world-school/">Read the case study →</a></p>
-          </div>
-          <div class="cs-card">
-            <span class="cs-tag">Yash Rock Hotel · Dehrian, Kangra</span>
-            <p>Seven rooms, a pool, and no booking engine: every enquiry goes to WhatsApp or a call, and 14 “near” pages reach guests heading for NIFT, Tanda Medical College and the airport. <a href="/projects/yash-rock-hotel/">Read the case study →</a></p>
-          </div>
-          <div class="cs-card span2">
-            <span class="cs-tag">By industry</span>
-            <p>What I build most in Himachal: <a href="/services/school-website-development/">school websites</a>, <a href="/services/hotel-website-development/">hotel and homestay websites</a>, and <a href="/services/travel-website-development/">travel and taxi websites</a>.</p>
-          </div>
-          <div class="cs-card span2">
-            <span class="cs-tag">Why local sites fail</span>
-            <p>Most local business websites don't generate leads — and it's rarely a traffic problem. I wrote up the patterns I keep seeing. <a href="/blog/why-indian-websites-dont-generate-leads/">Read the breakdown →</a></p>
-          </div>
-        </div>
+    <Section n={2} term="Telemetry" note="Proof, not promises" title="Kangra work, on the record">
+      <ResultGrid stats={[
+        { v: `10×`, l: `"More premium than competitors" — Nandini founder` },
+        { v: `Direct`, l: `Bookings recovered from Google Maps` },
+        { v: `7 days`, l: `School site + admissions portal, live` },
+        { v: `0 SaaS`, l: `Recurring fees for the school` },
+      ]} />
+      <div class="gap-top">
+        <Cards items={[
+          { tag: `Nandini Travels · Kangra taxi`, d: `Kangra's most-positively-reviewed taxi operator, rebuilt in Next.js with an on-site booking form, WhatsApp CTA, outstation routes and airport pickup. Direct bookings now flow through the site. <a href="/projects/nandini/">Read the case study →</a>` },
+          { tag: `Modern K.B.S. · school`, d: `Public website plus an admissions admin panel for classes I–XII, delivered in the same 7-day sprint — no recurring software fees. <a href="/projects/modernkbs/">Read the case study →</a>` },
+          { tag: `Pinnacle World School · Baroh, Kangra`, d: `A CBSE school site where every published fact traces back to the school's affiliation record: Mandatory Public Disclosure, an admissions form that lands in the office's WhatsApp, and old URLs redirected. <a href="/projects/pinnacle-world-school/">Read the case study →</a>` },
+          { tag: `Yash Rock Hotel · Dehrian, Kangra`, d: `Seven rooms, a pool, and no booking engine: every enquiry goes to WhatsApp or a call, and 14 “near” pages reach guests heading for NIFT, Tanda Medical College and the airport. <a href="/projects/yash-rock-hotel/">Read the case study →</a>` },
+          { tag: `By industry`, wide: true, d: `What I build most in Himachal: <a href="/services/school-website-development/">school websites</a>, <a href="/services/hotel-website-development/">hotel and homestay websites</a>, and <a href="/services/travel-website-development/">travel and taxi websites</a>.` },
+          { tag: `Why local sites fail`, wide: true, d: `Most local business websites don't generate leads — and it's rarely a traffic problem. I wrote up the patterns I keep seeing. <a href="/blog/why-indian-websites-dont-generate-leads/">Read the breakdown →</a>` },
+        ]} />
       </div>
-    </section>
+    </Section>
 
-    <section class="cs-sec" aria-labelledby="faq-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="faq-h">Frequently asked</h2>
-          <span class="mono">Kangra</span>
-        </div>
-        <div class="cs-faq">
-          {faqs.map((f, i) => (
-            <div class="cs-faq-row">
-              <button class="cs-faq-q" data-faqtog={i} aria-expanded="false" aria-controls={`faq-kgr-${i}`}>
-                <span>{f.q}</span><span class="cs-faq-icon" data-faqicon={i} aria-hidden="true">+</span>
-              </button>
-              <div class="cs-faq-a" id={`faq-kgr-${i}`} data-faqbody={i}><p>{f.a}</p></div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+    <Section bare>
+      <Faq faqs={faqs} label="(03) Before you ask" />
+    </Section>
 
-    <section class="cs-endcta">
-      <div class="wrap">
-        <h2>Run a business in Kangra?</h2>
-        <p>Message me what you do. I'll tell you honestly whether a website will move the needle for you — and what it would cost, fixed, in writing.</p>
-        <div class="cs-cta-row" style="justify-content:center;">
-          <a class="btn btn-primary" href={WA} target="_blank" rel="noopener">Message on WhatsApp</a>
-          <a class="btn btn-ghost" href="/services/">See all services</a>
-        </div>
-      </div>
-    </section>
+    <EndCta
+      title="Run a business in Kangra?"
+      text={`Message me what you do. I'll tell you honestly whether a website will move the needle for you — and what it would cost, fixed, in writing.`}
+      primary={{ href: WA, label: "Message on WhatsApp →" }}
+      secondary={{ href: "/services/", label: "See all services →" }}
+    />
   </main>
-</Studio>
-
-<script is:inline>
-  (function () {
-    var root = document.getElementById("ds-root");
-    if (!root) return;
-    var faq = -1;
-    function sync() {
-      root.querySelectorAll("[data-faqbody]").forEach(function (el) {
-        var open = Number(el.getAttribute("data-faqbody")) === faq;
-        el.style.maxHeight = open ? el.scrollHeight + "px" : "0px";
-        el.style.opacity = open ? "1" : "0";
-      });
-      root.querySelectorAll("[data-faqicon]").forEach(function (el) {
-        el.style.transform = Number(el.getAttribute("data-faqicon")) === faq ? "rotate(45deg)" : "rotate(0deg)";
-      });
-      root.querySelectorAll("[data-faqtog]").forEach(function (el) {
-        el.setAttribute("aria-expanded", Number(el.getAttribute("data-faqtog")) === faq ? "true" : "false");
-      });
-    }
-    root.querySelectorAll("[data-faqtog]").forEach(function (el) {
-      el.addEventListener("click", function () {
-        var i = Number(el.getAttribute("data-faqtog"));
-        faq = faq === i ? -1 : i;
-        sync();
-      });
-    });
-    var rt;
-    window.addEventListener("resize", function () {
-      if (faq < 0) return;
-      clearTimeout(rt);
-      rt = setTimeout(sync, 120);
-    });
-    sync();
-  })();
-</script>
+</Base>

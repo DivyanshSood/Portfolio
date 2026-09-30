@@ -1,5 +1,12 @@
 ---
-import Studio from "../layouts/Studio.astro";
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/brand/PageHero.astro";
+import Section from "../components/brand/Section.astro";
+import Rows from "../components/brand/Rows.astro";
+import Cards from "../components/brand/Cards.astro";
+import Steps from "../components/brand/Steps.astro";
+import ResultGrid from "../components/brand/ResultGrid.astro";
+import EndCta from "../components/brand/EndCta.astro";
 import { SITE, CALENDLY_URL, FOUNDER_PHOTO_ABOUT, FOUNDER_PHOTO_ALT, HAS_FOUNDER_PHOTO, SAME_AS } from "../lib/site.mjs";
 
 const canonical = `${SITE}/about/`;
@@ -50,7 +57,7 @@ const jsonld = JSON.stringify({
       // Points at the Person entity rather than repeating a bare name, so the
       // subject of this page resolves to the node carrying the job title,
       // photo, expertise and verified profiles. completeGraph() in
-      // Studio.astro defines that node in this same document.
+      // Base.astro defines that node in this same document.
       about: { "@id": `${SITE}/#person` },
       mainEntity: { "@id": `${SITE}/#person` },
     },
@@ -88,10 +95,7 @@ const jsonld = JSON.stringify({
 });
 ---
 
-{/* preloadImage: the founder portrait is this page's LCP element, but it loads
-    as a CSS background-image — invisible to the browser's preload scanner, so
-    without this hint it can't start downloading until the stylesheet parses. */}
-<Studio
+<Base
   title="About Divyansh Sood — Freelance Web Designer & Developer"
   description="Divyansh Sood is a freelance web designer & developer in Himachal Pradesh, India. 20+ custom-coded websites, stores and web apps shipped worldwide since 2022."
   canonical={canonical}
@@ -99,423 +103,79 @@ const jsonld = JSON.stringify({
   ogTitle="About Divyansh Sood — freelance web designer & developer"
   ogDescription="One person, 20+ custom-coded websites, stores and web apps shipped for founders worldwide since 2022."
   jsonld={jsonld}
-  preloadImage={{ href: FOUNDER_PHOTO_ABOUT }}
+  preloadImage={HAS_FOUNDER_PHOTO ? { href: FOUNDER_PHOTO_ABOUT } : undefined}
 >
   <main>
-    <header class="cs-hero">
-      <div class="wrap">
-        <div class="cs-eyebrow">
-          <span>About</span><span>Solo studio · Himalayas</span><span>2022 — 2026</span>
-        </div>
-        <h1 style="margin:14px 0 0;font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(46px,8.5vw,116px);line-height:.88;letter-spacing:-.01em;text-transform:uppercase;">Built from<br />the <span style="color:var(--accent);">Himalayas.</span><br />Shipping for the world.</h1>
-        <p class="cs-lead">I'm Divyansh Sood — a freelance web designer &amp; developer in Himachal Pradesh, India. Since 2022 I've designed and shipped 20+ custom-coded websites, stores, web apps and AI features for founders worldwide. One person, end to end — no agency layers.</p>
-        <div class="cs-cta-row">
-          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book a 15-min intro <span aria-hidden="true">↗</span></a>
-          <a class="btn btn-ghost" href={WA} target="_blank" rel="noopener">Message on WhatsApp</a>
-        </div>
-        <div class="cs-meta">
-          <span>Solo · Design + Build</span><span>Himachal Pradesh · India</span><span>IST +5:30 · Overlap with US / UK / Gulf</span>
-        </div>
-      </div>
-    </header>
+    <PageHero
+      display="Built from the Himalayas. Shipping for the world."
+      size="case"
+      kicker="About · Solo studio · Himalayas · 2022 — 2026"
+      lead="I'm Divyansh Sood — a freelance web designer &amp; developer in Himachal Pradesh, India. Since 2022 I've designed and shipped 20+ custom-coded websites, stores, web apps and AI features for founders worldwide. One person, end to end — no agency layers."
+      notes={["Solo · Design + Build", "Himachal Pradesh · India", "IST +5:30 · Overlap with US / UK / Gulf"]}
+    >
+      <a class="btn btn--red" href={CALENDLY_URL}>Book a 15-min intro <span aria-hidden="true">→</span></a>
+      <a class="btn btn--ink" href={WA}>Message on WhatsApp</a>
+    </PageHero>
 
-    {/* ---------- Founder card ---------- */}
-    <section class="cs-sec" aria-labelledby="founder-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="founder-h">The founder</h2>
-          <span class="mono">One person, end to end</span>
-        </div>
-
-        <div class="about-founder" data-reveal>
-          {HAS_FOUNDER_PHOTO ? (
-            <div
-              class="imgfill about-founder-photo"
-              style={`background-image:url('${FOUNDER_PHOTO_ABOUT}');background-color:#d0d0d0;`}
-              role="img"
-              aria-label={FOUNDER_PHOTO_ALT}
-            ></div>
-          ) : (
-            <div
-              style="min-height:460px;border:1px solid rgba(255,255,255,.16);border-radius:10px;background:radial-gradient(120% 90% at 30% 10%, rgba(217,255,60,0.4), transparent 55%),linear-gradient(160deg,#1b1b1d,#0b0b0c);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;aspect-ratio:4/5;"
-              aria-label={FOUNDER_PHOTO_ALT}
-              role="img"
-            >
-              <span style="font-family:'Archivo';font-weight:900;font-size:clamp(64px,12vw,120px);letter-spacing:-.05em;color:#fff;opacity:.9;">DS</span>
-              <span style="position:absolute;bottom:14px;left:0;right:0;text-align:center;font-family:'JetBrains Mono',monospace;font-size:var(--fs-label);letter-spacing:var(--ls-label);text-transform:uppercase;color:#fff;opacity:.5;">Founder photo</span>
-            </div>
-          )}
-
-          <div style="display:flex;flex-direction:column;">
-            <p style="margin:0;font-size:clamp(18px,2vw,21px);line-height:1.5;font-weight:600;max-width:620px;">I'm Divyansh. I run a 1-person studio from a small town in Himachal Pradesh, India — no agency floor, no account managers, just me, designing and building websites for founders who care about outcomes, not theme marketplaces.</p>
-            <p style="margin:18px 0 0;font-size:16px;line-height:1.62;max-width:620px;opacity:.84;">Twenty-plus products shipped since 2022 — marketing sites, web apps, stores, dashboards, and my own AI product. Most in 3–4 weeks. Every one custom-coded, conversion-led, built to last longer than the trend that prompted it. IST working hours (10am–7pm) overlap with US mornings, UK afternoons and Gulf evenings — calls in your zone, async when you want it.</p>
-
-            <div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:auto;padding-top:26px;font-family:'JetBrains Mono',monospace;font-size:var(--fs-label);letter-spacing:.12em;text-transform:uppercase;opacity:.62;">
-              <span>Divyansh Sood — founder</span>
-              <span>Himachal · India · IST +5:30</span>
-            </div>
-
-            <div style="display:flex;flex-wrap:wrap;gap:14px;margin-top:22px;">
-              <a href={CALENDLY_URL} target="_blank" rel="noopener" class="btn btn-primary">Book a 15-min intro <span aria-hidden="true">↗</span></a>
-              <a href="/portfolio/" class="btn btn-ghost">See the work</a>
-            </div>
-
-            {/* ---- LinkedIn profile badge ----
-                 The on-brand card is the anchor LinkedIn's script looks for
-                 (.LI-simple-link) — it paints immediately, then profile.js
-                 replaces the container's contents with LinkedIn's iframe. If
-                 that script is blocked or fails, the card just stays. */}
-            <div class="about-li">
-              <span class="mono about-li-label">Verify on LinkedIn</span>
-
-              <div class="about-li-embed">
-                <div
-                  class="badge-base LI-profile-badge"
-                  data-locale="en_US"
-                  data-size="large"
-                  data-theme="dark"
-                  data-type="HORIZONTAL"
-                  data-vanity="divyanshsood"
-                  data-version="v1"
-                >
-                  <a
-                    class="badge-base__link LI-simple-link about-li-card"
-                    href="https://www.linkedin.com/in/divyanshsood/"
-                    target="_blank"
-                    rel="noopener"
-                  >
-                    <span class="about-li-mark" aria-hidden="true">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"></path></svg>
-                    </span>
-                    <span class="about-li-body">
-                      <span class="about-li-name">Divyansh Sood</span>
-                      <span class="about-li-role">Founder — web design &amp; development · Himachal Pradesh, India</span>
-                    </span>
-                    <span class="about-li-go mono" aria-hidden="true">View profile ↗</span>
-                  </a>
-                </div>
-              </div>
-            </div>
+    <Section n={1} term="Setup" note="One person, end to end" title="The founder">
+      <div class="fd">
+        <figure class="fd-photo">
+          {HAS_FOUNDER_PHOTO && <img src={FOUNDER_PHOTO_ABOUT} alt={FOUNDER_PHOTO_ALT} width="1200" height="1499" fetchpriority="high" decoding="async" />}
+        </figure>
+        <div class="fd-copy">
+          <p class="fd-big">I'm Divyansh. I run a 1-person studio from a small town in Himachal Pradesh, India — no agency floor, no account managers, just me, designing and building websites for founders who care about outcomes, not theme marketplaces.</p>
+          <p class="body">Twenty-plus products shipped since 2022 — marketing sites, web apps, stores, dashboards, and my own AI product. Most in 3–4 weeks. Every one custom-coded, conversion-led, built to last longer than the trend that prompted it. IST working hours (10am–7pm) overlap with US mornings, UK afternoons and Gulf evenings — calls in your zone, async when you want it.</p>
+          <div class="meta fd-by"><span>Divyansh Sood — founder</span><span>Himachal · India · IST +5:30</span></div>
+          <div class="btn-row">
+            <a class="btn btn--red" href={CALENDLY_URL}>Book a 15-min intro <span aria-hidden="true">→</span></a>
+            <a class="btn btn--ink" href="/portfolio/">See the work</a>
+          </div>
+          <div>
+            <div class="chips-lbl">Verify on LinkedIn</div>
+            <a class="chip" href="https://www.linkedin.com/in/divyanshsood/" rel="me noopener">Divyansh Sood on LinkedIn ↗</a>
           </div>
         </div>
       </div>
-    </section>
+    </Section>
 
-    {/* ---------- Numbers ---------- */}
-    <section class="cs-sec" aria-labelledby="num-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="num-h">By the numbers</h2>
-          <span class="mono">Snapshot</span>
-        </div>
-        <div class="cs-metrics cs-metrics-rail" data-reveal>
-          {stats.map((m) => (
-            <div class="cs-metric"><span class="cs-metric-v">{m.v}</span><span class="cs-metric-l">{m.l}</span></div>
-          ))}
-        </div>
-      </div>
-    </section>
+    <Section n={2} term="Telemetry" note="Snapshot" title="By the numbers">
+      <ResultGrid stats={stats} />
+    </Section>
 
-    {/* ---------- What I do ---------- */}
-    <section class="cs-sec" aria-labelledby="what-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="what-h">What I actually do</h2>
-          <span class="mono">The skillset</span>
-        </div>
-        <div class="cs-body" data-reveal>
-          {skills.map((s) => (
-            <div class="cs-card">
-              <span class="cs-tag">{s.t}</span>
-              <p class="cs-card-h2">{s.d}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+    <Section n={3} term="Setup" note="The skillset" title="What I actually do">
+      <Rows items={skills} />
+    </Section>
 
-    {/* ---------- Principles ---------- */}
-    <section class="cs-sec" aria-labelledby="why-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="why-h">How I think about the work</h2>
-          <span class="mono">Four principles</span>
-        </div>
-        <div class="cs-body" data-reveal>
-          {principles.map((p) => (
-            <div class="cs-card">
-              <span class="cs-tag">({p.n}) {p.t}</span>
-              <p class="cs-card-h2">{p.d}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+    <Section n={4} term="Setup" note="Four principles" title="How I think about the work">
+      <Cards items={principles} />
+    </Section>
 
-    {/* ---------- Journey / Timeline ---------- */}
-    <section class="cs-sec" aria-labelledby="journey-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="journey-h">The journey so far</h2>
-          <span class="mono">2022 — Now</span>
-        </div>
+    <Section n={5} term="Pit lane" note="2022 — Now" title="The journey so far">
+      <Rows items={milestones.map((m) => ({ n: m.year, t: m.t, d: m.d }))} />
+    </Section>
 
-        <ol class="about-time" data-reveal>
-          {milestones.map((m) => (
-            <li class="about-time-row">
-              <div class="about-time-year">{m.year}</div>
-              <div class="about-time-body">
-                <h3 class="about-time-t">{m.t}</h3>
-                <p class="about-time-d">{m.d}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
-      </div>
-    </section>
+    <Section n={6} term="Race weekend" note="What to expect" title="Working with me looks like" tint>
+      <Steps items={[
+        { t: "A short call", d: "15 minutes, then an honest answer. Tell me what you're building and where it's stuck. I'll tell you whether I'm the right person for it — and if I'm not, who I'd point you toward. No sales script, no pressure." },
+        { t: "A clear plan", d: "Fixed scope, real milestones. Within a couple of days you get a written plan with phases, deliverables and dates. You always know what's shipping next and where the budget is going." },
+        { t: "A working build", d: "Live link from week one, not a deck. You'll see a working build early — usually by week two — and review it on a real staging link on your phone. No slideshows, no surprises, no agency handoffs." },
+      ]} hot={2} />
+    </Section>
 
-    {/* ---------- Working with me ---------- */}
-    <section class="cs-sec" aria-labelledby="workwith-h">
-      <div class="wrap">
-        <div class="cs-sec-head">
-          <h2 id="workwith-h">Working with me looks like</h2>
-          <span class="mono">What to expect</span>
-        </div>
-        <div class="cs-body" data-reveal>
-          <div class="cs-card">
-            <span class="cs-tag">A short call</span>
-            <p class="cs-card-h2">15 minutes, then an honest answer. Tell me what you're building and where it's stuck. I'll tell you whether I'm the right person for it — and if I'm not, who I'd point you toward. No sales script, no pressure.</p>
-          </div>
-          <div class="cs-card">
-            <span class="cs-tag">A clear plan</span>
-            <p class="cs-card-h2">Fixed scope, real milestones. Within a couple of days you get a written plan with phases, deliverables and dates. You always know what's shipping next and where the budget is going.</p>
-          </div>
-          <div class="cs-card span2">
-            <span class="cs-tag">A working build</span>
-            <p class="cs-card-h2">Live link from week one, not a deck. You'll see a working build early — usually by week two — and review it on a real staging link on your phone. No slideshows, no surprises, no agency handoffs.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    {/* ---------- End CTA ---------- */}
-    <section class="cs-endcta">
-      <div class="wrap">
-        <h2>Want to work together?</h2>
-        <p>Tell me what you're shipping. I'll come back with a clear path from brief to launch — and an honest timeline. Writing about me, or crediting a build? The <a href="/press/">press kit</a> has the bio, headshot and logo, so the details stay accurate.</p>
-        <div class="cs-cta-row" style="justify-content:center;">
-          <a class="btn btn-primary" href={CALENDLY_URL} target="_blank" rel="noopener">Book a 15-min intro <span aria-hidden="true">↗</span></a>
-          <a class="btn btn-ghost" href={WA} target="_blank" rel="noopener">Message on WhatsApp</a>
-        </div>
-      </div>
-    </section>
+    <EndCta
+      title="Want to work together?"
+      text={`Tell me what you're shipping. I'll come back with a clear path from brief to launch — and an honest timeline. Writing about me, or crediting a build? The <a href="/press/">press kit</a> has the bio, headshot and logo, so the details stay accurate.`}
+      secondary={{ href: WA, label: "Message on WhatsApp →" }}
+    />
   </main>
+</Base>
 
-  {/* LinkedIn badge renderer. is:inline keeps it a real third-party tag
-      instead of being pulled into Astro's bundle. */}
-  <script src="https://platform.linkedin.com/badges/js/profile.js" async defer type="text/javascript" is:inline></script>
-
-  <style>
-    /* ============================================================
-       About page — UI polish (scoped). Matches the site-wide Studio
-       language (near-black + neon green). Layout, type scale and
-       interaction only.
-       ============================================================ */
-
-    /* Rhythm, section-head alignment and hero clearance are shared — they live
-       in case-study.css and Breadcrumbs.astro now. What stays here is the one
-       thing that is genuinely this page's: a larger editorial heading scale. */
-    main .cs-sec-head h2 {
-      font-family: 'Anton', sans-serif;
-      font-weight: 400;
-      font-size: clamp(32px, 5vw, 72px);
-      line-height: 0.94;
-      letter-spacing: 0;
-      text-transform: uppercase;
-    }
-    main .cs-sec-head .mono { color: #8A8A93; }
-
-    /* Hero: tighten the lead. */
-    main .cs-lead { max-width: 64ch; font-size: clamp(17px, 1.7vw, 21px); }
-
-    /* ---- LinkedIn profile badge ----
-       .about-li-embed is the frame: it reserves the iframe's footprint so the
-       late-arriving badge doesn't shift the founder card, and gives LinkedIn's
-       widget site chrome once it lands. .about-li-card is the pre-load
-       fallback inside it — same hover language as .cs-card. */
-    main .about-li {
-      margin-top: 26px;
-      padding-top: 22px;
-      border-top: 1px solid rgba(255, 255, 255, 0.12);
-      max-width: 100%;
-    }
-    main .about-li-label { display: block; margin-bottom: 12px; color: #8A8A93; }
-
-    main .about-li-card {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      width: 100%;
-      padding: 16px 18px;
-      border-radius: 8px;
-      text-decoration: none;
-      color: inherit;
-      background: rgba(255, 255, 255, 0.03);
-      transition: transform .4s cubic-bezier(.16, 1, .3, 1), background .3s ease;
-    }
-    main .about-li-card:hover {
-      transform: translateY(-3px);
-      background: linear-gradient(180deg, rgba(217, 255, 60, 0.09), transparent);
-    }
-    main .about-li-mark {
-      flex: none;
-      display: grid;
-      place-items: center;
-      width: 42px;
-      height: 42px;
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      color: #fff;
-    }
-    main .about-li-card:hover .about-li-mark { color: var(--accent, #d9ff3c); }
-    main .about-li-body { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
-    main .about-li-name { font-weight: 800; font-size: 16px; letter-spacing: -0.01em; }
-    main .about-li-role {
-      font-size: 12.5px;
-      line-height: 1.4;
-      opacity: 0.7;
-    }
-    main .about-li-go {
-      margin-left: auto;
-      flex: none;
-      font-size: var(--fs-label);
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--accent, #d9ff3c);
-      opacity: 0.85;
-    }
-    @media (max-width: 480px) {
-      main .about-li-card { flex-wrap: wrap; }
-      main .about-li-go { margin-left: 58px; }
-    }
-
-    /* :global is required on the iframe — LinkedIn's script injects it, so it
-       never carries Astro's scoping attribute and a scoped selector can't
-       match it. */
-    main .about-li-embed {
-      display: grid;
-      place-items: center;
-      max-width: 460px;
-      min-height: 300px;
-      padding: 10px;
-      overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      border-radius: 10px;
-    }
-    main .about-li-embed .LI-profile-badge { width: 100%; }
-    main .about-li-embed :global(iframe) { max-width: 100%; border: 0; }
-
-    /* ---- By the numbers → borderless giant figures with hairlines ----
-       The rail itself is `.cs-metrics-rail` in case-study.css; only the figure
-       size is this page's (it runs the largest of the three). */
-    main .cs-metric-v { font-size: clamp(40px, 6vw, 88px); line-height: 0.88; }
-
-    /* ---- Cards: subtle lift + accent edge on hover ---- */
-    main .cs-card {
-      border-radius: 10px;
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-                  border-color 0.3s ease, background 0.3s ease;
-    }
-    main .cs-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(217,255,60, 0.55);
-      background: linear-gradient(180deg, rgba(217,255,60, 0.07), transparent);
-    }
-
-    /* ---- Founder card: framed, hover-zoom photo ---- */
-    main .about-founder {
-      display: grid;
-      grid-template-columns: 0.78fr 1.22fr;
-      gap: clamp(28px, 4vw, 56px);
-      /* Top-align so the photo keeps its own fixed aspect ratio instead of being
-         stretched to the text height (which changed the crop per viewport). */
-      align-items: start;
-    }
-    main .about-founder-photo {
-      position: relative;
-      /* Fixed 4:5 frame → `cover` shows the SAME region of the portrait at every
-         viewport width, so the face is never cropped differently. */
-      aspect-ratio: 4 / 5;
-      min-height: 0;
-      /* Bias the crop toward the top-centre where the face sits. */
-      background-position: center 26%;
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      border-radius: 12px;
-      overflow: hidden;
-      transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
-      transform-origin: center;
-    }
-    main .about-founder:hover .about-founder-photo { border-color: rgba(217,255,60, 0.5); }
-
-    /* ---- Journey → a real vertical timeline with an accent rail + nodes ---- */
-    main .about-time {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      position: relative;
-    }
-    main .about-time::before {
-      content: "";
-      position: absolute;
-      left: 7px;
-      top: 10px;
-      bottom: 10px;
-      width: 2px;
-      background: linear-gradient(180deg, var(--accent, #d9ff3c), rgba(217,255,60, 0.12));
-    }
-    main .about-time-row {
-      position: relative;
-      display: grid;
-      grid-template-columns: 92px 1fr;
-      gap: clamp(18px, 3vw, 40px);
-      padding: 0 0 clamp(28px, 3.5vw, 44px) 34px;
-    }
-    main .about-time-row:last-child { padding-bottom: 0; }
-    main .about-time-row::before {
-      content: "";
-      position: absolute;
-      left: 1px;
-      top: 5px;
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: #0b0b0c;
-      border: 2px solid var(--accent, #d9ff3c);
-      box-shadow: 0 0 0 4px rgba(11, 11, 12, 1);
-    }
-    main .about-time-year {
-      font-family: "JetBrains Mono", monospace;
-      font-size: clamp(15px, 1.6vw, 20px);
-      font-weight: 700;
-      letter-spacing: 0.02em;
-      color: var(--accent, #d9ff3c);
-      padding-top: 2px;
-    }
-    main .about-time-t {
-      margin: 0 0 8px;
-      font-weight: 800;
-      font-size: clamp(18px, 1.9vw, 24px);
-      letter-spacing: -0.015em;
-    }
-    main .about-time-d { margin: 0; font-size: 15.5px; line-height: 1.62; opacity: 0.84; max-width: 62ch; }
-
-    /* ---- Responsive ---- */
-    @media (max-width: 720px) {
-      main .about-founder { grid-template-columns: 1fr; }
-      main .about-founder-photo { max-width: 420px; }
-      main .about-time-row { grid-template-columns: 1fr; gap: 4px; }
-      main .about-time-year { padding-top: 0; }
-    }
-  </style>
-</Studio>
+<style>
+  .fd{display:flex;flex-wrap:wrap;gap:clamp(28px,5vw,80px);align-items:flex-start}
+  .fd-photo{flex:0 1 460px;margin:0;aspect-ratio:4/5;background:var(--tint);overflow:hidden}
+  .fd-photo img{width:100%;height:100%;object-fit:cover;display:block}
+  .fd-copy{flex:1 1 420px;display:flex;flex-direction:column;gap:26px}
+  .fd-copy p{margin:0;max-width:58ch}
+  .fd-big{font-weight:800;font-stretch:108%;font-size:clamp(24px,2.6vw,38px);line-height:1.1;letter-spacing:-0.02em;text-wrap:pretty}
+  .fd-by{display:flex;flex-wrap:wrap;gap:6px 20px}
+</style>

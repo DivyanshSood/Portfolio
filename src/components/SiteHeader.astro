@@ -1,0 +1,82 @@
+---
+// Header + mobile menu — Home.dc.html, used on every page. Transparent over
+// the red hero, ink once the page scrolls past 40px or the menu is open
+// (src/scripts/chrome.js). Desktop nav + clock from 900px; menu below.
+// The current section is underlined as on Portfolio.dc.html.
+import { CALENDLY_URL } from "../lib/site.mjs";
+
+const path = Astro.url.pathname;
+const NAV = [
+  { label: "Work", href: "/#work" },
+  { label: "Portfolio", href: "/portfolio/", current: path.startsWith("/portfolio") || path.startsWith("/projects/") },
+  { label: "Results", href: "/#proof" },
+  { label: "About", href: "/#about" },
+  { label: "Blog", href: "/blog/", current: path.startsWith("/blog/") },
+  { label: "Contact", href: "/#contact" },
+];
+---
+
+<header class="hd" data-header>
+  <div class="hd-in">
+    <a href="/" aria-label="Divyansh Sood — home" class="hd-logo"><span>DS®</span></a>
+    <nav aria-label="Primary" class="hd-nav">
+      {NAV.map((n) => (
+        <a href={n.href} class:list={[{ "is-current": n.current }]} aria-current={n.current ? "page" : undefined}>{n.label}</a>
+      ))}
+    </nav>
+    <div class="hd-right">
+      <span class="hd-clock">IST <span data-clock="full">--:--:--</span></span>
+      <a href={CALENDLY_URL} class="hd-cta">Book a call</a>
+      <button type="button" class="hd-burger" aria-label="Open menu" aria-expanded="false" aria-controls="menu" data-menu-btn>
+        <span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Menu" hidden data-menu>
+  <button type="button" class="menu-close" data-menu-close>CLOSE ✕</button>
+  <nav aria-label="Mobile" class="menu-nav">
+    {NAV.map((n, i) => (
+      <a href={n.href}><span>{String(i + 1).padStart(2, "0")}</span>{n.label}</a>
+    ))}
+  </nav>
+  <div class="menu-foot">
+    <a href="https://wa.me/919816091875">WHATSAPP ↗</a>
+    <a href="mailto:hello@divyanshsood.com">EMAIL ↗</a>
+    <a href="https://github.com/DivyanshSood">GITHUB ↗</a>
+    <a href="https://www.linkedin.com/in/divyanshsood/">LINKEDIN ↗</a>
+  </div>
+</div>
+
+<style>
+  .hd{position:fixed;top:0;left:0;right:0;z-index:100;background:transparent;transition:background .35s;color:#fff}
+  :global(.hd.is-solid){background:var(--ink)}
+  .hd-in{max-width:1600px;margin:0 auto;height:64px;padding:0 var(--gutter);display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .hd-logo{display:flex;align-items:center;gap:8px;color:#fff;text-decoration:none}
+  .hd-logo:hover{color:#fff}
+  .hd-logo span{font-weight:900;font-stretch:125%;font-style:italic;font-size:22px;letter-spacing:-0.02em}
+  .hd-nav{display:flex;gap:28px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+  .hd-nav a{color:#fff;text-decoration:none}
+  .hd-nav a:hover{color:#fff;opacity:.7}
+  .hd-nav a.is-current{border-bottom:2px solid #fff;padding-bottom:2px}
+  .hd-right{display:flex;align-items:center;gap:14px}
+  .hd-clock{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--red)}
+  .hd-cta{background:#fff;color:var(--ink);text-decoration:none;font-weight:800;font-stretch:112%;font-size:13px;letter-spacing:.02em;text-transform:uppercase;padding:12px 18px;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%);white-space:nowrap}
+  .hd-cta:hover{background:var(--ink);color:#fff}
+  .hd-burger{background:none;border:0;padding:10px 0 10px 6px;display:none;flex-direction:column;gap:6px;cursor:pointer}
+  .hd-burger span{display:block;width:26px;height:2px;background:#fff}
+  .hd-burger span + span{width:18px;margin-left:8px}
+  @media (max-width:899.98px){
+    .hd-nav,.hd-clock{display:none}
+    .hd-burger{display:flex}
+  }
+
+  .menu{position:fixed;inset:0;z-index:200;background:var(--ink);color:#fff;padding:88px 20px 100px;display:flex;flex-direction:column;justify-content:space-between;overflow:auto}
+  .menu-close{position:absolute;top:18px;right:18px;background:none;border:0;color:#fff;font-family:var(--mono);font-size:12px;letter-spacing:.1em;padding:10px;cursor:pointer}
+  .menu-nav{display:flex;flex-direction:column;gap:6px}
+  .menu-nav a{display:flex;align-items:baseline;gap:14px;color:#fff;text-decoration:none;font-weight:900;font-style:italic;font-stretch:125%;text-transform:uppercase;font-size:clamp(40px,12vw,72px);line-height:1}
+  .menu-nav a span{font-family:var(--mono);font-style:normal;font-size:12px;color:var(--red)}
+  .menu-foot{display:flex;flex-wrap:wrap;gap:10px 18px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;margin-top:32px}
+  .menu-foot a{color:#fff}
+</style>

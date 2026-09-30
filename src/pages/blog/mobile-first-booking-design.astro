@@ -1,9 +1,6 @@
 ---
-import Studio from "../../layouts/Studio.astro";
-import PostFaq from "../../components/PostFaq.astro";
-import RelatedPosts from "../../components/RelatedPosts.astro";
-import { SITE, DEFAULT_OG, CALENDLY_URL, fmtDate, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
-import { coverBase, coverSrcset, COVER_SIZES_POST } from "../../lib/images.mjs";
+import Post from "../../layouts/Post.astro";
+import { SITE, DEFAULT_OG, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
 
 const slug = "mobile-first-booking-design";
 const idx = POSTS.findIndex((p) => p.slug === slug);
@@ -13,8 +10,6 @@ const canonical = `${SITE}/blog/${slug}/`;
 const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
 const primaryTag = post.tags[0] || "Notes";
 const readMins = post.readMins;
-const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
-const updatedLabel = showUpdated ? `Updated ${fmtDate(post.updatedDate)}` : null;
 
 const faqs = [
   {
@@ -91,57 +86,7 @@ const jsonld = JSON.stringify({
 });
 ---
 
-<Studio
-  title={post.seoTitle ?? `${post.title} · Divyansh Sood`}
-  description={post.description}
-  canonical={canonical}
-  keywords={post.tags.join(", ")}
-  ogType="article"
-  ogTitle={post.title}
-  ogImage={ogImage}
-  ogImageW={1200}
-  ogImageH={750}
-  articlePublished={iso(post.pubDate)}
-  articleModified={iso(post.updatedDate || post.pubDate)}
-  tags={post.tags}
-  preloadImage={{ href: coverBase(post.coverImage), srcset: coverSrcset(post.coverImage), sizes: COVER_SIZES_POST }}
-  jsonld={jsonld}
->
-  <main>
-    <header class="post-hero">
-      <div class="wrap narrow">
-        <div class="eyebrow">
-          <span>{primaryTag}</span>
-          <span>{fmtDate(post.pubDate)}</span>
-          {updatedLabel && <span class="post-updated">{updatedLabel}</span>}
-          <span>{readMins} min read</span>
-        </div>
-        <h1 class="post-title">{post.title}</h1>
-        <p class="post-lead">{post.description}</p>
-        <div class="post-meta">
-          <span>By Divyansh Sood</span><span>{fmtDate(post.pubDate)}</span><span>{readMins} min read</span>
-        </div>
-      </div>
-    </header>
-
-    {post.coverImage && (
-      <div class="wrap narrow">
-        <figure class="post-cover">
-          <img
-            src={coverBase(post.coverImage)}
-            srcset={coverSrcset(post.coverImage)}
-            sizes={COVER_SIZES_POST}
-            alt={post.coverAlt ?? post.title}
-            width="1200"
-            height="750"
-            fetchpriority="high"
-            decoding="async"
-          />
-        </figure>
-      </div>
-    )}
-
-    <article class="wrap narrow post-body">
+<Post post={post} jsonld={jsonld} faqs={faqs} cta={{ title: "Working on something in India?", text: "If a post here matches what you're building, send me the brief. WhatsApp reply in under an hour, 9 AM–9 PM IST — I'll tell you within a day if it's a fit.", primary: { href: "https://wa.me/919816091875", label: "Message me on WhatsApp →" }, secondary: { href: "/#work", label: "See the work →" } }}>
 <p>The travel booking site I look after in Dharamshala is part of roughly <strong>a thousand packages booked every month</strong>. Over <strong>95% of its traffic is on a phone.</strong></p>
 <p>That second number is the one worth sitting with. Not "mobile is important". Not "mobile-first matters". Ninety-five percent — which means desktop is a rounding error you are welcome to treat as an afterthought.</p>
 <p>Almost nobody designs that way. Including, for a long time, me.</p>
@@ -213,24 +158,4 @@ const jsonld = JSON.stringify({
 <p>Ninety-five percent of these bookings came from a phone. The site should be built as though the other five percent are the exception — because they are.</p>
 <hr>
 <p><em>I'm Divyansh Sood. I build booking-first travel sites from Himachal Pradesh — the one behind those numbers is the <a href="/projects/dharamshala-tours/">Dharamshala Tours case study</a>, and the commission side of the argument is in <a href="/blog/hotel-homestay-website-himachal-direct-bookings/">getting direct bookings</a>. If you run a hotel, homestay or tour business here, <a href="/web-developer-dharamshala/">that's the work I do</a>.</em></p>
-      <div class="tags">{post.tags.map((t) => <span>{t}</span>)}</div>
-    </article>
-
-    <PostFaq faqs={faqs} idPrefix="faq-mob" />
-
-    <RelatedPosts slug={slug} audience={post.audience} />
-
-    <section class="post-foot-cta">
-      <div class="wrap narrow">
-        <h2>Working on something in India?</h2>
-        <p>If a post here matches what you're building, send me the brief. WhatsApp reply in under an hour, 9 AM–9 PM IST — I'll tell you within a day if it's a fit.</p>
-        <div class="cta-row">
-          <a class="btn btn-primary" href="https://wa.me/919816091875" target="_blank" rel="noopener"
-            >Message me on WhatsApp <span aria-hidden="true">↗</span></a
-          >
-          <a class="btn btn-ghost" href="/#work">See the work</a>
-        </div>
-      </div>
-    </section>
-  </main>
-</Studio>
+</Post>

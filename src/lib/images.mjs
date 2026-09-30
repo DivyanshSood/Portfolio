@@ -6,12 +6,10 @@
    (`<name>.webp`) plus one pre-generated variant per width below
    (`<name>-<w>.webp`), written by scripts/gen-work-variants.mjs.
 
-   LOCAL_WIDTHS is consumed by render.mjs, index.astro, DepthGallery.astro and
-   the generator. Import it; never redeclare it. A copy that drifts from the
-   generator emits srcset entries for variants that were never written.
-
-   Remote (ImageKit) sources resize with a `?tr=` query instead and are handled
-   by their own callers; only the local ladder lives here.
+   LOCAL_WIDTHS is consumed through localVariant/localSrcset by every page that
+   shows a project image, and by the generator. Import it; never redeclare it.
+   A copy that drifts from the generator emits srcset entries for variants that
+   were never written.
    =========================================================================== */
 
 /** Pre-generated variant widths, ascending. Must match the generator. */
@@ -19,9 +17,6 @@ export const LOCAL_WIDTHS = [480, 768, 1080, 1440];
 
 /** The unsuffixed base file's intrinsic width. */
 export const BASE_WIDTH = 1920;
-
-/** Self-hosted images are root-relative; ImageKit ones are absolute URLs. */
-export const isLocalImage = (src) => src.startsWith("/");
 
 /**
  * Narrowest pre-generated variant at least `w` wide.
@@ -76,20 +71,7 @@ export function coverSrcset(cover) {
   ].join(", ");
 }
 
-/* `sizes` for each of the two places a cover appears. Both are measured from
-   the CSS rather than guessed: `.wrap` is 1180px max with 30px gutters that
-   tighten to 20px at 480px, `.narrow` caps at 760px, `.blog-grid` runs a 26px
-   gap and steps 3 → 2 → 1 columns at 900px and 480px.
-
-   Keep these in step with responsive.css. They were last written against the
-   old 980 / 620 breakpoints, so between 621px and 900px the browser sized a
-   two-column card as if it were full width and downloaded the 1080px variant
-   for a ~350px slot. */
-
-/** A post's hero cover: full width of `.wrap.narrow`, so 700px at most. */
-export const COVER_SIZES_POST =
-  "(max-width: 480px) calc(100vw - 40px), (max-width: 760px) calc(100vw - 60px), 700px";
-
-/** A card thumb in `/blog/`: one of three columns, then two, then full width. */
-export const COVER_SIZES_CARD =
-  "(max-width: 480px) calc(100vw - 40px), (max-width: 900px) calc(50vw - 43px), 356px";
+/* `sizes` for a post's cover, measured from src/layouts/Post.astro: the
+   main column is 820px at most, full width minus the 16px gutters below the
+   900px breakpoint. */
+export const COVER_SIZES_POST = "(max-width: 900px) calc(100vw - 32px), 820px";

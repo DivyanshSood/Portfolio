@@ -1,0 +1,28 @@
+---
+// C06 Section header — numbered label "(0N) Motorsport term" in red, then the
+// H2. An optional note or link sits on the right, as on Home's Proof/Writing.
+interface Props {
+  label: string;
+  title: string;
+  note?: string;
+  id?: string;
+  size?: "default" | "sm";
+}
+const { label, title, note, id, size = "default" } = Astro.props;
+---
+
+<div class="sh">
+  <div>
+    <div class="lbl">{label}</div>
+    <h2 class:list={["h2", { "sh-sm": size === "sm" }]} id={id}>{title}</h2>
+  </div>
+  {note && <p class="sh-note">{note}</p>}
+  <slot />
+</div>
+
+<style>
+  .sh{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px 20px;margin-bottom:var(--head-gap)}
+  .sh-note{margin:0;max-width:34ch;color:var(--g5c);font-size:16px;line-height:1.5}
+  .sh-sm{font-size:clamp(40px,5vw,80px);line-height:.88}
+  .sh :global(> a){font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+</style>

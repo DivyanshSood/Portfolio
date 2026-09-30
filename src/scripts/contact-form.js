@@ -26,7 +26,7 @@ const FORMS = {
   },
   "ds-start-form": {
     subject: "New project enquiry (start form)",
-    success: "Sent. I'll reply within a couple of hours with a clear next step.",
+    success: "Brief received. Expect a personal reply within two hours, 9 AM–9 PM IST.",
     hp: "st-hp",
     fields: [
       { id: "st-name", label: "Name" },
@@ -78,45 +78,42 @@ function openMailto(data, config) {
   window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
 }
 
-// Fires a conversion event when analytics are loaded (consent given); no-op
-// otherwise. window.dsTrack is defined site-wide in BaseScripts.astro.
+// Fires a conversion event via window.dsTrack (BaseScripts.astro); a silent
+// no-op when analytics are blocked or on localhost.
 function track(name, params) {
   try {
     if (typeof window.dsTrack === "function") window.dsTrack(name, params);
   } catch (_e) {}
 }
 
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+
+// Success state — the Home design's "Box, box." block (.form-done in
+// src/styles/brand.css).
 function showSuccess(form, msg, usedFallback) {
   // On the mailto fallback keep the form visible so the visitor can retry or
   // copy their message — mailto silently fails on machines with no mail app.
-  if (!usedFallback) form.style.display = "none";
-  const prev = form.parentNode.querySelector(".ds-form-success");
-  if (prev) prev.remove();
+  if (!usedFallback) form.hidden = true;
+  form.parentNode.querySelector(".form-done")?.remove();
+  form.querySelector(".form-err")?.remove();
   const wrap = document.createElement("div");
-  wrap.className = "ds-form-success";
+  wrap.className = "form-done";
   wrap.setAttribute("role", "status");
   wrap.setAttribute("aria-live", "polite");
-  wrap.style.cssText =
-    "padding:26px 24px;border:1px solid rgba(255,255,255,.18);border-radius:10px;" +
-    "background:linear-gradient(180deg,rgba(217, 255, 60,.1),transparent);margin-top:16px;";
-  wrap.innerHTML =
-    `<div style="font-weight:800;font-size:18px;margin:0 0 8px;color:var(--accent,#d9ff3c);">✓ ${msg}</div>` +
-    (usedFallback
-      ? `<p style="margin:8px 0 0;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.6;opacity:.78;">Didn't open? Email me directly: <a href="mailto:${CONTACT_EMAIL}" style="color:var(--accent,#d9ff3c);text-decoration:underline;">${CONTACT_EMAIL}</a></p>`
-      : `<p style="margin:8px 0 0;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.6;opacity:.78;">Prefer to talk now? <a href="${WHATSAPP_URL}" target="_blank" rel="noopener" style="color:var(--accent,#d9ff3c);text-decoration:underline;">WhatsApp me ↗</a> · <a href="${CALENDLY_URL}" target="_blank" rel="noopener" style="color:var(--accent,#d9ff3c);text-decoration:underline;">book a 15-min call ↗</a></p>`);
+  wrap.innerHTML = usedFallback
+    ? `<p>${esc(msg)}</p>`
+    : `<div class="form-done-h">Box, box.</div><p>${esc(msg)}</p>` +
+      `<p class="form-done-alt"><a href="${WHATSAPP_URL}">WhatsApp ↗</a> <a href="${CALENDLY_URL}">Book a 15-min call ↗</a></p>`;
   form.parentNode.insertBefore(wrap, form.nextSibling);
 }
 
 function showError(form, msg) {
   // Inline error — doesn't hide the form so the user can retry.
-  let err = form.parentNode.querySelector(".ds-form-error");
+  let err = form.querySelector(".form-err");
   if (!err) {
-    err = document.createElement("div");
-    err.className = "ds-form-error";
-    err.style.cssText =
-      "margin-top:14px;padding:12px 14px;border:1px solid rgba(255, 107, 94,.4);" +
-      "border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:12px;" +
-      "color:#ff6b5e;background:rgba(255, 107, 94,.07);";
+    err = document.createElement("p");
+    err.className = "form-err";
+    err.setAttribute("role", "alert");
     form.appendChild(err);
   }
   err.textContent = msg;
