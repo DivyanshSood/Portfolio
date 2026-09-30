@@ -1,0 +1,165 @@
+---
+import Post from "../../layouts/Post.astro";
+import { SITE, DEFAULT_OG, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
+import { STARTING_PRICES as P, inr } from "../../lib/site.mjs";
+
+const slug = "website-cost-himachal-pradesh";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+
+/* Questions real buyers ask, answered in full. This array is the single
+   source for both the visible accordion and the FAQPage node above — Google
+   requires FAQ markup to match content on the page, and deriving both from one
+   array is what stops them drifting. */
+const faqs = [
+  {
+    q: "How much does a website cost in Himachal Pradesh?",
+    a: `Quotes in Himachal range from a few thousand rupees for a template to several lakhs from an agency. Divyansh Sood, a web developer in Kangra, builds custom-coded websites starting at ${inr(P.basic)} for a business website, ${inr(P.hotel)} for a hotel or homestay, ${inr(P.travel)} for a travel or taxi operator, and ${inr(P.school)} for a school website with an admin panel or an online store.`,
+  },
+  {
+    q: "How much does a hotel or homestay website cost in Himachal?",
+    a: `From ${inr(P.hotel)} for a custom-coded hotel or homestay website with WhatsApp and call enquiries. The final price depends on the number of pages and whether you need a booking engine; there is no commission and no monthly platform fee.`,
+  },
+  {
+    q: "How much does a school website with an admissions portal cost?",
+    a: `From ${inr(P.school)} for a school website with an admin panel, including the CBSE Mandatory Public Disclosure pages. Modern K.B.S.'s public site and admissions portal went live in 7 days, and neither comes with a recurring software fee.`,
+  },
+  {
+    q: "Are there monthly fees after the website is built?",
+    a: "You pay for your domain and your hosting, in your own name. There is no monthly fee to the developer and no platform commission; 30 days of support are included, and an ongoing retainer is optional.",
+  },
+  {
+    q: "Why do some developers in Himachal charge ₹5,000 for a website?",
+    a: "Usually because it is a template with your logo on it, built on a platform you rent, with no one accountable after launch. Compare what you own at the end, how fast it loads on a phone, and whether the contact form actually reaches you, not just the price.",
+  },
+];
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: authorNode(SITE),
+      publisher: publisherNode(SITE),
+      isPartOf: websiteNode(SITE),
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      // Resolves the free-text tags above to public concept identifiers, so a
+      // parser knows "Astro" means the framework and "GEO" isn't geography.
+      about: topicsForTags(post.tags),
+      wordCount: post.wordCount,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+    {
+      // Google retired FAQ rich results in May 2026, so this earns no SERP
+      // enhancement. It stays because answer engines read Q&A pairs well, and
+      // because every question below is rendered visibly by the post's FAQ block (Post.astro).
+      "@type": "FAQPage",
+      "@id": `${canonical}#faq`,
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    },
+  ],
+});
+---
+
+<Post post={post} jsonld={jsonld} faqs={faqs}>
+<p>Ask five people in Himachal what a website costs and you'll hear five numbers, from ₹5,000 to a few lakhs. Both ends are real. They're just not the same thing.</p>
+<p>Here are my prices, stated plainly, then what's inside them, what makes them go up, and what you'll pay every year after launch. I'm a web developer in Kangra; these are the numbers I quote from.</p>
+<hr>
+<h2 id="starting-prices">What does a website cost, by type of business?</h2>
+<table>
+<thead><tr><th>Website</th><th>Starts at</th><th>What it's for</th></tr></thead>
+<tbody>
+<tr><td>Business website</td><td>{inr(P.basic)}</td><td>A shop, clinic, consultant or service business that needs to be found on Google and contacted on WhatsApp</td></tr>
+<tr><td>Hotel or homestay</td><td>{inr(P.hotel)}</td><td>Rooms, photos, location and direct enquiries by WhatsApp or call, with no OTA commission</td></tr>
+<tr><td>Travel or taxi operator</td><td>{inr(P.travel)}</td><td>Routes, tours and packages, each with a WhatsApp button that arrives already filled in</td></tr>
+<tr><td>School with admin panel</td><td>{inr(P.school)}</td><td>The public site, CBSE disclosure pages, and a panel the office uses for notices or admissions</td></tr>
+<tr><td>Online store</td><td>{inr(P.store)}</td><td>A custom storefront with products, cart and Razorpay or Stripe payments</td></tr>
+</tbody>
+</table>
+<p>These are starting prices, all in rupees. After one call you get a single fixed number in writing, and it doesn't move once work starts.</p>
+<p>For what these look like finished: <a href="/projects/yash-rock-hotel/">Yash Rock Hotel</a> (a hotel), <a href="/projects/baglamukhi-travels/">Baglamukhi Travels</a> (a taxi operator), <a href="/projects/modernkbs/">Modern K.B.S.</a> (a school with an admissions portal) and <a href="/projects/chinkiz/">ChinkiZ</a> (an online store). They show the kind of site, not what each client paid.</p>
+<hr>
+<h2 id="whats-included">What's included in every price</h2>
+<ul>
+<li><strong>Custom code, not a template.</strong> Nothing to renew with a theme seller, and nothing that looks like forty other sites in your town.</li>
+<li><strong>Built for phones first,</strong> because that's where your customers are. On one Himachal travel site, over 95% of visitors arrive on a phone.</li>
+<li><strong>WhatsApp and call buttons on every page,</strong> so an enquiry is one tap away.</li>
+<li><strong>The basics Google needs:</strong> titles, descriptions, structured data and a sitemap, set up properly from day one.</li>
+<li><strong>You own it.</strong> The code, the domain and the hosting are in your name, and you get the full code at handover.</li>
+<li><strong>30 days of support after launch,</strong> for the small things you only notice once the site is live.</li>
+</ul>
+<hr>
+<h2 id="what-moves-the-price">What makes the price go up</h2>
+<p>Four things move a quote, in roughly this order:</p>
+<ol>
+<li><strong>How many pages.</strong> A five-page site is a different job from a taxi site with a page for every route and town.</li>
+<li><strong>Whether you'll edit it yourself.</strong> An admin panel for notices, prices or packages is real software, and it adds to the build.</li>
+<li><strong>Payments, bookings or logins.</strong> Once money or accounts are involved, so is careful testing.</li>
+<li><strong>Who writes the words.</strong> If you'd like the copy written for you, say so on the first call. More projects stall waiting for text than for code.</li>
+</ol>
+<p><strong>Try this before you ask for a quote:</strong> write down the pages you want, and tick the ones you'd want to change yourself every month. That list alone gets you a much more accurate number.</p>
+<hr>
+<h2 id="yearly-costs">What you'll pay every year after launch</h2>
+<ul>
+<li><strong>Your domain:</strong> the .com or .in name, renewed every year with the registrar you choose.</li>
+<li><strong>Your hosting:</strong> depends on the host and how busy the site is, and it's in your name.</li>
+<li><strong>Nothing to me,</strong> unless you want ongoing work. A retainer is optional.</li>
+</ul>
+<p>What you won't see is a monthly platform subscription or a commission on every booking. For a hotel, that second part is the whole point: <a href="/blog/hotel-homestay-website-himachal-direct-bookings/">the commission math</a> shows what OTAs take from a season.</p>
+<hr>
+<h2 id="why-quotes-vary">Why quotes in Himachal range from ₹5,000 to lakhs</h2>
+<p><strong>At the low end</strong>, you're usually buying a template with your logo on it, on a platform that charges you every year, from someone who may not answer the phone six months later. It often loads slowly on a hill-station mobile connection, and the contact form sometimes goes nowhere.</p>
+<p><strong>At the high end</strong>, you're paying for an agency's office, its account managers and its timeline. When Modern K.B.S. asked around, agencies quoted six months for their school site and admissions portal. It went live in seven days.</p>
+<p>A price doesn't tell you which one you're getting. These questions do:</p>
+<ul>
+<li>Will I own the code and the domain, in my name?</li>
+<li>Can I see two live sites you've built, and open them on my phone?</li>
+<li>What will I pay every year after launch, in total?</li>
+<li>What happens if I don't like the design?</li>
+</ul>
+<p>My answer to the last one: you see the design on day 5, and if you don't like it, the advance comes back in full. Payment is 50% to start and 50% on delivery. The rest of the checklist is in <a href="/blog/how-to-choose-web-developer-himachal/">how to choose a web developer in Himachal</a>.</p>
+<hr>
+<h2 id="exact-number">How to get an exact number</h2>
+<p>Send me four things on WhatsApp: what your business does, the pages you want, what you'd edit yourself, and whether you take payments or bookings online. After one short call, you'll get a fixed price in writing.</p>
+<p>If you already have a website and aren't sure it needs replacing, start with the <a href="/website-audit/">free website audit</a>. Sometimes the right answer is a fix, not a rebuild.</p>
+<hr>
+<h2 id="the-short-version">The short version</h2>
+<ul>
+<li>Business website from {inr(P.basic)}; hotel, homestay, travel or taxi from {inr(P.hotel)}; school with admin panel or online store from {inr(P.store)}.</li>
+<li>One fixed price in writing after a call, 50% to start, full refund of the advance if you don't like the day-5 design.</li>
+<li>You own everything; your only yearly costs are your domain and hosting.</li>
+</ul>
+<hr>
+<p><em>I'm Divyansh Sood, a <a href="/web-developer-kangra/">web developer in Kangra</a>, Himachal Pradesh, building websites for hotels, travel operators, schools and local businesses. Message me on <a href="https://wa.me/919816091875">WhatsApp</a> with what you need, and I'll reply with a fixed price after one call.</em></p>
+</Post>

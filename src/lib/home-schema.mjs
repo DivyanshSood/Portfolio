@@ -4,7 +4,7 @@
    same serialised string as before.
    =========================================================================== */
 
-import { FOUNDER_PHOTO, GOOGLE_KG_MID, GOOGLE_MAPS_CID_URL, SAME_AS, STUDIO_ADDRESS } from "./site.mjs";
+import { FOUNDER_PHOTO, GOOGLE_KG_MID, GOOGLE_MAPS_CID_URL, SAME_AS, STUDIO_ADDRESS, STARTING_PRICES as P, inr } from "./site.mjs";
 import { KNOWS_ABOUT, JOB_TITLE, PERSON_DESCRIPTION } from "./entity.mjs";
 import { projects } from "./projects/data.mjs";
 
@@ -24,7 +24,7 @@ export const HOME_FAQ = [
   },
   {
     q: "What does a project cost?",
-    a: "Every project is quoted individually after a short call, and that quote is fixed and in writing before any work starts — no hourly creep, no change-order games. What moves the number is scope: page count, whether you need to edit the site yourself, and whether payments or logins are involved.",
+    a: `Websites start at ${inr(P.basic)} for a business site, ${inr(P.hotel)} for a hotel, homestay, travel or taxi site, and ${inr(P.school)} for a school site with an admin panel or an online store. Web apps and AI features are quoted individually. Every project gets a fixed quote in writing after a short call — no hourly creep, no change-order games. What moves the number is scope: page count, whether you need to edit the site yourself, and whether payments or logins are involved.`,
   },
   {
     q: "Do I own the code?",

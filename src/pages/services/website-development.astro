@@ -21,7 +21,7 @@ import Steps from "../../components/brand/Steps.astro";
 import ResultGrid from "../../components/brand/ResultGrid.astro";
 import Faq from "../../components/brand/Faq.astro";
 import EndCta from "../../components/brand/EndCta.astro";
-import { SITE, CALENDLY_URL } from "../../lib/site.mjs";
+import { SITE, CALENDLY_URL, STARTING_PRICES as P, inr } from "../../lib/site.mjs";
 import { TOPICS } from "../../lib/entity.mjs";
 
 const canonical = `${SITE}/services/website-development/`;
@@ -61,7 +61,7 @@ const faqs = [
   },
   {
     q: "What does website development cost?",
-    a: "Every project is quoted individually after a short call, and that quote is fixed and in writing before any work starts — no hourly creep and no change-order games. What moves the number is scope: how many pages, whether you need to edit the site yourself, and whether payments or logins are involved.",
+    a: `A business website starts at ${inr(P.basic)}; hotel, homestay, travel and taxi sites at ${inr(P.hotel)}; a school site with an admin panel or an online store at ${inr(P.school)}. Every project gets a fixed quote in writing after a short call — no hourly creep and no change-order games. What moves the number is scope: how many pages, whether you need to edit the site yourself, and whether payments or logins are involved.`,
   },
   {
     q: "Is a custom website better than WordPress, Wix or Squarespace?",
@@ -185,10 +185,10 @@ const jsonld = JSON.stringify({
 
     <Section n={6} term="Journal" note="From the journal" title="Worth reading before you commission anything">
       <Cards items={[
-        { tag: "Custom vs WordPress", d: `What WordPress ships well, where it costs you on speed and SEO, and when custom is worth it. <a href="/blog/custom-website-vs-wordpress/">Custom website vs WordPress, compared →</a>` },
+        { tag: "AI builder vs developer", d: `What AI website generators do well for an Indian small business, and where they stop. <a href="/blog/ai-website-builder-vs-developer-india/">AI website builder vs developer →</a>` },
+        { tag: "Webflow vs custom code", d: `Where Webflow is the right call, where it starts taxing a team, and the three-year cost of each. <a href="/blog/custom-code-vs-webflow-for-startups/">Webflow vs custom code →</a>` },
         { tag: "How to choose a developer", d: `What to ask, what the red flags look like, and how to vet someone before you pay. <a href="/blog/how-to-choose-web-developer-himachal/">How to choose a web developer in Himachal →</a>` },
-        { tag: "Agency vs freelancer", d: `What agency overhead actually buys, and when a senior independent ships faster. <a href="/blog/freelancer-vs-agency-web-development/">Freelancer vs agency for web development →</a>` },
-        { tag: "Why most business sites get no leads", wide: true, d: `Six reasons a website produces zero enquiries — none of them expensive to fix. <a href="/blog/why-indian-websites-dont-generate-leads/">Why Indian business websites get no enquiries →</a>` },
+        { tag: "Google profile or a website", wide: true, d: `What a Google Business Profile does, where it stops, and why a local business needs both. <a href="/blog/google-business-profile-vs-website-himachal/">Google Business Profile vs a website →</a>` },
         { tag: "AI and web development", d: `How AI actually changes a build, and where it doesn't. <a href="/blog/topics/ai-web-development/">The AI cluster →</a>` },
       ]} />
     </Section>

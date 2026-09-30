@@ -5,8 +5,10 @@
    These are the commercial pages for the three verticals the client work
    actually sits in (schools, hotels, travel). Proof is pulled from
    projects/data.mjs by slug, so a case study's name, image and URL can't drift
-   from its own page. No prices anywhere (owner rule — see site.mjs).
+   from its own page. Starting prices come from STARTING_PRICES in site.mjs.
    =========================================================================== */
+
+import { STARTING_PRICES as P, inr } from "./site.mjs";
 
 const wa = (text) => `https://wa.me/919816091875?text=${encodeURIComponent(text)}`;
 
@@ -44,7 +46,7 @@ export const VERTICALS = {
     ],
     faqs: [
       { q: "What must a CBSE school website include?", a: "CBSE's affiliation bye-laws require a Mandatory Public Disclosure on the school's website (Appendix IX). It covers general information, documents and certificates such as affiliation, NOC, recognition and safety certificates, Class X and XII results, staff details and infrastructure. Beyond compliance, parents look for admissions, fees, transport, notices and the academic calendar." },
-      { q: "How much does a school website cost?", a: "It depends on scope. A public site with the CBSE pages is a different build from one with an online admissions portal and admin panel. I quote fixed and in writing after one call, and neither comes with a recurring software fee." },
+      { q: "How much does a school website cost?", a: `From ${inr(P.school)} for a school website with an admin panel. A public site with the CBSE pages is a different build from one with a full online admissions portal, so I quote fixed and in writing after one call, and neither comes with a recurring software fee.` },
       { q: "How long does a school website take?", a: "Modern K.B.S.'s public site and admissions portal went live in 7 days, where other agencies had quoted six months. Most of the timeline for a school depends on how quickly the documents and facts can be confirmed, not on the build." },
       { q: "Can office staff update notices and results themselves?", a: "Yes. Pinnacle World School's content lives in collections behind an admin panel, and Modern K.B.S.'s office processes admissions in its own dashboard. Neither needs a developer for day-to-day updates." },
       { q: "Can you move our school off an old ERP or CMS website without breaking links?", a: "Yes. When Pinnacle World School moved to its own domain, all 14 of the old site's URLs were 308-redirected to their new pages, so bookmarks, WhatsApp forwards and search results kept working." },
@@ -53,7 +55,7 @@ export const VERTICALS = {
     reading: [
       { href: "/blog/cbse-mandatory-public-disclosure-school-website/", t: "CBSE Mandatory Public Disclosure: what your school website must publish" },
       { href: "/blog/school-website-admissions-portal-india/", t: "School website cost and features in India" },
-      { href: "/blog/why-indian-websites-dont-generate-leads/", t: "Why most Indian websites don't generate leads" },
+      { href: "/blog/google-business-profile-vs-website-himachal/", t: "Google Business Profile vs a website for Himachal businesses" },
     ],
   },
 
@@ -92,13 +94,13 @@ export const VERTICALS = {
       { q: "Do I need a booking engine on my hotel website?", a: "Not always. With a handful of rooms and rates you confirm personally, a WhatsApp button and a phone number convert well and cost nothing per booking. A booking engine makes sense once you have enough inventory that managing availability online saves real work." },
       { q: "Will a website replace Booking.com or MakeMyTrip?", a: "No, and it shouldn't try to. Online travel agencies are good at reaching people who have never heard of you. Your own site keeps repeat guests, referrals and anyone searching for you by name from paying their commission." },
       { q: "How does a small hotel rank on Google?", a: "Mostly through its Google Business Profile and reviews, backed by a website with the same name, address and phone, Hotel structured data, and pages that match what guests search for, such as a stay near a landmark they're visiting." },
-      { q: "How much does a hotel website cost?", a: "It depends on the number of pages, the photography and whether you need a booking engine. I quote fixed and in writing after one conversation, with no commission and no monthly platform fee." },
+      { q: "How much does a hotel website cost?", a: `From ${inr(P.hotel)}. The final number depends on the number of pages, the photography and whether you need a booking engine; I quote fixed and in writing after one conversation, with no commission and no monthly platform fee.` },
       { q: "Can I change rates, photos and offers later?", a: "Yes. Rates and facts are kept in one place, so a change shows up everywhere it belongs: the room page, the homepage and the structured data Google reads." },
       { q: "Do you build websites for homestays outside Himachal?", a: "Yes. The process runs over WhatsApp and calls, so a homestay anywhere in India gets the same build. Properties in the Kangra valley can also meet in person." },
     ],
     reading: [
       { href: "/blog/hotel-near-me-landing-pages/", t: "“Near” pages for a small hotel: ranking for where guests are going" },
-      { href: "/blog/hotel-homestay-website-himachal-direct-bookings/", t: "Hotel and homestay websites in Himachal: the commission math" },
+      { href: "/blog/hotel-homestay-website-himachal-direct-bookings/", t: "How to get more direct hotel bookings in Himachal" },
       { href: "/blog/google-business-profile-vs-website-himachal/", t: "Google Business Profile vs a website for Himachal businesses" },
     ],
   },
@@ -138,13 +140,12 @@ export const VERTICALS = {
       { q: "What pages should a taxi or travel website have?", a: "One for each route people book, one for each trip or package, one for each town people search “taxi service in” for, plus the fleet, the FAQ and a contact page. The homepage can't rank for all of those searches by itself." },
       { q: "Do travel websites need online payment?", a: "Usually not in Himachal. Most trips are confirmed on WhatsApp and paid at or after the trip, and a payment gateway adds friction for no gain. It can be added where advance booking genuinely needs a deposit." },
       { q: "How long before a new travel website ranks on Google?", a: "Expect weeks to months, depending on competition and on the Google Business Profile. Baglamukhi Travels now averages position 5.7 on Google against aggregators and call centres." },
-      { q: "How much does a travel or taxi website cost?", a: "It depends on how many routes, trips and towns need their own pages. I quote fixed and in writing after one call, and the operator owns the code." },
+      { q: "How much does a travel or taxi website cost?", a: `From ${inr(P.travel)}. The final number depends on how many routes, trips and towns need their own pages; I quote fixed and in writing after one call, and the operator owns the code.` },
       { q: "Can I add new packages and routes myself?", a: "Yes. Dharamshala Tours' team publishes seasonal itineraries themselves, and Sunny Himachal Travels' trips and routes are plain content files that can be added without touching the design." },
       { q: "Do you only build travel websites in Himachal?", a: "No. The four travel sites so far are in Kangra and Dharamshala, but the same approach works for any operator in India whose customers search by route and town." },
     ],
     reading: [
       { href: "/blog/taxi-tour-operator-website-pages/", t: "Taxi and tour operator websites: why every route and town needs its own page" },
-      { href: "/blog/mobile-first-booking-design/", t: "Mobile-first booking design" },
       { href: "/blog/google-business-profile-vs-website-himachal/", t: "Google Business Profile vs a website for Himachal businesses" },
     ],
   },

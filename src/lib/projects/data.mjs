@@ -240,7 +240,7 @@ export const projects = [
       { tag: "Seven weeks in", title: "Publish the fare", type: "prose",
         html: `The site is ten pages, with no blog and no content calendar. The strategy fits in one sentence: <strong>publish the fare</strong>. Twenty-seven point-to-point routes each state an all-in price as text on the page, because people type “gaggal airport to dharamshala taxi fare”, and a page that says “call for quote” has no number to match. In its first seven weeks the site drew <strong>19,100 impressions and 261 clicks at an average position of 5.4</strong>, with the curve at its steepest in the final week.` },
       { tag: "The honest part", title: "Rank is not traffic", type: "prose",
-        html: `A 1.4% click-through rate at position 5.4 is roughly a quarter of what that position used to earn. On a phone, a map pack, an AI overview and aggregator listings now sit above the organic results. The fix isn't to chase rank harder. It's to be the result that gets picked out of a crowded page: the fare in the snippet, reviews in the map pack, and facts structured well enough that an AI overview names you.` },
+        html: `A 1.4% click-through rate at position 5.4 is roughly a quarter of what that position used to earn. On a phone, a map pack, an AI overview and aggregator listings now sit above the organic results. The fix isn't to chase rank harder. It's to be the result that gets picked out of a crowded page: the fare in the snippet, <a href="/blog/rank-on-google-maps-himachal/">reviews in the map pack</a>, and facts structured well enough that an AI overview names you.` },
     ],
     gallery: [
       { src: "/images/work/baglamukhi-travels-1.webp", alt: "Baglamukhi Travels — homepage hero" },

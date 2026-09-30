@@ -7,7 +7,7 @@ import Cards from "../components/brand/Cards.astro";
 import ResultGrid from "../components/brand/ResultGrid.astro";
 import Faq from "../components/brand/Faq.astro";
 import EndCta from "../components/brand/EndCta.astro";
-import { SITE, CALENDLY_URL, GOOGLE_MAPS_URL } from "../lib/site.mjs";
+import { SITE, CALENDLY_URL, GOOGLE_MAPS_URL, STARTING_PRICES as P, inr } from "../lib/site.mjs";
 import { TOPICS } from "../lib/entity.mjs";
 
 const canonical = `${SITE}/web-developer-shimla/`;
@@ -22,7 +22,7 @@ const offers = [
 
 const faqs = [
   { q: "Do you work with businesses in Shimla?", a: "Yes. I'm based in Kangra district and work with businesses across Himachal Pradesh — Shimla included. Everything runs over WhatsApp, calls and screen-shares, the same way I work with clients in the US and Europe; and being in-state means same-timezone responses and the option to meet when it matters." },
-  { q: "What does a website cost in Shimla?", a: "A hotel direct-booking site, an institution's website and a firm's profile site are three different scopes — so I quote after one conversation, fixed and in writing. You'll know the whole number before anything starts." },
+  { q: "What does a website cost in Shimla?", a: `A firm's website starts at ${inr(P.basic)}, a hotel site at ${inr(P.hotel)}, and a school or institution site with an admin panel at ${inr(P.school)}. Those are three different scopes, so I quote after one conversation, fixed and in writing. You'll know the whole number before anything starts.` },
   { q: "Can you redesign our existing website without losing our Google rankings?", a: "Yes — that's a technical SEO job as much as a design job: preserving URLs or redirecting them properly, keeping the content Google already trusts, and shipping a faster site that improves rankings rather than gambling with them." },
   { q: "How is this different from hiring a big agency in Chandigarh or Delhi?", a: "You work directly with the person who designs and codes — no account managers, no junior handoffs, no six-month timelines. Builds go live in 1–3 weeks, you own the code outright, and support doesn't die after launch." },
 ];
@@ -96,7 +96,7 @@ const jsonld = JSON.stringify({
           { tag: `Institutions`, d: `Modern K.B.S. school got a public site plus an admissions portal for classes I–XII in seven days — the timeline agencies quoted was six months. <a href="/projects/modernkbs/">See the school build →</a>` },
           { tag: `Pinnacle World School · Baroh, Kangra`, d: `A CBSE school site where every published fact traces back to the school's affiliation record: Mandatory Public Disclosure, an admissions form that lands in the office's WhatsApp, and old URLs redirected. <a href="/projects/pinnacle-world-school/">Read the case study →</a>` },
           { tag: `Yash Rock Hotel · Dehrian, Kangra`, d: `Seven rooms, a pool, and no booking engine: every enquiry goes to WhatsApp or a call, and 14 “near” pages reach guests heading for NIFT, Tanda Medical College and the airport. <a href="/projects/yash-rock-hotel/">Read the case study →</a>` },
-          { tag: `By industry`, wide: true, d: `What I build most in Himachal: <a href="/services/school-website-development/">school websites</a>, <a href="/services/hotel-website-development/">hotel and homestay websites</a>, and <a href="/services/travel-website-development/">travel and taxi websites</a>.` },
+          { tag: `By industry`, wide: true, d: `What I build most in Himachal: <a href="/services/school-website-development/">school websites</a>, <a href="/services/hotel-website-development/">hotel and homestay websites</a>, and <a href="/services/travel-website-development/">travel and taxi websites</a>. Shimla is crowded on Google Maps; <a href="/blog/rank-on-google-maps-himachal/">these seven fixes</a> decide who shows.` },
           { tag: `Direct bookings, not commissions`, wide: true, d: `For Shimla's hotels the math is simple: every OTA booking pays a commission a direct-booking site would keep. I wrote up how Himalayan stays fix that. <a href="/blog/hotel-homestay-website-himachal-direct-bookings/">Read the breakdown →</a>` },
         ]} />
       </div>

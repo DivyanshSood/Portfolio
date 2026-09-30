@@ -45,6 +45,16 @@ const QUALITY = 82;
    auto-fitted to the box. (`accent` is left over from the previous template;
    the brandbook allows only white on red, so it is ignored.) */
 const COVER_COPY = {
+  "website-cost-himachal-pradesh": {
+    eyebrow: "PRICING \u00b7 HIMACHAL",
+    lines: ["THE PRICE,", "IN", "RUPEES."],
+    accent: [2],
+  },
+  "rank-on-google-maps-himachal": {
+    eyebrow: "LOCAL SEO \u00b7 GOOGLE MAPS",
+    lines: ["GET", "ON THE", "MAP."],
+    accent: [2],
+  },
   "cbse-mandatory-public-disclosure-school-website": {
     eyebrow: "SCHOOLS \u00b7 CBSE",
     lines: ["PUBLISH", "THE", "RECORD."],
@@ -75,21 +85,6 @@ const COVER_COPY = {
     lines: ["IS AI", "ACTUALLY", "QUOTING YOU?"],
     accent: [2],
   },
-  "replatforming-without-losing-rankings": {
-    eyebrow: "SEO · MIGRATION",
-    lines: ["THE REDIRECT", "MAP NOBODY", "BUILDS."],
-    accent: [2],
-  },
-  "contact-form-dropping-leads": {
-    eyebrow: "LEADS · DEBUGGING",
-    lines: ["YOUR FORM", "IS EATING", "LEADS."],
-    accent: [2],
-  },
-  "mobile-first-booking-design": {
-    eyebrow: "MOBILE · CONVERSION",
-    lines: ["95% CAME", "FROM A", "PHONE."],
-    accent: [2],
-  },
   "how-ai-is-transforming-website-development": {
     eyebrow: "AI · WEB DEVELOPMENT",
     lines: ["HOW AI IS", "TRANSFORMING", "WEB DEV."],
@@ -105,29 +100,14 @@ const COVER_COPY = {
     lines: ["AI FEATURES", "THAT ACTUALLY", "WORK."],
     accent: [2],
   },
-  "claude-vs-gpt-vs-gemini-for-product-features": {
-    eyebrow: "AI · MODELS",
-    lines: ["CLAUDE, GPT,", "GEMINI:", "WHAT I SHIPPED."],
-    accent: [2],
-  },
   "rag-for-business-websites": {
     eyebrow: "AI · RAG",
     lines: ["WHEN A BOT", "SHOULD READ", "YOUR DOCS."],
     accent: [2],
   },
-  "learn-ai-assisted-development-2026": {
-    eyebrow: "AI · LEARNING",
-    lines: ["LEARN AI-", "ASSISTED DEV:", "THE PATH", "I'D TAKE."],
-    accent: [2, 3],
-  },
   "ai-chatbot-for-indian-business": {
     eyebrow: "AI · CHATBOTS",
     lines: ["YOU ALREADY", "HAVE", "WHATSAPP."],
-    accent: [2],
-  },
-  "how-indian-businesses-use-ai-2026": {
-    eyebrow: "AI · INDIA",
-    lines: ["HOW INDIA", "ACTUALLY", "USES AI."],
     accent: [2],
   },
   "ai-website-builder-vs-developer-india": {

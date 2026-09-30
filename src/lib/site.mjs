@@ -78,13 +78,25 @@ export const STUDIO_ADDRESS = {
   addressCountry: "IN",
 };
 
-/* NOTE: there is deliberately no price constant here. Pricing was removed from
-   the site entirely by owner decision (2026-07-28) — every project is quoted in
-   writing after a call, so no figure is published anywhere. Do not reintroduce
-   a PROJECT_MIN_* export, a price in copy, or an Offer/PriceSpecification node
-   in JSON-LD. (The one exception is the free llms.txt generator, which is
-   correctly marked up as price:"0" + isAccessibleForFree — that's a "this tool
-   is free" signal, not a price claim.) */
+/* ---------------------------------------------------------------------------
+   Starting prices, in rupees — the SINGLE source for every price in page copy
+   and FAQ answers. Published by owner decision (2026-10-01), reversing the
+   2026-07-28 decision to publish none. They are starting points, not fixed
+   prices: every project still gets a fixed quote in writing after one call.
+   public/llms.txt and public/llms-full.txt are static and repeat these figures
+   by hand — change them there too. No Offer/PriceSpecification node in JSON-LD
+   yet: a "from" price marked up as a fixed offer would overstate it.
+--------------------------------------------------------------------------- */
+export const STARTING_PRICES = {
+  basic: 10000,
+  hotel: 15000,
+  travel: 15000,
+  school: 25000,
+  store: 25000,
+};
+
+/** ₹10,000-style formatting, Indian digit grouping. */
+export const inr = (n) => `₹${n.toLocaleString("en-IN")}`;
 
 /* ---------------------------------------------------------------------------
    Verified public profiles — the SINGLE source for schema `sameAs` (Person +

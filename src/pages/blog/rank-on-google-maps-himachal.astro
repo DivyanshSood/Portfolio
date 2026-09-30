@@ -1,0 +1,182 @@
+---
+import Post from "../../layouts/Post.astro";
+import { SITE, DEFAULT_OG, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
+import { localSrcset, localVariant, COVER_SIZES_POST } from "../../lib/images.mjs";
+
+const slug = "rank-on-google-maps-himachal";
+const idx = POSTS.findIndex((p) => p.slug === slug);
+const post = POSTS[idx];
+
+const canonical = `${SITE}/blog/${slug}/`;
+const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const primaryTag = post.tags[0] || "Notes";
+const readMins = post.readMins;
+
+const shot = "/images/work/baglamukhi-travels-1.webp";
+
+/* Questions real buyers ask, answered in full. This array is the single
+   source for both the visible accordion and the FAQPage node above — Google
+   requires FAQ markup to match content on the page, and deriving both from one
+   array is what stops them drifting. */
+const faqs = [
+  {
+    q: "How does Google decide which businesses show on Google Maps?",
+    a: "Google says local results are based mainly on relevance, distance and prominence: how well your profile matches the search, how far you are from the person searching, and how well known and well reviewed your business is, including how your website ranks in normal search results.",
+  },
+  {
+    q: "Can my business show on Google Maps in a town where I don't have an address?",
+    a: "A service-area business, such as a taxi operator, can hide its address and list the towns it serves, but distance from the searcher still counts. To be found for “taxi service in <town>” beyond the map, give each town you genuinely serve its own page on your website.",
+  },
+  {
+    q: "Do I need a website to rank on Google Maps?",
+    a: "Not strictly, but Google counts your position in normal web results towards prominence, and the website is where a searcher who taps through from the map decides to book. A Google Business Profile with no website to link to leaves both on the table.",
+  },
+  {
+    q: "How many Google reviews do I need to rank in Himachal?",
+    a: "There is no fixed number. Compare your review count and rating with the three businesses already in the map pack for your main search in your town, and aim for a steady flow of real reviews rather than a burst. Buying reviews breaks Google's policies and can get a profile suspended.",
+  },
+  {
+    q: "How long does it take to rank on Google Maps?",
+    a: "Fixing the category, name and photos on a Google Business Profile can show within weeks. Website pages take longer: Baglamukhi Travels' site, built from scratch in Kangra, drew 19,100 impressions at an average Google position of 5.4 in its first seven weeks.",
+  },
+];
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: iso(post.pubDate),
+      dateModified: iso(post.updatedDate || post.pubDate),
+      author: authorNode(SITE),
+      publisher: publisherNode(SITE),
+      isPartOf: websiteNode(SITE),
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      image: ogImage,
+      articleSection: primaryTag,
+      keywords: post.tags.join(", "),
+      // Resolves the free-text tags above to public concept identifiers, so a
+      // parser knows "Astro" means the framework and "GEO" isn't geography.
+      about: topicsForTags(post.tags),
+      wordCount: post.wordCount,
+      timeRequired: `PT${readMins}M`,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: [".post-title", ".post-lead"],
+      },
+      inLanguage: "en",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog/` },
+        { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+      ],
+    },
+    {
+      // Google retired FAQ rich results in May 2026, so this earns no SERP
+      // enhancement. It stays because answer engines read Q&A pairs well, and
+      // because every question below is rendered visibly by the post's FAQ block (Post.astro).
+      "@type": "FAQPage",
+      "@id": `${canonical}#faq`,
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    },
+  ],
+});
+---
+
+<Post post={post} jsonld={jsonld} faqs={faqs}>
+<p>Open Google on your phone and search what your customers search: <em>taxi in Dharamshala</em>, <em>hotel near Tanda Medical College</em>, <em>school in Palampur</em>. Before a single website appears, there's a map with three businesses on it. Most local calls go to those three.</p>
+<p>Getting into that map, and into the results under it, comes down to seven things. Here they are in the order they matter, from building sites for taxi operators, hotels and schools in Kangra and Dharamshala.</p>
+<hr>
+<h2 id="how-google-picks">How does Google pick the three businesses on the map?</h2>
+<p>Google says it ranks local results on three things:</p>
+<ul>
+<li><strong>Relevance:</strong> how well your profile matches what was searched.</li>
+<li><strong>Distance:</strong> how far you are from the person searching, or from the place they named.</li>
+<li><strong>Prominence:</strong> how well known you are. That includes your reviews, and Google says your position in normal web results counts too.</li>
+</ul>
+<p>You can't change distance. A homestay in Bir will not show for someone searching from Manali, and no one can honestly sell you that. Everything below works on the other two.</p>
+<hr>
+<h2 id="the-seven-fixes">The seven fixes, in order of impact</h2>
+
+<h3 id="primary-category">1. Choose the primary category your customers would choose</h3>
+<p>The primary category is the single strongest relevance signal on your profile, and it's the one most often wrong. A cab operator listed as “Travel agency” is competing for a different search than one listed as “Taxi service”.</p>
+<p><strong>Check today:</strong> search your main service and town, open the top result on the map, and look at its category. If yours is different, ask yourself which one describes what people actually book from you. Add secondary categories for the rest, such as “Tour operator” alongside “Taxi service”.</p>
+
+<h3 id="real-name">2. Use your real business name, and nothing else</h3>
+<p>“Baglamukhi Travels” is a name. “Baglamukhi Travels Best Taxi Service Kangra Dharamshala Airport” is a keyword list, and Google's guidelines forbid it. It can work for a few months, then a competitor reports it and the profile is suspended during peak season.</p>
+<p>Put the keywords where they belong: in your category, your services, and the pages of your website.</p>
+
+<h3 id="reviews">3. Get a steady flow of real reviews, and answer every one</h3>
+<p>Google says review count and rating factor into local ranking. What works in Himachal is simple: send the review link on WhatsApp at the moment the customer is happiest. For a taxi, that's at drop-off. For a hotel, it's at checkout.</p>
+<p>Reply to every review, the bad ones especially. A calm reply to a one-star review is read by every future guest, and it's a far better advert than the five-star ones.</p>
+<p>A caution from <a href="/projects/nandini/">Nandini Travels</a>: they had the strongest review profile of any taxi operator in Kangra, and still lost bookings, because the reviews lived only on a Maps listing that sent customers onwards to competitors' websites. Reviews win you the click. They don't take the booking.</p>
+
+<h3 id="photos">4. Show the real thing in photos</h3>
+<p>Your cars with the permit visible, your rooms as they are, the view from the terrace, the reception at night. Customers compare profiles photo by photo before they call anyone.</p>
+<p><strong>Check today:</strong> count the photos on your profile, then on the top business in your category. If they have 80 and you have six, you know your next job.</p>
+
+<h3 id="same-details">5. Keep the same name, number and address everywhere</h3>
+<p>Google cross-checks what it finds about you: your profile, your website footer, JustDial, IndiaMART, Facebook. An old SIM number on one listing and a new one on another makes you look like two businesses, or like one that has closed.</p>
+<p>Pick one version of each and make every listing match it exactly, down to the spelling of the village.</p>
+
+<h3 id="website-that-answers">6. Link your profile to a website that answers the search</h3>
+<p>This is the fix most Himachal businesses skip, and it matters twice. Google counts your web ranking towards prominence on the map. And a searcher who taps through from the map lands on your site, where they decide whether to call you or go back.</p>
+<figure>
+<img src={localVariant(shot, 1080)} srcset={localSrcset(shot)} sizes={COVER_SIZES_POST} width="1920" height="1200" loading="lazy" decoding="async" alt="Baglamukhi Travels homepage, a Kangra taxi website with one-tap WhatsApp booking" />
+<figcaption>Baglamukhi Travels: ten pages, 27 routes, every fare stated as text.</figcaption>
+</figure>
+<p><a href="/projects/baglamukhi-travels/">Baglamukhi Travels</a> is two owner-drivers in Kangra, competing with commission agents and call centres. Their site has ten pages. Twenty-seven routes each state an all-in fare as text, and a full local-business schema carries the address, coordinates, hours and rating in a form Google and AI assistants can read. In a 28-day window it averaged <strong>position 5.7</strong> on Google, with <strong>7,250 impressions</strong> and <strong>148 clicks</strong>.</p>
+<p>If you want this built for a travel business, it's what I do on the <a href="/services/travel-website-development/">travel and taxi website</a> page; for stays, it's the <a href="/services/hotel-website-development/">hotel and homestay website</a> page.</p>
+
+<h3 id="pages-for-places">7. Give each place people search a page of its own</h3>
+<p>The map covers a small radius. The results under it don't. People search for the town they're in and the place they're going: <em>taxi service in Palampur</em>, <em>hotel near Kangra Airport</em>. Your homepage can't rank for all of those. A page each can.</p>
+<ul>
+<li><a href="/projects/sunny-himachal-travels/">Sunny Himachal Travels</a> in Dharamshala has nine town pages, each written from what the business actually gets called for there.</li>
+<li><a href="/projects/yash-rock-hotel/">Yash Rock Hotel</a>, seven rooms in Dehrian, has 14 “near” pages for where guests are headed: NIFT Kangra, Tanda Medical College, Kangra Airport, the temples.</li>
+</ul>
+<p>The rule: a page exists only if it says something true about that place that no other page says. Twenty copies with the town name swapped are doorway pages, and they drag the whole site down. How to write them properly is in <a href="/blog/taxi-tour-operator-website-pages/">page-per-route for taxi sites</a> and <a href="/blog/hotel-near-me-landing-pages/">“near” pages for hotels</a>.</p>
+<hr>
+<h2 id="what-doesnt-work">What doesn't work, however it's sold to you</h2>
+<ul>
+<li><strong>Bought or swapped reviews.</strong> Google filters them and can suspend the profile.</li>
+<li><strong>A virtual address in a bigger town.</strong> A profile needs a real place where you meet customers, or a service area if you go to them.</li>
+<li><strong>Keyword-stuffed business names.</strong> See fix 2.</li>
+<li><strong>Anyone who guarantees the number one spot on Maps.</strong> Distance alone makes that impossible to promise.</li>
+</ul>
+<hr>
+<h2 id="twenty-minute-check">Your 20-minute check</h2>
+<table>
+<thead><tr><th>Check</th><th>How</th><th>Good sign</th></tr></thead>
+<tbody>
+<tr><td>Category</td><td>Compare with the top map result for your main search</td><td>Same primary category, or a better-fitting one</td></tr>
+<tr><td>Name</td><td>Read it aloud</td><td>It's what's written on your board, nothing more</td></tr>
+<tr><td>Reviews</td><td>Count yours against the top three</td><td>A review in the last month, and a reply on every one</td></tr>
+<tr><td>Photos</td><td>Count yours against the top result</td><td>Real, recent, and at least as many</td></tr>
+<tr><td>Details</td><td>Search your phone number on Google</td><td>Every listing shows the same name and address</td></tr>
+<tr><td>Website</td><td>Tap the website button on your own profile, on your phone</td><td>It loads fast and answers the search that found you</td></tr>
+</tbody>
+</table>
+<p>If the website row fails, the <a href="/website-audit/">free website audit</a> will show you what to fix first.</p>
+<hr>
+<h2 id="the-short-version">The short version</h2>
+<ul>
+<li>Get the primary category right, and keep the name clean.</li>
+<li>Ask for reviews on WhatsApp at the happy moment, and answer all of them.</li>
+<li>Real photos, identical details everywhere.</li>
+<li>A website that answers the search, with a page for each place people actually look for.</li>
+</ul>
+<p>Whether you need a website as well as a profile at all is answered in <a href="/blog/google-business-profile-vs-website-himachal/">Google Business Profile vs a website</a>. The short answer is yes.</p>
+<hr>
+<p><em>I'm Divyansh Sood, a <a href="/web-developer-kangra/">web developer in Kangra</a>, Himachal Pradesh. I build websites for taxi operators, hotels and schools that are built to be found. Send me your business name on <a href="https://wa.me/919816091875">WhatsApp</a> and I'll tell you which of these seven is costing you the most.</em></p>
+</Post>

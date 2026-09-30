@@ -160,7 +160,7 @@ const jsonld = JSON.stringify({
 <p>Building an AI website generator taught me more about the limits of AI website generation than building sites by hand ever did.</p>
 <p>WebSeek does the thing it says: one prompt, a working custom-coded site, in any language. It's genuinely useful and people ship real pages with it. But every hard problem in it turned out to be a problem of <em>knowing what the user meant</em>, not generating code. Someone types "website for my restaurant" and the model has to invent a hundred decisions nobody made — how many dishes to show, whether bookings matter more than the menu, whether the location or the food is the reason people come.</p>
 <p>It invents them plausibly. Sometimes it invents them well. It never invents them <em>knowingly</em>, and the difference shows up exactly where the money is.</p>
-<p>Running it on three providers made a second thing obvious: the model is the least interesting variable. Swapping between Claude, GPT and Gemini changes the texture of the output and very little else. What actually decided quality was the structure around the model — what context it got, how the output was validated, what happened when it failed. I've written that comparison up <a href="/blog/claude-vs-gpt-vs-gemini-for-product-features/">in more detail</a>.</p>
+<p>Running it on three providers made a second thing obvious: the model is the least interesting variable. Swapping between Claude, GPT and Gemini changes the texture of the output and very little else. What actually decided quality was the structure around the model — what context it got, how the output was validated, what happened when it failed.</p>
 <hr>
 <h2 id="beyond-code">Where AI shows up in a build besides writing code</h2>
 <p>"AI in web development" gets read as "AI writes the code", and that's the least of it now. On a current project it turns up in six places, and the code is only one.</p>
@@ -183,7 +183,7 @@ const jsonld = JSON.stringify({
 <h2 id="found-by-ai">The change nobody planned for: being found</h2>
 <p>There's a second transformation running alongside the building one, and for most business owners it will matter more.</p>
 <p>People increasingly ask an assistant for a recommendation instead of scrolling a results page. That's a different game with a different referee: search rewards the page that earns the click, assistants reward the source that's easiest to quote accurately. Being quotable means clear factual claims, real structured data, and content that answers a question in a self-contained way rather than teasing it.</p>
-<p>The practical consequence is that AI has changed what a website is <em>for</em> at the margins. It's no longer only a destination — it's also the training and retrieval surface that determines how you get described when you're not in the room. I've written about the difference between <a href="/blog/aeo-geo-llmo-ai-seo-explained/">optimising for a click and optimising to be the answer</a>, and the concrete steps for <a href="/blog/get-your-business-recommended-by-chatgpt/">getting recommended by ChatGPT</a>.</p>
+<p>The practical consequence is that AI has changed what a website is <em>for</em> at the margins. It's no longer only a destination — it's also the training and retrieval surface that determines how you get described when you're not in the room. I've written about the difference between <a href="/blog/aeo-geo-llmo-ai-seo-explained/">optimising for a click and optimising to be the answer</a>, and how to <a href="/blog/measure-ai-assistant-citations/">measure whether assistants cite you</a>.</p>
 <p>This one is genuinely new. It isn't a faster version of something we already did.</p>
 <hr>
 <h2 id="benefits-ranked">The benefits, ranked honestly</h2>
@@ -227,8 +227,8 @@ const jsonld = JSON.stringify({
 </table>
 
 <h2 id="what-to-do-about-it">What to actually do about it</h2>
-<p><strong>If you're a developer:</strong> get faster at the mechanical parts and spend the time on judgment. Keep writing some code by hand deliberately, because that's what preserves the ability to spot bad output. Get closer to the business side — understanding why something is being built is the part that isn't being automated. <a href="/blog/learn-ai-assisted-development-2026/">The learning path I'd take</a> is built around this.</p>
-<p><strong>If you're a business owner:</strong> assume the baseline is free and stop competing on it. Spend on the parts that are specific to you. <a href="/blog/own-your-stack-code-portability/">Own your code and your content</a> so you can move as the tooling shifts — the businesses that struggle over the next five years will be the ones renting both from someone else.</p>
+<p><strong>If you're a developer:</strong> get faster at the mechanical parts and spend the time on judgment. Keep writing some code by hand deliberately, because that's what preserves the ability to spot bad output. Get closer to the business side — understanding why something is being built is the part that isn't being automated.</p>
+<p><strong>If you're a business owner:</strong> assume the baseline is free and stop competing on it. Spend on the parts that are specific to you. Own your code and your content so you can move as the tooling shifts — the businesses that struggle over the next five years will be the ones renting both from someone else.</p>
 <p><strong>If you're hiring:</strong> stop asking whether someone uses AI. Ask what they wrote by hand and why, and what they've rejected from a model recently. That distinguishes supervision from delegation, and it's the only question here that will still be useful in five years.</p>
 <h2 id="if-youre-commissioning">If you're commissioning a website</h2>
 <p>Three practical consequences.</p>

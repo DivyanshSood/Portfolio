@@ -7,7 +7,7 @@ import Cards from "../components/brand/Cards.astro";
 import ResultGrid from "../components/brand/ResultGrid.astro";
 import Faq from "../components/brand/Faq.astro";
 import EndCta from "../components/brand/EndCta.astro";
-import { SITE, CALENDLY_URL, GOOGLE_MAPS_URL } from "../lib/site.mjs";
+import { SITE, CALENDLY_URL, GOOGLE_MAPS_URL, STARTING_PRICES as P, inr } from "../lib/site.mjs";
 import { TOPICS } from "../lib/entity.mjs";
 
 const canonical = `${SITE}/web-developer-manali/`;
@@ -22,7 +22,7 @@ const offers = [
 
 const faqs = [
   { q: "Why do Manali hotels need their own website when MakeMyTrip exists?", a: "Because aggregators charge commission on every booking and own the guest relationship. A direct-booking site pays for itself the moment a fraction of your bookings shift direct — and the guest data, reviews and repeat bookings stay yours. I've written up the exact math for Himalayan stays." },
-  { q: "What does a website cost for a Manali business?", a: "A camp's one-pager, an operator's booking site and a hotel's full direct-booking build are different scopes. I quote fixed, in writing, after one WhatsApp conversation — and I'll say up front if the smallest version is the right one to start with." },
+  { q: "What does a website cost for a Manali business?", a: `A hotel, camp or operator's site starts at ${inr(P.hotel)}, and a simple business site at ${inr(P.basic)}. A camp's one-pager, an operator's booking site and a hotel's full direct-booking build are different scopes, so I quote fixed, in writing, after one WhatsApp conversation — and I'll say up front if the smallest version is the right one to start with.` },
   { q: "Our guests find us on Instagram. Isn't that enough?", a: "Instagram is where guests discover you; Google is where they verify and book you. 'Best paragliding in Manali' and 'riverside camp Manali price' are searches Instagram can't rank for. The businesses that capture those queries own the season." },
   { q: "Do you understand the tourism business here?", a: "It's my home market. I'm based in Himachal, I built the site that handles part of ~1,000 monthly bookings for a Dharamshala operator, and I rebuilt Kangra's most-reviewed taxi operator so enquiries land on a site they own instead of a Google Maps listing. The seasonality, the WhatsApp-first customer, the mountain-network phones — all of it is designed in." },
 ];
@@ -96,7 +96,7 @@ const jsonld = JSON.stringify({
           { tag: `Nandini Travels · Kangra`, d: `Kangra's most-reviewed taxi operator was losing every enquiry to a Google Maps listing. Now the bookings land on a site he owns. <a href="/projects/nandini/">Read the case study →</a>` },
           { tag: `Sunny Himachal Travels · Dharamshala`, d: `A tour and taxi operator with a page for every trip, transfer and town it serves, plus 1.1 KB of JavaScript and Lighthouse 100 across all four desktop scores. <a href="/projects/sunny-himachal-travels/">Read the case study →</a>` },
           { tag: `Yash Rock Hotel · Dehrian, Kangra`, d: `Seven rooms, a pool, and no booking engine: every enquiry goes to WhatsApp or a call, and 14 “near” pages reach guests heading for NIFT, Tanda Medical College and the airport. <a href="/projects/yash-rock-hotel/">Read the case study →</a>` },
-          { tag: `By industry`, wide: true, d: `What I build most in Himachal: <a href="/services/school-website-development/">school websites</a>, <a href="/services/hotel-website-development/">hotel and homestay websites</a>, and <a href="/services/travel-website-development/">travel and taxi websites</a>.` },
+          { tag: `By industry`, wide: true, d: `What I build most in Himachal: <a href="/services/school-website-development/">school websites</a>, <a href="/services/hotel-website-development/">hotel and homestay websites</a>, and <a href="/services/travel-website-development/">travel and taxi websites</a>. In Manali, guests pick from the map before any website: <a href="/blog/rank-on-google-maps-himachal/">how to rank on Google Maps</a>.` },
           { tag: `The commission math`, wide: true, d: `What aggregator commission actually costs a Himalayan stay across a season — and what shifting even a fraction of bookings direct is worth. <a href="/blog/hotel-homestay-website-himachal-direct-bookings/">Read the breakdown →</a>` },
         ]} />
       </div>

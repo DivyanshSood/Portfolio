@@ -8,7 +8,7 @@ import Steps from "../../components/brand/Steps.astro";
 import ResultGrid from "../../components/brand/ResultGrid.astro";
 import Faq from "../../components/brand/Faq.astro";
 import EndCta from "../../components/brand/EndCta.astro";
-import { SITE, CALENDLY_URL } from "../../lib/site.mjs";
+import { SITE, CALENDLY_URL, STARTING_PRICES as P, inr } from "../../lib/site.mjs";
 import { TOPICS } from "../../lib/entity.mjs";
 
 const canonical = `${SITE}/services/ecommerce-website-development/`;
@@ -32,7 +32,7 @@ const faqs = [
   { q: "Who owns the code and the customer data?", a: "You do — 100%. Full repository handover and a signed IP transfer with the final invoice. Your customer list never lives on someone else's platform." },
   { q: "Which payment gateways do you integrate?", a: "Razorpay for Indian stores (UPI, cards, netbanking, COD) and Stripe or PayPal for international buyers. Multi-currency setups are fine too." },
   { q: "How long does a custom ecommerce build take?", a: "Typically 2–4 weeks from brief to live. ChinkiZ — a full storefront with video gallery and payments — took two weeks. Complex catalogs or subscription logic can add a sprint." },
-  { q: "What does a custom ecommerce website cost?", a: "Every store is quoted individually after a short call, and you get that quote fixed and in writing before any work starts — no hourly creep, no change-order games. What moves the number is catalogue size, how custom the buying flow is, and whether you need drop mechanics or subscriptions. Worth weighing against the three-year total of a platform plan plus its apps, which is the comparison most brands never actually run." },
+  { q: "What does a custom ecommerce website cost?", a: `A custom online store starts at ${inr(P.store)}. Every store gets a fixed quote in writing after a short call, before any work starts — no hourly creep, no change-order games. What moves the number is catalogue size, how custom the buying flow is, and whether you need drop mechanics or subscriptions. Worth weighing against the three-year total of a platform plan plus its apps, which is the comparison most brands never actually run.` },
 ];
 
 const jsonld = JSON.stringify({

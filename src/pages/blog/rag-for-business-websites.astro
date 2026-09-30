@@ -119,12 +119,12 @@ const jsonld = JSON.stringify({
 <h3 id="a-real-i-dont-know">A real "I don't know"</h3>
 <p>If retrieval finds nothing relevant, the correct output is "I can't find that — here's how to reach a person," not an improvised answer. This is a design decision, and it is the line between a useful assistant and a liability.</p>
 <h3 id="how-content-is-split">How the content is split matters more than the model</h3>
-<p>Retrieval works on chunks of your content, and how you cut them decides what can be found. Split mid-procedure and you retrieve half an answer. This is unglamorous work and it determines the quality of the result far more than <a href="/blog/claude-vs-gpt-vs-gemini-for-product-features/">which model sits on top</a> — I've run the same retrieval layer behind three different ones and the chunking mattered more than the swap.</p>
+<p>Retrieval works on chunks of your content, and how you cut them decides what can be found. Split mid-procedure and you retrieve half an answer. This is unglamorous work and it determines the quality of the result far more than which model sits on top — I've run the same retrieval layer behind three different ones and the chunking mattered more than the swap.</p>
 <h3 id="evaluate-on-real-questions">Evaluate on real questions</h3>
 <p>Collect the questions people actually ask — from support tickets, from site search logs — and check the system against them. Without that you're tuning on vibes.</p>
 <hr>
 <h2 id="the-honest-summary">The honest summary</h2>
-<p>RAG is not hard to build badly and not trivial to build well. Most of the difficulty is in your content, not the model — which is good news, because fixing your documentation is worth doing regardless of whether an assistant ever reads it. Clean, well-structured content is also what gets you <a href="/blog/get-your-business-recommended-by-chatgpt/">cited by AI assistants</a> in the first place, so the work pays twice.</p>
+<p>RAG is not hard to build badly and not trivial to build well. Most of the difficulty is in your content, not the model — which is good news, because fixing your documentation is worth doing regardless of whether an assistant ever reads it. Clean, well-structured content is also what gets you <a href="/blog/aeo-geo-llmo-ai-seo-explained/">cited by AI assistants</a> in the first place, so the work pays twice.</p>
 <hr>
 <p><em>I'm Divyansh Sood. I build <a href="/services/ai-development/">retrieval and AI features</a> into websites and products. If you're wondering whether your content is in a shape that would support this — that's the first thing I'd look at, and I'll tell you honestly if the answer is "fix the docs first." <a href="mailto:hello@divyanshsood.com">Email me</a>.</em></p>
 </Post>

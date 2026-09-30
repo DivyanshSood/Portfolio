@@ -7,7 +7,7 @@ import Cards from "../components/brand/Cards.astro";
 import ResultGrid from "../components/brand/ResultGrid.astro";
 import Faq from "../components/brand/Faq.astro";
 import EndCta from "../components/brand/EndCta.astro";
-import { SITE, CALENDLY_URL, GOOGLE_MAPS_URL } from "../lib/site.mjs";
+import { SITE, CALENDLY_URL, GOOGLE_MAPS_URL, STARTING_PRICES as P, inr } from "../lib/site.mjs";
 import { TOPICS } from "../lib/entity.mjs";
 
 const canonical = `${SITE}/web-developer-dharamshala/`;
@@ -21,7 +21,7 @@ const offers = [
 ];
 
 const faqs = [
-  { q: "What does a website cost for a Dharamshala business?", a: "It depends on scope — a booking-first site for a tour operator is a different build than a homestay one-pager. I scope local Himachal projects case by case and quote fixed, in writing, after one conversation — no hourly creep, no surprises later." },
+  { q: "What does a website cost for a Dharamshala business?", a: `A tour operator or homestay site starts at ${inr(P.travel)}, and a simple business site at ${inr(P.basic)}. A booking-first site for a tour operator is a different build than a homestay one-pager, so I scope local Himachal projects case by case and quote fixed, in writing, after one conversation — no hourly creep, no surprises later.` },
   { q: "Can we meet in person in Dharamshala?", a: "Yes — I'm based in Himachal Pradesh, so unlike an agency in Delhi or Bangalore, meeting over a coffee in McLeod Ganj is actually possible. Most work still happens over WhatsApp and calls, which keeps things fast." },
   { q: "How long does a website take?", a: "Local business sites typically go live in 1–3 weeks. Dharamshala Tours — a full travel site with booking flows and a self-serve CMS — was live fast enough to catch the season, and now handles part of ~1,000 package bookings a month." },
   { q: "I already get bookings from Google Maps and Instagram. Why a website?", a: "Maps and Instagram rent you visibility; a website owns it. Aggregators take commission on every booking, and Instagram can't rank for 'best tour operator in Dharamshala'. A fast site with real SEO captures that search demand directly — commission-free." },
@@ -96,7 +96,7 @@ const jsonld = JSON.stringify({
           { tag: `Nandini Travels · Kangra`, d: `Kangra's most-reviewed taxi operator, rebuilt so direct bookings land on a site he owns instead of leaking to a Maps listing. <a href="/projects/nandini/">Read the case study →</a>` },
           { tag: `Sunny Himachal Travels · Dharamshala`, d: `A tour and taxi operator with a page for every trip, transfer and town it serves, plus 1.1 KB of JavaScript and Lighthouse 100 across all four desktop scores. <a href="/projects/sunny-himachal-travels/">Read the case study →</a>` },
           { tag: `Yash Rock Hotel · Dehrian, Kangra`, d: `Seven rooms, a pool, and no booking engine: every enquiry goes to WhatsApp or a call, and 14 “near” pages reach guests heading for NIFT, Tanda Medical College and the airport. <a href="/projects/yash-rock-hotel/">Read the case study →</a>` },
-          { tag: `By industry`, wide: true, d: `What I build most in Himachal: <a href="/services/school-website-development/">school websites</a>, <a href="/services/hotel-website-development/">hotel and homestay websites</a>, and <a href="/services/travel-website-development/">travel and taxi websites</a>.` },
+          { tag: `By industry`, wide: true, d: `What I build most in Himachal: <a href="/services/school-website-development/">school websites</a>, <a href="/services/hotel-website-development/">hotel and homestay websites</a>, and <a href="/services/travel-website-development/">travel and taxi websites</a>. For McLeod Ganj and Dharamshala stays, the map pack decides a lot: <a href="/blog/rank-on-google-maps-himachal/">how to rank on Google Maps</a>.` },
           { tag: `Why direct bookings matter here`, wide: true, d: `Every aggregator booking costs a commission that a direct-booking site keeps. I wrote up the math for Himalayan travel businesses. <a href="/blog/hotel-homestay-website-himachal-direct-bookings/">Read the breakdown →</a>` },
         ]} />
       </div>

@@ -1,6 +1,7 @@
 ---
 import Post from "../../layouts/Post.astro";
 import { SITE, DEFAULT_OG, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
+import { STARTING_PRICES as P, inr } from "../../lib/site.mjs";
 
 const slug = "how-to-choose-web-developer-himachal";
 const idx = POSTS.findIndex((p) => p.slug === slug);
@@ -22,7 +23,7 @@ const faqs = [
   },
   {
     q: "How much should a business website cost in India?",
-    a: "There's no honest single figure, and anyone quoting one before understanding your scope is guessing. What moves the number is page count, whether you need to edit it yourself, and whether payments or logins are involved. What matters more than the number is that it's fixed and in writing before work starts, so it can't drift.",
+    a: `Starting prices are fair to ask for. Mine are ${inr(P.basic)} for a custom-coded business website, ${inr(P.hotel)} for a hotel or travel site and ${inr(P.school)} for a school site with an admin panel or an online store. What moves the number is page count, whether you need to edit it yourself, and whether payments or logins are involved. What matters more than the number is that it's fixed and in writing before work starts, so it can't drift.`,
   },
   {
     q: "Should I hire a local developer or a remote one?",
@@ -133,7 +134,7 @@ const jsonld = JSON.stringify({
 <li><strong>Payments, bookings or logins.</strong> The moment money or accounts are involved, so is testing you can’t skip.</li>
 <li><strong>Who writes the copy.</strong> Ask early. Half the projects that stall are waiting on words, not code.</li>
 </ul>
-<p>Any experienced developer can walk you through these on a first call and give you one fixed number afterwards. That conversation — not a published rate card — is what an honest quote comes from.</p>
+<p>Any experienced developer can walk you through these on a first call and give you one fixed number afterwards. That conversation is what turns a starting price into one honest, fixed number. Mine are in <a href="/blog/website-cost-himachal-pradesh/">what a website costs in Himachal</a>.</p>
 <hr>
 <h2 id="6-the-payment-and-refund-structure-tells-you-a-lot">6. The payment and refund structure tells you a lot</h2>
 <p>A professional developer works on a clear split: advance to start, balance on delivery. Standard is 50/50.</p>

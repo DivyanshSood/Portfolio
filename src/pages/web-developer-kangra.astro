@@ -7,7 +7,7 @@ import Cards from "../components/brand/Cards.astro";
 import ResultGrid from "../components/brand/ResultGrid.astro";
 import Faq from "../components/brand/Faq.astro";
 import EndCta from "../components/brand/EndCta.astro";
-import { SITE, CALENDLY_URL, GOOGLE_MAPS_URL } from "../lib/site.mjs";
+import { SITE, CALENDLY_URL, GOOGLE_MAPS_URL, STARTING_PRICES as P, inr } from "../lib/site.mjs";
 import { TOPICS } from "../lib/entity.mjs";
 
 const canonical = `${SITE}/web-developer-kangra/`;
@@ -21,7 +21,7 @@ const offers = [
 ];
 
 const faqs = [
-  { q: "What does a website cost for a Kangra business?", a: "Scope decides it — a taxi booking site is a different build than a school admissions portal. I quote local Himachal projects fixed and in writing after one conversation — and I'll tell you honestly if a simpler option would serve you better." },
+  { q: "What does a website cost for a Kangra business?", a: `A business website starts at ${inr(P.basic)}, a taxi or travel site at ${inr(P.travel)}, and a school site with an admin panel at ${inr(P.school)}. Scope decides the final number — a taxi booking site is a different build than a school admissions portal. I quote local Himachal projects fixed and in writing after one conversation — and I'll tell you honestly if a simpler option would serve you better.` },
   { q: "Do local businesses really need more than Google Maps?", a: "Maps gets you found; it doesn't get you chosen or booked. Nandini Travels — Kangra's most-positively-reviewed taxi operator — was losing every lead to Maps until we built a site with an on-site booking form. Their founder's words: it looks 10 times more premium than competitors, and direct bookings now come through the site." },
   { q: "How fast can you deliver?", a: "The fastest full build so far — a school website plus admissions admin panel — went live in 7 days, where other agencies had quoted 6 months. Typical local builds land in 1–3 weeks." },
   { q: "Are you actually based in Kangra district?", a: "Yes — I live and work in Himachal Pradesh, in Kangra district. You're not routing through a metro agency's junior team; you message me on WhatsApp and the person who replies is the person who builds." },
@@ -85,10 +85,10 @@ const jsonld = JSON.stringify({
 
     <Section n={2} term="Telemetry" note="Proof, not promises" title="Kangra work, on the record">
       <ResultGrid stats={[
-        { v: `10×`, l: `"More premium than competitors" — Nandini founder` },
-        { v: `Direct`, l: `Bookings recovered from Google Maps` },
+        { v: `5.7`, l: `Avg. Google position, Baglamukhi Travels, 28 days` },
+        { v: `27`, l: `Kangra taxi routes published with all-in fares` },
         { v: `7 days`, l: `School site + admissions portal, live` },
-        { v: `0 SaaS`, l: `Recurring fees for the school` },
+        { v: `14`, l: `“Near” pages for Yash Rock Hotel, Dehrian` },
       ]} />
       <div class="gap-top">
         <Cards items={[
@@ -96,8 +96,8 @@ const jsonld = JSON.stringify({
           { tag: `Modern K.B.S. · school`, d: `Public website plus an admissions admin panel for classes I–XII, delivered in the same 7-day sprint — no recurring software fees. <a href="/projects/modernkbs/">Read the case study →</a>` },
           { tag: `Pinnacle World School · Baroh, Kangra`, d: `A CBSE school site where every published fact traces back to the school's affiliation record: Mandatory Public Disclosure, an admissions form that lands in the office's WhatsApp, and old URLs redirected. <a href="/projects/pinnacle-world-school/">Read the case study →</a>` },
           { tag: `Yash Rock Hotel · Dehrian, Kangra`, d: `Seven rooms, a pool, and no booking engine: every enquiry goes to WhatsApp or a call, and 14 “near” pages reach guests heading for NIFT, Tanda Medical College and the airport. <a href="/projects/yash-rock-hotel/">Read the case study →</a>` },
-          { tag: `By industry`, wide: true, d: `What I build most in Himachal: <a href="/services/school-website-development/">school websites</a>, <a href="/services/hotel-website-development/">hotel and homestay websites</a>, and <a href="/services/travel-website-development/">travel and taxi websites</a>.` },
-          { tag: `Why local sites fail`, wide: true, d: `Most local business websites don't generate leads — and it's rarely a traffic problem. I wrote up the patterns I keep seeing. <a href="/blog/why-indian-websites-dont-generate-leads/">Read the breakdown →</a>` },
+          { tag: `By industry`, wide: true, d: `What I build most in Himachal: <a href="/services/school-website-development/">school websites</a>, <a href="/services/hotel-website-development/">hotel and homestay websites</a>, and <a href="/services/travel-website-development/">travel and taxi websites</a>. Kangra taxi operators and hotels win most calls from the map, so here is <a href="/blog/rank-on-google-maps-himachal/">how to rank on Google Maps</a>.` },
+          { tag: `Why local sites fail`, wide: true, d: `Most local business websites don't generate leads — and it's rarely a traffic problem. A free audit shows where yours is leaking. <a href="/website-audit/">Get a free website audit →</a>` },
         ]} />
       </div>
     </Section>

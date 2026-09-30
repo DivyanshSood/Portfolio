@@ -130,7 +130,7 @@ const jsonld = JSON.stringify({
 <h2 id="skill-atrophy">7. Skill atrophy, and the junior developer problem</h2>
 <p>This is the limitation with the longest tail, and it isn't really about the tool.</p>
 <p>Judging generated code requires knowing what good looks like. That knowledge came from writing a lot of code by hand, including badly. If the next generation of developers skips that, they'll be able to produce far more than they can debug — which is fine right up until production breaks and there's no mental model to fall back on.</p>
-<p>I notice it in myself on things I've stopped doing by hand. The muscle fades. My compromise is to keep writing some code from scratch even when generating would be faster, specifically to keep the judgment sharp — the judgment is the part that's actually worth money. If you're learning now, <a href="/blog/learn-ai-assisted-development-2026/">the path I'd take</a> puts fundamentals first for exactly this reason.</p>
+<p>I notice it in myself on things I've stopped doing by hand. The muscle fades. My compromise is to keep writing some code from scratch even when generating would be faster, specifically to keep the judgment sharp — the judgment is the part that's actually worth money. If you're learning now, put fundamentals first for exactly this reason.</p>
 <hr>
 <h2 id="accessibility-theatre">8. Accessibility theatre</h2>
 <p>Ask a model to make a component accessible and you'll get ARIA attributes. Often correct ones. That's a real improvement over nothing.</p>
@@ -149,7 +149,7 @@ const jsonld = JSON.stringify({
 <p>A limitation that isn't technical and gets ignored until it matters.</p>
 <p>If AI is part of how you build, a chunk of your capability now sits behind an API you don't control. Pricing changes. Rate limits change. Behaviour changes between releases in ways that are hard to predict — a prompt that worked reliably for months starts producing something subtly different, and nothing in your code changed.</p>
 <p>For development assistance this is survivable; worst case you work the old way for a week. For a shipped AI <em>feature</em> it's a real operational risk, because your product's behaviour depends on a third party's decisions. Building so the model can be swapped is the mitigation, and it costs real effort up front that's tempting to skip.</p>
-<p>There's a quieter version of this for clients: if your site was built in a way only one tool can maintain, you've acquired a dependency you didn't agree to. That's the same argument as <a href="/blog/own-your-stack-code-portability/">owning your stack</a>, pointed at a newer risk.</p>
+<p>There's a quieter version of this for clients: if your site was built in a way only one tool can maintain, you've acquired a dependency you didn't agree to. That's the old argument for owning your stack, pointed at a newer risk.</p>
 <hr>
 <h2 id="the-table">The failure modes, and what actually helps</h2>
 <table>
