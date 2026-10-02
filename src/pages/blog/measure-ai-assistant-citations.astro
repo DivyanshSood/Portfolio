@@ -14,7 +14,7 @@ const readMins = post.readMins;
 const faqs = [
   {
     q: "Does Google Search Console show AI assistant traffic?",
-    a: "No. Search Console reports impressions and clicks from Google Search surfaces. It has no visibility into ChatGPT, Claude, Perplexity or any other third-party assistant, because those are different products on different infrastructure. If you are waiting for an AI tab to appear in Search Console before you start measuring, you will be measuring nothing for a long time.",
+    a: "Partly. Search Console now has a Generative AI performance report covering Google's own AI features in Search and Discover. It has no visibility into ChatGPT, Claude, Perplexity or any other third-party assistant, because those are different products on different infrastructure. For those, measurement comes from your server logs, referral traffic and a fixed set of prompts you test yourself.",
   },
   {
     q: "What is the difference between a training crawler and a live retrieval fetch?",
@@ -91,10 +91,10 @@ const jsonld = JSON.stringify({
 <p>This matters because it is the ideal conditions for being sold nonsense. If nobody can measure the outcome, any invoice can claim it.</p>
 <p>Here is what can actually be measured today, what can only be estimated, and what nobody can tell you honestly.</p>
 <hr>
-<h2 id="why-search-console-wont-help">Start here: Search Console will never show you this</h2>
-<p>Google Search Console reports on Google Search. ChatGPT, Claude and Perplexity are different products run by different companies on different infrastructure. There is no AI tab coming.</p>
-<p>Google's own AI Overviews are a partial exception — clicks from them fold into your ordinary Search Console data, without being broken out as a separate line. So even for Google, you cannot isolate the number.</p>
-<p>Which means measurement has to be assembled from three imperfect sources.</p>
+<h2 id="why-search-console-wont-help">Start here: what Search Console can and can't show you</h2>
+<p>Google Search Console reports on Google, and only Google. ChatGPT, Claude and Perplexity are different products run by different companies on different infrastructure, so none of their activity will ever appear there.</p>
+<p>Google's own AI features are the exception. Search Console now has a <a href="https://support.google.com/webmasters/answer/16984139">Generative AI performance report</a> for how your content performs in generative AI features on Google Search and Discover. Check it monthly — but remember it tells you about Google, not about the assistants most people mean when they ask whether AI is recommending them.</p>
+<p>For everything outside Google, measurement has to be assembled from three imperfect sources.</p>
 <hr>
 <h2 id="source-one-server-logs">Source one: your server logs</h2>
 <p>This is the most reliable signal available, and almost nobody looks at it.</p>
@@ -156,6 +156,7 @@ const jsonld = JSON.stringify({
 <li><strong>Logs</strong> — AI user-agent hits, split bulk vs live retrieval, and which URLs. (20 min)</li>
 <li><strong>Analytics</strong> — assistant referral segment, sessions and conversions. (10 min)</li>
 <li><strong>Prompts</strong> — the fixed list, logged out, three columns recorded. (20 min)</li>
+<li><strong>Search Console</strong> — the Generative AI performance report, for Google's side. (5 min)</li>
 <li><strong>Fix one thing</strong> — usually a fact stated somewhere unquotably, or a wrong third-party listing. (10 min)</li>
 </ol>
 <p>An hour a month, and you'll know more about your AI visibility than most agencies selling it. The businesses that get this right over the next few years won't be the ones with the biggest budget. They'll be the ones who bothered to look.</p>

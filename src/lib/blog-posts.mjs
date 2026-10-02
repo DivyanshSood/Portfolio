@@ -149,7 +149,7 @@ export const POSTS = [
     "seoTitle": "How to Measure AI Assistant Citations · Divyansh Sood",
     "description": "Plenty of advice on getting cited by AI, almost none on knowing if it worked. The three sources you can actually measure, and what nobody can honestly promise.",
     "pubDate": "2026-08-05",
-    "updatedDate": "2026-08-05",
+    "updatedDate": "2026-10-02",
     "coverImage": "/blog/measure-ai-assistant-citations.jpg",
     "coverAlt": "Title card reading “Is AI actually quoting you?” in bold white type on a red chevron",
     "tags": [
@@ -425,10 +425,11 @@ export const POSTS = [
   },
   {
     "slug": "how-i-get-clients-without-paid-ads",
-    "title": "How I Get Website Clients Without Paid Ads",
-    "description": "Every client on my portfolio came through without a rupee in paid ads. Exactly how — from portfolio strategy to referrals to content that pre-qualifies.",
+    "title": "How I Get Web Development Clients Without Paid Ads",
+    "seoTitle": "How to Get Web Development Clients Without Paid Ads (6 Ways)",
+    "description": "Six channels that brought every client I have, with zero ad spend: live case studies, referrals, my own site, a narrow niche, local search and useful posts.",
     "pubDate": "2026-03-05",
-    "updatedDate": "2026-03-05",
+    "updatedDate": "2026-10-02",
     "coverImage": "/blog/how-i-get-clients-without-paid-ads.jpg",
     "coverAlt": "Two people shaking hands across a white table beside a coffee cup",
     "tags": [
