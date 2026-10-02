@@ -253,12 +253,12 @@ const SUGGESTIONS = [
      brandbook's conic pattern inset 2px inside it, cut to the same slant — so
      the frame follows the slanted edges, and the white checks can't dissolve
      into a white page. 52px tall = 48px of checks = exactly four 12px rows.
-     The label is white with a thick ink outline (stroke painted under the
+     The label is Racing Red with a thick ink outline (stroke painted under the
      fill), which keeps it readable over both colours of check. No red. */
   .cw-launch{position:fixed;right:clamp(16px,2vw,28px);bottom:clamp(16px,2vw,28px);z-index:150;display:inline-flex;align-items:center;height:52px;padding:0 34px;border:0;cursor:pointer;background:var(--ink);clip-path:polygon(12px 0,100% 0,calc(100% - 12px) 100%,0 100%)}
   .cw-launch::before{content:"";position:absolute;inset:2px;background:repeating-conic-gradient(var(--ink) 0 25%,#fff 0 50%) 0 0/24px 24px;clip-path:polygon(12px 0,100% 0,calc(100% - 12px) 100%,0 100%)}
   .cw-launch:hover::before{background:repeating-conic-gradient(#fff 0 25%,var(--ink) 0 50%) 0 0/24px 24px}
-  .cw-label{position:relative;color:#fff;-webkit-text-stroke:4px var(--ink);paint-order:stroke fill;font-family:var(--display);font-weight:900;font-style:italic;font-stretch:118%;font-size:16px;letter-spacing:.05em;word-spacing:.2em;text-transform:uppercase;line-height:1}
+  .cw-label{position:relative;color:var(--red);-webkit-text-stroke:4px var(--ink);paint-order:stroke fill;font-family:var(--display);font-weight:900;font-style:italic;font-stretch:118%;font-size:16px;letter-spacing:.05em;word-spacing:.2em;text-transform:uppercase;line-height:1}
 
   .cw-panel{position:fixed;right:clamp(16px,2vw,28px);bottom:clamp(16px,2vw,28px);z-index:150;width:var(--cw-w);height:min(620px,calc(100dvh - 120px));display:flex;flex-direction:column;background:#fff;color:var(--ink);border:3px solid var(--ink)}
   .cw-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 16px;background:var(--ink);color:#fff}
