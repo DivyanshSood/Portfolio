@@ -19,7 +19,7 @@ const SUGGESTIONS = [
 
 <div class="cw" data-chat data-nosnippet>
   <button class="cw-launch" type="button" data-chat-open aria-expanded="false" aria-controls="cw-panel">
-    <span class="cw-dot" aria-hidden="true"></span>
+    <span class="cw-flag" aria-hidden="true"></span>
     Ask me anything
   </button>
 
@@ -249,9 +249,11 @@ const SUGGESTIONS = [
      only stamps its scoping attribute on markup it renders. Every selector
      is prefixed cw- so nothing leaks onto the rest of the page. */
   .cw{--cw-w:min(400px,calc(100vw - 32px))}
-  .cw-launch{position:fixed;right:clamp(16px,2vw,28px);bottom:clamp(16px,2vw,28px);z-index:150;display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:0 24px;border:0;cursor:pointer;background:var(--red);color:#fff;font-family:var(--display);font-weight:800;font-stretch:112%;font-size:14px;letter-spacing:.03em;text-transform:uppercase;clip-path:polygon(10px 0,100% 0,calc(100% - 10px) 100%,0 100%)}
+  .cw-launch{position:fixed;right:clamp(16px,2vw,28px);bottom:clamp(16px,2vw,28px);z-index:150;display:inline-flex;align-items:center;gap:14px;min-height:52px;padding:0 24px 0 0;border:0;cursor:pointer;background:var(--red);color:#fff;font-family:var(--display);font-weight:800;font-stretch:112%;font-size:14px;letter-spacing:.03em;text-transform:uppercase;clip-path:polygon(10px 0,100% 0,calc(100% - 10px) 100%,0 100%)}
   .cw-launch:hover{background:var(--ink)}
-  .cw-dot{width:8px;height:8px;border-radius:50%;background:#fff}
+  /* The chequered flag — the brandbook's conic pattern, 4×4 checks, cut by
+     the button's parallelogram on its left edge. */
+  .cw-flag{align-self:stretch;width:48px;background:repeating-conic-gradient(var(--ink) 0 25%,#fff 0 50%) 0 0/50% 50%}
 
   .cw-panel{position:fixed;right:clamp(16px,2vw,28px);bottom:clamp(16px,2vw,28px);z-index:150;width:var(--cw-w);height:min(620px,calc(100dvh - 120px));display:flex;flex-direction:column;background:#fff;color:var(--ink);border:3px solid var(--ink)}
   .cw-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 16px;background:var(--ink);color:#fff}
@@ -286,7 +288,8 @@ const SUGGESTIONS = [
 
   /* Phones: the panel takes the whole screen and the page behind stops scrolling. */
   @media (max-width:599px){
-    .cw-launch{min-height:48px;padding:0 20px;font-size:13px}
+    .cw-launch{min-height:48px;padding:0 20px 0 0;gap:12px;font-size:13px}
+    .cw-flag{width:44px}
     .cw-panel{inset:0;width:auto;height:100dvh;border:0}
     .cw-head{padding-top:max(14px,env(safe-area-inset-top))}
     .cw-note{padding-bottom:max(12px,env(safe-area-inset-bottom))}
