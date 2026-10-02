@@ -55,7 +55,8 @@ function initClock() {
     const h = parseInt(t.slice(0, 2), 10);
     const online = h >= 9 && h < 21;
     avail.forEach((el) => { el.textContent = online ? "Online now" : "Replies from 9 AM IST"; });
-    dots.forEach((el) => { el.style.background = online ? "#E4151F" : "#8A8A8A"; });
+    // Online: clear the override so the CSS green (--online) shows; after hours: grey.
+    dots.forEach((el) => { el.style.background = online ? "" : "#8A8A8A"; });
   };
   tick();
   setInterval(tick, 1000);

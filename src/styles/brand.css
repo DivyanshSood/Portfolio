@@ -29,6 +29,9 @@
   --g26:#262626;   /* rules on ink */
   --g8a:#8A8A8A;   /* meta on ink only */
   --gbd:#BDBDBD;   /* body copy on ink */
+  /* Outside the book by owner decision (2026-10-02): the homepage
+     "Online now" dot is green while replies are live, grey after hours. */
+  --online:#16A34A;
 
   /* (02) Type */
   --display:'Archivo',system-ui,sans-serif;
