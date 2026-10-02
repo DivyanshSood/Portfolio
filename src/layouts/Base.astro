@@ -12,6 +12,7 @@ import "../styles/brand.css";
 import BaseScripts from "../components/BaseScripts.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
+import ChatWidget from "../components/ChatWidget.astro";
 import { SOCIAL_PROFILES } from "../lib/site.mjs";
 import { completeGraph, breadcrumbTrail } from "../lib/entity.mjs";
 
@@ -186,6 +187,25 @@ Astro.locals.crumbs = breadcrumbTrail(jsonld).map((c: { name: string; url: strin
         // were showing up in GA4 as referral sources. Without the stubs below,
         // dsTrack's typeof guards turn every event into a no-op.
         if (/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)) return;
+
+        // The owner's own devices. Visiting any page with ?notrack sets a flag
+        // in this browser and analytics stays off here for good; ?track clears
+        // it. GA4's IP filter can't do this job: home broadband and mobile data
+        // both hand out a new IP every few days. Same no-op path as localhost.
+        try {
+          var q = new URLSearchParams(location.search);
+          if (q.has("notrack") || q.has("track")) {
+            if (q.has("notrack")) localStorage.setItem("ds-notrack", "1");
+            else localStorage.removeItem("ds-notrack");
+            alert(q.has("notrack")
+              ? "Analytics is now OFF in this browser. Your visits won't be counted."
+              : "Analytics is back ON in this browser.");
+            q.delete("notrack");
+            q.delete("track");
+            history.replaceState(null, "", location.pathname + (q.toString() ? "?" + q : "") + location.hash);
+          }
+          if (localStorage.getItem("ds-notrack") === "1") return;
+        } catch (e) {}
         var GA_ID = "G-51WG6025T0";
         var YM_ID = 110027161;
 
@@ -235,6 +255,7 @@ Astro.locals.crumbs = breadcrumbTrail(jsonld).map((c: { name: string; url: strin
       <slot />
       <SiteFooter />
     </div>
+    <ChatWidget />
     <BaseScripts />
     <script>
       import { initChrome } from "../scripts/chrome.js";

@@ -32,7 +32,7 @@ export const PAGE_UPDATED = {
   "/agencies/": "2026-07-28",
   "/portfolio/": "2026-09-30",
   "/press/": "2026-07-28",
-  "/privacy/": "2026-07-28",
+  "/privacy/": "2026-10-02",
   "/results/": "2026-09-29",
   "/testimonials/": "2026-07-28",
   "/website-audit/": "2026-07-28",

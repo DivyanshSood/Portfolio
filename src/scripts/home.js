@@ -52,13 +52,11 @@ function wedges() {
   const sec = document.querySelector("[data-sec-hero]");
   const r = document.querySelector("[data-hero-red]");
   const [a, b] = document.querySelectorAll("[data-wedge]");
-  const lb = document.querySelector("[data-scroll-lbl]");
   if (!sec || !r || !a || !b) return;
   const k = (0.28 * r.offsetHeight) / Math.max(1, r.offsetWidth / 2);
   const hp = Math.round(a.offsetWidth * k);
   a.style.height = b.style.height = hp + "px";
   sec.style.paddingBottom = hp + 48 + "px";
-  if (lb) lb.style.bottom = Math.round((lb.offsetWidth / 2 + 16) * k + 10) + "px";
 }
 
 function pitLane() {

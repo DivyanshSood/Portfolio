@@ -1,5 +1,5 @@
 ---
-// FAQ (Home "(08) Before you ask"). Accordion behaviour in
+// FAQ. Inner pages pass a numbered "(0N) Before you ask" label; the homepage passes none. Accordion behaviour in
 // src/scripts/chrome.js; the first answer is open on load, as designed.
 // The page keeps its FAQPage JSON-LD built from the same array.
 interface Props {
@@ -13,7 +13,7 @@ const { faqs, label = "(08) Before you ask", title = "Questions I get.", html = 
 
 <div class="fq">
   <div class="fq-head">
-    <div class="lbl">{label}</div>
+    {label && <div class="lbl">{label}</div>}
     <h2 class="h2 fq-h">{title}</h2>
   </div>
   <div class="fq-list" data-faq>

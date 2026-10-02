@@ -1,0 +1,297 @@
+---
+// Chat assistant — a launcher pinned bottom-right and a panel that answers
+// from public/llms.txt via /api/chat (Google Gemini). Every page, via Base.
+//
+// The conversation lives in sessionStorage, so it survives the visitor
+// clicking a link the bot gave them; nothing is stored server-side. Bot text
+// is escaped and only URLs and **bold** become markup — model output never
+// reaches innerHTML raw. WhatsApp / Calendly links in replies are counted as
+// leads by the delegated listener in BaseScripts.astro, like any other link.
+//
+// Brandbook: radius 0, no shadows — the panel is set off by a 3px ink rule.
+const SUGGESTIONS = [
+  "How much does a website cost?",
+  "How long does a website take?",
+  "Do you build hotel websites?",
+  "Show me your work",
+];
+---
+
+<div class="cw" data-chat data-nosnippet>
+  <button class="cw-launch" type="button" data-chat-open aria-expanded="false" aria-controls="cw-panel">
+    <span class="cw-dot" aria-hidden="true"></span>
+    Ask me anything
+  </button>
+
+  <div class="cw-panel" id="cw-panel" role="dialog" aria-modal="false" aria-labelledby="cw-title" hidden data-chat-panel>
+    <div class="cw-head">
+      <div>
+        <p class="cw-title" id="cw-title">Studio assistant</p>
+        <p class="cw-sub">AI · Answers about the studio</p>
+      </div>
+      <div class="cw-head-actions">
+        <button type="button" class="cw-icon" data-chat-reset aria-label="Start a new chat" title="New chat">↺</button>
+        <button type="button" class="cw-icon" data-chat-close aria-label="Close chat">✕</button>
+      </div>
+    </div>
+
+    <div class="cw-log" role="log" aria-live="polite" data-chat-log>
+      <div class="cw-msg cw-msg--bot">
+        Hi! I can answer questions about Divyansh Sood® Studio — services, prices, timelines and past work. What are you building?
+      </div>
+      <div class="cw-suggest" data-chat-suggest>
+        {SUGGESTIONS.map((s) => <button type="button" class="cw-chip">{s}</button>)}
+      </div>
+    </div>
+
+    <form class="cw-form" data-chat-form>
+      <label class="sr-only" for="cw-input">Your question</label>
+      <textarea id="cw-input" rows="1" maxlength="600" placeholder="Type your question…" data-chat-input></textarea>
+      <button type="submit" class="cw-send" aria-label="Send">→</button>
+    </form>
+    <p class="cw-note">
+      Answers come from an AI (Google Gemini) and can be wrong. Don't share personal details. Prefer a human?
+      <a href="https://wa.me/919816091875">WhatsApp Divyansh ↗</a>
+    </p>
+  </div>
+</div>
+
+<script>
+  type Turn = { role: "user" | "assistant"; text: string };
+
+  const KEY = "ds-chat";
+  const WHATSAPP = "https://wa.me/919816091875";
+  const FALLBACK: Record<string, string> = {
+    busy: `I'm getting a lot of questions right now. Please message Divyansh directly on WhatsApp: ${WHATSAPP}`,
+    rate_limited: `You've sent a lot of messages in a short time. Give it a minute, or message Divyansh directly on WhatsApp: ${WHATSAPP}`,
+    turn_limit: `This chat has reached its limit. For anything more, Divyansh is quickest on WhatsApp: ${WHATSAPP} — or tap ↺ to start a new chat.`,
+    not_configured: `The assistant is offline at the moment. Divyansh replies on WhatsApp from 9 AM to 9 PM IST: ${WHATSAPP}`,
+    default: `Sorry, I couldn't answer that just now. Please try again, or message Divyansh on WhatsApp: ${WHATSAPP}`,
+  };
+
+  const root = document.querySelector<HTMLElement>("[data-chat]");
+  if (root) init(root);
+
+  function init(root: HTMLElement) {
+    const launch = root.querySelector<HTMLButtonElement>("[data-chat-open]")!;
+    const panel = root.querySelector<HTMLElement>("[data-chat-panel]")!;
+    const log = root.querySelector<HTMLElement>("[data-chat-log]")!;
+    const suggest = root.querySelector<HTMLElement>("[data-chat-suggest]")!;
+    const form = root.querySelector<HTMLFormElement>("[data-chat-form]")!;
+    const input = root.querySelector<HTMLTextAreaElement>("[data-chat-input]")!;
+    const greeting = log.firstElementChild!.cloneNode(true);
+    const mobile = matchMedia("(max-width: 599px)");
+
+    let turns: Turn[] = [];
+    let busy = false;
+    let opened = false;
+
+    // ---- Persistence (per tab; the page must work without it) -------------
+    const save = (open: boolean) => {
+      try {
+        sessionStorage.setItem(KEY, JSON.stringify({ turns, open }));
+      } catch {}
+    };
+    try {
+      const saved = JSON.parse(sessionStorage.getItem(KEY) || "null");
+      if (saved && Array.isArray(saved.turns)) {
+        turns = saved.turns.filter(
+          (t: Turn) => (t.role === "user" || t.role === "assistant") && typeof t.text === "string"
+        );
+        turns.forEach((t) => append(t.role, t.text));
+        if (turns.length) suggest.hidden = true;
+        // Reopen after the visitor followed a link from the chat — but not on
+        // phones, where the panel would cover the page they just asked for.
+        if (saved.open && !mobile.matches) setOpen(true, false);
+      }
+    } catch {}
+
+    // ---- Open / close -----------------------------------------------------
+    function setOpen(open: boolean, focus = true) {
+      panel.hidden = !open;
+      launch.hidden = open;
+      launch.setAttribute("aria-expanded", String(open));
+      document.documentElement.classList.toggle("cw-locked", open && mobile.matches);
+      if (open) {
+        log.scrollTop = log.scrollHeight;
+        if (focus) input.focus();
+        if (!opened) (window as any).dsTrack?.("chat_open", { page_path: location.pathname });
+        opened = true;
+      } else if (focus) {
+        launch.focus();
+      }
+      save(open);
+    }
+    launch.addEventListener("click", () => setOpen(true));
+    root.querySelector("[data-chat-close]")!.addEventListener("click", () => setOpen(false));
+    panel.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") setOpen(false);
+    });
+
+    root.querySelector("[data-chat-reset]")!.addEventListener("click", () => {
+      turns = [];
+      log.replaceChildren(greeting.cloneNode(true), suggest);
+      suggest.hidden = false;
+      save(true);
+      input.focus();
+    });
+
+    // ---- Sending ----------------------------------------------------------
+    suggest.addEventListener("click", (e) => {
+      const chip = (e.target as Element).closest("button");
+      if (chip) send(chip.textContent || "");
+    });
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      send(input.value);
+    });
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey && !e.isComposing) {
+        e.preventDefault();
+        send(input.value);
+      }
+    });
+    input.addEventListener("input", grow);
+
+    async function send(raw: string) {
+      const text = raw.trim().slice(0, 600);
+      if (!text || busy) return;
+      busy = true;
+      suggest.hidden = true;
+      input.value = "";
+      grow();
+      turns.push({ role: "user", text });
+      append("user", text);
+      save(true);
+      const typing = append("bot", "Typing…");
+      typing.classList.add("cw-msg--typing");
+
+      let reply = "";
+      let ok = false;
+      try {
+        const res = await fetch("/api/chat/", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ messages: turns }),
+        });
+        const data = await res.json().catch(() => ({}));
+        ok = Boolean(data.ok && data.reply);
+        reply = ok ? data.reply : FALLBACK[data.reason] || FALLBACK.default;
+      } catch {
+        reply = FALLBACK.default;
+      }
+
+      typing.remove();
+      append("bot", reply);
+      if (ok) {
+        turns.push({ role: "assistant", text: reply });
+      } else {
+        // A failed turn is dropped so a retry doesn't send two questions in a row.
+        turns.pop();
+      }
+      save(true);
+      (window as any).dsTrack?.("chat_message", {
+        turn: turns.filter((t) => t.role === "user").length,
+        answered: ok,
+        page_path: location.pathname,
+      });
+      busy = false;
+      input.focus();
+    }
+
+    // ---- Rendering --------------------------------------------------------
+    function append(who: "user" | "assistant" | "bot", text: string) {
+      const el = document.createElement("div");
+      el.className = who === "user" ? "cw-msg cw-msg--user" : "cw-msg cw-msg--bot";
+      if (who === "user") el.textContent = text;
+      else el.innerHTML = format(text);
+      log.appendChild(el);
+      log.scrollTop = log.scrollHeight;
+      return el;
+    }
+
+    function grow() {
+      input.style.height = "auto";
+      input.style.height = Math.min(input.scrollHeight, 120) + "px";
+      input.style.overflowY = input.scrollHeight > 120 ? "auto" : "hidden";
+    }
+  }
+
+  /** Escapes model text, then turns URLs, **bold** and "- " lines into markup. */
+  function format(text: string) {
+    const esc = text.replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
+    return esc
+      .split(/\n{2,}/)
+      .map((block) => {
+        const lines = block.split("\n");
+        const list = lines.every((l) => /^\s*[-*•]\s+/.test(l));
+        const inline = (s: string) =>
+          s
+            .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+            .replace(/https?:\/\/[^\s<]+[^\s<.,;:!?)'"]/g, (url) => {
+              const href = url.replace(/&#38;/g, "&");
+              const own = /^https?:\/\/(www\.)?divyanshsood\.com/.test(href);
+              const label = own ? href.replace(/^https?:\/\/(www\.)?divyanshsood\.com/, "") || "/" : url;
+              const attrs = own ? "" : ' target="_blank" rel="noopener"';
+              return `<a href="${href.replace(/"/g, "%22")}"${attrs}>${label}</a>`;
+            });
+        if (list) {
+          return `<ul>${lines.map((l) => `<li>${inline(l.replace(/^\s*[-*•]\s+/, ""))}</li>`).join("")}</ul>`;
+        }
+        return `<p>${lines.map(inline).join("<br>")}</p>`;
+      })
+      .join("");
+  }
+</script>
+
+<style is:global>
+  /* Global, not scoped: messages are created by the script above, and Astro
+     only stamps its scoping attribute on markup it renders. Every selector
+     is prefixed cw- so nothing leaks onto the rest of the page. */
+  .cw{--cw-w:min(400px,calc(100vw - 32px))}
+  .cw-launch{position:fixed;right:clamp(16px,2vw,28px);bottom:clamp(16px,2vw,28px);z-index:150;display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:0 24px;border:0;cursor:pointer;background:var(--red);color:#fff;font-family:var(--display);font-weight:800;font-stretch:112%;font-size:14px;letter-spacing:.03em;text-transform:uppercase;clip-path:polygon(10px 0,100% 0,calc(100% - 10px) 100%,0 100%)}
+  .cw-launch:hover{background:var(--ink)}
+  .cw-dot{width:8px;height:8px;border-radius:50%;background:#fff}
+
+  .cw-panel{position:fixed;right:clamp(16px,2vw,28px);bottom:clamp(16px,2vw,28px);z-index:150;width:var(--cw-w);height:min(620px,calc(100dvh - 120px));display:flex;flex-direction:column;background:#fff;color:var(--ink);border:3px solid var(--ink)}
+  .cw-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 16px;background:var(--ink);color:#fff}
+  .cw-title{margin:0;font-weight:900;font-style:italic;font-stretch:125%;text-transform:uppercase;font-size:18px;line-height:1}
+  .cw-sub{margin:6px 0 0;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--g8a)}
+  .cw-head-actions{display:flex;gap:4px}
+  .cw-icon{width:40px;height:40px;border:0;background:transparent;color:#fff;font-size:18px;cursor:pointer}
+  .cw-icon:hover{color:var(--red)}
+
+  .cw-log{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;overscroll-behavior:contain}
+  .cw-msg{max-width:88%;padding:11px 14px;font-size:15px;line-height:1.5;overflow-wrap:anywhere}
+  .cw-msg--bot{align-self:flex-start;background:var(--tint);color:var(--ink)}
+  .cw-msg--user{align-self:flex-end;background:var(--ink);color:#fff;white-space:pre-wrap}
+  .cw-msg--typing{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--g5c)}
+  .cw-msg p{margin:0}
+  .cw-msg p + p,.cw-msg p + ul,.cw-msg ul + p{margin-top:8px}
+  .cw-msg ul{margin:0;padding-left:18px}
+  .cw-msg a{color:var(--red);font-weight:600}
+  .cw-msg a:hover{color:var(--ink)}
+  .cw-suggest{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+  .cw-chip{min-height:40px;padding:8px 12px;border:1.5px solid var(--ink);background:transparent;color:var(--ink);font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;text-align:left;cursor:pointer}
+  .cw-chip:hover{background:var(--ink);color:#fff}
+
+  .cw-form{display:flex;align-items:flex-end;gap:8px;padding:10px 16px;border-top:3px solid var(--ink)}
+  .cw-form textarea{flex:1;resize:none;border:0;border-bottom:2px solid var(--ink);border-radius:0;padding:10px 0;font-family:var(--display);font-size:16px;line-height:1.4;color:var(--ink);background:transparent;outline:none;max-height:120px;overflow-y:hidden}
+  .cw-form textarea:focus{border-bottom-color:var(--red)}
+  .cw-send{flex:none;width:52px;height:44px;border:0;background:var(--red);color:#fff;font-size:20px;cursor:pointer;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)}
+  .cw-send:hover{background:var(--ink)}
+  .cw-note{margin:0;padding:0 16px 12px;font-family:var(--mono);font-size:10.5px;line-height:1.5;letter-spacing:.04em;color:var(--g5c)}
+  .cw-note a{color:var(--ink)}
+  .cw-note a:hover{color:var(--red)}
+
+  /* Phones: the panel takes the whole screen and the page behind stops scrolling. */
+  @media (max-width:599px){
+    .cw-launch{min-height:48px;padding:0 20px;font-size:13px}
+    .cw-panel{inset:0;width:auto;height:100dvh;border:0}
+    .cw-head{padding-top:max(14px,env(safe-area-inset-top))}
+    .cw-note{padding-bottom:max(12px,env(safe-area-inset-bottom))}
+  }
+  html.cw-locked,html.cw-locked body{overflow:hidden}
+
+  @media print{.cw{display:none}}
+</style>

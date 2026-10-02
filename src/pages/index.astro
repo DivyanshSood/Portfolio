@@ -146,7 +146,6 @@ const WRITING = [
       </div>
       <div class="wedge wedge--l" aria-hidden="true" data-wedge></div>
       <div class="wedge wedge--r" aria-hidden="true" data-wedge></div>
-      <div class="scroll-lbl" data-scroll-lbl>Scroll — lap 01</div>
     </section>
     <script is:inline>
       // Arm the intro before first paint so the hero doesn't flash, then let
@@ -168,7 +167,6 @@ const WRITING = [
       <div class="wrap">
         <div class="sec-head">
           <div>
-            <div class="lbl">(01) Telemetry</div>
             <h2 class="h2 proof-h">Proof</h2>
           </div>
           <p class="sec-note">Numbers from shipped projects, since 2022. Recorded, not projected.</p>
@@ -194,7 +192,6 @@ const WRITING = [
     <section id="about" class="about">
       <div class="wrap about-in">
         <div class="about-l">
-          <div class="lbl about-lbl">(02) Why founders hire me</div>
           <p class="about-big">I design, build and ship custom-coded websites, stores and web apps that <span>convert</span> — one person, end to end, for founders worldwide.</p>
           <p class="about-sub">No agency layers. No handoff to a junior. The person who replies to your brief is the one who designs it, ships it and reports the results.</p>
         </div>
@@ -216,7 +213,6 @@ const WRITING = [
       <div class="work-pin" data-work-pin>
         <div class="wrap work-head">
           <div>
-            <div class="lbl work-lbl">(03) Pit lane — 2024–2026</div>
             <h2 class="h2 work-h">Selected work</h2>
           </div>
           <div class="work-count">
@@ -247,7 +243,6 @@ const WRITING = [
       <div class="wrap">
         <div class="sec-head">
           <div>
-            <div class="lbl">(04) Setup — one person, end to end</div>
             <h2 class="h2 services-h">What I do</h2>
           </div>
         </div>
@@ -273,7 +268,6 @@ const WRITING = [
 
     <section id="process" class="sec sec--tint">
       <div class="wrap">
-        <div class="lbl">(05) Race weekend</div>
         <h2 class="h2 process-h">How a project runs</h2>
         <ol class="process">
           {PROCESS.map((s, i) => (
@@ -289,7 +283,6 @@ const WRITING = [
 
     <section id="radio" class="sec">
       <div class="wrap">
-        <div class="lbl">(06) Team radio</div>
         <h2 class="h2 radio-h">What clients say</h2>
         <div class="radio">
           {RADIO.map((r, i) => (
@@ -310,7 +303,6 @@ const WRITING = [
       <div class="wrap">
         <div class="sec-head writing-head">
           <div>
-            <div class="lbl">(07) Journal — {POSTS.length} articles</div>
             <h2 class="h2">Blogs</h2>
           </div>
           <a href="/blog/" class="mono">All posts →</a>
@@ -330,7 +322,7 @@ const WRITING = [
 
     <section id="faq" class="faq-sec">
       <div class="wrap">
-        <Faq faqs={HOME_FAQ} />
+        <Faq faqs={HOME_FAQ} label="" />
       </div>
     </section>
 
@@ -338,7 +330,6 @@ const WRITING = [
       <div class="contact-notch" aria-hidden="true"></div>
       <div class="wrap">
         <div class="contact-top">
-          <div class="lbl lbl--ink contact-lbl">(09) Chequered flag</div>
           <div class="flag" aria-hidden="true"></div>
         </div>
         <h2 class="contact-h">Let's build.</h2>
@@ -406,7 +397,6 @@ const WRITING = [
   .wedge{position:absolute;bottom:0;width:50%;height:clamp(44px,6.5vw,104px);background:var(--red)}
   .wedge--l{left:0;clip-path:polygon(0 0,100% 100%,0 100%)}
   .wedge--r{right:0;clip-path:polygon(100% 0,100% 100%,0 100%)}
-  .scroll-lbl{position:absolute;left:50%;bottom:clamp(40px,5vw,72px);transform:translateX(-50%);font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--g5c);white-space:nowrap}
 
   /* Shared section header row (Proof, Services, Writing) */
   .sec-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:clamp(36px,5vw,64px)}
@@ -430,7 +420,6 @@ const WRITING = [
   .about{padding:clamp(80px,11vw,170px) var(--gutter)}
   .about-in{display:flex;flex-wrap:wrap;gap:clamp(40px,6vw,96px)}
   .about-l{flex:1 1 520px}
-  .about-lbl{margin-bottom:22px}
   .about-big{margin:0;font-weight:800;font-stretch:108%;font-size:clamp(30px,4.2vw,64px);line-height:1.02;letter-spacing:-0.025em;text-wrap:pretty}
   .about-big span{color:var(--red);font-style:italic}
   .about-sub{margin:28px 0 0;font-size:18px;line-height:1.5;color:var(--g5c);max-width:44ch}
@@ -445,7 +434,6 @@ const WRITING = [
   .work-track{display:flex;gap:clamp(16px,2.4vw,36px);padding:0 var(--gutter);overflow-x:auto}
   :global(.work.is-pinned) .work-track{width:max-content;overflow:visible;will-change:transform}
   .work-head{width:100%;padding:0 var(--gutter);display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px}
-  .work-lbl{margin-bottom:12px}
   .work-h{font-size:clamp(40px,min(7vw,10vh),112px)}
   .work-count{display:flex;flex-direction:column;align-items:flex-end;gap:8px;font-family:var(--mono)}
   .work-n{font-size:clamp(20px,2vw,28px);letter-spacing:.04em}
@@ -521,8 +509,7 @@ const WRITING = [
   /* ---- 10 Contact ---- */
   .contact{position:relative;background:var(--red);color:#fff;padding:clamp(100px,12vw,180px) var(--gutter) clamp(72px,9vw,130px)}
   .contact-notch{position:absolute;top:0;left:0;right:0;height:clamp(36px,5vw,72px);background:#fff;clip-path:polygon(0 0,100% 0,100% 0,50% 100%,0 0)}
-  .contact-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px;margin-bottom:clamp(24px,3vw,40px)}
-  .contact-lbl{margin:0}
+  .contact-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:20px;margin-bottom:clamp(24px,3vw,40px)}
   .flag{width:clamp(96px,12vw,168px);aspect-ratio:3/2;background:repeating-conic-gradient(var(--ink) 0 25%,#fff 0 50%) 0 0/calc(100% / 3) calc(100% / 2);transform:skewX(-10deg);border:3px solid var(--ink)}
   .contact-h{margin:0 0 clamp(36px,5vw,64px);font-weight:900;font-style:italic;font-stretch:125%;text-transform:uppercase;line-height:.84;letter-spacing:-0.03em;font-size:clamp(64px,15vw,260px)}
   .contact-in{display:flex;flex-wrap:wrap;gap:clamp(32px,5vw,72px);align-items:flex-start}
