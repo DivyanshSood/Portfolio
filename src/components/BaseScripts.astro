@@ -9,6 +9,7 @@
   // Both are loaded in the head by Base.astro; the typeof guards below keep
   // this a silent no-op if a content blocker stripped either one.
   const YM_ID = 110027161; // must match the loader in Base.astro
+  const ADS_CONVERSION = "AW-18496983909/H2OYCIrI1JcdEOWmhvRE"; // AW ID must match the loader in Base.astro
   (window as any).dsTrack = function (name: string, params?: Record<string, unknown>) {
     try {
       const w = window as any;
@@ -25,7 +26,18 @@
   // now also sends `generate_lead`, with `lead_source` saying which one it was.
   // Mark generate_lead as a key event in GA4 Admin for it to count.
   (window as any).dsLead = function (source: string, params?: Record<string, unknown>) {
-    (window as any).dsTrack("generate_lead", { lead_source: source, ...(params || {}) });
+    const w = window as any;
+    w.dsTrack("generate_lead", { lead_source: source, ...(params || {}) });
+    // Google Ads "Website lead" action (counts once per ad click). A mailto
+    // click isn't proof anyone wrote, so email stays out of the Ads count.
+    // Beacon transport lets the hit survive WhatsApp/Calendly navigating away.
+    if (source === "email") return;
+    try {
+      if (typeof w.gtag === "function")
+        w.gtag("event", "conversion", { send_to: ADS_CONVERSION, transport_type: "beacon" });
+    } catch (_e) {
+      /* analytics must never break the page */
+    }
   };
 
   // Where on the page a CTA sits, so "WhatsApp from the footer" and "WhatsApp

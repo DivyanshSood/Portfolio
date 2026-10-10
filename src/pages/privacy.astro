@@ -30,20 +30,24 @@ const jsonld = JSON.stringify({
 });
 
 // Plain-English summary at the top, detail in the body. Matches the actual
-// runtime behaviour: GA + YM load on every page view, no third-party ad
-// scripts, no IP capture beyond what the CDN does on its own.
+// runtime behaviour: GA + YM load on every page view, plus the Google Ads
+// conversion tag; no ads shown, no IP capture beyond what the CDN does on its own.
 const sections = [
   {
     h: "What runs when you arrive",
-    p: "Two analytics scripts load with the page: Google Analytics 4 and Yandex Metrica, both described below. No advertising scripts, no tracking pixels, no session replay, no data broker of any kind. Browser-level controls are the way to opt out — see \"Analytics\".",
+    p: "Two analytics scripts load with the page: Google Analytics 4 and Yandex Metrica, plus Google's ad-conversion tag, all described below. No ads are shown here, no session replay, no data broker of any kind. Browser-level controls are the way to opt out — see \"Analytics\".",
   },
   {
     h: "Cookies",
-    p: "The analytics tools set their own cookies to tell one visit from the next — Google's _ga family and Yandex's _ym family. They hold a random ID, not a name or an email. No advertising cookies, and nothing is sold or shared with anyone.",
+    p: "The analytics tools set their own cookies to tell one visit from the next — Google's _ga family and Yandex's _ym family. Google's ad-conversion tag adds _gcl_au (and _gcl_aw after an ad click), so Google Ads can tell when a visit that started from one of my ads ended in an enquiry. They hold a random ID, not a name or an email. Nothing is sold or shared with anyone.",
   },
   {
     h: "Analytics",
     p: "Google Analytics 4 runs with IP anonymisation enabled, and Yandex Metrica runs without session replay or clickmap. They record page views, country-level geolocation, and referrer. Yandex-verified domain only — not loaded for any other site that hotlinks these scripts. To opt out, use your browser's tracker blocking or Do Not Track signal, a content blocker such as uBlock Origin, or Google's official opt-out add-on.",
+  },
+  {
+    h: "Ad conversions",
+    p: "I run Google Ads. When you send the brief form or tap WhatsApp, Calendly or the phone number, Google's tag reports that a lead happened, so I can see which ads bring enquiries. It reports the action, not what you wrote or who you are. No ads are shown on this site. To opt out, use the same browser controls as above, or turn off ad personalisation in your Google account.",
   },
   {
     h: "What I don't collect",
@@ -85,7 +89,7 @@ const sections = [
     <PageHero
       display="Privacy."
       kicker="Privacy · Plain English, no dark patterns · Updated 2026-10"
-      lead="The short version: two analytics tools count page views, I never sell anything to anyone, and there's no third-party ad script on the page. If you want the full policy, the section-by-section breakdown is below — what loads, what it stores, and how to switch it off from your browser."
+      lead="The short version: two analytics tools count page views, I never sell anything to anyone, a Google Ads tag counts enquiries that came from my ads, and no ads are shown on the page. If you want the full policy, the section-by-section breakdown is below — what loads, what it stores, and how to switch it off from your browser."
     >
       <a class="btn btn--red" href="#privacy-detail">Read the detail <span aria-hidden="true">→</span></a>
       <a class="btn btn--ink" href={CALENDLY_URL}>Get in touch instead</a>

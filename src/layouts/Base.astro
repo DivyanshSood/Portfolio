@@ -217,6 +217,7 @@ Astro.locals.crumbs = breadcrumbTrail(jsonld).map((c: { name: string; url: strin
 
         gtag("js", new Date());
         gtag("config", GA_ID, { anonymize_ip: true });
+        gtag("config", "AW-18496983909"); // Google Ads; must match ADS_CONVERSION in BaseScripts.astro
         window.ym(YM_ID, "init", { ssr: true, ecommerce: "dataLayer", accurateTrackBounce: true, trackLinks: true });
 
         var started = false;
