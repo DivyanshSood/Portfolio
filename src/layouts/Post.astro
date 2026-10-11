@@ -92,6 +92,10 @@ const AUDIENCE_CTA: Record<string, NonNullable<Props["cta"]>> = {
   },
 };
 const end = cta ?? AUDIENCE_CTA[post.audience] ?? AUDIENCE_CTA.international;
+// Below 900px the aside (spec list + tags) stacks ABOVE the cover, pushing it
+// under the fold — there the H1 is the LCP, and a high-priority cover preload
+// only competes with the font preloads. Preload it only where it's the hero.
+const COVER_ABOVE_FOLD = "(min-width: 900px)";
 let n = 1;
 ---
 
@@ -108,7 +112,7 @@ let n = 1;
   articlePublished={iso(post.pubDate)}
   articleModified={iso(post.updatedDate || post.pubDate)}
   tags={post.tags}
-  preloadImage={post.coverImage ? { href: coverBase(post.coverImage), srcset: coverSrcset(post.coverImage), sizes: COVER_SIZES_POST } : undefined}
+  preloadImage={post.coverImage ? { href: coverBase(post.coverImage), srcset: coverSrcset(post.coverImage), sizes: COVER_SIZES_POST, media: COVER_ABOVE_FOLD } : undefined}
   jsonld={jsonld}
 >
   <main>

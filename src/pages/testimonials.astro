@@ -4,9 +4,16 @@ import PageHero from "../components/brand/PageHero.astro";
 import Section from "../components/brand/Section.astro";
 import EndCta from "../components/brand/EndCta.astro";
 import Quote from "../components/brand/Quote.astro";
+import GoogleReviews from "../components/brand/GoogleReviews.astro";
+import { getGoogleReviews } from "../lib/google-reviews.mjs";
 import { SITE, CALENDLY_URL, GOOGLE_REVIEWS_URL } from "../lib/site.mjs";
 
 const canonical = `${SITE}/testimonials/`;
+
+// Build-time Google Business Profile reviews; [] without an API key, in which
+// case the section is left out and the client quotes become (01).
+const googleCount = (await getGoogleReviews()).length;
+const n0 = googleCount ? 1 : 0;
 
 // Every quote here is real and already used in case studies / homepage schema.
 const reviews = [
@@ -43,7 +50,10 @@ const jsonld = JSON.stringify({
     // while the @id still stitches it to the same entity site-wide.
     ...reviews.map((r) => ({
       "@type": "Review",
-      reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5", worstRating: "1" },
+      // No reviewRating: these are quotes the studio publishes about itself,
+      // which Google rules out of review snippets (self-serving), and no star
+      // is shown on the page — a rating here would be markup the visitor
+      // can't see. The quote + its author stay, matching the visible text.
       author: { "@type": "Organization", name: r.org.split(" · ")[0] },
       itemReviewed: {
         "@type": ["ProfessionalService", "Organization"],
@@ -77,7 +87,13 @@ const jsonld = JSON.stringify({
       <a class="btn btn--ink" href={GOOGLE_REVIEWS_URL}>Read our Google reviews ↗</a>
     </PageHero>
 
-    <Section n={1} term="Team radio" note={`${reviews.length} clients`} title="Every word is real">
+    {googleCount > 0 && (
+      <Section n={1} term="Google Maps" note="Public reviews" title="On my Google Business Profile">
+        <GoogleReviews />
+      </Section>
+    )}
+
+    <Section n={n0 + 1} term="Team radio" note={`${reviews.length} clients`} title="Every word is real">
       <div class="tm">
         {reviews.map((r, i) => (
           <Quote text={r.quote} by={`${r.who}, ${r.org}`} ch={i + 1} red={i === 0}>
@@ -85,7 +101,7 @@ const jsonld = JSON.stringify({
           </Quote>
         ))}
       </div>
-      <div class="links-row gap-top"><a href="/results/">See the results →</a></div>
+      <div class="links-row gap-top"><a href="/results/">See the results →</a><a href="/press/">Writing about the studio? Press kit →</a></div>
     </Section>
 
     <EndCta

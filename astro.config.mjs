@@ -57,7 +57,9 @@ export default defineConfig({
   // trailingSlash:"always" the adapter's canonicalising 308 is emitted *above*
   // Astro's own redirect routes, so "/start" 308'd to "/start/" and then missed
   // the "^/start$" rule — a dead route plus an empty /start/index.html. The
-  // platform-level rules in vercel.json match both forms in a single 301.
+  // platform-level rules in vercel.json match both forms in a single hop
+  // (Vercel answers "permanent": true with a 308, which Google and Bing treat
+  // exactly like a 301).
   integrations: [
     sitemap({
       // The print-only PDF source is noindexed — keep it out of the sitemap too.

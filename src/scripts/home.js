@@ -1,52 +1,23 @@
 /* ===========================================================================
    Home motion — ported from Home.dc.html's component logic.
-   - Intro sweep: red then ink chevron bands sweep left → right (1.5s), the
-     hero clips open, the name lines rise. (Brandbook 06 Motion.) Once per
-     browser session — the flag is read by the inline script in index.astro.
+   - No intro sweep. The hero used to sit at opacity:0 until this module ran
+     (+690ms), which delayed LCP on every first visit — and every crawl and
+     Lighthouse run is a first visit. The hero now paints with the HTML.
    - Corner wedges: the diagonal is computed so it runs parallel to the
      chevron above — never a fixed % angle.
    - Pit lane: vertical scroll drives the horizontal project track, with the
      red progress bar and 01/07 counter.
    - Telemetry count-up: stats and gauges count from 0 on first view,
-     1.7s exponential ease-out.
+     1.7s exponential ease-out — only when the stats start below the fold.
+     If they're already on screen (a tall renderer viewport, a deep-linked
+     reload) the real numbers in the HTML are left alone, so a rendered
+     snapshot never captures "0".
    Everything respects prefers-reduced-motion. The lap timer, start lights,
    cursor and lap bar from the design canvas are not shipped (brandbook: off
    by default / banned).
    =========================================================================== */
 
 const reduce = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-function intro() {
-  const d = document.documentElement;
-  if (!d.classList.contains("intro")) return;
-  d.classList.add("intro-run");
-  try { sessionStorage.setItem("ds-intro", "1"); } catch (e) {}
-  const red = document.querySelector("[data-band-red]");
-  const ink = document.querySelector("[data-band-ink]");
-  const hr = document.querySelector("[data-hero-red]");
-  const hb = document.querySelector("[data-hero-body]");
-  const lines = [...document.querySelectorAll("[data-name-line]")];
-  const show = () => d.classList.remove("intro");
-  if (!red || !ink || !hr || !hb || !red.animate) return show();
-
-  const D = 1500, ease = "cubic-bezier(.77,0,.18,1)";
-  red.animate([{ transform: "translateX(-240vw)" }, { transform: "translateX(100vw)" }], { duration: D, easing: ease, fill: "forwards" });
-  ink.animate([{ transform: "translateX(-46vw)" }, { transform: "translateX(100vw)" }], { duration: D * 0.8, delay: D * 0.32, easing: ease, fill: "forwards" });
-  setTimeout(() => {
-    lines.forEach((l) => { l.style.transform = "translateY(110%)"; });
-    show();
-    hr.animate(
-      [{ clipPath: "polygon(0 0,100% 0,100% 0%,50% 0%,0 0%)" }, { clipPath: "polygon(0 0,100% 0,100% 72%,50% 100%,0 72%)" }],
-      { duration: 900, easing: "cubic-bezier(.2,.8,.2,1)" }
-    );
-    lines.forEach((l, i) =>
-      l.animate(
-        [{ transform: "translateY(110%) skewX(-8deg)" }, { transform: "translateY(0) skewX(0)" }],
-        { duration: 950, delay: 250 + i * 110, easing: "cubic-bezier(.2,.9,.1,1)", fill: "forwards" }
-      ).finished.then(() => { l.style.transform = ""; l.getAnimations().forEach((a) => a.cancel()); })
-    );
-  }, D * 0.46);
-}
 
 function wedges() {
   const sec = document.querySelector("[data-sec-hero]");
@@ -91,6 +62,8 @@ function pitLane() {
 function telemetry() {
   const sec = document.querySelector("[data-sec-stats]");
   if (!sec || reduce() || !("IntersectionObserver" in window)) return;
+  const r = sec.getBoundingClientRect();
+  if (r.top < innerHeight && r.bottom > 0) return;
   const nums = [...sec.querySelectorAll("[data-count]")];
   const gauges = [...sec.querySelectorAll("[data-gauge]")];
   nums.forEach((el) => { el.textContent = "0"; });
@@ -126,6 +99,5 @@ export function initHome() {
   setTimeout(layout, 400);
   document.fonts?.ready.then(layout);
   addEventListener("load", layout, { once: true });
-  intro();
   telemetry();
 }

@@ -22,7 +22,9 @@ const jsonld = JSON.stringify({
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "SoftwareApplication",
+      // WebApplication (a SoftwareApplication subtype): it runs entirely in
+      // the browser at this URL — nothing to download or install.
+      "@type": "WebApplication",
       "@id": `${canonical}#app`,
       name: "Free llms.txt Generator",
       applicationCategory: "DeveloperApplication",

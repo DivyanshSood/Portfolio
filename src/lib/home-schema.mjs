@@ -48,13 +48,18 @@ export function homeJsonLd(SITE) {
         description:
           "Divyansh Sood® Studio is an independent web design & development studio in Himachal Pradesh, India, building custom-coded, conversion-focused websites, e-commerce stores and web apps for founders worldwide. Live in 3–4 weeks; fastest full site shipped in 7 days.",
         inLanguage: "en",
-        publisher: { "@id": `${SITE}/#person` },
+        // #studio, as on every other page (websiteNode in entity.mjs). The home
+        // graph said #person while 60 pages said #studio — two publishers for
+        // one site.
+        publisher: { "@id": `${SITE}/#studio` },
       },
       {
         "@type": "Person",
         "@id": `${SITE}/#person`,
         name: "Divyansh Sood",
-        url: `${SITE}/`,
+        // /about/ — the page that is about the person, and the url authorNode
+        // gives the same @id on every post and case study. One entity, one url.
+        url: `${SITE}/about/`,
         // Title, bio and expertise come from entity.mjs, which is also what the
         // author node on all 42 blog posts uses. Two copies of these strings is
         // how the homepage Person and the byline Person start disagreeing.

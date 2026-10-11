@@ -75,3 +75,21 @@ export function coverSrcset(cover) {
    main column is 820px at most, full width minus the 16px gutters below the
    900px breakpoint. */
 export const COVER_SIZES_POST = "(max-width: 900px) calc(100vw - 32px), 820px";
+
+/* ---------------------------------------------------------------------------
+   Founder portraits (/public/images/divyansh-portrait*.webp). The about shot
+   is a 1200px base shown at most 460px wide, so phones were pulling the full
+   file. PORTRAIT_WIDTHS are written next to the base by gen-work-variants.mjs.
+   --------------------------------------------------------------------------- */
+export const PORTRAIT_WIDTHS = [480, 768];
+
+/** srcset for a portrait: each pre-generated rung plus the base at `baseW`. */
+export function portraitSrcset(src, baseW) {
+  return [
+    ...PORTRAIT_WIDTHS.filter((w) => w < baseW).map((w) => `${src.replace(/\.webp$/, `-${w}.webp`)} ${w}w`),
+    `${src} ${baseW}w`,
+  ].join(", ");
+}
+
+/** The /about portrait column: full width minus gutters on phones, else 460px. */
+export const PORTRAIT_SIZES_ABOUT = "(max-width: 540px) calc(100vw - 32px), 460px";

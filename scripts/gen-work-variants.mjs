@@ -34,6 +34,7 @@ import {
   COVER_WIDTHS,
   COVER_BASE_WIDTH,
   COVER_RATIO,
+  PORTRAIT_WIDTHS,
 } from "../src/lib/images.mjs";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -100,3 +101,63 @@ console.log(
   `blog:  ${covers.length} covers → ${coverMade} variants written in ${rel(BLOG_DIR)}\n` +
     `       ${mb(bytesBefore)} of JPEG → ${mb(bytesAfter)} of WebP across the whole ladder`
 );
+
+/* --- 3. Founder portraits ------------------------------------------------ */
+
+const IMG_DIR = path.join(ROOT, "public", "images");
+const portraits = (await readdir(IMG_DIR)).filter((f) => /^divyansh-portrait(-about)?\.webp$/.test(f));
+let portraitMade = 0;
+for (const base of portraits) {
+  const src = path.join(IMG_DIR, base);
+  const meta = await sharp(src).metadata();
+  for (const w of PORTRAIT_WIDTHS) {
+    if (meta.width && meta.width <= w) continue;
+    const out = path.join(IMG_DIR, base.replace(/\.webp$/, `-${w}.webp`));
+    if (existsSync(out) && !FORCE) continue;
+    await sharp(src).resize({ width: w }).webp({ quality: QUALITY }).toFile(out);
+    portraitMade++;
+  }
+}
+console.log(`portraits: ${portraits.length} bases → ${portraitMade} variants written in ${rel(IMG_DIR)}`);
+
+/* --- 4. Social share images (og:image) ----------------------------------- */
+// Scrapers (Facebook, LinkedIn, WhatsApp, X) are the one audience that can't
+// be relied on to take WebP, and the og tags must state the file's REAL size.
+// Case studies pointed og:image at the 1920px WebP base (up to 222 KB) while
+// declaring 1600×1000; six blog covers were 1200×800/900/1200 against a
+// declared 1200×750. Both now ship as 1200×750 (16:10) JPEGs:
+//   case studies  /images/og/<slug>.jpg, from the `<slug>-1.webp` base
+//   blog covers   the cover .jpg itself, centre-cropped in place — the same
+//                 crop the WebP ladder above already applies, so no framing
+//                 changes; a 16:10 cover is left untouched.
+const OG_W = 1200;
+const OG_H = 750;
+const OG_DIR = path.join(ROOT, "public", "images", "og");
+const { mkdir, rename } = await import("node:fs/promises");
+await mkdir(OG_DIR, { recursive: true });
+
+let ogMade = 0;
+for (const base of bases.filter((f) => f.endsWith("-1.webp") && !f.endsWith("-mobile-1.webp"))) {
+  const out = path.join(OG_DIR, base.replace(/-1\.webp$/, ".jpg"));
+  if (existsSync(out) && !FORCE) continue;
+  await sharp(path.join(WORK_DIR, base))
+    .resize(OG_W, OG_H, { fit: "cover", position: "top" })
+    .jpeg({ quality: 82, mozjpeg: true })
+    .toFile(out);
+  ogMade++;
+}
+
+let coversCropped = 0;
+for (const cover of covers) {
+  const src = path.join(BLOG_DIR, cover);
+  const meta = await sharp(src).metadata();
+  if (meta.width === OG_W && meta.height === OG_H) continue;
+  const tmp = src + ".tmp";
+  await sharp(src)
+    .resize(OG_W, OG_H, { fit: "cover", position: "centre" })
+    .jpeg({ quality: 82, mozjpeg: true })
+    .toFile(tmp);
+  await rename(tmp, src);
+  coversCropped++;
+}
+console.log(`og:    ${ogMade} case-study share images in ${rel(OG_DIR)}; ${coversCropped} blog covers cropped to ${OG_W}×${OG_H}`);

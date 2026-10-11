@@ -136,6 +136,59 @@ console.log("\n2. Orphan guard (≥2 inbound internal links per indexable page)"
   else pass(`all ${inbound.size} indexable pages have ≥2 inbound internal links`);
 }
 
+/* ── 2b. Body-only inbound links (contextual equity) ─────────────────────── */
+// Check 2 counts the header, mobile menu and footer, which appear on every
+// page — so a page linked ONLY from the footer passes with ~60 "inbound
+// links" that all carry the same boilerplate weight. Contextual links from
+// page content are what tell Google a page matters. This strips the site
+// chrome (and ignores 404.html as a source) and warns below 2. A warning, not
+// a failure: /privacy/ is rightly footer-only.
+console.log("\n2b. Contextual links (≥2 inbound from page content, chrome excluded)");
+{
+  const FOOTER_ONLY_OK = new Set(["/privacy/"]);
+  const body = (html) =>
+    html
+      .replace(/<header\b[\s\S]*?<\/header>/gi, "")
+      .replace(/<div class="menu"[\s\S]*?<\/nav>/i, "")
+      .replace(/<footer\b[\s\S]*?<\/footer>/gi, "");
+  const inbound = new Map(indexable.map(([p]) => [p, 0]));
+  for (const [from, html] of pages) {
+    if (from === "/404.html") continue;
+    const seen = new Set();
+    for (const m of body(html).matchAll(/<a\b[^>]*\bhref=["']([^"']+)["']/gi)) {
+      let to = toPath(m[1]);
+      if (!to) continue;
+      if (!to.endsWith("/") && !to.includes(".")) to += "/";
+      if (to === from || seen.has(to)) continue;
+      seen.add(to);
+      if (inbound.has(to)) inbound.set(to, inbound.get(to) + 1);
+    }
+  }
+  const weak = [...inbound].filter(([p, n]) => n < 2 && !FOOTER_ONLY_OK.has(p));
+  if (weak.length) weak.forEach(([p, n]) => warn(`${p} has ${n} contextual inbound link(s) — add links from related content`));
+  else pass(`all ${inbound.size - FOOTER_ONLY_OK.size} content pages have ≥2 contextual inbound links`);
+}
+
+/* ── 2c. robots.txt: one rule group, so every named bot gets the Disallows ── */
+// A crawler obeys only the most specific group naming it (RFC 9309). The
+// file once gave GPTBot, Bingbot & co. their own "Allow: /" groups, which
+// silently exempted them from Disallow: /api/ and the vanity redirects.
+console.log("\n2c. robots.txt groups");
+{
+  const txt = readFileSync("public/robots.txt", "utf8");
+  const lines = txt.split("\n").map((l) => l.replace(/#.*/, "").trim()).filter(Boolean);
+  let groups = 0;
+  let prevUA = false;
+  for (const l of lines) {
+    const ua = /^user-agent:/i.test(l);
+    if (ua && !prevUA) groups++;
+    prevUA = ua;
+  }
+  if (groups > 1) fail(`robots.txt has ${groups} rule groups — named bots skip the shared Disallow lines`);
+  else if (!/^disallow:\s*\/api\//im.test(txt)) fail(`robots.txt no longer disallows /api/`);
+  else pass(`robots.txt is a single group that disallows /api/`);
+}
+
 /* ── vercel.json redirects, shared by checks 3 and 4 ─────────────────────── */
 const redirects = JSON.parse(readFileSync("vercel.json", "utf8")).redirects ?? [];
 const slash = (p) => (p.endsWith("/") || p.includes(".") ? p : `${p}/`);

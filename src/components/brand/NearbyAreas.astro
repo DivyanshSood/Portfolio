@@ -1,0 +1,23 @@
+---
+// Cross-links between the four city pages. Each was reachable only from the
+// footer column and the homepage, so none of them passed any contextual
+// equity to the others — this row ties the location cluster together.
+const AREAS = [
+  { href: "/web-developer-kangra/", label: "Web developer in Kangra" },
+  { href: "/web-developer-dharamshala/", label: "Web developer in Dharamshala" },
+  { href: "/web-developer-shimla/", label: "Web developer in Shimla" },
+  { href: "/web-developer-manali/", label: "Web developer in Manali" },
+];
+const here = Astro.url.pathname;
+---
+
+<nav aria-label="Other areas I serve" class="nearby">
+  <div class="lbl">Also serving</div>
+  <div class="links-row">
+    {AREAS.filter((a) => a.href !== here).map((a) => <a href={a.href}>{a.label} →</a>)}
+  </div>
+</nav>
+
+<style>
+  .nearby{display:flex;flex-direction:column;gap:6px}
+</style>

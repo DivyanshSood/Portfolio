@@ -44,6 +44,13 @@ export const GOOGLE_MAPS_URL = "https://maps.app.goo.gl/ACwV9EfEteWVoTD49";
 const GBP_CID = "6503761533006416527";
 export const GOOGLE_MAPS_CID_URL = `https://www.google.com/maps?cid=${GBP_CID}`;
 
+/* Places API place ID for the same listing — what src/lib/google-reviews.mjs
+   asks for at build time. Leave "" until known: with GOOGLE_PLACES_API_KEY set,
+   the first build resolves it by text search and prints it — paste it here so
+   later builds skip the lookup (and can't latch onto a different listing). */
+export const GBP_PLACE_ID = "";
+export const GBP_SEARCH_QUERY = "Divyansh Sood Web Developer, Pushp Vihar Colony, Kangra, Himachal Pradesh";
+
 /* ---------------------------------------------------------------------------
    Google Knowledge Graph MID for the business entity — the stable identifier
    behind the knowledge panel that Google shows for "Divyansh Sood Web

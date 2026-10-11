@@ -8,6 +8,7 @@ import Steps from "../components/brand/Steps.astro";
 import ResultGrid from "../components/brand/ResultGrid.astro";
 import EndCta from "../components/brand/EndCta.astro";
 import SpecList from "../components/brand/SpecList.astro";
+import { portraitSrcset, PORTRAIT_SIZES_ABOUT } from "../lib/images.mjs";
 import { SITE, CALENDLY_URL, FOUNDER_PHOTO_ABOUT, FOUNDER_PHOTO_ALT, HAS_FOUNDER_PHOTO, SAME_AS, GOOGLE_MAPS_URL, GOOGLE_REVIEWS_URL } from "../lib/site.mjs";
 
 const canonical = `${SITE}/about/`;
@@ -129,7 +130,7 @@ const jsonld = JSON.stringify({
   ogTitle="About Divyansh Sood — freelance web designer & developer"
   ogDescription="One person, 20+ custom-coded websites, stores and web apps shipped for founders worldwide since 2022."
   jsonld={jsonld}
-  preloadImage={HAS_FOUNDER_PHOTO ? { href: FOUNDER_PHOTO_ABOUT } : undefined}
+  preloadImage={HAS_FOUNDER_PHOTO ? { href: FOUNDER_PHOTO_ABOUT, srcset: portraitSrcset(FOUNDER_PHOTO_ABOUT, 1200), sizes: PORTRAIT_SIZES_ABOUT } : undefined}
 >
   <main>
     <PageHero
@@ -146,11 +147,12 @@ const jsonld = JSON.stringify({
     <Section n={1} term="Hello" note="One person, end to end" title="Hi, I'm Divyansh">
       <div class="fd">
         <figure class="fd-photo">
-          {HAS_FOUNDER_PHOTO && <img src={FOUNDER_PHOTO_ABOUT} alt={FOUNDER_PHOTO_ALT} width="1200" height="1499" fetchpriority="high" decoding="async" />}
+          {HAS_FOUNDER_PHOTO && <img src={FOUNDER_PHOTO_ABOUT} srcset={portraitSrcset(FOUNDER_PHOTO_ABOUT, 1200)} sizes={PORTRAIT_SIZES_ABOUT} alt={FOUNDER_PHOTO_ALT} width="1200" height="1499" fetchpriority="high" decoding="async" />}
         </figure>
         <div class="fd-copy">
           <p class="fd-big">I'm Divyansh. I run a 1-person studio from a small town in Himachal Pradesh, India — no agency floor, no account managers, just me, designing and building websites for founders who care about outcomes, not theme marketplaces.</p>
           <p class="body">Twenty-plus products shipped since 2022 — marketing sites, web apps, stores, dashboards, and my own AI product. Most in 3–4 weeks. Every one custom-coded, conversion-led, built to last longer than the trend that prompted it. IST working hours (10am–7pm) overlap with US mornings, UK afternoons and Gulf evenings — calls in your zone, async when you want it.</p>
+          <p class="body">What clients say about working with me is on the <a href="/testimonials/">testimonials page</a>, and how they find me in the first place, with no ad spend, is written up in <a href="/blog/how-i-get-clients-without-paid-ads/">how I get clients without paid ads</a>. Agencies can also hire me under their own brand: <a href="/agencies/">white-label web development for agencies</a>.</p>
           <div class="meta fd-by"><span>Divyansh Sood — founder</span><span>Himachal · India · IST +5:30</span></div>
           <div class="btn-row">
             <a class="btn btn--red" href={CALENDLY_URL}>Book a 15-min intro <span aria-hidden="true">→</span></a>

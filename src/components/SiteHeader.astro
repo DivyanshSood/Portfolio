@@ -65,21 +65,21 @@ const NAV = [
   .hd-nav a.is-current{border-bottom:2px solid #fff;padding-bottom:2px}
   .hd-right{display:flex;align-items:center;gap:14px}
   .hd-clock{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--red)}
-  .hd-cta{background:#fff;color:var(--ink);text-decoration:none;font-weight:800;font-stretch:112%;font-size:13px;letter-spacing:.02em;text-transform:uppercase;padding:12px 18px;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%);white-space:nowrap}
+  .hd-cta{background:#fff;color:var(--ink);text-decoration:none;font-weight:800;font-stretch:112%;font-size:13px;letter-spacing:.02em;text-transform:uppercase;min-height:44px;display:inline-flex;align-items:center;padding:0 18px;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%);white-space:nowrap}
   .hd-cta:hover{background:var(--ink);color:#fff}
-  .hd-burger{background:none;border:0;padding:10px 0 10px 6px;display:none;flex-direction:column;gap:6px;cursor:pointer}
+  .hd-burger{background:none;border:0;width:44px;height:44px;margin-right:-9px;padding:0;display:none;flex-direction:column;justify-content:center;align-items:center;gap:6px;cursor:pointer}
   .hd-burger span{display:block;width:26px;height:2px;background:#fff}
-  .hd-burger span + span{width:18px;margin-left:8px}
+  .hd-burger span + span{width:18px;margin-left:8px;align-self:center}
   @media (max-width:899.98px){
     .hd-nav,.hd-clock{display:none}
     .hd-burger{display:flex}
   }
 
   .menu{position:fixed;inset:0;z-index:200;background:var(--ink);color:#fff;padding:88px 20px 100px;display:flex;flex-direction:column;justify-content:space-between;overflow:auto}
-  .menu-close{position:absolute;top:18px;right:18px;background:none;border:0;color:#fff;font-family:var(--mono);font-size:12px;letter-spacing:.1em;padding:10px;cursor:pointer}
+  .menu-close{position:absolute;top:18px;right:18px;background:none;border:0;color:#fff;font-family:var(--mono);font-size:12px;letter-spacing:.1em;min-width:44px;min-height:44px;padding:0 12px;cursor:pointer}
   .menu-nav{display:flex;flex-direction:column;gap:6px}
   .menu-nav a{display:flex;align-items:baseline;gap:14px;color:#fff;text-decoration:none;font-weight:900;font-style:italic;font-stretch:125%;text-transform:uppercase;font-size:clamp(32px,10vw,72px);line-height:1}
   .menu-nav a span{font-family:var(--mono);font-style:normal;font-size:12px;color:var(--red)}
-  .menu-foot{display:flex;flex-wrap:wrap;gap:10px 18px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;margin-top:32px}
-  .menu-foot a{color:#fff}
+  .menu-foot{display:flex;flex-wrap:wrap;gap:0 18px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;margin-top:32px}
+  .menu-foot a{color:#fff;display:inline-flex;align-items:center;min-height:44px}
 </style>

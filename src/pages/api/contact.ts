@@ -91,3 +91,10 @@ function json(body: unknown, status: number) {
     headers: { "Content-Type": "application/json" },
   });
 }
+
+// Only POST is meaningful here. Without a catch-all, a crawler's GET or HEAD
+// hit an unexported method and the function crashed with a 500
+// (FUNCTION_INVOCATION_FAILED) — a server error that slows crawl rate. ALL
+// covers every method not exported above, so those now get a clean 405.
+export const ALL: APIRoute = () =>
+  new Response(null, { status: 405, headers: { Allow: "POST", "X-Robots-Tag": "noindex", "Cache-Control": "no-store" } });

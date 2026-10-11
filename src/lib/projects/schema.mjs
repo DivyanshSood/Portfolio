@@ -5,6 +5,7 @@
 
 import { SITE } from "./data.mjs";
 import { localSrcset, localVariant } from "../images.mjs";
+import { authorNode } from "../entity.mjs";
 
 /** `sizes` for the case-study feature image (the framed 1280px shot). */
 export const FEATURE_SIZES = "(max-width: 1360px) calc(100vw - 32px), 1280px";
@@ -64,13 +65,10 @@ function jsonLd(p) {
       url: p.liveUrl,
       sameAs: [p.liveUrl],
     },
-    {
-      "@type": "Person",
-      "@id": `${SITE}/#person`,
-      name: "Divyansh Sood",
-      url: `${SITE}/`,
-      jobTitle: "Web Developer",
-    },
+    // The full author node, not a stub. A stub here counted as "defined", so
+    // completeGraph never filled it in, and all 12 case studies described the
+    // person as a bare "Web Developer" at a different url from every post.
+    authorNode(SITE),
     {
       "@type": "FAQPage",
       "@id": `${canonical}#faq`,
@@ -87,7 +85,10 @@ function jsonLd(p) {
     graph.push({
       "@type": "Review",
       "@id": `${canonical}#review`,
-      reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5", worstRating: "1" },
+      // No reviewRating: these are quotes the studio publishes about itself,
+      // which Google rules out of review snippets (self-serving), and no star
+      // is shown on the page — a rating here would be markup the visitor
+      // can't see. The quote + its author stay, matching the visible text.
       author: { "@type": "Organization", name: p.name },
       // Typed inline, not a bare @id — the #studio node is only defined in the
       // homepage graph, so a reference alone gives Search Console no type to
@@ -117,8 +118,10 @@ export function projectHead(p) {
     ogTitle: p.ogTitle,
     ogDescription: p.ogDescription,
     ogImage: p.ogImage,
-    ogImageW: 1600,
-    ogImageH: 1000,
+    // /images/og/<slug>.jpg, written at exactly 1200×750 by
+    // scripts/gen-work-variants.mjs (pass 4) — declare the real size.
+    ogImageW: 1200,
+    ogImageH: 750,
     ogLocale: "en_IN",
     imageAlt: p.feature.alt,
     articlePublished: `${p.year}-01-01`,

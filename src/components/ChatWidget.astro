@@ -20,6 +20,7 @@ const SUGGESTIONS = [
 <div class="cw" data-chat data-nosnippet>
   <button class="cw-launch" type="button" data-chat-open aria-expanded="false" aria-controls="cw-panel">
     <span class="cw-label">Ask me anything</span>
+    <span class="cw-glyph" aria-hidden="true">?</span>
   </button>
 
   <div class="cw-panel" id="cw-panel" role="dialog" aria-modal="false" aria-labelledby="cw-title" hidden data-chat-panel>
@@ -203,7 +204,22 @@ const SUGGESTIONS = [
       const el = document.createElement("div");
       el.className = who === "user" ? "cw-msg cw-msg--user" : "cw-msg cw-msg--bot";
       if (who === "user") el.textContent = text;
-      else el.innerHTML = format(text);
+      else {
+        const { html, links } = format(text);
+        el.innerHTML = html;
+        // Links are emitted bare and get their href here, by position. A
+        // literal href="${…}" template in this (inlined) script made Google
+        // discover junk URLs like "/${l.replace(/" on every page.
+        el.querySelectorAll("a").forEach((a, i) => {
+          const link = links[i];
+          if (!link) return;
+          a.href = link.href;
+          if (!link.own) {
+            a.target = "_blank";
+            a.rel = "noopener";
+          }
+        });
+      }
       log.appendChild(el);
       log.scrollTop = log.scrollHeight;
       return el;
@@ -216,10 +232,12 @@ const SUGGESTIONS = [
     }
   }
 
-  /** Escapes model text, then turns URLs, **bold** and "- " lines into markup. */
+  /** Escapes model text, then turns URLs, **bold** and "- " lines into markup.
+      Anchors come back without an href; `links` holds them in document order. */
   function format(text: string) {
+    const links: { href: string; own: boolean }[] = [];
     const esc = text.replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
-    return esc
+    const html = esc
       .split(/\n{2,}/)
       .map((block) => {
         const lines = block.split("\n");
@@ -231,8 +249,8 @@ const SUGGESTIONS = [
               const href = url.replace(/&#38;/g, "&");
               const own = /^https?:\/\/(www\.)?divyanshsood\.com/.test(href);
               const label = own ? href.replace(/^https?:\/\/(www\.)?divyanshsood\.com/, "") || "/" : url;
-              const attrs = own ? "" : ' target="_blank" rel="noopener"';
-              return `<a href="${href.replace(/"/g, "%22")}"${attrs}>${label}</a>`;
+              links.push({ href, own });
+              return `<a>${label}</a>`;
             });
         if (list) {
           return `<ul>${lines.map((l) => `<li>${inline(l.replace(/^\s*[-*•]\s+/, ""))}</li>`).join("")}</ul>`;
@@ -240,6 +258,7 @@ const SUGGESTIONS = [
         return `<p>${lines.map(inline).join("<br>")}</p>`;
       })
       .join("");
+    return { html, links };
   }
 </script>
 
@@ -253,11 +272,12 @@ const SUGGESTIONS = [
      to the same slant — clip-path would otherwise cut a plain border off the
      slanted edges, and a frameless white button vanishes on a white page.
      Hover fills the face red and turns the lettering white. */
-  .cw-launch{position:fixed;right:clamp(16px,2vw,28px);bottom:clamp(16px,2vw,28px);z-index:150;display:inline-flex;align-items:center;height:52px;padding:0 30px;border:0;cursor:pointer;background:var(--ink);clip-path:polygon(12px 0,100% 0,calc(100% - 12px) 100%,0 100%)}
+  .cw-launch{position:fixed;right:clamp(16px,2vw,28px);bottom:calc(clamp(16px,2vw,28px) + env(safe-area-inset-bottom));z-index:150;display:inline-flex;align-items:center;height:52px;padding:0 30px;border:0;cursor:pointer;background:var(--ink);clip-path:polygon(12px 0,100% 0,calc(100% - 12px) 100%,0 100%)}
   .cw-launch::before{content:"";position:absolute;inset:2px;background:#fff;clip-path:polygon(12px 0,100% 0,calc(100% - 12px) 100%,0 100%)}
   .cw-launch:hover::before{background:var(--red)}
   .cw-label{position:relative;color:var(--red);font-family:var(--display);font-weight:900;font-style:italic;font-stretch:118%;font-size:16px;letter-spacing:.03em;text-transform:uppercase;line-height:1}
-  .cw-launch:hover .cw-label{color:#fff}
+  .cw-launch:hover .cw-label,.cw-launch:hover .cw-glyph{color:#fff}
+  .cw-glyph{display:none;position:relative;color:var(--red);font-family:var(--display);font-weight:900;font-style:italic;font-stretch:125%;font-size:26px;line-height:1}
 
   .cw-panel{position:fixed;right:clamp(16px,2vw,28px);bottom:clamp(16px,2vw,28px);z-index:150;width:var(--cw-w);height:min(620px,calc(100dvh - 120px));display:flex;flex-direction:column;background:#fff;color:var(--ink);border:3px solid var(--ink)}
   .cw-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 16px;background:var(--ink);color:#fff}
@@ -290,10 +310,13 @@ const SUGGESTIONS = [
   .cw-note a{color:var(--ink)}
   .cw-note a:hover{color:var(--red)}
 
-  /* Phones: the panel takes the whole screen and the page behind stops scrolling. */
+  /* Phones: the launcher shrinks to a 60×52 "?" parallelogram so it stops
+     covering a third of the text column (the label stays for screen readers);
+     the panel takes the whole screen and the page behind stops scrolling. */
   @media (max-width:599px){
-    .cw-launch{padding:0 24px}
-    .cw-label{font-size:14px}
+    .cw-launch{width:60px;padding:0;justify-content:center}
+    .cw-label{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+    .cw-glyph{display:block}
     .cw-panel{inset:0;width:auto;height:100dvh;border:0}
     .cw-head{padding-top:max(14px,env(safe-area-inset-top))}
     .cw-note{padding-bottom:max(12px,env(safe-area-inset-bottom))}

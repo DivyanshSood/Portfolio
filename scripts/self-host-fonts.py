@@ -14,6 +14,15 @@ line in the brandbook is set at font-stretch:125% — and an italic file.
 
 Writes public/fonts/{archivo,archivo-italic,geist-mono}.woff2 and prints the
 @font-face rules that src/styles/brand.css carries.
+
+Then the two Archivo files are pinned to the axis ranges the site actually
+uses — wdth 100..125 and wght 400..900 (nothing in src/ sets a narrower
+stretch or a lighter weight). Google ships 62..125 / 100..900, and the unused
+range was ~64 KB of the ~215 KB preloaded on every page. Needs fontTools:
+  python3 -m venv .venv && .venv/bin/pip install fonttools brotli
+and run this script with that interpreter. Without fontTools the full-range
+files are kept and a warning is printed; widen AXES (and the @font-face
+ranges below) if a design ever needs a narrower width or a lighter weight.
 """
 
 import re
@@ -66,13 +75,28 @@ for key, stem in FILES.items():
     subprocess.run(["curl", "-sS", "-A", UA, found[key], "-o", str(out)], check=True)
     print(f"  {out}  {out.stat().st_size:,} B")
 
+AXES = {"wdth": (100, 125), "wght": (400, 900)}
+try:
+    from fontTools.ttLib import TTFont
+    from fontTools.varLib.instancer import instantiateVariableFont
+    for stem in ("archivo", "archivo-italic"):
+        path = OUT_DIR / f"{stem}.woff2"
+        font = instantiateVariableFont(TTFont(path), AXES, updateFontNames=False)
+        font.flavor = "woff2"
+        font.save(path)
+        print(f"  pinned {path} to {AXES}  {path.stat().st_size:,} B")
+except ImportError:
+    print("!! fontTools not installed — Archivo kept at the full 62..125 / 100..900 range."
+          " The @font-face rules below still work; the files are just ~64 KB heavier.",
+          file=sys.stderr)
+
 print("\n/* @font-face rules — these live at the top of src/styles/brand.css */")
 UNICODE = ("U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,"
            "U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,"
            "U+2212,U+2215,U+FEFF,U+FFFD")
-print(f"@font-face{{font-family:'Archivo';font-style:normal;font-weight:100 900;font-stretch:62% 125%;"
+print(f"@font-face{{font-family:'Archivo';font-style:normal;font-weight:400 900;font-stretch:100% 125%;"
       f"font-display:swap;src:url('/fonts/archivo.woff2') format('woff2');unicode-range:{UNICODE}}}")
-print(f"@font-face{{font-family:'Archivo';font-style:italic;font-weight:100 900;font-stretch:62% 125%;"
+print(f"@font-face{{font-family:'Archivo';font-style:italic;font-weight:400 900;font-stretch:100% 125%;"
       f"font-display:swap;src:url('/fonts/archivo-italic.woff2') format('woff2');unicode-range:{UNICODE}}}")
 print(f"@font-face{{font-family:'Geist Mono';font-style:normal;font-weight:400 700;"
       f"font-display:swap;src:url('/fonts/geist-mono.woff2') format('woff2');unicode-range:{UNICODE}}}")

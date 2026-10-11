@@ -24,8 +24,13 @@ import { GOOGLE_MAPS_URL, GOOGLE_REVIEWS_URL } from "../lib/site.mjs";
       </nav>
       <nav aria-label="Services" class="ft-col">
         <span>SERVICES</span>
+        <a href="/services/">All services</a>
         <a href="/services/website-development/">Website development</a>
         <a href="/services/ecommerce-website-development/">E-commerce websites</a>
+        <a href="/services/hotel-website-development/">Hotel websites</a>
+        <a href="/services/travel-website-development/">Travel &amp; taxi websites</a>
+        <a href="/services/school-website-development/">School websites</a>
+        <a href="/services/landing-page-design/">Landing page design</a>
         <a href="/services/web-app-development/">Web app development</a>
         <a href="/services/ai-development/">AI development</a>
         <a href="/services/seo-geo-services/">SEO &amp; GEO</a>
@@ -65,11 +70,12 @@ import { GOOGLE_MAPS_URL, GOOGLE_REVIEWS_URL } from "../lib/site.mjs";
   .ft-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:36px 24px}
   .ft-about{margin:0 0 16px;font-size:15px;line-height:1.5;color:var(--gbd);max-width:30ch}
   .ft-where{margin:0;font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--g8a);line-height:1.8}
-  .ft-where a{color:inherit;text-decoration:none}
+  .ft-where a{color:inherit;text-decoration:none;display:inline-block;padding:10px 0;margin:-10px 0}
   .ft-where a:hover{color:var(--red)}
-  .ft-col{display:flex;flex-direction:column;gap:10px;font-size:15px}
+  .ft-col{display:flex;flex-direction:column;gap:0;font-size:15px}
   .ft-col span{font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--red);margin-bottom:4px}
-  .ft-col a{color:#fff;text-decoration:none}
+  /* 44px rows: thumb-sized tap targets with no visual change in rhythm. */
+  .ft-col a{color:#fff;text-decoration:none;min-height:44px;display:flex;align-items:center}
   .ft-col a:hover{color:var(--red)}
   .ft-stripe{margin-top:clamp(56px,7vw,96px);display:flex;height:10px}
   .ft-stripe span:nth-child(1){flex:3;background:var(--red)}
@@ -78,7 +84,7 @@ import { GOOGLE_MAPS_URL, GOOGLE_REVIEWS_URL } from "../lib/site.mjs";
   .ft-name{font-weight:900;font-style:italic;font-stretch:125%;text-transform:uppercase;line-height:.8;letter-spacing:-0.03em;font-size:clamp(40px,8.2vw,200px);margin-top:18px;overflow-wrap:anywhere}
   .ft-name span{color:var(--red);font-size:.4em;vertical-align:top}
   .ft-bar{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;margin-top:28px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--g8a)}
-  .ft-bar a{color:#fff}
+  .ft-bar a{color:#fff;display:inline-flex;align-items:center;min-height:44px;padding:0 4px;margin:-14px -4px}
   .ft-bar a.ft-muted{color:var(--g8a)}
   .ft-bar a:hover{color:var(--red)}
 </style>

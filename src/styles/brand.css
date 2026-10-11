@@ -12,9 +12,16 @@
    circles are the status dot.
    =========================================================================== */
 
-@font-face{font-family:'Archivo';font-style:normal;font-weight:100 900;font-stretch:62% 125%;font-display:swap;src:url('/fonts/archivo.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
-@font-face{font-family:'Archivo';font-style:italic;font-weight:100 900;font-stretch:62% 125%;font-display:swap;src:url('/fonts/archivo-italic.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Archivo';font-style:normal;font-weight:400 900;font-stretch:100% 125%;font-display:swap;src:url('/fonts/archivo.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Archivo';font-style:italic;font-weight:400 900;font-stretch:100% 125%;font-display:swap;src:url('/fonts/archivo-italic.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 @font-face{font-family:'Geist Mono';font-style:normal;font-weight:400 700;font-display:swap;src:url('/fonts/geist-mono.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+/* Metric-matched fallbacks: until the woff2 swaps in, text renders in Arial /
+   Courier New resized to Archivo's and Geist Mono's measured advance widths
+   and vertical metrics (body text at wght 400, wdth 100 — size-adjust is the
+   English-weighted average advance, Archivo 0.441em vs Arial 0.447em), so the
+   swap reflows almost nothing and CLS stays near zero. */
+@font-face{font-family:'Archivo Fallback';src:local('Arial'),local('ArialMT'),local('Helvetica');size-adjust:98.6%;ascent-override:89%;descent-override:21.3%;line-gap-override:0%}
+@font-face{font-family:'Geist Mono Fallback';src:local('Courier New'),local('CourierNewPSMT'),local('Menlo');size-adjust:100%;ascent-override:100.5%;descent-override:29.5%;line-gap-override:0%}
 
 :root{
   /* (01) Livery */
@@ -34,8 +41,8 @@
   --online:#16A34A;
 
   /* (02) Type */
-  --display:'Archivo',system-ui,sans-serif;
-  --mono:'Geist Mono',monospace;
+  --display:'Archivo','Archivo Fallback',system-ui,sans-serif;
+  --mono:'Geist Mono','Geist Mono Fallback',monospace;
 
   /* (04) The circuit */
   --max:1600px;
@@ -107,8 +114,8 @@ a.chip--muted:hover{background:transparent;border-color:var(--ink);color:var(--i
 
 /* ---- Rules -------------------------------------------------------------- */
 .rule{border-top:3px solid var(--ink)}
-.links-row{display:flex;flex-wrap:wrap;gap:12px 28px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
-.links-row a{color:var(--ink)}
+.links-row{display:flex;flex-wrap:wrap;gap:0 28px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.links-row a{color:var(--ink);display:inline-flex;align-items:center;min-height:44px}
 .links-row a:hover{color:var(--red)}
 
 /* ---- Spec sheet (Home About / brandbook "The circuit") ------------------- */

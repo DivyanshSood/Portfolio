@@ -1,0 +1,54 @@
+---
+// Real Google Business Profile reviews, fetched at build time
+// (src/lib/google-reviews.mjs) and rendered as static text in the "team radio"
+// card style. Renders nothing when there are none (no API key, API error).
+//
+// Shown per Google's attribution rules: the reviewer's name linking to their
+// Google profile, and a visible "Google Maps" credit. No stars, no count and
+// no Review markup — see the header of google-reviews.mjs for why.
+import { getGoogleReviews } from "../../lib/google-reviews.mjs";
+import { GOOGLE_REVIEWS_URL } from "../../lib/site.mjs";
+
+interface Props {
+  limit?: number;
+}
+const { limit = 5 } = Astro.props;
+const reviews = (await getGoogleReviews()).slice(0, limit);
+// Long reviews drop to body size so one essay doesn't dwarf the grid.
+const long = (t: string) => t.length > 220;
+---
+
+{reviews.length > 0 && (
+  <div class="gr">
+    <div class="gr-grid">
+      {reviews.map((r) => (
+        <figure class="gr-card">
+          <div class="gr-top"><span class="gr-dot"></span>GOOGLE MAPS · REVIEW</div>
+          <blockquote class:list={[{ "gr-long": long(r.text) }]}>“{r.text}”</blockquote>
+          <figcaption>
+            {r.authorUrl ? <a href={r.authorUrl} rel="nofollow noopener">{r.author}</a> : r.author}
+            {r.when && <span> · {r.when}</span>}
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+    <p class="gr-credit">
+      Reviews from Google Maps, shown as written. <a href={GOOGLE_REVIEWS_URL} rel="noopener">Read every review on Google ↗</a>
+    </p>
+  </div>
+)}
+
+<style>
+  .gr-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:clamp(14px,1.6vw,24px)}
+  .gr-card{margin:0;border:1px solid var(--gda);padding:clamp(22px,2.4vw,32px);display:flex;flex-direction:column;gap:22px;background:#fff}
+  .gr-top{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--g5c)}
+  .gr-dot{width:7px;height:7px;border-radius:50%;background:var(--red)}
+  blockquote{margin:0;font-weight:700;font-stretch:104%;font-size:clamp(20px,2vw,26px);line-height:1.25;letter-spacing:-0.01em;overflow-wrap:anywhere}
+  blockquote.gr-long{font-weight:500;font-stretch:100%;font-size:17px;line-height:1.55;letter-spacing:0}
+  figcaption{margin-top:auto;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--g5c)}
+  figcaption a{color:var(--ink);display:inline-block;padding:12px 0;margin:-12px 0}
+  figcaption a:hover{color:var(--red)}
+  .gr-credit{margin:clamp(18px,2vw,28px) 0 0;font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--g5c)}
+  .gr-credit a{color:var(--red);display:inline-block;padding:12px 0;margin:-12px 0}
+  .gr-credit a:hover{color:var(--ink)}
+</style>

@@ -148,6 +148,18 @@
       ]
     },
     {
+      "source": "/api/(.*)",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
+    },
+    {
+      "source": "/e566ac6cd12040fca466d550fa1b5cac.txt",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
+    },
+    {
+      "source": "/portfolio.pdf",
+      "headers": [{ "key": "Link", "value": "<https://www.divyanshsood.com/portfolio/>; rel=\"canonical\"" }]
+    },
+    {
       "source": "/robots.txt",
       "headers": [
         { "key": "Content-Type", "value": "text/plain; charset=utf-8" },

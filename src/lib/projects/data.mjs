@@ -26,7 +26,7 @@ export const projects = [
     description: "A motorcycle apparel brand born out of speed. F1 track-styled loaders, race-car geometry, hand-picked colours. Custom Next.js + Razorpay — nothing templated.",
     ogTitle: "Redline Studios — apparel storefront · Case study",
     ogDescription: "Motorcycle apparel brand born out of speed — F1-styled storefront, hand-built.",
-    ogImage: "https://www.divyanshsood.com/images/work/redline-1.webp",
+    ogImage: "https://www.divyanshsood.com/images/og/redline.jpg",
     keywords: "motorcycle apparel storefront, custom e-commerce India, Next.js storefront, Razorpay store, brand identity, F1 styled website, no Shopify, Divyansh Sood",
     feature: { src: "/images/work/redline-1.webp", alt: "Redline Studios — SS26 lookbook hero on desktop" },
     body: [
@@ -77,7 +77,7 @@ export const projects = [
     description: "A gothic apparel label built around the world of Berserk. Hand-numbered drops (0001–0666), 13 designs never reprinted. Custom-coded — no Shopify theme.",
     ogTitle: "CultXberserk — Berserk-inspired apparel · Case study",
     ogDescription: "A lore-driven apparel brand with hand-numbered drops and a custom-coded storefront. No Shopify theme.",
-    ogImage: "https://www.divyanshsood.com/images/work/cultxberserk-1.webp",
+    ogImage: "https://www.divyanshsood.com/images/og/cultxberserk.jpg",
     keywords: "Berserk apparel, gothic streetwear brand, hand-numbered drops, custom e-commerce India, Next.js storefront, anime apparel, D2C clothing brand, no Shopify, Divyansh Sood",
     feature: { src: "/images/work/cultxberserk-1.webp", alt: "CultXberserk — lore-driven storefront hero on desktop" },
     body: [
@@ -125,7 +125,7 @@ export const projects = [
     description: "A senior secondary school in Ladwara. Website + application portal shipped together with a live admin panel. Quoted at 6 months elsewhere — delivered in 7 days.",
     ogTitle: "Modern K.B.S. — school portal · Case study",
     ogDescription: "School site + admissions admin panel — 6 months elsewhere, 7 days here.",
-    ogImage: "https://www.divyanshsood.com/images/work/modernkbs-1.webp",
+    ogImage: "https://www.divyanshsood.com/images/og/modernkbs.jpg",
     keywords: "school website India, admissions portal, school admin panel, Next.js Supabase, education website developer, fast website delivery, Divyansh Sood",
     feature: { src: "/images/work/modernkbs-1.webp", alt: "Modern K.B.S. — homepage hero on desktop" },
     body: [
@@ -138,7 +138,7 @@ export const projects = [
       { tag: "What we shipped", title: "Public site + admin panel, one sprint", type: "prose",
         html: `Faculty pages, fee structure, an enquiry-to-admission pipeline, and a <strong>dashboard the office uses daily</strong>. Zero learning curve — designed so any office staffer can update content without calling a developer.` },
       { tag: "The result", title: "Live for the admissions cycle it was built for", type: "prose",
-        html: `Seven days from brief to a working admissions portal, against <strong>six months quoted elsewhere</strong> — which mattered because the deadline was not a preference, it was the academic calendar. A six-month build would have missed the intake entirely and the school would have run another year on paper forms. Classes I–XII now apply through the site, the office processes them in the dashboard, and there is <strong>no recurring SaaS fee</strong> attached to any of it.` },
+        html: `Seven days from brief to a working admissions portal, against <strong>six months quoted elsewhere</strong> — which mattered because the deadline was not a preference, it was the academic calendar. A six-month build would have missed the intake entirely and the school would have run another year on paper forms. Classes I–XII now apply through the site, the office processes them in the dashboard, and there is <strong>no recurring SaaS fee</strong> attached to any of it. What a build like this costs and includes is broken down in <a href="/blog/school-website-admissions-portal-india/">school website cost and features in India</a>.` },
       { tag: "Why six months", title: "Where the other quotes came from", type: "prose",
         html: `Six months isn't fraud. It's what happens when a project passes through discovery, wireframes, design review, development, staging, feedback rounds and QA, each with its own people and approvals. Here one person took it from brief to deployment. Just as important, only what the school needed was built: no general-purpose CMS, no theme with 300 settings, no features added “just in case”. That's how a site stays lightweight and fully functional at once.` },
       { tag: "The lesson", type: "prose",
@@ -175,7 +175,7 @@ export const projects = [
     description: "Chinki runs a 600K+ YouTube channel. We built her a direct-to-consumer storefront in custom code — no Shopify — with a video gallery that matches her tutorials.",
     ogTitle: "ChinkiZ Knitting Knife — Case study",
     ogDescription: "A custom D2C storefront for a 600K-subscriber YouTuber. No Shopify, no theme — fully owned.",
-    ogImage: "https://www.divyanshsood.com/images/work/chinkiz-1.webp",
+    ogImage: "https://www.divyanshsood.com/images/og/chinkiz.jpg",
     keywords: "creator storefront, YouTuber e-commerce, D2C website India, custom Next.js store, Razorpay storefront, video commerce, no Shopify, Divyansh Sood",
     feature: { src: "/images/work/chinkiz-1.webp", alt: "ChinkiZ Knitting Knife — storefront hero on desktop" },
     body: [
@@ -226,7 +226,7 @@ export const projects = [
     description: "A family-run Kangra taxi operator up against commission agents and call centres. Custom-built with a full schema graph — now averaging position 5.7 on Google.",
     ogTitle: "Baglamukhi Travels — Kangra taxi & Devi Darshan · Case study",
     ogDescription: "Owner-driver taxi service in Kangra, built to win pilgrimage and airport-transfer search outright.",
-    ogImage: "https://www.divyanshsood.com/images/work/baglamukhi-travels-1.webp",
+    ogImage: "https://www.divyanshsood.com/images/og/baglamukhi-travels.jpg",
     keywords: "Kangra taxi website, Devi Darshan yatra booking, Himachal cab service website, local SEO travel operator, Astro travel site, WhatsApp booking, schema markup local business, Divyansh Sood",
     feature: { src: "/images/work/baglamukhi-travels-1.webp", alt: "Baglamukhi Travels — Kangra taxi service homepage" },
     body: [
@@ -276,7 +276,7 @@ export const projects = [
     description: "A tour and taxi website for a Dharamshala operator: a page for every trip, transfer and town, 1.1 KB of JavaScript, and 100 on all four Lighthouse scores on desktop.",
     ogTitle: "Sunny Himachal Travels — tours & taxi website · Case study",
     ogDescription: "A page for every trip, transfer and town. 1.1 KB of JavaScript. Lighthouse 100 ×4.",
-    ogImage: "https://www.divyanshsood.com/images/work/sunny-himachal-travels-1.webp",
+    ogImage: "https://www.divyanshsood.com/images/og/sunny-himachal-travels.jpg",
     keywords: "travel agency website Himachal, taxi website developer, tour operator website Dharamshala, Himachal tour packages website, Astro travel site, WhatsApp enquiry form, Divyansh Sood",
     feature: { src: "/images/work/sunny-himachal-travels-1.webp", alt: "Sunny Himachal Travels — homepage hero with the WhatsApp trip-planning button" },
     body: [
@@ -327,7 +327,7 @@ export const projects = [
     description: "Website for a seven-room hillside hotel with a pool in Kangra: no booking engine, enquiries go to WhatsApp, and 14 “near” pages reach guests by destination.",
     ogTitle: "Yash Rock Hotel — hillside hotel website · Case study",
     ogDescription: "A seven-room hotel in Kangra. No booking engine, no OTA links: built to make people message.",
-    ogImage: "https://www.divyanshsood.com/images/work/yash-rock-hotel-1.webp",
+    ogImage: "https://www.divyanshsood.com/images/og/yash-rock-hotel.jpg",
     keywords: "hotel website design Himachal, hotel website Kangra, homestay website developer, WhatsApp booking hotel website, direct booking website India, Next.js hotel site, Divyansh Sood",
     feature: { src: "/images/work/yash-rock-hotel-1.webp", alt: "Yash Rock Hotel — aerial hero of the hillside pool at sunset with WhatsApp and Call buttons" },
     body: [
@@ -378,7 +378,7 @@ export const projects = [
     description: "A CBSE school website for Pinnacle World School, Baroh (Kangra): Mandatory Public Disclosure, admissions over WhatsApp, and not one published fact without a source.",
     ogTitle: "Pinnacle World School — CBSE school website · Case study",
     ogDescription: "A CBSE school site in Kangra where every published fact traces back to a source.",
-    ogImage: "https://www.divyanshsood.com/images/work/pinnacle-world-school-1.webp",
+    ogImage: "https://www.divyanshsood.com/images/og/pinnacle-world-school.jpg",
     keywords: "CBSE school website, school website developer Himachal, school website Kangra, mandatory public disclosure page, school admissions enquiry form, Next.js school website, Divyansh Sood",
     feature: { src: "/images/work/pinnacle-world-school-1.webp", alt: "Pinnacle World School — homepage with admissions banner and campus carousel" },
     body: [
@@ -428,7 +428,7 @@ export const projects = [
     description: "WebSeek.ai — our own bet on where agencies go next. One credit, one prompt, any language. Custom-coded output paired with Claude, GPT and Gemini.",
     ogTitle: "WebSeek.ai — AI website builder · Case study",
     ogDescription: "Our own bet on where agencies go next. One credit, one prompt, any language.",
-    ogImage: "https://www.divyanshsood.com/images/work/webseek-1.webp",
+    ogImage: "https://www.divyanshsood.com/images/og/webseek.jpg",
     keywords: "AI website builder, AI website generator, prompt to website, Claude GPT Gemini website, custom-coded AI site, React Tailwind, Divyansh Sood",
     feature: { src: "/images/work/webseek-1.webp", alt: "WebSeek.ai — the prompt bar and model picker on desktop" },
     body: [
@@ -481,7 +481,7 @@ export const projects = [
     description: "Himachal electrical & solar contractor breaking into the private sector. 15-page Angular site with project gallery, work calendar and self-serve admin.",
     ogTitle: "North Peak Power Systems — solar contractor portal · Case study",
     ogDescription: "15-page Angular site + dashboard-cum-admin for a Himachal electrical/solar contractor breaking into the private sector.",
-    ogImage: "https://www.divyanshsood.com/images/work/northpeak-1.webp",
+    ogImage: "https://www.divyanshsood.com/images/og/northpeak.jpg",
     keywords: "solar contractor website, electrical contractor portal, Angular website, project gallery, admin dashboard, Himachal solar, government to private, Divyansh Sood",
     feature: { src: "/images/work/northpeak-1.webp", alt: "North Peak Power Systems — homepage hero on desktop" },
     body: [
@@ -528,7 +528,7 @@ export const projects = [
     description: "Kangra's most-reviewed taxi operator had a broken site and zero direct bookings — all leads via Google Maps. Rebuilt in Next.js with on-site booking + WhatsApp.",
     ogTitle: "Nandini Travels — Kangra taxi operator · Case study",
     ogDescription: "Next.js rebuild for Kangra's most-reviewed taxi operator. Direct bookings now flow through the site instead of Google Maps.",
-    ogImage: "https://www.divyanshsood.com/images/work/nandini-1.webp",
+    ogImage: "https://www.divyanshsood.com/images/og/nandini.jpg",
     keywords: "Kangra taxi website, taxi operator website India, travel booking form, WhatsApp booking, Next.js travel site, direct bookings, Google Maps alternative, Divyansh Sood",
     feature: { src: "/images/work/nandini-1.webp", alt: "Nandini Travels — Kangra taxi operator homepage hero" },
     // No "10x" tile here on purpose: that figure comes from the founder's own
@@ -583,7 +583,7 @@ export const projects = [
     description: "Three school friends in Kangra, one WhatsApp-first booking flow. Skipped the accommodation-listing pattern. Part of ~1,000 packages booked monthly.",
     ogTitle: "Dharamshala Tours — Case study",
     ogDescription: "WhatsApp-first booking flow for a Kangra travel operator. ~1,000 packages a month.",
-    ogImage: "https://www.divyanshsood.com/images/work/dharamshala-tours-1.webp",
+    ogImage: "https://www.divyanshsood.com/images/og/dharamshala-tours.jpg",
     keywords: "Dharamshala tours, Kangra travel website, WhatsApp booking, travel packages Himachal, Astro CMS website, travel operator website India, Divyansh Sood",
     feature: { src: "/images/work/dharamshala-tours-1.webp", alt: "Dharamshala Tours — homepage hero on desktop" },
     body: [
