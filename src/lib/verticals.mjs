@@ -83,7 +83,7 @@ export const VERTICALS = {
       { t: "Schema and Google Business Profile that agree", d: "Hotel structured data with amenities, check-in times and the same name, address and phone as your Business Profile, so Google treats them as one property." },
       { t: "Light on mountain networks", d: "AVIF and WebP images and no autoplay video. Yash Rock cut about 3 MB of video from every homepage load for guests on patchy hill data." },
     ],
-    proof: ["yash-rock-hotel"],
+    proof: ["yash-rock-hotel", "hotel-himalayan-brothers"],
     steps: [
       { t: "One call", d: "How bookings arrive today, how you confirm them, and which places your guests are actually travelling to." },
       { t: "Verified facts", d: "Rooms, rates, check-in, amenities and policies, each confirmed by you before it's published." },
@@ -129,7 +129,7 @@ export const VERTICALS = {
       { t: "Local business schema that holds up", d: "Geo-coordinates, opening hours, services and ratings in structured data, with the same name, address and phone as the Google Business Profile." },
       { t: "No thin pages", d: "Growing to a hundred pages is exactly where travel sites go thin. Sunny's build fails if any two pages read too alike, so pages that would overlap are dropped rather than published." },
     ],
-    proof: ["sunny-himachal-travels", "baglamukhi-travels", "nandini", "dharamshala-tours"],
+    proof: ["sunny-himachal-travels", "leisure-himachal", "kangra-valley-travels", "baglamukhi-travels", "nandini", "dharamshala-tours"],
     steps: [
       { t: "One call", d: "The routes, trips and towns that actually make money, and how bookings arrive today." },
       { t: "A page map", d: "One page per real search, checked against Search Console and Maps data where the business has any." },

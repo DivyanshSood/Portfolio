@@ -8,7 +8,7 @@ import Faq from "../components/brand/Faq.astro";
 import GoogleReviews from "../components/brand/GoogleReviews.astro";
 import { homeJsonLd, HOME_FAQ } from "../lib/home-schema.mjs";
 import { SITE, CALENDLY_URL, GOOGLE_MAPS_URL } from "../lib/site.mjs";
-import { projects } from "../lib/projects/data.mjs";
+import { projects, projectCountWord } from "../lib/projects/data.mjs";
 import { POSTS } from "../lib/blog.mjs";
 import { localVariant, localSrcset } from "../lib/images.mjs";
 import { TOPICS } from "../lib/entity.mjs";
@@ -39,7 +39,7 @@ const WORK = [
   { slug: "modernkbs", tags: "Web App · Admin · 2024", alt: "Modern K.B.S. school website and admissions portal", d: "School website, admissions portal and self-serve admin. Delivered in 7 days against a six-month quote." },
   { slug: "chinkiz", tags: "D2C · Creator · 2024", alt: "ChinkiZ Knitting Knife creator storefront", d: "A 600K-subscriber creator's store with the video right next to the buy button. Live in two weeks." },
   { slug: "baglamukhi-travels", tags: "Travel · Local SEO · 2026", alt: "Baglamukhi Travels Kangra taxi website", d: "Owner-drivers vs commission agents. Astro + a full schema graph — now averaging position 5.7 on Google." },
-  { slug: "sunny-himachal-travels", tags: "Travel · Tours & Taxi · 2026", alt: "Sunny Himachal Travels Dharamshala tours website", d: "A page for every trip, transfer and town. 1.1 KB of JavaScript, Lighthouse 100 across the board." },
+  { slug: "sunny-himachal-travels", tags: "Travel · Tours & Taxi · 2026", alt: "Sunny Himachal Travels Kangra valley tours website", d: "A page for every trip, transfer and town. 1.1 KB of its own JavaScript, Lighthouse 100 across the board." },
   { slug: "yash-rock-hotel", tags: "Hospitality · Hotel · 2026", alt: "Yash Rock Hotel Kangra website", d: "Seven rooms, no booking engine by design. Every enquiry to WhatsApp, and 14 “near” pages." },
 ].map((w, i) => {
   const p = projects.find((x) => x.slug === w.slug);
@@ -214,7 +214,7 @@ const WRITING = [
           ))}
           <a href="/portfolio/" class="wcard-all">
             <span class="wcard-all-t">Case studies · live links · results</span>
-            <span class="wcard-all-h">All twelve projects →</span>
+            <span class="wcard-all-h">All {projectCountWord} projects →</span>
           </a>
         </div>
       </div>

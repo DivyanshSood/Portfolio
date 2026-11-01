@@ -32,7 +32,7 @@ Divyansh Sood also builds and operates WebSeek.ai, an AI website generator that 
 - Availability: remote, worldwide
 - Languages: English, Hindi
 - Projects shipped: 20+ since 2022
-- Published case studies: 12
+- Published case studies: 17
 - Published articles: 24
 - Primary stacks: React, Next.js, Astro, Angular, Tailwind CSS, Supabase, Razorpay, ImageKit, headless CMS
 - Specialisms: custom website development, e-commerce, web applications and MVPs, AI features and LLM integration, technical SEO, Generative Engine Optimization, conversion rate optimization
@@ -149,11 +149,11 @@ The site covers every page CBSE expects — Mandatory Public Disclosure per Appe
 
 Page: https://www.divyanshsood.com/projects/pinnacle-world-school/
 
-### Sunny Himachal Travels — Dharamshala tours and taxi (2026)
+### Sunny Himachal Travels — Kangra valley tours and taxi (2026)
 
-Sunny Himachal Travels is a private tour and taxi operator based in Dharamshala, run by people who live there. It arrived with a finished one-page design canvas that relied on a 69 KB runtime; Divyansh Sood rebuilt it in Astro with typed content collections so it has a page for each of its 25 tour routes, 28 destinations, 14 point-to-point transfers and 9 local "taxi in <town>" searches, plus planning guides and a blog.
+Sunny Himachal Travels is a private tour and taxi operator based in Kangra, with its cars kept there and trips starting from Kangra, Dharamshala and Palampur. It arrived with a finished one-page design canvas that relied on a 69 KB runtime; Divyansh Sood rebuilt it in Astro with typed content collections so it has a page for each of its 25 tour routes, 28 destinations, 8 point-to-point transfers and 9 local "taxi in <town>" searches, plus 7 planning guides and 15 blog posts.
 
-Outcome: the site ships 1.1 KB of JavaScript (gzipped) and scores 100 for performance, accessibility, best practices and SEO in Lighthouse on desktop. Drafts stay noindex until verified, the build fails if any colour pair drops below WCAG AA, and a duplication test fails any two pages above 0.23 five-word-shingle similarity.
+Outcome: the site ships 1.1 KB of its own JavaScript (gzipped, measured before Google Analytics was added) and scored 100 for performance, accessibility, best practices and SEO in Lighthouse on desktop. Drafts stay noindex until verified, a duplication test fails any two pages above 0.23 five-word-shingle similarity, and the verify step fails if any colour pair drops below WCAG AA. Between 8 September and 8 October 2026 it drew 8,695 search impressions and 70 clicks at an average position of about 12.8. When Google's September 2026 spam update cut impressions on its distance posts while every page stayed indexed, six route pages outside the Kangra valley were folded into the main taxi page with 301 redirects. Taxi fares went live on 11 October 2026, with a build test that keeps the structured-data price range equal to the visible fare table.
 
 Page: https://www.divyanshsood.com/projects/sunny-himachal-travels/
 
@@ -164,6 +164,46 @@ Yash Rock Hotel & Swimming Pool is a seven-room hillside property in Dehrian, Ka
 The site reaches guests by destination rather than by village name, with 14 "near" pages (NIFT Kangra, Tanda Medical College, Kangra Airport, temples and the HPCA stadium) and 19 local guides. About 3 MB of homepage video was removed for visitors on patchy hill mobile data, and it publishes Hotel, Restaurant and swimming-pool structured data.
 
 Page: https://www.divyanshsood.com/projects/yash-rock-hotel/
+
+### Himalayan Brothers Hotels — five-hotel group site (2026)
+
+Himalayan Brothers Hotels is a family group of five hotels in Himachal Pradesh, run by two brothers who started as mountain guides and opened their first hotel in Dharamshala in 2008: Buddha House and Quartz near the Norbulingka Institute, Samdupling in Mohli, Spiti Villa near Kaza and Diwan Sachpass near Sach Pass. Divyansh Sood audited the old Next.js site with a scripted crawl, which found Samdupling carrying Buddha House's coordinates, every Buddha House room described with Quartz's text, a sitemap listing a 404 and two H1s on every hotel page, then recovered about 150 original photos and all room data from the old site's JavaScript.
+
+The new Astro site keeps every old URL (old room pages redirect to anchors), runs pages, Hotel and HotelRoom structured data, llms.txt and Markdown copies from one typed data file, and uses one booking form that opens a booking engine for two hotels and WhatsApp for three. Six untraceable reviews and an unverifiable ratings strip were removed, and no review markup is published. At launch, Lighthouse scored 98–100 for mobile performance on all 12 pages tested, and axe found no violations across 19 pages.
+
+Page: https://www.divyanshsood.com/projects/hotel-himalayan-brothers/
+
+### Himalayan Brothers Travel — tours, taxis and treks (2026)
+
+The travel desk of the same family, run from Hotel Buddha House in Dharamshala. Divyansh Sood built himalayanbrothers.com from a parked domain and a 49-page mockup into 51 indexable pages: 15 tour packages including three motorcycle tours, 8 taxi routes, 20 experiences, three destination guides and 12 blog posts. It uses the hotel site's design tokens unchanged, and its structured data references the hotel site's own Hotel identifiers, so the two sites form one connected entity.
+
+Every enquiry is a WhatsApp message written for its context, and the site takes no payment. Unconfirmed itineraries carry a client-review flag and prices read "quote with your itinerary" until the family confirms them. Build-time gates run axe against WCAG 2.2 AA at phone and desktop widths and PageSpeed Insights by page type; the site launched with zero accessibility violations.
+
+Page: https://www.divyanshsood.com/projects/himalayan-brothers/
+
+### Leisure Himachal — Manali travel agency (2026)
+
+Leisure Himachal is a travel agency in Manali selling Himachal and Leh-Ladakh packages. Its hand-built site had run since 2011 with no canonical tags, structured data or sitemap, 240 × 100 pixel images and three different prices for most packages. Divyansh Sood crawled 22 live pages and 74 Wayback Machine captures, traced every business fact to its source, and rebuilt the site in Astro as 77 indexable pages with 71 redirect rules; the audit fails if any known old URL has neither a page nor a redirect.
+
+Every fact the owner has not yet confirmed is wrapped with the number of the question that settles it, and adding #review to any URL outlines those facts on the page; the release audit fails while any remain. The site keeps a dated, sourced calendar for Rohtang, the Atal Tunnel, Kunzum and Baralacha, never prints its offer code, has no hover-only interactions, and must score 95 or more in Lighthouse on mobile across 22 pages.
+
+Page: https://www.divyanshsood.com/projects/leisure-himachal/
+
+### Kangra Valley Travels — one driver, one car (2026)
+
+Kangra Valley Travels is Sahil's tour and taxi service: one white Maruti Suzuki Ertiga (HP 01 DA 1601) for Gaggal Airport, Amb Andaura and Pathankot pickups and Kangra valley tours of one to five days. Sahil is also one of the owner-drivers behind Baglamukhi Travels, so the 56-page Astro site targets different searches and a build check fails on any 12-word run shared with that site.
+
+A build-time fact check fails on any fare, "per km", "AC", "24×7", experience claim, rating or offer markup the driver has not confirmed. Road distances come from OpenStreetMap through OSRM: 558 of them, each dated and sourced, using the shorter direction where OSRM disagreed with itself. Drive times are measured but not published.
+
+Page: https://www.divyanshsood.com/projects/kangra-valley-travels/
+
+### Shiva Tour and Travel — Kangra Airport taxi and temple yatras (2026)
+
+Shiva Tour and Travel is a taxi and tour operator run by Manish Kumar beside Kangra Airport at Gaggal, with a Swift Dzire and an Innova Crysta. The site began as design mockups that invented "12+ years", "10k+ trips", a 4.9-star rating, named customer reviews and urgency badges; Divyansh Sood removed all of them and the post-build check fails if any reappears.
+
+The 54-page Astro site generates its fare cards, fare FAQs, Offer structured data, price range and llms.txt from one prices file; package prices are withheld in favour of a WhatsApp quote. It links 63 places to their Wikipedia and Wikidata entries, re-measured temple distances through OSRM, carries speakable markup on every page, and scored 95–100 for mobile performance in Lighthouse across nine page types.
+
+Page: https://www.divyanshsood.com/projects/shiva-tour-and-travel/
 
 ### WebSeek.ai — AI website generator (2026)
 
@@ -238,7 +278,7 @@ Page: https://www.divyanshsood.com/projects/dharamshala-tours/
 ## Results and proof
 
 - A CBSE school website where every published fact traces back to the school's affiliation record, with a Mandatory Public Disclosure page and WhatsApp admissions (Pinnacle World School).
-- A tour and taxi site shipping 1.1 KB of JavaScript with Lighthouse 100 across all four desktop categories, and a page for every trip, transfer and town (Sunny Himachal Travels).
+- A tour and taxi site shipping 1.1 KB of its own JavaScript with Lighthouse 100 across all four desktop categories, and a page for every trip, transfer and town (Sunny Himachal Travels).
 - A seven-room hotel site with no booking engine by design and 14 "near" pages for where guests are headed (Yash Rock Hotel).
 - A school website plus an admissions portal and admin panel delivered in 7 days, against a six-month quote from other agencies (Modern K.B.S.).
 - Roughly 1,000 travel packages booked every month through a site built by this studio (Dharamshala Tours).

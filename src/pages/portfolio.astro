@@ -1,14 +1,15 @@
 ---
 // Portfolio — a port of Portfolio.dc.html: "My portfolio" hero, sticky sector
-// filter, all twelve projects as C05 cards (design order, P01–P12), and the
-// ink "Your project. P13." CTA.
+// filter, every project as a C05 card (design order, P01 onwards), and the ink
+// "Your project. P<next>." CTA. Counts come from data.mjs, never hardcoded.
 import Base from "../layouts/Base.astro";
 import PageHero from "../components/brand/PageHero.astro";
 import ProjectCard from "../components/brand/ProjectCard.astro";
 import { SITE, CALENDLY_URL } from "../lib/site.mjs";
-import { projects } from "../lib/projects/data.mjs";
+import { projects, projectCountWord } from "../lib/projects/data.mjs";
 
 const canonical = `${SITE}/portfolio/`;
+const countCap = projectCountWord[0].toUpperCase() + projectCountWord.slice(1);
 const pad = (n: number) => String(n).padStart(2, "0");
 
 const SECTORS = ["All", "E-commerce", "Web app", "Travel", "Hospitality", "Education", "AI"];
@@ -52,7 +53,7 @@ const jsonld = JSON.stringify({
 
 <Base
   title="Web Design & Development Portfolio — Divyansh Sood® Studio"
-  description="The portfolio of web developer Divyansh Sood — twelve custom-coded websites, e-commerce stores, web apps and AI products, each with a case study and live link."
+  description={`The portfolio of web developer Divyansh Sood — ${projectCountWord} custom-coded websites, e-commerce stores, web apps and AI products, each with a case study and live link.`}
   canonical={canonical}
   keywords="Divyansh Sood portfolio, web developer portfolio, custom website portfolio, Next.js Astro projects, web app case studies, freelance web developer work"
   ogTitle="Portfolio — the work, up close"
@@ -60,7 +61,7 @@ const jsonld = JSON.stringify({
   jsonld={jsonld}
 >
   <main>
-    <PageHero display="My portfolio" sup={String(projects.length)} lead="Twelve custom-coded websites, storefronts and web apps — schools, hotels, travel operators, D2C brands and an AI product. Every one owned by the client.">
+    <PageHero display="My portfolio" sup={String(projects.length)} lead={`${countCap} custom-coded websites, storefronts and web apps — schools, a hotel group and a hillside hotel, travel and taxi operators from Manali to Kangra, D2C brands and an AI product. Every one owned by the client.`}>
       <div class="meta">2024 — 2026 · Showing <span class="pf-shown" data-shown>{pad(projects.length)}</span></div>
     </PageHero>
 
