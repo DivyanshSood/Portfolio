@@ -58,12 +58,16 @@ function jsonLd(p) {
       author: { "@id": `${SITE}/#person` },
       about: { "@id": clientOrgId },
     },
+    // Client work describes the client's business; a personal project
+    // describes the person's own brand or product, so it carries a founder
+    // link instead of reading as a third party that commissioned the work.
     {
       "@type": "Organization",
       "@id": clientOrgId,
       name: p.name,
       url: p.liveUrl,
       sameAs: [p.liveUrl],
+      ...(p.personal ? { founder: { "@id": `${SITE}/#person` } } : {}),
     },
     // The full author node, not a stub. A stub here counted as "defined", so
     // completeGraph never filled it in, and all 12 case studies described the
@@ -80,7 +84,8 @@ function jsonLd(p) {
     },
   ];
 
-  const quoteWidget = p.body.find((w) => w.type === "quote" && w.attribution);
+  // Personal projects have no client to quote, so no Review node either.
+  const quoteWidget = p.personal ? null : p.body.find((w) => w.type === "quote" && w.attribution);
   if (quoteWidget) {
     graph.push({
       "@type": "Review",

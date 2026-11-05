@@ -16,11 +16,11 @@ import { projects } from "./projects/data.mjs";
 export const HOME_FAQ = [
   {
     q: "What kind of projects do you take on?",
-    a: "Custom-coded marketing sites, e-commerce storefronts, web apps and MVPs, and AI features built into existing products. Recent builds include a school admissions portal, a 600K-subscriber creator's storefront, and my own AI product running on Claude, GPT and Gemini. If it needs a page-builder or a theme marketplace, I'm the wrong person and I'll say so.",
+    a: "Custom-coded marketing sites, e-commerce storefronts, web apps and MVPs, and AI features built into existing products. Recent builds include a school admissions portal, a made-to-order site for a 585K-subscriber creator, and my own AI website builder, Websitekind.ai. If it needs a page-builder or a theme marketplace, I'm the wrong person and I'll say so.",
   },
   {
     q: "How long does a project take?",
-    a: "Most marketing sites and MVPs go live in 3–4 weeks. Larger builds — dashboards, portals, multi-phase products — run 6–10 weeks. The fastest full build I've shipped was a school website plus an admissions admin panel in 7 days, where other agencies had quoted six months.",
+    a: "Most marketing sites and MVPs go live in 3–4 weeks. Larger builds — dashboards, portals, multi-phase products — run 6–10 weeks. Local Himachal sites often go live in 1–3 weeks. One school says its website and admissions admin panel went live in 7 days, where other agencies had quoted six months.",
   },
   {
     q: "What does a project cost?",
@@ -46,7 +46,7 @@ export function homeJsonLd(SITE) {
         url: `${SITE}/`,
         name: "Divyansh Sood® Studio",
         description:
-          "Divyansh Sood® Studio is an independent web design & development studio in Himachal Pradesh, India, building custom-coded, conversion-focused websites, e-commerce stores and web apps for founders worldwide. Live in 3–4 weeks; fastest full site shipped in 7 days.",
+          "Divyansh Sood® Studio is an independent web design & development studio in Himachal Pradesh, India, building custom-coded, conversion-focused websites, e-commerce stores and web apps for founders worldwide. Most sites live in 3–4 weeks.",
         inLanguage: "en",
         // #studio, as on every other page (websiteNode in entity.mjs). The home
         // graph said #person while 60 pages said #studio — two publishers for

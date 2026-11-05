@@ -15,7 +15,7 @@ const canonical = `${SITE}/services/ai-development/`;
 
 const offers = [
   { t: "AI features in an existing product", d: "Search that understands a question, support that answers from your own docs, drafting that sounds like your team. Added to the product you already have, without a rebuild." },
-  { t: "AI products, end to end", d: "I built and run WebSeek.ai — one prompt to a deployed site, with a Claude / GPT / Gemini model picker. Three providers in production, not a demo. If you're building the product, I've shipped the shape of it." },
+  { t: "AI products, end to end", d: "I built and run Websitekind.ai (launched as WebSeek.ai) — one prompt to an editable site you can export. It ran Claude, GPT and Gemini side by side in production before settling on Claude. If you're building the product, I've shipped the shape of it." },
   { t: "Retrieval over your own content", d: "RAG done honestly: your docs, policies or catalogue as the source, with citations back to the page. The useful version of a chatbot — one that can say 'I don't know' instead of inventing a refund policy." },
   { t: "Model choice, cost and fallbacks", d: "Which model, at what price per call, and what happens when it's slow or down. The unglamorous engineering that decides whether an AI feature survives contact with real traffic." },
 ];
@@ -29,7 +29,7 @@ const how = [
 
 const faqs = [
   { q: "What counts as an 'AI feature' worth building?", a: "One that removes a repeated task or answers a question your users keep asking. Search over your own content, support that cites your real documentation, drafting a first version of something a human then edits. If a feature only demos well and nobody would miss it, I'll tell you that before we build it." },
-  { q: "Which model do you use — Claude, GPT or Gemini?", a: "Whichever fits the job, and I've shipped all three. I run WebSeek.ai on Claude, GPT and Gemini simultaneously, so the differences are ones I've handled in production rather than read about: prompt shapes that work on one and not another, latency and cost trade-offs, and how each fails. The choice is made per feature, and the code is written so it can be changed later." },
+  { q: "Which model do you use — Claude, GPT or Gemini?", a: "Whichever fits the job, and I've shipped all three. My own product ran on Claude, GPT and Gemini side by side before settling on Claude, so the differences are ones I've handled in production rather than read about: prompt shapes that work on one and not another, latency and cost trade-offs, and how each fails. The choice is made per feature, and the code is written so it can be changed later." },
   { q: "Can you add AI to a site I already have?", a: "Usually yes. Most AI features attach to an existing product through an API rather than requiring a rebuild — that's the normal case, not the exception. What matters more than your framework is whether your content is in a shape a model can retrieve from, which is the first thing I'd look at." },
   { q: "Will it make things up?", a: "Any language model can. The engineering answer is retrieval plus citations plus a real 'I don't know' path — the system answers from your content and links to the source, instead of generating something plausible. That is a design decision, and it is the difference between a useful assistant and a liability." },
   { q: "What does AI development cost?", a: "Quoted individually after a scoping call, fixed and in writing before anything starts. The honest driver is not the model — it's how messy your content is and how much accuracy the feature needs. A search box over clean docs and a support agent that must never be wrong are very different jobs." },
@@ -110,9 +110,9 @@ const jsonld = JSON.stringify({
       ]} />
       <div class="gap-top">
         <Cards items={[
-          { tag: `WebSeek.ai · my own product`, wide: true, d: `One prompt to a deployed, custom-coded site, with a model picker for Claude, GPT and Gemini. Running all three in one product means the differences are ones I've had to handle for real — prompt shapes that work on one and not another, failure modes, and what each costs per call. <a href="/projects/webseek/">Read the case study →</a>` },
+          { tag: `Websitekind.ai · my own product`, wide: true, d: `One prompt to an editable, custom-coded site you can export. It launched as WebSeek.ai with a model picker for Claude, GPT and Gemini, and running all three in one product means the differences are ones I've had to handle for real — prompt shapes that work on one and not another, failure modes, and what each costs per call. It now runs on Claude. <a href="/projects/webseek/">Read the case study →</a>` },
           { tag: `Baglamukhi Travels · AI-readable content`, d: `A local-business schema graph and an <code>llms.txt</code> file so assistants quote the routes accurately. The same discipline, pointed at being cited rather than generating. <a href="/projects/baglamukhi-travels/">Read the case study →</a>` },
-          { tag: `Modern K.B.S. · the honest counter-example`, d: `A school portal where the right answer was ordinary software, not AI. Shipped in 7 days. I'd rather talk you out of a model than bill you for one. <a href="/projects/modernkbs/">Read the case study →</a>` },
+          { tag: `Modern K.B.S. · the honest counter-example`, d: `A school portal where the right answer was ordinary software, not AI. I'd rather talk you out of a model than bill you for one. <a href="/projects/modernkbs/">Read the case study →</a>` },
         ]} />
       </div>
     </Section>

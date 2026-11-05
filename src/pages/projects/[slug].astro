@@ -50,7 +50,7 @@ const num = () => pad(++sec);
       <PageHero
         display={p.name}
         size="case"
-        kicker={`${p.tags} · ${p.year}`}
+        kicker={`${p.personal ? "Personal project · " : ""}${p.tags} · ${p.year}`}
         meta={`Case ${pos} of ${pad(projects.length)}`}
         crumbs={[{ name: "Home", url: "/" }, { name: "Portfolio", url: "/portfolio/" }, { name: p.name, url: "" }]}
       >
@@ -64,7 +64,7 @@ const num = () => pad(++sec);
             </div>
           </div>
           <dl class="cs-spec">
-            <div><dt>Client</dt><dd>{p.name}</dd></div>
+            <div><dt>{p.personal ? "Project" : "Client"}</dt><dd>{p.name}{p.personal && " (personal project)"}</dd></div>
             <div><dt>Location</dt><dd>{p.location}</dd></div>
             <div><dt>Sector</dt><dd>{p.tags}</dd></div>
             <div><dt>Year</dt><dd>{p.year}</dd></div>

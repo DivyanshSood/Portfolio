@@ -27,14 +27,14 @@
 
 /** @type {Record<string, string>} URL path (trailing slash) → ISO date */
 export const PAGE_UPDATED = {
-  "/": "2026-09-30",
-  "/about/": "2026-09-30",
-  "/agencies/": "2026-07-28",
-  "/portfolio/": "2026-09-30",
-  "/press/": "2026-07-28",
+  "/": "2026-11-06",
+  "/about/": "2026-11-06",
+  "/agencies/": "2026-11-06",
+  "/portfolio/": "2026-11-06",
+  "/press/": "2026-11-06",
   "/privacy/": "2026-10-10",
-  "/results/": "2026-09-29",
-  "/testimonials/": "2026-07-28",
+  "/results/": "2026-11-06",
+  "/testimonials/": "2026-11-06",
   "/website-audit/": "2026-07-28",
 
   // Free tools — the /tools/ hub was 98 words and got real context this pass;
@@ -44,22 +44,22 @@ export const PAGE_UPDATED = {
 
   // Service pages — all six had their generic "Read →" cross-links rewritten
   // to descriptive anchor text this pass; seo-geo-services also gained an FAQ.
-  "/services/": "2026-09-29",
-  "/services/ai-development/": "2026-07-29",
-  "/services/ecommerce-website-development/": "2026-07-29",
-  "/services/landing-page-design/": "2026-07-29",
+  "/services/": "2026-11-06",
+  "/services/ai-development/": "2026-11-06",
+  "/services/ecommerce-website-development/": "2026-11-06",
+  "/services/landing-page-design/": "2026-11-06",
   "/services/seo-geo-services/": "2026-07-29",
-  "/services/web-app-development/": "2026-07-29",
-  "/services/website-development/": "2026-07-29",
+  "/services/web-app-development/": "2026-11-06",
+  "/services/website-development/": "2026-11-06",
 
   // Industry pages — content in src/lib/verticals.mjs.
-  "/services/school-website-development/": "2026-09-29",
+  "/services/school-website-development/": "2026-11-06",
   "/services/hotel-website-development/": "2026-09-29",
-  "/services/travel-website-development/": "2026-09-29",
+  "/services/travel-website-development/": "2026-11-06",
 
   // Location pages
-  "/web-developer-dharamshala/": "2026-09-29",
-  "/web-developer-kangra/": "2026-09-29",
-  "/web-developer-manali/": "2026-09-29",
-  "/web-developer-shimla/": "2026-09-29",
+  "/web-developer-dharamshala/": "2026-11-06",
+  "/web-developer-kangra/": "2026-11-06",
+  "/web-developer-manali/": "2026-11-06",
+  "/web-developer-shimla/": "2026-11-06",
 };

@@ -26,21 +26,21 @@ const jsonld = homeJsonLd(SITE);
 const PROOF = [
   { ch: "CH.01", tag: "SINCE 2022", v: "20", dec: 0, pre: "", suf: "+", sufSm: false, w: 82, l: "Projects shipped since 2022" },
   { ch: "CH.02", tag: "RETENTION", v: "9", dec: 0, pre: "", suf: "/9", sufSm: false, w: 100, l: "Recent clients still on board" },
-  { ch: "CH.03", tag: "FASTEST LAP", v: "7", dec: 0, pre: "", suf: " DAYS", sufSm: true, w: 96, l: "Fastest full build — against a 6-month quote" },
-  { ch: "CH.04", tag: "GRID POSITION", v: "5.7", dec: 1, pre: "P", suf: "", sufSm: true, w: 90, l: "Avg. Google position — Baglamukhi Travels" },
+  { ch: "CH.03", tag: "FULL GRID", v: "5", dec: 0, pre: "", suf: " HOTELS", sufSm: true, w: 96, l: "On one site — Himalayan Brothers, Lighthouse mobile 98–100" },
+  { ch: "CH.04", tag: "IMPRESSIONS", v: "41.8", dec: 1, pre: "", suf: "K", sufSm: true, w: 90, l: "Google impressions in 28 days — Baglamukhi Travels" },
   { ch: "CH.05", tag: "LIGHTHOUSE", v: "100", dec: 0, pre: "", suf: " /100", sufSm: true, w: 100, l: "Every category — Sunny Himachal Travels" },
   { ch: "CH.06", tag: "PIT STOP", v: "2", dec: 0, pre: "", suf: " HRS", sufSm: true, w: 92, l: "Reply time to a new brief, 9 AM–9 PM IST" },
 ];
 
 // Pit lane — the seven cards in the design, with the design's own copy.
 const WORK = [
-  { slug: "redline", tags: "Brand · E-commerce · 2025", alt: "Redline Studios motorcycle apparel storefront homepage", d: "A motorcycle-apparel brand born out of speed. Race-car geometry, racing-livery colours, custom Next.js + Razorpay." },
-  { slug: "cultxberserk", tags: "Brand · D2C · 2026", alt: "CultXberserk apparel storefront", d: "Lore and buy flow as one experience — a hand-numbered drop system enforced in code. No Shopify theme." },
-  { slug: "modernkbs", tags: "Web App · Admin · 2024", alt: "Modern K.B.S. school website and admissions portal", d: "School website, admissions portal and self-serve admin. Delivered in 7 days against a six-month quote." },
-  { slug: "chinkiz", tags: "D2C · Creator · 2024", alt: "ChinkiZ Knitting Knife creator storefront", d: "A 600K-subscriber creator's store with the video right next to the buy button. Live in two weeks." },
-  { slug: "baglamukhi-travels", tags: "Travel · Local SEO · 2026", alt: "Baglamukhi Travels Kangra taxi website", d: "Owner-drivers vs commission agents. Astro + a full schema graph — now averaging position 5.7 on Google." },
+  { slug: "modernkbs", tags: "Web App · Admin · 2024", alt: "Modern K.B.S. school website and admissions portal", d: "School website, online admissions with a status page, and an admin panel the office runs itself. No SaaS fees." },
+  { slug: "chinkiz", tags: "D2C · Creator · 2024", alt: "ChinkiZ Knitting Knife made-to-order creator website", d: "A 585K-subscriber knitting teacher's made-to-order site: 96 handmade pieces, and every order starts as a WhatsApp message." },
+  { slug: "baglamukhi-travels", tags: "Travel · Local SEO · 2026", alt: "Baglamukhi Travels Kangra taxi website", d: "Owner-drivers vs commission agents. Astro, 139 pages, 41.8K Google impressions and 246 clicks in 28 days." },
   { slug: "sunny-himachal-travels", tags: "Travel · Tours & Taxi · 2026", alt: "Sunny Himachal Travels Kangra valley tours website", d: "A page for every trip, transfer and town. 1.1 KB of its own JavaScript, Lighthouse 100 across the board." },
   { slug: "yash-rock-hotel", tags: "Hospitality · Hotel · 2026", alt: "Yash Rock Hotel Kangra website", d: "Seven rooms, no booking engine by design. Every enquiry to WhatsApp, and 14 “near” pages." },
+  { slug: "hotel-himalayan-brothers", tags: "Hospitality · Hotel group · 2026", alt: "Himalayan Brothers Hotels group website", d: "Five family-run hotels from Dharamshala to Spiti on one site, rebuilt from an audit. Every old URL kept, Lighthouse mobile 98–100." },
+  { slug: "sach-pass", tags: "Travel · Stays & road status · 2026", alt: "sachpass.com stays and road status website", d: "Every stay on the road over Sach Pass, and whether it's open — with a source for every date." },
 ].map((w, i) => {
   const p = projects.find((x) => x.slug === w.slug);
   if (!p) throw new Error(`Home work card: unknown project "${w.slug}"`);
@@ -50,7 +50,7 @@ const WORK = [
 const SERVICES = [
   { t: "Web design", d: "The design that ships, not the one that wins a Figma award. I design in code, on a real URL." },
   { t: "Web development", d: "Next.js, Astro, React — storefronts, web apps and marketing sites the next developer picks up clean." },
-  { t: "AI features", d: "Claude, GPT, Gemini — whichever fits. I run my own AI product on all three, so I integrate shipped code, not experiments." },
+  { t: "AI features", d: "Claude, GPT, Gemini — whichever fits. I've run all three in production in my own AI product, so I integrate shipped code, not experiments." },
   { t: "Strategy & copy", d: "What the homepage should say, in what order, to whom — decided before a single pixel moves." },
 ];
 const CHIPS = [
@@ -81,7 +81,7 @@ const PROCESS = [
 const RADIO = [
   { q: "Every other agency said 6 months. Delivered in 7 days.", by: "Admin — Modern K.B.S.", bars: [40, 90, 60, 100, 30, 70] },
   { q: "Looks 10 times more premium than our competitors. We started getting direct bookings instead of losing them to Google Maps.", by: "Founder — Nandini Travels", bars: [70, 30, 100, 50, 85, 40], red: true },
-  { q: "Exactly what we wanted. I will refer Divyansh within my circle for life.", by: "Founder — North Peak Power Systems", bars: [55, 100, 35, 75, 45, 90] },
+  { q: "I did not think it could be achieved without going to e-commerce builders and only using custom code.", by: "Chinki — ChinkiZ Knitting Knife", bars: [55, 100, 35, 75, 45, 90] },
 ];
 
 // Writing — the six posts the design lists, titles from the post manifest.

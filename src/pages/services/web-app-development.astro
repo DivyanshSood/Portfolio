@@ -15,21 +15,21 @@ const canonical = `${SITE}/services/web-app-development/`;
 
 const offers = [
   { t: "MVPs for startups", d: "The version of your product that can meet users this month — scoped hard, built fast, ready to iterate. Speed to feedback beats completeness." },
-  { t: "Portals & admin panels", d: "Dashboards, admissions systems, self-serve editors — the software behind the website. ModernKBS got a public site and an admissions admin panel in the same 7-day sprint." },
-  { t: "AI-powered products", d: "I built WebSeek.ai — one prompt to a custom-coded site, with a Claude / GPT / Gemini model picker. If your product needs AI features, I've shipped them in production." },
+  { t: "Portals & admin panels", d: "Dashboards, admissions systems, self-serve editors — the software behind the website. Modern K.B.S. got a public site, online admissions with a status page, and an admin panel the office runs." },
+  { t: "AI-powered products", d: "I built Websitekind.ai (launched as WebSeek.ai) — one prompt to a custom-coded site you can edit and export. It ran Claude, GPT and Gemini in production before settling on Claude. If your product needs AI features, I've shipped them." },
   { t: "Full-stack, no handoffs", d: "React, Next.js, Astro, Angular, Node. One person designs, codes and deploys — nothing gets lost between a design team and a dev team." },
 ];
 
 const how = [
   { n: "01", t: "Scope to the bone", d: "Within 48 hours you get it in writing: what ships, what waits, what it costs. Most MVPs fail by being too big, not too small." },
   { n: "02", t: "A real URL every Friday", d: "Staging links, not status meetings. You click through the actual product every week and steer while steering is cheap." },
-  { n: "03", t: "Ship in weeks", d: "Typical build: 3–4 weeks. Fastest: 7 days for a full site plus admin panel, where other agencies quoted 6 months." },
+  { n: "03", t: "Ship in weeks", d: "Typical build: 3–4 weeks; larger portals and dashboards 6–10 weeks. Scope is cut together before any code is written." },
   { n: "04", t: "Yours to scale", d: "Clean repo, README, architecture walkthrough, signed IP transfer. When you hire in-house engineers, they inherit a codebase — not a mystery." },
 ];
 
 const faqs = [
-  { q: "What kind of web apps do you build?", a: "MVPs for startups, customer portals, admin dashboards, booking systems and AI-powered products. Recent builds include a school admissions portal shipped in 7 days, a 15-page infrastructure portal with a self-serve admin, and WebSeek.ai — an AI website builder." },
-  { q: "How fast can an MVP be live?", a: "Most MVPs ship in 3–4 weeks. The fastest full build — a public website plus an admissions admin panel — went live in 7 days. The honest constraint is scope, which we cut together before writing code." },
+  { q: "What kind of web apps do you build?", a: "MVPs for startups, customer portals, admin dashboards, booking systems and AI-powered products. Recent builds include a school website with online admissions and an admin panel, a 19-page infrastructure site with a self-serve admin, and Websitekind.ai — an AI website builder." },
+  { q: "How fast can an MVP be live?", a: "Most MVPs ship in 3–4 weeks. The honest constraint is scope, which we cut together before writing code." },
   { q: "What stack do you use?", a: "React, Next.js, Astro or Angular on the front end; Node on the back end; deployed on Vercel or your infrastructure. The stack serves the product — I pick the lightest tool that does the job, and you own all of it." },
   { q: "What does web app development cost?", a: "Each build is quoted after a scoping call, fixed and in writing before anything starts. A tightly scoped MVP is the cheapest thing here; portals with admin panels, integrations and AI features scale with complexity. The single biggest lever on the number is scope, which is why we cut it together first — most MVPs fail by being too big, not too small." },
   { q: "Do you work with funded startups outside India?", a: "Yes — most product work is international. Async-friendly across time zones, milestone billing, and a repo your future team can take over on day one." },
@@ -93,7 +93,7 @@ const jsonld = JSON.stringify({
       lead={`Web app development services for founders who need working software, not a six-month roadmap. MVPs, customer portals, admin dashboards and AI-powered products — designed and coded by one person, full-stack, with a staging link in your inbox every Friday.`}
     >
       <a class="btn btn--red" href={CALENDLY_URL}>Book a product call <span aria-hidden="true">→</span></a>
-      <a class="btn btn--ink" href="/projects/modernkbs/">See a 7-day build</a>
+      <a class="btn btn--ink" href="/projects/modernkbs/">See a school portal build</a>
       <Fragment slot="notes"><span>Fixed written quotes · you own the code</span><span>React · Next.js · Astro · Node</span></Fragment>
     </PageHero>
 
@@ -103,16 +103,16 @@ const jsonld = JSON.stringify({
 
     <Section n={2} term="Telemetry" note="Proof, not promises" title="Apps on the record">
       <ResultGrid stats={[
-        { v: `7 days`, l: `Site + admissions portal (agencies quoted 6 months)` },
-        { v: `15`, l: `Pages + self-serve admin, North Peak portal` },
-        { v: `3`, l: `AI models in one product (WebSeek.ai)` },
+        { v: `I–XII`, l: `Classes applying online, Modern K.B.S. portal` },
+        { v: `19`, l: `Pages + self-serve admin, North Peak concept build` },
+        { v: `3`, l: `AI models run in one product (WebSeek.ai, now Websitekind.ai)` },
         { v: `0`, l: `SaaS fees left behind for clients` },
       ]} />
       <div class="gap-top">
         <Cards items={[
-          { tag: `Modern K.B.S. · web app + admin`, d: `Public school site and an admissions admin panel for classes I–XII, delivered in the same 7-day sprint — no recurring SaaS fees. <a href="/projects/modernkbs/">Read the case study →</a>` },
-          { tag: `WebSeek.ai · AI product`, d: `One prompt to a custom-coded site, with a Claude / GPT / Gemini model picker. Built and shipped as a real product. <a href="/projects/webseek/">Read the case study →</a>` },
-          { tag: `North Peak Power Systems · portal`, wide: true, d: `A 15-page Angular portal with a self-serve admin that lets the team publish projects and lead with a private-sector pitch. <a href="/projects/northpeak/">Read the case study →</a>` },
+          { tag: `Modern K.B.S. · web app + admin`, d: `Public school site and an admissions admin panel for classes I–XII, built in time for the intake, with no recurring SaaS fees. <a href="/projects/modernkbs/">Read the case study →</a>` },
+          { tag: `Websitekind.ai · AI product`, d: `One prompt to a custom-coded site you can edit by clicking and export as clean HTML. Launched as WebSeek.ai with a Claude / GPT / Gemini picker; now runs on Claude. Built and shipped as a real product. <a href="/projects/webseek/">Read the case study →</a>` },
+          { tag: `North Peak Power Systems · my own concept`, wide: true, d: `A concept build: a 19-page Next.js site with a self-serve admin a non-technical team could run to publish projects and lead with a private-sector pitch. <a href="/projects/northpeak/">Read the case study →</a>` },
         ]} />
       </div>
     </Section>
@@ -125,7 +125,7 @@ const jsonld = JSON.stringify({
       <Cards items={[
         { tag: `Custom code vs Webflow for startups`, d: `Where no-code stops and product engineering starts — and when each is right. <a href="/blog/custom-code-vs-webflow-for-startups/">Custom code vs Webflow for startups →</a>` },
         { tag: `Renting vs owning the build`, d: `The three-year math of a platform you rent against code you own. <a href="/blog/shopify-alternatives-for-premium-d2c/">Shopify alternatives, judged on ownership →</a>` },
-        { tag: `School site + portal in 7 days`, wide: true, d: `The full story of the build other agencies quoted six months for. <a href="/projects/modernkbs/">Read the Modern K.B.S. build in full →</a>` },
+        { tag: `School site + admissions portal`, wide: true, d: `Online admissions, a status page for parents and an admin the office runs, built in time for the intake. <a href="/projects/modernkbs/">Read the Modern K.B.S. build in full →</a>` },
       ]} />
     </Section>
 

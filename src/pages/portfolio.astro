@@ -6,10 +6,16 @@ import Base from "../layouts/Base.astro";
 import PageHero from "../components/brand/PageHero.astro";
 import ProjectCard from "../components/brand/ProjectCard.astro";
 import { SITE, CALENDLY_URL } from "../lib/site.mjs";
-import { projects, projectCountWord } from "../lib/projects/data.mjs";
+import { projects, projectCountWord, countWord } from "../lib/projects/data.mjs";
 
 const canonical = `${SITE}/portfolio/`;
 const countCap = projectCountWord[0].toUpperCase() + projectCountWord.slice(1);
+// Client work first, then the studio's own brands and concepts, labelled as
+// such (data.mjs `personal: true`). The array is already ordered that way, so
+// the P-numbers here match "Case N of M" on each case study.
+const clientProjects = projects.filter((p) => !p.personal);
+const personalProjects = projects.filter((p) => p.personal);
+const clientCap = countWord(clientProjects.length)[0].toUpperCase() + countWord(clientProjects.length).slice(1);
 const pad = (n: number) => String(n).padStart(2, "0");
 
 const SECTORS = ["All", "E-commerce", "Web app", "Travel", "Hospitality", "Education", "AI"];
@@ -53,15 +59,15 @@ const jsonld = JSON.stringify({
 
 <Base
   title="Web Design & Development Portfolio — Divyansh Sood® Studio"
-  description={`The portfolio of web developer Divyansh Sood — ${projectCountWord} custom-coded websites, e-commerce stores, web apps and AI products, each with a case study and live link.`}
+  description={`The portfolio of web developer Divyansh Sood — ${countWord(clientProjects.length)} client websites, stores and web apps plus ${countWord(personalProjects.length)} personal projects, each with a case study and live link.`}
   canonical={canonical}
   keywords="Divyansh Sood portfolio, web developer portfolio, custom website portfolio, Next.js Astro projects, web app case studies, freelance web developer work"
   ogTitle="Portfolio — the work, up close"
-  ogDescription="Custom-coded websites, stores, web apps and AI products, shipped for real clients worldwide."
+  ogDescription="Custom-coded websites and web apps for real clients, plus my own brands and AI product."
   jsonld={jsonld}
 >
   <main>
-    <PageHero display="My portfolio" sup={String(projects.length)} lead={`${countCap} custom-coded websites, storefronts and web apps — schools, a hotel group and a hillside hotel, travel and taxi operators from Manali to Kangra, D2C brands and an AI product. Every one owned by the client.`}>
+    <PageHero display="My portfolio" sup={String(projects.length)} lead={`${clientCap} client websites, storefronts and web apps — schools, a hotel group and a hillside hotel, travel and taxi operators from Manali to Kangra, and a creator — every one owned by the client. Plus ${countWord(personalProjects.length)} personal projects of my own.`}>
       <div class="meta">2024 — 2026 · Showing <span class="pf-shown" data-shown>{pad(projects.length)}</span></div>
     </PageHero>
 
@@ -74,8 +80,9 @@ const jsonld = JSON.stringify({
             </button>
           ))}
         </div>
-        <div class="pf-grid">
-          {projects.map((p, i) => (
+        <h2 class="pf-h" data-group="client">Client work</h2>
+        <div class="pf-grid" data-group="client">
+          {clientProjects.map((p, i) => (
             <ProjectCard
               href={`/projects/${p.slug}/`}
               pos={`P${pad(i + 1)}`}
@@ -86,7 +93,26 @@ const jsonld = JSON.stringify({
               name={p.name}
               line={p.line}
               foot={p.stack}
-              tag="h2"
+              tag="h3"
+              sizes="(max-width: 960px) calc(100vw - 32px), 760px"
+              attrs={{ "data-sector": p.sector }}
+            />
+          ))}
+        </div>
+        <h2 class="pf-h" data-group="personal">Personal projects <span>My own brands, products and concepts — not client work</span></h2>
+        <div class="pf-grid" data-group="personal">
+          {personalProjects.map((p, i) => (
+            <ProjectCard
+              href={`/projects/${p.slug}/`}
+              pos={`P${pad(clientProjects.length + i + 1)}`}
+              tags={p.tags}
+              year={p.year}
+              img={p.feature.src}
+              alt={`${p.name} website — ${p.tags}`}
+              name={p.name}
+              line={p.line}
+              foot={p.stack}
+              tag="h3"
               sizes="(max-width: 960px) calc(100vw - 32px), 760px"
               attrs={{ "data-sector": p.sector }}
             />
@@ -128,6 +154,11 @@ const jsonld = JSON.stringify({
         c.hidden = !on;
         if (on) n++;
       });
+      // Hide a group's heading when the filter leaves it with no cards.
+      document.querySelectorAll<HTMLElement>("h2[data-group]").forEach((h) => {
+        const grid = document.querySelector<HTMLElement>(`div[data-group="${h.dataset.group}"]`);
+        h.hidden = !grid || ![...grid.querySelectorAll<HTMLElement>("[data-sector]")].some((c) => !c.hidden);
+      });
       if (shown) shown.textContent = String(n).padStart(2, "0");
     })
   );
@@ -135,12 +166,23 @@ const jsonld = JSON.stringify({
 
 <style>
   .pf-shown{color:var(--red)}
+  .pf-h{margin:0 0 20px;font-family:var(--mono);font-size:13px;letter-spacing:.1em;text-transform:uppercase;font-weight:600}
+  .pf-h[data-group="personal"]{margin-top:clamp(56px,7vw,96px);padding-top:24px;border-top:3px solid var(--ink)}
+  .pf-h span{display:block;margin-top:6px;letter-spacing:.04em;text-transform:none;font-weight:400;color:var(--g5c)}
   .pf{padding:clamp(28px,4vw,48px) var(--gutter) clamp(80px,10vw,150px)}
   .pf-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:clamp(28px,4vw,48px);position:sticky;top:64px;z-index:5;background:#fff;padding:12px 0;border-bottom:3px solid var(--ink)}
   .pf-tab{min-height:44px;padding:0 16px;border:1.5px solid var(--ink);background:#fff;color:var(--ink);font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;gap:8px}
   .pf-tab span{color:var(--g5c)}
   .pf-tab[aria-selected="true"]{background:var(--ink);color:#fff}
   .pf-tab[aria-selected="true"] span{color:var(--g8a)}
+  /* Phones: seven wrapped tabs made the sticky bar 175px tall, which with the
+     header kept ~28% of the screen covered while scrolling. One row that
+     scrolls sideways keeps it to a single tab's height. */
+  @media (max-width:720px){
+    .pf-tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+    .pf-tabs::-webkit-scrollbar{display:none}
+    .pf-tab{flex:none}
+  }
   .pf-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));gap:clamp(40px,4vw,64px) clamp(16px,2.4vw,36px)}
 
   .pf-cta{position:relative;background:var(--ink);color:#fff;padding:clamp(100px,12vw,170px) var(--gutter) clamp(80px,10vw,140px)}

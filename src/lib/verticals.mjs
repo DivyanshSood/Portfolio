@@ -47,7 +47,7 @@ export const VERTICALS = {
     faqs: [
       { q: "What must a CBSE school website include?", a: "CBSE's affiliation bye-laws require a Mandatory Public Disclosure on the school's website (Appendix IX). It covers general information, documents and certificates such as affiliation, NOC, recognition and safety certificates, Class X and XII results, staff details and infrastructure. Beyond compliance, parents look for admissions, fees, transport, notices and the academic calendar." },
       { q: "How much does a school website cost?", a: `From ${inr(P.school)} for a school website with an admin panel. A public site with the CBSE pages is a different build from one with a full online admissions portal, so I quote fixed and in writing after one call, and neither comes with a recurring software fee.` },
-      { q: "How long does a school website take?", a: "Modern K.B.S.'s public site and admissions portal went live in 7 days, where other agencies had quoted six months. Most of the timeline for a school depends on how quickly the documents and facts can be confirmed, not on the build." },
+      { q: "How long does a school website take?", a: "A school website in Himachal typically goes live in 1–3 weeks; Modern K.B.S.'s admin says theirs went live in 7 days. Most of the timeline for a school depends on how quickly the documents and facts can be confirmed, not on the build." },
       { q: "Can office staff update notices and results themselves?", a: "Yes. Pinnacle World School's content lives in collections behind an admin panel, and Modern K.B.S.'s office processes admissions in its own dashboard. Neither needs a developer for day-to-day updates." },
       { q: "Can you move our school off an old ERP or CMS website without breaking links?", a: "Yes. When Pinnacle World School moved to its own domain, all 14 of the old site's URLs were 308-redirected to their new pages, so bookmarks, WhatsApp forwards and search results kept working." },
       { q: "Do you build school websites outside Himachal Pradesh?", a: "Yes. The work runs over WhatsApp, calls and screen-shares, so a school anywhere in India gets the same process. Schools in Kangra and nearby districts can also meet in person." },
@@ -129,7 +129,7 @@ export const VERTICALS = {
       { t: "Local business schema that holds up", d: "Geo-coordinates, opening hours, services and ratings in structured data, with the same name, address and phone as the Google Business Profile." },
       { t: "No thin pages", d: "Growing to a hundred pages is exactly where travel sites go thin. Sunny's build fails if any two pages read too alike, so pages that would overlap are dropped rather than published." },
     ],
-    proof: ["sunny-himachal-travels", "leisure-himachal", "kangra-valley-travels", "baglamukhi-travels", "nandini", "dharamshala-tours"],
+    proof: ["sunny-himachal-travels", "leisure-himachal", "kangra-valley-travels", "baglamukhi-travels", "nandini", "sach-pass", "dharamshala-tours"],
     steps: [
       { t: "One call", d: "The routes, trips and towns that actually make money, and how bookings arrive today." },
       { t: "A page map", d: "One page per real search, checked against Search Console and Maps data where the business has any." },
@@ -139,7 +139,7 @@ export const VERTICALS = {
     faqs: [
       { q: "What pages should a taxi or travel website have?", a: "One for each route people book, one for each trip or package, one for each town people search “taxi service in” for, plus the fleet, the FAQ and a contact page. The homepage can't rank for all of those searches by itself." },
       { q: "Do travel websites need online payment?", a: "Usually not in Himachal. Most trips are confirmed on WhatsApp and paid at or after the trip, and a payment gateway adds friction for no gain. It can be added where advance booking genuinely needs a deposit." },
-      { q: "How long before a new travel website ranks on Google?", a: "Expect weeks to months, depending on competition and on the Google Business Profile. Baglamukhi Travels now averages position 5.7 on Google against aggregators and call centres." },
+      { q: "How long before a new travel website ranks on Google?", a: "Expect weeks to months, depending on competition and on the Google Business Profile. Baglamukhi Travels, competing against aggregators and call centres, drew 41.8K Google impressions and 246 clicks in the 28 days to 3 November 2026." },
       { q: "How much does a travel or taxi website cost?", a: `From ${inr(P.travel)}. The final number depends on how many routes, trips and towns need their own pages; I quote fixed and in writing after one call, and the operator owns the code.` },
       { q: "Can I add new packages and routes myself?", a: "Yes. Dharamshala Tours' team publishes seasonal itineraries themselves, and Sunny Himachal Travels' trips and routes are plain content files that can be added without touching the design." },
       { q: "Do you only build travel websites in Himachal?", a: "No. The four travel sites so far are in Kangra and Dharamshala, but the same approach works for any operator in India whose customers search by route and town." },

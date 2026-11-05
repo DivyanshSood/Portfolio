@@ -84,7 +84,7 @@ const jsonld = JSON.stringify({
 ---
 
 <Post post={post} jsonld={jsonld} faqs={faqs} cta={{ title: "Want a straight answer about your build?", text: "If you're weighing up an AI-assisted project and want to know honestly where it helps and where it'll bite, send me the brief. I'll tell you which parts I'd trust a model with and which I wouldn't.", primary: { href: "mailto:hello@divyanshsood.com", label: "Email me →" }, secondary: { href: CALENDLY_URL, label: "Book a 15-min intro →" } }}>
-<p>I use AI on client work every week and I built <a href="/projects/webseek/">an AI website generator</a> that runs on Claude, GPT and Gemini. I'm not writing this as a sceptic. I'm writing it because I've spent more hours than I'd like recovering from the specific ways these tools fail, and almost nobody selling them will tell you what those are.</p>
+<p>I use AI on client work every week and I built <a href="/projects/webseek/">an AI website generator</a> that has run on Claude, GPT and Gemini. I'm not writing this as a sceptic. I'm writing it because I've spent more hours than I'd like recovering from the specific ways these tools fail, and almost nobody selling them will tell you what those are.</p>
 <p>The benefits are real — I've written about <a href="/blog/how-ai-is-transforming-website-development/">the ones that survived contact with real projects</a>. This is the other column of the ledger.</p>
 <p>None of these limitations are reasons to avoid AI. They're the things you have to design around, and the cost of not knowing them is paid in production.</p>
 <hr>
@@ -124,7 +124,7 @@ const jsonld = JSON.stringify({
 <hr>
 <h2 id="design-convergence">6. Design converges on the average</h2>
 <p>Ask for a layout and you get the statistical centre of everything the model has seen. Competent, familiar, forgettable — which is the exact opposite of what a brand is paying for.</p>
-<p>This is why AI-generated sites have a recognisable look. Not bad, just deeply average, and average is a commercial problem when the entire point is not resembling your competitors. For <a href="/projects/chinkiz/">a creator with 600,000 subscribers</a>, "competent and familiar" was the problem we were hired to solve — her store had to feel like her, and there is no prompt for that.</p>
+<p>This is why AI-generated sites have a recognisable look. Not bad, just deeply average, and average is a commercial problem when the entire point is not resembling your competitors. For <a href="/projects/chinkiz/">a creator with 585,000 subscribers</a>, "competent and familiar" was the problem we were hired to solve — her site had to feel like her, and there is no prompt for that.</p>
 <p>The same applies to copy. Models default to a register that reads as slightly corporate and slightly empty. It's serviceable as a draft for a client to react to; publishing it undermines the reason to build a custom site at all.</p>
 <hr>
 <h2 id="skill-atrophy">7. Skill atrophy, and the junior developer problem</h2>
@@ -171,7 +171,7 @@ const jsonld = JSON.stringify({
 <hr>
 <h2 id="what-i-learned-building">The limitation I only saw by building the generator</h2>
 <p>Building an AI website generator taught me the ceiling better than building sites by hand ever could.</p>
-<p>WebSeek does what it claims — one prompt, a working custom-coded site. Every genuinely hard problem in it turned out to be about <em>knowing what the user meant</em>, not generating code. Someone types "website for my restaurant" and the model must invent a hundred decisions nobody made: how many dishes, whether bookings matter more than the menu, whether people come for the food or the view.</p>
+<p>WebSeek (now Websitekind) does what it claims — one prompt, a working custom-coded site. Every genuinely hard problem in it turned out to be about <em>knowing what the user meant</em>, not generating code. Someone types "website for my restaurant" and the model must invent a hundred decisions nobody made: how many dishes, whether bookings matter more than the menu, whether people come for the food or the view.</p>
 <p>It invents them plausibly. Sometimes well. Never knowingly — and that distinction is the whole limitation in one sentence. A model cannot know which decisions matter, because it has no stake in the outcome.</p>
 <p>Running it across three providers made the second lesson obvious: swapping models changes the texture of the output and almost nothing about this problem. The ceiling isn't a model-quality issue that the next release fixes. It's structural.</p>
 <hr>
@@ -180,7 +180,7 @@ const jsonld = JSON.stringify({
 <p><strong>"What did you write by hand on this, and why?"</strong> A specific answer means someone is making decisions about where the tool is trusted. "We use the latest AI" means the tool is making them.</p>
 <p><strong>"How do you review generated code touching payments or user data?"</strong> You want to hear something process-shaped and slightly boring. Hesitation here is the answer.</p>
 <p><strong>"What have you rejected from a model recently?"</strong> Anyone working seriously with these tools has a recent example. No example means either no critical reading or no real use.</p>
-<p>And treat compressed timelines carefully. AI shortens the build, not the project — discovery, content and review are untouched. When <a href="/projects/modernkbs/">the school portal shipped in seven days</a>, that was possible because the client answered questions the same day, every day. The scheduling was as much of the achievement as the engineering.</p>
+<p>And treat compressed timelines carefully. AI shortens the build, not the project — discovery, content and review are untouched. When <a href="/projects/modernkbs/">the school portal</a> went live in the time its admin describes as seven days, that was possible because the client answered questions the same day, every day. The scheduling was as much of the achievement as the engineering.</p>
 <hr>
 <h2 id="the-summary">The honest summary</h2>
 <p>The limitations of AI in web development are not that it's bad at writing code. It's good at writing code. The limitations are that it doesn't know what you're trying to build, can't tell when it's wrong, has no memory of your project, and produces work that requires more review than it saves in typing if you're careless about it.</p>

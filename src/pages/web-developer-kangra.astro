@@ -16,7 +16,7 @@ const WA = "https://wa.me/919816091875?text=Hi%20Divyansh,%20I%20run%20a%20busin
 
 const offers = [
   { t: "Taxi & transport websites", d: "Booking sites for taxi operators and transport services — on-site booking forms, one-tap WhatsApp, outstation packages and airport-pickup flows that turn Maps searchers into direct customers." },
-  { t: "School & institute websites", d: "Public sites plus admissions portals for schools and coaching institutes. Modern K.B.S. got both — site and admin panel for classes I–XII — in a 7-day sprint." },
+  { t: "School & institute websites", d: "Public sites plus admissions portals for schools and coaching institutes. Modern K.B.S. got both — a public site, online admissions for classes I–XII and an admin panel the office runs." },
   { t: "Shops & local services", d: "Fast, phone-first sites for the businesses the district actually runs on — hardware, clinics, salons, agencies — built to show up when Kangra searches for what you sell." },
   { t: "Local SEO & Google presence", d: "Your Google Business Profile and your website working together: reviews linked, maps embedded, structured data wired — so 'near me' searches find you first." },
 ];
@@ -24,7 +24,8 @@ const offers = [
 const faqs = [
   { q: "What does a website cost for a Kangra business?", a: `A business website starts at ${inr(P.basic)}, a taxi or travel site at ${inr(P.travel)}, and a school site with an admin panel at ${inr(P.school)}. Scope decides the final number — a taxi booking site is a different build than a school admissions portal. I quote local Himachal projects fixed and in writing after one conversation — and I'll tell you honestly if a simpler option would serve you better.` },
   { q: "Do local businesses really need more than Google Maps?", a: "Maps gets you found; it doesn't get you chosen or booked. Nandini Travels — Kangra's most-positively-reviewed taxi operator — was losing every lead to Maps until we built a site with an on-site booking form. Their founder's words: it looks 10 times more premium than competitors, and direct bookings now come through the site." },
-  { q: "How fast can you deliver?", a: "The fastest full build so far — a school website plus admissions admin panel — went live in 7 days, where other agencies had quoted 6 months. Typical local builds land in 1–3 weeks." },
+  { q: "How fast can you deliver?", a: "Typical local builds land in 1–3 weeks. Larger builds with portals or logins run 6–10 weeks, and I give you a written timeline with the fixed quote." },
+  { q: "Do you build websites for businesses in Palampur, Jaisinghpur or Dehra?", a: "Yes. I build for businesses across Kangra district — Palampur, Jaisinghpur, Nagrota Bagwan, Baijnath, Dehra, Jawalamukhi, Nurpur and the villages between — with the same fixed, written quote and the same 1–3 week timeline for a local site." },
   { q: "Are you actually based in Kangra district?", a: "Yes — I live and work in Himachal Pradesh, in Kangra district. You're not routing through a metro agency's junior team; you message me on WhatsApp and the person who replies is the person who builds." },
 ];
 
@@ -73,11 +74,11 @@ const jsonld = JSON.stringify({
       display="Web developer in Kangra."
       size="case"
       kicker="Himachal Pradesh · Kangra district · 2026"
-      lead={`I live and build in Kangra district — and the businesses I've built for are ones you know. The taxi operator winning direct bookings back from Google Maps. The school whose admissions portal went live in seven days. If you run a business here, your customers are already searching; the question is whose site they find.`}
+      lead={`I live and build in Kangra district — and the businesses I've built for are ones you know. The taxi operator winning direct bookings back from Google Maps. The school whose admissions now arrive online. If you run a business here, your customers are already searching; the question is whose site they find.`}
     >
       <a class="btn btn--red" href={CALENDLY_URL}>Book a call <span aria-hidden="true">→</span></a>
       <a class="btn btn--ink" href={WA}>Message on WhatsApp</a>
-      <Fragment slot="notes"><span>Based in Kangra · <a href={GOOGLE_MAPS_URL} target="_blank" rel="noopener">on Google Maps ↗</a></span><span>Live in 1–3 weeks · fastest: 7 days</span></Fragment>
+      <Fragment slot="notes"><span>Based in Kangra · <a href={GOOGLE_MAPS_URL} target="_blank" rel="noopener">on Google Maps ↗</a></span><span>Live in 1–3 weeks</span></Fragment>
     </PageHero>
 
     <Section n={1} term="Setup" note="The offering" title="Built for Kangra's businesses">
@@ -86,18 +87,18 @@ const jsonld = JSON.stringify({
 
     <Section n={2} term="Telemetry" note="Proof, not promises" title="Kangra work, on the record">
       <ResultGrid stats={[
-        { v: `5.7`, l: `Avg. Google position, Baglamukhi Travels, 28 days` },
+        { v: `41.8K`, l: `Google impressions in 28 days, Baglamukhi Travels` },
         { v: `27`, l: `Kangra taxi routes published with all-in fares` },
-        { v: `7 days`, l: `School site + admissions portal, live` },
+        { v: `5`, l: `Hotels on one site, Himalayan Brothers` },
         { v: `14`, l: `“Near” pages for Yash Rock Hotel, Dehrian` },
       ]} />
       <div class="gap-top">
         <Cards items={[
-          { tag: `Nandini Travels · Kangra taxi`, d: `Kangra's most-positively-reviewed taxi operator, rebuilt in Next.js with an on-site booking form, WhatsApp CTA, outstation routes and airport pickup. Direct bookings now flow through the site. <a href="/projects/nandini/">Read the case study →</a>` },
-          { tag: `Modern K.B.S. · school`, d: `Public website plus an admissions admin panel for classes I–XII, delivered in the same 7-day sprint — no recurring software fees. <a href="/projects/modernkbs/">Read the case study →</a>` },
+          { tag: `Nandini Travels · Kangra taxi`, d: `Kangra's most-positively-reviewed taxi operator, rebuilt in Astro with an on-site booking form, WhatsApp CTA, outstation routes and airport pickup. Direct bookings now flow through the site. <a href="/projects/nandini/">Read the case study →</a>` },
+          { tag: `Modern K.B.S. · school`, d: `Public website plus online admissions and an admin panel for classes I–XII — no recurring software fees. <a href="/projects/modernkbs/">Read the case study →</a>` },
           { tag: `Pinnacle World School · Baroh, Kangra`, d: `A CBSE school site where every published fact traces back to the school's affiliation record: Mandatory Public Disclosure, an admissions form that lands in the office's WhatsApp, and old URLs redirected. <a href="/projects/pinnacle-world-school/">Read the case study →</a>` },
           { tag: `Yash Rock Hotel · Dehrian, Kangra`, d: `Seven rooms, a pool, and no booking engine: every enquiry goes to WhatsApp or a call, and 14 “near” pages reach guests heading for NIFT, Tanda Medical College and the airport. <a href="/projects/yash-rock-hotel/">Read the case study →</a>` },
-          { tag: `Kangra Valley Travels · Kangra`, d: `One owner-driver and one Ertiga on 56 pages, with 558 map-measured road distances and a build that refuses any fare, rating or “AC” claim he hasn't confirmed. <a href="/projects/kangra-valley-travels/">Read the case study →</a>` },
+          { tag: `Kangra Valley Travels · Kangra`, d: `An owner-driver who started with one Ertiga and now books up to a Tempo Traveller, on 56 pages, with 558 map-measured road distances and a build that refuses any fare, rating or “AC” claim he hasn't confirmed. <a href="/projects/kangra-valley-travels/">Read the case study →</a>` },
           { tag: `Shiva Tour and Travel · Gaggal`, d: `A Kangra Airport taxi and temple-yatra operator, rebuilt from a mockup that invented its own reviews, with taxi fares from one data file and a build that bans the fakes from coming back. <a href="/projects/shiva-tour-and-travel/">Read the case study →</a>` },
           { tag: `By industry`, wide: true, d: `What I build most in Himachal: <a href="/services/school-website-development/">school websites</a>, <a href="/services/hotel-website-development/">hotel and homestay websites</a>, and <a href="/services/travel-website-development/">travel and taxi websites</a>. Kangra taxi operators and hotels win most calls from the map, so here is <a href="/blog/rank-on-google-maps-himachal/">how to rank on Google Maps</a>.` },
           { tag: `Why local sites fail`, wide: true, d: `Most local business websites don't generate leads — and it's rarely a traffic problem. A free audit shows where yours is leaking. <a href="/website-audit/">Get a free website audit →</a>` },
@@ -105,8 +106,15 @@ const jsonld = JSON.stringify({
       </div>
     </Section>
 
+    <Section n={3} term="Coverage" note="Kangra district" title="Across the district, not just the town">
+      <Cards items={[
+        { tag: `Where the work already is`, wide: true, d: `Gaggal (<a href="/projects/shiva-tour-and-travel/">Shiva Tour and Travel</a>), Baroh (<a href="/projects/pinnacle-world-school/">Pinnacle World School</a>), Dehrian (<a href="/projects/yash-rock-hotel/">Yash Rock Hotel</a>), Ladwara near Shahpur (<a href="/projects/modernkbs/">Modern K.B.S.</a>), Kangra town (<a href="/projects/baglamukhi-travels/">Baglamukhi Travels</a>, <a href="/projects/nandini/">Nandini Travels</a>, <a href="/projects/kangra-valley-travels/">Kangra Valley Travels</a>), and McLeod Ganj and Dharamshala (<a href="/projects/dharamshala-tours/">Dharamshala Tours</a>, <a href="/projects/himalayan-brothers/">Himalayan Brothers</a>).` },
+        { tag: `Towns I build for`, wide: true, d: `Palampur, Jaisinghpur, Nagrota Bagwan, Baijnath, Dehra, Jawalamukhi, Nurpur, Jawali and Shahpur, and the villages between them. I meet in person where it helps; everything else runs on WhatsApp and calls, the same as for a client in town.` },
+      ]} />
+    </Section>
+
     <Section bare>
-      <Faq faqs={faqs} label="(03) Before you ask" />
+      <Faq faqs={faqs} label="(04) Before you ask" />
       <div class="gap-top"><NearbyAreas /></div>
     </Section>
 

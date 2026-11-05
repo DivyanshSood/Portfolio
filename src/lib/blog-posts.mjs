@@ -9,7 +9,7 @@ export const POSTS = [
     "seoTitle": "Website Cost in Himachal Pradesh (2026) · Divyansh Sood",
     "description": "Website prices in Himachal, stated plainly: from ₹10,000 for a business site, ₹15,000 for hotels and travel, ₹25,000 for schools and stores. What's included and what it costs yearly.",
     "pubDate": "2026-10-01",
-    "updatedDate": "2026-10-01",
+    "updatedDate": "2026-11-06",
     "coverImage": "/blog/website-cost-himachal-pradesh.jpg",
     "coverAlt": "Title card reading “The price, in rupees” in bold white type on a red chevron",
     "tags": [
@@ -29,7 +29,7 @@ export const POSTS = [
     "seoTitle": "Rank on Google Maps in Himachal: 7 Fixes · Divyansh Sood",
     "description": "The seven things that decide whether a Himachal taxi, hotel or school shows on Google Maps, in order of impact — with a 20-minute check you can do today.",
     "pubDate": "2026-10-01",
-    "updatedDate": "2026-10-01",
+    "updatedDate": "2026-11-06",
     "coverImage": "/blog/rank-on-google-maps-himachal.jpg",
     "coverAlt": "Title card reading “Get on the map” in bold white type on a red chevron",
     "tags": [
@@ -169,7 +169,7 @@ export const POSTS = [
     "seoTitle": "How AI Is Changing Web Development (2026) · Divyansh Sood",
     "description": "From shipping client sites with AI daily and running an AI website generator: what genuinely changed, the benefits ranked honestly, and where it goes next.",
     "pubDate": "2026-07-29",
-    "updatedDate": "2026-09-29",
+    "updatedDate": "2026-11-06",
     "coverImage": "/blog/how-ai-is-transforming-website-development.jpg",
     "coverAlt": "Title card reading “How AI is transforming web dev” in bold white type on a red chevron",
     "tags": [
@@ -189,7 +189,7 @@ export const POSTS = [
     "seoTitle": "Limits of AI in Website Development (2026) · Divyansh Sood",
     "description": "Every way AI has cost me time, money or sleep on a real build — hallucinated APIs, plausible-wrong code, security gaps and the review tax nobody prices in.",
     "pubDate": "2026-07-29",
-    "updatedDate": "2026-07-29",
+    "updatedDate": "2026-11-06",
     "coverImage": "/blog/challenges-and-limitations-of-ai-in-web-development.jpg",
     "coverAlt": "Title card reading “Where AI actually breaks” in bold white type on a red chevron",
     "tags": [
@@ -209,7 +209,7 @@ export const POSTS = [
     "seoTitle": "AI Website Builder vs Developer in India (2026) · Divyansh Sood",
     "description": "I build client websites and I built an AI website generator. The honest comparison for an Indian small business — what generators do well, and where they stop.",
     "pubDate": "2026-07-28",
-    "updatedDate": "2026-09-29",
+    "updatedDate": "2026-11-06",
     "coverImage": "/blog/ai-website-builder-vs-developer-india.jpg",
     "coverAlt": "Title card reading “AI builder vs developer” in bold white type on a red chevron",
     "tags": [
@@ -269,7 +269,7 @@ export const POSTS = [
     "seoTitle": "AI Features for Websites: What Works · Divyansh Sood",
     "description": "Search, support, drafting, extraction — which AI features earn their keep on a business website, which never ship, and what production really needs.",
     "pubDate": "2026-07-21",
-    "updatedDate": "2026-07-21",
+    "updatedDate": "2026-11-06",
     "coverImage": "/blog/ai-features-that-actually-work-on-websites.jpg",
     "coverAlt": "Title card reading “AI features that actually work” in bold white type on a red chevron",
     "tags": [
@@ -289,7 +289,7 @@ export const POSTS = [
     "seoTitle": "Shopify Alternatives for Premium D2C · Divyansh Sood",
     "description": "Customize Shopify, go Woo, headless, or fully custom? The four real options for premium D2C brands, judged on brand control and three-year economics.",
     "pubDate": "2026-07-18",
-    "updatedDate": "2026-09-29",
+    "updatedDate": "2026-11-06",
     "coverImage": "/blog/shopify-alternatives-for-premium-d2c.jpg",
     "coverAlt": "Title card reading “Shopify alternatives, honestly ranked” in bold white type on a red chevron",
     "tags": [
@@ -307,9 +307,9 @@ export const POSTS = [
     "slug": "school-website-admissions-portal-india",
     "title": "School Website Cost and Features in India: What Parents Want, What Portals Fix",
     "seoTitle": "School Website Cost & Features in India (2026) · Divyansh Sood",
-    "description": "What parents actually look for on a school website, why an admissions portal beats an ERP subscription, and what a fair build costs — from a 7-day real build.",
+    "description": "What parents actually look for on a school website, why an admissions portal beats an ERP subscription, and what a fair build costs — from a real school build.",
     "pubDate": "2026-07-16",
-    "updatedDate": "2026-09-29",
+    "updatedDate": "2026-11-06",
     "coverImage": "/blog/school-website-admissions-portal-india.jpg",
     "coverAlt": "Title card reading “School sites: what parents actually want” in bold white type on a red chevron",
     "tags": [
@@ -349,7 +349,7 @@ export const POSTS = [
     "seoTitle": "Framer vs Custom Code (2026): When to Switch · Divyansh Sood",
     "description": "Framer is the best website builder ever made — and funded startups still replace it. Where Framer genuinely wins, where it hits a ceiling, and how to decide.",
     "pubDate": "2026-06-24",
-    "updatedDate": "2026-09-29",
+    "updatedDate": "2026-11-06",
     "coverImage": "/blog/framer-vs-custom-code-2026.jpg",
     "coverAlt": "Title card reading “Framer vs custom code, settled honestly” in bold white type on a red chevron",
     "tags": [
@@ -369,7 +369,7 @@ export const POSTS = [
     "seoTitle": "Webflow vs Custom Code for Startups (2026) · Divyansh Sood",
     "description": "Webflow vs custom code, decided honestly: where Webflow wins, where it starts taxing a startup's team and roadmap, and the three-year cost of each.",
     "pubDate": "2026-05-12",
-    "updatedDate": "2026-09-29",
+    "updatedDate": "2026-11-06",
     "coverImage": "/blog/custom-code-vs-webflow-for-startups.jpg",
     "coverAlt": "Someone writing in a notebook at a desk beside an open laptop and a coffee",
     "tags": [
@@ -389,7 +389,7 @@ export const POSTS = [
     "seoTitle": "Google Business Profile vs. Website in India · Divyansh Sood",
     "description": "A Google Business Profile gets you on the map. A website converts the people who find you there. What each does, where each fails, and why you need both.",
     "pubDate": "2026-04-28",
-    "updatedDate": "2026-04-28",
+    "updatedDate": "2026-11-06",
     "coverImage": "/blog/google-business-profile-vs-website-himachal.jpg",
     "coverAlt": "A small brick shopfront on a quiet main street, seen from across the road",
     "tags": [
@@ -409,7 +409,7 @@ export const POSTS = [
     "seoTitle": "A Storefront That Feels Like the Brand · Divyansh Sood",
     "description": "Anyone can install a theme and drop in a logo. Building a storefront that actually feels like your brand is a different craft — here's what separates the two.",
     "pubDate": "2026-03-12",
-    "updatedDate": "2026-03-12",
+    "updatedDate": "2026-11-06",
     "coverImage": "/blog/storefront-that-feels-like-the-brand.jpg",
     "coverAlt": "A rail of striped and red shirts in a boutique, other rails behind",
     "tags": [
@@ -429,7 +429,7 @@ export const POSTS = [
     "seoTitle": "How to Get Web Development Clients Without Paid Ads (6 Ways)",
     "description": "Six channels that brought every client I have, with zero ad spend: live case studies, referrals, my own site, a narrow niche, local search and useful posts.",
     "pubDate": "2026-03-05",
-    "updatedDate": "2026-10-02",
+    "updatedDate": "2026-11-06",
     "coverImage": "/blog/how-i-get-clients-without-paid-ads.jpg",
     "coverAlt": "Two people shaking hands across a white table beside a coffee cup",
     "tags": [
