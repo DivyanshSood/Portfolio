@@ -173,16 +173,17 @@ Astro.locals.crumbs = breadcrumbTrail(jsonld).map((c: { name: string; url: strin
       />
     )}
 
-    {/* ---- Analytics: GA4 + Yandex Metrica ----
+    {/* ---- Analytics: GA4 (+ Google Ads conversion tag) ----
         Loaded unconditionally for every visitor — the consent banner that used
         to gate these was removed by an explicit owner decision, so do not add
-        a consent gate back. IP anonymisation stays on and Metrica runs without
-        session replay / clickmap. The YM ID is duplicated in BaseScripts.astro
-        (dsTrack) — keep them in sync.
+        a consent gate back. IP anonymisation stays on. Yandex Metrica was
+        removed on 2026-11-06 (owner decision): it set six third-party cookies
+        and ~80 KB per page for recordings nobody watched. The yandex-verification
+        meta above is Yandex Webmaster (search), not analytics, and stays.
 
-        Deferred, not removed: both tags start after `load` (or on the first
-        idle slot) so they compete with nothing the visitor can see. `gtag` and
-        `ym` are stubbed synchronously so early calls are buffered, not lost.
+        Deferred, not removed: the tag starts after `load` (or on the first
+        idle slot) so it competes with nothing the visitor can see. `gtag` is
+        stubbed synchronously so early calls are buffered, not lost.
 
         Not counted: local builds and previews (127.0.0.1 and localhost were
         showing up in GA4 as referral sources; without the stubs, dsTrack's
@@ -214,18 +215,14 @@ Astro.locals.crumbs = breadcrumbTrail(jsonld).map((c: { name: string; url: strin
           if (localStorage.getItem("ds-notrack") === "1") return;
         } catch (e) {}
         var GA_ID = "G-51WG6025T0";
-        var YM_ID = 110027161;
 
         window.dataLayer = window.dataLayer || [];
         function gtag() { window.dataLayer.push(arguments); }
         window.gtag = gtag;
-        window.ym = window.ym || function () { (window.ym.a = window.ym.a || []).push(arguments); };
-        window.ym.l = 1 * new Date();
 
         gtag("js", new Date());
         gtag("config", GA_ID, { anonymize_ip: true });
         gtag("config", "AW-18496983909");
-        window.ym(YM_ID, "init", { ssr: true, ecommerce: "dataLayer", accurateTrackBounce: true, trackLinks: true });
 
         var started = false;
         function start() {
@@ -236,16 +233,6 @@ Astro.locals.crumbs = breadcrumbTrail(jsonld).map((c: { name: string; url: strin
           s.async = true;
           s.src = "https://www.googletagmanager.com/gtag/js?id=" + GA_ID;
           document.head.appendChild(s);
-
-          var ymSrc = "https://mc.yandex.ru/metrika/tag.js?id=" + YM_ID;
-          for (var j = 0; j < document.scripts.length; j++) {
-            if (document.scripts[j].src === ymSrc) return;
-          }
-          var k = document.createElement("script");
-          var a = document.getElementsByTagName("script")[0];
-          k.async = 1;
-          k.src = ymSrc;
-          a.parentNode.insertBefore(k, a);
         }
 
         function schedule() {
