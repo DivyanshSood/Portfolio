@@ -10,6 +10,7 @@ import EndCta from "../components/brand/EndCta.astro";
 import { SITE, CALENDLY_URL, GOOGLE_MAPS_URL, STARTING_PRICES as P, inr } from "../lib/site.mjs";
 import { TOPICS } from "../lib/entity.mjs";
 import NearbyAreas from "../components/brand/NearbyAreas.astro";
+import { locationBySlug, HUB } from "../lib/locations.mjs";
 
 const canonical = `${SITE}/web-developer-kangra/`;
 const WA = "https://wa.me/919816091875?text=Hi%20Divyansh,%20I%20run%20a%20business%20in%20Kangra%20and%20need%20a%20website.";
@@ -27,6 +28,7 @@ const faqs = [
   { q: "How fast can you deliver?", a: "Typical local builds land in 1–3 weeks. Larger builds with portals or logins run 6–10 weeks, and I give you a written timeline with the fixed quote." },
   { q: "Do you build websites for businesses in Palampur, Jaisinghpur or Dehra?", a: "Yes. I build for businesses across Kangra district — Palampur, Jaisinghpur, Nagrota Bagwan, Baijnath, Dehra, Jawalamukhi, Nurpur and the villages between — with the same fixed, written quote and the same 1–3 week timeline for a local site." },
   { q: "Are you actually based in Kangra district?", a: "Yes — I live and work in Himachal Pradesh, in Kangra district. You're not routing through a metro agency's junior team; you message me on WhatsApp and the person who replies is the person who builds." },
+  { q: "Are you a web development company in Kangra?", a: "No — I'm one web developer, Divyansh Sood, working from Pushp Vihar Colony in Kangra. No sales team and no account manager: the person who answers your WhatsApp is the person who designs, codes and hands over your site. For a Kangra taxi operator, school or shop, that means one conversation, one fixed quote and a site live in one to three weeks." },
 ];
 
 const jsonld = JSON.stringify({
@@ -47,7 +49,7 @@ const jsonld = JSON.stringify({
       "@type": "BreadcrumbList",
       itemListElement: [
         { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
-        { "@type": "ListItem", position: 2, name: "Services", item: `${SITE}/services/` },
+        { "@type": "ListItem", position: 2, name: HUB.label, item: `${SITE}${HUB.href}` },
         { "@type": "ListItem", position: 3, name: "Web developer in Kangra", item: canonical },
       ],
     },
@@ -115,7 +117,7 @@ const jsonld = JSON.stringify({
 
     <Section bare>
       <Faq faqs={faqs} label="(04) Before you ask" />
-      <div class="gap-top"><NearbyAreas /></div>
+      <div class="gap-top"><NearbyAreas near={locationBySlug("kangra").near} /></div>
     </Section>
 
     <EndCta

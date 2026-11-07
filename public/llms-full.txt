@@ -363,14 +363,29 @@ Written from daily AI-assisted client work and from building and running Website
 - How to rank a Himachal business on Google Maps — https://www.divyanshsood.com/blog/rank-on-google-maps-himachal/
 - “Near” pages for a small hotel — https://www.divyanshsood.com/blog/hotel-near-me-landing-pages/
 
-## Local service areas — Himachal Pradesh
+## Local service areas — Himachal Pradesh, Punjab & Chandigarh
 
-Divyansh Sood® Studio is based in the Kangra valley and builds for businesses across Himachal Pradesh, as well as internationally. Local business websites for Himachal Pradesh clients — Kangra, Dharamshala, Shimla and Manali — typically go live in 1–3 weeks.
+Divyansh Sood® Studio is a one-person studio based in the Kangra valley. It builds for businesses in every district of Himachal Pradesh, remotely for Pathankot, Chandigarh, Ludhiana, Jalandhar and Amritsar, and internationally. It is not a company or agency: the person who quotes is the person who builds. Local business websites for Himachal Pradesh clients typically go live in 1–3 weeks. The state-level page is https://www.divyanshsood.com/web-developer-himachal-pradesh/ and a Hindi version of the offering is at https://www.divyanshsood.com/hi/.
 
 - **Dharamshala** — https://www.divyanshsood.com/web-developer-dharamshala/ — booking-first websites for Dharamshala and McLeod Ganj tour operators, hotels, homestays and cafés.
 - **Kangra** — https://www.divyanshsood.com/web-developer-kangra/ — websites for Kangra taxi operators, schools, hotels and local service businesses, including booking forms, admissions portals and local SEO. Kangra clients include Pinnacle World School (Baroh), Yash Rock Hotel (Dehrian), Nandini Travels and Baglamukhi Travels.
 - **Shimla** — https://www.divyanshsood.com/web-developer-shimla/ — hotels, institutions and professional firms, including SEO-safe redesigns.
 - **Manali** — https://www.divyanshsood.com/web-developer-manali/ — direct-booking websites for hotels, camps and adventure operators.
+- **Palampur** — https://www.divyanshsood.com/web-developer-palampur/ — websites for homestays, Bir Billing paragliding operators, tea estates and shops.
+- **Mandi** — https://www.divyanshsood.com/web-developer-mandi/ — websites for highway hotels, coaching institutes, yatra taxis and shops in Mandi, Sundernagar and Jogindernagar.
+- **Hamirpur** — https://www.divyanshsood.com/web-developer-hamirpur/ — websites for schools, coaching institutes, clinics and shops.
+- **Solan** — https://www.divyanshsood.com/web-developer-solan/ — websites for Kasauli and Chail stays, schools, highway hotels and Solan town businesses.
+- **Una** — https://www.divyanshsood.com/web-developer-una/ — websites for Chintpurni yatra taxis, hotels, industrial units in Mehatpur and Gagret, and shops.
+- **Kullu** — https://www.divyanshsood.com/web-developer-kullu/ — websites for Kasol and Parvati valley stays, Tirthan homestays, rafting and trekking operators, and Kullu makers.
+- **Bilaspur** — https://www.divyanshsood.com/web-developer-bilaspur/ — websites for highway hotels, clinics near AIIMS Bilaspur, Naina Devi taxis and shops.
+- **Chamba** — https://www.divyanshsood.com/web-developer-chamba/ — websites for Dalhousie and Khajjiar hotels, Manimahesh yatra operators, Pangi and Sach Pass stays.
+- **Nahan** — https://www.divyanshsood.com/web-developer-nahan/ — websites for Sirmaur — Kala Amb manufacturers, Nahan schools, hotels near Renuka Ji and Paonta Sahib.
+- **Baddi** — https://www.divyanshsood.com/web-developer-baddi/ — websites for B2B websites for pharma and manufacturing units in Baddi–Barotiwala–Nalagarh.
+- **Pathankot** — https://www.divyanshsood.com/web-developer-pathankot/ — websites for taxi operators running to Dalhousie, Dharamshala and Jammu, hotels near the stations, schools and shops.
+- **Chandigarh** — https://www.divyanshsood.com/web-developer-chandigarh/ — websites for startups, clinics, coaching institutes and real-estate firms in Chandigarh, Mohali and Panchkula; remote from Kangra.
+- **Ludhiana** — https://www.divyanshsood.com/web-developer-ludhiana/ — websites for hosiery and knitwear brands, manufacturers and exporters; remote from Kangra.
+- **Jalandhar** — https://www.divyanshsood.com/web-developer-jalandhar/ — websites for sports-goods and leather manufacturers, education consultants and clinics; remote from Kangra.
+- **Amritsar** — https://www.divyanshsood.com/web-developer-amritsar/ — websites for hotels near the Golden Temple, taxi and tour operators, restaurants; remote from Kangra.
 
 On the economics that drive most of this local work: online travel agencies typically take 15–30% of every booking. The purpose of a direct-booking website is not to abandon the OTAs — they are genuinely good at reaching people who have never heard of a property — but to stop paying commission on repeat guests and referrals who were already searching for the business by name.
 

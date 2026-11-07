@@ -7,6 +7,7 @@
 import { FOUNDER_PHOTO, GOOGLE_KG_MID, GOOGLE_MAPS_CID_URL, SAME_AS, STUDIO_ADDRESS, STARTING_PRICES as P, inr } from "./site.mjs";
 import { KNOWS_ABOUT, JOB_TITLE, PERSON_DESCRIPTION } from "./entity.mjs";
 import { projects } from "./projects/data.mjs";
+import { LOCATIONS } from "./locations.mjs";
 
 /* Homepage FAQ — the SINGLE source for both the visible accordion in
    index.astro and the FAQPage node below. Google requires FAQ markup to match
@@ -33,6 +34,10 @@ export const HOME_FAQ = [
   {
     q: "Do you work with clients outside India?",
     a: "Most product work is international. I'm in Himachal Pradesh (IST), which overlaps with US mornings, UK afternoons and Gulf evenings — calls in your time zone, async when you'd rather not meet. Milestone billing, and a repo your future in-house team can take over on day one.",
+  },
+  {
+    q: "Is there a web developer near me in Himachal Pradesh?",
+    a: "If you're in Kangra district or the districts around it, yes — I work from Pushp Vihar Colony, Kangra, and meet clients in person where it's practical. Businesses elsewhere in Himachal, in Punjab and Chandigarh, and outside India work with me over WhatsApp, calls and a live draft link, at the same prices. Every town I serve has its own page, listed under website development across Himachal and Punjab.",
   },
 ];
 
@@ -120,10 +125,13 @@ export function homeJsonLd(SITE) {
         areaServed: [
           { "@type": "Country", name: "India" },
           { "@type": "Place", name: "Worldwide" },
-          { "@type": "City", name: "Dharamshala", containedInPlace: { "@type": "State", name: "Himachal Pradesh" } },
-          { "@type": "City", name: "Kangra", containedInPlace: { "@type": "State", name: "Himachal Pradesh" } },
-          { "@type": "City", name: "Shimla", containedInPlace: { "@type": "State", name: "Himachal Pradesh" } },
-          { "@type": "City", name: "Manali", containedInPlace: { "@type": "State", name: "Himachal Pradesh" } },
+          { "@type": "State", name: "Himachal Pradesh", containedInPlace: { "@type": "Country", name: "India" } },
+          // Every town with its own location page (src/lib/locations.mjs).
+          ...LOCATIONS.map((l) =>
+            l.slug === "chandigarh"
+              ? { "@type": "City", name: l.city, containedInPlace: { "@type": "Country", name: "India" } }
+              : { "@type": "City", name: l.city, containedInPlace: { "@type": "State", name: l.region === "hp" ? "Himachal Pradesh" : "Punjab" } }
+          ),
         ],
         address: STUDIO_ADDRESS,
         hasMap: GOOGLE_MAPS_CID_URL,

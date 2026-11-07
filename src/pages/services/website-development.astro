@@ -90,7 +90,7 @@ const jsonld = JSON.stringify({
       name: "Custom website design and development",
       serviceType: "Website development",
       provider: { "@id": `${SITE}/#studio` },
-      areaServed: [{ "@type": "Country", name: "India" }, { "@type": "Place", name: "Worldwide" }],
+      areaServed: [{ "@type": "State", name: "Himachal Pradesh", containedInPlace: { "@type": "Country", name: "India" } }, { "@type": "Country", name: "India" }, { "@type": "Place", name: "Worldwide" }],
       description:
         "Custom website development services — hand-coded business websites, marketing sites, redesigns and booking-first builds. Technical SEO and Core Web Vitals built in from the first commit, live in 3–4 weeks, and you own the code.",
       url: canonical,
@@ -123,8 +123,8 @@ const jsonld = JSON.stringify({
 ---
 
 <Base
-  title="Website Development Services — Custom-Coded, SEO-Ready"
-  description="Custom website development for businesses worldwide — hand-coded, fast, and built to rank. Live in 3–4 weeks, technical SEO included, and you own the code."
+  title="Website Design & Development — Himachal Pradesh & India"
+  description="Website design and development from Kangra, Himachal Pradesh, for businesses across India and worldwide — hand-coded, fast and built to rank. You own the code."
   canonical={canonical}
   keywords="website development services, custom website development, custom coded website, hire a website developer, freelance website developer, website redesign, business website development, professional website development"
   ogTitle="Custom website development that's built to rank"
@@ -135,6 +135,7 @@ const jsonld = JSON.stringify({
   <main>
     <PageHero
       display="Websites built to be found."
+      h1="Website design & development services — from Himachal Pradesh, for businesses across India."
       size="case"
       kicker="Services · Website development · 2026"
       lead="Custom website development for businesses that need the site to do a job — bring in enquiries, take bookings, and hold up in search. Every build is hand-coded rather than assembled from a template, with technical SEO and page speed treated as requirements from the first commit instead of a phase at the end. Most go live in 3–4 weeks, and you own everything."

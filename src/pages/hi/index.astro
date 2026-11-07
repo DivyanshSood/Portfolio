@@ -1,0 +1,152 @@
+---
+// /hi/ — the one Hindi page (owner decision 2026-11-07). Search Console had
+// "वेब डेवलपर" at position 7 and "डेवलपर" at 5 with no Hindi page on the site
+// at all. hreflang pairs it with the English homepage (en + hi + x-default on
+// both). Same brand rules as every English page: one developer, never a
+// company; no ratings; only the published starting prices.
+//
+// The chevron display stays in Latin script: the self-hosted Archivo has no
+// Devanagari, so a Hindi display line would fall back to a system font at
+// 100px+. The real H1 is Hindi and sits in the intro row.
+import Base from "../../layouts/Base.astro";
+import PageHero from "../../components/brand/PageHero.astro";
+import Section from "../../components/brand/Section.astro";
+import Rows from "../../components/brand/Rows.astro";
+import Cards from "../../components/brand/Cards.astro";
+import Steps from "../../components/brand/Steps.astro";
+import Faq from "../../components/brand/Faq.astro";
+import EndCta from "../../components/brand/EndCta.astro";
+import { SITE, CALENDLY_URL, GOOGLE_MAPS_URL, GOOGLE_REVIEWS_URL, STARTING_PRICES as P, inr } from "../../lib/site.mjs";
+import { TOPICS } from "../../lib/entity.mjs";
+import { FEATURED_LOCATIONS, locationHref, HUB } from "../../lib/locations.mjs";
+
+const canonical = `${SITE}/hi/`;
+const WA = `https://wa.me/919816091875?text=${encodeURIComponent("नमस्ते दिव्यांश जी, मुझे वेबसाइट बनवानी है।")}`;
+const alternates = [
+  { hreflang: "en", href: `${SITE}/` },
+  { hreflang: "hi", href: canonical },
+  { hreflang: "x-default", href: `${SITE}/` },
+];
+
+const offers = [
+  { t: "होटल और होमस्टे की वेबसाइट", d: `कमरे, असली फ़ोटो, रेट और WhatsApp पर सीधी बुकिंग — ताकि जो मेहमान आपका नाम पहले से जानते हैं, वे OTA को कमीशन दिए बिना आपसे बुक करें। शुरुआत ${inr(P.hotel)} से। <a href="/services/hotel-website-development/">होटल वेबसाइट (English) →</a>` },
+  { t: "टैक्सी, टूर और ट्रैवल की वेबसाइट", d: `हर रूट का अपना पेज — दूरी, किराया और क्या शामिल है — ताकि “taxi near me” और “Kangra to Chintpurni taxi” जैसी खोज में आपका नाम आए। शुरुआत ${inr(P.travel)} से। <a href="/services/travel-website-development/">ट्रैवल वेबसाइट (English) →</a>` },
+  { t: "स्कूल की वेबसाइट", d: `CBSE की Mandatory Public Disclosure ठीक तरीक़े से, ऑनलाइन एडमिशन, नोटिस और रिज़ल्ट — और एक एडमिन पैनल जिसे ऑफ़िस ख़ुद चला सके। शुरुआत ${inr(P.school)} से। <a href="/services/school-website-development/">स्कूल वेबसाइट (English) →</a>` },
+  { t: "दुकान, क्लिनिक और बिज़नेस की वेबसाइट", d: `मोबाइल पर तेज़ खुलने वाली वेबसाइट, आपकी Google Business Profile से जुड़ी हुई, ताकि “near me” खोजने वाले आप तक पहुँचें। शुरुआत ${inr(P.basic)} से; ऑनलाइन स्टोर ${inr(P.store)} से। <a href="/services/website-development/">वेबसाइट डेवलपमेंट (English) →</a>` },
+];
+
+const steps = [
+  { t: "बातचीत", d: "WhatsApp या फ़ोन पर बताइए आप क्या करते हैं। मैं ईमानदारी से बताऊँगा कि वेबसाइट से आपको फ़ायदा होगा या नहीं।" },
+  { t: "तय कीमत, लिखित में", d: "एक बातचीत के बाद पूरी कीमत और समय लिखित में। बाद में कीमत नहीं बढ़ती, जब तक काम ही न बदले।" },
+  { t: "डिज़ाइन और कोड", d: "हर बदलाव एक लाइव लिंक पर, जिसे आप अपने फ़ोन पर खोलकर देख सकते हैं। स्थानीय वेबसाइट आम तौर पर 1–3 हफ़्ते में तैयार।" },
+  { t: "हैंडओवर", d: "कोड, डोमेन और होस्टिंग आपके नाम। पूरी जानकारी, एक वॉकथ्रू और 30 दिन का मुफ़्त सपोर्ट।" },
+];
+
+const work = [
+  { tag: "Nandini Travels · कांगड़ा टैक्सी", d: `Google Maps पर मिलने वाली पूछताछ अब वेबसाइट के बुकिंग फ़ॉर्म से सीधे आती है। <a href="/projects/nandini/">केस स्टडी (English) →</a>` },
+  { tag: "Baglamukhi Travels · कांगड़ा", d: `कमीशन एजेंटों के मुक़ाबले ओनर-ड्राइवरों की वेबसाइट — 28 दिन में Google पर 41.8K इम्प्रेशन और 246 क्लिक। <a href="/projects/baglamukhi-travels/">केस स्टडी (English) →</a>` },
+  { tag: "Pinnacle World School · बड़ोह, कांगड़ा", d: `CBSE स्कूल की वेबसाइट, जिसकी हर जानकारी स्कूल के एफ़िलिएशन रिकॉर्ड से मिलती है। <a href="/projects/pinnacle-world-school/">केस स्टडी (English) →</a>` },
+  { tag: "Yash Rock Hotel · देहरियाँ, कांगड़ा", d: `सात कमरों का होटल, हर बुकिंग WhatsApp या कॉल पर, और आस-पास की जगहों के लिए 14 “near” पेज। <a href="/projects/yash-rock-hotel/">केस स्टडी (English) →</a>` },
+  { tag: "sachpass.com · चंबा", d: `साच पास वाली सड़क पर रुकने की हर जगह, और सड़क खुली है या नहीं — हर तारीख़ के स्रोत के साथ। <a href="/projects/sach-pass/">केस स्टडी (English) →</a>` },
+  { tag: "Himalayan Brothers Hotels", d: `धर्मशाला से स्पीति तक परिवार के पाँच होटल, एक ही वेबसाइट पर। <a href="/projects/hotel-himalayan-brothers/">केस स्टडी (English) →</a>` },
+];
+
+const faqs = [
+  { q: "वेबसाइट बनवाने में कितना ख़र्च आता है?", a: `बिज़नेस वेबसाइट ${inr(P.basic)} से, होटल, होमस्टे, टैक्सी या ट्रैवल वेबसाइट ${inr(P.hotel)} से, और एडमिन पैनल वाली स्कूल वेबसाइट या ऑनलाइन स्टोर ${inr(P.school)} से शुरू होते हैं। एक बातचीत के बाद आपको पूरी कीमत लिखित में मिलती है — घंटे के हिसाब से कोई बिल नहीं।` },
+  { q: "वेबसाइट कितने दिन में बन जाती है?", a: "हिमाचल की ज़्यादातर स्थानीय वेबसाइटें 1–3 हफ़्ते में लाइव हो जाती हैं। पोर्टल या लॉगिन वाले बड़े काम में 6–10 हफ़्ते लगते हैं। समय भी कीमत के साथ लिखित में मिलता है।" },
+  { q: "क्या आप वेब डेवलपमेंट कंपनी हैं?", a: "नहीं — मैं एक ही वेब डेवलपर हूँ, दिव्यांश सूद, कांगड़ा से काम करता हूँ। कोई सेल्स टीम नहीं, कोई अकाउंट मैनेजर नहीं। जो WhatsApp पर आपसे बात करता है, वही आपकी वेबसाइट डिज़ाइन करता है, कोड लिखता है और आपको सौंपता है।" },
+  { q: "क्या वेबसाइट का कोड और डोमेन मेरे नाम होगा?", a: "हाँ, पूरी तरह। कोड, डोमेन और होस्टिंग आपके नाम पर, और हैंडओवर पर पूरी जानकारी। कोई मासिक किराया नहीं, और अगला डेवलपर भी आसानी से काम आगे बढ़ा सकता है।" },
+  { q: "मेरे पास कोई वेब डेवलपर है? (web developer near me)", a: `अगर आप कांगड़ा ज़िले या आस-पास के ज़िलों में हैं, तो हाँ — मैं पुष्प विहार कॉलोनी, कांगड़ा से काम करता हूँ और ज़रूरत हो तो मिल भी सकते हैं। मुझे <a href="${GOOGLE_MAPS_URL}">Google Maps</a> पर देखिए। दूर हैं तो भी फ़र्क़ नहीं पड़ता — पूरा काम WhatsApp और फ़ोन पर हिंदी या अंग्रेज़ी में होता है।` },
+  { q: "क्या आप Google Maps पर दिखने में भी मदद करते हैं?", a: `हाँ। वेबसाइट और Google Business Profile साथ मिलकर काम करते हैं — सही कैटेगरी, फ़ोटो और सर्विसेज़ प्रोफ़ाइल पर, और उसी से मेल खाती वेबसाइट। <a href="/blog/rank-on-google-maps-himachal/">Google Maps पर रैंक करने की गाइड (English)</a> पढ़िए।` },
+  { q: "वेबसाइट बनवाने के लिए मुझे क्या करना होगा? (website banwani hai)", a: "बस WhatsApp पर बताइए कि आप क्या करते हैं और कहाँ। बाक़ी — डिज़ाइन, लिखाई, फ़ोटो लगाना, Google पर डालना — मैं संभालता हूँ। आपसे सिर्फ़ जानकारी और फ़ैसले चाहिए।" },
+];
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "@id": `${canonical}#service`,
+      name: "वेबसाइट डिज़ाइन और डेवलपमेंट — कांगड़ा, हिमाचल प्रदेश",
+      serviceType: "Website design and development",
+      provider: { "@id": `${SITE}/#studio` },
+      areaServed: { "@type": "State", name: "Himachal Pradesh", containedInPlace: { "@type": "Country", name: "India" } },
+      availableLanguage: ["hi", "en"],
+      description: "होटल, टैक्सी, स्कूल और दुकानों के लिए हाथ से कोड की गई वेबसाइट — कांगड़ा, हिमाचल प्रदेश से। तय कीमत, कोड आपके नाम।",
+      url: canonical,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "वेब डेवलपर (हिंदी)", item: canonical },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      inLanguage: "hi",
+      mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a.replace(/<[^>]+>/g, "") } })),
+    },
+  ],
+});
+
+const areas = [
+  `<a href="${HUB.href}">हिमाचल प्रदेश में वेब डेवलपर</a>`,
+  ...FEATURED_LOCATIONS.map((l) => `<a href="${locationHref(l.slug)}">Web developer in ${l.city}</a>`),
+].join(" · ");
+---
+
+<Base
+  title="वेबसाइट डेवलपर — कांगड़ा, हिमाचल प्रदेश | दिव्यांश सूद"
+  description="कांगड़ा, हिमाचल प्रदेश में वेब डेवलपर और वेबसाइट डिज़ाइनर। होटल, टैक्सी, स्कूल और दुकानों के लिए वेबसाइट — तय कीमत, 1–3 हफ़्ते में तैयार, कोड आपके नाम।"
+  canonical={canonical}
+  keywords="वेब डेवलपर, वेबसाइट डेवलपर, वेबसाइट डिज़ाइनर, वेबसाइट बनवाना, वेबसाइट बनाने वाला, वेब डेवलपर कांगड़ा, वेब डेवलपर हिमाचल प्रदेश, website banwana"
+  ogTitle="वेब डेवलपर — कांगड़ा, हिमाचल प्रदेश"
+  ogDescription="होटल, टैक्सी, स्कूल और दुकानों के लिए वेबसाइट — एक ही डेवलपर, तय कीमत, कोड आपके नाम।"
+  ogLocale="hi_IN"
+  lang="hi"
+  alternates={alternates}
+  topics={[TOPICS.webDevelopment, TOPICS.himachal]}
+  jsonld={jsonld}
+>
+  <main>
+    <PageHero
+      display="Web developer."
+      h1="कांगड़ा, हिमाचल प्रदेश में वेब डेवलपर और वेबसाइट डिज़ाइनर"
+      size="case"
+      kicker="हिमाचल प्रदेश · कांगड़ा · हिंदी"
+      lead={`मैं दिव्यांश सूद हूँ — कांगड़ा का वेब डेवलपर। हिमाचल के होटल, होमस्टे, टैक्सी ऑपरेटर, स्कूल और दुकानों के लिए वेबसाइट बनाता हूँ — टेम्पलेट से नहीं, हाथ से कोड करके। शुरू से आख़िर तक एक ही इंसान: बात मुझसे, डिज़ाइन मेरा, कोड मेरा। वेबसाइट बनवानी है? WhatsApp पर बताइए आप क्या करते हैं।`}
+    >
+      <a class="btn btn--red" href={WA}>WhatsApp पर बात करें <span aria-hidden="true">→</span></a>
+      <a class="btn btn--ink" href={CALENDLY_URL}>कॉल बुक करें</a>
+      <Fragment slot="notes"><span>पुष्प विहार कॉलोनी, कांगड़ा · <a href={GOOGLE_MAPS_URL} target="_blank" rel="noopener">Google Maps ↗</a> · <a href={GOOGLE_REVIEWS_URL} target="_blank" rel="noopener">Google रिव्यू ↗</a></span><span>तय कीमत · कोड आपके नाम</span></Fragment>
+    </PageHero>
+
+    <Section n={1} term="Setup" note="क्या बनाता हूँ" title="हिमाचल के कारोबार के लिए वेबसाइट">
+      <Rows items={offers} />
+    </Section>
+
+    <Section n={2} term="Pit lane" note="किया हुआ काम" title="हिमाचल में बनी वेबसाइटें">
+      <Cards items={work} />
+    </Section>
+
+    <Section n={3} term="Race weekend" note="चार क़दम" title="काम कैसे होता है" tint>
+      <Steps items={steps} hot={2} />
+    </Section>
+
+    <Section bare>
+      <Faq faqs={faqs} label="(04) पूछने से पहले" title="अक्सर पूछे जाने वाले सवाल" html />
+    </Section>
+
+    <Section n={5} term="Coverage" note="इलाक़े" title="कहाँ-कहाँ काम करता हूँ">
+      <Cards items={[{ tag: "हिमाचल और पंजाब", wide: true, d: areas }, { tag: "English", wide: true, d: `यही जानकारी अंग्रेज़ी में: <a href="/">Divyansh Sood — web developer & website designer (English)</a>.` }]} />
+    </Section>
+
+    <EndCta
+      title="वेबसाइट बनवानी है?"
+      text="बताइए आप क्या करते हैं और कहाँ। मैं ईमानदारी से बताऊँगा कि वेबसाइट से फ़ायदा होगा या नहीं — और कितना ख़र्च आएगा, तय और लिखित में।"
+      primary={{ href: WA, label: "WhatsApp पर बात करें →" }}
+      secondary={{ href: "/services/", label: "सभी सेवाएँ (English) →" }}
+    />
+  </main>
+</Base>

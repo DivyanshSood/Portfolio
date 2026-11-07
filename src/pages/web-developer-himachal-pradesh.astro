@@ -1,0 +1,144 @@
+---
+// Himachal Pradesh hub — the state-level page. Search Console (Oct–Nov 2026)
+// had "website development company in himachal" at position 71, "web design
+// company in himachal" at 91 and "website designing in himachal" at 73 with no
+// page written to answer them. This is that page, and the parent of every
+// location page (their BreadcrumbList points here). The town list comes from
+// src/lib/locations.mjs, so a new town appears here without an edit.
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/brand/PageHero.astro";
+import Section from "../components/brand/Section.astro";
+import Rows from "../components/brand/Rows.astro";
+import Cards from "../components/brand/Cards.astro";
+import ResultGrid from "../components/brand/ResultGrid.astro";
+import Faq from "../components/brand/Faq.astro";
+import EndCta from "../components/brand/EndCta.astro";
+import { SITE, CALENDLY_URL, GOOGLE_MAPS_URL, GOOGLE_REVIEWS_URL, STARTING_PRICES as P, inr } from "../lib/site.mjs";
+import { TOPICS } from "../lib/entity.mjs";
+import { HP_LOCATIONS, PB_LOCATIONS, locationHref, HUB } from "../lib/locations.mjs";
+
+const canonical = `${SITE}${HUB.href}`;
+const WA = "https://wa.me/919816091875?text=Hi%20Divyansh,%20I%20run%20a%20business%20in%20Himachal%20and%20need%20a%20website.";
+
+const offers = [
+  { t: "Hotel & homestay websites", d: `Direct-booking sites for stays from Dalhousie to Kasauli: rooms, rates, the drive, and an enquiry that lands in your WhatsApp. <a href="/services/hotel-website-development/">Hotel website development →</a>` },
+  { t: "Travel, taxi & tour operator websites", d: `A page for every route and package, fares from one data file, and the local SEO that wins “taxi near me” searches. <a href="/services/travel-website-development/">Travel and taxi websites →</a>` },
+  { t: "School & institute websites", d: `CBSE Mandatory Public Disclosure done properly, admissions that reach the office and an admin panel staff can run. <a href="/services/school-website-development/">School website development →</a>` },
+  { t: "Business, shop & manufacturer websites", d: `Phone-first sites for Himachal's shops, clinics, professionals and factories, built to show up for “near me”. <a href="/services/website-development/">Website design and development →</a>` },
+];
+
+const faqs = [
+  { q: "Are you a website development company in Himachal Pradesh?", a: "No — I'm one web developer, Divyansh Sood, working from Kangra district. I'm saying that plainly because a lot of people searching for a “web design company in Himachal” are really looking for someone reliable who'll build it properly and still answer the phone afterwards. With me there's no sales team and no junior handoff: the person who quotes is the person who designs, codes and hands over the site, and you own the code." },
+  { q: "How much does a website cost in Himachal Pradesh?", a: `A business website starts at ${inr(P.basic)}, a hotel, homestay, travel or taxi site at ${inr(P.hotel)}, and a school site with an admin panel or an online store at ${inr(P.school)}. Every project gets a fixed quote in writing after one call. I've written a <a href="/blog/website-cost-himachal-pradesh/">full guide to website costs in Himachal</a>.` },
+  { q: "Which districts of Himachal do you work in?", a: "All twelve. I'm based in Kangra and meet in person where it's practical — Kangra, Hamirpur, Una, Mandi, Chamba and nearby. Clients in Shimla, Solan, Sirmaur, Kullu, Lahaul-Spiti and Kinnaur work with me over WhatsApp, calls and a live draft link, and the process and prices are the same." },
+  { q: "How long does a website take?", a: "Most local Himachal sites go live in 1–3 weeks. Larger builds with portals or logins take 6–10 weeks. You get a written timeline with the quote." },
+  { q: "I searched “web developer near me”. Are you near me?", a: `If you're in Kangra district or the districts around it, yes — I'm in Pushp Vihar Colony, Kangra, and you can find me <a href="${GOOGLE_MAPS_URL}">on Google Maps</a>. If you're further away, distance doesn't change the work: it runs on WhatsApp and calls in Hindi or English.` },
+  { q: "Can you help my business show up on Google Maps too?", a: `Yes. A website and a Google Business Profile work together: the right categories, photos and services on the profile, and a site that backs them up. I've written up <a href="/blog/rank-on-google-maps-himachal/">how to rank on Google Maps in Himachal</a>.` },
+];
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "@id": `${canonical}#service`,
+      name: "Website design and development in Himachal Pradesh",
+      serviceType: "Website design and development",
+      provider: { "@id": `${SITE}/#studio` },
+      areaServed: [
+        { "@type": "State", name: "Himachal Pradesh", containedInPlace: { "@type": "Country", name: "India" } },
+        ...HP_LOCATIONS.map((l) => ({ "@type": "City", name: l.city, containedInPlace: { "@type": "State", name: "Himachal Pradesh" } })),
+      ],
+      description:
+        "Custom-coded websites for businesses across Himachal Pradesh — hotels, homestays, taxi and tour operators, schools, shops and manufacturers — from a one-person studio in Kangra.",
+      url: canonical,
+    },
+    {
+      "@type": "ItemList",
+      "@id": `${canonical}#areas`,
+      name: "Areas served",
+      itemListElement: [...HP_LOCATIONS, ...PB_LOCATIONS].map((l, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: `Web developer in ${l.city}`,
+        url: `${SITE}${locationHref(l.slug)}`,
+      })),
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: HUB.label, item: canonical },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a.replace(/<[^>]+>/g, "") } })),
+    },
+  ],
+});
+
+const townLinks = (list: typeof HP_LOCATIONS) =>
+  list.map((l) => `<a href="${locationHref(l.slug)}">Web developer in ${l.city}</a>`).join(" · ");
+---
+
+<Base
+  title="Website Development in Himachal Pradesh — Every District"
+  description="Website design and development across Himachal Pradesh — Kangra, Shimla, Mandi, Solan, Kullu, Hamirpur, Una, Chamba and more. One developer, fixed quotes."
+  canonical={canonical}
+  keywords="website development Himachal Pradesh, web design Himachal, website designing in Himachal, web developer Himachal Pradesh, website development company in Himachal, web design company Himachal"
+  ogTitle="Web developer in Himachal Pradesh"
+  ogDescription="Hotels, taxis, schools, shops and factories in every district — custom-coded websites from Kangra."
+  topics={[TOPICS.webDevelopment, TOPICS.webDesign, TOPICS.himachal]}
+  jsonld={jsonld}
+>
+  <main>
+    <PageHero
+      display="Web developer in Himachal Pradesh."
+      size="case"
+      kicker="Himachal Pradesh · 12 districts · Since 2022"
+      lead={`I'm Divyansh Sood, a web designer and developer in Kangra, and Himachal is where most of my client work lives: taxi operators in Kangra, hotels from Dharamshala to Spiti, schools in Baroh and Ladwara, the stays on the road over Sach Pass. If you're looking for website development in Himachal Pradesh, this page shows what I build, where, and what it costs.`}
+    >
+      <a class="btn btn--red" href={CALENDLY_URL}>Book a call <span aria-hidden="true">→</span></a>
+      <a class="btn btn--ink" href={WA}>Message on WhatsApp</a>
+      <Fragment slot="notes"><span>Based in Kangra · <a href={GOOGLE_MAPS_URL} target="_blank" rel="noopener">on Google Maps ↗</a> · <a href={GOOGLE_REVIEWS_URL} target="_blank" rel="noopener">Google reviews ↗</a></span><span>Fixed quote · you own the code · <a href="/hi/" hreflang="hi" lang="hi">हिंदी में पढ़ें</a></span></Fragment>
+    </PageHero>
+
+    <Section n={1} term="Setup" note="What I build" title="Website design for how Himachal does business">
+      <Rows items={offers} />
+    </Section>
+
+    <Section n={2} term="Telemetry" note="Himachal work, on the record" title="Results from Himachal builds">
+      <ResultGrid stats={[
+        { v: `41.8K`, l: `Google impressions in 28 days, Baglamukhi Travels, Kangra` },
+        { v: `5`, l: `Hotels from Dharamshala to Spiti on one site` },
+        { v: `71`, l: `Old-URL redirect rules when a Manali agency's 2011 site was rebuilt` },
+        { v: `100`, l: `Lighthouse, every desktop category — Sunny Himachal Travels` },
+      ]} />
+      <div class="gap-top">
+        <Cards items={[
+          { tag: "Case studies", wide: true, d: `Every Himachal build, with what was made and why: <a href="/portfolio/">see the portfolio</a> or <a href="/results/">the results in numbers</a>.` },
+        ]} />
+      </div>
+    </Section>
+
+    <Section n={3} term="Coverage" note="By district" title="Every district, one developer" tint>
+      <Cards items={[
+        { tag: "Himachal Pradesh", wide: true, d: townLinks(HP_LOCATIONS) },
+        { tag: "Also in the state", wide: true, d: `Lahaul-Spiti and Kinnaur — Kaza, Keylong, Reckong Peo, Sangla — work the same way, over WhatsApp. The Himalayan Brothers group already runs a hotel in Spiti on <a href="/projects/hotel-himalayan-brothers/">a site I rebuilt</a>.` },
+        { tag: "Nearby: Punjab & Chandigarh", wide: true, d: townLinks(PB_LOCATIONS) },
+      ]} />
+    </Section>
+
+    <Section bare>
+      <Faq faqs={faqs} label="(04) Before you ask" html />
+    </Section>
+
+    <EndCta
+      title="Run a business in Himachal?"
+      text="Tell me what you do and where. I'll tell you honestly whether a website will help — and what it would cost, fixed, in writing."
+      primary={{ href: WA, label: "Message on WhatsApp →" }}
+      secondary={{ href: "/services/", label: "See all services →" }}
+    />
+  </main>
+</Base>

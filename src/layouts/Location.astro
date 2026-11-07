@@ -1,0 +1,143 @@
+---
+// Location page (/web-developer-<slug>/). Content lives in
+// src/lib/locations.mjs — read the rules at the top of that file before
+// adding a town. Proof cards read the case studies from data.mjs by slug, the
+// same way Vertical.astro does, so names, images and URLs can't drift.
+import Base from "./Base.astro";
+import PageHero from "../components/brand/PageHero.astro";
+import Section from "../components/brand/Section.astro";
+import Rows from "../components/brand/Rows.astro";
+import Cards from "../components/brand/Cards.astro";
+import ProjectCard from "../components/brand/ProjectCard.astro";
+import Faq from "../components/brand/Faq.astro";
+import NearbyAreas from "../components/brand/NearbyAreas.astro";
+import EndCta from "../components/brand/EndCta.astro";
+import { SITE, CALENDLY_URL, GOOGLE_MAPS_URL } from "../lib/site.mjs";
+import { TOPICS } from "../lib/entity.mjs";
+import { projects } from "../lib/projects/data.mjs";
+import { locationWa, HUB } from "../lib/locations.mjs";
+
+const { l } = Astro.props;
+const canonical = `${SITE}/web-developer-${l.slug}/`;
+const WA = locationWa(l);
+const pad = (n: number) => String(n).padStart(2, "0");
+const isHP = l.region === "hp";
+
+const proof = l.proof.map((slug: string) => {
+  const p = projects.find((x) => x.slug === slug);
+  if (!p) throw new Error(`web-developer-${l.slug}: unknown proof project ${slug}`);
+  if (p.personal) throw new Error(`web-developer-${l.slug}: ${slug} is a personal project, not client proof`);
+  return p;
+});
+const posOf = (slug: string) => `P${pad(projects.findIndex((x) => x.slug === slug) + 1)}`;
+
+// Chandigarh is a union territory, not a city inside Punjab — say what it is.
+const place =
+  l.slug === "chandigarh"
+    ? { "@type": "City", name: "Chandigarh", containedInPlace: { "@type": "Country", name: "India" } }
+    : { "@type": "City", name: l.city, containedInPlace: { "@type": "State", name: isHP ? "Himachal Pradesh" : "Punjab" } };
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "@id": `${canonical}#service`,
+      name: `Web design and development in ${l.city}`,
+      serviceType: "Website design and development",
+      provider: { "@id": `${SITE}/#studio` },
+      areaServed: place,
+      description: l.description,
+      url: canonical,
+    },
+    {
+      "@type": "ItemList",
+      "@id": `${canonical}#work`,
+      name: `Case studies relevant to ${l.city}`,
+      itemListElement: proof.map((p: any, i: number) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: p.name,
+        url: `${SITE}/projects/${p.slug}/`,
+      })),
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: HUB.label, item: `${SITE}${HUB.href}` },
+        { "@type": "ListItem", position: 3, name: `Web developer in ${l.city}`, item: canonical },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: l.faqs.map((f: any) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+    },
+  ],
+});
+
+const industry = isHP
+  ? `What I build most in Himachal: <a href="/services/hotel-website-development/">hotel and homestay websites</a>, <a href="/services/travel-website-development/">travel and taxi websites</a> and <a href="/services/school-website-development/">school websites</a>. For everything else, see <a href="/services/website-development/">website design and development</a>.`
+  : `The builds behind this page: <a href="/services/website-development/">website design and development</a>, <a href="/services/web-app-development/">web apps and MVPs</a>, <a href="/services/ecommerce-website-development/">e-commerce stores</a> and <a href="/services/hotel-website-development/">hotel websites</a>.`;
+---
+
+<Base
+  title={l.title}
+  description={l.description}
+  canonical={canonical}
+  keywords={l.keywords}
+  ogTitle={`Web developer in ${l.city}`}
+  ogDescription={l.ogDescription}
+  topics={[TOPICS.webDevelopment, isHP ? TOPICS.himachal : TOPICS.india]}
+  jsonld={jsonld}
+>
+  <main>
+    <PageHero display={`Web developer in ${l.city}.`} size="case" kicker={l.kicker} lead={l.lead}>
+      <a class="btn btn--red" href={CALENDLY_URL}>Book a call <span aria-hidden="true">→</span></a>
+      <a class="btn btn--ink" href={WA}>Message on WhatsApp</a>
+      <Fragment slot="notes">
+        <span>Based in Kangra, Himachal · <a href={GOOGLE_MAPS_URL} target="_blank" rel="noopener">on Google Maps ↗</a></span>
+        <span>{l.tier === "remote" ? "Remote · fixed quote" : "Live in 1–3 weeks"}</span>
+      </Fragment>
+    </PageHero>
+
+    <Section n={1} term="Setup" note="The offering" title={l.offersHead}>
+      <Rows items={l.offers} />
+    </Section>
+
+    <Section n={2} term="Pit lane" note="Work you can check" title="Built and live">
+      <p class="loc-note">{l.proofNote}</p>
+      <div class="vp">
+        {proof.map((p: any) => (
+          <ProjectCard href={`/projects/${p.slug}/`} pos={posOf(p.slug)} tags={p.tags} year={p.year} img={p.feature.src} alt={p.feature.alt} name={p.name} line={p.line} foot={p.location} />
+        ))}
+      </div>
+    </Section>
+
+    <Section n={3} term="Coverage" note={l.district} title={`Website design across ${l.city} and around it`} tint>
+      <Cards items={[
+        { tag: "Towns covered", wide: true, d: l.coverage },
+        { tag: "How we'd work", d: l.howWeWork },
+        { tag: "By industry", d: industry },
+        { tag: "Before you hire anyone", wide: true, d: `Read <a href="/blog/how-to-choose-web-developer-himachal/">how to choose a web developer</a> and <a href="/blog/website-cost-himachal-pradesh/">what a website costs in Himachal</a>, or get a <a href="/website-audit/">free audit of the site you have now</a>.` },
+      ]} />
+    </Section>
+
+    <Section bare>
+      <Faq faqs={l.faqs} label="(04) Before you ask" />
+      <div class="gap-top"><NearbyAreas near={l.near} /></div>
+    </Section>
+
+    <EndCta
+      title={`Run a business in ${l.city}?`}
+      text="Message me what you do. I'll tell you honestly whether a website will move the needle for you — and what it would cost, fixed, in writing."
+      primary={{ href: WA, label: "Message on WhatsApp →" }}
+      secondary={{ href: HUB.href, label: "All areas I serve →" }}
+    />
+  </main>
+</Base>
+
+<style>
+  .loc-note{max-width:68ch;margin:0 0 clamp(24px,3vw,40px)}
+  .vp{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,560px),1fr));gap:clamp(40px,4vw,64px) clamp(16px,2.4vw,36px)}
+</style>

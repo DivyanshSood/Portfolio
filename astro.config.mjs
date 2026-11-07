@@ -89,7 +89,7 @@ export default defineConfig({
         } else if (path.startsWith("/blog/") || path.startsWith("/projects/")) {
           item.changefreq = monthly;
           item.priority = 0.7;
-        } else if (path.startsWith("/services/") || path.startsWith("/web-developer-") || path.startsWith("/tools/")) {
+        } else if (path.startsWith("/services/") || path.startsWith("/web-developer-") || path.startsWith("/tools/") || path === "/hi/") {
           // Commercial service + location + free-tool pages — crawl-priority
           // just below the blog hub, above the generic marketing pages. The
           // free tools are link magnets, so they earn the higher tier.

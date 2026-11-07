@@ -27,7 +27,7 @@
 
 /** @type {Record<string, string>} URL path (trailing slash) → ISO date */
 export const PAGE_UPDATED = {
-  "/": "2026-11-06",
+  "/": "2026-11-07",
   "/about/": "2026-11-06",
   "/agencies/": "2026-11-06",
   "/portfolio/": "2026-11-06",
@@ -50,16 +50,37 @@ export const PAGE_UPDATED = {
   "/services/landing-page-design/": "2026-11-06",
   "/services/seo-geo-services/": "2026-07-29",
   "/services/web-app-development/": "2026-11-06",
-  "/services/website-development/": "2026-11-06",
+  "/services/website-development/": "2026-11-07",
 
   // Industry pages — content in src/lib/verticals.mjs.
   "/services/school-website-development/": "2026-11-06",
   "/services/hotel-website-development/": "2026-09-29",
   "/services/travel-website-development/": "2026-11-06",
 
-  // Location pages
-  "/web-developer-dharamshala/": "2026-11-06",
-  "/web-developer-kangra/": "2026-11-06",
-  "/web-developer-manali/": "2026-11-06",
-  "/web-developer-shimla/": "2026-11-06",
+  // Location pages — the four hand-written ones gained a "company" FAQ, the
+  // hub breadcrumb and their own nearby list on 2026-11-07; the rest are
+  // generated from src/lib/locations.mjs (added 2026-11-07).
+  "/web-developer-himachal-pradesh/": "2026-11-07",
+  "/web-developer-dharamshala/": "2026-11-07",
+  "/web-developer-kangra/": "2026-11-07",
+  "/web-developer-manali/": "2026-11-07",
+  "/web-developer-shimla/": "2026-11-07",
+  "/web-developer-palampur/": "2026-11-07",
+  "/web-developer-mandi/": "2026-11-07",
+  "/web-developer-hamirpur/": "2026-11-07",
+  "/web-developer-solan/": "2026-11-07",
+  "/web-developer-una/": "2026-11-07",
+  "/web-developer-kullu/": "2026-11-07",
+  "/web-developer-bilaspur/": "2026-11-07",
+  "/web-developer-chamba/": "2026-11-07",
+  "/web-developer-nahan/": "2026-11-07",
+  "/web-developer-baddi/": "2026-11-07",
+  "/web-developer-pathankot/": "2026-11-07",
+  "/web-developer-chandigarh/": "2026-11-07",
+  "/web-developer-ludhiana/": "2026-11-07",
+  "/web-developer-jalandhar/": "2026-11-07",
+  "/web-developer-amritsar/": "2026-11-07",
+
+  // Hindi page (hreflang pair with "/").
+  "/hi/": "2026-11-07",
 };

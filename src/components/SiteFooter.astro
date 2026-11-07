@@ -2,6 +2,7 @@
 // Footer — Home.dc.html, on every page. The "lap finished" stopwatch banner
 // from the design canvas is left out: the brandbook bans stopwatch readouts.
 import { GOOGLE_MAPS_URL, GOOGLE_REVIEWS_URL } from "../lib/site.mjs";
+import { FEATURED_LOCATIONS, locationHref, HUB } from "../lib/locations.mjs";
 ---
 
 <footer class="ft">
@@ -38,10 +39,9 @@ import { GOOGLE_MAPS_URL, GOOGLE_REVIEWS_URL } from "../lib/site.mjs";
       </nav>
       <nav aria-label="Locations" class="ft-col">
         <span>LOCATIONS</span>
-        <a href="/web-developer-kangra/">Web developer Kangra</a>
-        <a href="/web-developer-dharamshala/">Web developer Dharamshala</a>
-        <a href="/web-developer-shimla/">Web developer Shimla</a>
-        <a href="/web-developer-manali/">Web developer Manali</a>
+        <a href={HUB.href}>Web developer Himachal</a>
+        <a href="/hi/" lang="hi">वेब डेवलपर (हिंदी)</a>
+        {FEATURED_LOCATIONS.map((l) => <a href={locationHref(l.slug)}>Web developer {l.city}</a>)}
       </nav>
       <nav aria-label="Socials" class="ft-col">
         <span>ELSEWHERE</span>

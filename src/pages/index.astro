@@ -12,13 +12,16 @@ import { projects, projectCountWord } from "../lib/projects/data.mjs";
 import { POSTS } from "../lib/blog.mjs";
 import { localVariant, localSrcset } from "../lib/images.mjs";
 import { TOPICS } from "../lib/entity.mjs";
+import { LOCATIONS, locationHref, HUB } from "../lib/locations.mjs";
 
 // Title and description are the live, Search-Console-tuned strings (the
 // September 2026 move to state-level geography) — the brandbook keeps SEO
 // titles intact.
-const META_TITLE = "Web Designer & Developer in Himachal Pradesh · Divyansh Sood"; // 60 chars
+// Nov 2026: "web developer" leads (the GBP name and the near-me query), and
+// "website designer" covers the second-biggest local phrasing.
+const META_TITLE = "Web Developer & Website Designer, Himachal Pradesh · Divyansh Sood"; // 65 chars
 const META_DESCRIPTION =
-  "Web designer & developer in Kangra, Himachal Pradesh. Custom-coded websites for schools, hotels, travel operators and brands across India. You own the code."; // 155
+  "Web developer & website designer in Kangra, Himachal Pradesh. Website development for schools, hotels, travel operators and brands in India. You own the code."; // 158
 
 const jsonld = homeJsonLd(SITE);
 
@@ -63,10 +66,12 @@ const CHIPS = [
   { href: "/services/ecommerce-website-development/", label: "E-commerce" },
   { href: "/services/landing-page-design/", label: "Landing pages" },
   { href: "/services/seo-geo-services/", label: "SEO & GEO", kind: "red" },
-  { href: "/web-developer-kangra/", label: "Kangra", kind: "muted" },
-  { href: "/web-developer-dharamshala/", label: "Dharamshala", kind: "muted" },
-  { href: "/web-developer-shimla/", label: "Shimla", kind: "muted" },
-  { href: "/web-developer-manali/", label: "Manali", kind: "muted" },
+];
+// Every location page, from locations.mjs — the visible "areas served" list.
+const AREA_CHIPS = [
+  { href: HUB.href, label: "All of Himachal", kind: "red" },
+  ...LOCATIONS.map((l) => ({ href: locationHref(l.slug), label: l.city, kind: "muted" })),
+  { href: "/hi/", label: "हिंदी में", kind: "muted" },
 ];
 
 const PROCESS = [
@@ -106,6 +111,11 @@ const WRITING = [
   keywords="freelance web developer, freelance web designer, hire freelance developer, Divyansh Sood, custom website design and development, hire web developer, conversion-focused website, Next.js developer, Astro developer, ecommerce website developer, web app MVP developer, SEO web developer, Himachal Pradesh, India"
   ogDescription="Custom-coded websites that convert — designed, built and live in 3–4 weeks. You own the code."
   topics={[TOPICS.webDevelopment, TOPICS.webDesign, TOPICS.ecommerce, TOPICS.seo]}
+  alternates={[
+    { hreflang: "en", href: `${SITE}/` },
+    { hreflang: "hi", href: `${SITE}/hi/` },
+    { hreflang: "x-default", href: `${SITE}/` },
+  ]}
   jsonld={jsonld}
 >
 
@@ -237,9 +247,15 @@ const WRITING = [
           ))}
         </div>
         <div class="svc-chips">
-          <div class="chips-lbl">Specialist builds &amp; locations</div>
+          <div class="chips-lbl">Specialist builds</div>
           <div class="chips">
             {CHIPS.map((c) => (
+              <a href={c.href} class:list={["chip", { "chip--red": c.kind === "red", "chip--muted": c.kind === "muted" }]}>{c.label}</a>
+            ))}
+          </div>
+          <h3 class="chips-lbl chips-lbl--gap">Website development across Himachal &amp; Punjab</h3>
+          <div class="chips">
+            {AREA_CHIPS.map((c) => (
               <a href={c.href} class:list={["chip", { "chip--red": c.kind === "red", "chip--muted": c.kind === "muted" }]}>{c.label}</a>
             ))}
           </div>
@@ -435,6 +451,7 @@ const WRITING = [
   .svc-t{flex:1 1 280px;margin:0;font-weight:900;font-style:italic;font-stretch:125%;text-transform:uppercase;font-size:clamp(28px,3.4vw,52px);line-height:.95;letter-spacing:-0.02em}
   .svc-d{flex:1 1 340px;margin:0;font-size:17px;line-height:1.55;color:var(--g3e);max-width:52ch}
   .svc-chips{margin-top:clamp(28px,3vw,44px)}
+  .chips-lbl--gap{margin-top:24px;font-weight:inherit}
 
   /* ---- 06 Process (tint) ---- */
   .process-h{margin-bottom:clamp(36px,5vw,64px);max-width:12ch}

@@ -224,7 +224,7 @@ export function completeGraph(jsonldString, page) {
       ...(page.description ? { description: page.description } : {}),
       isPartOf: { "@id": `${SITE}/#website` },
       ...(page.topics?.length ? { about: page.topics } : {}),
-      inLanguage: "en",
+      inLanguage: page.lang ?? "en",
     });
   }
 

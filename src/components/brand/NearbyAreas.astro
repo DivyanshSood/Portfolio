@@ -1,20 +1,24 @@
 ---
-// Cross-links between the four city pages. Each was reachable only from the
-// footer column and the homepage, so none of them passed any contextual
-// equity to the others — this row ties the location cluster together.
-const AREAS = [
-  { href: "/web-developer-kangra/", label: "Web developer in Kangra" },
-  { href: "/web-developer-dharamshala/", label: "Web developer in Dharamshala" },
-  { href: "/web-developer-shimla/", label: "Web developer in Shimla" },
-  { href: "/web-developer-manali/", label: "Web developer in Manali" },
-];
+// Cross-links between the location pages, from src/lib/locations.mjs. A page
+// passes `near` (its closest towns, in order); pages without one get the
+// featured set. The Himachal hub is always linked unless it's this page.
+import { LOCATIONS, FEATURED_LOCATIONS, locationBySlug, locationHref, HUB } from "../../lib/locations.mjs";
+
+interface Props {
+  near?: string[];
+}
 const here = Astro.url.pathname;
+const list = (Astro.props.near?.map((s) => locationBySlug(s)).filter(Boolean) ?? FEATURED_LOCATIONS) as typeof LOCATIONS;
+const links = [
+  ...list.map((l) => ({ href: locationHref(l.slug), label: `Web developer in ${l.city}` })),
+  HUB,
+].filter((a) => a.href !== here);
 ---
 
 <nav aria-label="Other areas I serve" class="nearby">
   <div class="lbl">Also serving</div>
   <div class="links-row">
-    {AREAS.filter((a) => a.href !== here).map((a) => <a href={a.href}>{a.label} →</a>)}
+    {links.map((a) => <a href={a.href}>{a.label} →</a>)}
   </div>
 </nav>
 

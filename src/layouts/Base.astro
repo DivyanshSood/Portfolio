@@ -48,6 +48,10 @@ export interface Props {
   topics?: object[];
   /** Keep the page out of the index (404). */
   noindex?: boolean;
+  /** <html lang>. Only /hi/ sets this. */
+  lang?: string;
+  /** hreflang alternates — set on "/" and "/hi/" only, each listing both plus x-default. */
+  alternates?: { hreflang: string; href: string }[];
 }
 
 const {
@@ -70,6 +74,8 @@ const {
   preloadImage,
   topics,
   noindex = false,
+  lang = "en",
+  alternates = [],
 } = Astro.props;
 
 // The hero breadcrumb (PageHero) reads the trail from the page's own
@@ -81,7 +87,7 @@ Astro.locals.crumbs = breadcrumbTrail(jsonld).map((c: { name: string; url: strin
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -103,6 +109,7 @@ Astro.locals.crumbs = breadcrumbTrail(jsonld).map((c: { name: string; url: strin
     {BING_VERIFY && <meta name="msvalidate.01" content={BING_VERIFY} />}
     {YANDEX_VERIFY && <meta name="yandex-verification" content={YANDEX_VERIFY} />}
     {canonical && <link rel="canonical" href={canonical} />}
+    {alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
 
     {canonical && (
       <>
@@ -169,7 +176,7 @@ Astro.locals.crumbs = breadcrumbTrail(jsonld).map((c: { name: string; url: strin
       <script
         type="application/ld+json"
         is:inline
-        set:html={completeGraph(jsonld, { canonical, name: ogTitle ?? title, description, topics })}
+        set:html={completeGraph(jsonld, { canonical, name: ogTitle ?? title, description, topics, lang })}
       />
     )}
 

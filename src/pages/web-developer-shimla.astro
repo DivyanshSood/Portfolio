@@ -10,6 +10,7 @@ import EndCta from "../components/brand/EndCta.astro";
 import { SITE, CALENDLY_URL, GOOGLE_MAPS_URL, STARTING_PRICES as P, inr } from "../lib/site.mjs";
 import { TOPICS } from "../lib/entity.mjs";
 import NearbyAreas from "../components/brand/NearbyAreas.astro";
+import { locationBySlug, HUB } from "../lib/locations.mjs";
 
 const canonical = `${SITE}/web-developer-shimla/`;
 const WA = "https://wa.me/919816091875?text=Hi%20Divyansh,%20I%20run%20a%20business%20in%20Shimla%20and%20need%20a%20website.";
@@ -26,6 +27,7 @@ const faqs = [
   { q: "What does a website cost in Shimla?", a: `A firm's website starts at ${inr(P.basic)}, a hotel site at ${inr(P.hotel)}, and a school or institution site with an admin panel at ${inr(P.school)}. Those are three different scopes, so I quote after one conversation, fixed and in writing. You'll know the whole number before anything starts.` },
   { q: "Can you redesign our existing website without losing our Google rankings?", a: "Yes — that's a technical SEO job as much as a design job: preserving URLs or redirecting them properly, keeping the content Google already trusts, and shipping a faster site that improves rankings rather than gambling with them." },
   { q: "How is this different from hiring a big agency in Chandigarh or Delhi?", a: "You work directly with the person who designs and codes — no account managers, no junior handoffs, no six-month timelines. Builds go live in 1–3 weeks, you own the code outright, and support doesn't die after launch." },
+  { q: "Are you a website development company in Shimla?", a: "No — I'm one web developer, Divyansh Sood, working from Kangra district. Shimla businesses usually compare me with agencies; the difference is that you deal with the developer directly, the quote is fixed in writing, and the site goes live in weeks rather than months." },
 ];
 
 const jsonld = JSON.stringify({
@@ -46,7 +48,7 @@ const jsonld = JSON.stringify({
       "@type": "BreadcrumbList",
       itemListElement: [
         { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
-        { "@type": "ListItem", position: 2, name: "Services", item: `${SITE}/services/` },
+        { "@type": "ListItem", position: 2, name: HUB.label, item: `${SITE}${HUB.href}` },
         { "@type": "ListItem", position: 3, name: "Web developer in Shimla", item: canonical },
       ],
     },
@@ -105,7 +107,7 @@ const jsonld = JSON.stringify({
 
     <Section bare>
       <Faq faqs={faqs} label="(03) Before you ask" />
-      <div class="gap-top"><NearbyAreas /></div>
+      <div class="gap-top"><NearbyAreas near={locationBySlug("shimla").near} /></div>
     </Section>
 
     <EndCta

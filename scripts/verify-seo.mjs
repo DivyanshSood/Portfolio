@@ -303,6 +303,41 @@ console.log("\n7. Per-page hygiene (H1, canonical, title, description, alt text)
   else pass(`all ${indexable.length} indexable pages pass H1 / canonical / title / description / alt`);
 }
 
+/* ── 8. Location pages must not be name-swapped copies (doorway guard) ────── */
+// Google's spam policy treats near-identical town pages as doorway pages. The
+// 15 generated pages come from src/lib/locations.mjs; this fails the build if
+// two location pages share a title or a lead paragraph — with the town names
+// masked out first, so "X in Solan" vs "X in Una" counts as the same. (The H1
+// is "Web developer in <town>" on purpose, so it is only checked for presence.)
+console.log("\n8. Location pages are distinct (doorway guard)");
+{
+  const locs = indexable.filter(([p]) => p.startsWith("/web-developer-"));
+  const text = (h) => (h ?? "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+  const towns = locs.map(([p]) => p.slice("/web-developer-".length, -1).replace(/-/g, " "));
+  const mask = (s) => towns.reduce((acc, t) => acc.replace(new RegExp(t, "gi"), "X"), s.toLowerCase());
+  const fields = {
+    title: (h) => attr(h, /<title>([\s\S]*?)<\/title>/i),
+    h1: (h) => text(h.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i)?.[1]),
+    lead: (h) => text(h.match(/<p class="intro[^"]*"[^>]*>([\s\S]*?)<\/p>/i)?.[1]),
+  };
+  const dupes = [];
+  for (const [name, get] of Object.entries(fields)) {
+    const seen = new Map();
+    for (const [p, h] of locs) {
+      const v = get(h);
+      if (!v) {
+        dupes.push(`${p}: no ${name} found`);
+        continue;
+      }
+      const key = mask(v);
+      if (name !== "h1" && seen.has(key)) dupes.push(`${p} and ${seen.get(key)} share a ${name} once town names are masked`);
+      seen.set(key, p);
+    }
+  }
+  if (dupes.length) dupes.forEach(fail);
+  else pass(`all ${locs.length} location pages have their own title and lead`);
+}
+
 /* ── Summary ─────────────────────────────────────────────────────────────── */
 console.log("");
 if (failures) {
