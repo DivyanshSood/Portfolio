@@ -18,7 +18,7 @@ export const VERTICALS = {
     name: "School website development",
     title: "School Website Development in Himachal & India — CBSE-Ready",
     description:
-      "CBSE-ready school websites for Himachal and India: Mandatory Public Disclosure, admissions over WhatsApp or a portal, notices and fees. Custom-coded, no SaaS fees.",
+      "CBSE-ready school websites for Himachal and India: Mandatory Public Disclosure, admissions over WhatsApp or a portal, notices and fees. No SaaS fees.",
     keywords:
       "school website development, school website design Himachal, CBSE school website, school website developer India, mandatory public disclosure page, school admissions portal, school website Kangra",
     ogTitle: "School website development — CBSE-ready",
@@ -64,7 +64,7 @@ export const VERTICALS = {
     name: "Hotel & homestay website development",
     title: "Hotel & Homestay Website Design in Himachal — Direct Bookings",
     description:
-      "Hotel and homestay websites in Himachal that win direct bookings: WhatsApp enquiries, honest rooms and rates, “near” pages for local search, fast on hill networks.",
+      "Hotel and homestay websites in Himachal that win direct bookings: WhatsApp enquiries, honest rooms and rates, “near” pages, fast on hill networks.",
     keywords:
       "hotel website design Himachal, hotel website development India, homestay website designer, resort website Himachal, direct booking hotel website, hotel website Kangra, hotel website Dharamshala",
     ogTitle: "Hotel & homestay websites — built for direct bookings",
@@ -110,7 +110,7 @@ export const VERTICALS = {
     name: "Travel & taxi website development",
     title: "Travel Agency & Taxi Website Development in Himachal",
     description:
-      "Websites for tour operators, travel agencies and taxi services in Himachal and India: a page per trip, route and town, WhatsApp booking, local SEO. Custom-coded.",
+      "Websites for tour operators, travel agencies and taxi services in Himachal and India: a page per trip, route and town, WhatsApp booking and local SEO.",
     keywords:
       "travel agency website development, taxi website developer, tour operator website Himachal, travel website design India, taxi service website Kangra, tour package website, travel website Dharamshala",
     ogTitle: "Travel & taxi websites — a page for every trip, route and town",

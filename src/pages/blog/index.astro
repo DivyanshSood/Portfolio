@@ -71,7 +71,7 @@ const jsonld = JSON.stringify({
           <div class="chips-lbl">Start with a topic</div>
           <div class="chips"><a class="chip chip--red" href="/blog/topics/ai-web-development/">AI in web development →</a></div>
         </nav>
-        <div class="lbl">(01) Journal — all posts, newest first</div>
+        <h2 class="lbl bl-h">(01) Journal — all posts, newest first</h2>
         <PostList items={posts.map((p) => ({ href: `/blog/${p.slug}/`, title: p.title, meta: `${fmtDate(p.pubDate)} · ${p.tags[0] || "Notes"} · ${p.readMins} min` }))} />
       </div>
     </section>
@@ -82,4 +82,5 @@ const jsonld = JSON.stringify({
   .bl-n{color:var(--red)}
   .bl{padding:clamp(28px,4vw,48px) var(--gutter) var(--sec-y)}
   .bl-topics{margin-bottom:clamp(40px,5vw,64px)}
+  .bl-h{margin-top:0;font-weight:inherit;line-height:inherit}
 </style>
