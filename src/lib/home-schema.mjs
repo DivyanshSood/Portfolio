@@ -4,7 +4,7 @@
    same serialised string as before.
    =========================================================================== */
 
-import { FOUNDER_PHOTO, GOOGLE_KG_MID, GOOGLE_MAPS_CID_URL, SAME_AS, STUDIO_ADDRESS, STARTING_PRICES as P, inr } from "./site.mjs";
+import { FOUNDER_PHOTO, GOOGLE_KG_MID, GOOGLE_MAPS_CID_URL, SAME_AS, STUDIO_ADDRESS, STUDIO_GEO, STARTING_PRICES as P, inr } from "./site.mjs";
 import { KNOWS_ABOUT, JOB_TITLE, PERSON_DESCRIPTION } from "./entity.mjs";
 import { projects } from "./projects/data.mjs";
 import { LOCATIONS } from "./locations.mjs";
@@ -134,6 +134,7 @@ export function homeJsonLd(SITE) {
           ),
         ],
         address: STUDIO_ADDRESS,
+        geo: STUDIO_GEO,
         hasMap: GOOGLE_MAPS_CID_URL,
         sameAs: [...SAME_AS, GOOGLE_MAPS_CID_URL],
         // Same Knowledge Graph MID the publisher node carries (entity.mjs) — the

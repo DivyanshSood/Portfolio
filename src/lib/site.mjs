@@ -74,15 +74,27 @@ export const GOOGLE_KG_MID = "/g/11z9n1tjmg";
    It must match the Google Business Profile and the JustDial listing character
    for character, or the three read as different businesses. Street and
    locality are as published on the JustDial listing (Pushp Vihar Colony,
-   Kangra). postalCode is deliberately absent until it is confirmed against the
-   Business Profile — a wrong PIN is worse than none.
+   Kangra). postalCode 176001 was confirmed against the Business Profile on
+   2026-11-07 (the listing reads "Pushp Vihar Colony, Kangra, Himachal Pradesh
+   176001").
 --------------------------------------------------------------------------- */
 export const STUDIO_ADDRESS = {
   "@type": "PostalAddress",
   streetAddress: "Pushp Vihar Colony",
   addressLocality: "Kangra",
   addressRegion: "Himachal Pradesh",
+  postalCode: "176001",
   addressCountry: "IN",
+};
+
+/* The Business Profile pin's coordinates, read from the listing's Maps URL
+   (@32.1008606,76.2763829) on 2026-11-07. Used as `geo` on the homepage
+   LocalBusiness node so the site and the listing name the same point. If the
+   pin is ever moved in the Business Profile, update these to match. */
+export const STUDIO_GEO = {
+  "@type": "GeoCoordinates",
+  latitude: 32.1008606,
+  longitude: 76.2763829,
 };
 
 /* ---------------------------------------------------------------------------
