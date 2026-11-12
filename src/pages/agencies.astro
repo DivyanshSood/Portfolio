@@ -30,7 +30,7 @@ const how = [
 
 const faqs = [
   { q: "Do you truly white-label?", a: "Yes — across the Figma file, the git commits, the invoice. Your client sees one name: yours." },
-  { q: "What do you charge agencies?", a: "Project-based or a day rate. Keener than my direct rate because you bring the brief, the client, and the PM." },
+  { q: "What do you charge agencies?", a: "A fixed project quote in writing, agreed before the build starts. You bring the brief, the client and the project management, and the quote reflects that." },
   { q: "Who owns the code?", a: "Your client's. 100%. Signed IP transfer with the final invoice." },
   { q: "How do we communicate across time zones?", a: "Whatever tool you already use. I take your 7am call when it has to be 7am." },
 ];
@@ -103,7 +103,7 @@ const jsonld = JSON.stringify({
       ]} />
       <div class="gap-top">
         <Cards items={[
-          { tag: `Nandini Travels`, wide: true, d: `“The website is so beautiful — looks 10 times more premium than our competitors.” — Founder, Nandini Travels · <a href="/testimonials/">more proof →</a> · <a href="${GOOGLE_REVIEWS_URL}" target="_blank" rel="noopener">Google reviews ↗</a>` },
+          { tag: `Nandini Travels`, wide: true, d: `“The website is so beautiful — looks 10 times more premium than our competitors.” — Founder, Nandini Travels · <a href="/testimonials/">more proof →</a> · <a href="${GOOGLE_REVIEWS_URL}" target="_blank" rel="noopener">Google reviews <span aria-hidden="true">↗</span></a>` },
         ]} />
       </div>
     </Section>

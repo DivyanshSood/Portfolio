@@ -11,7 +11,7 @@ import ProjectCard from "../components/brand/ProjectCard.astro";
 import PostList from "../components/brand/PostList.astro";
 import Faq from "../components/brand/Faq.astro";
 import EndCta from "../components/brand/EndCta.astro";
-import { SITE, CALENDLY_URL } from "../lib/site.mjs";
+import { SITE, CALENDLY_URL, PHONE_TEL, PHONE_DISPLAY } from "../lib/site.mjs";
 import { TOPICS } from "../lib/entity.mjs";
 import { projects } from "../lib/projects/data.mjs";
 import { verticalWa } from "../lib/verticals.mjs";
@@ -92,6 +92,7 @@ const jsonld = JSON.stringify({
     >
       <a class="btn btn--red" href={CALENDLY_URL}>Book a call <span aria-hidden="true">→</span></a>
       <a class="btn btn--ink" href={WA}>Message on WhatsApp</a>
+      <a class="btn btn--ink" href={PHONE_TEL}>Call {PHONE_DISPLAY}</a>
     </PageHero>
 
     <Section n={1} term="Setup" note="The brief" title={v.mustHead}>
@@ -122,6 +123,7 @@ const jsonld = JSON.stringify({
       title="Tell me about yours."
       text="Message me what you run and where. I'll tell you honestly what a website would change, and what it would cost, fixed and in writing."
       primary={{ href: WA, label: "Message on WhatsApp →" }}
+      call
       secondary={{ href: "/services/", label: "See all services →" }}
     />
   </main>

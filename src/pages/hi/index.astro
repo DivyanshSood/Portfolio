@@ -16,7 +16,7 @@ import Cards from "../../components/brand/Cards.astro";
 import Steps from "../../components/brand/Steps.astro";
 import Faq from "../../components/brand/Faq.astro";
 import EndCta from "../../components/brand/EndCta.astro";
-import { SITE, CALENDLY_URL, GOOGLE_MAPS_URL, GOOGLE_REVIEWS_URL, STARTING_PRICES as P, inr } from "../../lib/site.mjs";
+import { SITE, CALENDLY_URL, PHONE_TEL, PHONE_DISPLAY, GOOGLE_MAPS_URL, GOOGLE_REVIEWS_URL, STARTING_PRICES as P, inr } from "../../lib/site.mjs";
 import { TOPICS } from "../../lib/entity.mjs";
 import { FEATURED_LOCATIONS, locationHref, HUB } from "../../lib/locations.mjs";
 
@@ -118,8 +118,9 @@ const areas = [
       lead={`मैं दिव्यांश सूद हूँ — कांगड़ा का वेब डेवलपर। हिमाचल के होटल, होमस्टे, टैक्सी ऑपरेटर, स्कूल और दुकानों के लिए वेबसाइट बनाता हूँ — टेम्पलेट से नहीं, हाथ से कोड करके। शुरू से आख़िर तक एक ही इंसान: बात मुझसे, डिज़ाइन मेरा, कोड मेरा। वेबसाइट बनवानी है? WhatsApp पर बताइए आप क्या करते हैं।`}
     >
       <a class="btn btn--red" href={WA}>WhatsApp पर बात करें <span aria-hidden="true">→</span></a>
-      <a class="btn btn--ink" href={CALENDLY_URL}>कॉल बुक करें</a>
-      <Fragment slot="notes"><span>पुष्प विहार कॉलोनी, कांगड़ा · <a href={GOOGLE_MAPS_URL} target="_blank" rel="noopener">Google Maps ↗</a> · <a href={GOOGLE_REVIEWS_URL} target="_blank" rel="noopener">Google रिव्यू ↗</a></span><span>तय कीमत · कोड आपके नाम</span></Fragment>
+      <a class="btn btn--ink" href={PHONE_TEL}>कॉल करें {PHONE_DISPLAY}</a>
+      <a class="btn btn--ink" href={CALENDLY_URL}>15 मिनट की मीटिंग बुक करें</a>
+      <Fragment slot="notes"><span>पुष्प विहार कॉलोनी, कांगड़ा · <a href={GOOGLE_MAPS_URL} target="_blank" rel="noopener">Google Maps <span aria-hidden="true">↗</span></a> · <a href={GOOGLE_REVIEWS_URL} target="_blank" rel="noopener">Google रिव्यू <span aria-hidden="true">↗</span></a></span><span>तय कीमत · कोड आपके नाम</span></Fragment>
     </PageHero>
 
     <Section n={1} term="Setup" note="क्या बनाता हूँ" title="हिमाचल के कारोबार के लिए वेबसाइट">
@@ -146,6 +147,7 @@ const areas = [
       title="वेबसाइट बनवानी है?"
       text="बताइए आप क्या करते हैं और कहाँ। मैं ईमानदारी से बताऊँगा कि वेबसाइट से फ़ायदा होगा या नहीं — और कितना ख़र्च आएगा, तय और लिखित में।"
       primary={{ href: WA, label: "WhatsApp पर बात करें →" }}
+      call={`या कॉल करें ${PHONE_DISPLAY} →`}
       secondary={{ href: "/services/", label: "सभी सेवाएँ (English) →" }}
     />
   </main>

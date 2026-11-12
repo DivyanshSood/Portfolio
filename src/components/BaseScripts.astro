@@ -27,9 +27,11 @@
     const w = window as any;
     w.dsTrack("generate_lead", { lead_source: source, ...(params || {}) });
     // Google Ads "Website lead" action (counts once per ad click). A mailto
-    // click isn't proof anyone wrote, so email stays out of the Ads count.
+    // or tel: tap isn't proof anyone wrote or called — on desktop a tel: link
+    // often does nothing at all — so email and phone stay out of the Ads
+    // count (owner decision 2026-11-13); GA4 still records them above.
     // Beacon transport lets the hit survive WhatsApp/Calendly navigating away.
-    if (source === "email") return;
+    if (source === "email" || source === "phone") return;
     try {
       if (typeof w.gtag === "function")
         w.gtag("event", "conversion", { send_to: ADS_CONVERSION, transport_type: "beacon" });
@@ -41,7 +43,9 @@
   // Where on the page a CTA sits, so "WhatsApp from the footer" and "WhatsApp
   // from a case study's hero" can be told apart in reports.
   const whereIs = (a: Element) =>
-    a.closest("footer") ? "footer"
+    a.closest("[data-menu]") ? "menu"
+    : a.closest("[data-header]") ? "header"
+    : a.closest("footer") ? "footer"
     : a.closest("[data-endcta], #contact") ? "end_cta"
     : a.closest("header, [data-hero]") ? "hero"
     : "body";

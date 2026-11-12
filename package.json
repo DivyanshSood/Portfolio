@@ -17,7 +17,7 @@
     "check": "npm run build && node scripts/verify-seo.mjs && node scripts/verify-llms.mjs"
   },
   "dependencies": {
-    "@astrojs/rss": "^4.0.18",
+    "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.2.1",
     "@astrojs/vercel": "^8.0.4",
     "astro": "^5.2.5"

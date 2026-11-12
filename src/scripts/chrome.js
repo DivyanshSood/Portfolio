@@ -2,9 +2,11 @@
    Site chrome — every page. Ported from the Home design's component logic:
    - header turns ink after 40px of scroll (or while the menu is open)
    - full-screen menu under 900px
-   - IST clocks + the "Online now / Replies from 9 AM IST" availability state
+   - IST clocks + the "Online now / Replies from 6 AM IST" availability state
    - FAQ accordions (one open at a time, the first open by default)
    =========================================================================== */
+
+import { STUDIO_HOURS } from "../lib/hours.mjs";
 
 function initHeader() {
   const header = document.querySelector("[data-header]");
@@ -24,9 +26,14 @@ function initHeader() {
   paint();
 
   if (!menu || !btn) return;
+  // The menu is aria-modal: while it is open everything else on the page —
+  // the other children of .site and the chat — is inert, so Tab can't walk
+  // out of the menu into the hidden page behind it.
+  const behind = () => [...document.querySelectorAll(".site > *, [data-chat]")].filter((el) => el !== menu && !el.contains(menu));
   const setOpen = (v) => {
     open = v;
     menu.hidden = !v;
+    behind().forEach((el) => { el.inert = v; });
     btn.setAttribute("aria-expanded", String(v));
     document.body.style.overflow = v ? "hidden" : "";
     paint();
@@ -41,7 +48,11 @@ function initHeader() {
 }
 
 /* IST clock. [data-clock="full"] shows HH:MM:SS, [data-clock="short"] HH:MM.
-   Online 9 AM–9 PM IST — the reply window the site promises. */
+   Online during the Business Profile hours (hours.mjs STUDIO_HOURS, 6 AM–1 AM IST).
+   The HTML ships "Open 6 AM–1 AM IST", true at any hour, for no-JS visitors
+   and crawler snapshots; this swaps in the live state
+   — the reply window the site promises. closeHour < openHour means the window
+   runs past midnight. */
 function initClock() {
   const full = document.querySelectorAll('[data-clock="full"]');
   const short = document.querySelectorAll('[data-clock="short"]');
@@ -53,8 +64,9 @@ function initClock() {
     full.forEach((el) => { el.textContent = t; });
     short.forEach((el) => { el.textContent = t.slice(0, 5); });
     const h = parseInt(t.slice(0, 2), 10);
-    const online = h >= 9 && h < 21;
-    avail.forEach((el) => { el.textContent = online ? "Online now" : "Replies from 9 AM IST"; });
+    const { openHour: o, closeHour: c } = STUDIO_HOURS;
+    const online = c > o ? h >= o && h < c : h >= o || h < c;
+    avail.forEach((el) => { el.textContent = online ? "Online now" : `Replies from ${STUDIO_HOURS.opensLabel} IST`; });
     // Online: clear the override so the CSS green (--online) shows; after hours: grey.
     dots.forEach((el) => { el.style.background = online ? "" : "#8A8A8A"; });
   };

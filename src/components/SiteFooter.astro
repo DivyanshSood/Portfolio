@@ -1,16 +1,18 @@
 ---
 // Footer — Home.dc.html, on every page. The "lap finished" stopwatch banner
 // from the design canvas is left out: the brandbook bans stopwatch readouts.
-import { GOOGLE_MAPS_URL, GOOGLE_REVIEWS_URL } from "../lib/site.mjs";
+import { GOOGLE_MAPS_URL, GOOGLE_REVIEWS_URL, PHONE_TEL, PHONE_DISPLAY, STUDIO_HOURS } from "../lib/site.mjs";
 import { FEATURED_LOCATIONS, locationHref, HUB } from "../lib/locations.mjs";
+/** Set to "en" by Base.astro on non-English pages (/hi/): the chrome stays English. */
+const { lang } = Astro.props as { lang?: string };
 ---
 
-<footer class="ft">
+<footer class="ft" lang={lang}>
   <div class="wrap">
     <div class="ft-grid">
       <div>
         <p class="ft-about">Independent web designer &amp; developer. Custom-coded, conversion-focused, worldwide.</p>
-        <p class="ft-where"><a href={GOOGLE_MAPS_URL} rel="noopener">KANGRA, HIMACHAL PRADESH, IN ↗</a><br />WORKING WORLDWIDE · EST. 2022</p>
+        <p class="ft-where"><a href={GOOGLE_MAPS_URL} rel="noopener">KANGRA, HIMACHAL PRADESH, IN <span aria-hidden="true">↗</span></a><a href={PHONE_TEL}>CALL {PHONE_DISPLAY}</a>OPEN DAILY {STUDIO_HOURS.label.toUpperCase()}<br />WORKING WORLDWIDE · EST. 2022</p>
       </div>
       <nav aria-label="Sitemap" class="ft-col">
         <span>SITEMAP</span>
@@ -45,19 +47,19 @@ import { FEATURED_LOCATIONS, locationHref, HUB } from "../lib/locations.mjs";
       </nav>
       <nav aria-label="Socials" class="ft-col">
         <span>ELSEWHERE</span>
-        <a href="https://github.com/DivyanshSood" rel="me noopener">GitHub ↗</a>
-        <a href="https://www.linkedin.com/in/divyanshsood/" rel="me noopener">LinkedIn ↗</a>
-        <a href="https://www.upwork.com/freelancers/~016c567f0fc1a21f68" rel="me noopener">Upwork ↗</a>
-        <a href="https://www.fiverr.com/divyansh_sood" rel="me noopener">Fiverr ↗</a>
-        <a href="https://wa.me/919816091875">WhatsApp ↗</a>
-        <a href={GOOGLE_MAPS_URL} rel="noopener">Google Maps ↗</a>
-        <a href={GOOGLE_REVIEWS_URL} rel="noopener">Google reviews ↗</a>
+        <a href="https://github.com/DivyanshSood" rel="me noopener">GitHub <span aria-hidden="true">↗</span></a>
+        <a href="https://www.linkedin.com/in/divyanshsood/" rel="me noopener">LinkedIn <span aria-hidden="true">↗</span></a>
+        <a href="https://www.upwork.com/freelancers/~016c567f0fc1a21f68" rel="me noopener">Upwork <span aria-hidden="true">↗</span></a>
+        <a href="https://www.fiverr.com/divyansh_sood" rel="me noopener">Fiverr <span aria-hidden="true">↗</span></a>
+        <a href="https://wa.me/919816091875">WhatsApp <span aria-hidden="true">↗</span></a>
+        <a href={GOOGLE_MAPS_URL} rel="noopener">Google Maps <span aria-hidden="true">↗</span></a>
+        <a href={GOOGLE_REVIEWS_URL} rel="noopener">Google reviews <span aria-hidden="true">↗</span></a>
       </nav>
     </div>
     <div class="ft-stripe" aria-hidden="true"><span></span><span></span><span></span></div>
     <div class="ft-name">Divyansh Sood<span>®</span></div>
     <div class="ft-bar">
-      <span>© 2026 DIVYANSH SOOD STUDIO</span>
+      <span>© 2026 DIVYANSH SOOD® STUDIO</span>
       <span>DESIGNED &amp; CODED BY ONE PERSON</span>
       <a href="/privacy/" class="ft-muted">PRIVACY</a>
       <a href="#top">BACK TO THE GRID ↑</a>
@@ -70,10 +72,10 @@ import { FEATURED_LOCATIONS, locationHref, HUB } from "../lib/locations.mjs";
   .ft-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:36px 24px}
   .ft-about{margin:0 0 16px;font-size:15px;line-height:1.5;color:var(--gbd);max-width:30ch}
   .ft-where{margin:0;font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--g8a);line-height:1.8}
-  .ft-where a{color:inherit;text-decoration:none;display:inline-block;padding:10px 0;margin:-10px 0}
+  .ft-where a{color:inherit;text-decoration:none;display:block;width:fit-content;padding:11px 0;line-height:22px}
   .ft-where a:hover{color:var(--red)}
   .ft-col{display:flex;flex-direction:column;gap:0;font-size:15px}
-  .ft-col span{font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--red);margin-bottom:4px}
+  .ft-col > span{font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--red-on-ink);margin-bottom:4px}
   /* 44px rows: thumb-sized tap targets with no visual change in rhythm. */
   .ft-col a{color:#fff;text-decoration:none;min-height:44px;display:flex;align-items:center}
   .ft-col a:hover{color:var(--red)}

@@ -4,7 +4,7 @@
 // (src/scripts/chrome.js); the DS® logo turns red on the ink bar.
 // Desktop nav + clock from 900px; menu below.
 // The current section is underlined as on Portfolio.dc.html.
-import { CALENDLY_URL, GOOGLE_MAPS_URL } from "../lib/site.mjs";
+import { CALENDLY_URL, GOOGLE_MAPS_URL, PHONE_TEL, PHONE_DISPLAY } from "../lib/site.mjs";
 
 const path = Astro.url.pathname;
 const NAV = [
@@ -15,9 +15,11 @@ const NAV = [
   { label: "Blog", href: "/blog/", current: path.startsWith("/blog/") },
   { label: "Contact", href: "/#contact" },
 ];
+/** Set to "en" by Base.astro on non-English pages (/hi/): the chrome stays English. */
+const { lang } = Astro.props as { lang?: string };
 ---
 
-<header class="hd" data-header>
+<header class="hd" data-header lang={lang}>
   <div class="hd-in">
     <a href="/" aria-label="Divyansh Sood — home" class="hd-logo"><span>DS®</span></a>
     <nav aria-label="Primary" class="hd-nav">
@@ -27,6 +29,7 @@ const NAV = [
     </nav>
     <div class="hd-right">
       <span class="hd-clock">IST <span data-clock="full">--:--:--</span></span>
+      <a href={PHONE_TEL} class="hd-call" aria-label={`Call ${PHONE_DISPLAY}`}>Call</a>
       <a href={CALENDLY_URL} class="hd-cta">Book a call</a>
       <button type="button" class="hd-burger" aria-label="Open menu" aria-expanded="false" aria-controls="menu" data-menu-btn>
         <span></span><span></span>
@@ -35,7 +38,7 @@ const NAV = [
   </div>
 </header>
 
-<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Menu" hidden data-menu>
+<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Menu" hidden data-menu lang={lang}>
   <button type="button" class="menu-close" data-menu-close>CLOSE ✕</button>
   <nav aria-label="Mobile" class="menu-nav">
     {NAV.map((n, i) => (
@@ -43,11 +46,12 @@ const NAV = [
     ))}
   </nav>
   <div class="menu-foot">
-    <a href="https://wa.me/919816091875">WHATSAPP ↗</a>
-    <a href="mailto:hello@divyanshsood.com">EMAIL ↗</a>
-    <a href="https://github.com/DivyanshSood">GITHUB ↗</a>
-    <a href="https://www.linkedin.com/in/divyanshsood/">LINKEDIN ↗</a>
-    <a href={GOOGLE_MAPS_URL} rel="noopener">GOOGLE MAPS ↗</a>
+    <a href={PHONE_TEL}>CALL {PHONE_DISPLAY}</a>
+    <a href="https://wa.me/919816091875">WHATSAPP <span aria-hidden="true">↗</span></a>
+    <a href="mailto:hello@divyanshsood.com">EMAIL <span aria-hidden="true">↗</span></a>
+    <a href="https://github.com/DivyanshSood">GITHUB <span aria-hidden="true">↗</span></a>
+    <a href="https://www.linkedin.com/in/divyanshsood/">LINKEDIN <span aria-hidden="true">↗</span></a>
+    <a href={GOOGLE_MAPS_URL} rel="noopener">GOOGLE MAPS <span aria-hidden="true">↗</span></a>
   </div>
 </div>
 
@@ -64,22 +68,40 @@ const NAV = [
   .hd-nav a:hover{color:#fff;opacity:.7}
   .hd-nav a.is-current{border-bottom:2px solid #fff;padding-bottom:2px}
   .hd-right{display:flex;align-items:center;gap:14px}
-  .hd-clock{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--red)}
+  .hd-clock{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:#fff}
+  :global(.hd.is-solid) .hd-clock{color:var(--red-on-ink)}
   .hd-cta{background:#fff;color:var(--ink);text-decoration:none;font-weight:800;font-stretch:112%;font-size:13px;letter-spacing:.02em;text-transform:uppercase;min-height:44px;display:inline-flex;align-items:center;padding:0 18px;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%);white-space:nowrap}
   .hd-cta:hover{background:var(--ink);color:#fff}
+  /* Phones only: a one-tap call next to "Book a call". Outline so the white
+     Calendly button stays the primary action. */
+  .hd-call{display:none;color:#fff;text-decoration:none;font-weight:800;font-stretch:112%;font-size:13px;letter-spacing:.02em;text-transform:uppercase;min-height:44px;align-items:center;padding:0 14px;box-shadow:inset 0 0 0 2px #fff;white-space:nowrap}
+  .hd-call:hover{background:#fff;color:var(--ink)}
   .hd-burger{background:none;border:0;width:44px;height:44px;margin-right:-9px;padding:0;display:none;flex-direction:column;justify-content:center;align-items:center;gap:6px;cursor:pointer}
   .hd-burger span{display:block;width:26px;height:2px;background:#fff}
   .hd-burger span + span{width:18px;margin-left:8px;align-self:center}
   @media (max-width:899.98px){
     .hd-nav,.hd-clock{display:none}
     .hd-burger{display:flex}
+    .hd-call{display:inline-flex}
+    .hd-right{gap:10px}
+  }
+  /* 360px Android widths: tighten both buttons so the burger stays on screen. */
+  @media (max-width:399.98px){
+    .hd-right{gap:8px}
+    .hd-call{padding:0 10px;font-size:12px}
+    .hd-cta{padding:0 14px;font-size:12px}
+  }
+  /* Below 350px there's room for only one: the phone call wins; Calendly is
+     still in every hero and end CTA. */
+  @media (max-width:349.98px){
+    .hd-cta{display:none}
   }
 
   .menu{position:fixed;inset:0;z-index:200;background:var(--ink);color:#fff;padding:88px 20px 100px;display:flex;flex-direction:column;justify-content:space-between;overflow:auto}
   .menu-close{position:absolute;top:18px;right:18px;background:none;border:0;color:#fff;font-family:var(--mono);font-size:12px;letter-spacing:.1em;min-width:44px;min-height:44px;padding:0 12px;cursor:pointer}
   .menu-nav{display:flex;flex-direction:column;gap:6px}
   .menu-nav a{display:flex;align-items:baseline;gap:14px;color:#fff;text-decoration:none;font-weight:900;font-style:italic;font-stretch:125%;text-transform:uppercase;font-size:clamp(32px,10vw,72px);line-height:1}
-  .menu-nav a span{font-family:var(--mono);font-style:normal;font-size:12px;color:var(--red)}
+  .menu-nav a span{font-family:var(--mono);font-style:normal;font-size:12px;color:var(--red-on-ink)}
   .menu-foot{display:flex;flex-wrap:wrap;gap:0 18px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;margin-top:32px}
   .menu-foot a{color:#fff;display:inline-flex;align-items:center;min-height:44px}
 </style>

@@ -126,7 +126,7 @@ export const VERTICALS = {
       { t: "Town pages for “taxi service in <town>”", d: "Local taxi searches are town by town. Sunny Himachal Travels has nine of these pages, each written from what the business is actually booked for in that town." },
       { t: "Prices before anyone has to ask", d: "Where the operator can commit to them, published all-in fares for the common routes. Baglamukhi Travels lists 27 point-to-point routes this way." },
       { t: "WhatsApp at the end of every page", d: "The message arrives pre-filled with the trip, and a sticky bar keeps WhatsApp and Call one tap away on a phone. That's where these bookings close anyway." },
-      { t: "Local business schema that holds up", d: "Geo-coordinates, opening hours, services and ratings in structured data, with the same name, address and phone as the Google Business Profile." },
+      { t: "Local business schema that holds up", d: "Geo-coordinates, opening hours and services in structured data, with the same name, address and phone as the Google Business Profile." },
       { t: "No thin pages", d: "Growing to a hundred pages is exactly where travel sites go thin. Sunny's build fails if any two pages read too alike, so pages that would overlap are dropped rather than published." },
     ],
     proof: ["sunny-himachal-travels", "leisure-himachal", "kangra-valley-travels", "baglamukhi-travels", "nandini", "sach-pass", "dharamshala-tours"],

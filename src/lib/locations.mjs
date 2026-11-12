@@ -305,7 +305,7 @@ export const LOCATIONS = [
       "web developer Chamba, website designer Chamba, website design Dalhousie, hotel website Dalhousie, Khajjiar hotel website, Manimahesh yatra website, Sach Pass website",
     ogDescription: "Dalhousie hotels, Khajjiar stays, Manimahesh operators and Sach Pass — websites for Chamba, from someone who's already built here.",
     kicker: "Himachal Pradesh · Chamba district · Dalhousie · Pangi",
-    lead: `Chamba is where I've already built: sachpass.com lists every stay on the road over Sach Pass with that day's road status, and the Himalayan Brothers hotel group runs a property in the district on a site I rebuilt. Chamba's visitors — Dalhousie weekenders, Khajjiar day-trippers, Manimahesh pilgrims, bikers heading for Pangi — all plan on a phone, often on the last bar of signal. I build sites that work there.`,
+    lead: `Chamba is where I've already built: sachpass.com lists every stay on the road over Sach Pass with the latest official road notice, and the Himalayan Brothers hotel group runs a property in the district on a site I rebuilt. Chamba's visitors — Dalhousie weekenders, Khajjiar day-trippers, Manimahesh pilgrims, bikers heading for Pangi — all plan on a phone, often on the last bar of signal. I build sites that work there.`,
     offersHead: "Built for Chamba's roads and seasons",
     offers: [
       { t: "Dalhousie & Khajjiar hotels", d: "Direct-booking sites for the hill-station hotels Punjab and Delhi drive up to, with rooms, rates, the drive from Pathankot and an enquiry that reaches your WhatsApp." },
@@ -450,7 +450,7 @@ export const LOCATIONS = [
     lead: `Chandigarh has no shortage of web agencies — Mohali's IT parks are full of them. What the tricity is short of is a developer who quotes once, writes every line of the code and hands you the repository at the end. I work from Kangra, a few hours up the road, for tricity startups, clinics, coaching institutes and builders who want a custom-coded site or web app without an agency's layers. Everything runs remotely, and I say so up front.`,
     offersHead: "For tricity businesses that want it built properly",
     offers: [
-      { t: "Startup sites & MVPs", d: "Next.js, Astro or React — a marketing site in 3–4 weeks, a web app or MVP in 6–10, with a repo and README the next developer can pick up clean." },
+      { t: "Startup sites & MVPs", d: "Next.js, Astro or React — a marketing site in 3–4 weeks, an MVP in 3–4 weeks and a larger web app in 6–10, with a repo and README the next developer can pick up clean." },
       { t: "Clinics & healthcare", d: "Doctors, specialities, timings and appointment requests that reach the front desk, on a site that's fast on a phone and clear to a worried patient." },
       { t: "Coaching institutes", d: "Course and batch pages, results, demo-class bookings and enquiries routed to a counsellor's WhatsApp — the funnel Sector 34's institutes compete on." },
       { t: "Real estate & builders", d: "Project pages with RERA details, floor plans, location and an enquiry form that doesn't vanish into a shared inbox." },

@@ -13,7 +13,7 @@ import Cards from "../components/brand/Cards.astro";
 import ResultGrid from "../components/brand/ResultGrid.astro";
 import Faq from "../components/brand/Faq.astro";
 import EndCta from "../components/brand/EndCta.astro";
-import { SITE, CALENDLY_URL, GOOGLE_MAPS_URL, GOOGLE_REVIEWS_URL, STARTING_PRICES as P, inr } from "../lib/site.mjs";
+import { SITE, CALENDLY_URL, PHONE_TEL, PHONE_DISPLAY, GOOGLE_MAPS_URL, GOOGLE_REVIEWS_URL, STARTING_PRICES as P, inr } from "../lib/site.mjs";
 import { TOPICS } from "../lib/entity.mjs";
 import { HP_LOCATIONS, PB_LOCATIONS, locationHref, HUB } from "../lib/locations.mjs";
 
@@ -101,7 +101,8 @@ const townLinks = (list: typeof HP_LOCATIONS) =>
     >
       <a class="btn btn--red" href={CALENDLY_URL}>Book a call <span aria-hidden="true">→</span></a>
       <a class="btn btn--ink" href={WA}>Message on WhatsApp</a>
-      <Fragment slot="notes"><span>Based in Kangra · <a href={GOOGLE_MAPS_URL} target="_blank" rel="noopener">on Google Maps ↗</a> · <a href={GOOGLE_REVIEWS_URL} target="_blank" rel="noopener">Google reviews ↗</a></span><span>Fixed quote · you own the code · <a href="/hi/" hreflang="hi" lang="hi">हिंदी में पढ़ें</a></span></Fragment>
+      <a class="btn btn--ink" href={PHONE_TEL}>Call {PHONE_DISPLAY}</a>
+      <Fragment slot="notes"><span>Based in Kangra · <a href={GOOGLE_MAPS_URL} target="_blank" rel="noopener">on Google Maps <span aria-hidden="true">↗</span></a> · <a href={GOOGLE_REVIEWS_URL} target="_blank" rel="noopener">Google reviews <span aria-hidden="true">↗</span></a></span><span>Fixed quote · you own the code · <a href="/hi/" hreflang="hi" lang="hi">हिंदी में पढ़ें</a></span></Fragment>
     </PageHero>
 
     <Section n={1} term="Setup" note="What I build" title="Website design for how Himachal does business">
@@ -138,6 +139,7 @@ const townLinks = (list: typeof HP_LOCATIONS) =>
       title="Run a business in Himachal?"
       text="Tell me what you do and where. I'll tell you honestly whether a website will help — and what it would cost, fixed, in writing."
       primary={{ href: WA, label: "Message on WhatsApp →" }}
+      call
       secondary={{ href: "/services/", label: "See all services →" }}
     />
   </main>

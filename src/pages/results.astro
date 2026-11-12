@@ -14,7 +14,7 @@ const canonical = `${SITE}/results/`;
 const topStats = [
   { v: "20+", l: "Projects shipped since 2022" },
   { v: "3–4 wks", l: "Typical kickoff to live" },
-  { v: "9/9", l: "Recent clients still on board" },
+  { v: String(projects.length), l: "Case studies published" },
   { v: "1–3 wks", l: "Local Himachal sites, kickoff to live" },
 ];
 
@@ -22,7 +22,7 @@ const topStats = [
 // you can open and read — no rounded-up vanity metrics.
 const results = [
   { slug: "pinnacle-world-school", name: "Pinnacle World School", cat: "CBSE school site", v: "0", l: "facts published without a source", o: "A CBSE school in Kangra on a new domain. Every fact is checked against its affiliation record, anything unconfirmed says “To be updated”, and admission enquiries land in the office's WhatsApp." },
-  { slug: "sunny-himachal-travels", name: "Sunny Himachal Travels", cat: "Tours + taxi", v: "1.1 KB", l: "of its own JavaScript · Lighthouse 100 ×4", o: "A one-page design canvas rebuilt as a real site with a page for every trip, transfer and town in the Kangra valley — 8,695 search impressions in its first five weeks, read honestly through a Google spam update." },
+  { slug: "sunny-himachal-travels", name: "Sunny Himachal Travels", cat: "Tours + taxi", v: "1.1 KB", l: "of its own JavaScript · Lighthouse 100 ×4 on desktop", o: "A one-page design canvas rebuilt as a real site with a page for every trip, transfer and town in the Kangra valley — 8,695 search impressions in its first month, read honestly through a Google spam update." },
   { slug: "yash-rock-hotel", name: "Yash Rock Hotel", cat: "Hillside hotel", v: "14", l: "“near” pages for where guests are going", o: "A seven-room hotel with a pool, and no booking engine by design. Every call to action goes to WhatsApp or a call, and the site ranks for the places guests are actually heading." },
   { slug: "hotel-himalayan-brothers", name: "Himalayan Brothers Hotels", cat: "Hotel group", v: "5", l: "hotels on one site · Lighthouse mobile 98–100", o: "Five family-run hotels from Dharamshala to Spiti, rebuilt from an audit of the old site. Every old URL kept, one booking form for two kinds of booking, and only reviews that can be found." },
   { slug: "himalayan-brothers", name: "Himalayan Brothers Travel", cat: "Tours + taxi", v: "51", l: "pages from a parked domain", o: "The hotel family's travel desk, built on the hotel site's design system so the two read as one business — with every drafted itinerary flagged until the family signs it off." },
@@ -142,7 +142,7 @@ const jsonld = JSON.stringify({
       </div>
       <div class="links-row gap-top">
         <a href="/testimonials/">More testimonials →</a>
-        <a href={GOOGLE_REVIEWS_URL} rel="noopener">Google reviews ↗</a>
+        <a href={GOOGLE_REVIEWS_URL} rel="noopener">Google reviews <span aria-hidden="true">↗</span></a>
       </div>
     </Section>
 

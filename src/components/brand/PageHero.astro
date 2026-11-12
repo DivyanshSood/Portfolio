@@ -66,7 +66,7 @@ const hasAside = Astro.slots.has("default");
         {meta && <span>{meta}</span>}
       </div>
       {kicker && <div class="ph-kicker">{kicker}</div>}
-      <DisplayTag class:list={["ph-name", `ph-name--${size}`]} style={`--fit:${fitEm}`}>{name}{sup && <span class="sup">{sup}</span>}</DisplayTag>
+      <DisplayTag class:list={["ph-name", `ph-name--${size}`]} style={`--fit:${fitEm}`}>{name}{sup && <span class="sup"><span class="sr-only"> </span>{sup}</span>}</DisplayTag>
     </div>
   </div>
   <div class:list={["wrap", "ph-row", { "ph-row--h1": h1 && !Astro.slots.has("intro") }]}>
@@ -101,7 +101,7 @@ const hasAside = Astro.slots.has("default");
   /* Capped by --fit (the longest word, in em — set in the frontmatter) so no
      word breaks mid-way; overflow-wrap:break-word stays as the last resort
      (brandbook Card H3 spec: nothing may clip at 390px). */
-  .ph-name{margin:0 auto;font-weight:900;font-style:italic;font-stretch:125%;text-transform:uppercase;line-height:.84;letter-spacing:-0.03em;font-size:min(clamp(56px,13vw,240px),calc((100vw - 2 * var(--gutter)) / var(--fit)));overflow-wrap:break-word;text-wrap:balance}
+  .ph-name{margin:0 auto;font-family:var(--display-xl);font-weight:900;font-style:italic;font-stretch:125%;text-transform:uppercase;line-height:.84;letter-spacing:-0.03em;font-size:min(clamp(56px,13vw,240px),calc((100vw - 2 * var(--gutter)) / var(--fit)));overflow-wrap:break-word;text-wrap:balance}
   .ph-notes{margin:18px 0 0;display:flex;flex-wrap:wrap;gap:6px 20px}
   .ph-name--case{line-height:.86;font-size:min(clamp(46px,9.6vw,184px),calc((100vw - 2 * var(--gutter)) / var(--fit)));max-width:max(14ch,calc(var(--fit) * 1em))}
   .ph-row{margin-top:clamp(28px,3vw,44px);padding:0 var(--gutter);display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px 40px;align-items:flex-end}

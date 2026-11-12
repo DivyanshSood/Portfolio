@@ -7,7 +7,7 @@ import Cards from "../components/brand/Cards.astro";
 import ResultGrid from "../components/brand/ResultGrid.astro";
 import Faq from "../components/brand/Faq.astro";
 import EndCta from "../components/brand/EndCta.astro";
-import { SITE, CALENDLY_URL, GOOGLE_MAPS_URL, STARTING_PRICES as P, inr } from "../lib/site.mjs";
+import { SITE, CALENDLY_URL, PHONE_TEL, PHONE_DISPLAY, GOOGLE_MAPS_URL, STARTING_PRICES as P, inr } from "../lib/site.mjs";
 import { TOPICS } from "../lib/entity.mjs";
 import NearbyAreas from "../components/brand/NearbyAreas.astro";
 import { locationBySlug, HUB } from "../lib/locations.mjs";
@@ -79,7 +79,8 @@ const jsonld = JSON.stringify({
     >
       <a class="btn btn--red" href={CALENDLY_URL}>Book a call <span aria-hidden="true">→</span></a>
       <a class="btn btn--ink" href={WA}>Message on WhatsApp</a>
-      <Fragment slot="notes"><span>Based in Kangra, Himachal · <a href={GOOGLE_MAPS_URL} target="_blank" rel="noopener">on Google Maps ↗</a></span><span>Live in 1–3 weeks</span></Fragment>
+      <a class="btn btn--ink" href={PHONE_TEL}>Call {PHONE_DISPLAY}</a>
+      <Fragment slot="notes"><span>Based in Kangra, Himachal · <a href={GOOGLE_MAPS_URL} target="_blank" rel="noopener">on Google Maps <span aria-hidden="true">↗</span></a></span><span>Live in 1–3 weeks</span></Fragment>
     </PageHero>
 
     <Section n={1} term="Setup" note="The offering" title="Built for how Shimla works">
@@ -95,7 +96,7 @@ const jsonld = JSON.stringify({
       ]} />
       <div class="gap-top">
         <Cards items={[
-          { tag: `Travel & stays`, d: `Booking-first builds for Himalayan tourism: Himalayan Brothers runs five hotels and a travel desk on two sites; Nandini Travels moved its enquiries off a Maps listing. <a href="/projects/dharamshala-tours/">See a travel build →</a>` },
+          { tag: `Travel & stays`, d: `Booking-first builds for Himalayan tourism: Himalayan Brothers runs five hotels and a travel desk on two sites; Nandini Travels moved its enquiries off a Maps listing. <a href="/projects/hotel-himalayan-brothers/">See the Himalayan Brothers build →</a>` },
           { tag: `Institutions`, d: `Modern K.B.S. school got a public site plus online admissions for classes I–XII and an admin panel the office runs. <a href="/projects/modernkbs/">See the school build →</a>` },
           { tag: `Pinnacle World School · Baroh, Kangra`, d: `A CBSE school site where every published fact traces back to the school's affiliation record: Mandatory Public Disclosure, an admissions form that lands in the office's WhatsApp, and old URLs redirected. <a href="/projects/pinnacle-world-school/">Read the case study →</a>` },
           { tag: `Yash Rock Hotel · Dehrian, Kangra`, d: `Seven rooms, a pool, and no booking engine: every enquiry goes to WhatsApp or a call, and 14 “near” pages reach guests heading for NIFT, Tanda Medical College and the airport. <a href="/projects/yash-rock-hotel/">Read the case study →</a>` },
@@ -114,6 +115,7 @@ const jsonld = JSON.stringify({
       title="Run a business in Shimla?"
       text={`Send your current website — or just what you do. You'll get an honest read on what's costing you customers, and a fixed quote in writing.`}
       primary={{ href: WA, label: "Message on WhatsApp →" }}
+      call
       secondary={{ href: "/website-audit/", label: "Get a free website audit →" }}
     />
   </main>

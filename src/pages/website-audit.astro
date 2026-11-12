@@ -97,10 +97,10 @@ const jsonld = JSON.stringify({
         <div class="au-card-top"><span>Send a URL — get a Loom</span><span style="color:var(--red)">●</span></div>
         <form id="ds-audit-form" class="form">
           <label class="field" for="au-url">Your website URL *<input id="au-url" type="url" required placeholder="https://yourwebsite.com" autocomplete="url" /></label>
-          <label class="field" for="au-email">Email<input id="au-email" type="email" placeholder="So I can send the teardown" autocomplete="email" /></label>
+          <label class="field" for="au-email">Email *<input id="au-email" type="email" required placeholder="So I can send the teardown" autocomplete="email" /></label>
           <label class="field" for="au-goal">What should this site do better? (optional)<input id="au-goal" type="text" placeholder="More leads, faster load, more sales…" /></label>
           {/* Honeypot — invisible to humans; bots that fill it are dropped. */}
-          <div class="hp" aria-hidden="true"><label for="au-hp">Leave this empty</label><input id="au-hp" type="text" name="website" tabindex="-1" autocomplete="off" /></div>
+          <div class="hp" aria-hidden="true"><label for="au-hp">Leave this empty</label><input id="au-hp" type="text" name="hp_x" tabindex="-1" autocomplete="off" /></div>
           <button type="submit" class="form-submit">Get my free audit →</button>
           <p class="meta au-fine">Goes straight to my inbox — no spam, no list.</p>
         </form>
@@ -152,9 +152,9 @@ const jsonld = JSON.stringify({
           </label>
           <label class="field" for="st-msg">Anything else?<textarea id="st-msg" rows="3" placeholder="One line on what you're building and what success looks like."></textarea></label>
           {/* Honeypot — invisible to humans; bots that fill it are dropped. */}
-          <div class="hp" aria-hidden="true"><label for="st-hp">Leave this empty</label><input id="st-hp" type="text" name="website" tabindex="-1" autocomplete="off" /></div>
+          <div class="hp" aria-hidden="true"><label for="st-hp">Leave this empty</label><input id="st-hp" type="text" name="hp_x" tabindex="-1" autocomplete="off" /></div>
           <button type="submit" class="form-submit">Send it to Divyansh →</button>
-          <p class="meta au-fine">Goes to my inbox. No list. If it's not a fit, I'll tell you straight away and point you somewhere better. (WhatsApp: <a href="https://wa.me/919816091875">+91 98160 91875 ↗</a>)</p>
+          <p class="meta au-fine">Goes to my inbox. No list. If it's not a fit, I'll tell you straight away and point you somewhere better. (WhatsApp: <a href="https://wa.me/919816091875">+91 98160 91875 <span aria-hidden="true">↗</span></a>)</p>
         </form>
       </div>
     </Section>

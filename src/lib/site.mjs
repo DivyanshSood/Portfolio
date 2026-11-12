@@ -13,6 +13,15 @@ export const SITE = "https://www.divyanshsood.com";
 
 export const CALENDLY_URL = "https://calendly.com/sood-divyansh007/30min";
 
+/* The studio phone — the same number as WhatsApp, the Business Profile and
+   the JSON-LD `telephone`. PHONE_TEL is the click-to-call href: every page
+   carries one, because a visitor from a "near me" search who wants to ring
+   should not have to copy a number out of a WhatsApp link. A tap is counted
+   as a lead by the delegated tracker in BaseScripts.astro (phone_click →
+   generate_lead + the Ads conversion). */
+export const PHONE_DISPLAY = "+91 98160 91875";
+export const PHONE_TEL = "tel:+919816091875";
+
 // Founder photos, self-hosted in /public/images as pre-optimised WebP (hero
 // 1600w ~43KB, about 1200w ~45KB) with neutral filenames — the public URL is
 // part of the page, so it must not leak asset provenance. FOUNDER_PHOTO is the
@@ -96,6 +105,25 @@ export const STUDIO_GEO = {
   latitude: 32.1008606,
   longitude: 76.2763829,
 };
+
+/* The Business Profile's name, character for character (confirmed by the
+   owner 2026-11-13). The site's brand stays "Divyansh Sood® Studio"; this goes
+   in `alternateName` so the site and the listing read as one business. */
+export const GBP_NAME = "Divyansh Sood Web Developer";
+
+/* Opening hours live in ./hours.mjs (a separate file so browser scripts can
+   import them without pulling this whole module into their bundle). */
+export { STUDIO_HOURS } from "./hours.mjs";
+
+/* Towns on the Business Profile's service-area list that have no page of
+   their own on this site (the rest are in src/lib/locations.mjs). Added to the
+   homepage areaServed so the schema and the listing name the same places. */
+export const GBP_EXTRA_AREAS = [
+  { name: "Baijnath", region: "Himachal Pradesh" },
+  { name: "Nurpur", region: "Himachal Pradesh" },
+  { name: "Jawalamukhi", region: "Himachal Pradesh" },
+  { name: "Sahibzada Ajit Singh Nagar (Mohali)", region: "Punjab" },
+];
 
 /* ---------------------------------------------------------------------------
    Starting prices, in rupees — the SINGLE source for every price in page copy

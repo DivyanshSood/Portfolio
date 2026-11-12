@@ -78,6 +78,10 @@ const {
   alternates = [],
 } = Astro.props;
 
+// The header, menu, footer and chat are English on every page; on a page in
+// another language they say so, or screen readers read them in a Hindi voice.
+const chromeLang = lang === "en" ? undefined : "en";
+
 // The hero breadcrumb (PageHero) reads the trail from the page's own
 // BreadcrumbList, so the visible trail and the markup are one array.
 Astro.locals.crumbs = breadcrumbTrail(jsonld).map((c: { name: string; url: string }) => ({
@@ -94,14 +98,12 @@ Astro.locals.crumbs = breadcrumbTrail(jsonld).map((c: { name: string; url: strin
 
     <title>{title}</title>
     <meta name="description" content={description} />
-    {keywords && <meta name="keywords" content={keywords} />}
     <meta name="author" content="Divyansh Sood" />
     {noindex ? (
       <meta name="robots" content="noindex, follow" />
     ) : (
       <>
         <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-        <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1" />
       </>
     )}
     <meta name="theme-color" content="#0B0B0C" />
@@ -183,7 +185,12 @@ Astro.locals.crumbs = breadcrumbTrail(jsonld).map((c: { name: string; url: strin
     {/* ---- Analytics: GA4 (+ Google Ads conversion tag) ----
         Loaded unconditionally for every visitor — the consent banner that used
         to gate these was removed by an explicit owner decision, so do not add
-        a consent gate back. IP anonymisation stays on. Yandex Metrica was
+        a consent gate back. Consent Mode v2 defaults to "denied" only for the
+        EEA, UK and Switzerland (region-scoped, no banner): Google then sends
+        cookieless pings there instead of setting cookies. Ads runs with
+        allow_ad_personalization_signals:false — conversion counting only, no
+        remarketing audiences (the privacy page says so). GA4 never stores IPs,
+        so the old anonymize_ip flag was dropped as a no-op. Yandex Metrica was
         removed on 2026-11-06 (owner decision): it set six third-party cookies
         and ~80 KB per page for recordings nobody watched. The yandex-verification
         meta above is Yandex Webmaster (search), not analytics, and stays.
@@ -227,9 +234,13 @@ Astro.locals.crumbs = breadcrumbTrail(jsonld).map((c: { name: string; url: strin
         function gtag() { window.dataLayer.push(arguments); }
         window.gtag = gtag;
 
+        gtag("consent", "default", {
+          ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied", analytics_storage: "denied",
+          region: ["AT","BE","BG","HR","CY","CZ","DK","EE","FI","FR","DE","GR","HU","IE","IT","LV","LT","LU","MT","NL","PL","PT","RO","SK","SI","ES","SE","IS","LI","NO","GB","CH"]
+        });
         gtag("js", new Date());
-        gtag("config", GA_ID, { anonymize_ip: true });
-        gtag("config", "AW-18496983909");
+        gtag("config", GA_ID);
+        gtag("config", "AW-18496983909", { allow_ad_personalization_signals: false });
 
         var started = false;
         function start() {
@@ -253,11 +264,11 @@ Astro.locals.crumbs = breadcrumbTrail(jsonld).map((c: { name: string; url: strin
   </head>
   <body>
     <div class="site" id="top">
-      <SiteHeader />
+      <SiteHeader lang={chromeLang} />
       <slot />
-      <SiteFooter />
+      <SiteFooter lang={chromeLang} />
     </div>
-    <ChatWidget />
+    <ChatWidget lang={chromeLang} />
     <BaseScripts />
     <script>
       import { initChrome } from "../scripts/chrome.js";

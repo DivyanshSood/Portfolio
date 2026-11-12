@@ -73,9 +73,9 @@ const jsonld = JSON.stringify({
 
     <section class="pf">
       <div class="wrap">
-        <div role="tablist" aria-label="Filter by sector" class="pf-tabs" data-filters>
+        <div role="group" aria-label="Filter by sector" class="pf-tabs" data-filters>
           {filters.map((f, i) => (
-            <button type="button" role="tab" aria-selected={i === 0 ? "true" : "false"} data-filter={f.label} class="pf-tab">
+            <button type="button" aria-pressed={i === 0 ? "true" : "false"} data-filter={f.label} class="pf-tab">
               {f.label}<span>{f.count}</span>
             </button>
           ))}
@@ -147,7 +147,7 @@ const jsonld = JSON.stringify({
   tabs.forEach((tab) =>
     tab.addEventListener("click", () => {
       const f = tab.dataset.filter;
-      tabs.forEach((t) => t.setAttribute("aria-selected", String(t === tab)));
+      tabs.forEach((t) => t.setAttribute("aria-pressed", String(t === tab)));
       let n = 0;
       cards.forEach((c) => {
         const on = f === "All" || c.dataset.sector === f;
@@ -173,8 +173,8 @@ const jsonld = JSON.stringify({
   .pf-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:clamp(28px,4vw,48px);position:sticky;top:64px;z-index:5;background:#fff;padding:12px 0;border-bottom:3px solid var(--ink)}
   .pf-tab{min-height:44px;padding:0 16px;border:1.5px solid var(--ink);background:#fff;color:var(--ink);font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;gap:8px}
   .pf-tab span{color:var(--g5c)}
-  .pf-tab[aria-selected="true"]{background:var(--ink);color:#fff}
-  .pf-tab[aria-selected="true"] span{color:var(--g8a)}
+  .pf-tab[aria-pressed="true"]{background:var(--ink);color:#fff}
+  .pf-tab[aria-pressed="true"] span{color:var(--g8a)}
   /* Phones: seven wrapped tabs made the sticky bar 175px tall, which with the
      header kept ~28% of the screen covered while scrolling. One row that
      scrolls sideways keeps it to a single tab's height. */
@@ -187,6 +187,7 @@ const jsonld = JSON.stringify({
 
   .pf-cta{position:relative;background:var(--ink);color:#fff;padding:clamp(100px,12vw,170px) var(--gutter) clamp(80px,10vw,140px)}
   .pf-notch{position:absolute;top:0;left:0;right:0;height:clamp(36px,5vw,72px);background:#fff;clip-path:polygon(0 0,100% 0,100% 0,50% 100%,0 0)}
+  .pf-cta .lbl{color:var(--red-on-ink)}
   .pf-cta-in{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:32px}
   .pf-cta-h{margin:0;font-weight:900;font-style:italic;font-stretch:125%;text-transform:uppercase;line-height:.86;letter-spacing:-0.03em;font-size:clamp(52px,10vw,170px)}
   .pf-cta-h span{color:var(--red)}

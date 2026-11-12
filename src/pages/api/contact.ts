@@ -11,7 +11,34 @@ import type { APIRoute } from "astro";
 // client falls back to opening the visitor's mail client (mailto:).
 export const prerender = false;
 
-export const POST: APIRoute = async ({ request }) => {
+import { clientIp, json, originAllowed, rateLimiter } from "../../lib/api-guard";
+
+// Five sends per ten minutes and twenty a day per IP: generous for a person
+// fixing a typo, useless for flooding the inbox or the Resend quota.
+const allow = rateLimiter(5, 10 * 60_000, 20);
+
+// Subjects per form id, so an audit request and a project brief can be told
+// apart in the inbox. Unknown ids get the generic subject.
+const SUBJECTS: Record<string, string> = {
+  "ds-audit-form": "Free website audit request",
+  "ds-start-form": "New project enquiry",
+};
+
+const EMAIL_RE = /^[^\s@<>,;"]+@[^\s@<>,;"]+\.[^\s@<>,;"]+$/;
+// Line breaks and control characters out of anything that lands in a header.
+const oneLine = (s: string) => s.replace(/[\u0000-\u001f\u007f]+/g, " ").trim();
+
+export const POST: APIRoute = async (ctx) => {
+  const { request } = ctx;
+  // Only our own pages may post here (see src/lib/api-guard.ts), and only as
+  // JSON: a text/plain body is what a cross-site form post without a CORS
+  // preflight would send.
+  if (!originAllowed(request)) return json({ ok: false, error: "forbidden" }, 403);
+  if (!(request.headers.get("content-type") ?? "").toLowerCase().startsWith("application/json")) {
+    return json({ ok: false, error: "unsupported_media_type" }, 415);
+  }
+  if (!allow(clientIp(request, ctx))) return json({ ok: false, error: "rate_limited" }, 429);
+
   let data: Record<string, unknown> = {};
   try {
     data = await request.json();
@@ -20,16 +47,22 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   // Honeypot — real visitors never see the field, so any value means a bot.
-  // Answer ok:true so the bot believes it succeeded and moves on.
+  // Answer ok:true so the bot believes it succeeded and moves on, and log it,
+  // so a real lead lost to browser autofill would at least leave a trace.
   if (String(data.hp ?? "").trim()) {
+    console.warn("[contact] Honeypot filled; send skipped");
     return json({ ok: true }, 200);
   }
 
-  const name = String(data.name ?? "").trim().slice(0, 200);
-  const email = String(data.email ?? "").trim().slice(0, 320);
+  const name = oneLine(String(data.name ?? "")).slice(0, 200);
+  const rawEmail = oneLine(String(data.email ?? "")).slice(0, 320);
+  // An address that won't validate still reaches the inbox in the body, but
+  // isn't used as reply_to, where Resend would reject the whole send.
+  const email = EMAIL_RE.test(rawEmail) ? rawEmail : "";
   const message = String(data.message ?? "").trim().slice(0, 5000);
+  const subjectBase = SUBJECTS[String(data.form ?? "")] ?? "New enquiry";
 
-  if (!email && !message) {
+  if (!rawEmail && !message) {
     return json({ ok: false, error: "empty" }, 422);
   }
 
@@ -46,7 +79,7 @@ export const POST: APIRoute = async ({ request }) => {
   const text = [
     "New project enquiry — divyanshsood.com",
     name && `Name: ${name}`,
-    email && `Email: ${email}`,
+    rawEmail && `Email: ${rawEmail}${email ? "" : " (did not validate)"}`,
     message && `Project: ${message}`,
   ]
     .filter(Boolean)
@@ -59,7 +92,7 @@ export const POST: APIRoute = async ({ request }) => {
       body: JSON.stringify({
         from,
         to,
-        subject: `New enquiry${name ? ` — ${name}` : ""}`,
+        subject: `${subjectBase}${name ? ` — ${name}` : ""}`,
         reply_to: email || undefined,
         text,
       }),
@@ -84,13 +117,6 @@ export const POST: APIRoute = async ({ request }) => {
     return json({ ok: false, error: "send_error" }, 502);
   }
 };
-
-function json(body: unknown, status: number) {
-  return new Response(JSON.stringify(body), {
-    status,
-    headers: { "Content-Type": "application/json" },
-  });
-}
 
 // Only POST is meaningful here. Without a catch-all, a crawler's GET or HEAD
 // hit an unexported method and the function crashed with a 500

@@ -11,6 +11,7 @@ import PostList from "../components/brand/PostList.astro";
 import EndCta from "../components/brand/EndCta.astro";
 import { SITE, CALENDLY_URL, DEFAULT_OG, fmtDate, iso, related } from "../lib/blog.mjs";
 import { coverBase, coverSrcset, COVER_SIZES_POST } from "../lib/images.mjs";
+import { STUDIO_HOURS } from "../lib/site.mjs";
 
 type Link = { href: string; label: string };
 interface Props {
@@ -74,7 +75,7 @@ const HUBS = TRACKS[post.audience] || TRACKS.international;
 const AUDIENCE_CTA: Record<string, NonNullable<Props["cta"]>> = {
   "indian-smb": {
     title: "Working on something in India?",
-    text: "If a post here matches what you're building, send me the brief. WhatsApp reply in under an hour, 9 AM–9 PM IST — I'll tell you within a day if it's a fit.",
+    text: `If a post here matches what you're building, send me the brief. WhatsApp reply in under an hour, ${STUDIO_HOURS.label} — I'll tell you within a day if it's a fit.`,
     primary: { href: "https://wa.me/919816091875", label: "Message me on WhatsApp →" },
     secondary: { href: "/#work", label: "See the work →" },
   },

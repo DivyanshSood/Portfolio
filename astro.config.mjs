@@ -52,7 +52,9 @@ export default defineConfig({
   // the bare form now 308s to it.
   trailingSlash: "always",
   output: "static",
-  adapter: vercel(),
+  // maxDuration 30: the chat waits up to 20 s for Gemini; at the default limit a
+  // slow answer ended the function and the widget got HTML instead of JSON.
+  adapter: vercel({ maxDuration: 30 }),
   // Legacy-URL redirects all live in vercel.json, not here. Under
   // trailingSlash:"always" the adapter's canonicalising 308 is emitted *above*
   // Astro's own redirect routes, so "/start" 308'd to "/start/" and then missed

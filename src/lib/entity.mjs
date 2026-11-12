@@ -26,7 +26,7 @@
    ratings, no prices — see the standing notes in site.mjs.
    =========================================================================== */
 
-import { FOUNDER_PHOTO, GOOGLE_KG_MID, GOOGLE_MAPS_CID_URL, SAME_AS, SITE, STUDIO_ADDRESS } from "./site.mjs";
+import { FOUNDER_PHOTO, GOOGLE_KG_MID, GOOGLE_MAPS_CID_URL, SAME_AS, SITE, STUDIO_ADDRESS, GBP_NAME } from "./site.mjs";
 
 /* Topics of demonstrated expertise. Consumed by both the full Person node on
    the homepage and the compact author node on every post, so the two can't
@@ -94,10 +94,12 @@ export function authorNode(SITE) {
  */
 export function publisherNode(SITE) {
   return {
-    "@type": "Organization",
+    // Same @type as the homepage's full node, so #studio is one entity with
+    // one definition on every page (it was plain Organization on 82 pages).
+    "@type": ["ProfessionalService", "Organization"],
     "@id": `${SITE}/#studio`,
     name: "Divyansh Sood® Studio",
-    alternateName: "Divyansh Sood Studio",
+    alternateName: ["Divyansh Sood Studio", GBP_NAME],
     url: `${SITE}/`,
     logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
     image: `${SITE}${FOUNDER_PHOTO}`,

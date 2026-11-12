@@ -20,7 +20,19 @@
    and vertical metrics (body text at wght 400, wdth 100 — size-adjust is the
    English-weighted average advance, Archivo 0.441em vs Arial 0.447em), so the
    swap reflows almost nothing and CLS stays near zero. */
-@font-face{font-family:'Archivo Fallback';src:local('Arial'),local('ArialMT'),local('Helvetica');size-adjust:98.6%;ascent-override:89%;descent-override:21.3%;line-gap-override:0%}
+/* Split by weight (measured 2026-11-13, same sentence at 100px): Archivo 400
+   is 0.985× Arial, 500 is 1.003× Arial regular, and 600–800 average 0.986× Arial
+   Bold, so each range gets its own scale instead of one compromise. */
+@font-face{font-family:'Archivo Fallback';src:local('Arial'),local('ArialMT'),local('Helvetica'),local('Roboto');font-weight:100 450;size-adjust:98.6%;ascent-override:89%;descent-override:21.3%;line-gap-override:0%}
+@font-face{font-family:'Archivo Fallback';src:local('Arial'),local('ArialMT'),local('Helvetica'),local('Roboto');font-weight:451 550;size-adjust:100.3%;ascent-override:87.5%;descent-override:21%;line-gap-override:0%}
+@font-face{font-family:'Archivo Fallback';src:local('Arial Bold'),local('Arial-BoldMT'),local('Helvetica Bold'),local('Roboto Bold'),local('Roboto-Bold');font-weight:551 1000;size-adjust:98.6%;ascent-override:89%;descent-override:21.3%;line-gap-override:0%}
+/* Display headings (italic, wght 900, wdth 125) run 1.31× wider than Arial
+   bold italic (measured in Chrome, 2026-11-13: 3149 vs 2407 px for the same
+   line; 133% after per-word checks on the hero H1s). With the body fallback the hero H1 wrapped one line shorter until
+   Archivo arrived, and the swap pushed the page down (CLS 0.08–0.10 on slow
+   phones). This face is scaled to the display width so the H1 wraps the same
+   either way. Roboto is listed for Android, which has no Arial. */
+@font-face{font-family:'Archivo Display Fallback';src:local('Arial Bold Italic'),local('Arial-BoldItalicMT'),local('Roboto Bold Italic'),local('Roboto-BoldItalic'),local('Arial'),local('Roboto');font-style:italic;font-weight:900;size-adjust:133%;ascent-override:67%;descent-override:16%;line-gap-override:0%}
 @font-face{font-family:'Geist Mono Fallback';src:local('Courier New'),local('CourierNewPSMT'),local('Menlo');size-adjust:100%;ascent-override:100.5%;descent-override:29.5%;line-gap-override:0%}
 
 :root{
@@ -39,9 +51,16 @@
   /* Outside the book by owner decision (2026-10-02): the homepage
      "Online now" dot is green while replies are live, grey after hours. */
   --online:#16A34A;
+  /* Small (12px) red text fails WCAG AA contrast on ink (4.15:1) and on the
+     tint (4.24:1). These two shades keep the livery but pass 4.5:1:
+     --red-on-ink 5.95:1 on #0B0B0C, --red-on-tint 4.94:1 on #F3F2EE. Use them
+     only for small text on those backgrounds; big type stays --red. */
+  --red-on-ink:#FF4A52;
+  --red-on-tint:#D0131C;
 
   /* (02) Type */
   --display:'Archivo','Archivo Fallback',system-ui,sans-serif;
+  --display-xl:'Archivo','Archivo Display Fallback','Archivo Fallback',system-ui,sans-serif; /* wdth-125 hero headings */
   --mono:'Geist Mono','Geist Mono Fallback',monospace;
 
   /* (04) The circuit */
@@ -62,6 +81,13 @@ a:hover{color:var(--red)}
 img{max-width:100%}
 .site{background:#fff;color:var(--ink);font-family:var(--display);position:relative;overflow-x:clip}
 :focus-visible{outline:2px solid var(--red);outline-offset:2px}
+/* Clipped parallelogram buttons: clip-path cuts an outside outline off, and a
+   ring on the edge blends into the page (white ring, white page). So the focus
+   ring sits 10px inside the shape, in the button's own text colour, which by
+   design contrasts with the button's fill. */
+:root :is(.btn,.form-submit,.hd-cta,.hd-call,.cw-launch,.cw-send,.wcard-all,.contact-cta,.lg-btn,.pk-copy):focus-visible{outline:2px solid currentColor;outline-offset:-10px}
+/* A red ring vanishes on red: white inside red sections and over the hero. */
+:is(.ph-red,.hero-red,.ec,.contact,.cs-quote,.qt--red,.hd:not(.is-solid)) :focus-visible{outline-color:#fff}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 [hidden]{display:none !important}
 
@@ -74,6 +100,7 @@ img{max-width:100%}
 
 /* ---- Type ramp ---------------------------------------------------------- */
 .lbl{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--red);margin-bottom:14px}
+.sf--tint .lbl{color:var(--red-on-tint)}
 .lbl--ink{color:inherit}
 .mono{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
 .meta{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--g5c)}

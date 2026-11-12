@@ -30,8 +30,9 @@ const jsonld = JSON.stringify({
 });
 
 // Plain-English summary at the top, detail in the body. Matches the actual
-// runtime behaviour: GA4 loads on every page view, plus the Google Ads
-// conversion tag; no ads shown, no IP capture beyond what the CDN does on its own.
+// runtime behaviour (checked 2026-11-13): GA4 on every page view, the Google
+// Ads conversion tag (no remarketing), the contact forms (Resend), the chat
+// (Gemini), and Vercel hosting with two serverless functions.
 const sections = [
   {
     h: "What runs when you arrive",
@@ -39,23 +40,23 @@ const sections = [
   },
   {
     h: "Cookies",
-    p: "Google Analytics sets its own cookies to tell one visit from the next — the _ga family. Google's ad-conversion tag adds _gcl_au (and _gcl_aw after an ad click), so Google Ads can tell when a visit that started from one of my ads ended in an enquiry. They hold a random ID, not a name or an email. Nothing is sold or shared with anyone.",
+    p: "Google Analytics sets its own cookies to tell one visit from the next — the _ga family. Google's ad-conversion tag adds _gcl_au (and _gcl_aw after an ad click), so Google Ads can tell when a visit that started from an ad ended in an enquiry. They hold a random ID, not a name or an email. Nothing is sold.",
   },
   {
     h: "Analytics",
-    p: "Google Analytics 4 runs with IP anonymisation enabled. It records page views, country-level geolocation, and referrer. Yandex Metrica, used until 6 November 2026, has been removed. To opt out, use your browser's tracker blocking or Do Not Track signal, a content blocker such as uBlock Origin, or Google's official opt-out add-on.",
+    p: "Google Analytics 4 records page views, the referrer, the device type and an approximate location (city level, derived from your IP address, which GA4 does not store). Yandex Metrica, used until 6 November 2026, has been removed. To opt out, use your browser's tracker blocking, a content blocker such as uBlock Origin, or Google's official opt-out add-on. Visitors in the EU and UK are asked nothing because analytics and ad cookies default to off there.",
   },
   {
     h: "Ad conversions",
-    p: "I run Google Ads. When you send the brief form or tap WhatsApp, Calendly or the phone number, Google's tag reports that a lead happened, so I can see which ads bring enquiries. It reports the action, not what you wrote or who you are. No ads are shown on this site. To opt out, use the same browser controls as above, or turn off ad personalisation in your Google account.",
+    p: "The Google Ads conversion tag is installed so that, when I run ads, I can see which ones bring enquiries. When you send a form or tap WhatsApp or Calendly, the tag reports that a lead happened; it reports the action, not what you wrote or who you are. Phone and email taps are not reported to Google Ads. Ad personalisation and remarketing are switched off: this site does not build ad audiences. To opt out, use the same browser controls as above, or turn off ad personalisation in your Google account.",
   },
   {
-    h: "What I don't collect",
-    p: "No name. No email. No phone. No payment info. This site is a portfolio — the only way to contact me is to send a message yourself, via the Calendly link, email, or WhatsApp (the channels are visible at the bottom of every page).",
+    h: "Contact forms",
+    p: "The brief form and the free-audit form send what you type — your name, your email, the site address and your message — to my inbox through Resend, an email delivery service. I use it only to reply to you and keep it in my mailbox like any other email. Ask me at hello@divyanshsood.com and I'll delete it. If you contact me by WhatsApp, phone, email or Calendly instead, those services' own privacy policies apply to that conversation.",
   },
   {
-    h: "Hosting & CDN",
-    p: "Pages are served by Vercel (static files at the edge). Project images are served by ImageKit, an image CDN. Both will log your IP for the duration of the request as part of normal operation; I don't see those logs unless I debug a specific incident.",
+    h: "Hosting",
+    p: "Pages are served by Vercel. Two small server functions, one for the contact forms and one for the chat, run on Vercel too. Vercel logs your IP address for each request as part of normal operation; I don't see those logs unless I debug a specific incident.",
   },
   {
     h: "Chat assistant",
@@ -63,11 +64,11 @@ const sections = [
   },
   {
     h: "Reviews",
-    p: "The \"Read our Google reviews\" link goes to our public Google Business Profile. Loading that page is governed by Google's privacy policy, not mine.",
+    p: "The \"Read my Google reviews\" link goes to my public Google Business Profile. Loading that page is governed by Google's privacy policy, not mine.",
   },
   {
     h: "Your rights (GDPR / CCPA)",
-    p: "If you're in the EU, UK, or California, you can ask what data we hold about you and have it deleted. We hold nothing tied to your identity — the analytics data is pseudonymous (a random client ID + IP-prefix only). For a verifiable request, email hello@divyanshsood.com.",
+    p: "If you're in the EU, UK, or California, you can ask what data I hold about you and have it deleted: form messages in my inbox, and pseudonymous analytics data tied to a random client ID. Email hello@divyanshsood.com.",
   },
   {
     h: "Changes",
@@ -88,15 +89,15 @@ const sections = [
   <main>
     <PageHero
       display="Privacy."
-      kicker="Privacy · Plain English, no dark patterns · Updated 2026-10"
-      lead="The short version: two analytics tools count page views, I never sell anything to anyone, a Google Ads tag counts enquiries that came from my ads, and no ads are shown on the page. If you want the full policy, the section-by-section breakdown is below — what loads, what it stores, and how to switch it off from your browser."
+      kicker="Privacy · Plain English, no dark patterns · Updated 2026-11"
+      lead="The short version: Google Analytics counts page views, a Google Ads tag counts enquiries that came from ads, the contact forms send your message to my inbox, and I never sell anything to anyone. No ads are shown on the page. If you want the full policy, the section-by-section breakdown is below — what loads, what it stores, and how to switch it off from your browser."
     >
       <a class="btn btn--red" href="#privacy-detail">Read the detail <span aria-hidden="true">→</span></a>
       <a class="btn btn--ink" href={CALENDLY_URL}>Get in touch instead</a>
     </PageHero>
 
     <Section n={1} term="Telemetry" note="TL;DR" title="In 30 seconds">
-      <p class="pv-big">This site is a portfolio. It does not collect personal data from visitors. The only thing it records is anonymous page-view counts, through two standard analytics tools that can't tie a visit to a name. That's it.</p>
+      <p class="pv-big">This site is a portfolio. It counts page views with Google Analytics, which can't tie a visit to a name. The only personal data it receives is what you choose to send through a form, and that goes to my inbox to answer you.</p>
     </Section>
 
     <Section n={2} term="Setup" note="Full policy" title="Section by section" id="privacy-detail">
@@ -105,8 +106,8 @@ const sections = [
 
     <EndCta
       title="Still have questions?"
-      text={`If something on this page is unclear, or you want a verifiable data request under GDPR / CCPA, email <a href="mailto:hello@divyanshsood.com">hello@divyanshsood.com</a> — I reply personally within a couple of hours during IST working hours.`}
-      secondary={{ href: GOOGLE_REVIEWS_URL, label: "Read our Google reviews ↗" }}
+      text={`If something on this page is unclear, or you want a verifiable data request under GDPR / CCPA, email <a href="mailto:hello@divyanshsood.com">hello@divyanshsood.com</a> — I reply personally the same day.`}
+      secondary={{ href: GOOGLE_REVIEWS_URL, label: "Read my Google reviews ↗" }}
     />
   </main>
 </Base>

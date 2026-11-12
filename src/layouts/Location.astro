@@ -12,7 +12,7 @@ import ProjectCard from "../components/brand/ProjectCard.astro";
 import Faq from "../components/brand/Faq.astro";
 import NearbyAreas from "../components/brand/NearbyAreas.astro";
 import EndCta from "../components/brand/EndCta.astro";
-import { SITE, CALENDLY_URL, GOOGLE_MAPS_URL } from "../lib/site.mjs";
+import { SITE, CALENDLY_URL, PHONE_TEL, PHONE_DISPLAY, GOOGLE_MAPS_URL } from "../lib/site.mjs";
 import { TOPICS } from "../lib/entity.mjs";
 import { projects } from "../lib/projects/data.mjs";
 import { locationWa, HUB } from "../lib/locations.mjs";
@@ -95,8 +95,9 @@ const industry = isHP
     <PageHero display={`Web developer in ${l.city}.`} size="case" kicker={l.kicker} lead={l.lead}>
       <a class="btn btn--red" href={CALENDLY_URL}>Book a call <span aria-hidden="true">→</span></a>
       <a class="btn btn--ink" href={WA}>Message on WhatsApp</a>
+      <a class="btn btn--ink" href={PHONE_TEL}>Call {PHONE_DISPLAY}</a>
       <Fragment slot="notes">
-        <span>Based in Kangra, Himachal · <a href={GOOGLE_MAPS_URL} target="_blank" rel="noopener">on Google Maps ↗</a></span>
+        <span>Based in Kangra, Himachal · <a href={GOOGLE_MAPS_URL} target="_blank" rel="noopener">on Google Maps <span aria-hidden="true">↗</span></a></span>
         <span>{l.tier === "remote" ? "Remote · fixed quote" : "Live in 1–3 weeks"}</span>
       </Fragment>
     </PageHero>
@@ -132,6 +133,7 @@ const industry = isHP
       title={`Run a business in ${l.city}?`}
       text="Message me what you do. I'll tell you honestly whether a website will move the needle for you — and what it would cost, fixed, in writing."
       primary={{ href: WA, label: "Message on WhatsApp →" }}
+      call
       secondary={{ href: HUB.href, label: "All areas I serve →" }}
     />
   </main>

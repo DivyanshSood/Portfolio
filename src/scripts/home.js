@@ -35,10 +35,22 @@ function pitLane() {
   const t = document.querySelector("[data-work-track]");
   const bar = document.querySelector("[data-work-bar]");
   const count = document.querySelector("[data-work-count]");
-  if (!o || !t) return { layout() {}, update() {} };
+  // Reduced motion: no pinned sideways scroll. Without .is-pinned the track
+  // is an ordinary horizontal scroller (the no-JS layout).
+  if (!o || !t || reduce()) return { layout() {}, update() {} };
   const n = t.querySelectorAll(".wcard").length;
   o.classList.add("is-pinned");
   let dist = 0;
+  // Keyboard: Tab onto a card that is off-screen to the right and the page
+  // scrolls to the point where the pinned track shows it (WCAG 2.4.11).
+  t.addEventListener("focusin", (e) => {
+    const card = e.target.closest?.(".wcard");
+    if (!card || !dist) return;
+    const top = o.getBoundingClientRect().top + scrollY;
+    const span = Math.max(1, o.offsetHeight - innerHeight);
+    const want = Math.min(dist, Math.max(0, card.offsetLeft - parseFloat(getComputedStyle(t).paddingLeft)));
+    scrollTo({ top: top + (want / dist) * span, behavior: "instant" });
+  });
   return {
     layout() {
       // Measured from the last card's box, not t.scrollWidth: content that

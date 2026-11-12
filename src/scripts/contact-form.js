@@ -26,7 +26,7 @@ const FORMS = {
   },
   "ds-start-form": {
     subject: "New project enquiry (start form)",
-    success: "Brief received. Expect a personal reply within two hours, 9 AM–9 PM IST.",
+    success: "Brief received. Expect a personal reply the same day.",
     hp: "st-hp",
     fields: [
       { id: "st-name", label: "Name" },
@@ -107,8 +107,10 @@ function showSuccess(form, msg, usedFallback) {
   form.parentNode.insertBefore(wrap, form.nextSibling);
 }
 
-function showError(form, msg) {
-  // Inline error — doesn't hide the form so the user can retry.
+function showError(form, msg, fieldId) {
+  // Inline error — doesn't hide the form so the user can retry. The field at
+  // fault is marked invalid, tied to the message and focused.
+  form.querySelectorAll("[aria-invalid]").forEach((el) => el.removeAttribute("aria-invalid"));
   let err = form.querySelector(".form-err");
   if (!err) {
     err = document.createElement("p");
@@ -116,7 +118,14 @@ function showError(form, msg) {
     err.setAttribute("role", "alert");
     form.appendChild(err);
   }
+  if (!err.id) err.id = form.id + "-err";
   err.textContent = msg;
+  const field = fieldId && document.getElementById(fieldId);
+  if (field) {
+    field.setAttribute("aria-invalid", "true");
+    field.setAttribute("aria-describedby", err.id);
+    field.focus();
+  }
 }
 
 async function submit(form, config) {
@@ -131,7 +140,7 @@ async function submit(form, config) {
   // Client-side validation.
   const emailField = config.fields.find((f) => f.isEmail);
   if (emailField && !isValidEmail(data[emailField.id])) {
-    showError(form, "Please enter a valid email so I can reply.");
+    showError(form, "Please enter a valid email so I can reply.", emailField.id);
     return;
   }
   const msg = buildMessage(data, config);
@@ -158,6 +167,7 @@ async function submit(form, config) {
         email: emailField ? data[emailField.id] : "",
         message: msg,
         hp: config.hp ? val(config.hp) : "",
+        form: form.id,
       }),
     });
     const json = await res.json().catch(() => ({}));
@@ -188,9 +198,20 @@ export default function initContactForms() {
     const form = document.getElementById(formId);
     if (!form) continue;
     const config = FORMS[formId];
-    form.addEventListener("submit", function (e) {
+    let busy = false;
+    form.addEventListener("submit", async function (e) {
       e.preventDefault();
-      submit(form, config);
+      // One send per click: a double click used to send two emails.
+      if (busy) return;
+      busy = true;
+      const btn = form.querySelector('[type="submit"]');
+      if (btn) btn.disabled = true;
+      try {
+        await submit(form, config);
+      } finally {
+        busy = false;
+        if (btn) btn.disabled = false;
+      }
     });
   }
 }

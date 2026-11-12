@@ -9,6 +9,9 @@ interface Props {
   html?: boolean;
 }
 const { faqs, label = "(08) Before you ask", title = "Questions I get.", html = false } = Astro.props;
+// Stable per-instance id prefix (from the heading text) so each button can
+// point at its answer with aria-controls; deterministic, so builds don't churn.
+const base = "fq-" + `${label} ${title}`.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 32);
 ---
 
 <div class="fq">
@@ -20,13 +23,13 @@ const { faqs, label = "(08) Before you ask", title = "Questions I get.", html = 
     {faqs.map((f, i) => (
       <div class="fq-item" data-faq-item>
         <h3>
-          <button type="button" aria-expanded={i === 0 ? "true" : "false"}>
+          <button type="button" aria-expanded={i === 0 ? "true" : "false"} aria-controls={`${base}-${i + 1}`}>
             <span class="fq-n">{String(i + 1).padStart(2, "0")}</span>
             <span class="fq-q">{f.q}</span>
             <span class:list={["fq-i", { "is-open": i === 0 }]} data-faq-icon aria-hidden="true">{i === 0 ? "−" : "+"}</span>
           </button>
         </h3>
-        {html ? <p class="fq-a" data-faq-a hidden={i !== 0} set:html={f.a} /> : <p class="fq-a" data-faq-a hidden={i !== 0}>{f.a}</p>}
+        {html ? <p class="fq-a" id={`${base}-${i + 1}`} data-faq-a hidden={i !== 0} set:html={f.a} /> : <p class="fq-a" id={`${base}-${i + 1}`} data-faq-a hidden={i !== 0}>{f.a}</p>}
       </div>
     ))}
   </div>

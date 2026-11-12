@@ -9,6 +9,7 @@ import ResultGrid from "../components/brand/ResultGrid.astro";
 import EndCta from "../components/brand/EndCta.astro";
 import SpecList from "../components/brand/SpecList.astro";
 import { portraitSrcset, PORTRAIT_SIZES_ABOUT } from "../lib/images.mjs";
+import { JOB_TITLE, PERSON_DESCRIPTION, KNOWS_ABOUT } from "../lib/entity.mjs";
 import { SITE, CALENDLY_URL, FOUNDER_PHOTO_ABOUT, FOUNDER_PHOTO_ALT, HAS_FOUNDER_PHOTO, SAME_AS, GOOGLE_MAPS_URL, GOOGLE_REVIEWS_URL } from "../lib/site.mjs";
 
 const canonical = `${SITE}/about/`;
@@ -17,14 +18,14 @@ const WA = "https://wa.me/919816091875?text=Hi%20Divyansh,%20I%20saw%20your%20ab
 
 // Snapshot stats — keep the copy honest, update both here and the homepage if any change.
 const stats = [
-  { v: "20+", l: "Products shipped" },
+  { v: "20+", l: "Projects shipped" },
   { v: "2022", l: "First launch" },
   { v: "1", l: "Person, end to end" },
-  { v: "9/9", l: "Last clients still clients" },
+  { v: "18", l: "Case studies published" },
 ];
 
 const skills = [
-  { t: "Web design", d: "The design that ships, not the one that wins a Figma community award. I design in code, on a real URL — Nandini Travels' homepage was a real Astro build before it was a Figma file. The bookings started coming in within a week." },
+  { t: "Web design", d: "The design that ships, not the one that wins a Figma community award. I design in code, on a real URL — Nandini Travels' homepage was a real Astro build before it was ever a Figma file." },
   { t: "Web development", d: "Node and Express for Modern K.B.S.'s admissions portal, which the office staff runs. Astro for marketing sites that load in under a second. React, Angular, Supabase for the bigger builds. I work in code, not in builders — so the next developer picks it up clean." },
   { t: "AI features", d: "Claude, GPT, Gemini — whichever fits the job. I've run all three in production in my own AI product, so when I integrate AI for a client, I'm reusing shipped code, not testing on their dime." },
   { t: "Strategy & copy", d: "What the homepage should say, in what order, to whom. Most projects want it, and it usually makes the biggest difference." },
@@ -33,9 +34,9 @@ const skills = [
 const milestones = [
   { year: "2022", t: "The first ship", d: "First paying website. A local school wanted better than their Google Sites page. I took the brief on a Sunday, learned Next.js the same week, delivered in ten days. I've been working out of Himachal ever since." },
   { year: "2023", t: "Going full-time solo", d: "Closed the side projects, went independent. Hired zero people. Took on 8 sites that year — e-commerce, travel, education, creator brands." },
-  { year: "2024", t: "WebSeek.ai ships", d: "Built and launched my own AI website generator — running it as a real product with real users, not a portfolio toy. It's now Websitekind.ai, powered by Claude. Now I think about every build the way a founder does." },
-  { year: "2025", t: "Modern K.B.S. admissions", d: "Website, online admissions and an admin panel for a school that had to be ready for its intake. In the admin's words: \"Every other agency said 6 months. Delivered in 7 days.\"" },
-  { year: "2026", t: "Now", d: "Solo studio out of Himachal Pradesh. Limited projects at a time. Async across time zones, calls in yours. 9 of my last 9 clients still working with me." },
+  { year: "2024", t: "Modern K.B.S. admissions", d: "Website, online admissions and an admin panel for a school that had to be ready for its intake. In the admin's words: \"Every other agency said 6 months. Delivered in 7 days.\"" },
+  { year: "2026", t: "WebSeek.ai ships", d: "Built and launched my own AI website generator — running it as a real product with real users, not a portfolio toy. It's now Websitekind.ai, powered by Claude. Now I think about every build the way a founder does." },
+  { year: "2026", t: "Now", d: "Solo studio out of Himachal Pradesh. Limited projects at a time. Async across time zones, calls in yours. Open every day, 6 AM–1 AM IST." },
 ];
 
 /* ---------------------------------------------------------------------------
@@ -99,20 +100,12 @@ const jsonld = JSON.stringify({
       "@type": "Person",
       "@id": `${SITE}/#person`,
       name: "Divyansh Sood",
-      jobTitle: "Web developer",
-      description:
-        "Solo studio in Himachal Pradesh, India. Custom-coded websites, stores, web apps and AI features for founders worldwide. 20+ products shipped since 2022.",
+      // Same jobTitle, description and knowsAbout as every other page's
+      // #person node (entity.mjs): one entity, one definition.
+      jobTitle: JOB_TITLE,
+      description: PERSON_DESCRIPTION,
       url: canonical,
-      knowsAbout: [
-        "Web design",
-        "Web development",
-        "Next.js",
-        "React",
-        "Astro",
-        "Supabase",
-        "AI integration",
-        "Conversion-focused design",
-      ],
+      knowsAbout: KNOWS_ABOUT,
       // Imported, never hardcoded. A literal copy here drifts from site.mjs
       // on the one page most likely to be read as the identity record. Add a
       // profile in site.mjs and it lands here too.
@@ -138,7 +131,7 @@ const jsonld = JSON.stringify({
       h1="Built from the Himalayas. Shipping for the world."
       kicker="About me · Himalayas · 2022 — 2026"
       lead="I'm Divyansh Sood — a freelance web designer &amp; developer in Himachal Pradesh, India. Since 2022 I've designed and shipped 20+ custom-coded websites, stores, web apps and AI features for founders worldwide. One person, end to end — no agency layers."
-      notes={["Solo · Design + Build", `Kangra, Himachal Pradesh · India · <a href="${GOOGLE_MAPS_URL}" rel="noopener">on Google Maps ↗</a>`, "IST +5:30 · Overlap with US / UK / Gulf"]}
+      notes={["Solo · Design + Build", `Kangra, Himachal Pradesh · India · <a href="${GOOGLE_MAPS_URL}" rel="noopener">on Google Maps <span aria-hidden="true">↗</span></a>`, "IST +5:30 · Overlap with US / UK / Gulf"]}
     >
       <a class="btn btn--red" href={CALENDLY_URL}>Book a 15-min intro <span aria-hidden="true">→</span></a>
       <a class="btn btn--ink" href={WA}>Message on WhatsApp</a>
@@ -161,9 +154,9 @@ const jsonld = JSON.stringify({
           <div>
             <div class="chips-lbl">Find me</div>
             <div class="fd-chips">
-              <a class="chip" href="https://www.linkedin.com/in/divyanshsood/" rel="me noopener">LinkedIn ↗</a>
-              <a class="chip" href={GOOGLE_MAPS_URL} rel="noopener">Google Maps ↗</a>
-              <a class="chip" href={GOOGLE_REVIEWS_URL} rel="noopener">Google reviews ↗</a>
+              <a class="chip" href="https://www.linkedin.com/in/divyanshsood/" rel="me noopener">LinkedIn <span aria-hidden="true">↗</span></a>
+              <a class="chip" href={GOOGLE_MAPS_URL} rel="noopener">Google Maps <span aria-hidden="true">↗</span></a>
+              <a class="chip" href={GOOGLE_REVIEWS_URL} rel="noopener">Google reviews <span aria-hidden="true">↗</span></a>
             </div>
           </div>
         </div>

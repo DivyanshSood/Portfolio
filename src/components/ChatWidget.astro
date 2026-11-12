@@ -15,9 +15,11 @@ const SUGGESTIONS = [
   "Do you build hotel websites?",
   "Show me your work",
 ];
+/** Set to "en" by Base.astro on non-English pages (/hi/): the chrome stays English. */
+const { lang } = Astro.props as { lang?: string };
 ---
 
-<div class="cw" data-chat data-nosnippet>
+<div class="cw" data-chat data-nosnippet lang={lang}>
   <button class="cw-launch" type="button" data-chat-open aria-expanded="false" aria-controls="cw-panel">
     <span class="cw-label">Ask me anything</span>
     <span class="cw-glyph" aria-hidden="true">?</span>
@@ -51,13 +53,14 @@ const SUGGESTIONS = [
     </form>
     <p class="cw-note">
       Answers come from an AI (Google Gemini) and can be wrong. Don't share personal details. Prefer a human?
-      <a href="https://wa.me/919816091875">WhatsApp Divyansh ↗</a>
+      <a href="https://wa.me/919816091875">WhatsApp Divyansh <span aria-hidden="true">↗</span></a>
     </p>
   </div>
 </div>
 
 <script>
-  type Turn = { role: "user" | "assistant"; text: string };
+  import { STUDIO_HOURS } from "../lib/hours.mjs";
+  type Turn = { role: "user" | "assistant"; text: string; sig?: string };
 
   const KEY = "ds-chat";
   const WHATSAPP = "https://wa.me/919816091875";
@@ -65,7 +68,7 @@ const SUGGESTIONS = [
     busy: `I'm getting a lot of questions right now. Please message Divyansh directly on WhatsApp: ${WHATSAPP}`,
     rate_limited: `You've sent a lot of messages in a short time. Give it a minute, or message Divyansh directly on WhatsApp: ${WHATSAPP}`,
     turn_limit: `This chat has reached its limit. For anything more, Divyansh is quickest on WhatsApp: ${WHATSAPP} — or tap ↺ to start a new chat.`,
-    not_configured: `The assistant is offline at the moment. Divyansh replies on WhatsApp from 9 AM to 9 PM IST: ${WHATSAPP}`,
+    not_configured: `The assistant is offline at the moment. Divyansh replies on WhatsApp ${STUDIO_HOURS.labelLong}: ${WHATSAPP}`,
     default: `Sorry, I couldn't answer that just now. Please try again, or message Divyansh on WhatsApp: ${WHATSAPP}`,
   };
 
@@ -111,7 +114,13 @@ const SUGGESTIONS = [
       panel.hidden = !open;
       launch.hidden = open;
       launch.setAttribute("aria-expanded", String(open));
-      document.documentElement.classList.toggle("cw-locked", open && mobile.matches);
+      const modal = open && mobile.matches;
+      document.documentElement.classList.toggle("cw-locked", modal);
+      // On phones the panel covers the screen, so it is a real modal there:
+      // announce it as one and make the page behind it inert.
+      panel.setAttribute("aria-modal", String(modal));
+      const site = document.querySelector<HTMLElement>(".site");
+      if (site) site.inert = modal;
       if (open) {
         log.scrollTop = log.scrollHeight;
         if (focus) input.focus();
@@ -167,6 +176,7 @@ const SUGGESTIONS = [
       typing.classList.add("cw-msg--typing");
 
       let reply = "";
+      let sig = "";
       let ok = false;
       try {
         const res = await fetch("/api/chat/", {
@@ -177,6 +187,9 @@ const SUGGESTIONS = [
         const data = await res.json().catch(() => ({}));
         ok = Boolean(data.ok && data.reply);
         reply = ok ? data.reply : FALLBACK[data.reason] || FALLBACK.default;
+        // The server signs each reply; it only trusts assistant turns sent
+        // back with their signature (see api/chat.ts).
+        if (ok && typeof data.sig === "string") sig = data.sig;
       } catch {
         reply = FALLBACK.default;
       }
@@ -184,7 +197,7 @@ const SUGGESTIONS = [
       typing.remove();
       append("bot", reply);
       if (ok) {
-        turns.push({ role: "assistant", text: reply });
+        turns.push({ role: "assistant", text: reply, sig });
       } else {
         // A failed turn is dropped so a retry doesn't send two questions in a row.
         turns.pop();
@@ -295,8 +308,8 @@ const SUGGESTIONS = [
   .cw-msg p{margin:0}
   .cw-msg p + p,.cw-msg p + ul,.cw-msg ul + p{margin-top:8px}
   .cw-msg ul{margin:0;padding-left:18px}
-  .cw-msg a{color:var(--red);font-weight:600}
-  .cw-msg a:hover{color:var(--ink)}
+  .cw-msg a{color:var(--ink);font-weight:600;text-decoration:underline;text-underline-offset:2px}
+  .cw-msg a:hover{color:var(--red)}
   .cw-suggest{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
   .cw-chip{min-height:40px;padding:8px 12px;border:1.5px solid var(--ink);background:transparent;color:var(--ink);font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;text-align:left;cursor:pointer}
   .cw-chip:hover{background:var(--ink);color:#fff}

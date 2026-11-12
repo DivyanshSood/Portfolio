@@ -27,7 +27,7 @@
 
 /** @type {Record<string, string>} URL path (trailing slash) → ISO date */
 export const PAGE_UPDATED = {
-  "/": "2026-11-07",
+  "/": "2026-11-13",
   "/about/": "2026-11-06",
   "/agencies/": "2026-11-06",
   "/portfolio/": "2026-11-06",

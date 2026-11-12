@@ -84,29 +84,9 @@ function jsonLd(p) {
     },
   ];
 
-  // Personal projects have no client to quote, so no Review node either.
-  const quoteWidget = p.personal ? null : p.body.find((w) => w.type === "quote" && w.attribution);
-  if (quoteWidget) {
-    graph.push({
-      "@type": "Review",
-      "@id": `${canonical}#review`,
-      // No reviewRating: these are quotes the studio publishes about itself,
-      // which Google rules out of review snippets (self-serving), and no star
-      // is shown on the page — a rating here would be markup the visitor
-      // can't see. The quote + its author stay, matching the visible text.
-      author: { "@type": "Organization", name: p.name },
-      // Typed inline, not a bare @id — the #studio node is only defined in the
-      // homepage graph, so a reference alone gives Search Console no type to
-      // validate ("Invalid object type for field itemReviewed").
-      itemReviewed: {
-        "@type": ["ProfessionalService", "Organization"],
-        "@id": `${SITE}/#studio`,
-        name: "Divyansh Sood® Studio",
-        url: `${SITE}/`,
-      },
-      reviewBody: quoteWidget.quote.replace(/^"|"$/g, ""),
-    });
-  }
+  // No Review node (owner decision 2026-11-13): client quotes about the studio
+  // are self-serving in Google's eyes, so Review markup without a rating is
+  // reported as an invalid review snippet. The quote stays as visible text.
 
   return JSON.stringify({ "@context": "https://schema.org", "@graph": graph });
 }

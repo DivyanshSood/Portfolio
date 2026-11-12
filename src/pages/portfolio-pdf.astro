@@ -30,7 +30,9 @@ const jsonld = completeGraph(
   JSON.stringify({
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "@id": `${canonical}#page`,
+    // Its own @id: "/portfolio/#page" belongs to /portfolio/, and two pages
+    // defining one id with different content read as a conflict.
+    "@id": `${SITE}/portfolio-pdf/#page`,
     url: canonical,
     name: "Portfolio one-pager — Divyansh Sood® Studio",
     description: "Print-ready one-page portfolio summary. Custom-coded, conversion-led sites shipped for real clients.",
@@ -45,7 +47,6 @@ const jsonld = completeGraph(
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Portfolio — Divyansh Sood® Studio</title>
     <meta name="description" content="Print-ready one-pager — what Divyansh Sood ships, who he's shipped for, and how to start." />
-    <link rel="canonical" href={canonical} />
     <meta name="robots" content="noindex, follow" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Divyansh Sood® Studio" />
@@ -111,9 +112,9 @@ const jsonld = completeGraph(
           <p class="lead">No handoffs, no account managers: most marketing sites &amp; MVPs ship in 3–4 weeks, and local Himachal sites in 1–3. Fixed quotes, in writing. You own every line.</p>
         </div>
         <dl class="stats">
-          <div><dt>Products live since 2022</dt><dd>20+</dd></div>
-          <div><dt>Last 9 clients retained</dt><dd>9/9</dd></div>
-          <div><dt>Average LCP on shipped sites</dt><dd>&lt;1.5s</dd></div>
+          <div><dt>Projects shipped since 2022</dt><dd>20+</dd></div>
+          <div><dt>Case studies published</dt><dd>{projects.length}</dd></div>
+          <div><dt>Own JavaScript, Sunny Himachal Travels</dt><dd>1.1 KB</dd></div>
           <div><dt>Solo, design + build</dt><dd>1 person</dd></div>
         </dl>
       </section>
@@ -125,7 +126,7 @@ const jsonld = completeGraph(
           {featured.map((p) => (
             <article class="tile">
               <div class="tile-top"><span>{p.pos}</span><span>{p.tags} · {p.year}</span></div>
-              <h3><a href={p.liveUrl}>{p.name} ↗</a></h3>
+              <h3><a href={p.liveUrl}>{p.name} <span aria-hidden="true">↗</span></a></h3>
               <p>{p.line}</p>
               <div class="stack">{p.stack}</div>
             </article>

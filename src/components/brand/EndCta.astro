@@ -2,7 +2,7 @@
 // End-of-page CTA — the Case Study "Want this pace?" block: red, a chevron
 // notch in the colour of the section above, headline left, the white
 // "Book a 15-min intro →" button and a mono link right.
-import { CALENDLY_URL } from "../../lib/site.mjs";
+import { CALENDLY_URL, PHONE_TEL, PHONE_DISPLAY } from "../../lib/site.mjs";
 
 interface Props {
   title: string;
@@ -10,6 +10,8 @@ interface Props {
   above?: "white" | "ink";
   primary?: { href: string; label: string };
   secondary?: { href: string; label: string };
+  /** Adds a click-to-call link under the button. Pass a label to override "Or call +91 …". */
+  call?: boolean | string;
 }
 const {
   title,
@@ -17,7 +19,9 @@ const {
   above = "white",
   primary = { href: CALENDLY_URL, label: "Book a 15-min intro →" },
   secondary,
+  call,
 } = Astro.props;
+const callLabel = typeof call === "string" ? call : `Or call ${PHONE_DISPLAY} →`;
 ---
 
 <section class:list={["ec", `ec--${above}`]} data-endcta>
@@ -29,6 +33,7 @@ const {
     </div>
     <div class="ec-side">
       <a href={primary.href} class="btn btn--xl btn--white">{primary.label}</a>
+      {call && <a href={PHONE_TEL} class="ec-link">{callLabel}</a>}
       {secondary && <a href={secondary.href} class="ec-link">{secondary.label}</a>}
       <slot />
     </div>
@@ -49,6 +54,6 @@ const {
   .ec-p{margin:24px 0 0;max-width:44ch;font-size:18px;line-height:1.5}
   .ec-p :global(a){color:#fff}
   .ec-side{display:flex;flex-direction:column;gap:12px;align-items:flex-start}
-  .ec-link,.ec-side :global(a.ec-link){color:#fff;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+  .ec-link,.ec-side :global(a.ec-link){color:#fff;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;display:inline-flex;align-items:center;min-height:44px}
   .ec-link:hover{color:var(--ink)}
 </style>

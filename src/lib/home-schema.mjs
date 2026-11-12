@@ -4,7 +4,7 @@
    same serialised string as before.
    =========================================================================== */
 
-import { FOUNDER_PHOTO, GOOGLE_KG_MID, GOOGLE_MAPS_CID_URL, SAME_AS, STUDIO_ADDRESS, STUDIO_GEO, STARTING_PRICES as P, inr } from "./site.mjs";
+import { FOUNDER_PHOTO, GOOGLE_KG_MID, GOOGLE_MAPS_CID_URL, SAME_AS, STUDIO_ADDRESS, STUDIO_GEO, STUDIO_HOURS, GBP_NAME, GBP_EXTRA_AREAS, STARTING_PRICES as P, inr } from "./site.mjs";
 import { KNOWS_ABOUT, JOB_TITLE, PERSON_DESCRIPTION } from "./entity.mjs";
 import { projects } from "./projects/data.mjs";
 import { LOCATIONS } from "./locations.mjs";
@@ -95,7 +95,7 @@ export function homeJsonLd(SITE) {
         "@type": ["ProfessionalService", "Organization"],
         "@id": `${SITE}/#studio`,
         name: "Divyansh Sood® Studio",
-        alternateName: "Divyansh Sood Studio",
+        alternateName: ["Divyansh Sood Studio", GBP_NAME],
         slogan: "Built from the Himalayas. Shipping for the world.",
         foundingDate: "2022",
         numberOfEmployees: { "@type": "QuantitativeValue", value: 1 },
@@ -129,12 +129,21 @@ export function homeJsonLd(SITE) {
           // Every town with its own location page (src/lib/locations.mjs).
           ...LOCATIONS.map((l) =>
             l.slug === "chandigarh"
-              ? { "@type": "City", name: l.city, containedInPlace: { "@type": "Country", name: "India" } }
+              ? { "@type": "AdministrativeArea", name: l.city, containedInPlace: { "@type": "Country", name: "India" } }
               : { "@type": "City", name: l.city, containedInPlace: { "@type": "State", name: l.region === "hp" ? "Himachal Pradesh" : "Punjab" } }
           ),
+          // Business Profile service areas with no page here (site.mjs).
+          ...GBP_EXTRA_AREAS.map((a) => ({ "@type": "City", name: a.name, containedInPlace: { "@type": "State", name: a.region } })),
         ],
         address: STUDIO_ADDRESS,
         geo: STUDIO_GEO,
+        // Same hours as the Business Profile (site.mjs STUDIO_HOURS).
+        openingHoursSpecification: {
+          "@type": "OpeningHoursSpecification",
+          dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+          opens: STUDIO_HOURS.opens,
+          closes: STUDIO_HOURS.closes,
+        },
         hasMap: GOOGLE_MAPS_CID_URL,
         sameAs: [...SAME_AS, GOOGLE_MAPS_CID_URL],
         // Same Knowledge Graph MID the publisher node carries (entity.mjs) — the
@@ -157,7 +166,7 @@ export function homeJsonLd(SITE) {
           { "@type": "Offer", url: `${SITE}/services/ecommerce-website-development/`, itemOffered: { "@type": "Service", name: "Ecommerce website development", description: "Custom-coded D2C storefronts — Razorpay/Stripe payments, drop mechanics, full code ownership, no platform rent." } },
           { "@type": "Offer", url: `${SITE}/services/web-app-development/`, itemOffered: { "@type": "Service", name: "Web app & MVP development", description: "Portals, dashboards, admin panels and AI products — full-stack React/Next.js/Astro, live in weeks." } },
           { "@type": "Offer", url: `${SITE}/services/landing-page-design/`, itemOffered: { "@type": "Service", name: "Landing page design", description: "High-converting landing pages — copy, design and code as one argument, with tracking built in." } },
-          { "@type": "Offer", url: `${SITE}/services/seo-geo-services/`, itemOffered: { "@type": "Service", name: "SEO & Generative Engine Optimization", description: "Technical and on-page SEO plus GEO — structured data, llms.txt and AI-crawler strategy so Google ranks you and AI assistants cite you." } },
+          { "@type": "Offer", url: `${SITE}/services/seo-geo-services/`, itemOffered: { "@type": "Service", name: "SEO & Generative Engine Optimization", description: "Technical and on-page SEO plus GEO — technical SEO and structured data so Google ranks you, plus llms.txt and AI-crawler strategy so AI assistants can read and cite you." } },
         ],
         // No aggregateRating or Review entries here on purpose: per
         // src/lib/site.mjs we only link out to the real Google reviews URL

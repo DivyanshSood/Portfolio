@@ -21,9 +21,9 @@ const offers = [
 ];
 
 const how = [
-  { n: "01", t: "Brand before build", d: "We start from how the store should feel — because a premium product in a template storefront reads as a discount product." },
+  { n: "01", t: "Brand before build", d: "I start from how the store should feel — because a premium product in a template storefront reads as a discount product." },
   { n: "02", t: "Designed in code", d: "You review a real URL, not a Figma file. What you approve is what ships." },
-  { n: "03", t: "Live in 2–4 weeks", d: "Redline, my own label, went from brand to store to checkout in one sprint. Larger catalogues or subscription logic add a sprint, agreed before the build starts." },
+  { n: "03", t: "Live in 3–4 weeks", d: "Redline, my own label, went from brand to store to checkout in one sprint. Larger catalogues or subscription logic add a sprint, agreed before the build starts." },
   { n: "04", t: "You own everything", d: "The code, the design, the customer data. No monthly platform rent, no theme license, no lock-in. Signed IP transfer with the final invoice." },
 ];
 
@@ -31,7 +31,7 @@ const faqs = [
   { q: "Can a custom store really replace Shopify?", a: "Yes. Payments (Razorpay or Stripe), order management, inventory and email receipts are all solvable without renting a platform. You trade a monthly fee and a theme ceiling for code you own outright. For premium and creator brands, the difference shows in conversion and brand feel." },
   { q: "Who owns the code and the customer data?", a: "You do — 100%. Full repository handover and a signed IP transfer with the final invoice. Your customer list never lives on someone else's platform." },
   { q: "Which payment gateways do you integrate?", a: "Razorpay for Indian stores (UPI, cards, netbanking, COD) and Stripe or PayPal for international buyers. Multi-currency setups are fine too." },
-  { q: "How long does a custom ecommerce build take?", a: "Typically 2–4 weeks from brief to live. Redline, my own label — brand identity, storefront and checkout — shipped in a single sprint. Complex catalogs or subscription logic can add a sprint." },
+  { q: "How long does a custom ecommerce build take?", a: "Typically 3–4 weeks from brief to live. Redline, my own label — brand identity, storefront and checkout — shipped in a single sprint. Complex catalogs or subscription logic can add a sprint." },
   { q: "What does a custom ecommerce website cost?", a: `A custom online store starts at ${inr(P.store)}. Every store gets a fixed quote in writing after a short call, before any work starts — no hourly creep, no change-order games. What moves the number is catalogue size, how custom the buying flow is, and whether you need drop mechanics or subscriptions. Worth weighing against the three-year total of a platform plan plus its apps, which is the comparison most brands never actually run.` },
 ];
 
@@ -46,7 +46,7 @@ const jsonld = JSON.stringify({
       provider: { "@id": `${SITE}/#studio` },
       areaServed: [{ "@type": "Country", name: "India" }, { "@type": "Place", name: "Worldwide" }],
       description:
-        "Custom-coded ecommerce websites and D2C storefronts — no Shopify themes, no platform rent. Razorpay and Stripe integration, drop mechanics, full code ownership, live in 2–4 weeks.",
+        "Custom-coded ecommerce websites and D2C storefronts — no Shopify themes, no platform rent. Razorpay and Stripe integration, drop mechanics, full code ownership, live in 3–4 weeks.",
       url: canonical,
       // Derived from the same `offers` array the page renders, so the catalogue
       // can never advertise something the page doesn't actually describe.
@@ -94,7 +94,7 @@ const jsonld = JSON.stringify({
     >
       <a class="btn btn--red" href={CALENDLY_URL}>Book a store call <span aria-hidden="true">→</span></a>
       <a class="btn btn--ink" href="/website-audit/">Get a free store audit</a>
-      <Fragment slot="notes"><span>Fixed written quotes · you own the code</span><span>Live in 2–4 weeks</span></Fragment>
+      <Fragment slot="notes"><span>Fixed written quotes · you own the code</span><span>Live in 3–4 weeks</span></Fragment>
     </PageHero>
 
     <Section n={1} term="Setup" note="The offering" title="What I build">

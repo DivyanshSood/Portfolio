@@ -25,7 +25,7 @@ const CODES = ["FP1", "FP2", "QUALI", "RACE", "FLAG", "SEASON"];
   li{border-top:3px solid var(--ink);padding-top:18px;display:flex;flex-direction:column;gap:10px}
   li.is-hot{border-top-color:var(--red)}
   .st-top{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;letter-spacing:.1em}
-  .st-code{color:var(--red)}
+  .st-code{color:var(--red-on-tint)} /* passes 4.5:1 on white and on the tint */
   .st-n{color:var(--g5c)}
   p{margin:0;font-size:15px;line-height:1.5;color:var(--g3e)}
   p :global(a){color:var(--ink)}

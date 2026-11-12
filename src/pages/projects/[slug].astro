@@ -59,7 +59,7 @@ const num = () => pad(++sec);
             <div class="lbl cs-line-lbl">In one line</div>
             <p>{p.line}</p>
             <div class="chips cs-links">
-              <a href={p.liveUrl} class="chip" rel="noopener">Visit {p.domain} ↗</a>
+              <a href={p.liveUrl} class="chip" rel="noopener">Visit {p.domain} <span aria-hidden="true">↗</span></a>
               {p.service && <a href={p.service.href} class="chip chip--muted">{p.service.label}</a>}
             </div>
           </div>
@@ -270,7 +270,7 @@ const num = () => pad(++sec);
   .cs-next-a:hover{color:#fff}
   .cs-next-in{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:28px}
   .cs-next-l{flex:1 1 420px}
-  .cs-next-l .lbl{margin-bottom:16px}
+  .cs-next-l .lbl{margin-bottom:16px;color:var(--red-on-ink)}
   .cs-next-name{font-weight:900;font-style:italic;font-stretch:125%;text-transform:uppercase;line-height:.86;letter-spacing:-0.03em;font-size:clamp(44px,8vw,140px);overflow-wrap:anywhere}
   .cs-next-meta{margin-top:16px;color:var(--g8a);font-size:16px}
   .cs-next-img{flex:0 1 460px;width:100%;aspect-ratio:16/10;overflow:hidden;background:var(--tint)}

@@ -10,8 +10,9 @@
 
 # Logs / env
 *.log
-.env
-.env.local
+# Every env file (.env.production, .env.preview.local, …) except the template.
+.env*
+!.env.example
 node_modules/
 
 # Astro / Vercel build artifacts

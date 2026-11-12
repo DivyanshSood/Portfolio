@@ -7,7 +7,7 @@ import Base from "../layouts/Base.astro";
 import Faq from "../components/brand/Faq.astro";
 import GoogleReviews from "../components/brand/GoogleReviews.astro";
 import { homeJsonLd, HOME_FAQ } from "../lib/home-schema.mjs";
-import { SITE, CALENDLY_URL, GOOGLE_MAPS_URL } from "../lib/site.mjs";
+import { SITE, CALENDLY_URL, GOOGLE_MAPS_URL, PHONE_TEL, PHONE_DISPLAY, STUDIO_HOURS } from "../lib/site.mjs";
 import { projects, projectCountWord } from "../lib/projects/data.mjs";
 import { POSTS } from "../lib/blog.mjs";
 import { localVariant, localSrcset } from "../lib/images.mjs";
@@ -28,11 +28,11 @@ const jsonld = homeJsonLd(SITE);
 // Proof — exactly six real, sourced tiles (brandbook C01 + "Proof = 6").
 const PROOF = [
   { ch: "CH.01", tag: "SINCE 2022", v: "20", dec: 0, pre: "", suf: "+", sufSm: false, w: 82, l: "Projects shipped since 2022" },
-  { ch: "CH.02", tag: "RETENTION", v: "9", dec: 0, pre: "", suf: "/9", sufSm: false, w: 100, l: "Recent clients still on board" },
+  { ch: "CH.02", tag: "PUBLISHED", v: String(projects.length), dec: 0, pre: "", suf: " CASE STUDIES", sufSm: true, w: 100, l: "Each one checkable against the live site" },
   { ch: "CH.03", tag: "FULL GRID", v: "5", dec: 0, pre: "", suf: " HOTELS", sufSm: true, w: 96, l: "On one site — Himalayan Brothers, Lighthouse mobile 98–100" },
   { ch: "CH.04", tag: "IMPRESSIONS", v: "41.8", dec: 1, pre: "", suf: "K", sufSm: true, w: 90, l: "Google impressions in 28 days — Baglamukhi Travels" },
-  { ch: "CH.05", tag: "LIGHTHOUSE", v: "100", dec: 0, pre: "", suf: " /100", sufSm: true, w: 100, l: "Every category — Sunny Himachal Travels" },
-  { ch: "CH.06", tag: "PIT STOP", v: "2", dec: 0, pre: "", suf: " HRS", sufSm: true, w: 92, l: "Reply time to a new brief, 9 AM–9 PM IST" },
+  { ch: "CH.05", tag: "LIGHTHOUSE", v: "100", dec: 0, pre: "", suf: " /100", sufSm: true, w: 100, l: "Every desktop category — Sunny Himachal Travels" },
+  { ch: "CH.06", tag: "PIT STOP", v: "19", dec: 0, pre: "", suf: " HRS A DAY", sufSm: true, w: 92, l: `Open every day, ${STUDIO_HOURS.label}. Same-day replies` },
 ];
 
 // Pit lane — the seven cards in the design, with the design's own copy.
@@ -40,7 +40,7 @@ const WORK = [
   { slug: "modernkbs", tags: "Web App · Admin · 2024", alt: "Modern K.B.S. school website and admissions portal", d: "School website, online admissions with a status page, and an admin panel the office runs itself. No SaaS fees." },
   { slug: "chinkiz", tags: "D2C · Creator · 2024", alt: "ChinkiZ Knitting Knife made-to-order creator website", d: "A 585K-subscriber knitting teacher's made-to-order site: 96 handmade pieces, and every order starts as a WhatsApp message." },
   { slug: "baglamukhi-travels", tags: "Travel · Local SEO · 2026", alt: "Baglamukhi Travels Kangra taxi website", d: "Owner-drivers vs commission agents. Astro, 139 pages, 41.8K Google impressions and 246 clicks in 28 days." },
-  { slug: "sunny-himachal-travels", tags: "Travel · Tours & Taxi · 2026", alt: "Sunny Himachal Travels Kangra valley tours website", d: "A page for every trip, transfer and town. 1.1 KB of its own JavaScript, Lighthouse 100 across the board." },
+  { slug: "sunny-himachal-travels", tags: "Travel · Tours & Taxi · 2026", alt: "Sunny Himachal Travels Kangra valley tours website", d: "A page for every trip, transfer and town. 1.1 KB of its own JavaScript, Lighthouse 100 on desktop." },
   { slug: "yash-rock-hotel", tags: "Hospitality · Hotel · 2026", alt: "Yash Rock Hotel Kangra website", d: "Seven rooms, no booking engine by design. Every enquiry to WhatsApp, and 14 “near” pages." },
   { slug: "hotel-himalayan-brothers", tags: "Hospitality · Hotel group · 2026", alt: "Himalayan Brothers Hotels group website", d: "Five family-run hotels from Dharamshala to Spiti on one site, rebuilt from an audit. Every old URL kept, Lighthouse mobile 98–100." },
   { slug: "sach-pass", tags: "Travel · Stays & road status · 2026", alt: "sachpass.com stays and road status website", d: "Every stay on the road over Sach Pass, and whether it's open — with a source for every date." },
@@ -130,7 +130,7 @@ const WRITING = [
             </div>
             <div class="pill">
               <span class="pill-dot" data-avail-dot></span>
-              <span data-avail>Online now</span>
+              <span data-avail>Open {STUDIO_HOURS.label}</span>
               <span class="pill-t">IST <span data-clock="short">--:--</span></span>
             </div>
           </div>
@@ -190,7 +190,7 @@ const WRITING = [
           <div class="spec-head"><span>Spec sheet</span><span style="color:var(--red)">No. 07</span></div>
           <dl class="spec">
             <div><dt>Studio</dt><dd>Divyansh Sood® Studio — one person, est. 2022</dd></div>
-            <div><dt>Based</dt><dd>Kangra valley, Himachal Pradesh, India · IST (UTC+5:30) · <a href={GOOGLE_MAPS_URL} rel="noopener">on Google Maps ↗</a></dd></div>
+            <div><dt>Based</dt><dd>Kangra valley, Himachal Pradesh, India · IST (UTC+5:30) · <a href={GOOGLE_MAPS_URL} rel="noopener">on Google Maps <span aria-hidden="true">↗</span></a></dd></div>
             <div><dt>Builds</dt><dd>Marketing sites, e-commerce, web apps &amp; MVPs, AI features</dd></div>
             <div><dt>Stack</dt><dd>Next.js, Astro, React, Angular, Supabase, Tailwind</dd></div>
             <div><dt>Timeline</dt><dd>3–4 weeks for sites &amp; MVPs · 6–10 weeks for larger builds</dd></div>
@@ -332,12 +332,13 @@ const WRITING = [
           <div class="contact-l">
             <a href={CALENDLY_URL} class="contact-cta">Book a 15-min intro <span aria-hidden="true">→</span></a>
             <a href="mailto:hello@divyanshsood.com" class="contact-mail">hello@divyanshsood.com</a>
-            <blockquote class="contact-q">“I'll personally review your brief and reply within two hours.” <span>— Divyansh, founder</span></blockquote>
+            <blockquote class="contact-q">“I'll personally review your brief and reply the same day.” <span>— Divyansh, founder</span></blockquote>
             <div class="contact-row">
               <span>IST <span data-clock="full">--:--:--</span></span>
-              <span data-avail>Online now</span>
-              <a href="https://wa.me/919816091875">WhatsApp ↗</a>
-              <a href={GOOGLE_MAPS_URL} rel="noopener">Google Maps ↗</a>
+              <span data-avail>Open {STUDIO_HOURS.label}</span>
+              <a href={PHONE_TEL}>Call {PHONE_DISPLAY}</a>
+              <a href="https://wa.me/919816091875">WhatsApp <span aria-hidden="true">↗</span></a>
+              <a href={GOOGLE_MAPS_URL} rel="noopener">Google Maps <span aria-hidden="true">↗</span></a>
             </div>
           </div>
           <div class="contact-card">
@@ -346,7 +347,7 @@ const WRITING = [
               <label class="field" for="st-name">Your name *<input id="st-name" required name="name" autocomplete="name" /></label>
               <label class="field" for="st-email">Email *<input id="st-email" required type="email" name="email" autocomplete="email" /></label>
               <label class="field" for="st-msg">What are you building? *<textarea id="st-msg" required name="brief" rows="3"></textarea></label>
-              <div class="hp" aria-hidden="true"><label for="st-hp">Leave this empty</label><input id="st-hp" name="company_website" tabindex="-1" autocomplete="off" /></div>
+              <div class="hp" aria-hidden="true"><label for="st-hp">Leave this empty</label><input id="st-hp" name="hp_x" tabindex="-1" autocomplete="off" /></div>
               <button type="submit" class="form-submit">Send brief →</button>
             </form>
           </div>
@@ -373,7 +374,7 @@ const WRITING = [
   .pill{display:flex;align-items:center;gap:10px;background:#fff;color:var(--ink);padding:9px 14px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;flex:none;clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%)}
   .pill-dot{width:8px;height:8px;border-radius:50%;background:var(--online)}
   .pill-t{color:var(--g5c)}
-  .hero-name{font-weight:900;font-style:italic;font-stretch:125%;text-transform:uppercase;line-height:.84;letter-spacing:-0.03em;font-size:clamp(52px,13vw,240px)}
+  .hero-name{font-family:var(--display-xl);font-weight:900;font-style:italic;font-stretch:125%;text-transform:uppercase;line-height:.84;letter-spacing:-0.03em;font-size:clamp(52px,13vw,240px)}
   .hero-line{overflow:hidden;margin-right:-.12em}
   .hero-line--1{padding:.06em .12em 0 0}
   .hero-line--2{padding:.02em .12em .02em 0}
@@ -459,7 +460,7 @@ const WRITING = [
   .process li{border-top:3px solid var(--ink);padding-top:18px;display:flex;flex-direction:column;gap:10px}
   .process li.is-hot{border-top-color:var(--red)}
   .process-top{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;letter-spacing:.1em}
-  .process-top span:first-child{color:var(--red)}
+  .process-top span:first-child{color:var(--red-on-tint)}
   .process-top span:last-child{color:var(--g5c)}
   .process p{margin:0;font-size:15px;line-height:1.5;color:var(--g3e)}
 
