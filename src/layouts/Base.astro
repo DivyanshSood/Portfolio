@@ -263,8 +263,14 @@ Astro.locals.crumbs = breadcrumbTrail(jsonld).map((c: { name: string; url: strin
     </script>
   </head>
   <body>
+    {/* Skip link: the first focusable element on every page, hidden until it
+        has keyboard focus. Pages render their own <main>, so the target is a
+        focusable marker straight after the header (verify-seo checks that
+        every page has exactly one of each). */}
+    <a href="#main" class="skip" lang={chromeLang}>Skip to content</a>
     <div class="site" id="top">
       <SiteHeader lang={chromeLang} />
+      <div id="main" tabindex="-1"></div>
       <slot />
       <SiteFooter lang={chromeLang} />
     </div>

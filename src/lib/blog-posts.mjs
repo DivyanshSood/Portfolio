@@ -9,7 +9,7 @@ export const POSTS = [
     "seoTitle": "Website Cost in Himachal Pradesh (2026) · Divyansh Sood",
     "description": "Website prices in Himachal, plainly: from ₹10,000 for a business site, ₹15,000 for hotels and travel, ₹25,000 for schools and stores, plus yearly costs.",
     "pubDate": "2026-10-01",
-    "updatedDate": "2026-11-06",
+    "updatedDate": "2026-11-13",
     "coverImage": "/blog/website-cost-himachal-pradesh.jpg",
     "coverAlt": "Title card reading “The price, in rupees” in bold white type on a red chevron",
     "tags": [
@@ -29,7 +29,7 @@ export const POSTS = [
     "seoTitle": "Rank on Google Maps in Himachal: 7 Fixes · Divyansh Sood",
     "description": "The seven things that decide whether a Himachal taxi, hotel or school shows on Google Maps, in order of impact — with a 20-minute check you can do today.",
     "pubDate": "2026-10-01",
-    "updatedDate": "2026-11-06",
+    "updatedDate": "2026-11-13",
     "coverImage": "/blog/rank-on-google-maps-himachal.jpg",
     "coverAlt": "Title card reading “Get on the map” in bold white type on a red chevron",
     "tags": [
@@ -109,7 +109,7 @@ export const POSTS = [
     "seoTitle": "AEO vs GEO vs LLMO vs AI SEO, Explained · Divyansh Sood",
     "description": "Four acronyms, one underlying job: which of SEO, AEO, GEO and LLMO name something real, which is a rebrand, and what the work actually comes down to.",
     "pubDate": "2026-08-09",
-    "updatedDate": "2026-09-29",
+    "updatedDate": "2026-11-13",
     "coverImage": "/blog/aeo-geo-llmo-ai-seo-explained.jpg",
     "coverAlt": "Title card reading “AEO. GEO. LLMO. AI SEO.” in bold white type on a red chevron",
     "tags": [
@@ -129,7 +129,7 @@ export const POSTS = [
     "seoTitle": "Schema Node Identifiers (@id) & Entity Graphs · Divyansh Sood",
     "description": "How to give every structured-data node a stable @id and link them into one entity graph — this site's schema, node by node, and the two mistakes I made first.",
     "pubDate": "2026-08-07",
-    "updatedDate": "2026-09-29",
+    "updatedDate": "2026-10-02",
     "coverImage": "/blog/entity-graph-schema-node-by-node.jpg",
     "coverAlt": "Title card reading “The entity graph, node by node” in bold white type on a red chevron",
     "tags": [
@@ -229,7 +229,7 @@ export const POSTS = [
     "seoTitle": "AI Chatbot for Indian Business: Worth It? · Divyansh Sood",
     "description": "For most Indian small businesses a website chatbot is the wrong first purchase — you already have WhatsApp. When it's worth building, and what to insist on.",
     "pubDate": "2026-07-26",
-    "updatedDate": "2026-07-26",
+    "updatedDate": "2026-07-30",
     "coverImage": "/blog/ai-chatbot-for-indian-business.jpg",
     "coverAlt": "Title card reading “You already have WhatsApp” in bold white type on a red chevron",
     "tags": [
@@ -249,7 +249,7 @@ export const POSTS = [
     "seoTitle": "RAG for Business Websites: When It's Worth It · Divyansh Sood",
     "description": "Retrieval-augmented generation for people commissioning it — when it's worth building, when it's the wrong tool, and why content beats the model.",
     "pubDate": "2026-07-23",
-    "updatedDate": "2026-07-23",
+    "updatedDate": "2026-07-30",
     "coverImage": "/blog/rag-for-business-websites.jpg",
     "coverAlt": "Title card reading “When a bot should read your docs” in bold white type on a red chevron",
     "tags": [
@@ -289,7 +289,7 @@ export const POSTS = [
     "seoTitle": "Shopify Alternatives for Premium D2C · Divyansh Sood",
     "description": "Customize Shopify, go Woo, headless, or fully custom? The four real options for premium D2C brands, judged on brand control and three-year economics.",
     "pubDate": "2026-07-18",
-    "updatedDate": "2026-11-06",
+    "updatedDate": "2026-11-13",
     "coverImage": "/blog/shopify-alternatives-for-premium-d2c.jpg",
     "coverAlt": "Title card reading “Shopify alternatives, honestly ranked” in bold white type on a red chevron",
     "tags": [
@@ -329,7 +329,7 @@ export const POSTS = [
     "seoTitle": "More Direct Hotel Bookings in Himachal · Divyansh Sood",
     "description": "How Himachal hotels and homestays win more bookings direct instead of paying OTAs 15–30%: the WhatsApp-first website, seasonal pages, and the season math.",
     "pubDate": "2026-07-14",
-    "updatedDate": "2026-10-01",
+    "updatedDate": "2026-11-13",
     "coverImage": "/blog/hotel-homestay-website-himachal-direct-bookings.jpg",
     "coverAlt": "Title card reading “Your stay. Your guests. Not their commission” in bold white type on a red chevron",
     "tags": [
@@ -369,7 +369,7 @@ export const POSTS = [
     "seoTitle": "Webflow vs Custom Code for Startups (2026) · Divyansh Sood",
     "description": "Webflow vs custom code, decided honestly: where Webflow wins, where it starts taxing a startup's team and roadmap, and the three-year cost of each.",
     "pubDate": "2026-05-12",
-    "updatedDate": "2026-11-06",
+    "updatedDate": "2026-11-13",
     "coverImage": "/blog/custom-code-vs-webflow-for-startups.jpg",
     "coverAlt": "Someone writing in a notebook at a desk beside an open laptop and a coffee",
     "tags": [
@@ -389,7 +389,7 @@ export const POSTS = [
     "seoTitle": "Google Business Profile vs. Website in India · Divyansh Sood",
     "description": "A Google Business Profile gets you on the map. A website converts the people who find you there. What each does, where each fails, and why you need both.",
     "pubDate": "2026-04-28",
-    "updatedDate": "2026-11-06",
+    "updatedDate": "2026-11-13",
     "coverImage": "/blog/google-business-profile-vs-website-himachal.jpg",
     "coverAlt": "A small brick shopfront on a quiet main street, seen from across the road",
     "tags": [
@@ -429,7 +429,7 @@ export const POSTS = [
     "seoTitle": "How to Get Web Development Clients Without Paid Ads (6 Ways)",
     "description": "Six channels that brought every client I have, with zero ad spend: live case studies, referrals, my own site, a narrow niche, local search and useful posts.",
     "pubDate": "2026-03-05",
-    "updatedDate": "2026-11-06",
+    "updatedDate": "2026-11-13",
     "coverImage": "/blog/how-i-get-clients-without-paid-ads.jpg",
     "coverAlt": "Two people shaking hands across a white table beside a coffee cup",
     "tags": [
@@ -448,7 +448,7 @@ export const POSTS = [
     "seoTitle": "How to Choose a Web Developer in Himachal · Divyansh Sood",
     "description": "What to ask, the red flags, and what good website work costs — a practical guide for business owners in Himachal and across India hiring a web developer.",
     "pubDate": "2026-02-05",
-    "updatedDate": "2026-09-29",
+    "updatedDate": "2026-10-02",
     "coverImage": "/blog/how-to-choose-web-developer-himachal.jpg",
     "coverAlt": "A laptop showing code beside a cup of coffee, warm string lights behind",
     "tags": [
@@ -468,7 +468,7 @@ export const POSTS = [
     "seoTitle": "What Is llms.txt & Does It Actually Work? · Divyansh Sood",
     "description": "What llms.txt is, what belongs in one, and an honest answer on whether it works — Google confirmed in 2026 that Search ignores the file entirely.",
     "pubDate": "2025-12-01",
-    "updatedDate": "2026-07-29",
+    "updatedDate": "2026-07-30",
     "coverImage": "/blog/what-is-llms-txt.jpg",
     "coverAlt": "A vintage rubber gas mask lying on a wooden floor beside a denim jacket",
     "tags": [

@@ -88,6 +88,14 @@ img{max-width:100%}
 :root :is(.btn,.form-submit,.hd-cta,.hd-call,.cw-launch,.cw-send,.wcard-all,.contact-cta,.lg-btn,.pk-copy):focus-visible{outline:2px solid currentColor;outline-offset:-10px}
 /* A red ring vanishes on red: white inside red sections and over the hero. */
 :is(.ph-red,.hero-red,.ec,.contact,.cs-quote,.qt--red,.hd:not(.is-solid)) :focus-visible{outline-color:#fff}
+/* "Skip to content" (Base.astro): off-screen until focused, then an ink tab
+   over the header's top-left corner. #main is the zero-height focus target
+   just after the header. */
+.skip{position:fixed;top:8px;left:8px;z-index:400;display:inline-flex;align-items:center;min-height:44px;padding:0 18px;background:var(--ink);color:#fff;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;transform:translateY(-200%)}
+.skip:focus{transform:none}
+.skip:hover{color:#fff}
+.skip:focus-visible{outline:2px solid #fff;outline-offset:-6px}
+#main:focus{outline:none}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 [hidden]{display:none !important}
 
