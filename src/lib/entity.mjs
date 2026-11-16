@@ -23,10 +23,16 @@
    because every page now derives its identity from this file.
 
    Everything here must already be substantiated elsewhere on the site. No
-   ratings, no prices — see the standing notes in site.mjs.
+   ratings and no Offer prices — see the standing notes in site.mjs. The one
+   price is `priceRange`, the lowest published starting price ("₹10,000+"),
+   which is a range, not an offer.
    =========================================================================== */
 
-import { FOUNDER_PHOTO, GOOGLE_KG_MID, GOOGLE_MAPS_CID_URL, SAME_AS, SITE, STUDIO_ADDRESS, GBP_NAME } from "./site.mjs";
+import { FOUNDER_PHOTO, GOOGLE_KG_MID, GOOGLE_MAPS_CID_URL, SAME_AS, SITE, STUDIO_ADDRESS, GBP_NAME, STARTING_PRICES, inr } from "./site.mjs";
+
+/* ProfessionalService `priceRange`: the lowest starting price in site.mjs, so
+   it moves when the prices do. Used by publisherNode() and the homepage node. */
+export const PRICE_RANGE = `${inr(Math.min(...Object.values(STARTING_PRICES)))}+`;
 
 /* Topics of demonstrated expertise. Consumed by both the full Person node on
    the homepage and the compact author node on every post, so the two can't
@@ -107,6 +113,7 @@ export function publisherNode(SITE) {
     foundingDate: "2022",
     founder: { "@id": `${SITE}/#person` },
     address: STUDIO_ADDRESS,
+    priceRange: PRICE_RANGE,
     sameAs: [...SAME_AS, GOOGLE_MAPS_CID_URL],
     // Google Knowledge Graph MID for this business — states which existing
     // entity the page is about rather than asking a parser to infer it. See the

@@ -15,15 +15,20 @@ function initHeader() {
   const close = document.querySelector("[data-menu-close]");
   if (!header) return;
 
+  // "Past 40px" comes from an IntersectionObserver on a 40px marker at the
+  // top of the document, not from reading scrollY. Reading scrollY right
+  // after the clock and FAQ scripts write to the DOM forced a synchronous
+  // layout on every page load (Lighthouse "forced reflow" on blog posts);
+  // the observer reports asynchronously and reads no layout at all.
   let open = false;
-  const paint = () => header.classList.toggle("is-solid", open || scrollY > 40);
+  let atTop = true;
+  const paint = () => header.classList.toggle("is-solid", open || !atTop);
 
-  let raf = 0;
-  addEventListener("scroll", () => {
-    if (raf) return;
-    raf = requestAnimationFrame(() => { raf = 0; paint(); });
-  }, { passive: true });
-  paint();
+  const marker = document.createElement("div");
+  marker.setAttribute("aria-hidden", "true");
+  marker.style.cssText = "position:absolute;top:0;left:0;width:1px;height:40px;pointer-events:none;visibility:hidden";
+  document.body.prepend(marker);
+  new IntersectionObserver(([e]) => { atTop = e.isIntersecting; paint(); }).observe(marker);
 
   if (!menu || !btn) return;
   // The menu is aria-modal: while it is open everything else on the page —

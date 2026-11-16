@@ -5,7 +5,7 @@
    =========================================================================== */
 
 import { FOUNDER_PHOTO, GOOGLE_KG_MID, GOOGLE_MAPS_CID_URL, SAME_AS, STUDIO_ADDRESS, STUDIO_GEO, STUDIO_HOURS, GBP_NAME, GBP_EXTRA_AREAS, STARTING_PRICES as P, inr } from "./site.mjs";
-import { KNOWS_ABOUT, JOB_TITLE, PERSON_DESCRIPTION } from "./entity.mjs";
+import { KNOWS_ABOUT, JOB_TITLE, PERSON_DESCRIPTION, PRICE_RANGE } from "./entity.mjs";
 import { projects } from "./projects/data.mjs";
 import { LOCATIONS } from "./locations.mjs";
 
@@ -109,6 +109,7 @@ export function homeJsonLd(SITE) {
         employee: { "@id": `${SITE}/#person` },
         email: "hello@divyanshsood.com",
         telephone: "+91-98160-91875",
+        priceRange: PRICE_RANGE,
         serviceType: [
           "Custom website design and development",
           "School website development",

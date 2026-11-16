@@ -280,14 +280,16 @@ const { lang } = Astro.props as { lang?: string };
      only stamps its scoping attribute on markup it renders. Every selector
      is prefixed cw- so nothing leaks onto the rest of the page. */
   .cw{--cw-w:min(400px,calc(100vw - 32px))}
-  /* A white parallelogram with red lettering. Two layers: the button itself
-     is ink (a 2px frame) and ::before is the white face inset inside it, cut
-     to the same slant — clip-path would otherwise cut a plain border off the
-     slanted edges, and a frameless white button vanishes on a white page.
-     Hover fills the face red and turns the lettering white. */
-  .cw-launch{position:fixed;right:clamp(16px,2vw,28px);bottom:calc(clamp(16px,2vw,28px) + env(safe-area-inset-bottom));z-index:150;display:inline-flex;align-items:center;height:52px;padding:0 30px;border:0;cursor:pointer;background:var(--ink);clip-path:polygon(12px 0,100% 0,calc(100% - 12px) 100%,0 100%)}
-  .cw-launch::before{content:"";position:absolute;inset:2px;background:#fff;clip-path:polygon(12px 0,100% 0,calc(100% - 12px) 100%,0 100%)}
-  .cw-launch:hover::before{background:var(--red)}
+  /* A white parallelogram with red lettering (4.7:1). The button's own
+     background is the white face, so contrast checkers (Lighthouse, axe),
+     which ignore pseudo-elements, measure red on white and not red on ink.
+     The 2px ink frame is ::before: a parallelogram with a parallelogram hole
+     (evenodd), because clip-path would cut a plain border or box-shadow off
+     the slanted edges, and a frameless white button vanishes on a white page.
+     Hover fills the face red and turns the lettering white (4.7:1). */
+  .cw-launch{position:fixed;right:clamp(16px,2vw,28px);bottom:calc(clamp(16px,2vw,28px) + env(safe-area-inset-bottom));z-index:150;display:inline-flex;align-items:center;height:52px;padding:0 30px;border:0;cursor:pointer;background:#fff;clip-path:polygon(12px 0,100% 0,calc(100% - 12px) 100%,0 100%)}
+  .cw-launch::before{content:"";position:absolute;inset:0;background:var(--ink);clip-path:polygon(evenodd,12px 0,100% 0,calc(100% - 12px) 100%,0 100%,12px 0,14px 2px,2px calc(100% - 2px),calc(100% - 14px) calc(100% - 2px),calc(100% - 2px) 2px,14px 2px)}
+  .cw-launch:hover{background:var(--red)}
   .cw-label{position:relative;color:var(--red);font-family:var(--display);font-weight:900;font-style:italic;font-stretch:118%;font-size:16px;letter-spacing:.03em;text-transform:uppercase;line-height:1}
   .cw-launch:hover .cw-label,.cw-launch:hover .cw-glyph{color:#fff}
   .cw-glyph{display:none;position:relative;color:var(--red);font-family:var(--display);font-weight:900;font-style:italic;font-stretch:125%;font-size:26px;line-height:1}

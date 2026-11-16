@@ -66,41 +66,11 @@ export default defineConfig({
     sitemap({
       // The print-only PDF source is noindexed — keep it out of the sitemap too.
       filter: (page) => !page.includes("/portfolio-pdf"),
-      // Freshness + crawl-priority hints honoured by Bing, Yandex & others.
-      // The sitemap package types changefreq as its EnumChangefreq, so plain
-      // string literals need a JSDoc cast to keep `astro check` green.
+      // lastmod only. changefreq and priority were dropped (16 Nov 2026 audit):
+      // Google's sitemap docs say it ignores both; lastmod is the field that counts.
       serialize(item) {
-        const weekly = /** @type {import("sitemap").EnumChangefreq} */ ("weekly");
-        const monthly = /** @type {import("sitemap").EnumChangefreq} */ ("monthly");
-        const path = new URL(item.url).pathname;
-        const lastmod = lastmods.get(path);
+        const lastmod = lastmods.get(new URL(item.url).pathname);
         if (lastmod) item.lastmod = lastmod;
-        if (path === "/") {
-          item.changefreq = weekly;
-          item.priority = 1.0;
-        } else if (path === "/blog/" || path === "/blog") {
-          item.changefreq = weekly;
-          item.priority = 0.8;
-        } else if (path.startsWith("/blog/topics/")) {
-          // Topic hubs sit above individual posts: they're the rankable centre
-          // of a cluster and gain a link every time a post joins it, so they
-          // change more often than any single post does. Must be tested BEFORE
-          // the generic "/blog/" branch below, which would otherwise swallow it.
-          item.changefreq = weekly;
-          item.priority = 0.8;
-        } else if (path.startsWith("/blog/") || path.startsWith("/projects/")) {
-          item.changefreq = monthly;
-          item.priority = 0.7;
-        } else if (path.startsWith("/services/") || path.startsWith("/web-developer-") || path.startsWith("/tools/") || path === "/hi/") {
-          // Commercial service + location + free-tool pages — crawl-priority
-          // just below the blog hub, above the generic marketing pages. The
-          // free tools are link magnets, so they earn the higher tier.
-          item.changefreq = monthly;
-          item.priority = 0.8;
-        } else {
-          item.changefreq = monthly;
-          item.priority = 0.5;
-        }
         return item;
       },
     }),

@@ -42,6 +42,16 @@ const WORK_DIR = path.join(ROOT, "public", "images", "work");
 const BLOG_DIR = path.join(ROOT, "public", "blog");
 const QUALITY = 80;
 const FORCE = process.argv.includes("--force");
+// Detailed photo heroes that came out over 150 KB at QUALITY (16 Nov 2026
+// audit). These settings bring each 1440w file under 120 KB (KiB too) with no visible
+// loss. Keyed by output file name; everything else uses { quality: QUALITY }.
+const WEBP_OVERRIDES = {
+  "hotel-himalayan-brothers-1-1440.webp": { quality: 58, effort: 6, preset: "photo" }, // 182 → 116 KiB
+  "sunny-himachal-travels-1-1440.webp": { quality: 67, effort: 6 }, // 159 → 115 KiB
+  "sach-pass-1-1440.webp": { quality: 74, effort: 6 }, // 150 → 113 KiB
+};
+// `--only=<file>,<file>` rewrites just those outputs (implies --force for them).
+const ONLY = process.argv.find((a) => a.startsWith("--only="))?.slice(7).split(",");
 
 const rel = (p) => path.relative(process.cwd(), p);
 
@@ -58,9 +68,10 @@ for (const base of bases) {
   const meta = await sharp(src).metadata();
   for (const w of WIDTHS) {
     if (meta.width && meta.width <= w) continue; // never upscale
-    const out = path.join(WORK_DIR, base.replace(/\.webp$/, `-${w}.webp`));
-    if (existsSync(out) && !FORCE) continue;
-    await sharp(src).resize({ width: w }).webp({ quality: QUALITY }).toFile(out);
+    const name = base.replace(/\.webp$/, `-${w}.webp`);
+    const out = path.join(WORK_DIR, name);
+    if (ONLY ? !ONLY.includes(name) : existsSync(out) && !FORCE) continue;
+    await sharp(src).resize({ width: w }).webp(WEBP_OVERRIDES[name] ?? { quality: QUALITY }).toFile(out);
     workMade++;
   }
 }

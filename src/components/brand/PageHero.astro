@@ -95,7 +95,8 @@ const hasAside = Astro.slots.has("default");
   .ph-red .wrap{text-align:center}
   .ph-top{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 24px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:clamp(24px,4vw,48px)}
   .ph-red--case .ph-top{margin-bottom:clamp(28px,4vw,56px)}
-  .ph-crumbs a{color:#fff}
+  /* 24px+ tap height (WCAG 2.5.8) without moving the text. */
+  .ph-crumbs a{color:#fff;display:inline-block;padding:6px 0}
   .ph-crumbs a:hover{color:var(--ink)}
   .ph-kicker{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px}
   /* Capped by --fit (the longest word, in em — set in the frontmatter) so no
@@ -103,6 +104,9 @@ const hasAside = Astro.slots.has("default");
      (brandbook Card H3 spec: nothing may clip at 390px). */
   .ph-name{margin:0 auto;font-family:var(--display-xl);font-weight:900;font-style:italic;font-stretch:125%;text-transform:uppercase;line-height:.84;letter-spacing:-0.03em;font-size:min(clamp(56px,13vw,240px),calc((100vw - 2 * var(--gutter)) / var(--fit)));overflow-wrap:break-word;text-wrap:balance}
   .ph-notes{margin:18px 0 0;display:flex;flex-wrap:wrap;gap:6px 20px}
+  /* Links in the notes line (Google Maps, reviews, हिंदी) come from the page's
+     slot or `notes` HTML, hence :global. 24px+ tap height (WCAG 2.5.8). */
+  .ph-notes :global(a){display:inline-block;padding:5px 0}
   .ph-name--case{line-height:.86;font-size:min(clamp(46px,9.6vw,184px),calc((100vw - 2 * var(--gutter)) / var(--fit)));max-width:max(14ch,calc(var(--fit) * 1em))}
   .ph-row{margin-top:clamp(28px,3vw,44px);padding:0 var(--gutter);display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px 40px;align-items:flex-end}
   .ph-red--case + .ph-row{margin-top:clamp(24px,3vw,40px)}

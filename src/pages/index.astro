@@ -489,7 +489,7 @@ const WRITING = [
   /* ---- 08 Writing ---- */
   .writing{padding:clamp(72px,10vw,150px) var(--gutter) clamp(40px,5vw,72px)}
   .writing-head{gap:16px;margin-bottom:clamp(28px,4vw,48px)}
-  .writing-head a{color:var(--ink)}
+  .writing-head a{color:var(--ink);display:inline-flex;align-items:center;min-height:44px}
   .writing-head a:hover{color:var(--red)}
   .post{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 24px;padding:clamp(18px,2vw,26px) 0;border-bottom:1px solid var(--gda);text-decoration:none;color:var(--ink)}
   .post:hover{color:var(--red)}
@@ -513,8 +513,10 @@ const WRITING = [
   .contact-mail:hover{color:var(--ink)}
   .contact-q{margin:0;max-width:40ch;font-size:18px;line-height:1.5}
   .contact-q span{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;display:block;margin-top:8px}
-  .contact-row{display:flex;flex-wrap:wrap;gap:8px 20px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;border-top:1px solid #fff;padding-top:16px}
-  .contact-row a{color:#fff}
+  /* Links are 44px tall (WCAG 2.5.8 asks 24px; these are the call and
+     WhatsApp leads), so the row's own top padding shrinks to match. */
+  .contact-row{display:flex;flex-wrap:wrap;align-items:center;gap:0 20px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;border-top:1px solid #fff;padding-top:4px}
+  .contact-row a{color:#fff;display:inline-flex;align-items:center;min-height:44px}
   .contact-row a:hover{color:var(--ink)}
   .contact-card{flex:1 1 380px;max-width:620px;background:#fff;color:var(--ink);padding:clamp(22px,2.6vw,36px)}
   .contact-card-top{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:22px}

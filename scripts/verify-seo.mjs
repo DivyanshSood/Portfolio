@@ -39,7 +39,9 @@
 
    Plus the standing per-page hygiene checks (7): exactly one H1, a canonical,
    a title and meta description within sane lengths, and alt text on every
-   non-decorative image.
+   non-decorative image; the doorway guard on location pages (8); and (9) a
+   "Skip to content" link as the first focusable element, pointing at exactly
+   one #main (16 Nov 2026 audit: the first Tab stop was the logo).
 
    Exit code is non-zero if any check fails, so this can gate a deploy.
    =========================================================================== */
@@ -336,6 +338,29 @@ console.log("\n8. Location pages are distinct (doorway guard)");
   }
   if (dupes.length) dupes.forEach(fail);
   else pass(`all ${locs.length} location pages have their own title and lead`);
+}
+
+/* ── 9. Skip link: first focusable element, one #main target ─────────────── */
+// Every page with the site header gets Base.astro's "Skip to content" link
+// (WCAG 2.4.1). It must be the first thing Tab reaches, point at #main, and
+// #main must exist exactly once, or the link scrolls nowhere.
+console.log("\n9. Skip link (first focusable, exactly one #main)");
+{
+  const problems = [];
+  let checked = 0;
+  for (const [path, html] of pages) {
+    if (!/data-header/.test(html)) continue; // print-only pages have no chrome
+    checked++;
+    const skips = [...html.matchAll(/<a\b[^>]*\bhref="#main"[^>]*>/gi)].length;
+    if (skips !== 1) problems.push(`${path}: ${skips} skip links to #main, expected 1`);
+    const mains = [...html.matchAll(/\bid="main"/g)].length;
+    if (mains !== 1) problems.push(`${path}: ${mains} elements with id="main", expected 1`);
+    const body = html.slice(html.search(/<body\b/i));
+    const first = body.match(/<(a|button|input|select|textarea|summary)\b[^>]*>/i)?.[0] ?? "";
+    if (!/\bhref="#main"/.test(first)) problems.push(`${path}: first focusable element is ${first.slice(0, 60) || "missing"}, not the skip link`);
+  }
+  if (problems.length) problems.forEach(fail);
+  else pass(`all ${checked} pages open with a skip link to their one #main`);
 }
 
 /* ── Summary ─────────────────────────────────────────────────────────────── */
