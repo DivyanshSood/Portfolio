@@ -1,0 +1,166 @@
+{
+  "/services/": {
+    "image": "/images/og/pages/services.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Six ways I move the needle” — Custom-coded · conversion-focused"
+  },
+  "/services/ai-development/": {
+    "image": "/images/og/pages/services-ai-development.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “AI that ships, not AI that demos” — AI features · LLM integration"
+  },
+  "/services/ecommerce-website-development/": {
+    "image": "/images/og/pages/services-ecommerce-website-development.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Stores that sell, not themes that rent” — Ecommerce · D2C"
+  },
+  "/services/hotel-website-development/": {
+    "image": "/images/og/pages/services-hotel-website-development.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Hotel website design & development” — Hospitality · Hotels · homestays · resorts · Himachal · India"
+  },
+  "/services/landing-page-design/": {
+    "image": "/images/og/pages/services-landing-page-design.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “One page. One job: convert” — Landing pages · CRO"
+  },
+  "/services/school-website-development/": {
+    "image": "/images/og/pages/services-school-website-development.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “School website development” — Education · CBSE & state boards · Himachal · India"
+  },
+  "/services/seo-geo-services/": {
+    "image": "/images/og/pages/services-seo-geo-services.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Ranked by Google. Quoted by AI” — SEO · GEO · AEO"
+  },
+  "/services/travel-website-development/": {
+    "image": "/images/og/pages/services-travel-website-development.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Travel & taxi website development” — Travel · Tours · taxis · agencies · Himachal · India"
+  },
+  "/services/web-app-development/": {
+    "image": "/images/og/pages/services-web-app-development.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Software shipped in weeks, not quarters” — Web apps · MVPs"
+  },
+  "/services/website-development/": {
+    "image": "/images/og/pages/services-website-development.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Websites built to be found” — Website development"
+  },
+  "/web-developer-amritsar/": {
+    "image": "/images/og/pages/web-developer-amritsar.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Web developer in Amritsar” — Punjab · Amritsar · Remote from Kangra"
+  },
+  "/web-developer-baddi/": {
+    "image": "/images/og/pages/web-developer-baddi.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Web developer in Baddi” — Himachal Pradesh · Baddi–Barotiwala–Nalagarh"
+  },
+  "/web-developer-bilaspur/": {
+    "image": "/images/og/pages/web-developer-bilaspur.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Web developer in Bilaspur” — Himachal Pradesh · Bilaspur district · Gobind Sagar"
+  },
+  "/web-developer-chamba/": {
+    "image": "/images/og/pages/web-developer-chamba.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Web developer in Chamba” — Himachal Pradesh · Chamba district · Dalhousie · Pangi"
+  },
+  "/web-developer-chandigarh/": {
+    "image": "/images/og/pages/web-developer-chandigarh.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Web developer in Chandigarh” — Chandigarh · Mohali · Panchkula · Remote from Kangra"
+  },
+  "/web-developer-dharamshala/": {
+    "image": "/images/og/pages/web-developer-dharamshala.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Web developer in Dharamshala” — Himachal Pradesh · Dharamshala · McLeod Ganj"
+  },
+  "/web-developer-hamirpur/": {
+    "image": "/images/og/pages/web-developer-hamirpur.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Web developer in Hamirpur” — Himachal Pradesh · Hamirpur district · Education hub"
+  },
+  "/web-developer-himachal-pradesh/": {
+    "image": "/images/og/pages/web-developer-himachal-pradesh.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Web developer in Himachal Pradesh” — Himachal Pradesh · 12 districts · Since 2022"
+  },
+  "/web-developer-jalandhar/": {
+    "image": "/images/og/pages/web-developer-jalandhar.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Web developer in Jalandhar” — Punjab · Jalandhar · Remote from Kangra"
+  },
+  "/web-developer-kangra/": {
+    "image": "/images/og/pages/web-developer-kangra.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Web developer in Kangra” — Himachal Pradesh · Kangra district"
+  },
+  "/web-developer-kullu/": {
+    "image": "/images/og/pages/web-developer-kullu.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Web developer in Kullu” — Himachal Pradesh · Kullu district · Parvati · Tirthan"
+  },
+  "/web-developer-ludhiana/": {
+    "image": "/images/og/pages/web-developer-ludhiana.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Web developer in Ludhiana” — Punjab · Ludhiana · Remote from Kangra"
+  },
+  "/web-developer-manali/": {
+    "image": "/images/og/pages/web-developer-manali.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Web developer in Manali” — Himachal Pradesh · Manali · Kullu valley"
+  },
+  "/web-developer-mandi/": {
+    "image": "/images/og/pages/web-developer-mandi.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Web developer in Mandi” — Himachal Pradesh · Mandi district · Chhoti Kashi"
+  },
+  "/web-developer-nahan/": {
+    "image": "/images/og/pages/web-developer-nahan.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Web developer in Nahan” — Himachal Pradesh · Sirmaur district · Paonta Sahib"
+  },
+  "/web-developer-palampur/": {
+    "image": "/images/og/pages/web-developer-palampur.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Web developer in Palampur” — Himachal Pradesh · Kangra district · Palampur"
+  },
+  "/web-developer-pathankot/": {
+    "image": "/images/og/pages/web-developer-pathankot.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Web developer in Pathankot” — Punjab · Pathankot · Gateway to Himachal and J&K"
+  },
+  "/web-developer-shimla/": {
+    "image": "/images/og/pages/web-developer-shimla.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Web developer in Shimla” — Himachal Pradesh · Shimla"
+  },
+  "/web-developer-solan/": {
+    "image": "/images/og/pages/web-developer-solan.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Web developer in Solan” — Himachal Pradesh · Solan district · Kasauli · Chail"
+  },
+  "/web-developer-una/": {
+    "image": "/images/og/pages/web-developer-una.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Web developer in Una” — Himachal Pradesh · Una district · Chintpurni"
+  },
+  "/hi/": {
+    "image": "/images/og/pages/hi.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Web developer in Kangra” — In Hindi · Kangra · Himachal Pradesh"
+  },
+  "/about/": {
+    "image": "/images/og/pages/about.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “About me” — About me · Himalayas"
+  },
+  "/agencies/": {
+    "image": "/images/og/pages/agencies.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Your build partner behind the scenes” — For agencies · White-label · overflow"
+  },
+  "/results/": {
+    "image": "/images/og/pages/results.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “The work, by the numbers” — Results · Real numbers, real projects"
+  },
+  "/testimonials/": {
+    "image": "/images/og/pages/testimonials.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “What clients actually say” — Testimonials · In their own words"
+  },
+  "/portfolio/": {
+    "image": "/images/og/pages/portfolio.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “My portfolio” — Portfolio · Case studies · Live sites"
+  },
+  "/press/": {
+    "image": "/images/og/pages/press.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Cite me correctly” — Press & brand kit · For writers, directories & clients"
+  },
+  "/tools/": {
+    "image": "/images/og/pages/tools.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Free tools, no strings” — Free · no sign-up"
+  },
+  "/tools/llms-txt-generator/": {
+    "image": "/images/og/pages/tools-llms-txt-generator.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “The free llms.txt generator” — Free tool · GEO · AI search · No sign-up"
+  },
+  "/website-audit/": {
+    "image": "/images/og/pages/website-audit.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Is your site costing you customers?” — Website audit · Free + deep-dive"
+  },
+  "/privacy/": {
+    "image": "/images/og/pages/privacy.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Privacy” — Privacy · Plain English, no dark patterns"
+  }
+}

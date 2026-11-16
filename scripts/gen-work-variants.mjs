@@ -12,8 +12,8 @@
       browser was downloading a full-height JPEG and throwing the extra away —
       and /blog/ did that for every post on the page at once. This pre-crops to
       16:10 and writes a WebP base plus the COVER_WIDTHS ladder. The .jpg is
-      left in place: it's still the og:image, and social scrapers are the one
-      audience that can't be relied on to take WebP.
+      left in place at 1200×750 as the ladder's source; share images are
+      written separately (pass 4).
 
    Both ladders are imported from src/lib/images.mjs, the same module the site's
    image code reads. Add a width there and re-run — the ladder can no longer
@@ -134,23 +134,32 @@ console.log(`portraits: ${portraits.length} bases → ${portraitMade} variants w
 /* --- 4. Social share images (og:image) ----------------------------------- */
 // Scrapers (Facebook, LinkedIn, WhatsApp, X) are the one audience that can't
 // be relied on to take WebP, and the og tags must state the file's REAL size.
-// Case studies pointed og:image at the 1920px WebP base (up to 222 KB) while
-// declaring 1600×1000; six blog covers were 1200×800/900/1200 against a
-// declared 1200×750. Both now ship as 1200×750 (16:10) JPEGs:
-//   case studies  /images/og/<slug>.jpg, from the `<slug>-1.webp` base
-//   blog covers   the cover .jpg itself, centre-cropped in place — the same
-//                 crop the WebP ladder above already applies, so no framing
-//                 changes; a 16:10 cover is left untouched.
+// Every share image is a 1200×630 (1.91:1) JPEG — the size Facebook, LinkedIn
+// and X crop to, so nothing is trimmed off the card in the feed (16 Nov 2026
+// audit; these were 1200×750 before):
+//   case studies  /images/og/<slug>.jpg, from the `<slug>-1.webp` base,
+//                 top-anchored so the site's header and hero stay in frame
+//   blog covers   /images/og/blog/<slug>.jpg, centre-cropped from the cover
+//                 .jpg, for PHOTO covers only. Title-card covers are re-laid
+//                 out at 1200×630 by scripts/gen-blog-covers.mjs instead — a
+//                 crop would cut through the headline or the footer rule.
+// The cover .jpg itself stays 1200×750 (16:10): it is the source of the WebP
+// ladder in pass 2, so it is only ever normalised to that size, never to OG.
 const OG_W = 1200;
-const OG_H = 750;
+const OG_H = 630;
+const COVER_W = COVER_BASE_WIDTH;
+const COVER_H = coverHeight(COVER_BASE_WIDTH);
 const OG_DIR = path.join(ROOT, "public", "images", "og");
+const OG_BLOG_DIR = path.join(OG_DIR, "blog");
 const { mkdir, rename } = await import("node:fs/promises");
-await mkdir(OG_DIR, { recursive: true });
+const { POSTS } = await import("../src/lib/blog-posts.mjs");
+await mkdir(OG_BLOG_DIR, { recursive: true });
 
 let ogMade = 0;
 for (const base of bases.filter((f) => f.endsWith("-1.webp") && !f.endsWith("-mobile-1.webp"))) {
-  const out = path.join(OG_DIR, base.replace(/-1\.webp$/, ".jpg"));
-  if (existsSync(out) && !FORCE) continue;
+  const name = base.replace(/-1\.webp$/, ".jpg");
+  const out = path.join(OG_DIR, name);
+  if (ONLY ? !ONLY.includes(name) : existsSync(out) && !FORCE) continue;
   await sharp(path.join(WORK_DIR, base))
     .resize(OG_W, OG_H, { fit: "cover", position: "top" })
     .jpeg({ quality: 82, mozjpeg: true })
@@ -158,17 +167,35 @@ for (const base of bases.filter((f) => f.endsWith("-1.webp") && !f.endsWith("-mo
   ogMade++;
 }
 
+// Covers are authored at 16:10; one that isn't is centre-cropped in place.
 let coversCropped = 0;
 for (const cover of covers) {
   const src = path.join(BLOG_DIR, cover);
   const meta = await sharp(src).metadata();
-  if (meta.width === OG_W && meta.height === OG_H) continue;
+  if (meta.width === COVER_W && meta.height === COVER_H) continue;
   const tmp = src + ".tmp";
   await sharp(src)
-    .resize(OG_W, OG_H, { fit: "cover", position: "centre" })
+    .resize(COVER_W, COVER_H, { fit: "cover", position: "centre" })
     .jpeg({ quality: 82, mozjpeg: true })
     .toFile(tmp);
   await rename(tmp, src);
   coversCropped++;
 }
-console.log(`og:    ${ogMade} case-study share images in ${rel(OG_DIR)}; ${coversCropped} blog covers cropped to ${OG_W}×${OG_H}`);
+
+const titleCard = new Set(POSTS.filter((p) => /^Title card/.test(p.coverAlt ?? "")).map((p) => p.slug));
+let blogOgMade = 0;
+for (const cover of covers) {
+  const slug = cover.replace(/\.jpe?g$/i, "");
+  if (titleCard.has(slug)) continue; // gen-blog-covers.mjs owns these
+  const out = path.join(OG_BLOG_DIR, `${slug}.jpg`);
+  if (existsSync(out) && !FORCE) continue;
+  await sharp(path.join(BLOG_DIR, cover))
+    .resize(OG_W, OG_H, { fit: "cover", position: "centre" })
+    .jpeg({ quality: 82, mozjpeg: true })
+    .toFile(out);
+  blogOgMade++;
+}
+console.log(
+  `og:    ${ogMade} case-study share images in ${rel(OG_DIR)}; ${blogOgMade} photo-cover share images in ${rel(OG_BLOG_DIR)}; ` +
+    `${coversCropped} blog covers normalised to ${COVER_W}×${COVER_H}`
+);
