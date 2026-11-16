@@ -5,6 +5,7 @@ import Section from "../components/brand/Section.astro";
 import Rows from "../components/brand/Rows.astro";
 import Cards from "../components/brand/Cards.astro";
 import ResultGrid from "../components/brand/ResultGrid.astro";
+import { SHIPPED_SOURCE } from "../lib/projects/data.mjs";
 import Faq from "../components/brand/Faq.astro";
 import EndCta from "../components/brand/EndCta.astro";
 import { SITE, CALENDLY_URL, PHONE_TEL, PHONE_DISPLAY, GOOGLE_MAPS_URL, STARTING_PRICES as P, inr } from "../lib/site.mjs";
@@ -89,7 +90,7 @@ const jsonld = JSON.stringify({
 
     <Section n={2} term="Telemetry" note="Proof, not promises" title="Himachal work, on the record">
       <ResultGrid stats={[
-        { v: `20+`, l: `Builds shipped since 2022` },
+        { v: `20+`, l: `Builds shipped since 2022`, src: SHIPPED_SOURCE },
         { v: `41.8K`, l: `Google impressions in 28 days, Baglamukhi Travels` },
         { v: `77`, l: `Pages rebuilt for a Manali agency, 71 old URLs redirected` },
         { v: `1–3 wks`, l: `Typical time to live` },

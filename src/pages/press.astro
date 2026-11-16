@@ -5,6 +5,7 @@ import Section from "../components/brand/Section.astro";
 import EndCta from "../components/brand/EndCta.astro";
 import SpecList from "../components/brand/SpecList.astro";
 import { SITE, FOUNDER_PHOTO, FOUNDER_PHOTO_ALT, SOCIAL_PROFILES } from "../lib/site.mjs";
+import { SHIPPED_SOURCE } from "../lib/projects/data.mjs";
 
 const canonical = `${SITE}/press/`;
 
@@ -20,6 +21,7 @@ const facts = [
   { k: "Studio", v: "Divyansh Sood® Studio (1 person)" },
   { k: "Based", v: "Himachal Pradesh, India — worldwide" },
   { k: "Since", v: "2022" },
+  { k: "Projects", v: `20+ shipped since 2022 (${SHIPPED_SOURCE})` },
   { k: "Stacks", v: "React · Next.js · Astro · Angular" },
   { k: "Focus", v: "Custom-coded, conversion-focused, SEO/GEO" },
   { k: "Email", v: "hello@divyanshsood.com" },

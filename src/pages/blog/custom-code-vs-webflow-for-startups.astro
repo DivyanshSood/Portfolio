@@ -1,5 +1,6 @@
 ---
 import Post from "../../layouts/Post.astro";
+import { projectCountWord } from "../../lib/projects/data.mjs";
 import { SITE, DEFAULT_OG, CALENDLY_URL, iso, POSTS, authorNode, publisherNode, websiteNode, topicsForTags } from "../../lib/blog.mjs";
 
 const slug = "custom-code-vs-webflow-for-startups";
@@ -174,5 +175,5 @@ const jsonld = JSON.stringify({
 <p>If it’s a brochure — Webflow, and don’t look back.</p>
 <p>If it’s part of the product — or it’s about to be — every month you delay going custom is a month of building the same things twice.</p>
 <hr>
-<p><em>I’m Divyansh Sood — I build custom-coded marketing sites and web apps for funded startups in React, Next.js and Astro. Eighteen published case studies, including my own product <a href="https://www.divyanshsood.com/projects/webseek/">Websitekind.ai</a>, where the marketing surface and product share one codebase. If you’re at the Webflow-or-custom decision point, <a href={CALENDLY_URL}>book a 15-min intro</a> — I’ll tell you honestly which way I’d go for your specific case.</em></p>
+<p><em>I’m Divyansh Sood — I build custom-coded marketing sites and web apps for funded startups in React, Next.js and Astro. {projectCountWord[0].toUpperCase() + projectCountWord.slice(1)} published case studies, including my own product <a href="https://www.divyanshsood.com/projects/webseek/">Websitekind.ai</a>, where the marketing surface and product share one codebase. If you’re at the Webflow-or-custom decision point, <a href={CALENDLY_URL}>book a 15-min intro</a> — I’ll tell you honestly which way I’d go for your specific case.</em></p>
 </Post>
