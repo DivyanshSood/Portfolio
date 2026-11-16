@@ -18,7 +18,7 @@ import Faq from "../../components/brand/Faq.astro";
 import EndCta from "../../components/brand/EndCta.astro";
 import { SITE, CALENDLY_URL, PHONE_TEL, PHONE_DISPLAY, GOOGLE_MAPS_URL, GOOGLE_REVIEWS_URL, STARTING_PRICES as P, inr } from "../../lib/site.mjs";
 import { TOPICS } from "../../lib/entity.mjs";
-import { FEATURED_LOCATIONS, locationHref, HUB } from "../../lib/locations.mjs";
+import { LOCATIONS, locationHref, HUB } from "../../lib/locations.mjs";
 
 const canonical = `${SITE}/hi/`;
 const WA = `https://wa.me/919816091875?text=${encodeURIComponent("नमस्ते दिव्यांश जी, मुझे वेबसाइट बनवानी है।")}`;
@@ -92,7 +92,7 @@ const jsonld = JSON.stringify({
 
 const areas = [
   `<a href="${HUB.href}">हिमाचल प्रदेश में वेब डेवलपर</a>`,
-  ...FEATURED_LOCATIONS.map((l) => `<a href="${locationHref(l.slug)}">Web developer in ${l.city}</a>`),
+  ...LOCATIONS.map((l) => `<a href="${locationHref(l.slug)}">Web developer in ${l.city}</a>`),
 ].join(" · ");
 ---
 

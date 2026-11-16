@@ -151,7 +151,8 @@ const WRITING = [
       </div>
       <div class="wrap hero-body" data-hero-body>
         <div class="hero-copy">
-          <h1 class="h-lead">Web designer &amp; developer in Himachal Pradesh — custom-coded websites, stores and web apps that <em>convert</em>.</h1>
+          <h1 class="h-lead">Web designer &amp; developer in Himachal Pradesh</h1>
+          <p class="hero-sub">Custom-coded websites, stores and web apps that <em>convert</em>.</p>
           <p>One person, end to end. Live in 3–4 weeks. You own the code.</p>
         </div>
         <div class="btn-row">
@@ -400,6 +401,20 @@ const WRITING = [
   .hero-copy .h-lead{margin-bottom:14px;text-wrap:balance}
   .hero-body .btn-row{justify-content:center}
   .hero-copy p{margin:0;color:var(--g5c);font-size:16px;line-height:1.5}
+  /* The rest of the old H1, now the subheading under the keyword H1. */
+  .hero-copy .hero-sub{margin-bottom:8px;color:var(--g3e);font-weight:500;font-size:clamp(17px,1.4vw,20px);line-height:1.35;text-wrap:balance}
+  .hero-sub em{color:var(--red);font-weight:900;font-stretch:115%}
+  /* Phones: the H1 sat ~500px down a 390×780 screen, under the meta lines and
+     the name. A smaller name, no decorative meta, and a shallower chevron bring
+     it up to ~300px. The bottom padding still clears the chevron's side cut
+     (72% of the block's height) under both name lines. */
+  @media (max-width:700px){
+    .hero-red{padding-top:80px;padding-bottom:72px}
+    .hero-meta{display:none}
+    .hero-top{margin-bottom:16px}
+    .hero-name{font-size:44px}
+    .hero-body{margin-top:20px}
+  }
   .wedge{position:absolute;bottom:0;width:50%;height:clamp(44px,6.5vw,104px);background:var(--red)}
   .wedge--l{left:0;clip-path:polygon(0 0,100% 100%,0 100%)}
   .wedge--r{right:0;clip-path:polygon(100% 0,100% 100%,0 100%)}

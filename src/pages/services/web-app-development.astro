@@ -88,6 +88,7 @@ const jsonld = JSON.stringify({
   <main>
     <PageHero
       display="Software shipped in weeks, not quarters."
+      h1="Web app development"
       size="case"
       kicker="Services · Web apps · MVPs · 2026"
       lead={`Web app development services for founders who need working software, not a six-month roadmap. MVPs, customer portals, admin dashboards and AI-powered products — designed and coded by one person, full-stack, with a staging link in your inbox every Friday.`}
@@ -119,11 +120,13 @@ const jsonld = JSON.stringify({
       <Steps items={how} hot={3} />
     </Section>
 
-    <Section n={4} term="Journal" note="From the journal" title="Thinking on product builds">
+    <Section n={4} term="Journal" note="Related reading" title="Thinking on product builds">
       <Cards items={[
         { tag: `Custom code vs Webflow for startups`, d: `Where no-code stops and product engineering starts — and when each is right. <a href="/blog/custom-code-vs-webflow-for-startups/">Custom code vs Webflow for startups →</a>` },
         { tag: `Renting vs owning the build`, d: `The three-year math of a platform you rent against code you own. <a href="/blog/shopify-alternatives-for-premium-d2c/">Shopify alternatives, judged on ownership →</a>` },
-        { tag: `School site + admissions portal`, wide: true, d: `Online admissions, a status page for parents and an admin the office runs, built in time for the intake. <a href="/projects/modernkbs/">Read the Modern K.B.S. build in full →</a>` },
+        { tag: `School site + admissions portal`, d: `Online admissions, a status page for parents and an admin the office runs, built in time for the intake. <a href="/projects/modernkbs/">Read the Modern K.B.S. build in full →</a> What parents look for, and why a portal beats an ERP subscription: <a href="/blog/school-website-admissions-portal-india/">school website cost and features in India</a>.` },
+        { tag: `Retrieval inside your app`, d: `When an assistant in your product should read your own data — and when retrieval is the wrong tool. <a href="/blog/rag-for-business-websites/">RAG for business websites →</a>` },
+        { tag: `Chatbot, or a better form?`, wide: true, d: `Why a chatbot is often the wrong first AI feature for an Indian business, and what to insist on when it isn't. <a href="/blog/ai-chatbot-for-indian-business/">Should your business add an AI chatbot? →</a>` },
       ]} />
     </Section>
 

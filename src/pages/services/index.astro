@@ -3,10 +3,21 @@ import Base from "../../layouts/Base.astro";
 import PageHero from "../../components/brand/PageHero.astro";
 import Section from "../../components/brand/Section.astro";
 import Rows from "../../components/brand/Rows.astro";
+import PostList from "../../components/brand/PostList.astro";
 import EndCta from "../../components/brand/EndCta.astro";
 import { SITE, CALENDLY_URL } from "../../lib/site.mjs";
 import { TOPICS } from "../../lib/entity.mjs";
 import { VERTICAL_LIST } from "../../lib/verticals.mjs";
+import { LOCATIONS, locationHref, HUB } from "../../lib/locations.mjs";
+
+// One post per service, for the reader still choosing between them.
+const reading = [
+  { href: "/blog/how-to-choose-web-developer-himachal/", title: "How to choose a web developer (without getting burned)", meta: "Websites" },
+  { href: "/blog/shopify-alternatives-for-premium-d2c/", title: "Shopify alternatives for premium D2C brands, honestly ranked", meta: "Ecommerce" },
+  { href: "/blog/storefront-that-feels-like-the-brand/", title: "Designing a storefront that feels like the brand, not a theme", meta: "Design" },
+  { href: "/blog/rag-for-business-websites/", title: "RAG for business websites: when a chatbot should read your docs", meta: "AI" },
+  { href: "/blog/how-i-get-clients-without-paid-ads/", title: "How I get clients without paid ads", meta: "SEO & GEO" },
+];
 
 const canonical = `${SITE}/services/`;
 
@@ -90,7 +101,7 @@ const jsonld = JSON.stringify({
 ---
 
 <Base
-  title="Services — Websites, Stores, Apps, AI, Pages & SEO"
+  title="Web Design & Development Services — Sites, Apps, AI & SEO"
   description="Six ways an independent studio helps: website development, ecommerce, web apps, AI features, landing pages and SEO/GEO. Custom-coded, you own the code."
   canonical={canonical}
   keywords="web development services, custom website development, ecommerce website development, web app development, AI development services, landing page design, SEO services, GEO services, hire web developer, Divyansh Sood"
@@ -101,6 +112,7 @@ const jsonld = JSON.stringify({
   <main>
     <PageHero
       display="Six ways I move the needle."
+      h1="Web design & development services"
       size="case"
       kicker="Services · Custom-coded · conversion-focused · 2026"
       lead="Every engagement is custom-coded, conversion-focused and handed over with full code ownership. Pick the shape of the problem — a website that doesn't bring in enquiries, a store that undersells the product, software stuck on a roadmap, an AI feature that never left the demo, a page that doesn't convert, or a brand that's invisible to Google and AI assistants."
@@ -123,13 +135,14 @@ const jsonld = JSON.stringify({
     </Section>
 
     <Section n={4} term="Setup" note="Himachal · worldwide" title="Where I work">
-      <p class="body where">Built from the Himalayas, shipping for the world. Based in Himachal Pradesh, working with founders worldwide — and with businesses across the region:</p>
+      <p class="body where">Built from the Himalayas, shipping for the world. Based in Himachal Pradesh, working with founders worldwide — and with businesses across the region. <a href={HUB.href}>Website designing &amp; development in Himachal Pradesh</a>, by district, or pick a town:</p>
       <div class="chips">
-        <a class="chip chip--muted" href="/web-developer-dharamshala/">Dharamshala</a>
-        <a class="chip chip--muted" href="/web-developer-kangra/">Kangra</a>
-        <a class="chip chip--muted" href="/web-developer-shimla/">Shimla</a>
-        <a class="chip chip--muted" href="/web-developer-manali/">Manali</a>
+        {LOCATIONS.map((l) => <a class="chip chip--muted" href={locationHref(l.slug)}>{l.city}</a>)}
       </div>
+    </Section>
+
+    <Section n={5} term="Journal" note="From the journal" title="Read before you choose">
+      <PostList items={reading} />
     </Section>
 
     <EndCta

@@ -88,6 +88,7 @@ const jsonld = JSON.stringify({
   <main>
     <PageHero
       display="AI that ships, not AI that demos."
+      h1="AI development services"
       size="case"
       kicker="Services · AI features · LLM integration · 2026"
       lead={`AI development for founders who want a feature in production, not a proof of concept in a deck. I run my own AI product on Claude, GPT and Gemini at the same time — so when I add AI to your product, I'm reusing code that already survived real users, real costs and real failure modes.`}
@@ -111,7 +112,7 @@ const jsonld = JSON.stringify({
       <div class="gap-top">
         <Cards items={[
           { tag: `Websitekind.ai · my own product`, wide: true, d: `One prompt to an editable, custom-coded site you can export. It launched as WebSeek.ai with a model picker for Claude, GPT and Gemini, and running all three in one product means the differences are ones I've had to handle for real — prompt shapes that work on one and not another, failure modes, and what each costs per call. It now runs on Claude. <a href="/projects/webseek/">Read the case study →</a>` },
-          { tag: `Baglamukhi Travels · AI-readable content`, d: `A local-business schema graph and an <code>llms.txt</code> file so assistants quote the routes accurately. The same discipline, pointed at being cited rather than generating. <a href="/projects/baglamukhi-travels/">Read the case study →</a>` },
+          { tag: `Baglamukhi Travels · AI-readable content`, d: `A local-business schema graph and an <code>llms.txt</code> file so assistants quote the routes accurately (you can draft your own with the <a href="/tools/llms-txt-generator/">free llms.txt generator</a>). The same discipline, pointed at being cited rather than generating. <a href="/projects/baglamukhi-travels/">Read the case study →</a>` },
           { tag: `Modern K.B.S. · the honest counter-example`, d: `A school portal where the right answer was ordinary software, not AI. I'd rather talk you out of a model than bill you for one. <a href="/projects/modernkbs/">Read the case study →</a>` },
         ]} />
       </div>
@@ -121,11 +122,12 @@ const jsonld = JSON.stringify({
       <Steps items={how} hot={3} />
     </Section>
 
-    <Section n={4} term="Journal" note="From the journal" title="Thinking on AI builds">
+    <Section n={4} term="Journal" note="Related reading" title="Thinking on AI builds">
       <Cards items={[
+        { tag: `AI chatbots, honestly`, d: `For most Indian small businesses a website chatbot is the wrong first purchase — you already have WhatsApp. When it's worth building, and what to insist on. <a href="/blog/ai-chatbot-for-indian-business/">Should your business add an AI chatbot? →</a>` },
+        { tag: `RAG for business websites`, d: `When a chatbot should actually read your docs — and when retrieval is the wrong tool entirely. <a href="/blog/rag-for-business-websites/">When RAG is the right tool for a business website →</a>` },
+        { tag: `Where AI falls short`, d: `Hallucinated APIs, plausible-wrong code, security gaps and the review tax nobody prices in — from real builds. <a href="/blog/challenges-and-limitations-of-ai-in-web-development/">The limits of AI in web development →</a>` },
         { tag: `AI features that actually work`, d: `Which AI features earn their keep on a business website, and which are demos that never ship. <a href="/blog/ai-features-that-actually-work-on-websites/">Which AI features actually work on websites →</a>` },
-        { tag: `How AI is changing web development`, d: `What changed from shipping client sites with AI every day, and what didn't change at all. <a href="/blog/how-ai-is-transforming-website-development/">How AI is changing web development →</a>` },
-        { tag: `RAG for business websites`, wide: true, d: `When a chatbot should actually read your docs — and when retrieval is the wrong tool entirely. <a href="/blog/rag-for-business-websites/">When RAG is the right tool for a business website →</a>` },
         { tag: `The whole cluster`, wide: true, d: `Every article on AI and web development in one place — building with it, shipping features, and where it stops being useful. <a href="/blog/topics/ai-web-development/">AI in web development →</a>` },
       ]} />
     </Section>

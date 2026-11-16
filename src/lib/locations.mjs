@@ -38,22 +38,30 @@ const companyFaq = (city, why) => ({
   a: `No — and that's the point. I'm one web developer, Divyansh Sood, working from Kangra in Himachal Pradesh. No sales team, no account manager, no junior who inherits your project after the call. The person you message on WhatsApp is the person who designs and codes your site. ${why}`,
 });
 
+/* `near` drives each page's "Also serving" links (NearbyAreas). The lists are
+   RECIPROCAL — if A lists B, B lists A — and every town is listed by at least
+   four others; scripts/verify-seo.mjs check 10 fails the build otherwise.
+   Neighbours follow the roads people actually drive, in three tight clusters:
+   Kullu ↔ Manali ↔ Mandi · Nahan ↔ Solan ↔ Baddi ·
+   Amritsar ↔ Jalandhar ↔ Ludhiana ↔ Pathankot.
+   `area` (Himachal towns) is the district the hub page groups them under. */
 export const LOCATIONS = [
   /* ── The four hand-written pages (own .astro files) ────────────────────── */
-  { slug: "kangra", city: "Kangra", region: "hp", handmade: true, featured: true, near: ["palampur", "dharamshala", "pathankot", "hamirpur", "chamba", "una"] },
-  { slug: "dharamshala", city: "Dharamshala", region: "hp", handmade: true, featured: true, near: ["kangra", "palampur", "chamba", "pathankot", "mandi", "hamirpur"] },
-  { slug: "shimla", city: "Shimla", region: "hp", handmade: true, featured: true, near: ["solan", "baddi", "nahan", "bilaspur", "mandi", "chandigarh"] },
-  { slug: "manali", city: "Manali", region: "hp", handmade: true, featured: true, near: ["kullu", "mandi", "bilaspur", "palampur", "dharamshala", "shimla"] },
+  { slug: "kangra", city: "Kangra", region: "hp", area: "Kangra", handmade: true, featured: true, near: ["dharamshala", "palampur", "pathankot", "hamirpur", "una", "chamba"] },
+  { slug: "dharamshala", city: "Dharamshala", region: "hp", area: "Kangra", handmade: true, featured: true, near: ["kangra", "palampur", "chamba", "pathankot", "manali"] },
+  { slug: "shimla", city: "Shimla", region: "hp", area: "Shimla", handmade: true, featured: true, near: ["solan", "kullu", "manali", "nahan", "bilaspur", "chandigarh"] },
+  { slug: "manali", city: "Manali", region: "hp", area: "Kullu", handmade: true, featured: true, near: ["kullu", "mandi", "shimla", "dharamshala"] },
 
   /* ── Himachal Pradesh ──────────────────────────────────────────────────── */
   {
     slug: "palampur",
     city: "Palampur",
     region: "hp",
+    area: "Kangra",
     district: "Kangra district",
     featured: true,
     tier: "local",
-    title: "Web Developer in Palampur — Websites for Homestays, Tea & Bir",
+    title: "Web Developer in Palampur — Homestay, Tea & Bir Websites",
     description:
       "Web developer and website designer in Palampur — sites for homestays, Bir Billing paragliding operators, tea estates and shops. Fixed quote, live in 1–3 weeks.",
     keywords:
@@ -79,16 +87,17 @@ export const LOCATIONS = [
       companyFaq("Palampur", "For a homestay or a Bir operator that means the decisions get made in one conversation, and the site is live in one to three weeks."),
       { q: "I searched “web developer near me” in Palampur. Are you actually nearby?", a: "Yes. I live and work in Kangra district — Palampur is about an hour away. You can meet me in person, but most Palampur clients never need to: the brief, the drafts and the changes all happen over WhatsApp." },
     ],
-    near: ["kangra", "dharamshala", "mandi", "hamirpur", "chamba", "kullu"],
+    near: ["kangra", "dharamshala", "mandi", "hamirpur", "kullu"],
   },
   {
     slug: "mandi",
     city: "Mandi",
     region: "hp",
+    area: "Mandi",
     district: "Mandi district",
     featured: true,
     tier: "local",
-    title: "Web Developer in Mandi, HP — Website Design for Local Business",
+    title: "Web Developer in Mandi, HP — Hotels, Coaching & Taxis",
     description:
       "Website designer and web developer for Mandi, Sundernagar and Jogindernagar — sites for hotels, coaching institutes, yatra taxis and shops. Fixed quotes.",
     keywords:
@@ -114,12 +123,13 @@ export const LOCATIONS = [
       companyFaq("Mandi", "You won't pay for a company's overheads, and you won't be passed between departments when you need a change."),
       { q: "Do you build sites for businesses in Sundernagar and Jogindernagar too?", a: "Yes — anywhere in Mandi district. The process and pricing are the same whether you're in Mandi town, Sundernagar, Jogindernagar, Sarkaghat or Karsog." },
     ],
-    near: ["kullu", "bilaspur", "hamirpur", "palampur", "manali", "shimla"],
+    near: ["kullu", "manali", "palampur", "bilaspur", "hamirpur"],
   },
   {
     slug: "hamirpur",
     city: "Hamirpur",
     region: "hp",
+    area: "Hamirpur",
     district: "Hamirpur district",
     featured: true,
     tier: "local",
@@ -149,12 +159,13 @@ export const LOCATIONS = [
       companyFaq("Hamirpur", "Schools and institutes get one accountable person from the first call to the handover, and the code and domain are yours at the end."),
       { q: "Is there a website designer near me in Hamirpur?", a: "I'm in Kangra district, an easy drive from Hamirpur. I can visit your school or institute when it helps; most of the build runs on WhatsApp and calls, so distance never slows it down." },
     ],
-    near: ["kangra", "una", "bilaspur", "mandi", "palampur", "dharamshala"],
+    near: ["kangra", "palampur", "mandi", "una", "bilaspur"],
   },
   {
     slug: "solan",
     city: "Solan",
     region: "hp",
+    area: "Solan",
     district: "Solan district",
     featured: true,
     tier: "local",
@@ -184,12 +195,13 @@ export const LOCATIONS = [
       companyFaq("Solan", "Solan businesses usually compare me with agencies in Chandigarh; the difference is that you deal with the developer directly and the site goes live in weeks, not months."),
       { q: "Are you based in Solan?", a: "No — I'm in Kangra district. Solan clients work with me over WhatsApp and calls, and you see every draft on a live link. If a meeting in person matters for your project, tell me and we'll plan it." },
     ],
-    near: ["shimla", "baddi", "nahan", "chandigarh", "bilaspur", "mandi"],
+    near: ["shimla", "baddi", "nahan", "chandigarh"],
   },
   {
     slug: "una",
     city: "Una",
     region: "hp",
+    area: "Una",
     district: "Una district",
     featured: true,
     tier: "local",
@@ -219,16 +231,17 @@ export const LOCATIONS = [
       companyFaq("Una", "For a taxi owner or a plant manager, that means a direct line to the developer and no account manager in between."),
       { q: "Is there a web developer near me in Una?", a: "I'm in Kangra district, a short drive from Una. You can meet me, but you won't need to: the brief, the drafts and the changes all happen over WhatsApp." },
     ],
-    near: ["hamirpur", "kangra", "bilaspur", "pathankot", "jalandhar", "chandigarh"],
+    near: ["kangra", "hamirpur", "bilaspur", "jalandhar"],
   },
   {
     slug: "kullu",
     city: "Kullu",
     region: "hp",
+    area: "Kullu",
     district: "Kullu district",
     featured: false,
     tier: "local",
-    title: "Web Developer in Kullu — Websites for Kasol, Tirthan & Rafting",
+    title: "Web Developer in Kullu — Kasol, Tirthan & Rafting Sites",
     description:
       "Web developer and website designer in Kullu — sites for Kasol stays, Tirthan homestays, rafting and trekking operators, and Kullu shawl makers.",
     keywords:
@@ -254,16 +267,17 @@ export const LOCATIONS = [
       companyFaq("Kullu", "Operators here run on thin seasons — you get one person who understands that, and a site that's live before the season starts."),
       { q: "Do you know the Kullu tourism market?", a: "It's my home state. I rebuilt a Manali travel agency's 15-year-old site without losing an old URL, and I built a trekking operator's site on data files their team edits. The WhatsApp-first guest and the weak mountain signal are designed in." },
     ],
-    near: ["manali", "mandi", "bilaspur", "palampur", "shimla", "dharamshala"],
+    near: ["manali", "mandi", "palampur", "shimla"],
   },
   {
     slug: "bilaspur",
     city: "Bilaspur",
     region: "hp",
+    area: "Bilaspur",
     district: "Bilaspur district",
     featured: false,
     tier: "local",
-    title: "Web Developer in Bilaspur, HP — Hotel, Clinic & Taxi Websites",
+    title: "Web Developer in Bilaspur, HP — Hotel, Clinic & Taxi Sites",
     description:
       "Web developer and website designer in Bilaspur, HP — sites for highway hotels, clinics near AIIMS, Naina Devi taxis and shops in Ghumarwin.",
     keywords:
@@ -289,12 +303,13 @@ export const LOCATIONS = [
       companyFaq("Bilaspur", "That means one fixed quote, one person answering your messages, and a site that's live in weeks."),
       { q: "Do you also work in Ghumarwin?", a: "Yes — anywhere in Bilaspur district, at the same prices and with the same process." },
     ],
-    near: ["hamirpur", "mandi", "una", "solan", "shimla", "chandigarh"],
+    near: ["mandi", "hamirpur", "una", "shimla", "chandigarh"],
   },
   {
     slug: "chamba",
     city: "Chamba",
     region: "hp",
+    area: "Chamba",
     district: "Chamba district",
     featured: false,
     tier: "local",
@@ -324,16 +339,17 @@ export const LOCATIONS = [
       companyFaq("Chamba", "In a district this size, it means you get a developer who already knows its roads, not an agency's account manager reading about them."),
       { q: "Do you build for Dalhousie businesses as well as Chamba town?", a: "Yes — Dalhousie, Banikhet, Khajjiar, Bharmour, Pangi and the rest of the district, with the same prices and process." },
     ],
-    near: ["dharamshala", "pathankot", "kangra", "palampur", "amritsar", "manali"],
+    near: ["dharamshala", "pathankot", "kangra", "amritsar"],
   },
   {
     slug: "nahan",
     city: "Nahan",
     region: "hp",
+    area: "Sirmaur",
     district: "Sirmaur district",
     featured: false,
     tier: "local",
-    title: "Web Developer in Nahan & Paonta Sahib — Sirmaur Website Design",
+    title: "Web Developer in Nahan & Paonta Sahib, Sirmaur",
     description:
       "Web developer and website designer for Nahan, Paonta Sahib and Kala Amb in Sirmaur — sites for manufacturers, schools, hotels near Renuka Ji and local shops.",
     keywords:
@@ -359,12 +375,13 @@ export const LOCATIONS = [
       companyFaq("Sirmaur", "You deal with the developer directly, the quote doesn't change after you sign, and the code is yours at handover."),
       { q: "Are you based in Sirmaur?", a: "No — I'm in Kangra district. Sirmaur clients work with me over WhatsApp and calls, and see every draft on a live link. If a meeting in person matters, tell me and we'll plan it." },
     ],
-    near: ["solan", "baddi", "shimla", "chandigarh", "bilaspur", "mandi"],
+    near: ["solan", "baddi", "shimla", "chandigarh"],
   },
   {
     slug: "baddi",
     city: "Baddi",
     region: "hp",
+    area: "Solan",
     district: "Solan district (BBN)",
     featured: false,
     tier: "local",
@@ -394,7 +411,7 @@ export const LOCATIONS = [
       companyFaq("Baddi", "For a manufacturing unit, that means one technical person who builds the catalogue, the forms and the SEO, without an agency's layers in between."),
       { q: "Do you work with units in Nalagarh and Barotiwala too?", a: "Yes — across the BBN belt and the Parwanoo industrial area, at the same prices and with the same process." },
     ],
-    near: ["solan", "chandigarh", "nahan", "shimla", "bilaspur", "ludhiana"],
+    near: ["solan", "nahan", "chandigarh", "ludhiana"],
   },
 
   /* ── Punjab & Chandigarh — remote work, said plainly ───────────────────── */
@@ -405,7 +422,7 @@ export const LOCATIONS = [
     district: "Pathankot district, Punjab",
     featured: true,
     tier: "near",
-    title: "Web Developer in Pathankot — Websites for Taxis, Hotels & Shops",
+    title: "Web Developer in Pathankot — Taxi, Hotel & Shop Websites",
     description:
       "Web developer and website designer for Pathankot — sites for taxis to Dalhousie, Dharamshala and Jammu, hotels near the stations, schools and shops.",
     keywords:
@@ -431,7 +448,7 @@ export const LOCATIONS = [
       companyFaq("Pathankot", "You get the developer directly, a fixed quote, and a site that's live in one to three weeks."),
       { q: "Is there a web developer near me in Pathankot?", a: "I'm across the border in Kangra district. Meeting in person is easy to arrange, though most Pathankot clients do everything over WhatsApp." },
     ],
-    near: ["kangra", "dharamshala", "chamba", "amritsar", "jalandhar", "palampur"],
+    near: ["kangra", "dharamshala", "chamba", "amritsar", "jalandhar", "ludhiana"],
   },
   {
     slug: "chandigarh",
@@ -466,7 +483,7 @@ export const LOCATIONS = [
       companyFaq("Chandigarh", "That's the trade: you give up the agency's office and get a developer who answers your messages directly and quotes once."),
       { q: "Do you meet clients in Chandigarh?", a: "Most tricity projects run entirely on calls and WhatsApp, and you see every change on a live link. If a meeting in person matters for your project, tell me and we'll plan it." },
     ],
-    near: ["baddi", "solan", "shimla", "ludhiana", "una", "nahan"],
+    near: ["shimla", "solan", "baddi", "nahan", "bilaspur", "ludhiana"],
   },
   {
     slug: "ludhiana",
@@ -475,7 +492,7 @@ export const LOCATIONS = [
     district: "Ludhiana, Punjab",
     featured: false,
     tier: "remote",
-    title: "Web Developer for Ludhiana — Manufacturer & Exporter Websites",
+    title: "Web Developer for Ludhiana — Manufacturer & Exporter Sites",
     description:
       "Web developer for Ludhiana manufacturers, hosiery and knitwear brands and exporters — product catalogues, WhatsApp ordering and B2B enquiry sites.",
     keywords:
@@ -501,7 +518,7 @@ export const LOCATIONS = [
       companyFaq("Ludhiana", "You work with the developer directly from the first call to the handover, and the code, domain and hosting are in your name."),
       { q: "You're in Himachal — does distance matter?", a: "Not for this kind of work. Briefs, product lists and reviews happen over calls and WhatsApp, and every draft is on a live link. I say plainly that I'm in Kangra, not Ludhiana; most clients find that faster, not slower." },
     ],
-    near: ["jalandhar", "chandigarh", "amritsar", "baddi", "pathankot", "una"],
+    near: ["jalandhar", "amritsar", "pathankot", "chandigarh", "baddi"],
   },
   {
     slug: "jalandhar",
@@ -536,7 +553,7 @@ export const LOCATIONS = [
       companyFaq("Jalandhar", "You talk to the developer, not a sales rep, and the price you're quoted is the price you pay."),
       { q: "Is a developer in Himachal a problem for a Jalandhar business?", a: "No. The work runs on calls and WhatsApp, and you see every change on a live link. I'm upfront that I work from Kangra, not Jalandhar." },
     ],
-    near: ["ludhiana", "amritsar", "pathankot", "una", "chandigarh", "kangra"],
+    near: ["ludhiana", "amritsar", "pathankot", "una"],
   },
   {
     slug: "amritsar",
@@ -545,7 +562,7 @@ export const LOCATIONS = [
     district: "Amritsar, Punjab",
     featured: false,
     tier: "remote",
-    title: "Web Developer for Amritsar — Hotel, Travel & Restaurant Websites",
+    title: "Web Developer for Amritsar — Hotel, Taxi & Restaurant Sites",
     description:
       "Web developer for Amritsar hotels near the Golden Temple, taxi and tour operators, restaurants and textile businesses — direct-booking sites, fixed quotes.",
     keywords:
@@ -571,7 +588,7 @@ export const LOCATIONS = [
       companyFaq("Amritsar", "A hotel or taxi owner gets one person who builds the site and the SEO, and keeps answering after launch."),
       { q: "You're in Himachal — why hire you for an Amritsar business?", a: "Because Amritsar's tourism looks a lot like Himachal's: WhatsApp-first guests, aggregators taking a cut, and taxis running to the same hills. I've built that kind of site many times. I'm upfront that the work is remote." },
     ],
-    near: ["pathankot", "jalandhar", "ludhiana", "chamba", "dharamshala", "kangra"],
+    near: ["jalandhar", "ludhiana", "pathankot", "chamba"],
   },
 ];
 
@@ -582,7 +599,9 @@ export const locationHref = (slug) => `/web-developer-${slug}/`;
 export const locationBySlug = (slug) => LOCATIONS.find((l) => l.slug === slug);
 export const locationWa = (l) => wa(l.city);
 
-export const HUB = { href: "/web-developer-himachal-pradesh/", label: "Web developer in Himachal Pradesh" };
+// The hub targets "website designing / development in Himachal Pradesh"; the
+// homepage keeps "web developer Himachal", so the hub's label says what it is.
+export const HUB = { href: "/web-developer-himachal-pradesh/", label: "Website development in Himachal Pradesh" };
 
 /** Short list for the footer and homepage chips: featured, in list order. */
 export const FEATURED_LOCATIONS = LOCATIONS.filter((l) => l.featured);
