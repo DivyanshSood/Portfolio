@@ -5,6 +5,7 @@ import Section from "../components/brand/Section.astro";
 import Rows from "../components/brand/Rows.astro";
 import EndCta from "../components/brand/EndCta.astro";
 import { SITE, CALENDLY_URL, GOOGLE_REVIEWS_URL } from "../lib/site.mjs";
+import SpecList from "../components/brand/SpecList.astro";
 
 const canonical = `${SITE}/privacy/`;
 
@@ -30,7 +31,8 @@ const jsonld = JSON.stringify({
 });
 
 // Plain-English summary at the top, detail in the body. Matches the actual
-// runtime behaviour (checked 2026-11-13): GA4 on every page view, the Google
+// runtime behaviour (checked 2026-11-13; phone field, ds_sent cookie, DPDP
+// section and retention periods added 2026-11-16, periods confirmed by the owner): GA4 on every page view, the Google
 // Ads conversion tag (no remarketing), the contact forms (Resend), the chat
 // (Gemini), and Vercel hosting with two serverless functions.
 const sections = [
@@ -40,7 +42,7 @@ const sections = [
   },
   {
     h: "Cookies",
-    p: "Google Analytics sets its own cookies to tell one visit from the next — the _ga family. Google's ad-conversion tag adds _gcl_au (and _gcl_aw after an ad click), so Google Ads can tell when a visit that started from an ad ended in an enquiry. They hold a random ID, not a name or an email. Nothing is sold.",
+    p: "Google Analytics sets its own cookies to tell one visit from the next — the _ga family. Google's ad-conversion tag adds _gcl_au (and _gcl_aw after an ad click), so Google Ads can tell when a visit that started from an ad ended in an enquiry. They hold a random ID, not a name or an email. Nothing is sold. One cookie is the site's own: ds_sent, a functional cookie set only when a form is sent without JavaScript (an old browser, a blocker). It is HttpOnly, lasts five minutes, is sent only to the /thanks/ page, holds the form's name and nothing about you, and is read once there to count that an enquiry arrived, then deleted.",
   },
   {
     h: "Analytics",
@@ -52,11 +54,11 @@ const sections = [
   },
   {
     h: "Contact forms",
-    p: "The brief form and the free-audit form send what you type — your name, your email, the site address and your message — to my inbox through Resend, an email delivery service. I use it only to reply to you and keep it in my mailbox like any other email. Ask me at hello@divyanshsood.com and I'll delete it. If you contact me by WhatsApp, phone, email or Calendly instead, those services' own privacy policies apply to that conversation.",
+    p: "The brief form and the free-audit form send what you type — your name, your email, your phone or WhatsApp number if you choose to give it (it's optional), the site address and your message — to my inbox through Resend, an email delivery service. I use it only to reply to you and to quote for the work. It stays in my mailbox for up to 24 months and is then deleted; ask me at hello@divyanshsood.com and I'll delete it sooner. If you contact me by WhatsApp, phone, email or Calendly instead, those services' own privacy policies also apply to that conversation.",
   },
   {
     h: "Hosting",
-    p: "Pages are served by Vercel. Two small server functions, one for the contact forms and one for the chat, run on Vercel too. Vercel logs your IP address for each request as part of normal operation; I don't see those logs unless I debug a specific incident.",
+    p: "Pages are served by Vercel. Two small server functions, one for the contact forms and one for the chat, run on Vercel too. Vercel logs your IP address for each request as part of normal operation, under its own retention terms; I don't see those logs unless I debug a specific incident. To stop abuse, both functions also keep a count of requests per IP address in their own memory, for no more than a day; it is never written to disk and disappears when the function restarts.",
   },
   {
     h: "Chat assistant",
@@ -68,13 +70,41 @@ const sections = [
   },
   {
     h: "Your rights (GDPR / CCPA)",
-    p: "If you're in the EU, UK, or California, you can ask what data I hold about you and have it deleted: form messages in my inbox, and pseudonymous analytics data tied to a random client ID. Email hello@divyanshsood.com.",
+    p: "If you're in the EU, UK, or California, you can ask what data I hold about you and have it deleted: form messages in my inbox, and pseudonymous analytics data tied to a random client ID. Email hello@divyanshsood.com. If you're in India, your rights under the DPDP Act are set out in the next section.",
   },
   {
     h: "Changes",
     p: "If anything here changes materially, I'll update the date at the top of this page. The site does not have a comment system or a mailing list, so there is no in-product way to notify you.",
   },
 ];
+// India: Digital Personal Data Protection Act, 2023 and DPDP Rules, 2025.
+// The 90-day ceiling is Rule 14(3); the owner answers the same day in practice.
+const dpdpCollect = [
+  { k: "Brief and audit forms", v: "Name, email, phone or WhatsApp number (optional), site address and your message. <strong>Why:</strong> to reply to your enquiry and quote for the work." },
+  { k: "Chat assistant", v: "What you type, sent to Google Gemini to generate the reply. Not stored by me; the conversation stays in your browser tab until you close it." },
+  { k: "Calendly", v: "Your name, email, the time you pick and any answers you add. <strong>Why:</strong> to hold the call you booked." },
+  { k: "WhatsApp and phone", v: "Your number, your name as WhatsApp shows it, and the messages. <strong>Why:</strong> to reply and to work on your project." },
+  { k: "Analytics and ad tags", v: "Pseudonymous: a random ID, pages viewed, device type and approximate city. <strong>Why:</strong> to see which pages and channels bring enquiries." },
+];
+
+const dpdp = [
+  { t: "Who is responsible", d: "Divyansh Sood, trading as Divyansh Sood® Studio, Kangra, Himachal Pradesh, India, decides why and how this data is used: the Data Fiduciary under the DPDP Act. It is a one-person business, so the same person reads your request and answers it." },
+  { t: "Why it's used, and on what basis", d: "Everything listed above is information you choose to send so that I can reply, or pseudonymous analytics. It is used only for that purpose, never sold, and never used to build ad audiences. You can withdraw your consent at any time by emailing me; that stops any further use, but not what was done before." },
+  { t: "Your rights", d: "You can ask for a summary of the personal data I hold about you and who it was shared with in order to provide the service (Resend, Google, Calendly, WhatsApp and Vercel, as described above), ask me to correct, complete, update or erase it, withdraw consent, and nominate someone to exercise these rights for you if you die or become unable to. Email hello@divyanshsood.com from the address you used, or say which number you messaged from." },
+  { t: "Grievances", d: "Grievance contact: Divyansh Sood, <a href=\"mailto:hello@divyanshsood.com\">hello@divyanshsood.com</a>. I reply the same day in practice, and always within the 90 days that Rule 14(3) of the DPDP Rules, 2025 allows. If you're not satisfied with my answer, you can then complain to the Data Protection Board of India." },
+];
+
+const retention = [
+  { k: "Form emails", v: "Up to 24 months in my inbox, then deleted. Sooner on request." },
+  { k: "WhatsApp chats", v: "Up to 24 months, then deleted. Sooner on request." },
+  { k: "Calendly bookings", v: "Up to 24 months, then deleted. Sooner on request." },
+  { k: "Google Analytics", v: "Event data kept for 2 months, the retention set in Google Analytics, then deleted by Google." },
+  { k: "Chat assistant", v: "Not stored by me. Kept in your browser tab until you close it. What Google keeps under Gemini's terms is set by Google." },
+  { k: "Abuse limits", v: "IP request counts in server memory, for no more than a day." },
+  { k: "ds_sent cookie", v: "Five minutes, or until /thanks/ reads it, whichever comes first." },
+  { k: "Vercel and Resend logs", v: "Kept by Vercel (requests) and Resend (email delivery) under their own retention terms." },
+];
+
 ---
 
 <Base
@@ -104,14 +134,27 @@ const sections = [
       <Rows items={sections.map((s) => ({ t: s.h, d: s.p }))} />
     </Section>
 
+    <Section n={3} term="India" note="DPDP Act, 2023 · DPDP Rules, 2025" title="Your data under India's DPDP Act" id="dpdp">
+      <p class="body pv-intro">What each channel collects, and why. The forms, the chat, Calendly and WhatsApp are the only ways personal data reaches me; the rest of the site collects nothing that names you.</p>
+      <SpecList head="What is collected" headRight="And why" items={dpdpCollect} />
+      <div class="gap-top">
+        <Rows items={dpdp} />
+      </div>
+    </Section>
+
+    <Section n={4} term="Retention" note="How long it's kept" title="Retention" id="retention">
+      <SpecList items={retention} />
+    </Section>
+
     <EndCta
       title="Still have questions?"
-      text={`If something on this page is unclear, or you want a verifiable data request under GDPR / CCPA, email <a href="mailto:hello@divyanshsood.com">hello@divyanshsood.com</a> — I reply personally the same day.`}
+      text={`If something on this page is unclear, or you want to make a data request under the DPDP Act, GDPR or CCPA, email <a href="mailto:hello@divyanshsood.com">hello@divyanshsood.com</a> — I reply personally the same day.`}
       secondary={{ href: GOOGLE_REVIEWS_URL, label: "Read my Google reviews ↗" }}
     />
   </main>
 </Base>
 
 <style>
+  .pv-intro{max-width:60ch;margin:0 0 clamp(24px,3vw,40px)}
   .pv-big{margin:0;max-width:40ch;font-weight:800;font-stretch:108%;font-size:clamp(24px,2.8vw,40px);line-height:1.1;letter-spacing:-0.02em}
 </style>

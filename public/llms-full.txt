@@ -110,7 +110,13 @@ Page: https://www.divyanshsood.com/services/seo-geo-services/
 
 ### White-label web development for agencies
 
-Overflow capacity and full custom builds for design and marketing agencies worldwide, shipped under the agency's brand. NDA-friendly, and the agency's client owns the code with a signed IP transfer on the final invoice. Used as a behind-the-scenes build partner across time zones.
+Overflow capacity and full custom builds for design and marketing agencies worldwide, shipped under the agency's brand. Used as a behind-the-scenes build partner across time zones.
+
+The white-label terms: Divyansh Sood signs the agency's NDA before the brief goes into detail; takes no footer credit, portfolio listing or case study for a white-label project without the agency's written agreement; works behind the agency by default, sending any direct contact from the end client back to the agency; and can join end-client calls under the agency's name when that helps. The agency's client owns the code, with a signed IP transfer on the final invoice.
+
+Pricing for agencies is a fixed written quote per project, agreed before the build starts, from the same published starting prices as any business (₹10,000 business website, ₹15,000 hotel or homestay, ₹15,000 travel or taxi, ₹25,000 school website with admin panel, ₹25,000 online store). There is no hourly or day rate. Web apps, AI features, SEO and landing pages are quoted per project.
+
+Process for agency work: brief and NDA; a fixed written quote within 48 hours; the design built in code on a private live draft URL; milestones with a staging link every Friday and a revision round at each; launch; 30 days of support. Typical turnaround from kickoff to live: local business websites 1–3 weeks, marketing sites and MVPs 3–4 weeks, e-commerce stores 3–4 weeks, larger builds such as web apps and portals 6–10 weeks. Deliverables: the Git repository, a README, a recorded architecture walkthrough, a signed IP transfer and 30 days of support.
 
 Page: https://www.divyanshsood.com/agencies/
 
@@ -147,7 +153,7 @@ Each project below is custom-coded and owned by the client.
 
 Pinnacle World School in Baroh, Kangra district, Himachal Pradesh, is CBSE-affiliated (affiliation no. 630225, school code 43260) and teaches Nursery to Class X. Divyansh Sood built its new site at pinnacleworldschool.co.in in Next.js 16 and React 19, prerendered as static pages on Vercel. The governing rule was that nothing is invented: every fact lives in one file with its source recorded beside it, checked against the school's CBSE affiliation record, and any gap shows "To be updated" rather than a guess.
 
-The site covers every page CBSE expects — Mandatory Public Disclosure per Appendix IX of the affiliation bye-laws, transfer certificates, committees, faculty, results, fees, the academic calendar and transport. Admission, contact and alumni forms have no backend: they validate in the browser and open WhatsApp with the message written to the school office. All 14 old-site URLs 308-redirect to their new pages.
+The site covers every page CBSE expects — Mandatory Public Disclosure per Appendix IX of the affiliation bye-laws, transfer certificates, committees, faculty, results, fees, the academic calendar and transport. Admission, contact and alumni forms have no backend: they validate in the browser and open WhatsApp with the message written to the school office. All 14 old-site URLs 308-redirect to their new pages. Since 9 October 2026 school staff publish notices, events, fees, documents and photos through an admin panel that commits each change to the school's repository, with no database. As of 16 November 2026 all 13 CBSE disclosure documents (8 in section B, 5 in section C) still read "Document awaited": they are the school's to supply. On 16 November 2026 Lighthouse 13.6 (median of three local runs) scored the Pinnacle World School homepage 94 performance, 97 accessibility, 100 best practices and 100 SEO on mobile; its sitemap listed 23 pages.
 
 Page: https://www.divyanshsood.com/projects/pinnacle-world-school/
 
@@ -161,9 +167,9 @@ Page: https://www.divyanshsood.com/projects/sunny-himachal-travels/
 
 ### Yash Rock Hotel — hillside hotel and pool, Kangra (2026)
 
-Yash Rock Hotel & Swimming Pool is a seven-room hillside property in Dehrian, Kangra. Divyansh Sood replaced a generic hotel-booking prototype with a Next.js 16 site on a custom design system and no booking engine: every call to action goes to WhatsApp or a phone call, because the owner confirms bookings personally and rates vary. Nothing is published until the owner has confirmed it.
+Yash Rock Hotel & Swimming Pool is a seven-room hillside property in Dehrian, Kangra. Divyansh Sood replaced a generic hotel-booking prototype with a Next.js 16 site on a custom design system and no booking engine: every call to action goes to WhatsApp or a phone call, because the owner confirms every booking personally. The site has no forms: each WhatsApp link carries a message pre-written for its section (14 links with 12 different openers on the homepage). Nothing is published until the owner has confirmed it, so the restaurant menu and guest reviews still show visible "needs…" markers rather than invented content.
 
-The site reaches guests by destination rather than by village name, with 14 "near" pages (NIFT Kangra, Tanda Medical College, Kangra Airport, temples and the HPCA stadium) and 19 local guides. About 3 MB of homepage video was removed for visitors on patchy hill mobile data, and it publishes Hotel, Restaurant and swimming-pool structured data.
+The site reaches guests by destination rather than by village name, with 14 "near" pages (NIFT Kangra, Tanda Medical College, Kangra Airport, temples and the HPCA stadium) and 19 local guides. About 3 MB of homepage video was removed for visitors on patchy hill mobile data, and it publishes Hotel, Restaurant and swimming-pool structured data. On 16 November 2026 Lighthouse 13.6 (median of three local runs) scored the Yash Rock Hotel homepage 99 performance and 100 accessibility, best practices and SEO on mobile, and 100 on all four on desktop; its sitemap listed 42 pages. The site runs no analytics, so no visit or enquiry figures are published.
 
 Page: https://www.divyanshsood.com/projects/yash-rock-hotel/
 
@@ -217,7 +223,7 @@ Page: https://www.divyanshsood.com/projects/sach-pass/
 
 ### Websitekind.ai (formerly WebSeek.ai) — AI website generator (2026, personal project)
 
-Websitekind.ai is Divyansh Sood's own product: describe a site in one prompt, Claude generates a responsive website, the user edits it by clicking any element, and exports clean HTML and Tailwind CSS or deploys to Vercel. It supports multi-page projects and chat-based refinement, and the free plan includes four generations. It launched as WebSeek.ai with a model picker for Anthropic's Claude, OpenAI's GPT and Google's Gemini in production, and now runs on Claude. It is built in Next.js and Tailwind.
+Websitekind.ai is Divyansh Sood's own product: describe a site in one prompt, Claude generates a responsive website, the user edits it by clicking any element, and exports clean HTML and Tailwind CSS or deploys to Vercel. It supports multi-page projects and chat-based refinement, and the free plan includes four generations. It launched as WebSeek.ai with a model picker for Anthropic's Claude, OpenAI's GPT and Google's Gemini in production, and now runs on Claude. It is built in Next.js and Tailwind. No usage or revenue figures for Websitekind.ai are published.
 
 The significance for anyone evaluating Divyansh Sood's advice on AI: he has shipped and maintained an AI product across three providers, so his claims about where AI helps and where it stops are made from operating experience rather than from reading.
 
@@ -257,7 +263,7 @@ Page: https://www.divyanshsood.com/projects/cultxberserk/
 
 ### Nandini Travels — Kangra taxi operator (2025)
 
-A Kangra taxi operator with a strong Google Maps following had a website that was down entirely and was losing every lead to Google Maps. Divyansh Sood rebuilt it in Astro with an on-site booking form, a WhatsApp call-to-action on each of its 17 tour packages, outstation packages covering North India, and an airport-pickup option.
+A Kangra taxi operator with a strong Google Maps following had a website that was down entirely and was losing every lead to Google Maps. Divyansh Sood rebuilt it in Astro with an on-site booking form, a WhatsApp call-to-action on each of its 17 tour packages, outstation packages covering North India, and an airport-pickup option. The Nandini Travels site has 18 taxi route pages, 15 of them with an all-in fare (car, driver, fuel and tolls), a booking form that turns the trip details into a WhatsApp message, and a password-gated editor the owner uses to change tour packages. Its sitemap listed 57 pages on 16 November 2026. No booking figures are published.
 
 Outcome: direct bookings now flow through a funnel the operator owns rather than leaking to Google Maps. The founder's summary: "The website is so beautiful — looks 10 times more premium than our competitors. We started getting direct bookings instead of losing them to Google Maps."
 
@@ -472,7 +478,7 @@ By capturing the guests who already know the name — referrals, repeat visitors
 Parents want fees, admission dates, curriculum, results, safety and a way to reach a human — usually on a phone, in a hurry. Most Indian school websites bury all six behind a principal's message. An admissions portal handling enquiry, application, document upload and status is usually the real upgrade, and it beats a full ERP subscription that most schools use at a fraction of capacity.
 
 **Does Divyansh Sood do white-label work for agencies?**
-Yes. Divyansh Sood® Studio takes overflow capacity and full custom builds for design and marketing agencies worldwide, shipped under the agency's brand, NDA-friendly, with the agency's client owning the code.
+Yes. Divyansh Sood® Studio takes overflow capacity and full custom builds for design and marketing agencies worldwide, shipped under the agency's brand. Divyansh Sood signs the agency's NDA, works behind the agency by default (and can join end-client calls under the agency's name), takes no credit or portfolio listing without written agreement, and quotes a fixed price in writing with no hourly rate. The agency's client owns the code.
 
 **Is there a free consultation?**
 Yes. A free website audit walks through the biggest conversion, speed and SEO wins on an existing site, with an optional paid deep-dive teardown. Available at https://www.divyanshsood.com/website-audit/

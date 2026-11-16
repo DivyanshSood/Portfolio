@@ -94,7 +94,7 @@ const jsonld = JSON.stringify({
 });
 ---
 
-<Post post={post} jsonld={jsonld} faqs={faqs} cta={{ title: "Working on something similar?", text: "If a post here matches what you're building, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.", primary: { href: "mailto:hello@divyanshsood.com", label: "Email me →" }, secondary: { href: CALENDLY_URL, label: "Book a 30-min call →" } }}>
+<Post post={post} jsonld={jsonld} faqs={faqs} cta={{ title: "Working on something similar?", text: "If a post here matches what you're building, send me the brief. I reply personally the same day — and I'll tell you within a day if it's a fit.", primary: { href: "mailto:hello@divyanshsood.com", label: "Email me →" }, secondary: { href: CALENDLY_URL, label: "Book a 30-min call →" } }}>
 <p>Almost everything written about structured data stops at the same place: add the Article schema, add the FAQ schema, run the validator, see green ticks, done.</p>
 <p>That gets you valid markup describing a page. It does not get you an <em>entity</em> — a thing the web agrees exists, with a stable identity that persists across every page you publish. The difference is what decides whether an assistant can confidently name you or has to hedge.</p>
 <p>This is the graph running on the site you're reading, node by node, including the two mistakes I made first.</p>
@@ -158,8 +158,8 @@ const jsonld = JSON.stringify({
 <hr>
 <h2 id="what-i-deliberately-dont-emit">What I deliberately don't emit</h2>
 <p>An entity graph is also defined by what you leave out.</p>
-<p>There is no <code>AggregateRating</code> anywhere on this site. I have real Google reviews and could put a star rating in my markup, and it would very likely render. I don't, because the number isn't independently verifiable from my own codebase, and self-reported ratings are exactly the kind of claim that erodes trust in everything around them.</p>
-<p>There is also no pricing in the schema, because there is no fixed price to state. Inventing a plausible one to fill an <code>Offer</code> node would be a lie with a validator's blessing.</p>
+<p>There is no <code>AggregateRating</code> anywhere on this site. The homepage and the testimonials page do show my Google rating, as plain text with the date it was read and a link to the reviews on Google, so anyone can check it. What I don't do is mark that rating up. Google's review-snippet rules don't allow a business to put ratings collected on another site, Google's own included, into its own structured data, and a self-served star rating is exactly the kind of claim that erodes trust in everything around it. Review markup is reserved for named client quotes printed on the page itself, with the person's permission, and even those carry no star rating.</p>
+<p>Pricing gets the same treatment. The business node carries a <code>priceRange</code> of “₹10,000+”, the lowest starting price published on the site, and nothing more specific, because every project ends in its own written quote. Inventing a plausible figure to fill an <code>Offer</code> node would be a lie with a validator's blessing.</p>
 <p>Structured data is a set of assertions about reality. The temptation is always to assert slightly more than is true, and it's the wrong trade.</p>
 <hr>
 <h2 id="the-honest-summary">The honest summary</h2>
