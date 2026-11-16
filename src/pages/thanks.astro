@@ -1,0 +1,117 @@
+---
+// /thanks/ — where the brief forms land when JavaScript didn't run. The forms
+// post to /api/contact/ (method="post"); the endpoint answers with a 303 here,
+// or to /thanks/?status=error when the send failed. With JavaScript the forms
+// never navigate (src/scripts/contact-form.js shows its own success state), so
+// this page is only ever the no-JS path.
+//
+// Rendered on demand, not prerendered, because the page must read the request:
+// - `?status=error` swaps in the "didn't send" message server-side, so a
+//   visitor with JavaScript off still sees the truth;
+// - the `ds_sent` cookie (set by the endpoint on a real send, HttpOnly, five
+//   minutes, path /thanks/) is read once and deleted here. Only then does the
+//   page count the lead (generate_lead, source form_fallback). A reload, a
+//   bookmark or a bot that tripped the honeypot counts nothing.
+//
+// noindex,follow and kept out of the sitemap (astro.config.mjs filter).
+export const prerender = false;
+
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/brand/PageHero.astro";
+import { SITE, CALENDLY_URL, WHATSAPP_URL, CONTACT_EMAIL, PHONE_TEL, PHONE_DISPLAY } from "../lib/site.mjs";
+
+// Same name as in src/pages/api/contact.ts.
+const SENT_COOKIE = "ds_sent";
+
+const isError = Astro.url.searchParams.get("status") === "error";
+const sentForm = isError ? "" : (Astro.cookies.get(SENT_COOKIE)?.value ?? "").replace(/[^a-z0-9-]/gi, "").slice(0, 40);
+if (sentForm) Astro.cookies.delete(SENT_COOKIE, { path: "/thanks/" });
+
+Astro.response.headers.set("Cache-Control", "private, no-store");
+Astro.response.headers.set("X-Robots-Tag", "noindex, follow");
+
+// What happens next, in the words the JS success state already uses.
+const NEXT: Record<string, string> = {
+  "ds-audit-form": "I'll record your free audit and email it back within 3–4 days.",
+  "ds-start-form": "I'll read it myself and reply the same day.",
+};
+const lead = isError
+  ? "Nothing reached my inbox, so please try another way. Email or WhatsApp me the same details and you'll get a reply the same day."
+  : NEXT[sentForm] ?? "If you sent a brief, it's in my inbox. I read every one myself and reply the same day.";
+---
+
+<Base
+  title={isError ? "Not sent — try email or WhatsApp · Divyansh Sood® Studio" : "Thanks — brief received · Divyansh Sood® Studio"}
+  description="Thanks for your brief. Book a 30-min call or message Divyansh on WhatsApp while you wait for a reply."
+  canonical={`${SITE}/thanks/`}
+  noindex
+>
+  <main>
+    {isError ? (
+      <PageHero
+        display="Not sent"
+        kicker="Brief · Didn't go through"
+        crumbs={[{ name: "Home", url: "/" }, { name: "Not sent", url: "" }]}
+        h1="Your brief didn't send."
+        lead={lead}
+      >
+        <a class="btn btn--red" href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Project brief")}`}>Email {CONTACT_EMAIL}</a>
+        <a class="btn btn--ink" href={WHATSAPP_URL}>WhatsApp me <span aria-hidden="true">↗</span></a>
+      </PageHero>
+    ) : (
+      <PageHero
+        display="Thanks"
+        kicker="Brief · Received"
+        crumbs={[{ name: "Home", url: "/" }, { name: "Thanks", url: "" }]}
+        h1="Brief received."
+        lead={lead}
+      >
+        <a class="btn btn--red" href={CALENDLY_URL}>Book a 30-min call <span aria-hidden="true">→</span></a>
+        <a class="btn btn--ink" href={WHATSAPP_URL}>WhatsApp me <span aria-hidden="true">↗</span></a>
+      </PageHero>
+    )}
+    <section class="ty">
+      <div class="wrap">
+        <p class="ty-p">
+          {isError
+            ? <>Or skip writing: <a href={CALENDLY_URL}>book a 30-min call</a>, or call <a href={PHONE_TEL}>{PHONE_DISPLAY}</a>.</>
+            : <>Rather talk it through now? <a href={CALENDLY_URL}>Book a 30-min call</a>, or call <a href={PHONE_TEL}>{PHONE_DISPLAY}</a>.</>}
+        </p>
+        <div class="chips">
+          <a class="chip" href="/portfolio/">See the work</a>
+          <a class="chip" href="/results/">Results</a>
+          <a class="chip chip--muted" href="/">Back home</a>
+        </div>
+      </div>
+    </section>
+    {sentForm && <div hidden data-lead-fallback={sentForm}></div>}
+  </main>
+</Base>
+
+<script>
+  // Counts the lead once, only when the endpoint's cookie was present (the
+  // marker above is rendered only then). dsLead lives in BaseScripts.astro.
+  function countLead() {
+    const el = document.querySelector<HTMLElement>("[data-lead-fallback]");
+    if (!el) return;
+    const w = window as any;
+    const params = { form: el.dataset.leadFallback, page_path: location.pathname };
+    try {
+      if (typeof w.dsTrack === "function") w.dsTrack("form_submit", { ...params, via: "form_fallback" });
+      if (typeof w.dsLead === "function") w.dsLead("form_fallback", params);
+    } catch (_e) {
+      /* analytics must never break the page */
+    }
+  }
+  // Module scripts run before DOMContentLoaded; waiting for it means
+  // BaseScripts has defined dsLead whichever order the bundles load in.
+  if (document.readyState === "complete") countLead();
+  else document.addEventListener("DOMContentLoaded", countLead, { once: true });
+</script>
+
+<style>
+  .ty{padding:clamp(40px,5vw,72px) var(--gutter) var(--sec-y)}
+  .ty-p{margin:0 0 24px;font-size:18px;line-height:1.5;max-width:60ch}
+  .ty-p a{color:var(--red);display:inline-block;padding:10px 0;margin:-10px 0}
+  .ty-p a:hover{color:var(--ink)}
+</style>

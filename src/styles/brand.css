@@ -130,7 +130,7 @@ img{max-width:100%}
 .btn--red:hover{background:var(--ink);color:#fff}
 .btn--ink{background:var(--ink);color:#fff}
 .btn--ink:hover{background:var(--red);color:#fff}
-/* The big end-of-page CTA ("Book a 15-min intro →" on red / ink). */
+/* The big end-of-page CTA ("Book a 30-min call →" on red / ink). */
 .btn--xl{gap:12px;min-height:60px;padding:0 30px;font-weight:900;font-style:italic;font-stretch:118%;font-size:17px;letter-spacing:0;clip-path:polygon(12px 0,100% 0,calc(100% - 12px) 100%,0 100%)}
 .btn--white{background:#fff;color:var(--ink)}
 .btn--white:hover{background:var(--ink);color:#fff}

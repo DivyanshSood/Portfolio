@@ -3,15 +3,21 @@
    free-audit + start-a-project forms). Submits to /api/contact (Resend-backed);
    falls back to opening the user's mail client with the same payload if Resend
    isn't configured yet, so the form never goes dead during setup.
+
+   Without JavaScript the same forms still work: each <form> has
+   method="post" action="/api/contact/", and the endpoint answers a plain form
+   post with a 303 to /thanks/. This script intercepts submit, so a visitor
+   with JS never leaves the page and the lead is counted once, here.
    =========================================================================== */
 
-const CONTACT_EMAIL = "hello@divyanshsood.com";
-const WHATSAPP_URL = "https://wa.me/919816091875";
-const CALENDLY_URL = "https://calendly.com/sood-divyansh007/30min";
+import { CALENDLY_URL, WHATSAPP_URL, CONTACT_EMAIL } from "../lib/contact-links.mjs";
+import { cleanPhone } from "../lib/phone.mjs";
 
 // Field definitions per form. Label is shown in the email body; id is the
 // input element id. Set `isEmail: true` to require + validate. `type` defaults
-// to text; set `type: 'checkbox'` for boolean fields. `hp` is the form's hidden
+// to text; set `type: 'checkbox'` for boolean fields. `isPhone: true` marks the
+// optional "Phone / WhatsApp" field: validated by cleanPhone() and sent as its
+// own `phone` property, not inside the message. `hp` is the form's hidden
 // honeypot input — humans never see it, so a value means a bot.
 const FORMS = {
   "ds-audit-form": {
@@ -21,6 +27,7 @@ const FORMS = {
     fields: [
       { id: "au-url", label: "Site URL" },
       { id: "au-email", label: "Email", isEmail: true },
+      { id: "au-phone", label: "Phone / WhatsApp", isPhone: true },
       { id: "au-goal", label: "Goal" },
     ],
   },
@@ -31,6 +38,7 @@ const FORMS = {
     fields: [
       { id: "st-name", label: "Name" },
       { id: "st-email", label: "Email", isEmail: true },
+      { id: "st-phone", label: "Phone / WhatsApp", isPhone: true },
       { id: "st-company", label: "Company / site" },
       { id: "st-type", label: "Need" },
       { id: "st-stage", label: "Stage" },
@@ -57,6 +65,7 @@ function buildMessage(data, config) {
   const lines = [];
   for (const f of config.fields) {
     const v = data[f.id];
+    if (f.isPhone) continue;
     if (f.type === "checkbox") {
       if (v) lines.push(f.label + ": yes");
     } else if (v) {
@@ -74,7 +83,11 @@ function openMailto(data, config) {
   const nameField = config.fields.find((f) => /name/i.test(f.label) && f.type !== "checkbox");
   const name = nameField ? data[nameField.id] : "";
   const subject = encodeURIComponent(config.subject + (name ? " — " + name : ""));
-  const body = encodeURIComponent(buildMessage(data, config) + "\n\n— sent from the website contact form");
+  const phoneField = config.fields.find((f) => f.isPhone);
+  const phone = phoneField ? data[phoneField.id] : "";
+  const body = encodeURIComponent(
+    (phone ? `Phone / WhatsApp: ${phone}\n` : "") + buildMessage(data, config) + "\n\n— sent from the website contact form"
+  );
   window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
 }
 
@@ -103,7 +116,7 @@ function showSuccess(form, msg, usedFallback) {
   wrap.innerHTML = usedFallback
     ? `<p>${esc(msg)}</p>`
     : `<div class="form-done-h">Box, box.</div><p>${esc(msg)}</p>` +
-      `<p class="form-done-alt"><a href="${WHATSAPP_URL}">WhatsApp ↗</a> <a href="${CALENDLY_URL}">Book a 15-min call ↗</a></p>`;
+      `<p class="form-done-alt"><a href="${WHATSAPP_URL}">WhatsApp ↗</a> <a href="${CALENDLY_URL}">Book a 30-min call ↗</a></p>`;
   form.parentNode.insertBefore(wrap, form.nextSibling);
 }
 
@@ -143,6 +156,12 @@ async function submit(form, config) {
     showError(form, "Please enter a valid email so I can reply.", emailField.id);
     return;
   }
+  const phoneField = config.fields.find((f) => f.isPhone);
+  const phone = phoneField ? cleanPhone(data[phoneField.id]) : "";
+  if (phone === null) {
+    showError(form, "That phone number doesn't look right. Use digits, spaces and +, or leave it empty.", phoneField.id);
+    return;
+  }
   const msg = buildMessage(data, config);
   if (!msg) {
     showError(form, "Tell me a bit about your project first.");
@@ -165,6 +184,7 @@ async function submit(form, config) {
       body: JSON.stringify({
         name: name || "Website enquiry",
         email: emailField ? data[emailField.id] : "",
+        phone,
         message: msg,
         hp: config.hp ? val(config.hp) : "",
         form: form.id,

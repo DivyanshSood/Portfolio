@@ -11,7 +11,9 @@
    src/lib/blog.mjs and src/lib/projects/data.mjs re-export this one. */
 export const SITE = "https://www.divyanshsood.com";
 
-export const CALENDLY_URL = "https://calendly.com/sood-divyansh007/30min";
+/* Booking, WhatsApp and email links live in ./contact-links.mjs (a separate
+   file so the contact-form script can import them without this module). */
+export { CALENDLY_URL, WHATSAPP_URL, CONTACT_EMAIL } from "./contact-links.mjs";
 
 /* The studio phone — the same number as WhatsApp, the Business Profile and
    the JSON-LD `telephone`. PHONE_TEL is the click-to-call href: every page
@@ -37,11 +39,32 @@ export const HAS_FOUNDER_PHOTO = FOUNDER_PHOTO.trim().length > 0;
 
 /* ---------------------------------------------------------------------------
    Google Business Profile reviews — real share link supplied by the client.
-   Used as a "Read our Google reviews" proof link across the site. We link out
-   only; we deliberately do NOT render a star rating or review count (and add no
-   AggregateRating schema) because those numbers aren't verifiable from here.
+   Used as a "Read my Google reviews" proof link across the site.
 --------------------------------------------------------------------------- */
 export const GOOGLE_REVIEWS_URL = "https://share.google/x2v3pvXR9RIjYF1z0";
+
+/* The studio's own Google rating, shown as linked TEXT with its as-of date
+   ("5.0★ · 21 Google reviews ↗") beside the homepage hero CTA and in the
+   /testimonials/ header (components/brand/GoogleRating.astro). Owner decision
+   2026-11-16, reversing the 13 Nov "no numbers" rule for the studio's own
+   rating only; clients' ratings stay off the site.
+
+   NO AggregateRating (or reviewRating) markup, ever: Google forbids marking up
+   ratings collected on another site, and a business's ratings of itself are
+   self-serving. Text only.
+
+   This constant is the fallback. With GOOGLE_PLACES_API_KEY set, the build
+   reads `rating` + `userRatingCount` from the Places API instead and dates
+   them the build day (src/lib/google-reviews.mjs → getGoogleRating()). Without
+   a key, update value, count AND asOf here by hand from the Business Profile,
+   and the matching lines in public/llms.txt + public/llms-full.txt.
+   Read from the Business Profile on 2026-11-16: 5.0 from 21 reviews. */
+export const GBP_RATING = {
+  value: 5.0,
+  count: 21,
+  asOf: "2026-11-16",
+  url: GOOGLE_REVIEWS_URL,
+};
 
 /* ---------------------------------------------------------------------------
    Google Business Profile / Maps. GOOGLE_MAPS_URL is the shareable place link

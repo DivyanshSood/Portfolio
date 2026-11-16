@@ -1,7 +1,7 @@
 ---
 // End-of-page CTA — the Case Study "Want this pace?" block: red, a chevron
 // notch in the colour of the section above, headline left, the white
-// "Book a 15-min intro →" button and a mono link right.
+// "Book a 30-min call →" button and a mono link right.
 import { CALENDLY_URL, PHONE_TEL, PHONE_DISPLAY } from "../../lib/site.mjs";
 
 interface Props {
@@ -17,7 +17,7 @@ const {
   title,
   text,
   above = "white",
-  primary = { href: CALENDLY_URL, label: "Book a 15-min intro →" },
+  primary = { href: CALENDLY_URL, label: "Book a 30-min call →" },
   secondary,
   call,
 } = Astro.props;

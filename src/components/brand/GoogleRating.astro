@@ -1,0 +1,46 @@
+---
+// The studio's own Google rating as linked text: "5.0★ · 21 Google reviews ↗",
+// with its as-of date. Owner decision 2026-11-16: homepage hero CTA and the
+// /testimonials/ header only. Numbers come from getGoogleRating() (Places API
+// at build, else GBP_RATING in site.mjs).
+//
+// Text only, on purpose: NO AggregateRating / reviewRating markup. Google
+// forbids marking up ratings collected on another site.
+//
+// Screen readers hear "5.0 out of 5 stars, 21 Google reviews, as of 16 Nov
+// 2026"; the visible words stay inside the link's name (WCAG 2.5.3) so voice
+// control can say "click 21 Google reviews".
+import { getGoogleRating } from "../../lib/google-reviews.mjs";
+
+interface Props {
+  /** "center" for the homepage hero; "start" (default) elsewhere. */
+  align?: "center" | "start";
+  class?: string;
+}
+const { align = "start", class: cls } = Astro.props;
+const r = await getGoogleRating();
+const value = r.value.toFixed(1);
+const noun = r.count === 1 ? "Google review" : "Google reviews";
+const asOfLabel = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" }).format(new Date(`${r.asOf}T00:00:00Z`));
+---
+
+<p class:list={["grt", `grt--${align}`, cls]}>
+  <a class="grt-a" href={r.url} rel="noopener">
+    <span class="grt-v">{value}<span class="grt-star" aria-hidden="true">★</span><span class="sr-only"> out of 5 stars,</span></span>
+    <span aria-hidden="true">·</span>
+    <span>{r.count} {noun}</span>
+    <span aria-hidden="true">↗</span>
+  </a>
+  <span class="grt-asof">as of <time datetime={r.asOf}>{asOfLabel}</time></span>
+</p>
+
+<style>
+  .grt{margin:0;display:flex;flex-wrap:wrap;align-items:center;column-gap:12px;row-gap:0;font-size:15px;line-height:1.4}
+  .grt--center{justify-content:center;text-align:center}
+  /* 44px tap height (WCAG 2.5.8 needs 24px; thumbs want 44). */
+  .grt-a{display:inline-flex;align-items:center;gap:6px;min-height:44px;color:var(--ink);font-weight:700;text-decoration:none}
+  .grt-a:hover{color:var(--red)}
+  .grt-a:hover span:not(.grt-v){text-decoration:underline}
+  .grt-star{color:var(--red);margin-left:1px}
+  .grt-asof{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--g5c)}
+</style>

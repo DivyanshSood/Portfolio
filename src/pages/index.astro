@@ -6,8 +6,11 @@
 import Base from "../layouts/Base.astro";
 import Faq from "../components/brand/Faq.astro";
 import GoogleReviews from "../components/brand/GoogleReviews.astro";
+import GoogleRating from "../components/brand/GoogleRating.astro";
+import { TESTIMONIALS, testimonialPerson } from "../data/testimonials.mjs";
 import { homeJsonLd, HOME_FAQ } from "../lib/home-schema.mjs";
 import { SITE, CALENDLY_URL, GOOGLE_MAPS_URL, PHONE_TEL, PHONE_DISPLAY, STUDIO_HOURS } from "../lib/site.mjs";
+import { PHONE_PATTERN } from "../lib/phone.mjs";
 import { projects, projectCountWord, SHIPPED_SOURCE, BAGLAMUKHI_GSC_SOURCE } from "../lib/projects/data.mjs";
 import { POSTS } from "../lib/blog.mjs";
 import { localVariant, localSrcset } from "../lib/images.mjs";
@@ -85,11 +88,15 @@ const PROCESS = [
   { code: "SEASON", t: "Growth", d: "Optional retainer: iteration, A/B tests, new pages, performance tuning, monthly reports." },
 ];
 
-const RADIO = [
-  { q: "Every other agency said 6 months. Delivered in 7 days.", by: "Admin — Modern K.B.S.", bars: [40, 90, 60, 100, 30, 70] },
-  { q: "Looks 10 times more premium than our competitors. We started getting direct bookings instead of losing them to Google Maps.", by: "Founder — Nandini Travels", bars: [70, 30, 100, 50, 85, 40], red: true },
-  { q: "I did not think it could be achieved without going to e-commerce builders and only using custom code.", by: "Chinki — ChinkiZ Knitting Knife", bars: [55, 100, 35, 75, 45, 90] },
-];
+// "What clients say" — the first three quotes in src/data/testimonials.mjs,
+// the same file /testimonials/ reads. The bars are decoration.
+const RADIO_BARS = [[40, 90, 60, 100, 30, 70], [70, 30, 100, 50, 85, 40], [55, 100, 35, 75, 45, 90]];
+const RADIO = TESTIMONIALS.slice(0, 3).map((t, i) => ({
+  q: t.quote,
+  by: `${testimonialPerson(t)} — ${t.org}`,
+  bars: RADIO_BARS[i % RADIO_BARS.length],
+  red: i === 1,
+}));
 
 // Writing — the six posts the design lists, titles from the post manifest.
 const WRITING = [
@@ -148,9 +155,10 @@ const WRITING = [
           <p>One person, end to end. Live in 3–4 weeks. You own the code.</p>
         </div>
         <div class="btn-row">
-          <a href={CALENDLY_URL} class="btn btn--red">Book a 15-min intro <span aria-hidden="true">→</span></a>
+          <a href={CALENDLY_URL} class="btn btn--red">Book a 30-min call <span aria-hidden="true">→</span></a>
           <a href="#work" class="btn btn--ink">See the work</a>
         </div>
+        <GoogleRating align="center" />
       </div>
       <div class="wedge wedge--l" aria-hidden="true" data-wedge></div>
       <div class="wedge wedge--r" aria-hidden="true" data-wedge></div>
@@ -296,6 +304,7 @@ const WRITING = [
             </figure>
           ))}
         </div>
+        <div class="links-row radio-more"><a href="/testimonials/">More clients in their own words →</a></div>
         <div class="radio-google"><GoogleReviews limit={3} /></div>
       </div>
     </section>
@@ -333,7 +342,7 @@ const WRITING = [
         <h2 class="contact-h">Let's build.</h2>
         <div class="contact-in">
           <div class="contact-l">
-            <a href={CALENDLY_URL} class="contact-cta">Book a 15-min intro <span aria-hidden="true">→</span></a>
+            <a href={CALENDLY_URL} class="contact-cta">Book a 30-min call <span aria-hidden="true">→</span></a>
             <a href="mailto:hello@divyanshsood.com" class="contact-mail">hello@divyanshsood.com</a>
             <blockquote class="contact-q">“I'll personally review your brief and reply the same day.” <span>— Divyansh, founder</span></blockquote>
             <div class="contact-row">
@@ -346,9 +355,14 @@ const WRITING = [
           </div>
           <div class="contact-card">
             <div class="contact-card-top"><span>Or send a brief — no call needed</span><span style="color:var(--red)">●</span></div>
-            <form id="ds-start-form" class="form">
+            {/* method/action are the no-JS fallback: contact-form.js intercepts
+                submit when it loads; without it the browser posts here and
+                /api/contact/ answers with a 303 to /thanks/. */}
+            <form id="ds-start-form" class="form" method="post" action="/api/contact/">
+              <input type="hidden" name="form" value="ds-start-form" />
               <label class="field" for="st-name">Your name *<input id="st-name" required name="name" autocomplete="name" /></label>
               <label class="field" for="st-email">Email *<input id="st-email" required type="email" name="email" autocomplete="email" /></label>
+              <label class="field" for="st-phone">Phone / WhatsApp (optional)<input id="st-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="30" pattern={PHONE_PATTERN} title="Digits, spaces and + ( ) . - only" /></label>
               <label class="field" for="st-msg">What are you building? *<textarea id="st-msg" required name="brief" rows="3"></textarea></label>
               <div class="hp" aria-hidden="true"><label for="st-hp">Leave this empty</label><input id="st-hp" name="hp_x" tabindex="-1" autocomplete="off" /></div>
               <button type="submit" class="form-submit">Send brief →</button>
@@ -471,6 +485,7 @@ const WRITING = [
   /* ---- 07 Team radio ---- */
   .radio-h{margin-bottom:clamp(36px,5vw,64px)}
   .radio-google:not(:empty){margin-top:clamp(14px,1.6vw,24px)}
+  .radio-more{margin-top:12px}
   .radio{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:clamp(14px,1.6vw,24px)}
   .qt{margin:0;border:1px solid var(--gda);padding:clamp(22px,2.4vw,32px);display:flex;flex-direction:column;gap:22px}
   .qt--red{background:var(--red);border-color:var(--red);color:#fff}

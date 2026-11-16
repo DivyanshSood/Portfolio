@@ -5,8 +5,12 @@ interface Props {
   by: string;
   ch?: number;
   red?: boolean;
+  /** Square client photo (src/data/testimonials.mjs), shown beside `by`. */
+  photo?: string | null;
+  /** The person's name, for the photo's alt text. */
+  photoAlt?: string;
 }
-const { text, by, ch = 1, red = false } = Astro.props;
+const { text, by, ch = 1, red = false, photo, photoAlt = "" } = Astro.props;
 const BARS = [[40, 90, 60, 100, 30, 70], [70, 30, 100, 50, 85, 40], [55, 100, 35, 75, 45, 90]];
 const bars = BARS[(ch - 1) % BARS.length];
 ---
@@ -17,7 +21,10 @@ const bars = BARS[(ch - 1) % BARS.length];
     <span class="qt-bars" aria-hidden="true">{bars.map((h) => <span style={`height:${h}%`}></span>)}</span>
   </div>
   <blockquote>“{text}”</blockquote>
-  <figcaption>{by}</figcaption>
+  <figcaption class:list={[{ "qt-by--photo": photo }]}>
+    {photo && <img class="qt-photo" src={photo} alt={photoAlt} width="44" height="44" loading="lazy" decoding="async" />}
+    <span>{by}</span>
+  </figcaption>
   <slot />
 </figure>
 
@@ -35,6 +42,8 @@ const bars = BARS[(ch - 1) % BARS.length];
   blockquote{margin:0;font-weight:700;font-stretch:104%;font-size:clamp(22px,2.2vw,30px);line-height:1.2;letter-spacing:-0.01em}
   figcaption{margin-top:auto;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--g5c)}
   .qt--red figcaption{color:#fff}
+  .qt-by--photo{display:flex;align-items:center;gap:12px}
+  .qt-photo{width:44px;height:44px;border-radius:50%;object-fit:cover;flex:none}
   .qt :global(.qt-link){display:inline-flex;align-items:center;min-height:44px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--red)}
   .qt--red :global(.qt-link){color:#fff}
   .qt :global(.qt-link:hover){color:var(--ink)}
