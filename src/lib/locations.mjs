@@ -244,7 +244,7 @@ export const LOCATIONS = [
       { t: "Kullu shawls, apples & local makers", d: "A made-to-order catalogue where each piece can be ordered on WhatsApp — the same pattern I used for a 585K-subscriber knitting teacher." },
     ],
     proof: ["leisure-himachal", "dharamshala-tours", "chinkiz"],
-    proofNote: `A Manali travel agency's 2011 site rebuilt into 77 pages, a trekking and paragliding outfit above Dharamshala, and a made-to-order knitting site where every order starts as a WhatsApp message.`,
+    proofNote: `A Manali travel agency's 2011 site rebuilt into 76 pages, a trekking and paragliding outfit above Dharamshala, and a made-to-order knitting site where every order starts as a WhatsApp message.`,
     coverage: "Kullu town, Bhuntar, Kasol, Manikaran, Tosh, Banjar, Tirthan valley, Jibhi, Naggar, Anni and Nirmand.",
     howWeWork: "Most of the season you'll be busier than I am, so everything runs on WhatsApp voice notes and a live draft link. A visit can be planned in the off-season.",
     faqs: [
@@ -421,7 +421,7 @@ export const LOCATIONS = [
       { t: "Shops & services", d: "Phone-first sites for Pathankot's dealers, clinics and professionals, wired to a Google Business Profile so “near me” searches find you." },
     ],
     proof: ["shiva-tour-and-travel", "kangra-valley-travels", "nandini"],
-    proofNote: `Three taxi operators on the Kangra side of the same roads: one beside Kangra Airport, one with 558 map-measured road distances, and one whose direct bookings now come through its own site.`,
+    proofNote: `Three taxi operators on the Kangra side of the same roads: one beside Kangra Airport, one whose road distances are all measured from map data, and one whose direct bookings now come through its own site.`,
     coverage: "Pathankot city, Chakki Bank, Sujanpur, Dhar Kalan, Mamun and Madhopur — and Nurpur and Jassur on the Himachal side.",
     howWeWork: "Pathankot is close to Kangra, so meeting in person is easy to arrange. Most of the work runs on WhatsApp and calls in Hindi or English.",
     faqs: [

@@ -19,6 +19,7 @@ import Rows from "../../components/brand/Rows.astro";
 import Cards from "../../components/brand/Cards.astro";
 import Steps from "../../components/brand/Steps.astro";
 import ResultGrid from "../../components/brand/ResultGrid.astro";
+import { SHIPPED_SOURCE } from "../../lib/projects/data.mjs";
 import Faq from "../../components/brand/Faq.astro";
 import EndCta from "../../components/brand/EndCta.astro";
 import { SITE, CALENDLY_URL, STARTING_PRICES as P, inr } from "../../lib/site.mjs";
@@ -155,7 +156,7 @@ const jsonld = JSON.stringify({
 
     <Section n={3} term="Telemetry" note="Shipped, not promised" title="Proof it works">
       <ResultGrid stats={[
-        { v: "20+", l: "Websites shipped since 2022" },
+        { v: "20+", l: "Websites shipped since 2022", src: SHIPPED_SOURCE },
         { v: "1–3 wks", l: "Typical time to live for a local Himachal site" },
         { v: "41.8K", l: "Google impressions in 28 days for a client site built this way" },
         { v: "100%", l: "Code ownership transferred, every project" },

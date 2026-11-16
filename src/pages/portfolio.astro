@@ -10,7 +10,7 @@ import { projects, projectCountWord, countWord } from "../lib/projects/data.mjs"
 
 const canonical = `${SITE}/portfolio/`;
 const countCap = projectCountWord[0].toUpperCase() + projectCountWord.slice(1);
-// Client work first, then the studio's own brands and concepts, labelled as
+// Client work first, then the studio's own brands and product, labelled as
 // such (data.mjs `personal: true`). The array is already ordered that way, so
 // the P-numbers here match "Case N of M" on each case study.
 const clientProjects = projects.filter((p) => !p.personal);
@@ -99,7 +99,7 @@ const jsonld = JSON.stringify({
             />
           ))}
         </div>
-        <h2 class="pf-h" data-group="personal">Personal projects <span>My own brands, products and concepts — not client work</span></h2>
+        <h2 class="pf-h" data-group="personal">Personal projects <span>My own brands and product — not client work</span></h2>
         <div class="pf-grid" data-group="personal">
           {personalProjects.map((p, i) => (
             <ProjectCard

@@ -110,7 +110,9 @@
     { "source": "/projects/chinkiz.html", "destination": "/projects/chinkiz/", "permanent": true },
     { "source": "/projects/modernkbs.html", "destination": "/projects/modernkbs/", "permanent": true },
     { "source": "/projects/nandini.html", "destination": "/projects/nandini/", "permanent": true },
-    { "source": "/projects/northpeak.html", "destination": "/projects/northpeak/", "permanent": true }
+    { "source": "/projects/northpeak.html", "destination": "/portfolio/", "permanent": true },
+    { "source": "/projects/northpeak", "destination": "/portfolio/", "permanent": true },
+    { "source": "/projects/northpeak/", "destination": "/portfolio/", "permanent": true }
   ],
   "headers": [
     {

@@ -9,6 +9,7 @@ import ResultGrid from "../components/brand/ResultGrid.astro";
 import EndCta from "../components/brand/EndCta.astro";
 import SpecList from "../components/brand/SpecList.astro";
 import { portraitSrcset, PORTRAIT_SIZES_ABOUT } from "../lib/images.mjs";
+import { projects, SHIPPED_SOURCE } from "../lib/projects/data.mjs";
 import { JOB_TITLE, PERSON_DESCRIPTION, KNOWS_ABOUT } from "../lib/entity.mjs";
 import { SITE, CALENDLY_URL, FOUNDER_PHOTO_ABOUT, FOUNDER_PHOTO_ALT, HAS_FOUNDER_PHOTO, SAME_AS, GOOGLE_MAPS_URL, GOOGLE_REVIEWS_URL } from "../lib/site.mjs";
 
@@ -18,10 +19,10 @@ const WA = "https://wa.me/919816091875?text=Hi%20Divyansh,%20I%20saw%20your%20ab
 
 // Snapshot stats — keep the copy honest, update both here and the homepage if any change.
 const stats = [
-  { v: "20+", l: "Projects shipped" },
+  { v: "20+", l: "Projects shipped", src: SHIPPED_SOURCE },
   { v: "2022", l: "First launch" },
   { v: "1", l: "Person, end to end" },
-  { v: "18", l: "Case studies published" },
+  { v: String(projects.length), l: "Case studies published" },
 ];
 
 const skills = [

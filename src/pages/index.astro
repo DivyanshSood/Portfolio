@@ -8,7 +8,7 @@ import Faq from "../components/brand/Faq.astro";
 import GoogleReviews from "../components/brand/GoogleReviews.astro";
 import { homeJsonLd, HOME_FAQ } from "../lib/home-schema.mjs";
 import { SITE, CALENDLY_URL, GOOGLE_MAPS_URL, PHONE_TEL, PHONE_DISPLAY, STUDIO_HOURS } from "../lib/site.mjs";
-import { projects, projectCountWord } from "../lib/projects/data.mjs";
+import { projects, projectCountWord, SHIPPED_SOURCE, BAGLAMUKHI_GSC_SOURCE } from "../lib/projects/data.mjs";
 import { POSTS } from "../lib/blog.mjs";
 import { localVariant, localSrcset } from "../lib/images.mjs";
 import { TOPICS } from "../lib/entity.mjs";
@@ -26,11 +26,13 @@ const META_DESCRIPTION =
 const jsonld = homeJsonLd(SITE);
 
 // Proof — exactly six real, sourced tiles (brandbook C01 + "Proof = 6").
+// `src` prints a source line under any figure a visitor can't check on a
+// live site themselves.
 const PROOF = [
-  { ch: "CH.01", tag: "SINCE 2022", v: "20", dec: 0, pre: "", suf: "+", sufSm: false, w: 82, l: "Projects shipped since 2022" },
-  { ch: "CH.02", tag: "PUBLISHED", v: String(projects.length), dec: 0, pre: "", suf: " CASE STUDIES", sufSm: true, w: 100, l: "Each one checkable against the live site" },
+  { ch: "CH.01", tag: "SINCE 2022", v: "20", dec: 0, pre: "", suf: "+", sufSm: false, w: 82, l: "Projects shipped since 2022", src: SHIPPED_SOURCE },
+  { ch: "CH.02", tag: "PUBLISHED", v: String(projects.length), dec: 0, pre: "", suf: " CASE STUDIES", sufSm: true, w: 100, l: "Each one linked to its live site" },
   { ch: "CH.03", tag: "FULL GRID", v: "5", dec: 0, pre: "", suf: " HOTELS", sufSm: true, w: 96, l: "On one site — Himalayan Brothers, Lighthouse mobile 98–100" },
-  { ch: "CH.04", tag: "IMPRESSIONS", v: "41.8", dec: 1, pre: "", suf: "K", sufSm: true, w: 90, l: "Google impressions in 28 days — Baglamukhi Travels" },
+  { ch: "CH.04", tag: "IMPRESSIONS", v: "41.8", dec: 1, pre: "", suf: "K", sufSm: true, w: 90, l: "Google impressions in 28 days — Baglamukhi Travels", src: BAGLAMUKHI_GSC_SOURCE },
   { ch: "CH.05", tag: "LIGHTHOUSE", v: "100", dec: 0, pre: "", suf: " /100", sufSm: true, w: 100, l: "Every desktop category — Sunny Himachal Travels" },
   { ch: "CH.06", tag: "PIT STOP", v: "19", dec: 0, pre: "", suf: " HRS A DAY", sufSm: true, w: 92, l: `Open every day, ${STUDIO_HOURS.label}. Same-day replies` },
 ];
@@ -170,6 +172,7 @@ const WRITING = [
               <div class="tile-v">{t.pre && <span class="tile-pre">{t.pre}</span>}<span data-count={t.v} data-dec={t.dec}>{t.v}</span>{t.suf && <span class:list={["tile-suf", { "tile-suf--sm": t.sufSm }]}>{t.suf}</span>}</div>
               <div class="gauge"><div data-gauge={t.w} style={`width:${t.w}%`}></div></div>
               <div class="tile-l">{t.l}</div>
+              {t.src && <div class="tile-src">Source: {t.src}</div>}
             </div>
           ))}
         </div>
@@ -403,6 +406,7 @@ const WRITING = [
   .gauge{height:3px;background:var(--gda)}
   .gauge div{height:100%;background:var(--red)}
   .tile-l{font-size:16px;color:var(--g3e);line-height:1.4}
+  .tile-src{margin-top:-10px;font-size:13px;color:var(--g5c);line-height:1.4}
   .proof-links{margin-top:28px}
 
   /* ---- 03 About ---- */

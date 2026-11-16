@@ -29,7 +29,9 @@ const nextLongest = Math.max(...n.name.split(/\s+/).map((w: string) => w.length)
 const nextNameStyle = nextLongest > 8 ? `font-size:clamp(28px,${(64 / nextLongest).toFixed(2)}vw,140px)` : undefined;
 
 const build = p.build.map((t: string, k: number) => ({ n: pad(k + 1), t }));
-const stats = p.stats.map((x: string[]) => ({ v: x[0], l: x[1] }));
+// An optional third element is a source line for a figure the reader can't
+// check on the live site (the client's Search Console, a pre-launch crawl).
+const stats = p.stats.map((x: string[]) => ({ v: x[0], l: x[1], src: x[2] }));
 
 // Notes: the body cards the template doesn't already show. "The brief" and
 // "Stack" are in the hero spec sheet / brief block; a quote card is dropped
