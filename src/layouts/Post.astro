@@ -11,7 +11,8 @@ import PostList from "../components/brand/PostList.astro";
 import EndCta from "../components/brand/EndCta.astro";
 import { SITE, CALENDLY_URL, DEFAULT_OG, fmtDate, iso, related } from "../lib/blog.mjs";
 import { coverBase, coverSrcset, COVER_SIZES_POST } from "../lib/images.mjs";
-import { STUDIO_HOURS } from "../lib/site.mjs";
+import { STUDIO_HOURS, FOUNDER_PHOTO_ABOUT, HAS_FOUNDER_PHOTO } from "../lib/site.mjs";
+import { SHIPPED_SOURCE } from "../lib/projects/data.mjs";
 import { existsSync } from "node:fs";
 import { join } from "node:path";
 
@@ -84,7 +85,7 @@ const HUBS = TRACKS[post.audience] || TRACKS.international;
 const AUDIENCE_CTA: Record<string, NonNullable<Props["cta"]>> = {
   "indian-smb": {
     title: "Working on something in India?",
-    text: `If a post here matches what you're building, send me the brief. WhatsApp reply in under an hour, ${STUDIO_HOURS.label} — I'll tell you within a day if it's a fit.`,
+    text: `If a post here matches what you're building, send me the brief. WhatsApp reply the same day, ${STUDIO_HOURS.label} — I'll tell you within a day if it's a fit.`,
     primary: { href: "https://wa.me/919816091875", label: "Message me on WhatsApp →" },
     secondary: { href: "/#work", label: "See the work →" },
   },
@@ -96,7 +97,7 @@ const AUDIENCE_CTA: Record<string, NonNullable<Props["cta"]>> = {
   },
   international: {
     title: "Working on something similar?",
-    text: "If a post here matches what you're building, send me the brief. I reply personally, usually within a couple of hours — and I'll tell you within a day if it's a fit.",
+    text: "If a post here matches what you're building, send me the brief. I reply personally the same day — and I'll tell you within a day if it's a fit.",
     primary: { href: "mailto:hello@divyanshsood.com", label: "Email me →" },
     secondary: { href: CALENDLY_URL, label: "Book a 30-min call →" },
   },
@@ -152,6 +153,21 @@ let n = 1;
           <article class="post-body prose">
             <slot />
           </article>
+          {/* Author box. Every line is taken from /about/: no credential goes
+              here that the about page doesn't state (no degree is listed there,
+              so none is listed here). */}
+          <aside class="pb-author" aria-label="About the author">
+            {HAS_FOUNDER_PHOTO && (
+              <img class="pb-author-img" src={FOUNDER_PHOTO_ABOUT.replace(/\.webp$/, "-480.webp")} alt="" width="96" height="120" loading="lazy" decoding="async" />
+            )}
+            <div class="pb-author-copy">
+              <div class="lbl">Written by</div>
+              <p class="pb-author-name"><a href="/about/">Divyansh Sood</a></p>
+              <p class="pb-author-cred">Freelance web designer &amp; developer in Himachal Pradesh, India. One person, end to end: design, code and launch. Builds and runs his own AI product, Websitekind.ai.</p>
+              <p class="pb-author-cred"><strong>20+ projects since 2022</strong> <span class="pb-author-src">({SHIPPED_SOURCE})</span></p>
+              <a class="pb-author-more" href="/about/">More about me <span aria-hidden="true">→</span></a>
+            </div>
+          </aside>
         </div>
       </div>
     </section>
@@ -187,4 +203,15 @@ let n = 1;
   .pb-cover{margin:0 0 clamp(32px,4vw,56px);aspect-ratio:16/10;background:var(--tint);overflow:hidden}
   .pb-cover img{width:100%;height:100%;object-fit:cover;display:block}
   @media (min-width:900px){.pb-side{position:sticky;top:88px}}
+  .pb-author{display:flex;gap:20px;align-items:flex-start;margin-top:clamp(40px,5vw,64px);padding-top:24px;border-top:3px solid var(--ink);max-width:70ch}
+  .pb-author-img{flex:0 0 96px;width:96px;height:120px;object-fit:cover;background:var(--tint)}
+  .pb-author-copy{display:flex;flex-direction:column;gap:8px;min-width:0}
+  .pb-author-copy .lbl{margin:0}
+  .pb-author-name{margin:0;font-weight:800;font-stretch:108%;font-size:22px;line-height:1.1}
+  .pb-author-name a{color:var(--ink);text-decoration:none;display:inline-flex;align-items:center;min-height:24px}
+  .pb-author-name a:hover{color:var(--red)}
+  .pb-author-cred{margin:0;font-size:16px;line-height:1.5;color:var(--g3e)}
+  .pb-author-src{font-size:13px;color:var(--g5c)}
+  .pb-author-more{display:inline-flex;align-items:center;gap:6px;min-height:44px;font-weight:700;color:var(--ink);align-self:flex-start}
+  .pb-author-more:hover{color:var(--red)}
 </style>

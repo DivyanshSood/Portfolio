@@ -9,31 +9,71 @@ import ResultGrid from "../components/brand/ResultGrid.astro";
 import { projects, SHIPPED_SOURCE } from "../lib/projects/data.mjs";
 import Faq from "../components/brand/Faq.astro";
 import EndCta from "../components/brand/EndCta.astro";
-import { SITE, CALENDLY_URL, GOOGLE_REVIEWS_URL } from "../lib/site.mjs";
+import { SITE, CALENDLY_URL, GOOGLE_REVIEWS_URL, STARTING_PRICES, inr } from "../lib/site.mjs";
+import SpecList from "../components/brand/SpecList.astro";
 import { TOPICS } from "../lib/entity.mjs";
 
 const canonical = `${SITE}/agencies/`;
 const WA = "https://wa.me/919816091875?text=Hi%20Divyansh,%20I%20run%20an%20agency%20and%20I'm%20looking%20for%20a%20build%20partner.";
 
 const offers = [
-  { t: "Overflow capacity", d: "When your team is buried and a client needs the build in two weeks, I pick up the work and run with it. Your PM doesn't have to onboard me twice." },
-  { t: "White-label builds", d: "Your client sees your brand end to end. Your NDA, your Slack handle, your contract." },
-  { t: "Design-to-code", d: "Figma at 9am your time, real URL by EOD. I design in code, not in handoff, so what you review is what ships." },
-  { t: "Specialist stacks", d: "The work in-house teams would rather hand off — custom storefronts, web apps, headless rebuilds, AI features." },
+  { t: "Overflow capacity", d: "When your team is buried and a client needs the build in a few weeks, I pick up the work and run with it. Your PM briefs me once, and I work to your process rather than asking you to learn mine." },
+  { t: "White-label builds", d: "Your client sees your brand end to end. I sign your NDA, work under your contract, and stay behind you unless you ask me to join a call." },
+  { t: "Design-to-code", d: "Bring a Figma file or a written brief. I build in code on a live draft URL, so what you and your client review is what ships, not a mock-up of it." },
+  { t: "Specialist stacks", d: "The work in-house teams would rather hand off: custom storefronts, web apps and admin panels, headless rebuilds, AI features, and fast static sites for local businesses." },
 ];
 
 const how = [
-  { n: "01", t: "You keep the client", d: "Everything routes through you. If your client emails me directly, I send them back to you. You keep the relationship and the margin." },
-  { n: "02", t: "One clear brief", d: "Within 48 hours: what I can ship, what I'd cut, what it costs. In writing. If the fit's off, I'll tell you." },
-  { n: "03", t: "Build in milestones", d: "A staging link every Friday. You see what's done, what's next, what to bill against." },
-  { n: "04", t: "Clean handoff", d: "Repo, README, a Loom walking through the architecture. Then I'm available whenever the next project comes." },
+  { t: "Brief and NDA", d: "You send the brief and your NDA. I sign it before you share anything about your client. If the project isn't a good fit for me, I say so at this step, not after the quote." },
+  { t: "Fixed written quote", d: "Within 48 hours: what I can ship, what I'd cut, the timeline and the price, in writing. The price is fixed for that scope. There is no hourly meter running." },
+  { t: "Live draft URL", d: "The design is built in code on a private draft URL. You review it on your own phone and laptop, and forward it to your client under your name if you want to." },
+  { t: "Build in milestones", d: "A staging link every Friday. You see what's done, what's next and what to bill your client against. Each milestone has a revision round, so nothing arrives as a surprise at the end." },
+  { t: "Launch", d: "The site goes live where your contract says, and your client receives everything listed under Deliverables below." },
+  { t: "30 days of support", d: "For 30 days after launch I fix anything that's mine to fix, at no charge. After that I'm available for the next project or for changes, quoted the same way." },
+];
+
+/* White-label terms the owner confirmed (16 Nov 2026). Keep these exact: they
+   are what an agency's legal reviewer reads. */
+const terms = [
+  { t: "Your NDA, signed first", d: "I sign the agency's NDA before the brief goes into detail, and keep to it." },
+  { t: "No credit without your written OK", d: "No footer credit, no portfolio listing and no case study for a white-label project unless you agree to it in writing. By default, the work doesn't appear on this site." },
+  { t: "Behind you by default", d: "Everything routes through you. If your client contacts me directly, I send them back to you. You keep the relationship and the margin." },
+  { t: "Client calls under your name", d: "When it helps, I can join calls with your client as part of your team, under your agency's name." },
+  { t: "The code belongs to the client", d: "Your client owns the code and the design. A signed IP transfer goes over with the final invoice, to your client or to you, whichever your contract says." },
+];
+
+const turnaround = [
+  { v: "1–3 wks", l: "Local business websites" },
+  { v: "3–4 wks", l: "Marketing sites and MVPs" },
+  { v: "3–4 wks", l: "E-commerce stores" },
+  { v: "6–10 wks", l: "Larger builds, such as web apps and portals" },
+];
+
+const deliverables = [
+  { k: "Repository", v: "The full source in a Git repository your client owns, with no lock-in to my accounts." },
+  { k: "Documentation", v: "A README covering setup, deployment, content updates and where everything lives." },
+  { k: "Walkthrough", v: "A recorded walkthrough of the architecture, so your team or the next developer can pick it up." },
+  { k: "IP transfer", v: "A signed transfer of intellectual property, with the final invoice." },
+  { k: "Support", v: "30 days of fixes after launch, at no charge." },
+];
+
+const prices = [
+  { k: "Business website", v: `from ${inr(STARTING_PRICES.basic)}` },
+  { k: "Hotel or homestay website", v: `from ${inr(STARTING_PRICES.hotel)}` },
+  { k: "Travel or taxi website", v: `from ${inr(STARTING_PRICES.travel)}` },
+  { k: "School website with admin panel", v: `from ${inr(STARTING_PRICES.school)}` },
+  { k: "Online store", v: `from ${inr(STARTING_PRICES.store)}` },
+  { k: "Web apps, AI features, SEO, landing pages", v: "Quoted per project" },
 ];
 
 const faqs = [
-  { q: "Do you truly white-label?", a: "Yes — across the Figma file, the git commits, the invoice. Your client sees one name: yours." },
-  { q: "What do you charge agencies?", a: "A fixed project quote in writing, agreed before the build starts. You bring the brief, the client and the project management, and the quote reflects that." },
+  { q: "Do you truly white-label?", a: "Yes. I sign your NDA, work under your contract and stay behind you by default. Your client sees your brand, and the project doesn't appear in my portfolio unless you agree in writing." },
+  { q: "What do you charge agencies?", a: `A fixed written quote per project, agreed before the build starts, from the same published starting prices as everyone else: ${inr(STARTING_PRICES.basic)} for a business website, ${inr(STARTING_PRICES.hotel)} for a hotel or travel site, ${inr(STARTING_PRICES.school)} for a school site with an admin panel or an online store. There is no hourly rate. You bring the brief, the client and the project management, and the quote reflects that.` },
   { q: "Who owns the code?", a: "Your client's. 100%. Signed IP transfer with the final invoice." },
   { q: "How do we communicate across time zones?", a: "Whatever tool you already use. I take your 7am call when it has to be 7am." },
+  { q: "Can you join calls with our client?", a: "Yes, when it helps. I join under your agency's name, as part of your team, and everything still routes through you. By default I stay behind the scenes." },
+  { q: "Will you list our client's project in your portfolio?", a: "Not unless you agree in writing. No footer credit, no portfolio listing and no case study for white-label work without your written OK." },
+  { q: "How long does a white-label build take?", a: "Local business sites take 1–3 weeks, marketing sites and MVPs 3–4 weeks, e-commerce stores 3–4 weeks, and larger builds such as web apps and portals 6–10 weeks. The fixed quote states the timeline for your scope." },
 ];
 
 const jsonld = JSON.stringify({
@@ -84,7 +124,7 @@ const jsonld = JSON.stringify({
     >
       <a class="btn btn--red" href={CALENDLY_URL}>Book a partner call <span aria-hidden="true">→</span></a>
       <a class="btn btn--ink" href={WA}>Message on WhatsApp</a>
-      <Fragment slot="notes"><span>Under your brand · NDA-friendly</span><span>Async across 5 time zones</span></Fragment>
+      <Fragment slot="notes"><span>Under your brand · Your NDA</span><span>Fixed written quote · No hourly rate</span></Fragment>
     </PageHero>
 
     <Section n={1} term="Setup" note="The offering" title="How agencies use me">
@@ -95,11 +135,33 @@ const jsonld = JSON.stringify({
       <Steps items={how} hot={3} />
     </Section>
 
-    <Section n={3} term="Telemetry" note="Track record" title="Reliable, on the record">
+    <Section n={3} term="Terms" note="White-label and NDA" title="The white-label terms">
+      <p class="body ag-intro">These are the terms I work to on every agency project. If your contract needs something stricter, send it with the brief and I'll read it before quoting.</p>
+      <Rows items={terms} />
+    </Section>
+
+    <Section n={4} term="Pricing" note="Fixed, in writing" title="How agency work is priced">
+      <div class="ag-two">
+        <div class="ag-copy">
+          <p class="body">Every project gets one fixed quote in writing, for an agreed scope, before any work starts. There is no hourly rate and no day rate, so you can mark it up and quote your client without guessing what the meter will do.</p>
+          <p class="body">The quote starts from the same published prices any business sees on this site. Work that doesn't fit a starting price, such as web apps, AI features, SEO or a landing page, is quoted per project after the brief.</p>
+        </div>
+        <SpecList head="Starting prices" headRight="INR" items={prices} />
+      </div>
+    </Section>
+
+    <Section n={5} term="Turnaround" note="Kickoff to live" title="How long builds take">
+      <ResultGrid stats={turnaround} />
+      <p class="body gap-top">Typical times from kickoff to launch, for a scope agreed up front. The fixed quote states the timeline for your project, and the weekly staging link shows whether it's on track.</p>
+    </Section>
+
+    <Section n={6} term="Handover" note="What your client receives" title="Deliverables">
+      <SpecList items={deliverables} />
+    </Section>
+
+    <Section n={7} term="Telemetry" note="Track record" title="Reliable, on the record">
       <ResultGrid stats={[
         { v: `20+`, l: `Projects shipped since 2022`, src: SHIPPED_SOURCE },
-        { v: `1–3 wks`, l: `Local Himachal sites, kickoff to live` },
-        { v: `3–4 wks`, l: `Typical time to live` },
         { v: String(projects.length), l: `Case studies published, each linked to its live site` },
       ]} />
       <div class="gap-top">
@@ -110,7 +172,7 @@ const jsonld = JSON.stringify({
     </Section>
 
     <Section bare>
-      <Faq faqs={faqs} label="(04) Before you ask" />
+      <Faq faqs={faqs} label="(08) Before you ask" />
     </Section>
 
     <EndCta
@@ -121,3 +183,11 @@ const jsonld = JSON.stringify({
     />
   </main>
 </Base>
+
+<style>
+  .ag-intro{max-width:60ch;margin:0 0 clamp(24px,3vw,40px)}
+  .ag-two{display:flex;flex-wrap:wrap;gap:32px clamp(28px,5vw,80px);align-items:flex-start}
+  .ag-copy{flex:1 1 360px;display:flex;flex-direction:column;gap:18px;max-width:60ch}
+  .ag-copy .body{margin:0}
+  .ag-two > :last-child{flex:1 1 320px}
+</style>

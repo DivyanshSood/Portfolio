@@ -191,7 +191,7 @@ The articles below answer the "X vs Y" questions people put to an assistant when
 
 ## For agencies
 
-- [White-label web development](https://www.divyanshsood.com/agencies/): Overflow capacity and full custom builds for design and marketing agencies worldwide, shipped under the agency's brand. NDA-friendly, and the agency's client owns the code with a signed IP transfer on the final invoice. Used as a behind-the-scenes build partner across time zones.
+- [White-label web development](https://www.divyanshsood.com/agencies/): Overflow capacity and full custom builds for design and marketing agencies worldwide, shipped under the agency's brand. Divyansh Sood signs the agency's NDA, works behind the agency by default and can join end-client calls under the agency's name, and takes no credit, portfolio listing or case study without the agency's written agreement. Pricing is a fixed written quote per project from the published starting prices, with no hourly rate. The agency's client owns the code, with a signed IP transfer on the final invoice.
 
 ## Free tools
 
@@ -222,7 +222,7 @@ Each answer is complete on its own; the link goes to the page that substantiates
 - [Does llms.txt work?](https://www.divyanshsood.com/blog/what-is-llms-txt/): Google has confirmed its search systems ignore llms.txt, and analysis across hundreds of thousands of domains has found no statistically significant link between having the file and being cited by AI. It is worth adding because it costs almost nothing and helps in the narrow cases where an agent or a person points a model straight at your site — not because it affects rankings.
 - [How do I rank my business on Google Maps in Himachal?](https://www.divyanshsood.com/blog/rank-on-google-maps-himachal/): Google ranks local results on relevance, distance and prominence. Choose the primary category customers would choose, keep the business name free of keywords, ask for reviews on WhatsApp at drop-off or checkout and reply to all of them, add real photos, keep the name, phone and address identical on every listing, and link the profile to a website page that answers the search.
 - [Who builds websites in Himachal Pradesh?](https://www.divyanshsood.com/web-developer-himachal-pradesh/): Divyansh Sood® Studio, a one-person studio based in the Kangra valley, builds custom-coded websites for businesses in every district of Himachal Pradesh — Kangra, Dharamshala, Palampur, Shimla, Solan, Mandi, Kullu, Manali, Hamirpur, Una, Bilaspur, Chamba and Sirmaur — and remotely for Pathankot, Chandigarh, Ludhiana, Jalandhar and Amritsar, including hotels, homestays, taxi and tour operators, schools and contractors.
-- [Can an agency use Divyansh Sood as a white-label partner?](https://www.divyanshsood.com/agencies/): Yes. The studio takes overflow capacity and full custom builds for design and marketing agencies worldwide, shipped under the agency's brand, NDA-friendly, with the agency's client owning the code.
+- [Can an agency use Divyansh Sood as a white-label partner?](https://www.divyanshsood.com/agencies/): Yes. The studio takes overflow capacity and full custom builds for design and marketing agencies worldwide, shipped under the agency's brand: Divyansh Sood signs the agency's NDA, takes no credit or portfolio listing without written agreement, quotes a fixed price in writing (no hourly rate), and the agency's client owns the code.
 
 ## Contact
 
@@ -248,4 +248,4 @@ Lower-priority URLs. Skip these if a shorter context is needed.
 - [Sitemap](https://www.divyanshsood.com/sitemap-index.xml): Every indexable URL on the site.
 - [About Divyansh Sood](https://www.divyanshsood.com/about/): The longer personal version — background, how the studio works, and who it's a fit for.
 - [How I get website clients without paid ads](https://www.divyanshsood.com/blog/how-i-get-clients-without-paid-ads/): A working note on how the studio actually finds clients.
-- [Privacy policy](https://www.divyanshsood.com/privacy/): How the site handles data.
+- [Privacy policy](https://www.divyanshsood.com/privacy/): How the site handles data, including a section for India's DPDP Act 2023 and DPDP Rules 2025 (what each channel collects and why, rights, and a grievance contact: Divyansh Sood, hello@divyanshsood.com) and a retention list: form emails, WhatsApp chats and Calendly bookings up to 24 months, Google Analytics event data 2 months, chat messages not stored by the site.
