@@ -7,6 +7,7 @@ import Faq from "../components/brand/Faq.astro";
 import EndCta from "../components/brand/EndCta.astro";
 import Quote from "../components/brand/Quote.astro";
 import { SITE, CALENDLY_URL } from "../lib/site.mjs";
+import { PHONE_PATTERN } from "../lib/phone.mjs";
 import { TOPICS } from "../lib/entity.mjs";
 
 const canonical = `${SITE}/website-audit/`;
@@ -95,10 +96,14 @@ const jsonld = JSON.stringify({
     <Section n={4} term="Chequered flag" note="Takes 30 seconds" title="Get your free audit" id="audit-form">
       <div class="au-card">
         <div class="au-card-top"><span>Send a URL — get a Loom</span><span style="color:var(--red)">●</span></div>
-        <form id="ds-audit-form" class="form">
-          <label class="field" for="au-url">Your website URL *<input id="au-url" type="url" required placeholder="https://yourwebsite.com" autocomplete="url" /></label>
-          <label class="field" for="au-email">Email *<input id="au-email" type="email" required placeholder="So I can send the teardown" autocomplete="email" /></label>
-          <label class="field" for="au-goal">What should this site do better? (optional)<input id="au-goal" type="text" placeholder="More leads, faster load, more sales…" /></label>
+        {/* method/action are the no-JS fallback (see src/pages/api/contact.ts);
+            contact-form.js intercepts submit when it loads. */}
+        <form id="ds-audit-form" class="form" method="post" action="/api/contact/">
+          <input type="hidden" name="form" value="ds-audit-form" />
+          <label class="field" for="au-url">Your website URL *<input id="au-url" name="url" type="url" required placeholder="https://yourwebsite.com" autocomplete="url" /></label>
+          <label class="field" for="au-email">Email *<input id="au-email" name="email" type="email" required placeholder="So I can send the teardown" autocomplete="email" /></label>
+          <label class="field" for="au-phone">Phone / WhatsApp (optional)<input id="au-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="30" pattern={PHONE_PATTERN} title="Digits, spaces and + ( ) . - only" placeholder="+91 98xxx xxxxx" /></label>
+          <label class="field" for="au-goal">What should this site do better? (optional)<input id="au-goal" name="goal" type="text" placeholder="More leads, faster load, more sales…" /></label>
           {/* Honeypot — invisible to humans; bots that fill it are dropped. */}
           <div class="hp" aria-hidden="true"><label for="au-hp">Leave this empty</label><input id="au-hp" type="text" name="hp_x" tabindex="-1" autocomplete="off" /></div>
           <button type="submit" class="form-submit">Get my free audit →</button>
@@ -111,15 +116,19 @@ const jsonld = JSON.stringify({
       <p class="body au-lead">Know you want a new build, not a teardown? Tell me the shape of it and you'll get a personal reply — usually within a couple of hours, from me, not an autoresponder.</p>
       <div class="au-card">
         <div class="au-card-top"><span>Start a project</span><span style="color:var(--red)">●</span></div>
-        <form id="ds-start-form" class="form">
+        <form id="ds-start-form" class="form" method="post" action="/api/contact/">
+          <input type="hidden" name="form" value="ds-start-form" />
           <div class="au-two">
-            <label class="field" for="st-name">Your name *<input id="st-name" type="text" required placeholder="Jane Founder" autocomplete="name" /></label>
-            <label class="field" for="st-email">Email *<input id="st-email" type="email" required placeholder="you@company.com" autocomplete="email" /></label>
+            <label class="field" for="st-name">Your name *<input id="st-name" name="name" type="text" required placeholder="Jane Founder" autocomplete="name" /></label>
+            <label class="field" for="st-email">Email *<input id="st-email" name="email" type="email" required placeholder="you@company.com" autocomplete="email" /></label>
           </div>
-          <label class="field" for="st-company">Company or current website<input id="st-company" type="text" placeholder="company.com (optional)" /></label>
+          <div class="au-two">
+            <label class="field" for="st-phone">Phone / WhatsApp (optional)<input id="st-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="30" pattern={PHONE_PATTERN} title="Digits, spaces and + ( ) . - only" placeholder="+91 98xxx xxxxx" /></label>
+            <label class="field" for="st-company">Company or current website<input id="st-company" name="company" type="text" placeholder="company.com (optional)" /></label>
+          </div>
           <div class="au-two">
             <label class="field" for="st-type">What do you need? *
-              <select id="st-type" required>
+              <select id="st-type" name="need" required>
                 <option value="">Select one…</option>
                 <option>New website</option>
                 <option>Web app / SaaS / MVP</option>
@@ -132,7 +141,7 @@ const jsonld = JSON.stringify({
                 site: it tells me how much is already decided, which is what
                 actually drives scope. */}
             <label class="field" for="st-stage">Where are you now? *
-              <select id="st-stage" required>
+              <select id="st-stage" name="stage" required>
                 <option value="">Select one…</option>
                 <option>Just an idea so far</option>
                 <option>Designs or specs are ready</option>
@@ -142,7 +151,7 @@ const jsonld = JSON.stringify({
             </label>
           </div>
           <label class="field" for="st-timeline">Timeline
-            <select id="st-timeline">
+            <select id="st-timeline" name="timeline">
               <option value="">When do you want it live?</option>
               <option>As soon as possible</option>
               <option>Within 1 month</option>
@@ -150,7 +159,7 @@ const jsonld = JSON.stringify({
               <option>Just exploring</option>
             </select>
           </label>
-          <label class="field" for="st-msg">Anything else?<textarea id="st-msg" rows="3" placeholder="One line on what you're building and what success looks like."></textarea></label>
+          <label class="field" for="st-msg">Anything else?<textarea id="st-msg" name="brief" rows="3" placeholder="One line on what you're building and what success looks like."></textarea></label>
           {/* Honeypot — invisible to humans; bots that fill it are dropped. */}
           <div class="hp" aria-hidden="true"><label for="st-hp">Leave this empty</label><input id="st-hp" type="text" name="hp_x" tabindex="-1" autocomplete="off" /></div>
           <button type="submit" class="form-submit">Send it to Divyansh →</button>
@@ -165,7 +174,7 @@ const jsonld = JSON.stringify({
 
     <EndCta
       title="Prefer to just talk it through?"
-      text="Book a 15-minute slot. We'll pull up your site live. I'll tell you what I'd fix first, free, and you decide on the rest."
+      text="Book a 30-minute slot. We'll pull up your site live. I'll tell you what I'd fix first, free, and you decide on the rest."
       primary={{ href: CALENDLY_URL, label: "Book an intro call →" }}
       secondary={{ href: "/portfolio/", label: "See the work →" }}
     />

@@ -22,16 +22,19 @@
    Never fails the build: no key, a network error or an API error all return
    [] and the review section simply isn't rendered.
 
-   What is deliberately NOT used: the star rating, the review count and any
-   Review/AggregateRating markup. Owner rule — the site publishes no aggregate
-   numbers — and Google treats reviews of a business shown on that business's
-   own site as self-serving, so they can't earn review rich results anyway.
+   The rating (getGoogleRating, below): the studio's own Google rating and
+   review count, shown as linked text by components/brand/GoogleRating.astro
+   (owner decision 2026-11-16). Read from the same Places API call when the key
+   is set and dated the build day; otherwise GBP_RATING in site.mjs, dated by
+   hand. Never marked up: no Review/AggregateRating/reviewRating for Google
+   data. Google forbids marking up ratings collected on another site, and
+   treats a business's reviews shown on its own site as self-serving.
 
    Terms: Google Maps Platform limits how long Places content may be kept.
    Each deploy re-fetches, so redeploy regularly (a weekly Vercel Deploy Hook
    on a cron does it) rather than letting one build's copy sit for months.
    =========================================================================== */
-import { GBP_PLACE_ID, GBP_SEARCH_QUERY } from "./site.mjs";
+import { GBP_PLACE_ID, GBP_SEARCH_QUERY, GBP_RATING } from "./site.mjs";
 import LOCAL from "../data/google-reviews.json";
 
 const API = "https://places.googleapis.com/v1";
@@ -84,24 +87,40 @@ function fromFile() {
     });
 }
 
+/** @type {Promise<any | null> | undefined} */
+let placeCached;
+/** One Place Details call per build (reviews + rating), or null with no key / on error. */
+function getPlace() {
+  return (placeCached ??= (async () => {
+    const key = env("GOOGLE_PLACES_API_KEY");
+    if (!key) return null;
+    try {
+      const id = env("GOOGLE_PLACE_ID") || GBP_PLACE_ID || (await resolvePlaceId(key));
+      const res = await fetch(`${API}/places/${encodeURIComponent(id)}?languageCode=en`, {
+        headers: { "X-Goog-Api-Key": key, "X-Goog-FieldMask": "reviews,googleMapsUri,rating,userRatingCount" },
+      });
+      if (!res.ok) throw new Error(`place details ${res.status}: ${(await res.text()).slice(0, 200)}`);
+      return await res.json();
+    } catch (e) {
+      console.warn(`[google-reviews] Places API skipped: ${e instanceof Error ? e.message : e}`);
+      return null;
+    }
+  })());
+}
+
 async function load() {
   const local = fromFile();
   if (local.length) {
     console.log(`[google-reviews] ${local.length} review(s) from src/data/google-reviews.json.`);
     return local;
   }
-  const key = env("GOOGLE_PLACES_API_KEY");
-  if (!key) {
+  if (!env("GOOGLE_PLACES_API_KEY")) {
     console.log("[google-reviews] src/data/google-reviews.json is empty and no API key — review section skipped.");
     return [];
   }
   try {
-    const id = env("GOOGLE_PLACE_ID") || GBP_PLACE_ID || (await resolvePlaceId(key));
-    const res = await fetch(`${API}/places/${encodeURIComponent(id)}?languageCode=en`, {
-      headers: { "X-Goog-Api-Key": key, "X-Goog-FieldMask": "reviews,googleMapsUri" },
-    });
-    if (!res.ok) throw new Error(`place details ${res.status}: ${(await res.text()).slice(0, 200)}`);
-    const data = await res.json();
+    const data = await getPlace();
+    if (!data) return [];
     /** @type {GoogleReview[]} */
     const reviews = (data.reviews ?? [])
       .map((r) => ({
@@ -122,6 +141,31 @@ async function load() {
     console.warn(`[google-reviews] skipped: ${e instanceof Error ? e.message : e}`);
     return [];
   }
+}
+
+/** @typedef {{ value: number; count: number; asOf: string; url: string; source: "places" | "constant" }} GoogleRating */
+
+/** Today's date in IST (the site's time zone), YYYY-MM-DD. */
+const todayIst = () => new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kolkata" }).format(new Date());
+
+/** @type {Promise<GoogleRating> | undefined} */
+let ratingCached;
+/**
+ * The studio's Google rating: live from the Places API at build when the key
+ * is set (dated the build day), else the hand-dated GBP_RATING constant.
+ * Display only — never put it in JSON-LD.
+ */
+export function getGoogleRating() {
+  return (ratingCached ??= (async () => {
+    const data = await getPlace();
+    const value = Number(data?.rating);
+    const count = Number(data?.userRatingCount);
+    if (value > 0 && value <= 5 && Number.isInteger(count) && count > 0) {
+      console.log(`[google-reviews] rating ${value} from ${count} reviews (Places API).`);
+      return { value, count, asOf: todayIst(), url: GBP_RATING.url, source: "places" };
+    }
+    return { ...GBP_RATING, source: "constant" };
+  })());
 }
 
 /** @type {Promise<GoogleReview[]> | undefined} */

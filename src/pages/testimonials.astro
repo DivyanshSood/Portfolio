@@ -5,8 +5,10 @@ import Section from "../components/brand/Section.astro";
 import EndCta from "../components/brand/EndCta.astro";
 import Quote from "../components/brand/Quote.astro";
 import GoogleReviews from "../components/brand/GoogleReviews.astro";
+import GoogleRating from "../components/brand/GoogleRating.astro";
 import { getGoogleReviews } from "../lib/google-reviews.mjs";
 import { SITE, CALENDLY_URL, GOOGLE_REVIEWS_URL } from "../lib/site.mjs";
+import { TESTIMONIALS, testimonialPerson, testimonialOrg, canMarkUp } from "../data/testimonials.mjs";
 
 const canonical = `${SITE}/testimonials/`;
 
@@ -15,12 +17,26 @@ const canonical = `${SITE}/testimonials/`;
 const googleCount = (await getGoogleReviews()).length;
 const n0 = googleCount ? 1 : 0;
 
-// Every quote here is real and already used in case studies / homepage schema.
-const reviews = [
-  { quote: "The website is so beautiful — looks 10 times more premium than our competitors. We started getting direct bookings instead of losing them to Google Maps.", who: "Founder", org: "Nandini Travels · Kangra", slug: "nandini" },
-  { quote: "Every other agency said 6 months. Delivered in 7 days.", who: "Admin", org: "Modern K.B.S. · Ladwara", slug: "modernkbs" },
-  { quote: "I did not think it could be achieved without going to e-commerce builders and only using custom code.", who: "Chinki, Founder", org: "ChinkiZ Knitting Knife · 585K subscribers", slug: "chinkiz" },
-];
+// Every quote is real and comes from src/data/testimonials.mjs (the same file
+// as the homepage "What clients say" block).
+const reviews = TESTIMONIALS;
+
+// Review nodes only for quotes from a NAMED client who gave written
+// permission (canMarkUp). No reviewRating: these are quotes, not star ratings,
+// and the studio's Google rating is never marked up (no AggregateRating).
+const reviewNodes = reviews.filter(canMarkUp).map((t) => ({
+  "@type": "Review",
+  "@id": `${canonical}#review-${t.projectSlug}`,
+  url: canonical,
+  itemReviewed: { "@id": `${SITE}/#studio` },
+  author: {
+    "@type": "Person",
+    name: t.name,
+    jobTitle: t.role,
+    worksFor: { "@type": "Organization", name: t.org, url: t.liveUrl },
+  },
+  reviewBody: t.quote,
+}));
 
 const jsonld = JSON.stringify({
   "@context": "https://schema.org",
@@ -33,6 +49,7 @@ const jsonld = JSON.stringify({
       description: "What clients say about working with Divyansh Sood — founders of travel, e-commerce, education and creator brands.",
       isPartOf: { "@id": `${SITE}/#website` },
       about: { "@id": `${SITE}/#studio` },
+      ...(reviewNodes.length ? { hasPart: reviewNodes.map((r) => ({ "@id": r["@id"] })) } : {}),
     },
     {
       "@type": "BreadcrumbList",
@@ -41,9 +58,7 @@ const jsonld = JSON.stringify({
         { "@type": "ListItem", position: 2, name: "Testimonials", item: canonical },
       ],
     },
-    // No Review nodes (owner decision 2026-11-13): quotes the studio publishes
-    // about itself are self-serving to Google, and Review markup without a
-    // rating is flagged as an invalid review snippet. Quotes stay visible.
+    ...reviewNodes,
   ],
 });
 ---
@@ -66,6 +81,7 @@ const jsonld = JSON.stringify({
     >
       <a class="btn btn--red" href={CALENDLY_URL}>Book an intro call <span aria-hidden="true">→</span></a>
       <a class="btn btn--ink" href={GOOGLE_REVIEWS_URL}>Read my Google reviews <span aria-hidden="true">↗</span></a>
+      <GoogleRating class="tm-rating" />
     </PageHero>
 
     {googleCount > 0 && (
@@ -76,13 +92,29 @@ const jsonld = JSON.stringify({
 
     <Section n={n0 + 1} term="Team radio" note={`${reviews.length} clients`} title="Every word is real">
       <div class="tm">
-        {reviews.map((r, i) => (
-          <Quote text={r.quote} by={`${r.who}, ${r.org}`} ch={i + 1} red={i === 0}>
-            <a href={`/projects/${r.slug}/`} class="qt-link">Case study →</a>
+        {reviews.map((t, i) => (
+          <Quote text={t.quote} by={`${testimonialPerson(t)}, ${testimonialOrg(t)}`} ch={i + 1} red={i === 0} photo={t.photo} photoAlt={t.name ?? ""}>
+            {t.metric && (
+              <p class="tm-metric">
+                <strong>{t.metric.value}</strong> {t.metric.label}
+                <span class="tm-src">Source: {t.metric.source}</span>
+              </p>
+            )}
+            <div class="tm-links">
+              <a href={t.liveUrl} class="qt-link" rel="noopener">Live site <span aria-hidden="true">↗</span><span class="sr-only"> ({t.org})</span></a>
+              <a href={`/projects/${t.projectSlug}/`} class="qt-link">Case study <span aria-hidden="true">→</span><span class="sr-only"> ({t.org})</span></a>
+              {t.reviewUrl && (
+                <a href={t.reviewUrl} class="qt-link" rel="noopener">Google review <span aria-hidden="true">↗</span><span class="sr-only"> ({t.org})</span></a>
+              )}
+            </div>
           </Quote>
         ))}
       </div>
-      <div class="links-row gap-top"><a href="/results/">See the results →</a><a href="/press/">Writing about the studio? Press kit →</a></div>
+      <div class="links-row gap-top">
+        <a href={GOOGLE_REVIEWS_URL} rel="noopener">Read all Google reviews <span aria-hidden="true">↗</span></a>
+        <a href="/results/">See the results →</a>
+        <a href="/press/">Writing about the studio? Press kit →</a>
+      </div>
     </Section>
 
     <EndCta
@@ -96,4 +128,9 @@ const jsonld = JSON.stringify({
 
 <style>
   .tm{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:clamp(14px,1.6vw,24px)}
+  .tm-links{display:flex;flex-wrap:wrap;column-gap:20px;margin-top:-10px}
+  .tm-metric{margin:0;font-size:15px;line-height:1.4}
+  .tm-src{display:block;margin-top:4px;font-size:13px;opacity:.85}
+  /* The rating sits on its own row under the hero buttons. */
+  :global(.ph-aside > .tm-rating){flex-basis:100%}
 </style>

@@ -52,6 +52,24 @@ export default defineConfig({
   // the bare form now 308s to it.
   trailingSlash: "always",
   output: "static",
+  // The hosts the on-demand routes (/api/*, /thanks/) may trust in the Host
+  // header. Without this list Astro (5.15+) ignores Host and builds every
+  // request URL as "localhost", so its built-in checkOrigin compared a real
+  // form post's Origin (https://www.divyanshsood.com) with https://localhost
+  // and answered 403 "Cross-site POST form submissions are forbidden" — which
+  // would kill the no-JS fallback of the brief forms (method="post" to
+  // /api/contact/). Listing our own hosts lets checkOrigin see the real
+  // origin. *.vercel.app covers preview deployments (Vercel only routes a
+  // preview's own hostname to it); localhost is for `vercel dev`. The
+  // endpoint still applies its own exact-host origin guard (src/lib/api-guard.ts).
+  security: {
+    allowedDomains: [
+      { hostname: "www.divyanshsood.com", protocol: "https" },
+      { hostname: "divyanshsood.com", protocol: "https" },
+      { hostname: "**.vercel.app", protocol: "https" },
+      { hostname: "localhost" },
+    ],
+  },
   // maxDuration 30: the chat waits up to 20 s for Gemini; at the default limit a
   // slow answer ended the function and the widget got HTML instead of JSON.
   adapter: vercel({ maxDuration: 30 }),
@@ -64,8 +82,10 @@ export default defineConfig({
   // exactly like a 301).
   integrations: [
     sitemap({
-      // The print-only PDF source is noindexed — keep it out of the sitemap too.
-      filter: (page) => !page.includes("/portfolio-pdf"),
+      // Noindexed pages stay out of the sitemap too: the print-only PDF source,
+      // and /thanks/ (the no-JS form landing page; on-demand, so the
+      // integration would skip it anyway — the filter makes that explicit).
+      filter: (page) => !page.includes("/portfolio-pdf") && !page.includes("/thanks/"),
       // lastmod only. changefreq and priority were dropped (16 Nov 2026 audit):
       // Google's sitemap docs say it ignores both; lastmod is the field that counts.
       serialize(item) {
