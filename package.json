@@ -11,6 +11,7 @@
     "pdf:portfolio": "node scripts/portfolio-pdf.mjs",
     "export:crossposts": "node scripts/export-crossposts.mjs",
     "fonts:self-host": "python3 scripts/self-host-fonts.py",
+    "og:pages": "node scripts/gen-og-pages.mjs",
     "astro": "astro",
     "verify:llms": "node scripts/verify-llms.mjs",
     "verify:seo": "node scripts/verify-seo.mjs",
@@ -24,6 +25,8 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
+    "@resvg/resvg-js": "^2.6.2",
+    "satori": "^0.63.2",
     "sharp": "^0.34.5",
     "typescript": "^5.9.3"
   }

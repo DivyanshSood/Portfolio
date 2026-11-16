@@ -103,10 +103,10 @@ export function projectHead(p) {
     ogTitle: p.ogTitle,
     ogDescription: p.ogDescription,
     ogImage: p.ogImage,
-    // /images/og/<slug>.jpg, written at exactly 1200×750 by
+    // /images/og/<slug>.jpg, written at exactly 1200×630 by
     // scripts/gen-work-variants.mjs (pass 4) — declare the real size.
     ogImageW: 1200,
-    ogImageH: 750,
+    ogImageH: 630,
     ogLocale: "en_IN",
     imageAlt: p.feature.alt,
     articlePublished: `${p.year}-01-01`,

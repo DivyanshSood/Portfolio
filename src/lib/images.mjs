@@ -45,9 +45,9 @@ export function localSrcset(src) {
    downloaded in full.
 
    scripts/gen-work-variants.mjs now pre-crops each cover to 16:10 and writes a
-   WebP base plus the ladder below. The .jpg stays exactly where it is: it is
-   still the og:image, because social scrapers are the one audience that can't
-   be relied on to take WebP.
+   WebP base plus the ladder below. The .jpg stays exactly where it is at
+   1200×750: it is the ladder's source and the Article schema image. The
+   og:image is a separate 1200×630 JPEG, /images/og/blog/<slug>.jpg.
    --------------------------------------------------------------------------- */
 
 /** Pre-generated cover widths, ascending. Must match the generator. */

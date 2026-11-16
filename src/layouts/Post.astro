@@ -12,6 +12,8 @@ import EndCta from "../components/brand/EndCta.astro";
 import { SITE, CALENDLY_URL, DEFAULT_OG, fmtDate, iso, related } from "../lib/blog.mjs";
 import { coverBase, coverSrcset, COVER_SIZES_POST } from "../lib/images.mjs";
 import { STUDIO_HOURS } from "../lib/site.mjs";
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 
 type Link = { href: string; label: string };
 interface Props {
@@ -24,7 +26,14 @@ interface Props {
 const { post, jsonld, faqs = [], cta } = Astro.props;
 
 const canonical = `${SITE}/blog/${post.slug}/`;
-const ogImage = post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+// Share image: the 1200×630 card from public/images/og/blog/ (written by
+// scripts/gen-blog-covers.mjs for title cards and scripts/gen-work-variants.mjs
+// for photo covers). A post whose card hasn't been generated yet falls back
+// to its 1200×750 cover, with that size declared.
+const ogCard = `/images/og/blog/${post.slug}.jpg`;
+const hasOgCard = existsSync(join(process.cwd(), "public", ogCard));
+const ogImage = hasOgCard ? `${SITE}${ogCard}` : post.coverImage ? `${SITE}${post.coverImage}` : DEFAULT_OG;
+const ogImageH = hasOgCard || !post.coverImage ? 630 : 750;
 const primaryTag = post.tags[0] || "Notes";
 const showUpdated = post.updatedDate && +new Date(post.updatedDate) > +new Date(post.pubDate);
 
@@ -109,7 +118,8 @@ let n = 1;
   ogTitle={post.title}
   ogImage={ogImage}
   ogImageW={1200}
-  ogImageH={750}
+  ogImageH={ogImageH}
+  imageAlt={post.coverAlt ?? post.title}
   articlePublished={iso(post.pubDate)}
   articleModified={iso(post.updatedDate || post.pubDate)}
   tags={post.tags}

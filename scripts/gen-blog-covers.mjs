@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /* ===========================================================================
-   Blog cover generator — /public/blog/<slug>.jpg at 1200×750.
+   Blog cover generator — /public/blog/<slug>.jpg at 1200×750, plus the share
+   image /public/images/og/blog/<slug>.jpg at 1200×630.
 
    Brandbook title card: the red chevron block (same 72% cut as every hero)
    with a Geist Mono eyebrow and the headline in Archivo 900 italic, 125%
@@ -14,8 +15,14 @@
    falls back to its manifest title, which always renders but is rarely the
    punchiest line — write an entry.
 
+   The share image is the same card re-laid out for 1.91:1 (a shorter chevron,
+   the footer rule pulled up), not a crop: cropping 750 → 630 would cut either
+   the eyebrow or the DIVYANSHSOOD.COM rule. Photo covers get their share
+   image from scripts/gen-work-variants.mjs (a centre crop) instead.
+
    Existing files are never overwritten (the hand-made 30 would change); pass
-   --force to rebuild anyway, or --only=<slug>,<slug> to scope a run.
+   --force to rebuild anyway, or --only=<slug>,<slug> to scope a run. A missing
+   share image is always written, so a plain run fills in any new post.
 
      node scripts/gen-blog-covers.mjs
      node scripts/gen-blog-covers.mjs --only=rag-for-business-websites --force
@@ -25,7 +32,7 @@
    =========================================================================== */
 
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdtempSync, writeFileSync, rmSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, writeFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve, join } from "node:path";
@@ -35,11 +42,19 @@ import { POSTS } from "../src/lib/blog-posts.mjs";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
 const OUT_DIR = resolve(ROOT, "public/blog");
+const OG_DIR = resolve(ROOT, "public/images/og/blog");
 const FONT_DIR = resolve(ROOT, "public/fonts");
 
 const W = 1200;
-const H = 750;
 const QUALITY = 82;
+
+/* Two layouts of one card. `red` is the chevron block's height; the headline
+   box (`padTop` + `padH`) stays above the chevron's 72% edge; `bot` is the
+   footer rule's distance from the bottom. */
+const LAYOUTS = {
+  cover: { h: 750, red: 620, padTop: 48, padH: 392, bot: 40 },
+  og: { h: 630, red: 500, padTop: 40, padH: 312, bot: 30 },
+};
 
 /* Headline copy, per slug. `lines` are rendered uppercase, one per line, and
    auto-fitted to the box. (`accent` is left over from the previous template;
@@ -134,7 +149,8 @@ if (!chrome) {
 const fontFace = (family, file, weight, style = "normal", stretch = "") =>
   `@font-face{font-family:'${family}';font-style:${style};font-weight:${weight};${stretch ? `font-stretch:${stretch};` : ""}font-display:block;src:url('file://${join(FONT_DIR, file)}') format('woff2');}`;
 
-function html({ eyebrow, lines, year }) {
+function html({ eyebrow, lines, year }, L) {
+  const H = L.h;
   const body = lines.map((l) => `<span class="l">${esc(l)}</span>`).join("");
   return `<!doctype html><meta charset="utf-8"><style>
 ${fontFace("Archivo", "archivo-italic.woff2", "100 900", "italic", "62% 125%")}
@@ -142,16 +158,16 @@ ${fontFace("Geist Mono", "geist-mono.woff2", "400 700")}
 *{margin:0;padding:0;box-sizing:border-box;}
 html,body{width:${W}px;height:${H}px;background:#fff;}
 .c{position:relative;width:${W}px;height:${H}px;overflow:hidden;background:#fff;}
-.red{position:absolute;left:0;top:0;width:${W}px;height:620px;background:#E4151F;
+.red{position:absolute;left:0;top:0;width:${W}px;height:${L.red}px;background:#E4151F;
      clip-path:polygon(0 0,100% 0,100% 72%,50% 100%,0 72%);}
 /* Content stays above the chevron's 72% edge so nothing falls into the cut. */
-.pad{position:absolute;left:64px;right:64px;top:48px;height:392px;display:flex;flex-direction:column;}
+.pad{position:absolute;left:64px;right:64px;top:${L.padTop}px;height:${L.padH}px;display:flex;flex-direction:column;}
 .mono{font-family:'Geist Mono',monospace;font-size:18px;font-weight:400;letter-spacing:.1em;text-transform:uppercase;}
 .top{display:flex;justify-content:space-between;color:#fff;}
 .mid{flex:1;display:flex;flex-direction:column;justify-content:flex-end;padding-top:24px;}
 #h{font-family:'Archivo',sans-serif;font-weight:900;font-style:italic;font-stretch:125%;text-transform:uppercase;
    line-height:.88;letter-spacing:-0.02em;color:#fff;display:flex;flex-direction:column;}
-.bot{position:absolute;left:64px;right:64px;bottom:40px;display:flex;justify-content:space-between;
+.bot{position:absolute;left:64px;right:64px;bottom:${L.bot}px;display:flex;justify-content:space-between;
      padding-top:14px;border-top:3px solid #0B0B0C;color:#0B0B0C;}
 .bot .j{color:#E4151F;}
 </style>
@@ -177,6 +193,7 @@ html,body{width:${W}px;height:${H}px;background:#fff;}
 
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
+mkdirSync(OG_DIR, { recursive: true });
 const tmp = mkdtempSync(join(tmpdir(), "ds-covers-"));
 let made = 0;
 let skipped = 0;
@@ -184,13 +201,8 @@ let skipped = 0;
 for (const post of POSTS) {
   const slug = post.slug;
   if (ONLY && !ONLY.includes(slug)) continue;
-  const out = resolve(OUT_DIR, `${slug}.jpg`);
   // Photo covers are the author's own images — never overwrite them.
   if (post.coverAlt && !/^Title card/.test(post.coverAlt)) continue;
-  if (existsSync(out) && !FORCE) {
-    skipped++;
-    continue;
-  }
 
   const copy = COVER_COPY[slug];
   const spec = copy ?? {
@@ -199,35 +211,45 @@ for (const post of POSTS) {
     lines: wrap(post.title.toUpperCase(), 14),
     accent: [],
   };
-  if (!copy) console.warn(`   (no COVER_COPY entry for ${slug} — using the title)`);
 
-  const page = join(tmp, `${slug}.html`);
-  const png = join(tmp, `${slug}.png`);
-  writeFileSync(page, html({ ...spec, year: String(post.pubDate).slice(0, 4) }));
+  for (const [kind, out] of [
+    ["cover", resolve(OUT_DIR, `${slug}.jpg`)],
+    ["og", resolve(OG_DIR, `${slug}.jpg`)],
+  ]) {
+    if (existsSync(out) && !FORCE) {
+      skipped++;
+      continue;
+    }
+    if (!copy) console.warn(`   (no COVER_COPY entry for ${slug} — using the title)`);
+    const L = LAYOUTS[kind];
+    const page = join(tmp, `${slug}-${kind}.html`);
+    const png = join(tmp, `${slug}-${kind}.png`);
+    writeFileSync(page, html({ ...spec, year: String(post.pubDate).slice(0, 4) }, L));
 
-  const r = spawnSync(
-    chrome,
-    [
-      "--headless",
-      "--disable-gpu",
-      "--hide-scrollbars",
-      "--force-device-scale-factor=2",
-      `--window-size=${W},${H}`,
-      "--virtual-time-budget=4000",
-      `--screenshot=${png}`,
-      "file://" + page,
-    ],
-    { stdio: "pipe" }
-  );
-  if (!existsSync(png)) {
-    console.error(`!! ${slug}: Chrome produced no screenshot`);
-    console.error(String(r.stderr).split("\n").slice(-4).join("\n"));
-    continue;
+    const r = spawnSync(
+      chrome,
+      [
+        "--headless",
+        "--disable-gpu",
+        "--hide-scrollbars",
+        "--force-device-scale-factor=2",
+        `--window-size=${W},${L.h}`,
+        "--virtual-time-budget=4000",
+        `--screenshot=${png}`,
+        "file://" + page,
+      ],
+      { stdio: "pipe" }
+    );
+    if (!existsSync(png)) {
+      console.error(`!! ${slug} (${kind}): Chrome produced no screenshot`);
+      console.error(String(r.stderr).split("\n").slice(-4).join("\n"));
+      continue;
+    }
+
+    await sharp(png).resize(W, L.h).jpeg({ quality: QUALITY, mozjpeg: true }).toFile(out);
+    made++;
+    console.log(`   ✓ ${kind === "og" ? "og/blog/" : ""}${slug}.jpg`);
   }
-
-  await sharp(png).resize(W, H).jpeg({ quality: QUALITY, mozjpeg: true }).toFile(out);
-  made++;
-  console.log(`   ✓ ${slug}.jpg`);
 }
 
 rmSync(tmp, { recursive: true, force: true });
