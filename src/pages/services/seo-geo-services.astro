@@ -88,6 +88,7 @@ const jsonld = JSON.stringify({
   <main>
     <PageHero
       display="Ranked by Google. Quoted by AI."
+      h1="SEO & GEO services"
       size="case"
       kicker="Services · SEO · GEO · AEO · 2026"
       lead={`Search is splitting in two: links and answers. Classic SEO gets you the links half. Generative Engine Optimization — structured data, quotable copy, llms.txt, AI-crawler access — gets ChatGPT, Claude, Gemini and Perplexity to cite you in the answers half. I implement both, directly in your codebase, as a developer — not as a slide deck.`}
@@ -120,13 +121,15 @@ const jsonld = JSON.stringify({
       <Steps items={how} hot={3} />
     </Section>
 
-    <Section n={4} term="Journal" note="From the journal" title="Thinking on search & AI">
+    <Section n={4} term="Journal" note="Related reading" title="Thinking on search & AI">
       <Cards items={[
         { tag: `Free tool`, wide: true, d: `<strong>Try the free llms.txt generator.</strong> Write a clean plain-text brief of your business in your browser, no sign-up (more in <a href="/tools/">free tools</a>). Google ignores the file; the exercise of stating plainly what you do is the part that pays. <a href="/tools/llms-txt-generator/">Open the free llms.txt generator →</a>` },
         { tag: `AEO, GEO, LLMO and AI SEO`, d: `Which of the new acronyms name something real, and what the work actually collapses into. <a href="/blog/aeo-geo-llmo-ai-seo-explained/">AEO vs GEO vs LLMO, explained →</a>` },
         { tag: `Ranking on Google Maps`, d: `The seven things that decide whether a local business shows in the map pack, in order of impact. <a href="/blog/rank-on-google-maps-himachal/">How to rank on Google Maps in Himachal →</a>` },
         { tag: `What is llms.txt?`, d: `What the file is, what the evidence says about it, and why I still ship one. <a href="/blog/what-is-llms-txt/">An honest answer on whether llms.txt works →</a>` },
         { tag: `Search as a client channel`, d: `How my own site, local search and useful posts bring every client I have, with zero ad spend. <a href="/blog/how-i-get-clients-without-paid-ads/">How I get clients without paid ads →</a>` },
+        { tag: `The entity graph, node by node`, d: `How to give every structured-data node a stable @id and link them into one graph — this site's own schema, with the mistakes I made first. <a href="/blog/entity-graph-schema-node-by-node/">Schema node identifiers and the entity graph →</a>` },
+        { tag: `Measuring AI citations`, d: `Plenty of advice on getting cited by AI, almost none on knowing whether it worked. The three sources you can actually measure. <a href="/blog/measure-ai-assistant-citations/">How to tell whether AI assistants recommend you →</a>` },
         { tag: `AI website builders vs a human developer`, wide: true, d: `Where AI tooling genuinely helps, and where judgment still wins. <a href="/blog/ai-website-builder-vs-developer-india/">AI website builders vs a human developer →</a>` },
       ]} />
     </Section>

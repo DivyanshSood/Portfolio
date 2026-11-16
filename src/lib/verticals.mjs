@@ -62,7 +62,7 @@ export const VERTICALS = {
   hotel: {
     slug: "hotel-website-development",
     name: "Hotel & homestay website development",
-    title: "Hotel & Homestay Website Design in Himachal — Direct Bookings",
+    title: "Hotel & Homestay Websites in Himachal — Direct Bookings",
     description:
       "Hotel and homestay websites in Himachal that win direct bookings: WhatsApp enquiries, honest rooms and rates, “near” pages, fast on hill networks.",
     keywords:
@@ -129,7 +129,7 @@ export const VERTICALS = {
       { t: "Local business schema that holds up", d: "Geo-coordinates, opening hours and services in structured data, with the same name, address and phone as the Google Business Profile." },
       { t: "No thin pages", d: "Growing to a hundred pages is exactly where travel sites go thin. Sunny's build fails if any two pages read too alike, so pages that would overlap are dropped rather than published." },
     ],
-    proof: ["sunny-himachal-travels", "leisure-himachal", "kangra-valley-travels", "baglamukhi-travels", "nandini", "sach-pass", "dharamshala-tours"],
+    proof: ["sunny-himachal-travels", "leisure-himachal", "kangra-valley-travels", "baglamukhi-travels", "nandini", "shiva-tour-and-travel", "sach-pass", "dharamshala-tours"],
     steps: [
       { t: "One call", d: "The routes, trips and towns that actually make money, and how bookings arrive today." },
       { t: "A page map", d: "One page per real search, checked against Search Console and Maps data where the business has any." },
@@ -146,6 +146,7 @@ export const VERTICALS = {
     ],
     reading: [
       { href: "/blog/taxi-tour-operator-website-pages/", t: "Taxi and tour operator websites: why every route and town needs its own page" },
+      { href: "/blog/rank-on-google-maps-himachal/", t: "How to rank a Himachal taxi or travel business on Google Maps" },
       { href: "/blog/google-business-profile-vs-website-himachal/", t: "Google Business Profile vs a website for Himachal businesses" },
     ],
   },

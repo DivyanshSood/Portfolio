@@ -91,7 +91,9 @@ const jsonld = JSON.stringify({
       name: "Custom website design and development",
       serviceType: "Website development",
       provider: { "@id": `${SITE}/#studio` },
-      areaServed: [{ "@type": "State", name: "Himachal Pradesh", containedInPlace: { "@type": "Country", name: "India" } }, { "@type": "Country", name: "India" }, { "@type": "Place", name: "Worldwide" }],
+      // Himachal is the hub page's job (/web-developer-himachal-pradesh/);
+      // this page targets custom development across India.
+      areaServed: [{ "@type": "Country", name: "India" }, { "@type": "Place", name: "Worldwide" }],
       description:
         "Custom website development services — hand-coded business websites, marketing sites, redesigns and booking-first builds. Technical SEO and Core Web Vitals built in from the first commit, live in 3–4 weeks, and you own the code.",
       url: canonical,
@@ -124,8 +126,8 @@ const jsonld = JSON.stringify({
 ---
 
 <Base
-  title="Website Design & Development — Himachal Pradesh & India"
-  description="Website design and development from Kangra, Himachal Pradesh, for businesses across India and worldwide — hand-coded, fast and built to rank. You own the code."
+  title="Custom Website Development in India · Divyansh Sood"
+  description="Custom website development for businesses across India and worldwide — hand-coded, fast and built to rank, with a fixed written quote. You own the code."
   canonical={canonical}
   keywords="website development services, custom website development, custom coded website, hire a website developer, freelance website developer, website redesign, business website development, professional website development"
   ogTitle="Custom website development that's built to rank"
@@ -136,11 +138,11 @@ const jsonld = JSON.stringify({
   <main>
     <PageHero
       display="Websites built to be found."
-      h1="Website design & development services — from Himachal Pradesh, for businesses across India."
+      h1="Custom website development in India"
       size="case"
       kicker="Services · Website development · 2026"
       lead="Custom website development for businesses that need the site to do a job — bring in enquiries, take bookings, and hold up in search. Every build is hand-coded rather than assembled from a template, with technical SEO and page speed treated as requirements from the first commit instead of a phase at the end. Most go live in 3–4 weeks, and you own everything."
-      notes={["Fixed written quotes · you own the code", "Himachal Pradesh, India · working worldwide"]}
+      notes={["Fixed written quotes · you own the code", "Across India · working worldwide"]}
     >
       <a class="btn btn--red" href={CALENDLY_URL}>Book a 30-min call <span aria-hidden="true">→</span></a>
       <a class="btn btn--ink" href="/portfolio/">See the work</a>
@@ -181,7 +183,7 @@ const jsonld = JSON.stringify({
         { tag: "One page, one job", d: `A campaign or launch page where the only measure is conversion. <a href="/services/landing-page-design/">Landing page design →</a>` },
         { tag: "Being found and cited", d: `Technical SEO plus Generative Engine Optimization for a site that already exists. <a href="/services/seo-geo-services/">SEO &amp; GEO services →</a>` },
         { tag: "AI features", d: `Retrieval over your own content, AI search and support, shipped to production. <a href="/services/ai-development/">AI development →</a>` },
-        { tag: "Working locally", d: `Himachal-based builds for businesses in <a href="/web-developer-kangra/">Kangra</a>, <a href="/web-developer-dharamshala/">Dharamshala</a>, <a href="/web-developer-shimla/">Shimla</a> and <a href="/web-developer-manali/">Manali</a>.` },
+        { tag: "Working locally", d: `In Himachal Pradesh? See <a href="/web-developer-himachal-pradesh/">website designing and development in Himachal</a>, town by town, with local work and prices.` },
       ]} />
     </Section>
 
@@ -191,6 +193,9 @@ const jsonld = JSON.stringify({
         { tag: "Webflow vs custom code", d: `Where Webflow is the right call, where it starts taxing a team, and the three-year cost of each. <a href="/blog/custom-code-vs-webflow-for-startups/">Webflow vs custom code →</a>` },
         { tag: "How to choose a developer", d: `What to ask, what the red flags look like, and how to vet someone before you pay. <a href="/blog/how-to-choose-web-developer-himachal/">How to choose a web developer in Himachal →</a>` },
         { tag: "Google profile or a website", wide: true, d: `What a Google Business Profile does, where it stops, and why a local business needs both. <a href="/blog/google-business-profile-vs-website-himachal/">Google Business Profile vs a website →</a>` },
+        { tag: "Where AI falls short", d: `The ways AI has cost time and money on real builds — and why a human still reviews every line. <a href="/blog/challenges-and-limitations-of-ai-in-web-development/">The limits of AI in web development →</a>` },
+        { tag: "Free tool", d: `Draft a plain-text brief of your business for AI assistants, in your browser. Google ignores the file; saying plainly what you do is the useful part. <a href="/tools/llms-txt-generator/">Free llms.txt generator →</a>` },
+        { tag: "Where clients come from", d: `Six channels that brought every client I have, with zero ad spend — the site itself is one of them. <a href="/blog/how-i-get-clients-without-paid-ads/">How I get clients without paid ads →</a>` },
         { tag: "AI and web development", d: `How AI actually changes a build, and where it doesn't. <a href="/blog/topics/ai-web-development/">The AI cluster →</a>` },
       ]} />
     </Section>

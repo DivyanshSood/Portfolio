@@ -41,7 +41,9 @@
    a title and meta description within sane lengths, and alt text on every
    non-decorative image; the doorway guard on location pages (8); and (9) a
    "Skip to content" link as the first focusable element, pointing at exactly
-   one #main (16 Nov 2026 audit: the first Tab stop was the logo).
+   one #main (16 Nov 2026 audit: the first Tab stop was the logo); and (10)
+   town-to-town links that run both ways, with every town linked from at least
+   four others (same audit: eight towns had 6 or fewer inbound links).
 
    Exit code is non-zero if any check fails, so this can gate a deploy.
    =========================================================================== */
@@ -88,6 +90,14 @@ for (const file of walk(DIST)) {
 console.log(`\nRead ${pages.size} built pages from ${DIST}`);
 
 const attr = (html, re) => html.match(re)?.[1]?.trim();
+const decode = (s) =>
+  s
+    .replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(+n))
+    .replace(/&#x([0-9a-f]+);/gi, (_, n) => String.fromCodePoint(parseInt(n, 16)))
+    .replace(/&quot;/g, '"')
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&amp;/g, "&");
 const isNoindex = (html) => /<meta[^>]+name=["']robots["'][^>]+content=["'][^"']*noindex/i.test(html);
 const canonicalOf = (html) => attr(html, /<link[^>]+rel=["']canonical["'][^>]+href=["']([^"']+)["']/i);
 const toPath = (u) => {
@@ -289,9 +299,12 @@ console.log("\n7. Per-page hygiene (H1, canonical, title, description, alt text)
 
     if (!canonicalOf(html)) problems.push(`${path}: no <link rel="canonical">`);
 
-    const title = attr(html, /<title>([\s\S]*?)<\/title>/i);
+    // Measured as the searcher sees it: "&amp;" is one character, not five.
+    // Google cuts at about 580px, which is 55–60 characters (16 Nov 2026 audit:
+    // 24 titles were over 60). Base.astro's fitTitle() drops the brand suffix first.
+    const title = decode(attr(html, /<title>([\s\S]*?)<\/title>/i) ?? "");
     if (!title) problems.push(`${path}: no <title>`);
-    else if (title.length > 70) warn(`${path}: title is ${title.length} chars (>70 truncates in SERPs)`);
+    else if (title.length > 60) warn(`${path}: title is ${title.length} chars (>60 truncates in SERPs)`);
 
     const desc = attr(html, /<meta[^>]+name=["']description["'][^>]+content=["']([^"']*)["']/i);
     if (!desc) problems.push(`${path}: no meta description`);
@@ -320,7 +333,8 @@ console.log("\n8. Location pages are distinct (doorway guard)");
   const fields = {
     title: (h) => attr(h, /<title>([\s\S]*?)<\/title>/i),
     h1: (h) => text(h.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i)?.[1]),
-    lead: (h) => text(h.match(/<p class="intro[^"]*"[^>]*>([\s\S]*?)<\/p>/i)?.[1]),
+    // PageHero renders the lead as .intro, or as .ph-sub under a separate H1.
+    lead: (h) => text(h.match(/<p class="(?:intro|ph-sub)[^"]*"[^>]*>([\s\S]*?)<\/p>/i)?.[1]),
   };
   const dupes = [];
   for (const [name, get] of Object.entries(fields)) {
@@ -361,6 +375,35 @@ console.log("\n9. Skip link (first focusable, exactly one #main)");
   }
   if (problems.length) problems.forEach(fail);
   else pass(`all ${checked} pages open with a skip link to their one #main`);
+}
+
+/* ── 10. Town pages link each other both ways, ≥4 inbound each ───────────── */
+// The "Also serving" block (NearbyAreas, fed by `near` in src/lib/locations.mjs)
+// is the only place most towns link each other. One-way lists left Kullu,
+// Nahan and the Punjab towns with a handful of inbound links while Kangra had
+// dozens. Rule: if A lists B, B lists A, and every town is listed by ≥4 others.
+console.log("\n10. Town links are reciprocal (≥4 other towns link each one)");
+{
+  const MIN = 4;
+  const HUB = "/web-developer-himachal-pradesh/";
+  const towns = indexable.map(([p]) => p).filter((p) => p.startsWith("/web-developer-") && p !== HUB);
+  const out = new Map();
+  for (const t of towns) {
+    const nav = pages.get(t).match(/<nav\b[^>]*aria-label="Other areas I serve"[^>]*>([\s\S]*?)<\/nav>/i)?.[1] ?? "";
+    out.set(t, new Set([...nav.matchAll(/href="([^"]+)"/g)].map((m) => toPath(m[1])).filter((p) => p !== HUB && p !== t)));
+  }
+  const problems = [];
+  for (const [t, links] of out) {
+    if (!links.size) problems.push(`${t}: no "Also serving" town links found`);
+    for (const to of links) {
+      if (!out.has(to)) problems.push(`${t} links ${to}, which is not a town page`);
+      else if (!out.get(to).has(t)) problems.push(`${t} lists ${to}, but ${to} doesn't list it back`);
+    }
+    const inbound = [...out].filter(([, l]) => l.has(t)).length;
+    if (inbound < MIN) problems.push(`${t} is listed by ${inbound} other town(s), needs ${MIN}`);
+  }
+  if (problems.length) problems.forEach(fail);
+  else pass(`all ${towns.length} town pages link each other both ways, each listed by ≥${MIN} others`);
 }
 
 /* ── Summary ─────────────────────────────────────────────────────────────── */

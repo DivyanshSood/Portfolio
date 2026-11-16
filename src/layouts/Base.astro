@@ -91,6 +91,14 @@ const imageAlt = imageAltProp ?? ogCard?.alt ?? "Divyansh Sood® Studio — cust
 // another language they say so, or screen readers read them in a Hindi voice.
 const chromeLang = lang === "en" ? undefined : "en";
 
+// Google cuts a title at about 580px (55–60 characters). Past 60, the brand
+// suffix (" · Divyansh Sood", " — Divyansh Sood® Studio") goes first: the
+// page's own words are worth more in that space, and the SERP already shows
+// the site name. Titles still over 60 after this are shortened by hand, and
+// scripts/verify-seo.mjs warns about any that remain.
+const fitTitle = (t: string) => (t.length > 60 ? t.replace(/\s[·—]\s*Divyansh Sood(®\s*Studio)?$/, "") : t);
+const pageTitle = fitTitle(title);
+
 // The hero breadcrumb (PageHero) reads the trail from the page's own
 // BreadcrumbList, so the visible trail and the markup are one array.
 Astro.locals.crumbs = breadcrumbTrail(jsonld).map((c: { name: string; url: string }) => ({
@@ -105,7 +113,7 @@ Astro.locals.crumbs = breadcrumbTrail(jsonld).map((c: { name: string; url: strin
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 
-    <title>{title}</title>
+    <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <meta name="author" content="Divyansh Sood" />
     {noindex ? (

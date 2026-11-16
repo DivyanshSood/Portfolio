@@ -5,6 +5,12 @@
 // page written to answer them. This is that page, and the parent of every
 // location page (their BreadcrumbList points here). The town list comes from
 // src/lib/locations.mjs, so a new town appears here without an edit.
+//
+// Keyword split (16 Nov 2026 audit): "/" owns "web developer Himachal"; this
+// page owns "website designing / development in Himachal Pradesh"; Kangra owns
+// its own town; /services/website-development/ is about custom development
+// across India and no longer names Himachal. "Company" searches get an honest
+// H2 and FAQ: the phrase is the visitor's, the answer is one developer.
 import Base from "../layouts/Base.astro";
 import PageHero from "../components/brand/PageHero.astro";
 import Section from "../components/brand/Section.astro";
@@ -22,13 +28,15 @@ const WA = "https://wa.me/919816091875?text=Hi%20Divyansh,%20I%20run%20a%20busin
 
 const offers = [
   { t: "Hotel & homestay websites", d: `Direct-booking sites for stays from Dalhousie to Kasauli: rooms, rates, the drive, and an enquiry that lands in your WhatsApp. <a href="/services/hotel-website-development/">Hotel website development →</a>` },
-  { t: "Travel, taxi & tour operator websites", d: `A page for every route and package, fares from one data file, and the local SEO that wins “taxi near me” searches. <a href="/services/travel-website-development/">Travel and taxi websites →</a>` },
-  { t: "School & institute websites", d: `CBSE Mandatory Public Disclosure done properly, admissions that reach the office and an admin panel staff can run. <a href="/services/school-website-development/">School website development →</a>` },
+  { t: "Travel, taxi & tour operator websites", d: `A page for every route and package, fares from one data file, and the local SEO that wins “taxi near me” searches — like the site for <a href="/projects/shiva-tour-and-travel/">Shiva Tour and Travel beside Kangra Airport</a>. <a href="/services/travel-website-development/">Travel and taxi websites →</a>` },
+  { t: "School & institute websites", d: `CBSE Mandatory Public Disclosure done properly, admissions that reach the office and an admin panel staff can run. Read <a href="/blog/school-website-admissions-portal-india/">what parents look for and what an admissions portal costs</a>. <a href="/services/school-website-development/">School website development →</a>` },
   { t: "Business, shop & manufacturer websites", d: `Phone-first sites for Himachal's shops, clinics, professionals and factories, built to show up for “near me”. <a href="/services/website-development/">Website design and development →</a>` },
 ];
 
+const COMPANY_Q = "Looking for a website designing company in Himachal Pradesh?";
+
 const faqs = [
-  { q: "Are you a website development company in Himachal Pradesh?", a: "No — I'm one web developer, Divyansh Sood, working from Kangra district. I'm saying that plainly because a lot of people searching for a “web design company in Himachal” are really looking for someone reliable who'll build it properly and still answer the phone afterwards. With me there's no sales team and no junior handoff: the person who quotes is the person who designs, codes and hands over the site, and you own the code." },
+  { q: COMPANY_Q, a: "Then you should know up front: I'm not a company. I'm one web developer, Divyansh Sood, working from Kangra district. I'm saying that plainly because a lot of people searching for a “website designing company in Himachal” are really looking for someone reliable who'll build it properly and still answer the phone afterwards. With me there's no sales team and no junior handoff: the person who quotes is the person who designs, codes and hands over the site, and you own the code. If you need a large team for a large contract, I'll tell you that on the first call." },
   { q: "How much does a website cost in Himachal Pradesh?", a: `A business website starts at ${inr(P.basic)}, a hotel, homestay, travel or taxi site at ${inr(P.hotel)}, and a school site with an admin panel or an online store at ${inr(P.school)}. Every project gets a fixed quote in writing after one call. I've written a <a href="/blog/website-cost-himachal-pradesh/">full guide to website costs in Himachal</a>.` },
   { q: "Which districts of Himachal do you work in?", a: "All twelve. I'm based in Kangra and meet in person where it's practical — Kangra, Hamirpur, Una, Mandi, Chamba and nearby. Clients in Shimla, Solan, Sirmaur, Kullu, Lahaul-Spiti and Kinnaur work with me over WhatsApp, calls and a live draft link, and the process and prices are the same." },
   { q: "How long does a website take?", a: "Most local Himachal sites go live in 1–3 weeks. Larger builds with portals or logins take 6–10 weeks. You get a written timeline with the quote." },
@@ -80,24 +88,32 @@ const jsonld = JSON.stringify({
 
 const townLinks = (list: typeof HP_LOCATIONS) =>
   list.map((l) => `<a href="${locationHref(l.slug)}">Web developer in ${l.city}</a>`).join(" · ");
+
+// Himachal towns grouped by district, nearest to Kangra first, then the
+// Punjab & Chandigarh pages as their own block (audit: "group towns by district").
+const DISTRICT_ORDER = ["Kangra", "Chamba", "Hamirpur", "Una", "Mandi", "Kullu", "Bilaspur", "Shimla", "Solan", "Sirmaur"];
+const byDistrict = DISTRICT_ORDER.map((area) => ({ area, towns: HP_LOCATIONS.filter((l) => l.area === area) })).filter((d) => d.towns.length);
+const ungrouped = HP_LOCATIONS.filter((l) => !DISTRICT_ORDER.includes(l.area));
+if (ungrouped.length) throw new Error(`hub: no district group for ${ungrouped.map((l) => l.slug).join(", ")} — set \`area\` in locations.mjs`);
 ---
 
 <Base
-  title="Website Development in Himachal Pradesh — Every District"
-  description="Website design and development across Himachal Pradesh — Kangra, Shimla, Mandi, Solan, Kullu, Hamirpur, Una, Chamba and more. One developer, fixed quotes."
+  title="Website Designing & Development in Himachal Pradesh"
+  description="Website designing and development across Himachal Pradesh — Kangra, Shimla, Mandi, Solan, Kullu, Hamirpur, Una, Chamba and more. One developer, fixed quotes."
   canonical={canonical}
   keywords="website development Himachal Pradesh, web design Himachal, website designing in Himachal, web developer Himachal Pradesh, website development company in Himachal, web design company Himachal"
-  ogTitle="Web developer in Himachal Pradesh"
+  ogTitle="Website designing & development in Himachal Pradesh"
   ogDescription="Hotels, taxis, schools, shops and factories in every district — custom-coded websites from Kangra."
   topics={[TOPICS.webDevelopment, TOPICS.webDesign, TOPICS.himachal]}
   jsonld={jsonld}
 >
   <main>
     <PageHero
-      display="Web developer in Himachal Pradesh."
+      display="Every district, one developer."
+      h1="Website Designing & Development in Himachal Pradesh"
       size="case"
       kicker="Himachal Pradesh · 12 districts · Since 2022"
-      lead={`I'm Divyansh Sood, a web designer and developer in Kangra, and Himachal is where most of my client work lives: taxi operators in Kangra, hotels from Dharamshala to Spiti, schools in Baroh and Ladwara, the stays on the road over Sach Pass. If you're looking for website development in Himachal Pradesh, this page shows what I build, where, and what it costs.`}
+      lead={`I'm Divyansh Sood, a web designer and developer in Kangra, and Himachal is where most of my client work lives: taxi operators in Kangra, hotels from Dharamshala to Spiti, schools in Baroh and Ladwara, the stays on the road over Sach Pass. If you're looking for website designing and development in Himachal Pradesh, this page shows what I build, where, and what it costs.`}
     >
       <a class="btn btn--red" href={CALENDLY_URL}>Book a call <span aria-hidden="true">→</span></a>
       <a class="btn btn--ink" href={WA}>Message on WhatsApp</a>
@@ -118,21 +134,35 @@ const townLinks = (list: typeof HP_LOCATIONS) =>
       ]} />
       <div class="gap-top">
         <Cards items={[
-          { tag: "Case studies", wide: true, d: `Every Himachal build, with what was made and why: <a href="/portfolio/">see the portfolio</a> or <a href="/results/">the results in numbers</a>.` },
+          { tag: "Case studies", wide: true, d: `Every Himachal build, with what was made and why: <a href="/portfolio/">see the portfolio</a> or <a href="/results/">the results in numbers</a>. The 71 redirects are from <a href="/projects/leisure-himachal/">the Leisure Himachal rebuild in Manali</a>.` },
         ]} />
       </div>
     </Section>
 
-    <Section n={3} term="Coverage" note="By district" title="Every district, one developer" tint>
+    <Section n={3} term="Coverage" note="By district" title="Towns I serve, district by district" tint>
+      <Cards min={260} items={[
+        ...byDistrict.map((d) => ({ tag: `${d.area} district`, d: townLinks(d.towns) })),
+        { tag: "Lahaul-Spiti & Kinnaur", wide: true, d: `Kaza, Keylong, Reckong Peo, Sangla — work the same way, over WhatsApp. The Himalayan Brothers group already runs a hotel in Spiti on <a href="/projects/hotel-himalayan-brothers/">a site I rebuilt</a>.` },
+      ]} />
+      <div class="gap-top">
+        <Cards items={[
+          { tag: "Punjab & Chandigarh", wide: true, d: `Next door, worked the same way from Kangra: ${townLinks(PB_LOCATIONS)}.` },
+        ]} />
+      </div>
+    </Section>
+
+    <Section n={4} term="Straight answer" note="One developer, not a firm" title={COMPANY_Q}>
+      <p class="hub-note">Most of the searches that bring people here say “company”. Here is the honest version: this is one person, and that changes what you get.</p>
       <Cards items={[
-        { tag: "Himachal Pradesh", wide: true, d: townLinks(HP_LOCATIONS) },
-        { tag: "Also in the state", wide: true, d: `Lahaul-Spiti and Kinnaur — Kaza, Keylong, Reckong Peo, Sangla — work the same way, over WhatsApp. The Himalayan Brothers group already runs a hotel in Spiti on <a href="/projects/hotel-himalayan-brothers/">a site I rebuilt</a>.` },
-        { tag: "Nearby: Punjab & Chandigarh", wide: true, d: townLinks(PB_LOCATIONS) },
+        { tag: "Who you talk to", d: "Me, from the first message to the handover. No sales executive, no account manager relaying your feedback to someone else." },
+        { tag: "Who builds it", d: "The same person. I design and code every page myself, so nothing is lost between a designer, a developer and an SEO person." },
+        { tag: "What it costs", d: `A fixed quote in writing after one call, from ${inr(P.basic)} for a business site. No hourly billing, and the number doesn't move unless the scope does.` },
+        { tag: "When a firm is the better fit", d: "If you need several people working at once on a large contract, or an on-site team, a firm is the right call — and I'll say so on the first call rather than take the job." },
       ]} />
     </Section>
 
     <Section bare>
-      <Faq faqs={faqs} label="(04) Before you ask" html />
+      <Faq faqs={faqs} label="(05) Before you ask" html />
     </Section>
 
     <EndCta
@@ -144,3 +174,7 @@ const townLinks = (list: typeof HP_LOCATIONS) =>
     />
   </main>
 </Base>
+
+<style>
+  .hub-note{max-width:68ch;margin:0 0 clamp(24px,3vw,40px)}
+</style>

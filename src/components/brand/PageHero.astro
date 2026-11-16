@@ -12,6 +12,10 @@
 interface Props {
   display: string;
   sup?: string;
+  /** What `sup` counts, for screen readers ("17 case studies"). When set, the
+      bare number is hidden from them and this is read instead, so the display
+      never reads as one run-on word ("My portfolio17"). */
+  supLabel?: string;
   h1?: string;
   h1Class?: string;
   lead?: string;
@@ -23,7 +27,7 @@ interface Props {
   /** Mono meta lines under the lead (may carry a link). */
   notes?: string[];
 }
-const { display, sup, h1, h1Class, lead, leadClass, meta, kicker, size = "grid", notes, crumbs = Astro.locals.crumbs ?? [] } = Astro.props;
+const { display, sup, supLabel, h1, h1Class, lead, leadClass, meta, kicker, size = "grid", notes, crumbs = Astro.locals.crumbs ?? [] } = Astro.props;
 const DisplayTag = h1 ? "div" : "h1";
 // A closing full stop reads as a stray block at display scale (and can drop
 // onto a line of its own), so the chevron never shows one.
@@ -66,7 +70,9 @@ const hasAside = Astro.slots.has("default");
         {meta && <span>{meta}</span>}
       </div>
       {kicker && <div class="ph-kicker">{kicker}</div>}
-      <DisplayTag class:list={["ph-name", `ph-name--${size}`]} style={`--fit:${fitEm}`}>{name}{sup && <span class="sup"><span class="sr-only"> </span>{sup}</span>}</DisplayTag>
+      <DisplayTag class:list={["ph-name", `ph-name--${size}`]} style={`--fit:${fitEm}`}>{name}{sup && (supLabel
+        ? <><span class="sup" aria-hidden="true">{sup}</span><span class="sr-only"> — {supLabel}</span></>
+        : <span class="sup"><span class="sr-only"> </span>{sup}</span>)}</DisplayTag>
     </div>
   </div>
   <div class:list={["wrap", "ph-row", { "ph-row--h1": h1 && !Astro.slots.has("intro") }]}>

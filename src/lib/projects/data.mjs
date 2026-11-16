@@ -10,6 +10,7 @@ export const projects = [
     slug: "modernkbs",
     // Design copy for the Portfolio + Case Study templates (brandbook redesign).
     sector: "Web app", tags: "Web App · Admin", location: "Ladwara, Himachal Pradesh",
+    town: "kangra", // location page, /web-developer-kangra/
     stack: "Node.js · Express", scope: "School website, online admissions, admin panel",
     line: "A school website with online admissions, an application-status page and an admin panel the office runs itself.",
     brief: "A senior secondary school needed a public website and an admissions application portal, without a recurring SaaS subscription.",
@@ -98,7 +99,7 @@ export const projects = [
       { tag: "Search", title: "React, but every page is real HTML", type: "prose",
         html: `A React app usually ships an empty page and builds it in the browser, which search engines and AI tools read late or not at all. Here every route, including each gallery piece and journal post, is <strong>rendered to HTML at build time</strong> and then hydrated. The build also writes the sitemap, an RSS feed for the journal and an <code>llms.txt</code>. No analytics and no cookies, so there's no consent banner either.` },
       { tag: "The lesson", type: "prose",
-        html: `Pick the checkout that matches how the work is priced. When every piece is made for one person, the right "buy button" is a message to the maker, written for the customer.` },
+        html: `Pick the checkout that matches how the work is priced. When every piece is made for one person, the right "buy button" is a message to the maker, written for the customer. If you are weighing the platforms anyway, here are the <a href="/blog/shopify-alternatives-for-premium-d2c/">Shopify alternatives for premium D2C brands, honestly ranked</a>.` },
     ],
     gallery: [
       { src: "/images/work/chinkiz-1.webp", alt: "ChinkiZ Knitting Knife — “Knitted by hand, in the hills” homepage" },
@@ -119,6 +120,7 @@ export const projects = [
     slug: "baglamukhi-travels",
     // Design copy for the Portfolio + Case Study templates (brandbook redesign).
     sector: "Travel", tags: "Travel · Local SEO", location: "Kangra, Himachal Pradesh",
+    town: "kangra", // location page, /web-developer-kangra/
     stack: "Astro · JSON-LD", scope: "Local-SEO site, schema graph, WhatsApp booking",
     line: "Owner-drivers competing against commission agents for Kangra's airport transfers and the Devi Darshan yatra — now 41.8K Google impressions and 246 clicks in 28 days.",
     brief: "Kapil Dev and Sahil have run cabs out of Kangra as owner-drivers since 2018, but bookings arrived through commission agents who owned the customer relationship.",
@@ -175,6 +177,7 @@ export const projects = [
     slug: "sunny-himachal-travels",
     // Design copy for the Portfolio + Case Study templates (brandbook redesign).
     sector: "Travel", tags: "Travel · Tours & Taxi", location: "Kangra, Himachal Pradesh",
+    town: "kangra", // location page, /web-developer-kangra/
     stack: "Astro · Content collections", scope: "70 route, destination and transfer pages",
     line: "A page for every trip, transfer and town in the Kangra valley — 1.1 KB of its own JavaScript, Lighthouse 100 on all four desktop scores.",
     brief: "A Kangra valley tour and taxi operator arrived with a one-page design canvas relying on a 69 KB runtime.",
@@ -238,6 +241,7 @@ export const projects = [
     slug: "yash-rock-hotel",
     // Design copy for the Portfolio + Case Study templates (brandbook redesign).
     sector: "Hospitality", tags: "Hospitality · Hotel", location: "Dehrian, Kangra",
+    town: "kangra", // location page, /web-developer-kangra/
     stack: "Next.js · Custom design system", scope: "Hotel site, near pages, local guides",
     line: "A seven-room hillside hotel with no booking engine by design — every enquiry goes to WhatsApp or a call.",
     brief: "The owner confirms bookings personally and rates vary, so a generic booking-engine prototype was the wrong product.",
@@ -289,6 +293,7 @@ export const projects = [
     slug: "pinnacle-world-school",
     // Design copy for the Portfolio + Case Study templates (brandbook redesign).
     sector: "Education", tags: "Education · CBSE", location: "Baroh, Kangra",
+    town: "kangra", // location page, /web-developer-kangra/
     stack: "Next.js 16 · React 19", scope: "CBSE school website, WhatsApp admissions",
     line: "A CBSE school website where every published fact traces back to the affiliation record — nothing invented.",
     brief: "The governing rule was simple: every fact lives in one file with its source beside it, and any gap shows “To be updated” rather than a guess.",
@@ -339,6 +344,7 @@ export const projects = [
   {
     slug: "hotel-himalayan-brothers",
     sector: "Hospitality", tags: "Hospitality · Hotel group", location: "Dharamshala, Spiti & Chamba",
+    town: "dharamshala", // location page, /web-developer-dharamshala/
     stack: "Astro 7 · TypeScript", scope: "Five-hotel group site, rebuilt from an audit",
     line: "Five family-run hotels from Dharamshala to Spiti, rebuilt from an old site that had given one hotel another's coordinates and every room of one hotel the description of another's.",
     brief: "Two brothers who started out as mountain guides run five hotels across Dharamshala, Spiti and Chamba. Their old site had to be replaced without losing a single URL, a single real review, or the brand searches that brought nearly every click.",
@@ -405,6 +411,7 @@ export const projects = [
   {
     slug: "himalayan-brothers",
     sector: "Travel", tags: "Travel · Tours & Taxi", location: "Dharamshala, Himachal Pradesh",
+    town: "dharamshala", // location page, /web-developer-dharamshala/
     stack: "Astro 7 · Shared design system", scope: "Travel desk: 40 tours, 16 taxi routes, experiences",
     line: "The hotel family's travel desk, from a parked domain to 105 pages in its sitemap (Nov 2026) — built on the hotel site's design system, so the two read as one family.",
     brief: "The family behind Himalayan Brothers Hotels also runs tours, taxis and treks from Buddha House, but the domain was parked. The brief was a 49-page mockup and one rule: look and behave like the hotel site, without pretending the drafts were finished.",
@@ -466,6 +473,7 @@ export const projects = [
   {
     slug: "leisure-himachal",
     sector: "Travel", tags: "Travel · Tour packages", location: "Manali, Himachal Pradesh",
+    town: "manali", // location page, /web-developer-manali/
     stack: "Astro 7 · TypeScript", scope: "Rebuild of a 2011 site: 76 pages, 71 redirects",
     line: "A Manali travel agency's website from 2011, rebuilt from 96 crawled versions into 76 pages — every old URL accounted for, every unconfirmed fact marked on the page.",
     brief: "Leisure Himachal sells Himachal and Leh-Ladakh packages from Manali. Its hand-built site had run since 2011, quoted three different prices for most packages, and a search for the business's own name found nothing.",
@@ -529,6 +537,7 @@ export const projects = [
   {
     slug: "kangra-valley-travels",
     sector: "Travel", tags: "Travel · Tours & Taxi", location: "Kangra, Himachal Pradesh",
+    town: "kangra", // location page, /web-developer-kangra/
     stack: "Astro 7 · Build-time fact checks", scope: "Tours, taxi routes and destinations for a Kangra owner-driver",
     line: "An owner-driver who started with one Ertiga, now 158 pages in his site's sitemap — and a build that refuses any fare, rating or claim the driver hasn't confirmed.",
     brief: "Sahil started out driving his own white Ertiga around the Kangra valley: airport pickups, station runs, tours of one to five days. He needed a site that sells him rather than an anonymous fleet, and doesn't copy the sister business he co-runs.",
@@ -591,6 +600,7 @@ export const projects = [
   {
     slug: "shiva-tour-and-travel",
     sector: "Travel", tags: "Travel · Taxi & Yatras", location: "Gaggal, Kangra",
+    town: "kangra", // location page, /web-developer-kangra/
     stack: "Astro 7 · About 1 KB of JS", scope: "58 pages: 20 packages, 21 taxi routes, a temples guide",
     line: "A taxi and temple-yatra operator beside Kangra Airport, rebuilt from a mockup that invented its own reviews — and a build that stops them coming back.",
     brief: "Manish Kumar runs a Swift Dzire and an Innova Crysta from beside Kangra Airport at Gaggal: airport and station pickups, temple yatras and Himachal tours. The design mockup looked good, and it was full of numbers nobody had given.",
@@ -652,6 +662,7 @@ export const projects = [
   {
     slug: "sach-pass",
     sector: "Travel", tags: "Travel · Stays & road status", location: "Bairagarh, Chamba",
+    town: "chamba", // location page, /web-developer-chamba/
     stack: "Astro 7 · GitHub-backed admin", scope: "Stays, road status, 8 packages, guides, admin",
     line: "Every place to stay on the road over Sach Pass, today's road status with a source for every date, and an admin that publishes through GitHub.",
     brief: "The Himalayan Brothers family runs Hotel Diwan Sachpass at Bairagarh, the last stop before the climb. Travellers kept asking the same two things: is the pass open, and where can we sleep on the way? Nobody online answered either one with a source.",
@@ -710,6 +721,7 @@ export const projects = [
     slug: "nandini",
     // Design copy for the Portfolio + Case Study templates (brandbook redesign).
     sector: "Travel", tags: "Travel · Taxi", location: "Kangra, Himachal Pradesh",
+    town: "kangra", // location page, /web-developer-kangra/
     stack: "Astro", scope: "Rebuild, booking form, 17 packages",
     line: "A Kangra taxi operator strong on Google Maps stopped losing every lead to it.",
     brief: "The website was down entirely and every lead was leaking to Google Maps.",
@@ -768,6 +780,7 @@ export const projects = [
     // Design copy for the Portfolio + Case Study templates (brandbook redesign).
     // Nov 2026: describes the live Astro site only (owner's call, 16 Nov).
     sector: "Travel", tags: "Travel · Treks & Adventure", location: "Dharamshala, Himachal Pradesh",
+    town: "dharamshala", // location page, /web-developer-dharamshala/
     stack: "Astro 7 · Shared design system", scope: "Treks, tours, paragliding, rentals, workations",
     line: "The Himalayan Brothers family's treks, paragliding, rentals and workations above Dharamshala, on the group's shared design system — with every enquiry ending in WhatsApp.",
     brief: "The Himalayan Brothers family, who run five hotels and the himalayanbrothers.com travel desk, also sell treks, tandem flights, rentals and long stays around Dharamshala, mostly to travellers who plan on WhatsApp. Dharamshala Tours is that business's own site, built on the group's design system.",
@@ -905,7 +918,7 @@ export const projects = [
       { tag: "The result", title: "A brand that launched selling, not waiting", type: "prose",
         html: `Redline went from no identity and no storefront to <strong>a live store with a working checkout in a single sprint</strong> — the logo, the motion language and the checkout all arriving together instead of a brand book sitting idle while a store gets built. Because it is custom code rather than a theme, there is no monthly platform fee and no licence to renew, and the next change to the buy flow does not need anyone's permission.` },
       { tag: "The lesson", type: "prose",
-        html: `When the brand and the storefront are made by the same person at the same time, the brand survives contact with the checkout. Split them and the identity gets flattened into whatever the theme allows.` },
+        html: `When the brand and the storefront are made by the same person at the same time, the brand survives contact with the checkout. Split them and the identity gets flattened into whatever the theme allows. More on that in <a href="/blog/storefront-that-feels-like-the-brand/">designing a storefront that feels like the brand, not a theme</a>.` },
     ],
     gallery: [
       { src: "/images/work/redline-1.webp", alt: "Redline Studios — “Born on asphalt” homepage hero" },

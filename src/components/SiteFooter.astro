@@ -2,7 +2,10 @@
 // Footer — Home.dc.html, on every page. The "lap finished" stopwatch banner
 // from the design canvas is left out: the brandbook bans stopwatch readouts.
 import { GOOGLE_MAPS_URL, GOOGLE_REVIEWS_URL, PHONE_TEL, PHONE_DISPLAY, STUDIO_HOURS } from "../lib/site.mjs";
-import { FEATURED_LOCATIONS, locationHref, HUB } from "../lib/locations.mjs";
+// One link to the hub, not a list of towns: 11 sitewide town links split the
+// town pages into a footer "A team" and an unlinked "B team" (16 Nov 2026
+// audit). The hub lists every town by district; towns link each other.
+import { HUB } from "../lib/locations.mjs";
 /** Set to "en" by Base.astro on non-English pages (/hi/): the chrome stays English. */
 const { lang } = Astro.props as { lang?: string };
 ---
@@ -41,9 +44,8 @@ const { lang } = Astro.props as { lang?: string };
       </nav>
       <nav aria-label="Locations" class="ft-col">
         <span>LOCATIONS</span>
-        <a href={HUB.href}>Web developer Himachal</a>
+        <a href={HUB.href}>Areas I serve</a>
         <a href="/hi/" lang="hi">वेब डेवलपर (हिंदी)</a>
-        {FEATURED_LOCATIONS.map((l) => <a href={locationHref(l.slug)}>Web developer {l.city}</a>)}
       </nav>
       <nav aria-label="Socials" class="ft-col">
         <span>ELSEWHERE</span>

@@ -28,6 +28,10 @@ const faqs = [
   { q: "What does a website cost in Shimla?", a: `A firm's website starts at ${inr(P.basic)}, a hotel site at ${inr(P.hotel)}, and a school or institution site with an admin panel at ${inr(P.school)}. Those are three different scopes, so I quote after one conversation, fixed and in writing. You'll know the whole number before anything starts.` },
   { q: "Can you redesign our existing website without losing our Google rankings?", a: "Yes — that's a technical SEO job as much as a design job: preserving URLs or redirecting them properly, keeping the content Google already trusts, and shipping a faster site that improves rankings rather than gambling with them." },
   { q: "How is this different from hiring a big agency in Chandigarh or Delhi?", a: "You work directly with the person who designs and codes — no account managers, no junior handoffs, no six-month timelines. Builds go live in 1–3 weeks, you own the code outright, and support doesn't die after launch." },
+  { q: "Can one website handle Shimla's summer rush and the snow season?", a: "It should, because they're two different guests. Summer brings families escaping the heat of the plains; winter brings people chasing snow at Kufri and Narkanda. Seasonal rates, packages and open dates sit in one place you can edit, and each season gets its own page that answers what that guest is searching for — instead of one homepage trying to sell both." },
+  { q: "Can a stay in Kufri, Mashobra, Naldehra or Narkanda rank for its own place, not just “hotel in Shimla”?", a: "That's usually where a smaller stay can win. “Hotel in Shimla” is the most crowded search in the district; the village name is not. A page for your own place — the drive from Shimla, what's nearby, what the season is like — is the same approach I used for a Kangra hotel's 14 “near” pages for guests heading to a medical college and the airport." },
+  { q: "Do you build websites for orchards and homestays in the apple belt — Kotkhai, Jubbal, Rohru, Theog?", a: "Yes. An orchard stay, or a grower selling apples direct, needs a few things done well: photographs of the place, the harvest season, how to get there, and an order or booking that arrives on your WhatsApp with the details filled in. No marketplace in the middle taking a cut." },
+  { q: "Do you build for firms and institutions around the Mall, the High Court and the university?", a: "Yes. Shimla is the state capital, so a lot of its business is professional: advocates, CAs, consultants, coaching centres and clinics whose clients check the website before they call. Those sites need to say plainly who you are, what you handle and how to reach you, load fast on a phone, and turn up for your own name and specialty." },
   { q: "Are you a website development company in Shimla?", a: "No — I'm one web developer, Divyansh Sood, working from Kangra district. Shimla businesses usually compare me with agencies; the difference is that you deal with the developer directly, the quote is fixed in writing, and the site goes live in weeks rather than months." },
 ];
 
@@ -62,7 +66,7 @@ const jsonld = JSON.stringify({
 ---
 
 <Base
-  title="Web Developer in Shimla — Websites for Hotels, Schools & Firms"
+  title="Web Developer in Shimla — Hotel, School & Business Websites"
   description="Web developer for Shimla businesses — hotel direct-booking sites, school and institution websites, SEO-safe redesigns. Built from Kangra, Himachal."
   canonical={canonical}
   keywords="website designer in Shimla, web developer Shimla, website design Shimla Himachal, hotel website design Shimla, website redesign Shimla, web development company Shimla"
@@ -98,6 +102,7 @@ const jsonld = JSON.stringify({
       <div class="gap-top">
         <Cards items={[
           { tag: `Travel & stays`, d: `Booking-first builds for Himalayan tourism: Himalayan Brothers runs five hotels and a travel desk on two sites; Nandini Travels moved its enquiries off a Maps listing. <a href="/projects/hotel-himalayan-brothers/">See the Himalayan Brothers build →</a>` },
+          { tag: `Redesigns · Manali`, d: `A Manali travel agency's 2011 website was rebuilt with 71 redirects, so no old link broke — the same job most Shimla redesigns need. <a href="/projects/leisure-himachal/">See the Leisure Himachal rebuild →</a>` },
           { tag: `Institutions`, d: `Modern K.B.S. school got a public site plus online admissions for classes I–XII and an admin panel the office runs. <a href="/projects/modernkbs/">See the school build →</a>` },
           { tag: `Pinnacle World School · Baroh, Kangra`, d: `A CBSE school site where every published fact traces back to the school's affiliation record: Mandatory Public Disclosure, an admissions form that lands in the office's WhatsApp, and old URLs redirected. <a href="/projects/pinnacle-world-school/">Read the case study →</a>` },
           { tag: `Yash Rock Hotel · Dehrian, Kangra`, d: `Seven rooms, a pool, and no booking engine: every enquiry goes to WhatsApp or a call, and 14 “near” pages reach guests heading for NIFT, Tanda Medical College and the airport. <a href="/projects/yash-rock-hotel/">Read the case study →</a>` },
@@ -107,8 +112,19 @@ const jsonld = JSON.stringify({
       </div>
     </Section>
 
+    <Section n={3} term="Coverage" note="Shimla district" title="Shimla, the hill station and the hills around it" tint>
+      <Cards items={[
+        { tag: "Towns covered", wide: true, d: "Shimla city — the Mall, Lakkar Bazaar, Sanjauli, Chhota Shimla and New Shimla — plus Kufri, Mashobra, Naldehra, Tattapani, Theog, Narkanda, Kotkhai, Jubbal, Rohru and Rampur Bushahr." },
+        { tag: "A capital, not just a hill station", d: "Shimla is Himachal's capital and was British India's summer capital. The secretariat, the High Court, Himachal Pradesh University and IGMC keep a year-round town of firms, institutions and clinics busy behind the tourist trade." },
+        { tag: "Two seasons, two kinds of guest", d: "Summer fills the Mall and the Ridge with families from the plains; winter sends people up to Kufri and Narkanda for snow. A hotel site that speaks to both needs a page for each." },
+        { tag: "The heritage line", d: "The Kalka–Shimla railway is part of the UNESCO-listed Mountain Railways of India, and the toy train is on many visitors' plans. Stays and tour operators near the stations have a search of their own to answer." },
+        { tag: "The apple belt", d: "Beyond Theog, Kotkhai, Jubbal and Rohru are apple country. Orchard stays and growers selling direct need a site that works on a weak signal and ends in a WhatsApp order." },
+        { tag: "Next door", wide: true, d: `Down the highway, <a href="/web-developer-solan/">Solan, Kasauli and Chail</a> and <a href="/web-developer-nahan/">Nahan and Paonta Sahib</a>; over the hills, <a href="/web-developer-kullu/">the Kullu valley</a> and <a href="/web-developer-manali/">Manali</a>; and the plains road to <a href="/web-developer-chandigarh/">Chandigarh</a>. Every district is on <a href="${HUB.href}">website designing and development in Himachal Pradesh</a>.` },
+      ]} />
+    </Section>
+
     <Section bare>
-      <Faq faqs={faqs} label="(03) Before you ask" />
+      <Faq faqs={faqs} label="(04) Before you ask" />
       <div class="gap-top"><NearbyAreas near={locationBySlug("shimla").near} /></div>
     </Section>
 

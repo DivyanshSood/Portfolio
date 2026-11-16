@@ -67,7 +67,7 @@ const jsonld = JSON.stringify({
   jsonld={jsonld}
 >
   <main>
-    <PageHero display="My portfolio" sup={String(projects.length)} lead={`${clientCap} client websites, storefronts and web apps — schools, a hotel group and a hillside hotel, travel and taxi operators from Manali to Kangra, and a creator — every one owned by the client. Plus ${countWord(personalProjects.length)} personal projects of my own.`}>
+    <PageHero display="My portfolio" sup={String(projects.length)} supLabel={`${projects.length} case studies`} h1="Web design & development portfolio" lead={`${clientCap} client websites, storefronts and web apps — schools, a hotel group and a hillside hotel, travel and taxi operators from Manali to Kangra, and a creator — every one owned by the client. Plus ${countWord(personalProjects.length)} personal projects of my own.`}>
       <div class="meta">2024 — 2026 · Showing <span class="pf-shown" data-shown>{pad(projects.length)}</span></div>
     </PageHero>
 
