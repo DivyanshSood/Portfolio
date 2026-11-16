@@ -1,7 +1,10 @@
 ---
-// Industry service page (school / hotel / travel). Content lives in
-// src/lib/verticals.mjs; proof cards read the case studies from data.mjs by
-// slug so names, images and URLs stay in step with the /projects/ pages.
+// Industry service page (school / CBSE school / hotel / homestay / travel /
+// taxi). Content lives in src/lib/verticals.mjs; proof cards read the case
+// studies from data.mjs by slug so names, images and URLs stay in step with
+// the /projects/ pages. Optional per vertical: `deep` (an "In detail" section
+// of longer cards) and `see` (links to the sibling verticals, so the hotel and
+// homestay pages, say, point at each other instead of competing).
 import Base from "./Base.astro";
 import PageHero from "../components/brand/PageHero.astro";
 import Section from "../components/brand/Section.astro";
@@ -28,6 +31,10 @@ const proof = v.proof.map((slug: string) => {
 });
 // Card code P0N = the project's place on the Portfolio grid.
 const posOf = (slug: string) => `P${pad(projects.findIndex((x) => x.slug === slug) + 1)}`;
+
+// Section numbers follow whichever optional sections this vertical has.
+let sec = 0;
+const num = () => ++sec;
 
 const jsonld = JSON.stringify({
   "@context": "https://schema.org",
@@ -95,11 +102,25 @@ const jsonld = JSON.stringify({
       <a class="btn btn--ink" href={PHONE_TEL}>Call {PHONE_DISPLAY}</a>
     </PageHero>
 
-    <Section n={1} term="Setup" note="The brief" title={v.mustHead}>
+    <Section n={num()} term="Setup" note="The brief" title={v.mustHead}>
       <Cards items={v.must} />
+      {v.see && (
+        <p class="vp-see">
+          {v.see.map((l: any, i: number) => (
+            <span class="vp-see-i"><span set:html={l.lead} /> <a href={l.href}>{l.t} <span aria-hidden="true">→</span></a></span>
+          ))}
+        </p>
+      )}
     </Section>
 
-    <Section n={2} term="Pit lane" note="Case studies" title="Built and live">
+    {v.deep && (
+      <Section n={num()} term="Detail" note={v.deepNote ?? "In detail"} title={v.deepHead} tint>
+        <Cards min={340} items={v.deep} />
+      </Section>
+    )}
+
+    <Section n={num()} term="Pit lane" note="Case studies" title={v.proofHead ?? "Built and live"}>
+      {v.proofNote && <p class="body vp-note" set:html={v.proofNote} />}
       <div class="vp">
         {proof.map((p: any) => (
           <ProjectCard href={`/projects/${p.slug}/`} pos={posOf(p.slug)} tags={p.tags} year={p.year} img={p.feature.src} alt={p.feature.alt} name={p.name} line={p.line} foot={p.stack} />
@@ -107,15 +128,15 @@ const jsonld = JSON.stringify({
       </div>
     </Section>
 
-    <Section n={3} term="Race weekend" note="Four steps" title="How the build runs" tint>
+    <Section n={num()} term="Race weekend" note="Four steps" title="How the build runs" tint={!v.deep}>
       <Steps items={v.steps} hot={3} />
     </Section>
 
     <Section bare>
-      <Faq faqs={v.faqs} label="(04) Before you ask" />
+      <Faq faqs={v.faqs} label={`(${pad(num())}) Before you ask`} />
     </Section>
 
-    <Section n={5} term="Journal" note="From the blog" title="Further reading">
+    <Section n={num()} term="Journal" note="From the blog" title="Further reading">
       <PostList items={v.reading.map((r: any) => ({ href: r.href, title: r.t, meta: "Article" }))} />
     </Section>
 
@@ -130,5 +151,11 @@ const jsonld = JSON.stringify({
 </Base>
 
 <style>
+  .vp-see{margin:clamp(24px,3vw,36px) 0 0;max-width:72ch;font-size:17px;line-height:1.55;color:var(--g3e)}
+  .vp-see-i{display:block}
+  .vp-see-i + .vp-see-i{margin-top:6px}
+  .vp-see a{color:var(--ink);font-weight:700;display:inline-block;padding:4px 0}
+  .vp-see a:hover{color:var(--red)}
+  .vp-note{max-width:68ch;margin:0 0 clamp(28px,3vw,44px)}
   .vp{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,560px),1fr));gap:clamp(40px,4vw,64px) clamp(16px,2.4vw,36px)}
 </style>

@@ -76,6 +76,9 @@ export const PAGE_UPDATED = {
   "/services/school-website-development/": "2026-11-06",
   "/services/hotel-website-development/": "2026-11-02",
   "/services/travel-website-development/": "2026-11-13",
+  "/services/cbse-school-website-development/": "2026-11-16",
+  "/services/homestay-website-development/": "2026-11-16",
+  "/services/taxi-website-development/": "2026-11-16",
 
   // Location pages — the hub and four towns are hand-written; the rest are
   // generated from src/lib/locations.mjs (added 2026-11-07), so an edit to one

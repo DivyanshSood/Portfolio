@@ -71,7 +71,7 @@ export const LOCATIONS = [
     lead: `Palampur sells three things to people who are not here yet: a room with a view of the Dhauladhars, a tandem flight off Billing, and the tea grown on the slopes between them. All three are researched on a phone weeks before the trip. I build from Kangra, about an hour down the road, and I make the websites that turn those searches into WhatsApp enquiries you own — not commission you hand to an aggregator.`,
     offersHead: "Built for how Palampur earns",
     offers: [
-      { t: "Homestay & boutique-stay websites", d: "Room pages with real photographs, a WhatsApp enquiry that arrives with the dates already filled in, and the “near Palampur” pages guests search before booking: Bir, Andretta, Baijnath, Neugal Khad." },
+      { t: "Homestay & boutique-stay websites", d: "Room pages with real photographs, a WhatsApp enquiry that arrives with the dates already filled in, and the “near Palampur” pages guests search before booking: Bir, Andretta, Baijnath, Neugal Khad. More on <a href=\"/services/homestay-website-development/\">homestay websites</a>." },
       { t: "Paragliding & adventure operators in Bir", d: "Tandem flights, courses and stays, priced and bookable on a page that loads on a weak mountain signal. Operators lose bookings to whoever answers first; the site answers first." },
       { t: "Tea estates & local produce", d: "A story page for the estate, a simple order-on-WhatsApp catalogue for Kangra tea and pickles, and tour-booking for visitors who want to walk the garden." },
       { t: "Shops, clinics & coaching on the bazaar", d: "Phone-first sites for the businesses Palampur town runs on, built to show up when someone nearby searches for “web developer near me” — or for what you sell." },
@@ -252,7 +252,7 @@ export const LOCATIONS = [
     offersHead: "For the valley beyond Manali",
     offers: [
       { t: "Kasol & Parvati valley stays", d: "Cafés, hostels and camps in Kasol, Tosh and Chalal: photographs, prices, the trek list and a WhatsApp booking for travellers who plan on the bus up." },
-      { t: "Tirthan & Banjar homestays", d: "Quiet stays near the Great Himalayan National Park, with the trout, the trails and the drive explained, and booking that doesn't pay an aggregator." },
+      { t: "Tirthan & Banjar homestays", d: "Quiet stays near the Great Himalayan National Park, with the trout, the trails and the drive explained, and booking that doesn't pay an aggregator. See <a href=\"/services/homestay-website-development/\">homestay website development</a>." },
       { t: "Rafting, trekking & camping operators", d: "A page per trip — Kheerganga, Bhrigu Lake, the Beas rafting stretch — with the season, the grade and what's included, so each one can rank on its own." },
       { t: "Kullu shawls, apples & local makers", d: "A made-to-order catalogue where each piece can be ordered on WhatsApp — the same pattern I used for a 585K-subscriber knitting teacher." },
     ],

@@ -70,9 +70,12 @@ Page: https://www.divyanshsood.com/services/website-development/
 
 Industry pages for the three verticals most of the Himachal client work sits in:
 
-- School websites — https://www.divyanshsood.com/services/school-website-development/ — CBSE Mandatory Public Disclosure, admissions over WhatsApp or a portal, notices and fees.
-- Hotel and homestay websites — https://www.divyanshsood.com/services/hotel-website-development/ — direct-booking sites where the call to action matches how the property actually confirms stays.
-- Travel and taxi websites — https://www.divyanshsood.com/services/travel-website-development/ — one page per route, trip and town, with WhatsApp booking.
+- School websites — https://www.divyanshsood.com/services/school-website-development/ — online admissions with an application-status page, or enquiries to the office's WhatsApp, and an admin panel the office runs; CBSE or state board.
+- CBSE school websites — https://www.divyanshsood.com/services/cbse-school-website-development/ — the Mandatory Public Disclosure as a page per Appendix IX, facts that match SARAS, one row per document, "Document awaited" for anything not yet supplied.
+- Hotel websites — https://www.divyanshsood.com/services/hotel-website-development/ — direct-booking sites for hotels and hotel groups, where the call to action matches how the property actually confirms stays.
+- Homestay websites — https://www.divyanshsood.com/services/homestay-website-development/ — for family homestays and guesthouses in Bir, Tirthan, Spiti and Dharamkot: the host, the food, the road in, and WhatsApp with the dates filled in.
+- Travel websites — https://www.divyanshsood.com/services/travel-website-development/ — for tour operators and agencies: one page per package, trek and destination, with WhatsApp enquiries.
+- Taxi websites — https://www.divyanshsood.com/services/taxi-website-development/ — for taxi operators: airport pickups, a page per route with the all-in fare, town pages and WhatsApp booking.
 
 ### Ecommerce website development
 

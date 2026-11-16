@@ -7,13 +7,21 @@
     "image": "/images/og/pages/services-ai-development.jpg",
     "alt": "Share card for Divyansh Sood® Studio: “AI that ships, not AI that demos” — AI features · LLM integration"
   },
+  "/services/cbse-school-website-development/": {
+    "image": "/images/og/pages/services-cbse-school-website-development.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “CBSE school website development” — Education · CBSE-affiliated schools · Himachal · India"
+  },
   "/services/ecommerce-website-development/": {
     "image": "/images/og/pages/services-ecommerce-website-development.jpg",
     "alt": "Share card for Divyansh Sood® Studio: “Stores that sell, not themes that rent” — Ecommerce · D2C"
   },
+  "/services/homestay-website-development/": {
+    "image": "/images/og/pages/services-homestay-website-development.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Homestay website development” — Hospitality · Homestays · guesthouses · farm stays · Himachal · India"
+  },
   "/services/hotel-website-development/": {
     "image": "/images/og/pages/services-hotel-website-development.jpg",
-    "alt": "Share card for Divyansh Sood® Studio: “Hotel website design & development” — Hospitality · Hotels · homestays · resorts · Himachal · India"
+    "alt": "Share card for Divyansh Sood® Studio: “Hotel website design & development” — Hospitality · Hotels · resorts · hotel groups · Himachal · India"
   },
   "/services/landing-page-design/": {
     "image": "/images/og/pages/services-landing-page-design.jpg",
@@ -27,9 +35,13 @@
     "image": "/images/og/pages/services-seo-geo-services.jpg",
     "alt": "Share card for Divyansh Sood® Studio: “Ranked by Google. Quoted by AI” — SEO · GEO · AEO"
   },
+  "/services/taxi-website-development/": {
+    "image": "/images/og/pages/services-taxi-website-development.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Taxi website development” — Travel · Taxi operators · owner-drivers · Himachal · India"
+  },
   "/services/travel-website-development/": {
     "image": "/images/og/pages/services-travel-website-development.jpg",
-    "alt": "Share card for Divyansh Sood® Studio: “Travel & taxi website development” — Travel · Tours · taxis · agencies · Himachal · India"
+    "alt": "Share card for Divyansh Sood® Studio: “Travel website development” — Travel · Tour operators · agencies · treks · Himachal · India"
   },
   "/services/web-app-development/": {
     "image": "/images/og/pages/services-web-app-development.jpg",
