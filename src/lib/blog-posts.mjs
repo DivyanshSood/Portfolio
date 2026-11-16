@@ -129,7 +129,7 @@ export const POSTS = [
     "seoTitle": "Schema Node Identifiers (@id) & Entity Graphs · Divyansh Sood",
     "description": "How to give every structured-data node a stable @id and link them into one entity graph — this site's schema, node by node, and the two mistakes I made first.",
     "pubDate": "2026-08-07",
-    "updatedDate": "2026-10-02",
+    "updatedDate": "2026-11-16",
     "coverImage": "/blog/entity-graph-schema-node-by-node.jpg",
     "coverAlt": "Title card reading “The entity graph, node by node” in bold white type on a red chevron",
     "tags": [

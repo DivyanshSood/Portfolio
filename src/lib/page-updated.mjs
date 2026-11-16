@@ -49,14 +49,14 @@
 
 /** @type {Record<string, string>} URL path (trailing slash) → ISO date */
 export const PAGE_UPDATED = {
-  "/": "2026-11-13",
+  "/": "2026-11-16",
   "/about/": "2026-11-13",
-  "/agencies/": "2026-11-13",
-  "/portfolio/": "2026-11-06",
+  "/agencies/": "2026-11-16",
+  "/portfolio/": "2026-11-16",
   "/press/": "2026-11-06",
-  "/privacy/": "2026-11-13",
-  "/results/": "2026-11-13",
-  "/testimonials/": "2026-11-06",
+  "/privacy/": "2026-11-16",
+  "/results/": "2026-11-16",
+  "/testimonials/": "2026-11-16",
   "/website-audit/": "2026-09-30",
 
   // Free tools.
@@ -64,18 +64,18 @@ export const PAGE_UPDATED = {
   "/tools/llms-txt-generator/": "2026-11-13",
 
   // Service pages.
-  "/services/": "2026-11-13",
-  "/services/ai-development/": "2026-11-06",
-  "/services/ecommerce-website-development/": "2026-11-13",
-  "/services/landing-page-design/": "2026-11-06",
-  "/services/seo-geo-services/": "2026-09-30",
-  "/services/web-app-development/": "2026-11-13",
-  "/services/website-development/": "2026-11-13",
+  "/services/": "2026-11-16",
+  "/services/ai-development/": "2026-11-16",
+  "/services/ecommerce-website-development/": "2026-11-16",
+  "/services/landing-page-design/": "2026-11-16",
+  "/services/seo-geo-services/": "2026-11-16",
+  "/services/web-app-development/": "2026-11-16",
+  "/services/website-development/": "2026-11-16",
 
   // Industry pages — content in src/lib/verticals.mjs.
-  "/services/school-website-development/": "2026-11-06",
-  "/services/hotel-website-development/": "2026-11-02",
-  "/services/travel-website-development/": "2026-11-13",
+  "/services/school-website-development/": "2026-11-16",
+  "/services/hotel-website-development/": "2026-11-16",
+  "/services/travel-website-development/": "2026-11-16",
   "/services/cbse-school-website-development/": "2026-11-16",
   "/services/homestay-website-development/": "2026-11-16",
   "/services/taxi-website-development/": "2026-11-16",
@@ -83,17 +83,17 @@ export const PAGE_UPDATED = {
   // Location pages — the hub and four towns are hand-written; the rest are
   // generated from src/lib/locations.mjs (added 2026-11-07), so an edit to one
   // town's entry there moves only that town's date.
-  "/web-developer-himachal-pradesh/": "2026-11-07",
-  "/web-developer-dharamshala/": "2026-11-13",
+  "/web-developer-himachal-pradesh/": "2026-11-16",
+  "/web-developer-dharamshala/": "2026-11-16",
   "/web-developer-kangra/": "2026-11-07",
-  "/web-developer-manali/": "2026-11-13",
-  "/web-developer-shimla/": "2026-11-07",
-  "/web-developer-palampur/": "2026-11-07",
+  "/web-developer-manali/": "2026-11-16",
+  "/web-developer-shimla/": "2026-11-16",
+  "/web-developer-palampur/": "2026-11-16",
   "/web-developer-mandi/": "2026-11-07",
   "/web-developer-hamirpur/": "2026-11-07",
   "/web-developer-solan/": "2026-11-07",
   "/web-developer-una/": "2026-11-07",
-  "/web-developer-kullu/": "2026-11-07",
+  "/web-developer-kullu/": "2026-11-16",
   "/web-developer-bilaspur/": "2026-11-07",
   "/web-developer-chamba/": "2026-11-13",
   "/web-developer-nahan/": "2026-11-07",
@@ -105,5 +105,5 @@ export const PAGE_UPDATED = {
   "/web-developer-amritsar/": "2026-11-07",
 
   // Hindi page (hreflang pair with "/").
-  "/hi/": "2026-11-07",
+  "/hi/": "2026-11-16",
 };
