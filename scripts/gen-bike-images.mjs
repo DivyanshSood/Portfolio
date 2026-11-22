@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /* ===========================================================================
-   Marlboro Cross photos → /public/images/bike/*.webp + share card + manifest.
+   Marlboro Cross photos → /public/images/marlboro-cross/*.webp + share card + manifest.
 
    Local-only, like the other generators: the outputs are committed, the
    owner's originals are not (they carry GPS and are 2–7 MB each).
@@ -28,11 +28,11 @@ import { existsSync, mkdirSync, readdirSync, writeFileSync, mkdtempSync } from "
 import { tmpdir } from "node:os";
 import { dirname, join, resolve, extname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { BIKE_PHOTOS, BIKE_HERO, BIKE_OG } from "../src/lib/bike.mjs";
+import { BIKE_PHOTOS, BIKE_HERO, BIKE_OG, BIKE_DIR } from "../src/lib/bike.mjs";
 import { LOCAL_WIDTHS, BASE_WIDTH } from "../src/lib/images.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const OUT = join(ROOT, "public", "images", "bike");
+const OUT = join(ROOT, "public", BIKE_DIR);
 const MANIFEST = join(ROOT, "src", "data", "bike-images.json");
 const QUALITY = 74;
 
@@ -88,4 +88,4 @@ for (const photo of BIKE_PHOTOS) {
 }
 
 writeFileSync(MANIFEST, JSON.stringify(manifest, null, 2) + "\n");
-console.log(`\n${BIKE_PHOTOS.length} photos → public/images/bike, sizes → src/data/bike-images.json`);
+console.log(`\n${BIKE_PHOTOS.length} photos → public${BIKE_DIR}, sizes → src/data/bike-images.json`);

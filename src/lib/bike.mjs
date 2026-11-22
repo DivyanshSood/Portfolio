@@ -104,7 +104,11 @@ export const BIKE_PHOTOS = [
   },
 ];
 
-export const BIKE_DIR = "/images/bike";
+// A new folder name is how a photo change reaches people: images are cached
+// for 30 days (vercel.json), so the same URL with new pixels stays stale in
+// any browser or link preview that saw the old file. (Moved from
+// /images/bike/ on 22 Nov 2026, when the blurred versions were replaced.)
+export const BIKE_DIR = "/images/marlboro-cross";
 export const BIKE_OG = `${BIKE_DIR}/marlboro-cross-og.jpg`;
 
 /** Published path of a photo's 1920px base. */
