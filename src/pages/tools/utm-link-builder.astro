@@ -1,0 +1,110 @@
+---
+import Tool from "../../layouts/Tool.astro";
+import { TOPICS } from "../../lib/entity.mjs";
+
+const faqs = [
+  { q: "What are UTM parameters?", a: "Five tags you add to the end of a link (utm_source, utm_medium, utm_campaign, utm_term and utm_content) that tell Google Analytics where a visitor came from. Without them, a visit from a poster QR code or a WhatsApp status shows up as “direct” and you can’t tell it apart from someone typing your address." },
+  { q: "Which ones do I need?", a: "Source, medium and campaign. Source is where the link lives (instagram, whatsapp, poster), medium is the kind of channel (social, qr, email, referral), and campaign is what it’s for (diwali-2026, summer-rooms). Term and content are optional, for telling two ads or two links on the same post apart." },
+  { q: "Should I add UTMs to my Google Business Profile website link?", a: "Many people do, with something like utm_source=google, utm_medium=organic and utm_campaign=gbp, so visits from the profile appear separately in Analytics. Keep the medium as organic, so the visits still count as organic search. Never add UTMs to links between pages of your own site; that splits your own visitors into fake new sessions." },
+  { q: "Is anything stored?", a: "No. The link is built in your browser." },
+];
+---
+
+<Tool
+  slug="utm-link-builder"
+  title="Free UTM Link Builder for GA4 (with QR Code)"
+  description="Build UTM-tagged campaign links for posters, WhatsApp, Instagram, email and your Business Profile, with a QR code, so GA4 shows what worked. Free."
+  keywords="utm builder, utm link generator, campaign url builder, ga4 utm, utm parameters, utm qr code, google analytics campaign url"
+  ogTitle="Free UTM link builder"
+  ogDescription="Campaign links with UTM tags and a QR code, so GA4 shows which poster, post or message brought the visit. Free."
+  display="Know which poster worked."
+  kicker="Free tool · Analytics · GA4 · No sign-up"
+  lead="Add <strong>UTM tags</strong> to any link so Google Analytics shows where each visit came from: the poster at reception, the WhatsApp status, the Instagram bio, the email. Pick a preset, adjust, and copy the link or download a <strong>QR code</strong> for print."
+  appName="Free UTM Link Builder"
+  appDescription="A free, browser-based tool that builds UTM-tagged campaign links with channel presets and a QR code for Google Analytics 4 tracking. No sign-up, nothing stored."
+  toolTitle="Build a campaign link"
+  cards={[
+    { tag: "Keep a naming list", d: "Lowercase, hyphens, and the same spelling every time. “Instagram”, “instagram” and “IG” are three different sources in GA4." },
+    { tag: "Where to read it", d: "In GA4, open Reports → Acquisition → Traffic acquisition, and change the table’s dimension to Session source / medium or Session campaign." },
+  ]}
+  faqs={faqs}
+  topics={[TOPICS.seo]}
+  end={{ title: "Want tracking that shows bookings, not just visits?", text: "Every site I build tracks WhatsApp taps, calls and form sends as events in GA4, so you see which pages and campaigns bring enquiries.", primary: { href: "/services/website-development/", label: "Business websites →" } }}
+>
+  <div class="tk">
+    <form class="form" id="ut-form" autocomplete="off" novalidate>
+      <label class="field" for="ut-url">Page URL *<input type="url" id="ut-url" placeholder="https://www.example.com/rooms/" inputmode="url" spellcheck="false" /></label>
+      <label class="field" for="ut-preset">Preset
+        <select id="ut-preset">
+          <option value="">Choose a channel…</option>
+          <option value="poster|qr|">Printed poster or card (QR)</option>
+          <option value="whatsapp|social|">WhatsApp status or message</option>
+          <option value="instagram|social|">Instagram bio or story</option>
+          <option value="facebook|social|">Facebook post</option>
+          <option value="newsletter|email|">Email newsletter</option>
+          <option value="google|organic|gbp">Google Business Profile website link</option>
+        </select>
+      </label>
+      <div class="tk-two">
+        <label class="field" for="ut-source">Source * (utm_source)<input type="text" id="ut-source" placeholder="instagram" spellcheck="false" /></label>
+        <label class="field" for="ut-medium">Medium * (utm_medium)<input type="text" id="ut-medium" placeholder="social" spellcheck="false" /></label>
+      </div>
+      <label class="field" for="ut-campaign">Campaign * (utm_campaign)<input type="text" id="ut-campaign" placeholder="summer-rooms-2026" spellcheck="false" /></label>
+      <div class="tk-two">
+        <label class="field" for="ut-term">Term (optional)<input type="text" id="ut-term" placeholder="" spellcheck="false" /></label>
+        <label class="field" for="ut-content">Content (optional)<input type="text" id="ut-content" placeholder="bio-link" spellcheck="false" /></label>
+      </div>
+      <label class="tk-check"><input type="checkbox" id="ut-lower" checked /> Lowercase and hyphenate values</label>
+    </form>
+    <div class="tk-out">
+      <div class="tk-bar">
+        <span>Campaign link</span>
+        <div class="tk-actions">
+          <button type="button" class="tk-btn" id="ut-copy">Copy</button>
+          <button type="button" class="tk-btn tk-btn--red" id="ut-png">QR PNG</button>
+        </div>
+      </div>
+      <div class="tk-body">
+        <p class="tk-link" id="ut-out"></p>
+        <p class="tk-msg" id="ut-msg" aria-live="polite"></p>
+        <div class="tk-qr" id="ut-qr"></div>
+      </div>
+    </div>
+  </div>
+</Tool>
+
+<script>
+  import { $, val, live, qrSvg, qrPngBlob, download, copyText, track } from "../../scripts/tools-kit.js";
+  const TOOL = "utm_builder";
+  let link = "";
+  const norm = (s: string) => (($("ut-lower") as HTMLInputElement).checked ? s.toLowerCase().trim().replace(/\s+/g, "-") : s.trim());
+
+  function render() {
+    const raw = val("ut-url");
+    const msg = $("ut-msg")!;
+    link = "";
+    let u: URL | null = null;
+    try { if (raw) u = new URL(/^https?:\/\//i.test(raw) ? raw : "https://" + raw); } catch { u = null; }
+    const need = ["source", "medium", "campaign"].filter((k) => !val("ut-" + k));
+    if (!u) msg.textContent = raw ? "That URL doesn’t look valid." : "Enter the page you’re linking to.";
+    else if (need.length) msg.textContent = `Add ${need.join(", ")}.`;
+    else {
+      ["source", "medium", "campaign", "term", "content"].forEach((k) => {
+        const v = val("ut-" + k);
+        if (v) u!.searchParams.set("utm_" + k, norm(v)); else u!.searchParams.delete("utm_" + k);
+      });
+      link = u.href;
+      msg.textContent = `${link.length} characters.` + (link.length > 120 ? " Long links make dense QR codes; shorten the campaign name if you’ll print it." : "");
+    }
+    $("ut-out")!.textContent = link || "https://www.example.com/?utm_source=…";
+    $("ut-qr")!.innerHTML = link ? qrSvg(link, { label: "QR code for your campaign link" }) : "";
+    ($("ut-copy") as HTMLButtonElement).disabled = ($("ut-png") as HTMLButtonElement).disabled = !link;
+  }
+  $("ut-preset")!.addEventListener("change", (e) => {
+    const [s, m, c] = (e.target as HTMLSelectElement).value.split("|");
+    if (s) { ($("ut-source") as HTMLInputElement).value = s; ($("ut-medium") as HTMLInputElement).value = m; if (c) ($("ut-campaign") as HTMLInputElement).value = c; }
+  });
+  live("ut-form", render, TOOL);
+  $("ut-copy")!.addEventListener("click", (e) => { copyText(link, e.currentTarget as HTMLElement); track(TOOL, "copy"); });
+  $("ut-png")!.addEventListener("click", async () => { download("campaign-qr.png", await qrPngBlob(link)); track(TOOL, "download_qr"); });
+</script>

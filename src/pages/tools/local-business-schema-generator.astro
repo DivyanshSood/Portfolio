@@ -5,6 +5,7 @@ import Section from "../../components/brand/Section.astro";
 import Cards from "../../components/brand/Cards.astro";
 import Faq from "../../components/brand/Faq.astro";
 import EndCta from "../../components/brand/EndCta.astro";
+import RelatedTools from "../../components/brand/RelatedTools.astro";
 import { SITE } from "../../lib/site.mjs";
 import { TOPICS } from "../../lib/entity.mjs";
 import "../../styles/tools.css";
@@ -173,8 +174,12 @@ const jsonld = JSON.stringify({
       ]} />
     </Section>
 
+    <Section n={3} term="Pit lane" note="Free, no sign-up" title="Related free tools">
+      <RelatedTools slug="local-business-schema-generator" />
+    </Section>
+
     <Section bare>
-      <Faq faqs={faqs} label="(03) Before you ask" />
+      <Faq faqs={faqs} label="(04) Before you ask" />
     </Section>
 
     <EndCta

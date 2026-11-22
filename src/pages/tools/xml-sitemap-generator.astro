@@ -1,0 +1,106 @@
+---
+import Tool from "../../layouts/Tool.astro";
+import { TOPICS } from "../../lib/entity.mjs";
+
+const faqs = [
+  { q: "What should go in a sitemap?", a: "Every page you want in search results, as its canonical URL: one version of each page (https, with or without www, with or without the trailing slash, whichever your site uses). Leave out redirects, error pages, noindex pages and duplicates." },
+  { q: "Should I add lastmod, priority and changefreq?", a: "Add lastmod only if it’s true: the date the page’s content last really changed. Google uses lastmod when it’s consistently accurate and ignores it otherwise. Google ignores priority and changefreq entirely, so this generator leaves them out." },
+  { q: "How many URLs can one sitemap hold?", a: "Up to 50,000 URLs or 50 MB uncompressed. Bigger sites split into several sitemaps listed in a sitemap index. If you have that many pages, your site should be generating its sitemap automatically." },
+  { q: "Where do I put the file?", a: "At your site’s root (yoursite.com/sitemap.xml). Add a Sitemap: line to robots.txt and submit it in Google Search Console and Bing Webmaster Tools." },
+];
+---
+
+<Tool
+  slug="xml-sitemap-generator"
+  title="Free XML Sitemap Generator from a List of URLs"
+  description="Paste your page URLs, optionally with lastmod dates, and get a valid sitemap.xml with duplicates removed and characters escaped. Free, nothing stored."
+  keywords="xml sitemap generator, sitemap.xml generator, create sitemap from url list, sitemap generator free, google sitemap generator, sitemap lastmod"
+  ogTitle="Free XML sitemap generator"
+  ogDescription="A valid sitemap.xml from a list of URLs, with honest lastmod dates. Free, in your browser."
+  display="A sitemap from a list."
+  kicker="Free tool · Crawling · Sitemap · No sign-up"
+  lead="Paste the URLs you want indexed, one per line, with a <strong>last-modified date</strong> after each if you know it. You get a <strong>valid sitemap.xml</strong>: duplicates removed, other domains flagged, special characters escaped, and no priority or changefreq tags Google ignores anyway."
+  appName="Free XML Sitemap Generator"
+  appDescription="A free, browser-based tool that builds a valid sitemap.xml from a list of URLs with optional lastmod dates, removing duplicates and escaping XML. No sign-up, nothing stored."
+  category="DeveloperApplication"
+  toolTitle="Build your sitemap"
+  toolNote="Live file"
+  cards={[
+    { tag: "Then tell crawlers", d: `Add a Sitemap: line to your robots.txt and check it with the <a href="/tools/robots-txt-tester/">robots.txt tester</a>.` },
+    { tag: "Moving pages?", d: `Old URLs belong in redirects, not the sitemap. <a href="/tools/redirect-generator/">Build a redirect map →</a>` },
+  ]}
+  faqs={faqs}
+  topics={[TOPICS.seo]}
+  end={{ title: "Want a sitemap that never goes stale?", text: "Sites I build generate the sitemap on every build, with lastmod dates taken from real content changes.", primary: { href: "/services/seo-geo-services/", label: "SEO & GEO service →" } }}
+>
+  <div class="tk">
+    <form class="form" id="sm-form" autocomplete="off" novalidate>
+      <label class="field" for="sm-in">URLs, one per line (optionally “URL | 2026-11-01”)
+        <textarea id="sm-in" rows="12" spellcheck="false" placeholder="https://www.example.com/&#10;https://www.example.com/rooms/ | 2026-10-14&#10;https://www.example.com/contact/"></textarea>
+      </label>
+      <label class="tk-check"><input type="checkbox" id="sm-sort" checked /> Sort URLs</label>
+    </form>
+    <div class="tk-out">
+      <div class="tk-bar">
+        <span id="sm-count">sitemap.xml</span>
+        <div class="tk-actions">
+          <button type="button" class="tk-btn" id="sm-copy">Copy</button>
+          <button type="button" class="tk-btn tk-btn--red" id="sm-dl">Download</button>
+        </div>
+      </div>
+      <ul class="tk-list sm-warn" id="sm-warn"></ul>
+      <pre class="tk-pre" id="sm-out" tabindex="0"></pre>
+    </div>
+  </div>
+</Tool>
+
+<script>
+  import { $, val, live, copyText, download, track, escHtml } from "../../scripts/tools-kit.js";
+  const TOOL = "sitemap";
+  const x = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;");
+
+  function build() {
+    const warn: string[] = [];
+    const seen = new Map<string, string>();
+    let host = "";
+    val("sm-in").split("\n").map((l) => l.trim()).filter(Boolean).forEach((l, i) => {
+      const [u, d] = l.split("|").map((s) => s.trim());
+      let url: URL;
+      try { url = new URL(u); } catch { warn.push(`Line ${i + 1}: “${u}” isn’t a full URL (it needs https://).`); return; }
+      if (!/^https?:$/.test(url.protocol)) { warn.push(`Line ${i + 1}: only http and https URLs belong in a sitemap.`); return; }
+      url.hash = "";
+      if (!host) host = url.host;
+      else if (url.host !== host) warn.push(`Line ${i + 1}: ${url.host} is a different host from ${host}. A sitemap should list one host’s URLs.`);
+      if (url.protocol === "http:") warn.push(`Line ${i + 1}: uses http. List the https version if your site has one.`);
+      let date = "";
+      if (d) {
+        if (/^\d{4}-\d{2}-\d{2}(T[\d:.]+(Z|[+-]\d{2}:\d{2}))?$/.test(d) && !isNaN(Date.parse(d))) date = d;
+        else warn.push(`Line ${i + 1}: “${d}” isn’t a W3C date (use YYYY-MM-DD).`);
+        if (date && Date.parse(date) > Date.now() + 86400000) warn.push(`Line ${i + 1}: lastmod is in the future.`);
+      }
+      if (seen.has(url.href)) warn.push(`Duplicate removed: ${url.href}`);
+      seen.set(url.href, date);
+    });
+    let entries = [...seen.entries()];
+    if (($("sm-sort") as HTMLInputElement).checked) entries.sort((a, b) => a[0].localeCompare(b[0]));
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries.map(([u, d]) => `  <url>\n    <loc>${x(u)}</loc>${d ? `\n    <lastmod>${d}</lastmod>` : ""}\n  </url>`).join("\n")}\n</urlset>\n`;
+    if (entries.length > 50000) warn.push("More than 50,000 URLs: split into several sitemaps with a sitemap index.");
+    return { xml, n: entries.length, warn };
+  }
+
+  function render() {
+    const r = build();
+    $("sm-out")!.textContent = r.n ? r.xml : "Paste URLs on the left.";
+    $("sm-count")!.textContent = r.n ? `sitemap.xml · ${r.n} URL${r.n > 1 ? "s" : ""}` : "sitemap.xml";
+    $("sm-warn")!.innerHTML = r.warn.slice(0, 30).map((w) => `<li>${escHtml(w)}</li>`).join("") + (r.warn.length > 30 ? `<li>…and ${r.warn.length - 30} more.</li>` : "");
+    ($("sm-copy") as HTMLButtonElement).disabled = ($("sm-dl") as HTMLButtonElement).disabled = !r.n;
+  }
+  live("sm-form", render, TOOL);
+  $("sm-copy")!.addEventListener("click", (e) => { copyText(build().xml, e.currentTarget as HTMLElement); track(TOOL, "copy"); });
+  $("sm-dl")!.addEventListener("click", () => { download("sitemap.xml", build().xml, "application/xml;charset=utf-8"); track(TOOL, "download"); });
+</script>
+
+<style>
+  .sm-warn{padding:12px 16px 0 34px;font-family:var(--mono);font-size:12px;color:var(--red-on-tint,#D0131C)}
+  .sm-warn:empty{display:none}
+</style>

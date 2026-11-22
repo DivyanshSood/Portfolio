@@ -1,0 +1,143 @@
+---
+import Tool from "../../layouts/Tool.astro";
+import { TOPICS } from "../../lib/entity.mjs";
+
+const faqs = [
+  { q: "Why test prompts by hand instead of using a tracking tool?", a: "Tracking tools are useful at scale, but for one local business a manual check is free and teaches you more. You see exactly what each assistant says about you and your competitors, which sources it cites, and which facts it gets wrong." },
+  { q: "Why did I get a different answer from my friend?", a: "AI answers vary by account, location, chat history and the moment you ask. Run each prompt in a fresh chat, signed out or in a private window where you can, ask twice, and note what comes up both times. Treat it as a sample, not a ranking." },
+  { q: "The assistant got my phone number or hours wrong. What do I do?", a: "Find where the wrong fact comes from: an old directory listing, an outdated page on your own site, or your Business Profile. Fix it at the source, make sure your site and your Google Business Profile say the same thing, and check again in a few weeks. Assistants that search the web pick up corrected facts faster than ones answering from training data." },
+  { q: "Is my score sheet saved?", a: "Only in this browser, so you can come back and fill it in. Nothing is uploaded. Download the CSV to keep a record or compare month to month." },
+];
+---
+
+<Tool
+  slug="ai-visibility-prompt-pack"
+  title="AI Visibility Check: Does ChatGPT Recommend You?"
+  description="Ten ready-made prompts to test whether ChatGPT, Claude, Gemini and Perplexity mention and recommend your business, with a score sheet you can download."
+  keywords="ai visibility checker, does chatgpt recommend my business, chatgpt local business, geo audit, ai search visibility, llm visibility test, perplexity business mention"
+  ogTitle="Does AI recommend your business?"
+  ogDescription="Ten prompts and a score sheet to test ChatGPT, Claude, Gemini and Perplexity on your business. Free, in your browser."
+  display="Does AI recommend you?"
+  kicker="Free tool · GEO · AI search · No sign-up"
+  lead="Enter your business, your service and your town. You get <strong>ten prompts</strong> written the way customers actually ask, from “best taxi in Dharamshala” to “is this place reliable?”, and a <strong>score sheet</strong> for ChatGPT, Claude, Gemini and Perplexity. Paste each prompt, tick what you see, and download the results."
+  appName="AI Visibility Prompt Pack"
+  appDescription="A free, browser-based tool that writes ten customer-style prompts for a local business and gives a score sheet to record whether ChatGPT, Claude, Gemini and Perplexity mention it, recommend it and state its facts correctly."
+  category="BusinessApplication"
+  toolTitle="Build your prompt pack"
+  toolNote="Prompts + score sheet"
+  note="Copy one prompt at a time into a new chat. Tick <em>Mentioned</em> if your business appears at all, <em>Recommended</em> if it’s in the top picks, and <em>Facts right</em> if the phone, location and services are correct."
+  cards={[
+    { tag: "What moves the needle", d: "Being indexed and ranking on Google and Bing, a Business Profile that matches your site, reviews that mention your services and town, and pages that answer questions directly. Assistants that search the web lean on the same signals." },
+    { tag: "Make your facts unambiguous", d: `<a href="/tools/local-business-schema-generator/">Local business schema</a> and an <a href="/tools/llms-txt-generator/">llms.txt</a> state your facts in a form machines read without guessing.` },
+    { tag: "Done properly, for you", wide: true, d: `GEO is part of every site I build, and a service of its own for existing sites: entity schema, consistent facts across the web, and pages written to be quoted. See <a href="/services/seo-geo-services/">SEO &amp; GEO services →</a>` },
+  ]}
+  faqs={faqs}
+  topics={[TOPICS.ai, TOPICS.llm, TOPICS.seo]}
+  end={{ title: "Not showing up in AI answers?", text: "Send me your score sheet. I’ll tell you which gap matters most and what fixing it involves.", primary: { href: "/services/seo-geo-services/", label: "SEO & GEO service →" } }}
+>
+  <form class="form" id="av-form" autocomplete="off" novalidate>
+    <div class="av-in">
+      <label class="field" for="av-name">Business name *<input type="text" id="av-name" placeholder="Snow View Taxi Service" /></label>
+      <label class="field" for="av-svc">What you are *<input type="text" id="av-svc" placeholder="taxi service" /></label>
+      <label class="field" for="av-town">Town *<input type="text" id="av-town" placeholder="Dharamshala" /></label>
+      <label class="field" for="av-region">State / region<input type="text" id="av-region" value="Himachal Pradesh" /></label>
+      <label class="field" for="av-need">A specific need customers have<input type="text" id="av-need" placeholder="an early-morning airport pickup from Gaggal" /></label>
+      <label class="field" for="av-comp">A competitor (optional)<input type="text" id="av-comp" placeholder="Another Taxi Co" /></label>
+    </div>
+  </form>
+  <div class="tk-out av-out">
+    <div class="tk-bar">
+      <span>Prompts & score sheet</span>
+      <div class="tk-actions">
+        <button type="button" class="tk-btn" id="av-copyall">Copy all prompts</button>
+        <button type="button" class="tk-btn tk-btn--red" id="av-csv">Download CSV</button>
+        <button type="button" class="tk-btn" id="av-reset">Reset ticks</button>
+      </div>
+    </div>
+    <div class="tk-body">
+      <p class="tk-msg" id="av-score" aria-live="polite"></p>
+      <div class="tk-scroll"><table class="tk-table av-table" id="av-table"></table></div>
+    </div>
+  </div>
+</Tool>
+
+<script>
+  import { $, val, copyText, download, track, escHtml } from "../../scripts/tools-kit.js";
+  const TOOL = "ai_visibility";
+  const KEY = "ds-ai-visibility";
+  const ENGINES = ["ChatGPT", "Claude", "Gemini", "Perplexity"];
+  const MARKS = [["m", "Mentioned"], ["r", "Recommended"], ["f", "Facts right"]];
+  let ticks: Record<string, boolean> = {};
+  try { ticks = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch { ticks = {}; }
+  let touched = false;
+
+  function prompts() {
+    const n = val("av-name") || "[business]", s = val("av-svc") || "[service]", t = val("av-town") || "[town]";
+    const r = val("av-region"), need = val("av-need"), comp = val("av-comp");
+    const where = r ? `${t}, ${r}` : t;
+    const list = [
+      `What is the best ${s} in ${where}?`,
+      `Recommend three good ${s} options in ${t}. Why those?`,
+      need ? `I need ${need}. Who should I contact in ${t}?` : `I'm visiting ${t} next month. Which ${s} should I use, and how do I book?`,
+      `What do you know about ${n} in ${t}?`,
+      `Is ${n} reliable? What do customers say about them?`,
+      `What is the phone number, address and opening hours of ${n}?`,
+      `What services does ${n} offer, and roughly what do they cost?`,
+      comp ? `${n} or ${comp}: which is better for a visitor to ${t}?` : `How does ${n} compare with other ${s} options in ${t}?`,
+      `Which ${s} in ${t} has the best reviews on Google?`,
+      `${t} में सबसे अच्छी ${s} कौन सी है?`,
+    ];
+    return list;
+  }
+
+  function score() {
+    const total = prompts().length * ENGINES.length;
+    const c = (k: string) => Object.entries(ticks).filter(([key, v]) => v && key.endsWith(":" + k)).length;
+    return `Mentioned in ${c("m")} of ${total} answers · recommended in ${c("r")} · facts right in ${c("f")}.`;
+  }
+
+  function render() {
+    const ps = prompts();
+    const head = `<thead><tr><th>#</th><th>Prompt</th>${ENGINES.map((e) => `<th>${e}</th>`).join("")}</tr></thead>`;
+    const body = ps.map((p, i) => `<tr><td>${i + 1}</td><td class="av-p"><span>${escHtml(p)}</span><button type="button" class="tk-del av-cp" data-i="${i}" aria-label="Copy prompt ${i + 1}">Copy</button></td>${ENGINES.map((e) => `<td class="av-cell">${MARKS.map(([k, l]) => {
+      const key = `${i}:${e}:${k}`;
+      return `<label class="av-mk"><input type="checkbox" data-k="${key}"${ticks[key] ? " checked" : ""}> ${l}</label>`;
+    }).join("")}</td>`).join("")}</tr>`).join("");
+    $("av-table")!.innerHTML = head + `<tbody>${body}</tbody>`;
+    $("av-score")!.textContent = score();
+  }
+
+  $("av-form")!.addEventListener("input", () => { render(); if (!touched) { touched = true; track(TOOL, "edit"); } });
+  $("av-table")!.addEventListener("change", (e) => {
+    const el = e.target as HTMLInputElement;
+    if (!el.dataset.k) return;
+    ticks[el.dataset.k] = el.checked;
+    try { localStorage.setItem(KEY, JSON.stringify(ticks)); } catch { /* not kept in private mode */ }
+    $("av-score")!.textContent = score();
+  });
+  $("av-table")!.addEventListener("click", (e) => {
+    const b = (e.target as HTMLElement).closest(".av-cp") as HTMLElement | null;
+    if (b) { copyText(prompts()[Number(b.dataset.i)], b); track(TOOL, "copy_prompt"); }
+  });
+  $("av-copyall")!.addEventListener("click", (e) => { copyText(prompts().map((p, i) => `${i + 1}. ${p}`).join("\n"), e.currentTarget as HTMLElement); track(TOOL, "copy_all"); });
+  $("av-reset")!.addEventListener("click", () => { ticks = {}; try { localStorage.removeItem(KEY); } catch { /* nothing kept */ } render(); });
+  $("av-csv")!.addEventListener("click", () => {
+    const q = (s: string) => `"${s.replace(/"/g, '""')}"`;
+    const rows = [["#", "Prompt", ...ENGINES.flatMap((e) => MARKS.map(([, l]) => `${e} ${l}`))].map(q).join(",")];
+    prompts().forEach((p, i) => rows.push([i + 1, q(p), ...ENGINES.flatMap((e) => MARKS.map(([k]) => (ticks[`${i}:${e}:${k}`] ? "yes" : "")))].join(",")));
+    download(`ai-visibility-${new Date().toISOString().slice(0, 10)}.csv`, rows.join("\n"), "text/csv;charset=utf-8");
+    track(TOOL, "download_csv");
+  });
+  render();
+</script>
+
+<style>
+  .av-in{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:16px;margin-bottom:32px}
+  .av-out{position:static}
+  .av-table :global(td.av-p){min-width:240px}
+  .av-table :global(.av-p span){display:block}
+  .av-table :global(.av-cp){min-height:32px;padding:0;text-transform:uppercase;letter-spacing:.06em;font-size:11px}
+  .av-table :global(.av-cell){min-width:132px}
+  .av-table :global(.av-mk){display:flex;gap:6px;align-items:center;font-size:13px;line-height:1.3;padding:3px 0;cursor:pointer}
+  .av-table :global(.av-mk input){accent-color:var(--red);width:16px;height:16px}
+</style>

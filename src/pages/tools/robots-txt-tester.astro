@@ -1,0 +1,157 @@
+---
+import Tool from "../../layouts/Tool.astro";
+import { TOPICS } from "../../lib/entity.mjs";
+
+const faqs = [
+  { q: "How does a crawler decide which rules apply to it?", a: "It looks for the group whose User-agent line matches its name most specifically, and ignores every other group, including the * group. So if you have a “User-agent: Googlebot” group, Googlebot follows only that group’s rules. Groups with the same user agent are combined." },
+  { q: "Allow and Disallow both match. Which wins?", a: "The rule with the longest matching path wins. If an Allow and a Disallow match with the same length, Allow wins. That’s the rule in RFC 9309, the robots.txt standard, and it’s how Google and Bing evaluate the file. This tester follows it, including * wildcards and $ for the end of a URL." },
+  { q: "Does Disallow remove a page from Google?", a: "No. Disallow stops crawling, not indexing. A blocked page can still appear in results, without a description, if other sites link to it. To keep a page out of search, allow crawling and add a noindex robots meta tag or header." },
+  { q: "Does this fetch my live robots.txt?", a: "No. Paste the file’s contents; the test runs entirely in your browser, so you can also try a draft before you publish it." },
+];
+---
+
+<Tool
+  slug="robots-txt-tester"
+  title="robots.txt Tester: Check if a URL Is Blocked"
+  description="Paste a robots.txt and test URLs against Googlebot, Bingbot, GPTBot or any user agent. Shows allowed or blocked and the deciding rule. Free, in your browser."
+  keywords="robots.txt tester, robots.txt checker, is my page blocked by robots.txt, robots.txt validator, test robots.txt rules, googlebot robots.txt test"
+  ogTitle="robots.txt tester"
+  ogDescription="Test URLs against any user agent and see the exact rule that allows or blocks them. Free, in your browser."
+  display="Blocked or not? Find out."
+  kicker="Free tool · Crawling · robots.txt · No sign-up"
+  lead="Paste a robots.txt, pick a crawler, and list the URLs you care about. For each one you get <strong>allowed or blocked</strong>, the <strong>group</strong> the crawler used and the <strong>exact rule</strong> that decided, following the robots.txt standard (RFC 9309) that Google and Bing use."
+  appName="robots.txt Tester"
+  appDescription="A free, browser-based robots.txt tester that evaluates URLs against any user agent using RFC 9309 rules (most specific group, longest match, wildcards) and shows the deciding rule. No sign-up, nothing stored."
+  category="DeveloperApplication"
+  toolTitle="Test your robots.txt"
+  toolNote="Live results"
+  cards={[
+    { tag: "Writing one for AI bots?", d: `Choose which AI crawlers may read your site, then test the result here. <a href="/tools/ai-crawler-robots-txt-generator/">AI crawler robots.txt generator →</a>` },
+    { tag: "Don’t block what Google needs", d: "Blocking /css/, /js/ or image folders stops Google from rendering your pages properly. Block admin and cart pages, not the files your pages are built from." },
+  ]}
+  faqs={faqs}
+  topics={[TOPICS.seo]}
+  end={{ title: "Pages not showing up in Google?", text: "robots.txt is one of a dozen reasons. A free audit checks crawling, indexing and the rest.", primary: { href: "/website-audit/", label: "Free website audit →" } }}
+>
+  <div class="tk">
+    <form class="form" id="rt-form" autocomplete="off" novalidate>
+      <label class="field" for="rt-file">robots.txt contents
+        <textarea id="rt-file" rows="12" spellcheck="false">User-agent: *
+Disallow: /admin/
+Disallow: /*?sort=
+Allow: /admin/help/
+
+User-agent: GPTBot
+Disallow: /
+
+Sitemap: https://www.example.com/sitemap.xml</textarea>
+      </label>
+      <label class="field" for="rt-ua">Crawler
+        <select id="rt-ua">
+          <option>Googlebot</option><option>Googlebot-Image</option><option>Bingbot</option><option>GPTBot</option><option>OAI-SearchBot</option><option>ClaudeBot</option><option>PerplexityBot</option><option value="custom">Other…</option>
+        </select>
+      </label>
+      <label class="field" for="rt-custom" id="rt-customwrap" hidden>User-agent token<input type="text" id="rt-custom" placeholder="MyCrawler" /></label>
+      <label class="field" for="rt-urls">URLs or paths to test, one per line<textarea id="rt-urls" rows="5" spellcheck="false">/
+/admin/settings
+/admin/help/faq
+/rooms/?sort=price
+/rooms/deluxe/</textarea></label>
+    </form>
+    <div class="tk-out">
+      <div class="tk-bar"><span id="rt-group">Results</span></div>
+      <div class="tk-body tk-scroll"><table class="tk-table" id="rt-out"></table></div>
+      <ul class="tk-list rt-warn" id="rt-warn"></ul>
+    </div>
+  </div>
+</Tool>
+
+<script>
+  import { $, val, live, escHtml } from "../../scripts/tools-kit.js";
+  const TOOL = "robots_tester";
+  type Rule = { allow: boolean; path: string; line: number };
+  type Group = { agents: string[]; rules: Rule[] };
+
+  function parse(text: string) {
+    const groups: Group[] = [];
+    const warn: string[] = [];
+    let cur: Group | null = null, lastWasAgent = false;
+    text.split(/\r?\n/).forEach((raw, i) => {
+      const line = raw.replace(/#.*$/, "").trim();
+      if (!line) return;
+      const m = line.match(/^([A-Za-z-]+)\s*:\s*(.*)$/);
+      if (!m) { warn.push(`Line ${i + 1} isn’t a valid directive: “${raw.trim()}”`); return; }
+      const key = m[1].toLowerCase(), v = m[2].trim();
+      if (key === "user-agent") {
+        if (!cur || !lastWasAgent) { cur = { agents: [], rules: [] }; groups.push(cur); }
+        cur.agents.push(v.toLowerCase());
+        lastWasAgent = true;
+      } else if (key === "allow" || key === "disallow") {
+        lastWasAgent = false;
+        if (!cur) { warn.push(`Line ${i + 1}: a rule before any User-agent line is ignored.`); return; }
+        if (key === "disallow" && v === "") return; // empty Disallow = allow everything
+        cur.rules.push({ allow: key === "allow", path: v, line: i + 1 });
+      } else {
+        lastWasAgent = false;
+        if (!["sitemap", "crawl-delay", "host", "clean-param"].includes(key)) warn.push(`Line ${i + 1}: unknown directive “${m[1]}” is ignored.`);
+        if (key === "crawl-delay") warn.push(`Line ${i + 1}: Google ignores Crawl-delay.`);
+      }
+    });
+    return { groups, warn };
+  }
+
+  // The most specific matching user-agent token wins; same-token groups merge.
+  function pick(groups: Group[], ua: string) {
+    const name = ua.toLowerCase();
+    let best = "", rules: Rule[] = [];
+    for (const g of groups) for (const a of g.agents) {
+      if (a !== "*" && name.startsWith(a) && a.length > best.length) best = a;
+    }
+    const token = best || "*";
+    for (const g of groups) if (g.agents.includes(token)) rules = rules.concat(g.rules);
+    return { token, rules, found: groups.some((g) => g.agents.includes(token)) };
+  }
+
+  function toRe(p: string) {
+    const end = p.endsWith("$");
+    const body = (end ? p.slice(0, -1) : p).split("*").map((s) => s.replace(/[.+?^${}()|[\]\\]/g, "\\$&")).join(".*");
+    return new RegExp("^" + body + (end ? "$" : ""));
+  }
+
+  function test(rules: Rule[], path: string) {
+    let best: Rule | null = null;
+    for (const r of rules) {
+      if (!toRe(r.path).test(path)) continue;
+      if (!best || r.path.length > best.path.length || (r.path.length === best.path.length && r.allow && !best.allow)) best = r;
+    }
+    return best;
+  }
+
+  function toPath(u: string) {
+    try { if (/^https?:\/\//i.test(u)) { const x = new URL(u); return x.pathname + x.search; } } catch { /* use as path */ }
+    return u.startsWith("/") ? u : "/" + u;
+  }
+
+  function render() {
+    const { groups, warn } = parse(($("rt-file") as HTMLTextAreaElement).value);
+    const custom = val("rt-ua") === "custom";
+    $("rt-customwrap")!.hidden = !custom;
+    const ua = custom ? val("rt-custom") || "*" : val("rt-ua");
+    const g = pick(groups, ua);
+    $("rt-group")!.textContent = g.found ? `${ua} follows the “User-agent: ${g.token}” group` : `${ua}: no matching group, so everything is allowed`;
+    const rows = val("rt-urls").split("\n").map((s) => s.trim()).filter(Boolean).map((u) => {
+      const p = toPath(u);
+      const r = test(g.rules, p);
+      const ok = !r || r.allow;
+      return `<tr><td>${escHtml(p)}</td><td><span class="tk-pill ${ok ? "tk-pill--ok" : "tk-pill--bad"}">${ok ? "Allowed" : "Blocked"}</span></td><td class="rt-rule">${r ? `Line ${r.line}: ${r.allow ? "Allow" : "Disallow"}: ${escHtml(r.path)}` : "No rule matches"}</td></tr>`;
+    });
+    $("rt-out")!.innerHTML = `<thead><tr><th>URL</th><th>Result</th><th>Deciding rule</th></tr></thead><tbody>${rows.join("")}</tbody>`;
+    $("rt-warn")!.innerHTML = warn.map((w) => `<li>${escHtml(w)}</li>`).join("");
+  }
+  live("rt-form", render, TOOL);
+</script>
+
+<style>
+  .rt-warn{padding:0 16px 16px 34px;font-family:var(--mono);font-size:12px;color:var(--red-on-tint,#D0131C)}
+  #rt-out :global(.rt-rule){font-family:var(--mono);font-size:12px;color:var(--g3e)}
+</style>

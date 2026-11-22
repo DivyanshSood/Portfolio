@@ -1,0 +1,128 @@
+---
+import Tool from "../../layouts/Tool.astro";
+import { TOPICS } from "../../lib/entity.mjs";
+
+const faqs = [
+  { q: "Will FAQ schema give me rich results on Google?", a: "Probably not. Since August 2023 Google shows FAQ rich results only for well-known, authoritative government and health websites. For everyone else the markup won’t add the drop-down answers under your result. It’s still valid structured data that other search engines and AI tools can read, and writing real answers to real questions is worth doing for the page itself." },
+  { q: "Do the questions have to be visible on the page?", a: "Yes. Google’s guidelines require the questions and answers in the markup to be visible on the page. Don’t mark up content that’s hidden, and don’t use FAQ markup for advertising. This tool also gives you matching HTML, so the visible FAQ and the schema always agree." },
+  { q: "Can I use links or formatting in answers?", a: "In the visible HTML, yes. In the schema, keep answers as plain text. The tool writes the same text to both and escapes it, so a quote mark or an angle bracket can’t break your page." },
+  { q: "Is this free?", a: "Yes, free with no sign-up, and nothing leaves your browser." },
+];
+---
+
+<Tool
+  slug="faq-schema-generator"
+  title="Free FAQ Schema Generator (FAQPage JSON-LD + HTML)"
+  description="Turn questions and answers into valid FAQPage JSON-LD plus matching accessible HTML. Free, no sign-up, with an honest note on what Google shows today."
+  keywords="faq schema generator, faqpage json-ld generator, faq structured data, faq schema markup, faq rich results, json-ld faq"
+  ogTitle="Free FAQ schema generator"
+  ogDescription="Questions and answers into FAQPage JSON-LD and matching HTML. Free, in your browser."
+  display="FAQ schema, honestly."
+  kicker="Free tool · Schema · FAQ · No sign-up"
+  lead="Paste or type your questions and answers. You get <strong>FAQPage JSON-LD</strong> and the <strong>matching HTML</strong> for the visible FAQ, so the two never disagree. One thing first: Google now shows FAQ rich results only for well-known government and health sites. What the markup still does is state your answers clearly for other search engines and AI tools."
+  appName="Free FAQ Schema Generator"
+  appDescription="A free, browser-based tool that turns question-and-answer pairs into FAQPage JSON-LD and matching accessible HTML. No sign-up, nothing stored."
+  category="DeveloperApplication"
+  toolTitle="Build your FAQ"
+  toolNote="Live code"
+  cards={[
+    { tag: "Real questions only", d: "Use the questions customers actually ask on calls and WhatsApp. Invented questions written to stuff keywords read as filler, to people and to search engines." },
+    { tag: "Answer in the first sentence", d: "Start each answer with the answer: “Yes, from ₹15,000” or “1–3 weeks”. That’s the sentence most likely to be quoted." },
+    { tag: "One schema graph", wide: true, d: `On a full site, the FAQ belongs in the same graph as your business and pages. Start with <a href="/tools/local-business-schema-generator/">local business schema →</a>` },
+  ]}
+  faqs={faqs}
+  topics={[TOPICS.seo]}
+  end={{ title: "Want schema built into the site?", text: "Every page I build ships its FAQ, breadcrumbs and business details from one source of truth, checked on every build.", primary: { href: "/services/seo-geo-services/", label: "SEO & GEO service →" } }}
+>
+  <div class="tk">
+    <form class="form" id="fq-form" autocomplete="off" novalidate>
+      <div id="fq-rows" class="fq-rows"></div>
+      <button type="button" class="tk-add" id="fq-add">+ Add a question</button>
+      <details class="fq-paste">
+        <summary>Paste many at once</summary>
+        <label class="field" for="fq-bulk">One per block: a line starting “Q:” then a line starting “A:”
+          <textarea id="fq-bulk" rows="6" placeholder="Q: Do you pick up from Gaggal airport?&#10;A: Yes, at any hour, if you book a day ahead."></textarea>
+        </label>
+        <button type="button" class="tk-add" id="fq-import">Import</button>
+      </details>
+    </form>
+    <div class="tk-out">
+      <div class="tk-bar">
+        <div class="tk-tabs" role="group" aria-label="Output">
+          <button type="button" class="tk-tab" aria-pressed="true" data-v="json">JSON-LD</button>
+          <button type="button" class="tk-tab" aria-pressed="false" data-v="html">HTML</button>
+        </div>
+        <div class="tk-actions"><button type="button" class="tk-btn tk-btn--red" id="fq-copy">Copy</button></div>
+      </div>
+      <p class="tk-msg" id="fq-msg" style="padding:12px 16px 0"></p>
+      <pre class="tk-pre" id="fq-code" tabindex="0"></pre>
+    </div>
+  </div>
+</Tool>
+
+<script>
+  import { $, copyText, track, escHtml } from "../../scripts/tools-kit.js";
+  const TOOL = "faq_schema";
+  const rowsEl = $("fq-rows")!;
+  let view = "json";
+  let touched = false;
+
+  function addRow(q = "", a = "") {
+    const el = document.createElement("div");
+    el.className = "fq-row";
+    el.innerHTML = `<label class="field">Question<input type="text" class="fq-q" value="${escHtml(q)}" placeholder="Do you pick up from Gaggal airport?"></label>
+      <label class="field">Answer<textarea class="fq-a" rows="3" placeholder="Yes, at any hour, if you book a day ahead.">${escHtml(a)}</textarea></label>
+      <button type="button" class="tk-del" aria-label="Remove this question">Remove</button>`;
+    el.querySelector(".tk-del")!.addEventListener("click", () => { el.remove(); render(); });
+    rowsEl.appendChild(el);
+  }
+  const pairs = () => Array.from(rowsEl.querySelectorAll(".fq-row")).map((r) => ({
+    q: (r.querySelector(".fq-q") as HTMLInputElement).value.trim(),
+    a: (r.querySelector(".fq-a") as HTMLTextAreaElement).value.trim(),
+  })).filter((p) => p.q && p.a);
+
+  function code() {
+    const ps = pairs();
+    if (view === "json") {
+      const o = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: ps.map((p) => ({ "@type": "Question", name: p.q, acceptedAnswer: { "@type": "Answer", text: p.a } })) };
+      return `<script type="application/ld+json">\n${JSON.stringify(o, null, 2).replace(/</g, "\\u003c")}\n</` + `script>`;
+    }
+    return `<section class="faq">\n  <h2>Frequently asked questions</h2>\n${ps.map((p) => `  <details>\n    <summary>${escHtml(p.q)}</summary>\n    <p>${escHtml(p.a)}</p>\n  </details>`).join("\n")}\n</section>`;
+  }
+
+  function render() {
+    const ps = pairs();
+    $("fq-code")!.textContent = ps.length ? code() : "Add a question and an answer.";
+    const short = ps.filter((p) => p.a.length < 40).length;
+    $("fq-msg")!.textContent = !ps.length ? "" : `${ps.length} question${ps.length > 1 ? "s" : ""}.` + (short ? ` ${short} answer${short > 1 ? "s are" : " is"} very short; a sentence or two of real detail reads better.` : "");
+    ($("fq-copy") as HTMLButtonElement).disabled = !ps.length;
+  }
+
+  document.querySelectorAll<HTMLButtonElement>(".tk-tab").forEach((b) => b.addEventListener("click", () => {
+    view = b.dataset.v!;
+    document.querySelectorAll(".tk-tab").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+    render();
+  }));
+  $("fq-import")!.addEventListener("click", () => {
+    const txt = ($("fq-bulk") as HTMLTextAreaElement).value;
+    const re = /Q:\s*([\s\S]*?)\n\s*A:\s*([\s\S]*?)(?=\n\s*Q:|$)/gi;
+    let m: RegExpExecArray | null, n = 0;
+    if (pairs().length === 0) rowsEl.innerHTML = "";
+    while ((m = re.exec(txt))) { addRow(m[1].trim(), m[2].trim()); n++; }
+    if (n) { ($("fq-bulk") as HTMLTextAreaElement).value = ""; track(TOOL, "import"); }
+    render();
+  });
+  $("fq-add")!.addEventListener("click", () => { addRow(); render(); });
+  $("fq-form")!.addEventListener("input", () => { render(); if (!touched) { touched = true; track(TOOL, "edit"); } });
+  $("fq-copy")!.addEventListener("click", (e) => { copyText(code(), e.currentTarget as HTMLElement); track(TOOL, "copy_" + view); });
+  addRow(); addRow();
+  render();
+</script>
+
+<style>
+  .fq-rows{display:flex;flex-direction:column;gap:20px}
+  .fq-rows :global(.fq-row){display:flex;flex-direction:column;gap:10px;padding-bottom:16px;border-bottom:1px solid var(--gda)}
+  .fq-rows :global(.tk-del){align-self:flex-end;min-height:32px}
+  .fq-paste summary{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;padding:10px 0}
+  .fq-paste[open]{display:flex;flex-direction:column;gap:12px}
+</style>

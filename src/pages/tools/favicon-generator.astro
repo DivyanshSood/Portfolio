@@ -1,0 +1,208 @@
+---
+import Tool from "../../layouts/Tool.astro";
+
+const faqs = [
+  { q: "Which favicon files does a site actually need in 2026?", a: "Five cover every browser and phone: favicon.ico (for old browsers and tools that ask for /favicon.ico directly), an SVG icon for modern browsers, a 180 × 180 apple-touch-icon.png for iPhone home screens, and 192 and 512 PNGs listed in a web app manifest for Android. That’s what this generator makes, with the head tags to link them." },
+  { q: "Where do I put the files?", a: "In your site’s root, the folder that’s served at /, so they load at yoursite.com/favicon.ico and so on. Then paste the head tags into every page’s <head>, or into your site’s layout." },
+  { q: "Why doesn’t the SVG appear when I upload a photo?", a: "An SVG icon is a vector drawing; a photo or PNG logo can’t become one by being saved as .svg. The letter mode makes a true SVG. With an uploaded image, the PNG and ICO files cover every browser just as well." },
+  { q: "Is my logo uploaded anywhere?", a: "No. Every file is drawn and packed into the ZIP in your browser." },
+];
+---
+
+<Tool
+  slug="favicon-generator"
+  title="Free Favicon Generator: ICO, PNG, SVG + Manifest"
+  description="Make every favicon size, a real .ico, an SVG, the apple-touch-icon and the web app manifest from one image or a letter, plus head tags. Free."
+  keywords="favicon generator, favicon ico generator, apple touch icon generator, web app manifest generator, favicon from text, favicon from image, favicon sizes"
+  ogTitle="Free favicon generator"
+  ogDescription="favicon.ico, SVG, apple-touch-icon, Android icons and the manifest from one image or a letter. Free, in your browser."
+  display="Every favicon, one click."
+  kicker="Free tool · Icons · Manifest · No sign-up"
+  lead="Upload a square logo or type a letter, pick your colours and shape, and download a ZIP with <strong>favicon.ico</strong>, an <strong>SVG icon</strong>, the <strong>apple-touch-icon</strong>, <strong>Android icons</strong> and a <strong>web app manifest</strong>, plus the head tags to paste. All made in your browser."
+  appName="Free Favicon Generator"
+  appDescription="A free, browser-based tool that generates favicon.ico, an SVG icon, apple-touch-icon, 192 and 512 PNG icons and a web app manifest from an image or a letter, with the HTML head tags. No sign-up, nothing uploaded."
+  category="DesignApplication"
+  toolTitle="Make your favicons"
+  cards={[
+    { tag: "Test it small", d: "Look at the 16-pixel preview. Detailed logos turn to mush at that size; a bold initial or a simplified mark reads better." },
+    { tag: "Share images too", d: `The same colours make a matching link preview. <a href="/tools/og-image-maker/">Make a share image →</a>` },
+  ]}
+  faqs={faqs}
+  end={{ title: "Want the whole site done right?", text: "Icons, share cards, schema and speed are all part of every site I build, checked before launch.", primary: { href: "/services/website-development/", label: "Website development →" } }}
+>
+  <div class="tk">
+    <form class="form" id="fv-form" autocomplete="off" novalidate>
+      <div class="tk-tabs" role="group" aria-label="Source">
+        <button type="button" class="tk-tab" aria-pressed="true" data-m="text">Letter</button>
+        <button type="button" class="tk-tab" aria-pressed="false" data-m="image">Image</button>
+      </div>
+      <div id="fv-text">
+        <label class="field" for="fv-letter">Letter or two<input type="text" id="fv-letter" value="S" maxlength="2" /></label>
+      </div>
+      <div id="fv-image" hidden>
+        <label class="field" for="fv-file">Square logo (PNG, JPG, SVG or WebP, at least 512 px)<input type="file" id="fv-file" accept="image/png,image/jpeg,image/svg+xml,image/webp" /></label>
+        <label class="field" for="fv-pad">Padding<select id="fv-pad"><option value="0">None</option><option value="0.08" selected>Small</option><option value="0.16">Medium</option></select></label>
+      </div>
+      <div class="tk-two">
+        <label class="field" for="fv-bg">Background<input type="color" id="fv-bg" value="#E4151F" /></label>
+        <label class="field" for="fv-fg">Letter colour<input type="color" id="fv-fg" value="#FFFFFF" /></label>
+      </div>
+      <div class="tk-two">
+        <label class="field" for="fv-shape">Shape<select id="fv-shape"><option value="square">Square</option><option value="rounded" selected>Rounded</option><option value="circle">Circle</option></select></label>
+        <label class="field" for="fv-name">App name (for the manifest)<input type="text" id="fv-name" placeholder="Snow View Homestay" /></label>
+      </div>
+      <label class="tk-check"><input type="checkbox" id="fv-transparent" /> Transparent background (image mode)</label>
+    </form>
+    <div class="tk-out">
+      <div class="tk-bar">
+        <span>Preview</span>
+        <div class="tk-actions"><button type="button" class="tk-btn tk-btn--red" id="fv-zip">Download ZIP</button></div>
+      </div>
+      <div class="tk-body">
+        <div class="fv-prev" id="fv-prev"></div>
+        <p class="tk-msg" id="fv-msg"></p>
+      </div>
+      <div class="tk-bar"><span>Head tags</span><div class="tk-actions"><button type="button" class="tk-btn" id="fv-copy">Copy</button></div></div>
+      <pre class="tk-pre" id="fv-tags" tabindex="0" style="min-height:0"></pre>
+    </div>
+  </div>
+</Tool>
+
+<script>
+  import { $, val, canvasBlob, download, copyText, track, zip, escHtml } from "../../scripts/tools-kit.js";
+  const TOOL = "favicon";
+  let mode: "text" | "image" = "text";
+  let img: HTMLImageElement | null = null;
+  const DISPLAY = (getComputedStyle(document.documentElement).getPropertyValue("--display") || "sans-serif").trim();
+  let touched = false;
+
+  function shapePath(ctx: CanvasRenderingContext2D, s: number) {
+    const shape = val("fv-shape");
+    ctx.beginPath();
+    if (shape === "circle") ctx.arc(s / 2, s / 2, s / 2, 0, Math.PI * 2);
+    else if (shape === "rounded") ctx.roundRect(0, 0, s, s, s * 0.2);
+    else ctx.rect(0, 0, s, s);
+  }
+
+  // `solid` forces a filled square: iOS fills transparent touch icons black.
+  function draw(s: number, solid = false) {
+    const c = document.createElement("canvas");
+    c.width = c.height = s;
+    const ctx = c.getContext("2d")!;
+    const bg = ($("fv-bg") as HTMLInputElement).value;
+    const transparent = mode === "image" && ($("fv-transparent") as HTMLInputElement).checked && !solid;
+    if (!transparent) {
+      ctx.fillStyle = bg;
+      if (solid) ctx.fillRect(0, 0, s, s); else { shapePath(ctx, s); ctx.fill(); }
+    }
+    if (mode === "text") {
+      const t = (val("fv-letter") || "?").slice(0, 2);
+      ctx.fillStyle = ($("fv-fg") as HTMLInputElement).value;
+      ctx.textAlign = "center"; ctx.textBaseline = "middle";
+      ctx.font = `900 ${s * (t.length > 1 ? 0.48 : 0.64)}px ${DISPLAY}`;
+      ctx.fillText(t, s / 2, s * 0.54);
+    } else if (img) {
+      const pad = s * (Number(val("fv-pad")) || 0) + (solid ? s * 0.06 : 0);
+      const box = s - pad * 2, r = Math.min(box / img.width, box / img.height);
+      if (!transparent) { ctx.save(); shapePath(ctx, s); ctx.clip(); }
+      ctx.drawImage(img, (s - img.width * r) / 2, (s - img.height * r) / 2, img.width * r, img.height * r);
+      if (!transparent) ctx.restore();
+    }
+    return c;
+  }
+
+  function svg() {
+    if (mode !== "text") return "";
+    const t = escHtml((val("fv-letter") || "?").slice(0, 2));
+    const bg = ($("fv-bg") as HTMLInputElement).value, fg = ($("fv-fg") as HTMLInputElement).value, shape = val("fv-shape");
+    const rect = shape === "circle" ? `<circle cx="50" cy="50" r="50" fill="${bg}"/>` : `<rect width="100" height="100" rx="${shape === "rounded" ? 20 : 0}" fill="${bg}"/>`;
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">${rect}<text x="50" y="54" text-anchor="middle" dominant-baseline="middle" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="${t.length > 1 ? 46 : 62}" fill="${fg}">${t}</text></svg>`;
+  }
+
+  function tags() {
+    return [
+      `<link rel="icon" href="/favicon.ico" sizes="32x32">`,
+      mode === "text" && `<link rel="icon" href="/icon.svg" type="image/svg+xml">`,
+      `<link rel="apple-touch-icon" href="/apple-touch-icon.png">`,
+      `<link rel="manifest" href="/manifest.webmanifest">`,
+    ].filter(Boolean).join("\n");
+  }
+
+  async function png(c: HTMLCanvasElement) { return new Uint8Array(await (await canvasBlob(c))!.arrayBuffer()); }
+
+  // ICO with PNG-encoded entries (supported by every browser since IE Vista).
+  function ico(images: { size: number; data: Uint8Array }[]) {
+    const head = new DataView(new ArrayBuffer(6 + images.length * 16));
+    head.setUint16(2, 1, true); head.setUint16(4, images.length, true);
+    let off = 6 + images.length * 16;
+    images.forEach((im, i) => {
+      const o = 6 + i * 16;
+      head.setUint8(o, im.size >= 256 ? 0 : im.size); head.setUint8(o + 1, im.size >= 256 ? 0 : im.size);
+      head.setUint16(o + 4, 1, true); head.setUint16(o + 6, 32, true);
+      head.setUint32(o + 8, im.data.length, true); head.setUint32(o + 12, off, true);
+      off += im.data.length;
+    });
+    const out = new Uint8Array(off);
+    out.set(new Uint8Array(head.buffer), 0);
+    let p = 6 + images.length * 16;
+    images.forEach((im) => { out.set(im.data, p); p += im.data.length; });
+    return out;
+  }
+
+  function render() {
+    const prev = $("fv-prev")!;
+    prev.innerHTML = "";
+    [16, 32, 64, 180].forEach((s) => {
+      const c = draw(s, s === 180);
+      c.className = "fv-c"; c.style.width = c.style.height = Math.max(s, 32) + "px";
+      const fig = document.createElement("figure");
+      fig.append(c, Object.assign(document.createElement("figcaption"), { textContent: s === 180 ? "iPhone" : `${s}px` }));
+      prev.appendChild(fig);
+    });
+    const ready = mode === "text" || !!img;
+    $("fv-msg")!.textContent = ready ? (mode === "image" ? "No SVG in image mode: the PNGs and ICO cover every browser." : "") : "Choose a square image to continue.";
+    ($("fv-zip") as HTMLButtonElement).disabled = !ready;
+    $("fv-tags")!.textContent = tags();
+  }
+
+  document.querySelectorAll<HTMLButtonElement>(".tk-tab").forEach((b) => b.addEventListener("click", () => {
+    mode = b.dataset.m as "text" | "image";
+    document.querySelectorAll(".tk-tab").forEach((t) => t.setAttribute("aria-pressed", String(t === b)));
+    $("fv-text")!.hidden = mode !== "text";
+    $("fv-image")!.hidden = mode !== "image";
+    render();
+  }));
+  ($("fv-file") as HTMLInputElement).addEventListener("change", (e) => {
+    const f = (e.target as HTMLInputElement).files?.[0];
+    if (!f) return;
+    const r = new FileReader();
+    r.onload = () => { const im = new Image(); im.onload = () => { img = im; render(); }; im.src = String(r.result); };
+    r.readAsDataURL(f);
+  });
+  $("fv-form")!.addEventListener("input", () => { render(); if (!touched) { touched = true; track(TOOL, "edit"); } });
+  $("fv-copy")!.addEventListener("click", (e) => { copyText(tags(), e.currentTarget as HTMLElement); track(TOOL, "copy_tags"); });
+  $("fv-zip")!.addEventListener("click", async () => {
+    const enc = new TextEncoder();
+    const name = val("fv-name") || "My site";
+    const files = [
+      { name: "favicon.ico", data: ico(await Promise.all([16, 32, 48].map(async (s) => ({ size: s, data: await png(draw(s)) })))) },
+      { name: "apple-touch-icon.png", data: await png(draw(180, true)) },
+      { name: "icon-192.png", data: await png(draw(192)) },
+      { name: "icon-512.png", data: await png(draw(512)) },
+      { name: "manifest.webmanifest", data: enc.encode(JSON.stringify({ name, short_name: name.slice(0, 12), icons: [{ src: "/icon-192.png", type: "image/png", sizes: "192x192" }, { src: "/icon-512.png", type: "image/png", sizes: "512x512" }], theme_color: ($("fv-bg") as HTMLInputElement).value, background_color: "#ffffff", display: "standalone" }, null, 2)) },
+      { name: "head-tags.html", data: enc.encode(tags() + "\n") },
+    ];
+    if (mode === "text") files.splice(1, 0, { name: "icon.svg", data: enc.encode(svg()) });
+    download("favicons.zip", zip(files));
+    track(TOOL, "download_zip");
+  });
+  if (document.fonts) document.fonts.ready.then(render);
+  render();
+</script>
+
+<style>
+  .fv-prev{display:flex;flex-wrap:wrap;gap:20px;align-items:flex-end;padding:12px;background:repeating-conic-gradient(#EEE 0 25%,#fff 0 50%) 0 0/16px 16px}
+  .fv-prev :global(figure){margin:0;display:flex;flex-direction:column;align-items:center;gap:6px}
+  .fv-prev :global(figcaption){font-family:var(--mono);font-size:11px;color:var(--g3e)}
+  .fv-prev :global(.fv-c){image-rendering:pixelated}
+</style>

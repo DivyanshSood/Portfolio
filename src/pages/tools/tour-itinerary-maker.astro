@@ -1,0 +1,185 @@
+---
+import Tool from "../../layouts/Tool.astro";
+
+const faqs = [
+  { q: "How do I save the itinerary as a PDF?", a: "Tap “Print / PDF” and choose “Save as PDF” as the printer. On a phone, the share sheet in the print preview does the same. Only the itinerary prints, not this page." },
+  { q: "How does the WhatsApp version look?", a: "It uses WhatsApp’s own formatting: the trip and day titles in bold, places and stays on their own lines, and inclusions as a list. Paste it into a chat and it reads cleanly on a phone, with no attachment to open." },
+  { q: "Is my draft saved?", a: "Only in this browser, so you can close the tab and come back to it. Nothing is uploaded. “Clear” wipes it." },
+  { q: "Is this free for travel agents?", a: "Yes, free with no sign-up and no watermark. Put your own business name and phone number on it." },
+];
+---
+
+<Tool
+  slug="tour-itinerary-maker"
+  title="Free Tour Itinerary Maker: PDF + WhatsApp Text"
+  description="Build a day-by-day tour itinerary with stays, vehicle, inclusions and exclusions, then save it as a PDF or copy it as WhatsApp text. Free, for travel agents."
+  keywords="tour itinerary maker, travel itinerary template, itinerary generator for travel agents, tour plan pdf, himachal tour itinerary, itinerary for whatsapp"
+  ogTitle="Free tour itinerary maker"
+  ogDescription="A day-by-day trip plan as a clean PDF and WhatsApp text, for travel agents and tour operators. Free, in your browser."
+  display="Itineraries guests actually read."
+  kicker="Free tool · Travel · PDF · No sign-up"
+  lead="Add the trip, then each day: where you go, what you see and where the guest stays. List what’s included and what isn’t. You get a <strong>clean printable PDF</strong> and <strong>WhatsApp-ready text</strong> with your name and number on it. Your draft stays in this browser."
+  appName="Free Tour Itinerary Maker"
+  appDescription="A free, browser-based tool for travel agents that builds a day-by-day tour itinerary with stays, vehicle, inclusions and exclusions, as a printable PDF and WhatsApp text. No sign-up."
+  toolTitle="Plan the trip"
+  note="Keep each day to a few lines. Guests read itineraries on a phone, often in a moving car."
+  cards={[
+    { tag: "Fares that match", d: `Quote the vehicle at the same rate as your published chart. <a href="/tools/taxi-fare-chart-maker/">Make a fare chart →</a>` },
+    { tag: "Every itinerary is a page", wide: true, d: `The trips you send most often deserve a page on your website, with the same days, stays and inclusions, so people searching “5 day Himachal tour” find you first. That’s how I build <a href="/services/travel-website-development/">travel and tour operator websites →</a>` },
+  ]}
+  faqs={faqs}
+  end={{ title: "Turn your best trips into pages that rank", text: "Itineraries convert people who already asked. Package pages bring in people who haven’t found you yet.", primary: { href: "/services/travel-website-development/", label: "Travel websites →" } }}
+>
+  <div class="tk">
+    <form class="form" id="it-form" autocomplete="off" novalidate>
+      <label class="field" for="it-title">Trip title *<input type="text" id="it-title" placeholder="5 days in Dharamshala, Dalhousie and Khajjiar" /></label>
+      <div class="tk-two">
+        <label class="field" for="it-guest">Guest name<input type="text" id="it-guest" placeholder="Mr. & Mrs. Mehta" /></label>
+        <label class="field" for="it-start">Start date<input type="date" id="it-start" /></label>
+      </div>
+      <div class="tk-two">
+        <label class="field" for="it-pax">Travellers<input type="text" id="it-pax" placeholder="2 adults, 1 child" /></label>
+        <label class="field" for="it-car">Vehicle<input type="text" id="it-car" placeholder="Innova Crysta with driver" /></label>
+      </div>
+      <fieldset class="tk-fieldset">
+        <legend>Day by day</legend>
+        <div id="it-days" class="it-days"></div>
+        <button type="button" class="tk-add" id="it-addday">+ Add a day</button>
+      </fieldset>
+      <label class="field" for="it-inc">Included, one per line<textarea id="it-inc" rows="4" placeholder="Hotel stay with breakfast&#10;All transfers and sightseeing by private car&#10;Driver allowance, tolls and parking"></textarea></label>
+      <label class="field" for="it-exc">Not included, one per line<textarea id="it-exc" rows="3" placeholder="Lunch and dinner&#10;Entry tickets and activities&#10;Anything not listed above"></textarea></label>
+      <label class="field" for="it-price">Price line (optional)<input type="text" id="it-price" placeholder="₹ … for 2 adults, all inclusive as listed" /></label>
+      <div class="tk-two">
+        <label class="field" for="it-biz">Your business name<input type="text" id="it-biz" placeholder="Snow View Travels" /></label>
+        <label class="field" for="it-phone">Your phone / WhatsApp<input type="tel" id="it-phone" placeholder="+91 98765 43210" /></label>
+      </div>
+    </form>
+    <div class="tk-out">
+      <div class="tk-bar">
+        <span>Itinerary</span>
+        <div class="tk-actions">
+          <button type="button" class="tk-btn" id="it-wa">Copy for WhatsApp</button>
+          <button type="button" class="tk-btn tk-btn--red" id="it-pdf">Print / PDF</button>
+          <button type="button" class="tk-btn" id="it-clear">Clear</button>
+        </div>
+      </div>
+      <div class="tk-body"><article class="it-doc" id="it-doc"></article></div>
+    </div>
+  </div>
+</Tool>
+
+<script>
+  import { $, val, lines, copyText, track, escHtml, printOnly } from "../../scripts/tools-kit.js";
+  const TOOL = "itinerary";
+  const KEY = "ds-itinerary-draft";
+  const daysEl = $("it-days")!;
+  const FIELDS = ["it-title", "it-guest", "it-start", "it-pax", "it-car", "it-inc", "it-exc", "it-price", "it-biz", "it-phone"];
+  let touched = false;
+
+  function addDay(d: { t?: string; d?: string; s?: string } = {}) {
+    const n = daysEl.children.length + 1;
+    const el = document.createElement("div");
+    el.className = "it-day";
+    el.innerHTML = `<div class="it-dayhead"><span>Day <b>${n}</b></span><button type="button" class="tk-del" aria-label="Remove this day">✕</button></div>
+      <label class="field">Title<input type="text" class="it-dt" placeholder="Arrival at Gaggal, transfer to McLeod Ganj" value="${escHtml(d.t || "")}"></label>
+      <label class="field">Plan<textarea class="it-dd" rows="2" placeholder="Check in, evening at the Dalai Lama Temple and Bhagsu Nag.">${escHtml(d.d || "")}</textarea></label>
+      <label class="field">Overnight stay<input type="text" class="it-ds" placeholder="Hotel in McLeod Ganj" value="${escHtml(d.s || "")}"></label>`;
+    el.querySelector(".tk-del")!.addEventListener("click", () => { el.remove(); renumber(); render(); });
+    daysEl.appendChild(el);
+  }
+  function renumber() { daysEl.querySelectorAll(".it-dayhead b").forEach((b, i) => (b.textContent = String(i + 1))); }
+  const days = () => Array.from(daysEl.querySelectorAll(".it-day")).map((el) => ({
+    t: (el.querySelector(".it-dt") as HTMLInputElement).value.trim(),
+    d: (el.querySelector(".it-dd") as HTMLTextAreaElement).value.trim(),
+    s: (el.querySelector(".it-ds") as HTMLInputElement).value.trim(),
+  }));
+  // Days left blank don't appear in the PDF or the WhatsApp text.
+  const filled = () => days().filter((d) => d.t || d.d || d.s);
+
+  function dateFor(i: number) {
+    const s = val("it-start");
+    if (!s) return "";
+    const d = new Date(s + "T00:00:00");
+    d.setDate(d.getDate() + i);
+    return d.toLocaleDateString("en-IN", { weekday: "short", day: "numeric", month: "short" });
+  }
+
+  function render() {
+    const ds = filled();
+    const meta = [val("it-guest"), val("it-pax"), val("it-car")].filter(Boolean);
+    const inc = lines("it-inc"), exc = lines("it-exc");
+    $("it-doc")!.innerHTML = `
+      <header class="it-h">${val("it-biz") ? `<p class="it-biz">${escHtml(val("it-biz"))}</p>` : ""}<h3>${escHtml(val("it-title") || "Your trip title")}</h3>${meta.length ? `<p class="it-meta">${meta.map(escHtml).join(" · ")}</p>` : ""}</header>
+      ${ds.map((d, i) => `<section class="it-sec"><p class="it-dn">Day ${i + 1}${dateFor(i) ? ` · ${dateFor(i)}` : ""}</p><h4>${escHtml(d.t || "…")}</h4>${d.d ? `<p>${escHtml(d.d)}</p>` : ""}${d.s ? `<p class="it-stay">Overnight: ${escHtml(d.s)}</p>` : ""}</section>`).join("")}
+      ${inc.length ? `<section class="it-sec"><h4>Included</h4><ul>${inc.map((x) => `<li>${escHtml(x)}</li>`).join("")}</ul></section>` : ""}
+      ${exc.length ? `<section class="it-sec"><h4>Not included</h4><ul>${exc.map((x) => `<li>${escHtml(x)}</li>`).join("")}</ul></section>` : ""}
+      ${val("it-price") ? `<p class="it-price">${escHtml(val("it-price"))}</p>` : ""}
+      ${val("it-biz") || val("it-phone") ? `<footer class="it-f">${escHtml([val("it-biz"), val("it-phone")].filter(Boolean).join(" · "))}</footer>` : ""}`;
+    save();
+  }
+
+  function whatsapp() {
+    const ds = filled();
+    const out = [`*${val("it-title") || "Your trip"}*`];
+    const meta = [val("it-guest"), val("it-pax"), val("it-car")].filter(Boolean);
+    if (meta.length) out.push(meta.join(" · "));
+    ds.forEach((d, i) => {
+      out.push("", `*Day ${i + 1}${dateFor(i) ? ` (${dateFor(i)})` : ""}: ${d.t}*`);
+      if (d.d) out.push(d.d);
+      if (d.s) out.push(`_Overnight: ${d.s}_`);
+    });
+    const inc = lines("it-inc"), exc = lines("it-exc");
+    if (inc.length) out.push("", "*Included*", ...inc.map((x) => `- ${x}`));
+    if (exc.length) out.push("", "*Not included*", ...exc.map((x) => `- ${x}`));
+    if (val("it-price")) out.push("", val("it-price"));
+    if (val("it-biz") || val("it-phone")) out.push("", [val("it-biz"), val("it-phone")].filter(Boolean).join(" · "));
+    return out.join("\n");
+  }
+
+  function save() {
+    try {
+      const o: Record<string, unknown> = Object.fromEntries(FIELDS.map((id) => [id, ($(id) as HTMLInputElement).value]));
+      o.days = days();
+      localStorage.setItem(KEY, JSON.stringify(o));
+    } catch { /* private mode: the draft just isn't kept */ }
+  }
+  function load() {
+    let o: any = null;
+    try { o = JSON.parse(localStorage.getItem(KEY) || "null"); } catch { o = null; }
+    if (o) {
+      FIELDS.forEach((id) => { if (typeof o[id] === "string") ($(id) as HTMLInputElement).value = o[id]; });
+      (Array.isArray(o.days) && o.days.length ? o.days : [{}]).forEach(addDay);
+    } else { addDay(); addDay(); }
+  }
+
+  load();
+  $("it-form")!.addEventListener("input", () => { render(); if (!touched) { touched = true; track(TOOL, "edit"); } });
+  $("it-addday")!.addEventListener("click", () => { addDay(); render(); });
+  $("it-wa")!.addEventListener("click", (e) => { copyText(whatsapp(), e.currentTarget as HTMLElement); track(TOOL, "copy_whatsapp"); });
+  $("it-pdf")!.addEventListener("click", () => { const c = $("it-doc")!.cloneNode(true) as HTMLElement; c.classList.add("it-doc--print"); printOnly(c); track(TOOL, "print"); });
+  $("it-clear")!.addEventListener("click", () => {
+    try { localStorage.removeItem(KEY); } catch { /* nothing stored */ }
+    FIELDS.forEach((id) => (($(id) as HTMLInputElement).value = ""));
+    daysEl.innerHTML = ""; addDay(); addDay(); render();
+  });
+  render();
+</script>
+
+<style>
+  .it-days{display:flex;flex-direction:column;gap:20px}
+  :global(.it-day){display:flex;flex-direction:column;gap:12px;padding:16px;border:1px solid var(--gda)}
+  :global(.it-dayhead){display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--g3e)}
+  :global(.it-doc){font-family:Georgia,"Times New Roman",serif;color:#111;font-size:15px;line-height:1.55}
+  :global(.it-doc h3){font-family:var(--display);font-weight:900;font-size:26px;line-height:1.1;margin:0 0 6px}
+  :global(.it-doc h4){font-family:var(--display);font-weight:800;font-size:17px;margin:0 0 4px}
+  :global(.it-doc p){margin:0 0 4px}
+  :global(.it-doc ul){margin:4px 0 0;padding-left:18px}
+  :global(.it-biz),:global(.it-dn){font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#666}
+  :global(.it-meta){color:#444}
+  :global(.it-h){padding-bottom:12px;border-bottom:2px solid #111;margin-bottom:12px}
+  :global(.it-sec){padding:10px 0;border-bottom:1px solid #ddd;break-inside:avoid}
+  :global(.it-stay){font-style:italic;color:#444}
+  :global(.it-price){margin-top:14px !important;font-weight:700}
+  :global(.it-f){margin-top:16px;font-family:var(--mono);font-size:12px;color:#444}
+  :global(.it-doc--print){max-width:180mm;margin:0 auto;font-size:12pt}
+</style>

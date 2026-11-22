@@ -161,15 +161,23 @@
   },
   "/tools/": {
     "image": "/images/og/pages/tools.jpg",
-    "alt": "Share card for Divyansh Sood® Studio: “Free tools, no strings” — Free · no sign-up"
-  },
-  "/tools/llms-txt-generator/": {
-    "image": "/images/og/pages/tools-llms-txt-generator.jpg",
-    "alt": "Share card for Divyansh Sood® Studio: “The free llms.txt generator” — Free tool · GEO · AI search · No sign-up"
+    "alt": "Share card for Divyansh Sood® Studio: “Free tools, no strings” — 29 free · no sign-up"
   },
   "/tools/website-cost-calculator/": {
     "image": "/images/og/pages/tools-website-cost-calculator.jpg",
     "alt": "Share card for Divyansh Sood® Studio: “What will my website cost?” — Free tool · Pricing · India"
+  },
+  "/tools/web-developer-quote-comparison/": {
+    "image": "/images/og/pages/tools-web-developer-quote-comparison.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Three quotes, one fair look” — Free tool · Buying a website · Checklist · No sign-up"
+  },
+  "/tools/website-running-cost-calculator/": {
+    "image": "/images/og/pages/tools-website-running-cost-calculator.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “What it costs to keep it running” — Free tool · Budget · India · No sign-up"
+  },
+  "/tools/website-launch-checklist/": {
+    "image": "/images/og/pages/tools-website-launch-checklist.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Launch without the oops” — Free tool · Launch · Checklist · No sign-up"
   },
   "/tools/google-review-qr-code-generator/": {
     "image": "/images/og/pages/tools-google-review-qr-code-generator.jpg",
@@ -179,6 +187,26 @@
     "image": "/images/og/pages/tools-whatsapp-link-generator.jpg",
     "alt": "Share card for Divyansh Sood® Studio: “WhatsApp links that fill themselves” — Free tool · WhatsApp · QR code · No sign-up"
   },
+  "/tools/upi-qr-code-generator/": {
+    "image": "/images/og/pages/tools-upi-qr-code-generator.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “UPI QR codes, free” — Free tool · UPI · Payments · No sign-up"
+  },
+  "/tools/vcard-qr-code-generator/": {
+    "image": "/images/og/pages/tools-vcard-qr-code-generator.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Get saved, not lost” — Free tool · Contacts · QR code · No sign-up"
+  },
+  "/tools/taxi-fare-chart-maker/": {
+    "image": "/images/og/pages/tools-taxi-fare-chart-maker.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “A fare chart in five minutes” — Free tool · Taxi · Fares · No sign-up"
+  },
+  "/tools/tour-itinerary-maker/": {
+    "image": "/images/og/pages/tools-tour-itinerary-maker.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Itineraries guests actually read” — Free tool · Travel · PDF · No sign-up"
+  },
+  "/tools/google-maps-directions-link-generator/": {
+    "image": "/images/og/pages/tools-google-maps-directions-link-generator.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Directions that land at the door” — Free tool · Google Maps · Directions · No sign-up"
+  },
   "/tools/serp-snippet-preview/": {
     "image": "/images/og/pages/tools-serp-snippet-preview.jpg",
     "alt": "Share card for Divyansh Sood® Studio: “See your page in search” — Free tool · SEO · Titles & descriptions · No sign-up"
@@ -186,6 +214,70 @@
   "/tools/local-business-schema-generator/": {
     "image": "/images/og/pages/tools-local-business-schema-generator.jpg",
     "alt": "Share card for Divyansh Sood® Studio: “Local business schema, done right” — Free tool · Schema · JSON-LD · No sign-up"
+  },
+  "/tools/faq-schema-generator/": {
+    "image": "/images/og/pages/tools-faq-schema-generator.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “FAQ schema, honestly” — Free tool · Schema · FAQ · No sign-up"
+  },
+  "/tools/google-business-profile-description-checker/": {
+    "image": "/images/og/pages/tools-google-business-profile-description-checker.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “A profile description that sticks” — Free tool · Local SEO · Business Profile · No sign-up"
+  },
+  "/tools/ai-visibility-prompt-pack/": {
+    "image": "/images/og/pages/tools-ai-visibility-prompt-pack.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Does AI recommend you?” — Free tool · GEO · AI search · No sign-up"
+  },
+  "/tools/llms-txt-generator/": {
+    "image": "/images/og/pages/tools-llms-txt-generator.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “The free llms.txt generator” — Free tool · GEO · AI search · No sign-up"
+  },
+  "/tools/ai-crawler-robots-txt-generator/": {
+    "image": "/images/og/pages/tools-ai-crawler-robots-txt-generator.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Decide who reads your site” — Free tool · GEO · robots.txt · No sign-up"
+  },
+  "/tools/utm-link-builder/": {
+    "image": "/images/og/pages/tools-utm-link-builder.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Know which poster worked” — Free tool · Analytics · GA4 · No sign-up"
+  },
+  "/tools/meta-tag-generator/": {
+    "image": "/images/og/pages/tools-meta-tag-generator.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Every head tag, one block” — Free tool · HTML · Open Graph · No sign-up"
+  },
+  "/tools/og-image-maker/": {
+    "image": "/images/og/pages/tools-og-image-maker.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Links that look shared-worthy” — Free tool · Images · Open Graph · No sign-up"
+  },
+  "/tools/favicon-generator/": {
+    "image": "/images/og/pages/tools-favicon-generator.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Every favicon, one click” — Free tool · Icons · Manifest · No sign-up"
+  },
+  "/tools/image-compressor/": {
+    "image": "/images/og/pages/tools-image-compressor.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Smaller photos, same view” — Free tool · Images · Page speed · No sign-up"
+  },
+  "/tools/redirect-generator/": {
+    "image": "/images/og/pages/tools-redirect-generator.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Move pages, keep rankings” — Free tool · Migrations · 301 redirects · No sign-up"
+  },
+  "/tools/robots-txt-tester/": {
+    "image": "/images/og/pages/tools-robots-txt-tester.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Blocked or not? Find out” — Free tool · Crawling · robots.txt · No sign-up"
+  },
+  "/tools/xml-sitemap-generator/": {
+    "image": "/images/og/pages/tools-xml-sitemap-generator.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “A sitemap from a list” — Free tool · Crawling · Sitemap · No sign-up"
+  },
+  "/tools/hreflang-tag-generator/": {
+    "image": "/images/og/pages/tools-hreflang-tag-generator.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Right language, right page” — Free tool · Multilingual SEO · hreflang · No sign-up"
+  },
+  "/tools/lighthouse-report-explainer/": {
+    "image": "/images/og/pages/tools-lighthouse-report-explainer.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Your Lighthouse report, decoded” — Free tool · Page speed · Lighthouse · No sign-up"
+  },
+  "/tools/color-contrast-checker/": {
+    "image": "/images/og/pages/tools-color-contrast-checker.jpg",
+    "alt": "Share card for Divyansh Sood® Studio: “Readable for everyone” — Free tool · Accessibility · WCAG · No sign-up"
   },
   "/website-audit/": {
     "image": "/images/og/pages/website-audit.jpg",

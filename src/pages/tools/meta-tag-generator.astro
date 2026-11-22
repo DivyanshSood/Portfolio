@@ -1,0 +1,123 @@
+---
+import Tool from "../../layouts/Tool.astro";
+import { TOPICS } from "../../lib/entity.mjs";
+
+const faqs = [
+  { q: "Which meta tags actually matter?", a: "For search: the title tag, the meta description and a canonical link. For sharing on WhatsApp, Facebook, LinkedIn and X: the Open Graph tags (og:title, og:description, og:image, og:url) and twitter:card. The old meta keywords tag has been ignored by Google for years, so this tool doesn’t write one." },
+  { q: "What size should the share image be?", a: "1200 × 630 pixels works everywhere, with the important part kept away from the edges. Use an absolute https:// URL, and keep the file under a few hundred KB so WhatsApp shows it." },
+  { q: "My new image doesn’t show when I share the link. Why?", a: "Platforms cache link previews. Facebook and LinkedIn have their own debugger tools that fetch the page again; WhatsApp usually updates within a day or when the URL changes slightly." },
+  { q: "Is anything uploaded?", a: "No. The tags and the preview are built in your browser." },
+];
+---
+
+<Tool
+  slug="meta-tag-generator"
+  title="Meta Tag & Open Graph Generator with Share Preview"
+  description="Generate title, meta description, canonical, Open Graph and Twitter card tags in one block, with a link-preview mockup. Free, no sign-up, nothing stored."
+  keywords="meta tag generator, open graph generator, og tags generator, twitter card generator, social meta tags, html head tags generator"
+  ogTitle="Meta tag & Open Graph generator"
+  ogDescription="Search and social tags for your page's head, with a preview of the share card. Free, in your browser."
+  display="Every head tag, one block."
+  kicker="Free tool · HTML · Open Graph · No sign-up"
+  lead="Fill in the page’s title, description, URL and share image to get the <strong>search tags</strong> (title, description, canonical, robots) and the <strong>social tags</strong> (Open Graph and Twitter card) as one block for your page’s <code>&lt;head&gt;</code>, with a preview of the link card people will see."
+  appName="Meta Tag & Open Graph Generator"
+  appDescription="A free, browser-based tool that generates title, meta description, canonical, robots, Open Graph and Twitter card tags with a link-preview mockup. No sign-up, nothing stored."
+  category="DeveloperApplication"
+  toolTitle="Build your head tags"
+  cards={[
+    { tag: "Check the snippet", d: `See how the title and description fit in Google, measured in pixels. <a href="/tools/serp-snippet-preview/">Open the SERP preview →</a>` },
+    { tag: "Need a share image?", d: `Make a 1200×630 card from your title and colours. <a href="/tools/og-image-maker/">Open the share image maker →</a>` },
+  ]}
+  faqs={faqs}
+  topics={[TOPICS.seo, TOPICS.webDevelopment]}
+  end={{ title: "Want every page’s tags generated for you?", text: "On sites I build, titles, descriptions, canonicals and share cards come from one source and are checked by script on every build.", primary: { href: "/services/website-development/", label: "Website development →" } }}
+>
+  <div class="tk">
+    <form class="form" id="mt-form" autocomplete="off" novalidate>
+      <label class="field" for="mt-title">Page title *<input type="text" id="mt-title" placeholder="Homestay in Dharamkot with Mountain Views | Snow View" /></label>
+      <label class="field" for="mt-desc">Description *<textarea id="mt-desc" rows="3" placeholder="Family-run homestay in Dharamkot, a 20-minute walk above McLeod Ganj. Mountain-view rooms, home-cooked meals and airport pickups."></textarea></label>
+      <label class="field" for="mt-url">Page URL (canonical) *<input type="url" id="mt-url" placeholder="https://www.example.com/rooms/" inputmode="url" spellcheck="false" /></label>
+      <label class="field" for="mt-img">Share image URL (1200×630)<input type="url" id="mt-img" placeholder="https://www.example.com/og/rooms.jpg" spellcheck="false" /></label>
+      <label class="field" for="mt-alt">Image description<input type="text" id="mt-alt" placeholder="Snow View homestay terrace facing the Dhauladhar range" /></label>
+      <div class="tk-two">
+        <label class="field" for="mt-site">Site name<input type="text" id="mt-site" placeholder="Snow View Homestay" /></label>
+        <label class="field" for="mt-type">Page type<select id="mt-type"><option value="website">Website / page</option><option value="article">Article / blog post</option></select></label>
+      </div>
+      <div class="tk-two">
+        <label class="field" for="mt-locale">Locale<select id="mt-locale"><option>en_IN</option><option>hi_IN</option><option>en_US</option><option>en_GB</option></select></label>
+        <label class="field" for="mt-tw">X / Twitter handle (optional)<input type="text" id="mt-tw" placeholder="@snowview" /></label>
+      </div>
+      <label class="tk-check"><input type="checkbox" id="mt-noindex" /> Keep this page out of search results (noindex)</label>
+    </form>
+    <div class="tk-out">
+      <div class="tk-bar"><span>Share preview</span></div>
+      <div class="tk-body">
+        <div class="mt-card">
+          <div class="mt-img" id="mt-imgbox"><span>1200 × 630 image</span></div>
+          <div class="mt-meta"><span id="mt-o-host"></span><strong id="mt-o-title"></strong><span id="mt-o-desc"></span></div>
+        </div>
+      </div>
+      <div class="tk-bar"><span>&lt;head&gt; tags</span><div class="tk-actions"><button type="button" class="tk-btn tk-btn--red" id="mt-copy">Copy</button></div></div>
+      <pre class="tk-pre" id="mt-out" tabindex="0"></pre>
+    </div>
+  </div>
+</Tool>
+
+<script>
+  import { $, val, live, copyText, track, escHtml } from "../../scripts/tools-kit.js";
+  const TOOL = "meta_tags";
+  const abs = (s: string) => { if (!s) return ""; try { return new URL(/^https?:\/\//i.test(s) ? s : "https://" + s).href; } catch { return ""; } };
+
+  function tags() {
+    const t = val("mt-title"), d = val("mt-desc"), url = abs(val("mt-url")), img = abs(val("mt-img")), alt = val("mt-alt");
+    const site = val("mt-site"), tw = val("mt-tw").replace(/^@?/, "@");
+    const SEP = "§";
+    const out = [
+      `<title>${escHtml(t)}</title>`,
+      `<meta name="description" content="${escHtml(d)}">`,
+      url && `<link rel="canonical" href="${escHtml(url)}">`,
+      ($("mt-noindex") as HTMLInputElement).checked && `<meta name="robots" content="noindex, follow">`,
+      SEP,
+      `<meta property="og:type" content="${val("mt-type")}">`,
+      `<meta property="og:title" content="${escHtml(t)}">`,
+      `<meta property="og:description" content="${escHtml(d)}">`,
+      url && `<meta property="og:url" content="${escHtml(url)}">`,
+      site && `<meta property="og:site_name" content="${escHtml(site)}">`,
+      `<meta property="og:locale" content="${val("mt-locale")}">`,
+      img && `<meta property="og:image" content="${escHtml(img)}">`,
+      img && `<meta property="og:image:width" content="1200">`,
+      img && `<meta property="og:image:height" content="630">`,
+      img && alt && `<meta property="og:image:alt" content="${escHtml(alt)}">`,
+      SEP,
+      `<meta name="twitter:card" content="${img ? "summary_large_image" : "summary"}">`,
+      tw.length > 1 && `<meta name="twitter:site" content="${escHtml(tw)}">`,
+    ];
+    return out.filter(Boolean).map((x) => (x === SEP ? "" : x)).join("\n");
+  }
+
+  function render() {
+    const url = abs(val("mt-url")), img = abs(val("mt-img"));
+    $("mt-o-host")!.textContent = (url ? new URL(url).hostname : "example.com").replace(/^www\./, "").toUpperCase();
+    $("mt-o-title")!.textContent = val("mt-title") || "Your page title";
+    $("mt-o-desc")!.textContent = val("mt-desc") || "Your description.";
+    const box = $("mt-imgbox")!;
+    box.style.backgroundImage = "";
+    box.classList.toggle("has-img", false);
+    $("mt-out")!.textContent = val("mt-title") ? tags() : "Fill in the title and description.";
+    ($("mt-copy") as HTMLButtonElement).disabled = !val("mt-title");
+    // The preview doesn't load the image: the CSP only allows our own images,
+    // and fetching a visitor's URL would leave this page. Show the URL instead.
+    box.querySelector("span")!.textContent = img ? new URL(img).pathname.split("/").pop() || "image" : "1200 × 630 image";
+  }
+  live("mt-form", render, TOOL);
+  $("mt-copy")!.addEventListener("click", (e) => { copyText(tags(), e.currentTarget as HTMLElement); track(TOOL, "copy"); });
+</script>
+
+<style>
+  .mt-card{border:1px solid #DDD;border-radius:10px;overflow:hidden;max-width:520px;font-family:Arial,Helvetica,sans-serif;background:#fff}
+  .mt-img{aspect-ratio:1200/630;background:#EEE;display:grid;place-items:center;color:#888;font-family:var(--mono);font-size:12px;padding:12px;text-align:center;word-break:break-all}
+  .mt-meta{display:flex;flex-direction:column;gap:4px;padding:12px 14px;background:#F2F3F5}
+  .mt-meta span:first-child{font-size:12px;color:#606770;letter-spacing:.02em}
+  .mt-meta strong{font-size:16px;line-height:1.3;color:#1D2129}
+  .mt-meta span:last-child{font-size:14px;line-height:1.4;color:#606770;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+</style>

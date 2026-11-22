@@ -1,0 +1,127 @@
+---
+import Tool from "../../layouts/Tool.astro";
+
+const faqs = [
+  { q: "What does a vCard QR code do?", a: "When someone scans it with their phone camera, the phone offers to save a new contact with your name, number, email, website and address already filled in. Nobody has to type your number or spell your business name, so it gets saved correctly." },
+  { q: "Does it work on iPhone and Android?", a: "Yes. The built-in camera on iPhone and on most Android phones reads vCard QR codes and opens the “Add contact” screen. On older Android phones, Google Lens does the same." },
+  { q: "Why is my QR code so dense?", a: "Every field you fill makes the code bigger, because the contact details are written into the pattern itself. Leave out what guests don’t need, such as a long address, and print the card at the full A6 size so it scans from a distance." },
+  { q: "Is my information stored anywhere?", a: "No. The contact file and QR code are built in your browser. Nothing is uploaded, and there’s no link or redirect of mine inside the code, so it keeps working whatever happens to this site." },
+];
+---
+
+<Tool
+  slug="vcard-qr-code-generator"
+  title="Free vCard QR Code Generator: Save-My-Contact Card"
+  description="Make a QR code that saves your name, phone, WhatsApp, email and address straight to a customer's contacts, plus a .vcf file and printable card. Free."
+  keywords="vcard qr code generator, contact qr code, save contact qr code, business card qr code, vcf qr code, free vcard qr"
+  ogTitle="Free vCard (contact) QR code generator"
+  ogDescription="One scan saves your name, number, email and address to a guest's phone. QR code, .vcf file and printable card, free."
+  display="Get saved, not lost."
+  kicker="Free tool · Contacts · QR code · No sign-up"
+  lead="Guests ask for your number, then save it as “Taxi Dharamshala” or not at all. A <strong>contact QR code</strong> saves your name, phone, email, website and address in one scan. You get the QR, a <strong>.vcf contact file</strong> and a <strong>printable A6 card</strong>, made in your browser."
+  appName="Free vCard QR Code Generator"
+  appDescription="A free, browser-based tool that builds a vCard contact file and a QR code that saves it to a phone's contacts, plus a printable A6 card. No sign-up, nothing stored."
+  toolTitle="Make your contact QR"
+  note="Scan the preview with your phone. It should offer to add a contact with every field you filled in."
+  cards={[
+    { tag: "One kit at the desk", d: `A contact card, a <a href="/tools/whatsapp-link-generator/">WhatsApp QR</a> and a <a href="/tools/google-review-qr-code-generator/">review QR</a> together cover saving you, messaging you and recommending you.` },
+    { tag: "Name it the way guests search", d: "Use the business name exactly as it appears on your Google Business Profile. When a guest searches their contacts or Google later, the same name finds you." },
+  ]}
+  faqs={faqs}
+  end={{ title: "Make it easy to find you again", text: "A contact card gets you saved. A website that ranks for your town and service gets you found by people who never met you.", primary: { href: "/services/website-development/", label: "Business websites →" } }}
+>
+  <div class="tk">
+    <form class="form" id="vc-form" autocomplete="off" novalidate>
+      <div class="tk-two">
+        <label class="field" for="vc-first">First name<input type="text" id="vc-first" placeholder="Rakesh" /></label>
+        <label class="field" for="vc-last">Last name<input type="text" id="vc-last" placeholder="Sharma" /></label>
+      </div>
+      <label class="field" for="vc-org">Business name<input type="text" id="vc-org" placeholder="Snow View Taxi Service" /></label>
+      <label class="field" for="vc-title">Role (optional)<input type="text" id="vc-title" placeholder="Owner" /></label>
+      <div class="tk-two">
+        <label class="field" for="vc-phone">Phone *<input type="tel" id="vc-phone" placeholder="+91 98765 43210" inputmode="tel" /></label>
+        <label class="field" for="vc-phone2">Second phone<input type="tel" id="vc-phone2" placeholder="+91 …" inputmode="tel" /></label>
+      </div>
+      <div class="tk-two">
+        <label class="field" for="vc-email">Email<input type="email" id="vc-email" placeholder="hello@example.com" inputmode="email" /></label>
+        <label class="field" for="vc-url">Website<input type="url" id="vc-url" placeholder="https://www.example.com/" inputmode="url" spellcheck="false" /></label>
+      </div>
+      <label class="field" for="vc-street">Street address<input type="text" id="vc-street" placeholder="Near bus stand" /></label>
+      <div class="tk-two">
+        <label class="field" for="vc-city">Town<input type="text" id="vc-city" placeholder="Dharamshala" /></label>
+        <label class="field" for="vc-pin">PIN code<input type="text" id="vc-pin" placeholder="176215" inputmode="numeric" /></label>
+      </div>
+      <label class="field" for="vc-note">Note (optional)<input type="text" id="vc-note" placeholder="Airport pickups 24×7" maxlength="80" /></label>
+      <label class="field" for="vc-color">Card colour<input type="color" id="vc-color" value="#0A0A0A" /></label>
+      <label class="tk-check"><input type="checkbox" id="vc-credit" checked /> Small “made free at divyanshsood.com” line</label>
+    </form>
+    <div class="tk-out">
+      <div class="tk-bar">
+        <span>Contact card · A6</span>
+        <div class="tk-actions">
+          <button type="button" class="tk-btn" id="vc-vcf">.vcf</button>
+          <button type="button" class="tk-btn" id="vc-qr">QR PNG</button>
+          <button type="button" class="tk-btn tk-btn--red" id="vc-card">Card PNG</button>
+          <button type="button" class="tk-btn" id="vc-print">Print</button>
+        </div>
+      </div>
+      <div class="tk-body">
+        <canvas id="vc-canvas" class="tk-card" width="1240" height="1748" role="img" aria-label="Preview of your printable contact card"></canvas>
+        <p class="tk-msg" id="vc-msg" aria-live="polite"></p>
+      </div>
+    </div>
+  </div>
+</Tool>
+
+<script>
+  import { $, val, live, drawCard, printCanvas, qrPngBlob, canvasBlob, download, track, fontsReady, slugify } from "../../scripts/tools-kit.js";
+  const TOOL = "vcard_qr";
+  const canvas = $("vc-canvas") as HTMLCanvasElement;
+  let card = "";
+  // vCard 3.0 text values escape backslash, comma, semicolon and newlines.
+  const e = (s: string) => s.replace(/\\/g, "\\\\").replace(/,/g, "\\,").replace(/;/g, "\\;").replace(/\r?\n/g, "\\n");
+  const tel = (s: string) => s.replace(/[^\d+]/g, "");
+
+  function build() {
+    const first = val("vc-first"), last = val("vc-last"), org = val("vc-org");
+    const fn = [first, last].filter(Boolean).join(" ") || org;
+    if (!fn || !tel(val("vc-phone"))) return "";
+    const out = ["BEGIN:VCARD", "VERSION:3.0", `N:${e(last)};${e(first)};;;`, `FN:${e(fn)}`];
+    if (org) out.push(`ORG:${e(org)}`);
+    if (val("vc-title")) out.push(`TITLE:${e(val("vc-title"))}`);
+    out.push(`TEL;TYPE=CELL:${tel(val("vc-phone"))}`);
+    if (tel(val("vc-phone2"))) out.push(`TEL;TYPE=WORK:${tel(val("vc-phone2"))}`);
+    if (val("vc-email")) out.push(`EMAIL:${val("vc-email")}`);
+    if (val("vc-url")) out.push(`URL:${/^https?:\/\//i.test(val("vc-url")) ? val("vc-url") : "https://" + val("vc-url")}`);
+    if (val("vc-street") || val("vc-city") || val("vc-pin")) out.push(`ADR;TYPE=WORK:;;${e(val("vc-street"))};${e(val("vc-city"))};;${e(val("vc-pin"))};India`);
+    if (val("vc-note")) out.push(`NOTE:${e(val("vc-note"))}`);
+    out.push("END:VCARD");
+    return out.join("\r\n");
+  }
+
+  function render() {
+    card = build();
+    const msg = $("vc-msg")!;
+    msg.textContent = card ? `${card.length} characters in the code. Fewer fields make a QR that scans more easily.` : "Enter a name (or business name) and a phone number.";
+    for (const id of ["vc-vcf", "vc-qr", "vc-card", "vc-print"]) ($(id) as HTMLButtonElement).disabled = !card;
+    const who = [val("vc-first"), val("vc-last")].filter(Boolean).join(" ");
+    drawCard(canvas, {
+      colour: ($("vc-color") as HTMLInputElement).value,
+      name: val("vc-org") || who || "Your business name",
+      head: "Save our number",
+      sub: "Scan with your phone camera to add us to your contacts.",
+      qr: card,
+      foot: card ? [who, val("vc-phone")].filter(Boolean).join("  ·  ") : "",
+      credit: ($("vc-credit") as HTMLInputElement).checked,
+      ecl: "M",
+    });
+  }
+
+  const name = () => slugify(val("vc-org") || val("vc-first"), "contact");
+  live("vc-form", render, TOOL);
+  fontsReady().then(render);
+  $("vc-vcf")!.addEventListener("click", () => { if (card) { download(`${name()}.vcf`, card, "text/vcard;charset=utf-8"); track(TOOL, "download_vcf"); } });
+  $("vc-qr")!.addEventListener("click", async () => { if (card) { download(`${name()}-contact-qr.png`, await qrPngBlob(card)); track(TOOL, "download_qr"); } });
+  $("vc-card")!.addEventListener("click", async () => { if (card) { download(`${name()}-contact-card.png`, (await canvasBlob(canvas))!); track(TOOL, "download_card"); } });
+  $("vc-print")!.addEventListener("click", () => { if (card) { printCanvas(canvas, "Contact card"); track(TOOL, "print"); } });
+</script>

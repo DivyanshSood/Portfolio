@@ -1,0 +1,140 @@
+---
+import Tool from "../../layouts/Tool.astro";
+
+// Each row: id, label, kind (text | money | num | yesno | owner), and whether
+// "No"/"Them" is a red flag.
+const ROWS = [
+  ["name", "Developer or agency", "text"],
+  ["price", "Build price, ₹", "money"],
+  ["weeks", "Timeline, weeks", "num"],
+  ["pages", "Pages included", "num"],
+  ["revisions", "Rounds of revisions", "num"],
+  ["domain", "Domain registered in whose name?", "owner"],
+  ["hosting", "Hosting account in whose name?", "owner"],
+  ["code", "Full code or files handed over?", "yesno"],
+  ["ip", "IP transfer in writing?", "yesno"],
+  ["admin", "You can edit content yourself?", "yesno"],
+  ["seo", "Basic SEO set up (titles, sitemap, schema)?", "yesno"],
+  ["support", "Free support after launch, days", "num"],
+  ["yearly", "Yearly fees to the developer, ₹", "money"],
+  ["advance", "Advance payment, %", "num"],
+];
+
+const faqs = [
+  { q: "What matters most when comparing website quotes?", a: "Ownership first: who holds the domain, the hosting account and the code after launch. A cheap build where the developer owns all three becomes a yearly fee you can’t leave. Then what’s actually included (pages, revisions, content editing, SEO), then support, and only then the price." },
+  { q: "Why does the tool show a three-year cost?", a: "Because some quotes are low up front and earn their money yearly. Build price plus three years of fees to the developer is a fairer comparison. Domain and hosting are left out because you pay those whoever builds the site; use the running-cost calculator for them." },
+  { q: "Is my comparison saved?", a: "Only in this browser, so you can come back to it. Nothing is uploaded. Print it or save it as a PDF to share." },
+  { q: "Isn’t this biased, since you sell websites?", a: "The questions are the ones any careful buyer should ask, and they apply to my quotes too: I put my own terms (code, domain and hosting in your name, a signed IP transfer, 30 days of support) on my site so you can check them the same way." },
+];
+---
+
+<Tool
+  slug="web-developer-quote-comparison"
+  title="Compare Website Quotes: Web Developer Quote Checklist"
+  description="Put up to three website quotes side by side on ownership, what's included, support and three-year cost, with red flags highlighted. Free and private."
+  keywords="compare website quotes, web developer quote comparison, website quotation checklist, questions to ask a web developer, website development quote india, choosing a web developer"
+  ogTitle="Compare website quotes"
+  ogDescription="Three website quotes side by side: ownership, inclusions, support and the three-year cost, with red flags. Free."
+  display="Three quotes, one fair look."
+  kicker="Free tool · Buying a website · Checklist · No sign-up"
+  lead="Website quotes are hard to compare because each one leaves out different things. Enter up to <strong>three quotes</strong> and answer the same fourteen questions for each. You get a side-by-side table with <strong>red flags highlighted</strong> and a <strong>three-year cost</strong>, so you compare like with like, not just the headline price."
+  appName="Web Developer Quote Comparison"
+  appDescription="A free, browser-based checklist that compares up to three website development quotes on ownership, inclusions, support and three-year cost, highlighting red flags. Saved only in the browser."
+  toolTitle="Compare your quotes"
+  toolNote="Saved in this browser"
+  cards={[
+    { tag: "Ask in writing", d: "Send every developer the same questions and keep the answers in writing. A developer who won’t confirm ownership in writing has given you the answer." },
+    { tag: "Budget the yearly costs", d: `Domain, hosting and email are paid whoever builds the site. <a href="/tools/website-running-cost-calculator/">Work out the yearly running cost →</a>` },
+  ]}
+  faqs={faqs}
+  end={{ title: "Want my quote in the comparison?", text: "One 30-minute call, then a fixed written quote at the published starting prices, with every row of this table answered.", primary: { href: "/tools/website-cost-calculator/", label: "Website cost calculator →" } }}
+>
+  <div class="tk-out qc-out" id="qc" data-rows={JSON.stringify(ROWS)}>
+    <div class="tk-bar">
+      <span>Quotes</span>
+      <div class="tk-actions">
+        <button type="button" class="tk-btn" id="qc-print">Print / PDF</button>
+        <button type="button" class="tk-btn" id="qc-clear">Clear</button>
+      </div>
+    </div>
+    <div class="tk-body tk-scroll">
+      <table class="tk-table qc-table" id="qc-table"></table>
+      <p class="tk-msg" id="qc-msg" aria-live="polite"></p>
+    </div>
+  </div>
+</Tool>
+
+<script>
+  import { $, track, escHtml, printOnly } from "../../scripts/tools-kit.js";
+  const TOOL = "quote_compare";
+  const KEY = "ds-quote-compare";
+  const ROWS = JSON.parse($("qc")!.dataset.rows || "[]") as [string, string, string][];
+  let data: Record<string, string>[] = [{}, {}, {}];
+  try { const d = JSON.parse(localStorage.getItem(KEY) || "null"); if (Array.isArray(d) && d.length === 3) data = d; } catch { /* fresh */ }
+  let touched = false;
+
+  function cell(row: [string, string, string], q: number) {
+    const [id, label, kind] = row;
+    const v = data[q][id] || "";
+    const name = `qc-${q}-${id}`;
+    const aria = `aria-label="${escHtml(label)}, quote ${q + 1}"`;
+    if (kind === "yesno" || kind === "owner") {
+      const opts = kind === "owner" ? [["", "—"], ["you", "You"], ["them", "Them"], ["unclear", "Not stated"]] : [["", "—"], ["yes", "Yes"], ["no", "No"], ["unclear", "Not stated"]];
+      return `<select name="${name}" data-q="${q}" data-id="${id}" ${aria}>${opts.map(([o, t]) => `<option value="${o}"${o === v ? " selected" : ""}>${t}</option>`).join("")}</select>`;
+    }
+    return `<input type="${kind === "text" ? "text" : "number"}" min="0" inputmode="${kind === "text" ? "text" : "numeric"}" name="${name}" data-q="${q}" data-id="${id}" value="${escHtml(v)}" ${aria} placeholder="${kind === "text" ? `Quote ${"ABC"[q]}` : "—"}">`;
+  }
+
+  function flag(id: string, v: string) {
+    if (v === "them" || (v === "no" && ["code", "ip"].includes(id))) return "bad";
+    if (v === "unclear") return "warn";
+    return "";
+  }
+
+  function draw() {
+    $("qc-table")!.innerHTML = `<thead><tr><th></th>${[0, 1, 2].map((q) => `<th>Quote ${"ABC"[q]}</th>`).join("")}</tr></thead><tbody>${ROWS.map((r) => `<tr><th scope="row">${r[1]}</th>${[0, 1, 2].map((q) => `<td class="qc-${flag(r[0], data[q][r[0]] || "")}">${cell(r, q)}</td>`).join("")}</tr>`).join("")}<tr class="qc-total"><th scope="row">Build + 3 years of developer fees</th>${[0, 1, 2].map((q) => `<td id="qc-t${q}"></td>`).join("")}</tr></tbody>`;
+    totals();
+  }
+
+  function totals() {
+    const inr = (n: number) => "₹" + Math.round(n).toLocaleString("en-IN");
+    const t = [0, 1, 2].map((q) => (data[q].price ? (Number(data[q].price) || 0) + 3 * (Number(data[q].yearly) || 0) : null));
+    t.forEach((v, q) => ($(`qc-t${q}`)!.textContent = v === null ? "—" : inr(v)));
+    const flags = [0, 1, 2].map((q) => ROWS.filter((r) => flag(r[0], data[q][r[0]] || "") === "bad").length);
+    const named = [0, 1, 2].filter((q) => Object.values(data[q]).some(Boolean));
+    $("qc-msg")!.textContent = named.length ? named.map((q) => `${data[q].name || "Quote " + "ABC"[q]}: ${flags[q]} red flag${flags[q] === 1 ? "" : "s"}`).join(" · ") : "Fill in what each developer quoted. Red marks ownership you don’t get and code or IP you don’t receive.";
+  }
+
+  $("qc-table")!.addEventListener("input", (e) => {
+    const el = e.target as HTMLInputElement;
+    if (!el.dataset.id) return;
+    data[Number(el.dataset.q)][el.dataset.id] = el.value;
+    try { localStorage.setItem(KEY, JSON.stringify(data)); } catch { /* not kept */ }
+    const td = el.closest("td")!;
+    td.className = "qc-" + flag(el.dataset.id, el.value);
+    totals();
+    if (!touched) { touched = true; track(TOOL, "edit"); }
+  });
+  $("qc-clear")!.addEventListener("click", () => { data = [{}, {}, {}]; try { localStorage.removeItem(KEY); } catch { /* nothing */ } draw(); });
+  $("qc-print")!.addEventListener("click", () => {
+    const t = document.createElement("table");
+    t.className = "tk-table";
+    t.innerHTML = `<thead><tr><th></th>${[0, 1, 2].map((q) => `<th>${escHtml(data[q].name || "Quote " + "ABC"[q])}</th>`).join("")}</tr></thead><tbody>${ROWS.slice(1).map((r) => `<tr><th>${r[1]}</th>${[0, 1, 2].map((q) => `<td>${escHtml(data[q][r[0]] || "—")}</td>`).join("")}</tr>`).join("")}<tr><th>Build + 3 years</th>${[0, 1, 2].map((q) => `<td>${$(`qc-t${q}`)!.textContent}</td>`).join("")}</tr></tbody>`;
+    const wrap = document.createElement("div");
+    wrap.innerHTML = `<h2 style="font-family:sans-serif">Website quote comparison</h2>`;
+    wrap.appendChild(t);
+    printOnly(wrap);
+    track(TOOL, "print");
+  });
+  draw();
+</script>
+
+<style>
+  .qc-out{position:static}
+  .qc-table :global(th[scope=row]){font-family:var(--display);font-size:14px;letter-spacing:0;text-transform:none;color:var(--ink);min-width:180px}
+  .qc-table :global(td){min-width:150px}
+  .qc-table :global(input),.qc-table :global(select){width:100%;font:inherit;font-size:15px;padding:8px 0;border:0;border-bottom:1px solid var(--ink);background:transparent;color:var(--ink);border-radius:0}
+  .qc-table :global(td.qc-bad){background:#FDECEC}
+  .qc-table :global(td.qc-warn){background:#FFF6E0}
+  .qc-table :global(.qc-total th),.qc-table :global(.qc-total td){font-weight:800;border-top:2px solid var(--ink)}
+</style>

@@ -1,0 +1,139 @@
+---
+import Tool from "../../layouts/Tool.astro";
+import { TOPICS } from "../../lib/entity.mjs";
+
+const faqs = [
+  { q: "How do I get a Lighthouse JSON report?", a: "In Chrome, open DevTools (F12), go to the Lighthouse tab, run a report, then use the ⋮ menu at the top of the report and choose “Save as JSON”. From the command line, lighthouse https://yoursite.com --output=json --output-path=report.json does the same. A PageSpeed Insights API response works too." },
+  { q: "Why are my scores different every time?", a: "Lighthouse simulates a mid-range phone on a slow connection, and small differences in network and CPU load move the numbers a few points between runs. Run it three times and look at the middle result, and compare before and after on the same machine." },
+  { q: "Which fixes matter most?", a: "The explainer sorts performance fixes by the time Lighthouse estimates they’d save, and lists accessibility and SEO failures after. As a rule: images and render-blocking files first, then JavaScript, then everything else." },
+  { q: "Is my report uploaded?", a: "No. The file is read and explained in your browser; it never leaves your device." },
+];
+---
+
+<Tool
+  slug="lighthouse-report-explainer"
+  title="Lighthouse Report Explainer: Scores & Fixes in Plain English"
+  description="Drop a Lighthouse or PageSpeed Insights JSON report and get the scores, Core Web Vitals and the biggest fixes in plain English. Free, nothing uploaded."
+  keywords="lighthouse report explained, pagespeed insights explained, how to improve lighthouse score, lighthouse json viewer, core web vitals explained, fix lcp"
+  ogTitle="Lighthouse report explainer"
+  ogDescription="Your Lighthouse report's scores and biggest fixes, in plain English. Free, in your browser."
+  display="Your Lighthouse report, decoded."
+  kicker="Free tool · Page speed · Lighthouse · No sign-up"
+  lead="Lighthouse tells you what’s wrong in developer language. Drop in the <strong>JSON report</strong> from Chrome DevTools or PageSpeed Insights and get the <strong>scores</strong>, the <strong>Core Web Vitals</strong> and the <strong>top fixes in plain English</strong>, sorted by how much each would help. The report stays on your device."
+  appName="Lighthouse Report Explainer"
+  appDescription="A free, browser-based tool that reads a Lighthouse or PageSpeed Insights JSON report and explains the category scores, Core Web Vitals and the most impactful fixes in plain English. Nothing uploaded."
+  category="DeveloperApplication"
+  toolTitle="Explain a report"
+  toolNote="Drop a JSON file"
+  cards={[
+    { tag: "Images first", d: `Oversized photos are the most common cause of a slow LCP. <a href="/tools/image-compressor/">Compress them to WebP →</a>` },
+    { tag: "Contrast failures?", d: `Find the nearest colour that passes WCAG. <a href="/tools/color-contrast-checker/">Colour contrast checker →</a>` },
+    { tag: "Done properly, for you", wide: true, d: `I measure the sites I build with Lighthouse before launch, and several case studies publish the medians. If your site scores in the red, start with a <a href="/website-audit/">free website audit →</a>` },
+  ]}
+  faqs={faqs}
+  topics={[TOPICS.webDevelopment]}
+  end={{ title: "Scores in the red?", text: "Send me the report. I’ll tell you which two or three fixes would move it most, and what they involve.", primary: { href: "/website-audit/", label: "Free website audit →" } }}
+>
+  <div class="tk">
+    <form class="form" id="lh-form" autocomplete="off" novalidate>
+      <label class="tk-drop" id="lh-drop" for="lh-file">Drop a Lighthouse .json report here, or tap to choose<input type="file" id="lh-file" accept="application/json,.json" hidden /></label>
+      <label class="field" for="lh-paste">…or paste the JSON<textarea id="lh-paste" rows="4" spellcheck="false" placeholder='{"lighthouseVersion": "…", "categories": { … } }'></textarea></label>
+      <p class="tk-msg" id="lh-msg" aria-live="polite"></p>
+    </form>
+    <div class="tk-out">
+      <div class="tk-bar"><span id="lh-head">Report</span></div>
+      <div class="tk-body" id="lh-out"><p class="tk-msg">Scores and fixes will appear here.</p></div>
+    </div>
+  </div>
+</Tool>
+
+<script>
+  import { $, track, escHtml } from "../../scripts/tools-kit.js";
+  const TOOL = "lighthouse_explainer";
+
+  // Plain-English notes, matched by keywords in the audit id so they keep
+  // working as Lighthouse renames audits between versions.
+  const PLAIN: [RegExp, string][] = [
+    [/render-blocking/, "CSS or JavaScript files stop the page from showing until they’ve downloaded. Inline the little CSS the top of the page needs, and load the rest, and scripts, later (defer)."],
+    [/image-delivery|uses-optimized-images|modern-image|uses-responsive-images|offscreen-images/, "Images are bigger than they need to be. Resize them to the size they’re shown at, convert to WebP or AVIF, and lazy-load the ones below the fold."],
+    [/lcp-discovery|prioritize-lcp|preload-lcp/, "The biggest image or text block on screen is found late. Make the hero image a normal <img> in the HTML (not a CSS background or loaded by script), give it fetchpriority=\"high\", and don’t lazy-load it."],
+    [/lcp-(phases|breakdown)/, "Shows where the time to the largest element goes: server response, finding the resource, downloading it, or rendering it. Fix the biggest slice first."],
+    [/document-latency|server-response|redirects/, "The server is slow to send the first byte, or the page bounces through redirects first. Use caching or a CDN, and link straight to final URLs."],
+    [/unused-javascript|legacy-javascript|duplicated-javascript|bootup-time|mainthread-work|long-tasks/, "Too much JavaScript is downloaded and run. Remove plugins and widgets you don’t need, load chat and analytics scripts after the page, and split big bundles."],
+    [/unused-css|unminified/, "Files carry code the page doesn’t use or isn’t compressed. Minify CSS and JS, and remove unused styles from themes and frameworks."],
+    [/font-display|font/, "Text stays invisible while web fonts load. Use font-display: swap and preload the one or two fonts above the fold."],
+    [/cls-culprits|layout-shift|unsized-images/, "Things jump around as the page loads. Give images and embeds a width and height, and reserve space for banners and ads."],
+    [/third-part/, "Outside scripts (chat, ads, trackers, embeds) slow the page. Remove what you don’t use; load the rest after the page has rendered."],
+    [/cache/, "Repeat visitors download the same files again. Set long cache lifetimes on images, fonts, CSS and JS."],
+    [/dom-size/, "The page has a very large number of HTML elements, often from page builders. Simpler markup renders faster."],
+    [/forced-reflow|interaction|inp/, "Scripts make the browser recalculate layout repeatedly, so taps feel slow. Batch DOM reads and writes and keep event handlers short."],
+    [/color-contrast/, "Some text is too faint against its background for many readers. Darken the text or lighten the background until it passes 4.5:1."],
+    [/image-alt/, "Images are missing alt text, so screen readers and search engines can’t tell what they show."],
+    [/label|button-name|link-name|aria/, "Some buttons, links or form fields have no name a screen reader can announce. Give each one visible text or an aria-label."],
+    [/target-size|tap-targets/, "Buttons or links are too small or too close together to tap reliably on a phone."],
+    [/heading-order/, "Headings skip levels (an H4 straight after an H2), which confuses screen readers and the page outline."],
+    [/html-has-lang|html-lang/, "The page doesn’t declare its language, so screen readers may read it with the wrong pronunciation."],
+    [/meta-description/, "The page has no meta description, so Google writes its own snippet."],
+    [/document-title/, "The page has no <title>, the single most important on-page SEO element."],
+    [/is-crawlable/, "The page tells search engines not to index it (noindex), or robots.txt blocks it."],
+    [/canonical/, "The canonical link is missing, invalid or points somewhere unexpected."],
+    [/errors-in-console|inspector-issues/, "The browser logged errors while loading the page. Some are harmless; some mean a feature is broken."],
+    [/is-on-https|csp-xss|deprecations/, "Security or browser-compatibility issues. Usually fixed in the server settings or by updating old libraries."],
+  ];
+  const plain = (id: string) => PLAIN.find(([re]) => re.test(id))?.[1] || "";
+  const strip = (s: string) => (s || "").replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").replace(/`/g, "");
+  const METRICS = [["first-contentful-paint", "First Contentful Paint", "When the first text or image appears."], ["largest-contentful-paint", "Largest Contentful Paint", "When the main content has loaded. Core Web Vital: good under 2.5 s."], ["total-blocking-time", "Total Blocking Time", "How long scripts block taps and scrolls while loading. A lab stand-in for INP."], ["cumulative-layout-shift", "Cumulative Layout Shift", "How much the page jumps around. Core Web Vital: good under 0.1."], ["speed-index", "Speed Index", "How quickly the visible page fills in."]];
+  const band = (s: number) => (s >= 0.9 ? "ok" : s >= 0.5 ? "mid" : "bad");
+
+  function explain(json: any) {
+    const lhr = json.lighthouseResult || json;
+    if (!lhr || !lhr.categories || !lhr.audits) throw new Error("not lighthouse");
+    const cats = Object.values(lhr.categories) as any[];
+    const ff = lhr.configSettings?.formFactor;
+    $("lh-head")!.textContent = `${lhr.finalDisplayedUrl || lhr.finalUrl || lhr.requestedUrl || "Report"}${ff ? ` · ${ff}` : ""} · Lighthouse ${lhr.lighthouseVersion || ""}`;
+    const scores = `<div class="lh-scores">${cats.map((c) => `<div class="lh-s lh-${c.score == null ? "na" : band(c.score)}"><b>${c.score == null ? "–" : Math.round(c.score * 100)}</b><span>${escHtml(c.title)}</span></div>`).join("")}</div>`;
+    const metrics = METRICS.filter(([id]) => lhr.audits[id]).map(([id, name, d]) => {
+      const a = lhr.audits[id];
+      return `<tr><td><b>${name}</b><br><small>${d}</small></td><td class="num"><span class="tk-pill ${a.score >= 0.9 ? "tk-pill--ok" : "tk-pill--bad"}">${escHtml(a.displayValue || "–")}</span></td></tr>`;
+    }).join("");
+    // Failing audits that count: performance ones ranked by estimated savings.
+    const catOf: Record<string, string> = {};
+    cats.forEach((c) => (c.auditRefs || []).forEach((r: any) => { if (!catOf[r.id]) catOf[r.id] = c.title; }));
+    const fails = Object.values(lhr.audits as Record<string, any>).filter((a) =>
+      a.score !== null && a.score < 0.9 && !["notApplicable", "manual", "informative", "error"].includes(a.scoreDisplayMode) && catOf[a.id] && !METRICS.some(([m]) => m === a.id));
+    const saving = (a: any) => (a.details?.overallSavingsMs || 0) + Object.values(a.metricSavings || {}).reduce((x: number, y: any) => x + (Number(y) || 0), 0);
+    fails.sort((a, b) => (catOf[a.id] === catOf[b.id] ? saving(b) - saving(a) || a.score - b.score : cats.findIndex((c) => c.title === catOf[a.id]) - cats.findIndex((c) => c.title === catOf[b.id])));
+    const top = fails.slice(0, 14).map((a) => `<li><span class="lh-cat">${escHtml(catOf[a.id])}${a.displayValue ? ` · ${escHtml(a.displayValue)}` : ""}</span><b>${escHtml(strip(a.title))}</b><p>${escHtml(plain(a.id) || strip(a.description).split(". ")[0] + ".")}</p></li>`).join("");
+    $("lh-out")!.innerHTML = scores + (metrics ? `<table class="tk-table">${metrics}</table>` : "") + (top ? `<h3 class="lh-h">What to fix, biggest first</h3><ol class="lh-fixes">${top}</ol>` : `<p class="tk-msg">No failing audits. Nice.</p>`) + (fails.length > 14 ? `<p class="tk-msg">…and ${fails.length - 14} smaller items.</p>` : "");
+    track(TOOL, "explain");
+  }
+
+  function load(text: string) {
+    const msg = $("lh-msg")!;
+    try { explain(JSON.parse(text)); msg.textContent = ""; msg.classList.remove("tk-msg--warn"); }
+    catch { msg.textContent = "That isn’t a Lighthouse JSON report. Save the report as JSON from DevTools or PageSpeed Insights."; msg.classList.add("tk-msg--warn"); }
+  }
+  const drop = $("lh-drop")!;
+  const read = (f?: File | null) => { if (f) f.text().then(load); };
+  ($("lh-file") as HTMLInputElement).addEventListener("change", (e) => read((e.target as HTMLInputElement).files?.[0]));
+  ["dragenter", "dragover"].forEach((t) => drop.addEventListener(t, (e) => { e.preventDefault(); drop.classList.add("is-over"); }));
+  ["dragleave", "drop"].forEach((t) => drop.addEventListener(t, () => drop.classList.remove("is-over")));
+  drop.addEventListener("drop", (e) => { e.preventDefault(); read((e as DragEvent).dataTransfer?.files[0]); });
+  $("lh-paste")!.addEventListener("input", (e) => { const v = (e.target as HTMLTextAreaElement).value.trim(); if (v.length > 50) load(v); });
+</script>
+
+<style>
+  #lh-out :global(.lh-scores){display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px}
+  #lh-out :global(.lh-s){display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 6px;border:1px solid var(--gda);text-align:center}
+  #lh-out :global(.lh-s b){font-family:var(--display);font-weight:900;font-size:36px;line-height:1}
+  #lh-out :global(.lh-s span){font-family:var(--mono);font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--g3e)}
+  #lh-out :global(.lh-ok b){color:#1E7B34}
+  #lh-out :global(.lh-mid b){color:#A35D00}
+  #lh-out :global(.lh-bad b){color:var(--red-on-tint,#D0131C)}
+  #lh-out :global(small){color:var(--g5c);font-size:13px}
+  #lh-out :global(.lh-h){font-family:var(--display);font-weight:900;font-style:italic;text-transform:uppercase;font-size:20px;margin:8px 0 0}
+  #lh-out :global(.lh-fixes){margin:0;padding-left:22px;display:flex;flex-direction:column;gap:14px}
+  #lh-out :global(.lh-fixes li){font-size:15px;line-height:1.5}
+  #lh-out :global(.lh-fixes p){margin:4px 0 0;color:var(--g3e)}
+  #lh-out :global(.lh-cat){display:block;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--g5c)}
+</style>

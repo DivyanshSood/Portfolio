@@ -1,0 +1,31 @@
+---
+// "Related free tools" — three sibling tools from src/lib/tools.mjs, plus a
+// link back to the hub. Every tool page renders it, which is also what keeps
+// each tool above verify-seo's inbound-link floor.
+import { TOOL_BY_SLUG, toolPath } from "../../lib/tools.mjs";
+interface Props { slug: string }
+const t = TOOL_BY_SLUG[Astro.props.slug];
+const items = (t?.related ?? []).map((s: string) => TOOL_BY_SLUG[s]).filter(Boolean);
+---
+
+<div class="rt">
+  {items.map((r: any) => (
+    <a class="rt-card" href={toolPath(r.slug)}>
+      <span class="rt-tag">{r.tag}</span>
+      <span class="rt-name">{r.name}</span>
+      <span class="rt-d">{r.short}</span>
+    </a>
+  ))}
+</div>
+<p class="rt-all"><a href="/tools/">All free tools <span aria-hidden="true">→</span></a></p>
+
+<style>
+  .rt{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px}
+  .rt-card{display:flex;flex-direction:column;gap:10px;padding:20px;border:1px solid var(--gda);border-top:3px solid var(--ink);color:var(--ink);text-decoration:none;background:#fff}
+  .rt-card:hover{border-top-color:var(--red)}
+  .rt-tag{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--g5c)}
+  .rt-name{font-family:var(--display);font-weight:900;font-style:italic;font-stretch:118%;text-transform:uppercase;font-size:20px;line-height:1.05}
+  .rt-d{font-size:15px;line-height:1.5;color:var(--g3e)}
+  .rt-all{margin:20px 0 0;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+  .rt-all a{color:var(--red-on-tint,#D0131C);display:inline-block;padding:6px 0}
+</style>

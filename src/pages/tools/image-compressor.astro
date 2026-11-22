@@ -1,0 +1,135 @@
+---
+import Tool from "../../layouts/Tool.astro";
+
+const faqs = [
+  { q: "Are my photos uploaded?", a: "No. Each image is decoded, resized and re-encoded by your own browser, on your device. Nothing is sent to a server, so it works for private photos and stays fast on a slow connection once the page has loaded." },
+  { q: "WebP or AVIF?", a: "WebP is supported by every current browser and is usually a quarter to a third smaller than a JPG of the same quality. AVIF is smaller still, but slower to encode, and not every browser can create it; the option appears only if yours can. For a website, WebP is the safe default." },
+  { q: "What width should I use?", a: "As wide as the image is ever shown, times two for sharp phone screens, and no more. A full-width hero rarely needs more than 1920 px; a photo in a content column, 1200–1600 px; a thumbnail, 600 px. Most camera photos are 4000 px or wider, which is where most of the saving comes from." },
+  { q: "Does it remove location data?", a: "Yes. Re-drawing the image on a canvas drops the EXIF metadata, including any GPS location a phone camera wrote into it. Orientation is applied first, so portrait photos stay upright." },
+];
+---
+
+<Tool
+  slug="image-compressor"
+  title="Free Image Compressor: Convert to WebP or AVIF in Browser"
+  description="Resize and convert JPG and PNG photos to WebP or AVIF in your browser, in batches, with before-and-after sizes. Nothing uploaded, GPS data removed. Free."
+  keywords="image compressor, convert jpg to webp, png to webp converter, avif converter, compress images for website, resize images online, bulk image compressor"
+  ogTitle="Free image compressor (WebP/AVIF)"
+  ogDescription="Batch resize and convert photos to WebP or AVIF in your browser. Nothing uploaded. Free."
+  display="Smaller photos, same view."
+  kicker="Free tool · Images · Page speed · No sign-up"
+  lead="Drop in your photos, choose a maximum width, a format and a quality, and download them <strong>resized and converted to WebP</strong> (or AVIF where your browser supports it). It all happens <strong>on your device</strong>: nothing is uploaded, and GPS location data is removed on the way."
+  appName="Free Image Compressor (WebP/AVIF)"
+  appDescription="A free, browser-based tool that resizes and converts images to WebP, AVIF or JPEG in batches, shows before-and-after sizes and strips EXIF metadata. Nothing is uploaded."
+  category="UtilitiesApplication"
+  toolTitle="Compress your images"
+  note="Images are processed one after another, so a large batch on an older phone can take a minute."
+  cards={[
+    { tag: "Why it matters", d: "Images are usually the heaviest part of a page, and on a hill-station mobile connection every megabyte is seconds of waiting. Smaller images are the cheapest speed win there is." },
+    { tag: "Check the result", d: `Run Lighthouse before and after and drop the report into the <a href="/tools/lighthouse-report-explainer/">Lighthouse explainer</a> to see what’s left.` },
+    { tag: "Done properly, for you", wide: true, d: `Sites I build generate every image at several widths and serve the right one to each screen automatically, a big part of why they load fast on phones. See <a href="/services/website-development/">website development →</a>` },
+  ]}
+  faqs={faqs}
+  end={{ title: "Want a site that’s fast without trying?", text: "Responsive images, preloaded fonts and no bloat, built in from the first commit.", primary: { href: "/services/website-development/", label: "Website development →" } }}
+>
+  <div class="tk">
+    <form class="form" id="ic-form" autocomplete="off" novalidate>
+      <label class="tk-drop" id="ic-drop" for="ic-files">Drop images here, or tap to choose (JPG, PNG, WebP)
+        <input type="file" id="ic-files" accept="image/jpeg,image/png,image/webp,image/avif" multiple hidden />
+      </label>
+      <div class="tk-two">
+        <label class="field" for="ic-w">Maximum width<select id="ic-w"><option value="600">600 px</option><option value="1200">1200 px</option><option value="1600" selected>1600 px</option><option value="1920">1920 px</option><option value="2560">2560 px</option><option value="0">Keep original</option></select></label>
+        <label class="field" for="ic-fmt">Format<select id="ic-fmt"><option value="image/webp">WebP</option><option value="image/avif" id="ic-avif" hidden>AVIF</option><option value="image/jpeg">JPEG</option></select></label>
+      </div>
+      <label class="field" for="ic-q">Quality: <span id="ic-qv">80</span><input type="range" id="ic-q" min="40" max="95" value="80" /></label>
+    </form>
+    <div class="tk-out">
+      <div class="tk-bar">
+        <span id="ic-total">No images yet</span>
+        <div class="tk-actions"><button type="button" class="tk-btn tk-btn--red" id="ic-zip" disabled>Download all (ZIP)</button></div>
+      </div>
+      <div class="tk-body"><ul class="ic-list" id="ic-list"></ul></div>
+    </div>
+  </div>
+</Tool>
+
+<script>
+  import { $, val, download, track, zip, escHtml } from "../../scripts/tools-kit.js";
+  const TOOL = "image_compressor";
+  let files: File[] = [];
+  let results: { name: string; blob: Blob; before: number }[] = [];
+  let run = 0;
+
+  // Show AVIF only where this browser can encode it.
+  const probe = document.createElement("canvas");
+  probe.width = probe.height = 2;
+  if (probe.toDataURL("image/avif").startsWith("data:image/avif")) $("ic-avif")!.hidden = false;
+
+  const kb = (n: number) => (n > 1048576 ? (n / 1048576).toFixed(1) + " MB" : Math.round(n / 1024) + " KB");
+  const ext: Record<string, string> = { "image/webp": "webp", "image/avif": "avif", "image/jpeg": "jpg" };
+
+  async function process() {
+    const my = ++run;
+    results = [];
+    const list = $("ic-list")!;
+    list.innerHTML = files.map((f, i) => `<li id="ic-${i}"><span class="ic-n">${escHtml(f.name)}</span><span class="ic-s">Working…</span></li>`).join("");
+    const maxW = Number(val("ic-w")), type = val("ic-fmt"), q = Number(val("ic-q")) / 100;
+    for (let i = 0; i < files.length; i++) {
+      if (my !== run) return;
+      const f = files[i];
+      const li = $(`ic-${i}`)!;
+      try {
+        const bmp = await createImageBitmap(f, { imageOrientation: "from-image" });
+        const r = maxW && bmp.width > maxW ? maxW / bmp.width : 1;
+        const c = document.createElement("canvas");
+        c.width = Math.round(bmp.width * r); c.height = Math.round(bmp.height * r);
+        const ctx = c.getContext("2d")!;
+        if (type === "image/jpeg") { ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, c.width, c.height); }
+        ctx.imageSmoothingQuality = "high";
+        ctx.drawImage(bmp, 0, 0, c.width, c.height);
+        bmp.close();
+        const blob: Blob = await new Promise((res, rej) => c.toBlob((b) => (b ? res(b) : rej(new Error("encode"))), type, q));
+        const name = f.name.replace(/\.[^.]+$/, "") + "." + ext[type];
+        results.push({ name, blob, before: f.size });
+        const saved = Math.round((1 - blob.size / f.size) * 100);
+        li.innerHTML = `<span class="ic-n">${escHtml(name)} <small>${c.width}×${c.height}</small></span><span class="ic-s">${kb(f.size)} → <b>${kb(blob.size)}</b> ${saved > 0 ? `(−${saved}%)` : "(no smaller: keep the original)"}</span><button type="button" class="tk-del" data-i="${results.length - 1}">Save</button>`;
+      } catch {
+        li.querySelector(".ic-s")!.textContent = "Couldn’t read this file.";
+      }
+    }
+    const before = results.reduce((a, r) => a + r.before, 0), after = results.reduce((a, r) => a + r.blob.size, 0);
+    $("ic-total")!.textContent = results.length ? `${results.length} images · ${kb(before)} → ${kb(after)}` : "No images yet";
+    ($("ic-zip") as HTMLButtonElement).disabled = !results.length;
+    if (results.length) track(TOOL, "compress");
+  }
+
+  function take(list: FileList | null) {
+    files = Array.from(list || []).filter((f) => f.type.startsWith("image/")).slice(0, 40);
+    if (files.length) process();
+  }
+  const drop = $("ic-drop")!;
+  ($("ic-files") as HTMLInputElement).addEventListener("change", (e) => take((e.target as HTMLInputElement).files));
+  ["dragenter", "dragover"].forEach((t) => drop.addEventListener(t, (e) => { e.preventDefault(); drop.classList.add("is-over"); }));
+  ["dragleave", "drop"].forEach((t) => drop.addEventListener(t, () => drop.classList.remove("is-over")));
+  drop.addEventListener("drop", (e) => { e.preventDefault(); take((e as DragEvent).dataTransfer!.files); });
+  $("ic-q")!.addEventListener("input", () => { $("ic-qv")!.textContent = val("ic-q"); });
+  ["ic-w", "ic-fmt", "ic-q"].forEach((id) => $(id)!.addEventListener("change", () => files.length && process()));
+  $("ic-list")!.addEventListener("click", (e) => {
+    const b = (e.target as HTMLElement).closest("[data-i]") as HTMLElement | null;
+    if (b) { const r = results[Number(b.dataset.i)]; download(r.name, r.blob); track(TOOL, "download_one"); }
+  });
+  $("ic-zip")!.addEventListener("click", async () => {
+    const entries = await Promise.all(results.map(async (r) => ({ name: r.name, data: new Uint8Array(await r.blob.arrayBuffer()) })));
+    download("images.zip", zip(entries));
+    track(TOOL, "download_zip");
+  });
+</script>
+
+<style>
+  .ic-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+  .ic-list :global(li){display:grid;grid-template-columns:1fr auto;gap:4px 12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--gda);font-size:14px}
+  .ic-list :global(.ic-n){word-break:break-all}
+  .ic-list :global(.ic-n small){font-family:var(--mono);font-size:11px;color:var(--g5c)}
+  .ic-list :global(.ic-s){grid-column:1;font-family:var(--mono);font-size:12px;color:var(--g3e)}
+  .ic-list :global(.tk-del){grid-column:2;grid-row:1 / span 2;color:var(--ink);text-transform:uppercase;letter-spacing:.06em;font-size:11px}
+</style>

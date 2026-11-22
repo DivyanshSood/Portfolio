@@ -1,0 +1,164 @@
+---
+import Tool from "../../layouts/Tool.astro";
+
+const faqs = [
+  { q: "How does the fare calculation work?", a: "For each route and each car, the fare is the distance (doubled for a round trip) times that car’s rate per km. If you set a minimum km per day, a trip is charged at least that many km for each day it takes. The driver allowance per day and any fixed extras are added on top, and the total can be rounded up to the nearest ₹50 or ₹100. Every number comes from you. The tool doesn’t know or suggest market rates." },
+  { q: "Should tolls, parking and state taxes be in the fare?", a: "Most operators list them separately, “as per actuals”, because they change by route and by state. Tick the note and the chart says so in one line, which saves an argument at the end of the trip." },
+  { q: "Can I put the chart on my website?", a: "Yes. Copy the HTML table and paste it into your site, or copy the WhatsApp text and send it as a message. Fares in plain text on your site also help: they’re what people search for, and Google can read them, which it can’t do with a fare chart posted as a photo." },
+  { q: "Is my pricing stored or shared?", a: "No. Everything is calculated in your browser. Your rates aren’t uploaded, saved or seen by anyone." },
+];
+---
+
+<Tool
+  slug="taxi-fare-chart-maker"
+  title="Taxi Fare Chart Maker: Per-Km Rates to a Route Price List"
+  description="Turn your per-km rates, minimum km, driver allowance and routes into a clean taxi fare chart for your website or WhatsApp. Free, private, made in your browser."
+  keywords="taxi fare chart maker, taxi fare calculator, taxi rate list, per km taxi fare, taxi tariff chart, outstation taxi fare calculator, taxi price list for website"
+  ogTitle="Taxi fare chart maker"
+  ogDescription="Your per-km rates and routes into a fare chart for your website or WhatsApp. Free, in your browser."
+  display="A fare chart in five minutes."
+  kicker="Free tool · Taxi · Fares · No sign-up"
+  lead="Add your cars with their <strong>rate per km</strong>, set the minimum km, driver allowance and extras, then list your routes. You get a <strong>route-by-car fare chart</strong> to paste on your website or send on WhatsApp. Every rate comes from you, and nothing is uploaded."
+  appName="Taxi Fare Chart Maker"
+  appDescription="A free, browser-based tool that turns a taxi operator's per-km rates, minimum km, driver allowance and routes into a fare chart as an HTML table, WhatsApp text or CSV. No sign-up, nothing stored."
+  toolTitle="Build your fare chart"
+  note="Check two or three fares against what you actually charge before you publish the chart."
+  cards={[
+    { tag: "Publish fares as text", d: "Most searches for a taxi are a route plus a price: “Gaggal to Manali taxi fare”. A fare in plain text on a route page can rank for that search; a photo of a rate card can’t." },
+    { tag: "Booking in one tap", d: `Under the chart, add a <a href="/tools/whatsapp-link-generator/">WhatsApp link</a> that pre-fills the route and the date.` },
+    { tag: "Done properly, for you", wide: true, d: `I build taxi sites with a page for every route you actually run, fares in plain text and booking on WhatsApp. Five taxi and travel operators’ sites so far. See <a href="/services/taxi-website-development/">taxi website development →</a>` },
+  ]}
+  faqs={faqs}
+  end={{ title: "Want every route to have its own page?", text: "A fare chart is a start. A page per route, with the fare, the distance and the drive, is what ranks.", primary: { href: "/services/taxi-website-development/", label: "Taxi websites →" } }}
+>
+  <div class="tk">
+    <form class="form" id="tf-form" autocomplete="off" novalidate>
+      <fieldset class="tk-fieldset">
+        <legend>Cars and rates</legend>
+        <div id="tf-cars" class="tf-cars"></div>
+        <button type="button" class="tk-add" id="tf-addcar">+ Add a car</button>
+      </fieldset>
+      <div class="tk-two">
+        <label class="field" for="tf-min">Minimum km per day (optional)<input type="number" id="tf-min" min="0" placeholder="e.g. your outstation minimum" inputmode="numeric" /></label>
+        <label class="field" for="tf-da">Driver allowance per day, ₹<input type="number" id="tf-da" min="0" placeholder="0" inputmode="numeric" /></label>
+      </div>
+      <div class="tk-two">
+        <label class="field" for="tf-extra">Fixed extra per trip, ₹<input type="number" id="tf-extra" min="0" placeholder="0" inputmode="numeric" /></label>
+        <label class="field" for="tf-round">Round fares up to
+          <select id="tf-round"><option value="1">Exact rupee</option><option value="50" selected>Nearest ₹50</option><option value="100">Nearest ₹100</option></select>
+        </label>
+      </div>
+      <label class="field" for="tf-routes">Routes, one per line: From → To | km | days
+        <textarea id="tf-routes" rows="5" spellcheck="false" placeholder="Gaggal Airport → McLeod Ganj | 18 | 1&#10;Dharamshala → Manali | 230 | 1&#10;Dharamshala → Dalhousie | 120 | 1"></textarea>
+        <span class="tk-hint">Use the road distance you actually drive. Days default to 1.</span>
+      </label>
+      <label class="tk-check"><input type="checkbox" id="tf-rt" /> Round trip (doubles the km)</label>
+      <label class="tk-check"><input type="checkbox" id="tf-tolls" checked /> Add “Tolls, parking and state taxes extra, as actuals”</label>
+      <label class="field" for="tf-name">Business name for the chart<input type="text" id="tf-name" placeholder="Snow View Taxi Service" /></label>
+    </form>
+    <div class="tk-out">
+      <div class="tk-bar">
+        <span>Fare chart</span>
+        <div class="tk-actions">
+          <button type="button" class="tk-btn" id="tf-wa">Copy for WhatsApp</button>
+          <button type="button" class="tk-btn" id="tf-html">Copy HTML</button>
+          <button type="button" class="tk-btn tk-btn--red" id="tf-csv">CSV</button>
+        </div>
+      </div>
+      <div class="tk-body">
+        <div class="tk-scroll" id="tf-out"></div>
+        <p class="tk-msg" id="tf-msg" aria-live="polite"></p>
+      </div>
+    </div>
+  </div>
+</Tool>
+
+<script>
+  import { $, val, copyText, download, track, escHtml } from "../../scripts/tools-kit.js";
+  const TOOL = "taxi_fare_chart";
+  const carsEl = $("tf-cars")!;
+  let touched = false;
+  type Row = { route: string; km: number; days: number; fares: number[] };
+  let table: { cars: { name: string; seats: string; rate: number }[]; rows: Row[]; tolls: boolean; rt: boolean } = { cars: [], rows: [], tolls: true, rt: false };
+
+  function addCar(name = "", seats = "", rate = "") {
+    const row = document.createElement("div");
+    row.className = "tf-car";
+    row.innerHTML = `<label class="field">Car<input type="text" class="tf-cname" placeholder="Dzire" value="${escHtml(name)}"></label>
+      <label class="field">Seats<input type="text" class="tf-cseats" placeholder="4" inputmode="numeric" value="${escHtml(seats)}"></label>
+      <label class="field">₹ per km<input type="number" class="tf-crate" min="0" step="0.5" inputmode="decimal" placeholder="—" value="${escHtml(rate)}"></label>
+      <button type="button" class="tk-del" aria-label="Remove this car">✕</button>`;
+    row.querySelector(".tk-del")!.addEventListener("click", () => { row.remove(); render(); });
+    carsEl.appendChild(row);
+  }
+  ["Dzire", "Ertiga", "Innova Crysta", "Tempo Traveller"].forEach((c, i) => addCar(c, ["4", "6", "7", "12"][i]));
+
+  const inr = (n: number) => "₹" + Math.round(n).toLocaleString("en-IN");
+  const num = (id: string) => Math.max(0, Number(val(id)) || 0);
+
+  function compute() {
+    const cars = Array.from(carsEl.querySelectorAll(".tf-car")).map((r) => ({
+      name: (r.querySelector(".tf-cname") as HTMLInputElement).value.trim(),
+      seats: (r.querySelector(".tf-cseats") as HTMLInputElement).value.trim(),
+      rate: Number((r.querySelector(".tf-crate") as HTMLInputElement).value) || 0,
+    })).filter((c) => c.name && c.rate > 0);
+    const rt = ($("tf-rt") as HTMLInputElement).checked;
+    const min = num("tf-min"), da = num("tf-da"), extra = num("tf-extra"), step = Number(val("tf-round")) || 1;
+    const rows: Row[] = val("tf-routes").split("\n").map((l) => l.trim()).filter(Boolean).map((l) => {
+      const [route, kmS, dayS] = l.split("|").map((s) => s.trim());
+      const km = Number((kmS || "").replace(/[^\d.]/g, "")) || 0;
+      const days = Math.max(1, Math.round(Number(dayS) || 1));
+      const dist = rt ? km * 2 : km;
+      const billed = Math.max(dist, min * days);
+      return { route: route.replace(/\s*->\s*/g, " → "), km: dist, days, fares: cars.map((c) => Math.ceil((billed * c.rate + da * days + extra) / step) * step) };
+    }).filter((r) => r.km > 0);
+    table = { cars, rows, tolls: ($("tf-tolls") as HTMLInputElement).checked, rt };
+  }
+
+  function html() {
+    const { cars, rows, tolls, rt } = table;
+    const head = `<tr><th>Route</th><th class="num">Km</th>${cars.map((c) => `<th class="num">${escHtml(c.name)}${c.seats ? ` (${escHtml(c.seats)})` : ""}</th>`).join("")}</tr>`;
+    const body = rows.map((r) => `<tr><td>${escHtml(r.route)}${r.days > 1 ? ` · ${r.days} days` : ""}</td><td class="num">${r.km}</td>${r.fares.map((f) => `<td class="num">${inr(f)}</td>`).join("")}</tr>`).join("");
+    const notes = [rt ? "Round trip." : "One way.", tolls ? "Tolls, parking and state taxes extra, as actuals." : ""].filter(Boolean).join(" ");
+    return `<table class="tk-table">\n<thead>${head}</thead>\n<tbody>${body}</tbody>\n</table>\n<p>${escHtml(notes)}</p>`;
+  }
+
+  function whatsapp() {
+    const { cars, rows, tolls, rt } = table;
+    const out = [`*${val("tf-name") || "Taxi fares"}*`, rt ? "_Round trip_" : "_One way_", ""];
+    rows.forEach((r) => {
+      out.push(`*${r.route}* (${r.km} km${r.days > 1 ? `, ${r.days} days` : ""})`);
+      cars.forEach((c, i) => out.push(`${c.name}: ${inr(r.fares[i])}`));
+      out.push("");
+    });
+    if (tolls) out.push("Tolls, parking and state taxes extra, as actuals.");
+    return out.join("\n").trim();
+  }
+
+  function csv() {
+    const q = (s: string) => `"${String(s).replace(/"/g, '""')}"`;
+    const { cars, rows } = table;
+    return [["Route", "Km", "Days", ...cars.map((c) => c.name)].map(q).join(","), ...rows.map((r) => [q(r.route), r.km, r.days, ...r.fares].join(","))].join("\n");
+  }
+
+  function render() {
+    compute();
+    const ok = table.cars.length > 0 && table.rows.length > 0;
+    $("tf-out")!.innerHTML = ok ? html() : "";
+    $("tf-msg")!.textContent = !table.cars.length ? "Add a rate per km for at least one car." : !table.rows.length ? "Add a route with its distance, e.g. Gaggal Airport → McLeod Ganj | 18" : `${table.rows.length} route${table.rows.length > 1 ? "s" : ""} × ${table.cars.length} car${table.cars.length > 1 ? "s" : ""}.`;
+    for (const id of ["tf-wa", "tf-html", "tf-csv"]) ($(id) as HTMLButtonElement).disabled = !ok;
+  }
+
+  $("tf-form")!.addEventListener("input", () => { render(); if (!touched) { touched = true; track(TOOL, "edit"); } });
+  $("tf-addcar")!.addEventListener("click", () => { addCar(); render(); });
+  $("tf-wa")!.addEventListener("click", (e) => { copyText(whatsapp(), e.currentTarget as HTMLElement); track(TOOL, "copy_whatsapp"); });
+  $("tf-html")!.addEventListener("click", (e) => { copyText(html(), e.currentTarget as HTMLElement); track(TOOL, "copy_html"); });
+  $("tf-csv")!.addEventListener("click", () => { download("taxi-fares.csv", csv(), "text/csv;charset=utf-8"); track(TOOL, "download_csv"); });
+  render();
+</script>
+
+<style>
+  .tf-cars{display:flex;flex-direction:column;gap:8px}
+  :global(.tf-car){display:grid;grid-template-columns:1.6fr .7fr 1fr auto;gap:12px;align-items:end}
+  @media (max-width:479.98px){:global(.tf-car){grid-template-columns:1fr 1fr;}}
+</style>

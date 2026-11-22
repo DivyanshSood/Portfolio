@@ -1,0 +1,151 @@
+---
+import Tool from "../../layouts/Tool.astro";
+import { TOPICS } from "../../lib/entity.mjs";
+
+// User-agent tokens as each company documents them. `kind`: search = builds
+// the index an assistant answers from; user = fetches a page because a person
+// asked; train = collects data for model training (or is a training opt-out
+// token, like Google-Extended and Applebot-Extended).
+const BOTS = [
+  { ua: "OAI-SearchBot", co: "OpenAI", kind: "search", d: "Finds pages to show and link in ChatGPT search answers." },
+  { ua: "ChatGPT-User", co: "OpenAI", kind: "user", d: "Visits a page when a ChatGPT user or a custom GPT asks for it." },
+  { ua: "GPTBot", co: "OpenAI", kind: "train", d: "Collects pages that may be used to train OpenAI’s models." },
+  { ua: "Claude-SearchBot", co: "Anthropic", kind: "search", d: "Indexes pages to improve Claude’s search answers." },
+  { ua: "Claude-User", co: "Anthropic", kind: "user", d: "Fetches a page when a Claude user asks a question that needs it." },
+  { ua: "ClaudeBot", co: "Anthropic", kind: "train", d: "Collects pages that may be used to train Anthropic’s models." },
+  { ua: "PerplexityBot", co: "Perplexity", kind: "search", d: "Indexes pages that Perplexity answers cite and link." },
+  { ua: "Perplexity-User", co: "Perplexity", kind: "user", d: "Visits a page when a Perplexity user’s question needs it." },
+  { ua: "Google-Extended", co: "Google", kind: "train", d: "Not a crawler: a token that controls whether Googlebot’s crawl is used for Gemini training and grounding. Blocking it doesn’t affect Google Search." },
+  { ua: "Applebot-Extended", co: "Apple", kind: "train", d: "Not a crawler: controls whether Applebot’s crawl is used to train Apple’s AI models. Siri and Spotlight search still use Applebot." },
+  { ua: "DuckAssistBot", co: "DuckDuckGo", kind: "search", d: "Fetches pages for DuckDuckGo’s AI-assisted answers." },
+  { ua: "MistralAI-User", co: "Mistral", kind: "user", d: "Fetches a page when a Le Chat user asks for it." },
+  { ua: "Meta-ExternalAgent", co: "Meta", kind: "train", d: "Crawls pages for training Meta’s AI models and related products." },
+  { ua: "Amazonbot", co: "Amazon", kind: "train", d: "Amazon’s crawler, used for products such as Alexa’s answers and possibly model training." },
+  { ua: "CCBot", co: "Common Crawl", kind: "train", d: "Builds the open Common Crawl dataset, widely used to train AI models." },
+  { ua: "Bytespider", co: "ByteDance", kind: "train", d: "ByteDance’s crawler, associated with training its AI models." },
+];
+
+const faqs = [
+  { q: "Should I block AI crawlers?", a: "It depends on what you want. If you want to be cited in ChatGPT, Claude, Perplexity and other AI answers, keep the search and user bots allowed: blocking them takes you out of those answers. Blocking training bots is a separate choice about whether your content goes into future models. For most local businesses, being found matters more, so the common setup is “allow AI search, block training”." },
+  { q: "Will blocking Google-Extended hurt my Google ranking?", a: "No. Google-Extended only controls whether content crawled by Googlebot is used for Gemini. Google says it doesn’t affect inclusion or ranking in Google Search. Never block Googlebot itself unless you want to leave Google." },
+  { q: "Do all bots obey robots.txt?", a: "Reputable ones say they do, but robots.txt is a request, not a lock. Some providers also note that user-triggered fetchers (a person asking an assistant to read a specific page) may not follow it, because a human started the request. To truly keep content private, put it behind a login." },
+  { q: "Where does this file go?", a: "At the root of your domain, so it loads at https://yoursite.com/robots.txt. There’s only one per host. If you already have one, merge these groups into it rather than keeping two files." },
+];
+---
+
+<Tool
+  slug="ai-crawler-robots-txt-generator"
+  title="AI Crawler robots.txt Generator: GPTBot, ClaudeBot & More"
+  description="Choose which AI crawlers can read your site, with search and training bots separate, and get a ready robots.txt. Covers GPTBot, ClaudeBot, PerplexityBot + more"
+  keywords="ai crawler robots.txt, block gptbot, robots.txt generator ai, claudebot robots.txt, google-extended, perplexitybot, block ai crawlers, allow ai search bots"
+  ogTitle="AI crawler robots.txt generator"
+  ogDescription="Allow AI search, block AI training, or anything in between. A ready robots.txt for 16 AI user agents. Free."
+  display="Decide who reads your site."
+  kicker="Free tool · GEO · robots.txt · No sign-up"
+  lead="AI companies run different bots for different jobs: some <strong>build search answers</strong> that cite you, some <strong>fetch a page because a person asked</strong>, and some <strong>collect data for training</strong>. Pick a preset or choose bot by bot, add your own rules and sitemap, and copy a <strong>robots.txt</strong> that says exactly that."
+  appName="AI Crawler robots.txt Generator"
+  appDescription="A free, browser-based tool that writes a robots.txt allowing or blocking 16 AI user agents, with search, user-triggered and training bots handled separately. No sign-up, nothing stored."
+  category="DeveloperApplication"
+  toolTitle="Choose your AI bots"
+  toolNote="Live file"
+  note="Bot names change, and companies add new ones. Before relying on this list, check each company’s own crawler documentation."
+  cards={[
+    { tag: "Test it", d: `Paste the result into the <a href="/tools/robots-txt-tester/">robots.txt tester</a> and check a few URLs against GPTBot and Googlebot before you publish it.` },
+    { tag: "Allowing isn’t enough", d: `Being readable is step one. Being cited takes pages that answer questions and facts that agree everywhere. <a href="/tools/ai-visibility-prompt-pack/">Check whether AI recommends you →</a>` },
+  ]}
+  faqs={faqs}
+  topics={[TOPICS.ai, TOPICS.seo]}
+  end={{ title: "Want AI to cite you, not just crawl you?", text: "Crawl access is the easy part. The full GEO setup is schema, consistent facts and quotable pages, built into your site.", primary: { href: "/services/seo-geo-services/", label: "SEO & GEO service →" } }}
+>
+  <div class="tk">
+    <form class="form" id="ar-form" autocomplete="off" novalidate data-bots={JSON.stringify(BOTS)}>
+      <div class="tk-tabs" role="group" aria-label="Presets">
+        <button type="button" class="tk-tab" data-p="search">Allow AI search, block training</button>
+        <button type="button" class="tk-tab" data-p="all">Allow all</button>
+        <button type="button" class="tk-tab" data-p="none">Block all AI</button>
+      </div>
+      {["search", "user", "train"].map((k) => (
+        <fieldset class="tk-fieldset">
+          <legend>{k === "search" ? "AI search bots" : k === "user" ? "Fetch on a user’s request" : "AI training"}</legend>
+          {BOTS.filter((b) => b.kind === k).map((b) => (
+            <label class="tk-check ar-bot"><input type="checkbox" name="ar-bot" value={b.ua} checked={k !== "train"} /><span><strong>{b.ua}</strong> <small>{b.co}</small><br /><small>{b.d}</small></span></label>
+          ))}
+        </fieldset>
+      ))}
+      <label class="field" for="ar-dis">Paths to keep every crawler out of, one per line<textarea id="ar-dis" rows="3" placeholder="/admin/&#10;/cart/" spellcheck="false"></textarea></label>
+      <label class="field" for="ar-sitemap">Sitemap URL<input type="url" id="ar-sitemap" placeholder="https://www.example.com/sitemap.xml" spellcheck="false" /></label>
+    </form>
+    <div class="tk-out">
+      <div class="tk-bar">
+        <span>robots.txt</span>
+        <div class="tk-actions">
+          <button type="button" class="tk-btn" id="ar-copy">Copy</button>
+          <button type="button" class="tk-btn tk-btn--red" id="ar-dl">Download</button>
+        </div>
+      </div>
+      <p class="tk-msg" id="ar-msg" style="padding:12px 16px 0"></p>
+      <pre class="tk-pre" id="ar-out" tabindex="0"></pre>
+    </div>
+  </div>
+</Tool>
+
+<script>
+  import { $, val, lines, copyText, download, track } from "../../scripts/tools-kit.js";
+  const TOOL = "ai_robots";
+  const form = $("ar-form")!;
+  const BOTS = JSON.parse(form.dataset.bots || "[]") as { ua: string; co: string; kind: string }[];
+  let touched = false;
+  const boxes = () => Array.from(document.querySelectorAll<HTMLInputElement>('input[name="ar-bot"]'));
+
+  function build() {
+    const on = new Set(boxes().filter((b) => b.checked).map((b) => b.value));
+    const dis = lines("ar-dis").map((p) => (p.startsWith("/") ? p : "/" + p));
+    const out = ["# robots.txt, generated free at https://www.divyanshsood.com/tools/ai-crawler-robots-txt-generator/", ""];
+    const allowed = BOTS.filter((b) => on.has(b.ua)).map((b) => b.ua);
+    const blocked = BOTS.filter((b) => !on.has(b.ua)).map((b) => b.ua);
+    // A bot that matches its own group ignores the * group, so the shared
+    // Disallow lines are repeated in the allowed-bots group.
+    if (allowed.length) {
+      out.push("# AI bots allowed");
+      allowed.forEach((u) => out.push(`User-agent: ${u}`));
+      if (dis.length) dis.forEach((p) => out.push(`Disallow: ${p}`)); else out.push("Allow: /");
+      out.push("");
+    }
+    if (blocked.length) {
+      out.push("# AI bots blocked");
+      blocked.forEach((u) => out.push(`User-agent: ${u}`));
+      out.push("Disallow: /", "");
+    }
+    out.push("# Everyone else, including Googlebot and Bingbot", "User-agent: *");
+    if (dis.length) dis.forEach((p) => out.push(`Disallow: ${p}`)); else out.push("Allow: /");
+    const sm = val("ar-sitemap");
+    if (sm) out.push("", `Sitemap: ${/^https?:\/\//i.test(sm) ? sm : "https://" + sm}`);
+    return { text: out.join("\n") + "\n", allowed: allowed.length, blocked: blocked.length };
+  }
+
+  function render() {
+    const r = build();
+    $("ar-out")!.textContent = r.text;
+    $("ar-msg")!.textContent = `${r.allowed} AI bots allowed, ${r.blocked} blocked. Googlebot and Bingbot stay allowed.`;
+  }
+
+  document.querySelectorAll<HTMLButtonElement>(".tk-tab").forEach((b) => b.addEventListener("click", () => {
+    const p = b.dataset.p;
+    boxes().forEach((x) => {
+      const kind = BOTS.find((bot) => bot.ua === x.value)!.kind;
+      x.checked = p === "all" ? true : p === "none" ? false : kind !== "train";
+    });
+    document.querySelectorAll(".tk-tab").forEach((t) => t.setAttribute("aria-pressed", String(t === b)));
+    render();
+    track(TOOL, "preset_" + p);
+  }));
+  form.addEventListener("input", () => { render(); if (!touched) { touched = true; track(TOOL, "edit"); } });
+  $("ar-copy")!.addEventListener("click", (e) => { copyText(build().text, e.currentTarget as HTMLElement); track(TOOL, "copy"); });
+  $("ar-dl")!.addEventListener("click", () => { download("robots.txt", build().text); track(TOOL, "download"); });
+  render();
+</script>
+
+<style>
+  .ar-bot small{font-family:var(--mono);font-size:11px;letter-spacing:.02em;color:var(--g5c);line-height:1.5}
+  .ar-bot strong{font-weight:700}
+</style>

@@ -1,0 +1,137 @@
+---
+import Tool from "../../layouts/Tool.astro";
+import { TOPICS } from "../../lib/entity.mjs";
+
+const faqs = [
+  { q: "How long can a Google Business Profile description be?", a: "Up to 750 characters. On many screens only the first line or two show before a “More” link, so put what you do and where in the opening sentence." },
+  { q: "What isn’t allowed in the description?", a: "Google’s guidelines say the description shouldn’t contain links or HTML, and shouldn’t focus on special offers, prices or sales. It should describe the business itself. Descriptions that break the rules can be rejected or edited. This checker flags links, HTML, promotional words and prices, and also phone numbers and emails, which have their own fields on the profile." },
+  { q: "Does the description help my ranking?", a: "Not much on its own. Google ranks local results on relevance, distance and prominence, and your category, reviews and website do most of the work. The description matters because people read it before they call, and because it states your services in your own words." },
+  { q: "Is my text stored?", a: "No. The checks run in your browser and nothing is uploaded." },
+];
+---
+
+<Tool
+  slug="google-business-profile-description-checker"
+  title="Google Business Profile Description Checker (750 Chars)"
+  description="Write and check your Google Business Profile description: 750-character count, opening-line preview, and flags for links, prices and promo words."
+  keywords="google business profile description, gbp description checker, google my business description, business description character limit, google business profile description example"
+  ogTitle="Google Business Profile description checker"
+  ogDescription="Write a GBP description that fits in 750 characters and avoids what gets rejected. Free, in your browser."
+  display="A profile description that sticks."
+  kicker="Free tool · Local SEO · Business Profile · No sign-up"
+  lead="Write or paste your <strong>Google Business Profile description</strong>. The checker counts against the <strong>750-character limit</strong>, previews the opening line people see first, and flags what Google’s guidelines don’t allow: links, HTML, prices and promotions. A starter template writes a first draft from your details."
+  appName="Google Business Profile Description Checker"
+  appDescription="A free, browser-based tool that checks a Google Business Profile description against the 750-character limit and flags links, HTML, prices, promotional wording and contact details. No sign-up, nothing stored."
+  toolTitle="Check your description"
+  note="Paste the finished text into your Business Profile under Edit profile → Business information → Description."
+  cards={[
+    { tag: "Lead with what and where", d: "“Family-run homestay in Dharamkot, a 20-minute walk above McLeod Ganj” beats “Welcome to our beautiful property!” in the line people actually see." },
+    { tag: "Then ask for reviews", d: `Reviews carry more weight than the description. <a href="/tools/google-review-qr-code-generator/">Make a review QR card →</a>` },
+  ]}
+  faqs={faqs}
+  topics={[TOPICS.seo]}
+  end={{ title: "Want to show up in the map pack?", text: "A good description is one of seven things that decide local rankings. I go through all seven in a free audit.", primary: { href: "/website-audit/", label: "Free website audit →" } }}
+>
+  <div class="tk">
+    <form class="form" id="gd-form" autocomplete="off" novalidate>
+      <fieldset class="tk-fieldset">
+        <legend>Starter template (optional)</legend>
+        <div class="tk-two">
+          <label class="field" for="gd-biz">Business type<input type="text" id="gd-biz" placeholder="family-run homestay" /></label>
+          <label class="field" for="gd-town">Town / area<input type="text" id="gd-town" placeholder="Dharamkot, above McLeod Ganj" /></label>
+        </div>
+        <label class="field" for="gd-svc">Main services or features<input type="text" id="gd-svc" placeholder="mountain-view rooms, home-cooked meals, airport pickups" /></label>
+        <label class="field" for="gd-why">What makes you different<input type="text" id="gd-why" placeholder="run by the same family since 2009" /></label>
+        <button type="button" class="tk-add" id="gd-draft">Write a draft from these</button>
+      </fieldset>
+      <label class="field" for="gd-text">Description
+        <textarea id="gd-text" rows="9" maxlength="1200" placeholder="Start with what you do and where."></textarea>
+        <span class="tk-meter" id="gd-meter"><i></i></span>
+        <span class="tk-hint" id="gd-count"></span>
+      </label>
+      <label class="field" for="gd-kw">Words people search for (comma-separated)<input type="text" id="gd-kw" placeholder="homestay, Dharamkot, McLeod Ganj" /></label>
+    </form>
+    <div class="tk-out">
+      <div class="tk-bar"><span>Preview & checks</span><div class="tk-actions"><button type="button" class="tk-btn tk-btn--red" id="gd-copy">Copy</button></div></div>
+      <div class="tk-body">
+        <div class="gd-prev"><span class="gd-from">From the owner</span><p id="gd-prev"></p></div>
+        <ul class="gd-checks" id="gd-checks" aria-live="polite"></ul>
+      </div>
+    </div>
+  </div>
+</Tool>
+
+<script>
+  import { $, val, copyText, track, escHtml } from "../../scripts/tools-kit.js";
+  const TOOL = "gbp_description";
+  const LIMIT = 750;
+  let touched = false;
+  const text = () => ($("gd-text") as HTMLTextAreaElement).value;
+
+  const PROMO = /\b(discount|sale|offer|offers|deal|deals|cheapest|lowest price|best price|% ?off|free gift|book now|call now|limited time|hurry)\b/i;
+  function checks(t: string): [boolean, string][] {
+    const out: [boolean, string][] = [];
+    const n = [...t].length;
+    if (!t.trim()) return [[false, "Write or draft a description to check it."]];
+    out.push(n > LIMIT ? [false, `${n - LIMIT} characters over the 750 limit. Google won’t accept it until it’s shorter.`] : [true, `${n} of 750 characters.`]);
+    if (n < 250) out.push([false, "Under 250 characters. There’s room to list your main services and the areas you serve."]);
+    if (/(https?:\/\/|www\.|\b[a-z0-9-]+\.(com|in|org|net|co)\b)/i.test(t)) out.push([false, "Contains a link or web address. Links aren’t allowed in the description; your website has its own field."]);
+    if (/<[a-z/][^>]*>/i.test(t)) out.push([false, "Contains HTML. Use plain text only."]);
+    if (/(\+?91[\s-]?)?[6-9]\d{4}[\s-]?\d{5}\b/.test(t)) out.push([false, "Contains a phone number. It has its own field on the profile, so leave it out here."]);
+    if (/[^\s@]+@[^\s@]+\.[a-z]{2,}/i.test(t)) out.push([false, "Contains an email address. Leave contact details to their own fields."]);
+    if (/₹\s?\d|\brs\.?\s?\d|\binr\s?\d/i.test(t)) out.push([false, "Mentions a price. Google’s guidelines say the description shouldn’t focus on prices or offers."]);
+    const promo = t.match(PROMO);
+    if (promo) out.push([false, `“${promo[0]}” reads as a promotion. Describe the business instead; offers belong in Updates (posts).`]);
+    const caps = t.match(/\b[A-Z]{4,}\b/g)?.filter((w) => !/^(HPTDC|CBSE|HPBOSE|ICSE|NCERT|WIFI|NH\d*)$/.test(w));
+    if (caps && caps.length > 1) out.push([false, "Several words in capitals read as shouting. Use normal case."]);
+    if (/([!?])\1|[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/u.test(t)) out.push([false, "Repeated punctuation or emoji. Google treats gimmicky characters as low quality."]);
+    const first = t.split(/(?<=[.!?])\s/)[0] || t;
+    const kws = val("gd-kw").split(",").map((k) => k.trim().toLowerCase()).filter(Boolean);
+    kws.forEach((k) => {
+      const where = t.toLowerCase().indexOf(k);
+      out.push(where < 0 ? [false, `“${k}” isn’t mentioned.`] : first.toLowerCase().includes(k) ? [true, `“${k}” is in the opening sentence.`] : [true, `“${k}” is mentioned, though not in the opening sentence.`]);
+    });
+    if (out.every(([ok]) => ok)) out.push([true, "Nothing here that Google’s guidelines rule out."]);
+    return out;
+  }
+
+  function render() {
+    const t = text();
+    const n = [...t].length;
+    const m = $("gd-meter")!;
+    (m.firstElementChild as HTMLElement).style.width = Math.min(100, (n / LIMIT) * 100) + "%";
+    m.classList.toggle("is-over", n > LIMIT);
+    $("gd-count")!.textContent = `${n} / ${LIMIT} characters`;
+    const shown = t.length > 160 ? t.slice(0, 160).replace(/\s+\S*$/, "") + "… More" : t;
+    $("gd-prev")!.textContent = shown || "Your description will appear here.";
+    $("gd-checks")!.innerHTML = checks(t).map(([ok, msg]) => `<li class="${ok ? "ok" : "fix"}"><span>${ok ? "OK" : "Fix"}</span>${escHtml(msg)}</li>`).join("");
+  }
+
+  $("gd-draft")!.addEventListener("click", () => {
+    const biz = val("gd-biz") || "local business", town = val("gd-town"), svc = val("gd-svc"), why = val("gd-why");
+    const parts = [
+      `${biz.charAt(0).toUpperCase() + biz.slice(1)}${town ? ` in ${town}` : ""}.`,
+      svc ? `We offer ${svc}.` : "",
+      why ? `${why.charAt(0).toUpperCase() + why.slice(1)}.` : "",
+      // No promises in the draft (reply times, ratings): the owner adds only what's true.
+      town ? `Serving ${town.split(",")[0]} and the nearby area.` : "",
+    ].filter(Boolean);
+    ($("gd-text") as HTMLTextAreaElement).value = parts.join(" ").replace(/\.\./g, ".");
+    render();
+    track(TOOL, "draft");
+  });
+  $("gd-form")!.addEventListener("input", () => { render(); if (!touched) { touched = true; track(TOOL, "edit"); } });
+  $("gd-copy")!.addEventListener("click", (e) => { copyText(text(), e.currentTarget as HTMLElement); track(TOOL, "copy"); });
+  render();
+</script>
+
+<style>
+  .gd-prev{border:1px solid #E5E5E5;border-radius:12px;padding:14px 16px;font-family:Arial,Helvetica,sans-serif}
+  .gd-from{display:block;font-size:13px;font-weight:700;color:#202124;margin-bottom:6px}
+  .gd-prev p{margin:0;font-size:14px;line-height:1.5;color:#3C4043}
+  .gd-checks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+  .gd-checks :global(li){display:grid;grid-template-columns:44px 1fr;gap:10px;font-size:15px;line-height:1.45;color:var(--ink)}
+  .gd-checks :global(li span){font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding-top:3px}
+  .gd-checks :global(li.ok span){color:#1E7B34}
+  .gd-checks :global(li.fix span){color:var(--red-on-tint,#D0131C)}
+</style>

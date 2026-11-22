@@ -1,0 +1,113 @@
+---
+import Tool from "../../layouts/Tool.astro";
+import { TOPICS } from "../../lib/entity.mjs";
+
+const faqs = [
+  { q: "Will this UPI QR code work with every app?", a: "Yes. It uses the standard upi://pay link that Google Pay, PhonePe, Paytm, BHIM and bank apps all read. Scan it with any of them and the app opens a payment to your UPI ID, with the name, amount and note filled in if you set them." },
+  { q: "Is it safe? Does the money go through you?", a: "The money goes straight from the payer’s bank to the account linked to your UPI ID. This page only draws the QR code in your browser. Your UPI ID is never uploaded, and there is no server or account of mine anywhere in the payment." },
+  { q: "Should I set a fixed amount?", a: "Only for one payment, such as a single booking’s advance. A QR with an amount asks every payer for that amount, and in most apps they can’t change it. For a counter or a taxi dashboard, leave the amount empty so each customer types their own." },
+  { q: "How is this different from my bank’s merchant QR?", a: "A merchant QR from your bank or payment app comes with extras: a payment soundbox, settlement reports and a business name the payer’s app shows as verified. This QR is the plain UPI link, and that’s fine for small, everyday payments. Either way, confirm each payment in your own bank or UPI app, never from a screenshot the customer shows you." },
+];
+---
+
+<Tool
+  slug="upi-qr-code-generator"
+  title="Free UPI QR Code Generator with Amount + Printable Card"
+  description="Make a UPI payment QR code for any UPI ID, with an optional amount and note, plus a printable card for your counter or taxi. Free, made in your browser."
+  keywords="upi qr code generator, upi qr code with amount, create upi qr code, upi payment qr code, free upi qr code, upi qr for shop, upi qr for taxi"
+  ogTitle="Free UPI QR code generator"
+  ogDescription="A UPI payment QR for any UPI ID, with an optional amount, and a printable card for your counter or taxi. Free, in your browser."
+  display="UPI QR codes, free."
+  kicker="Free tool · UPI · Payments · No sign-up"
+  lead="Enter your UPI ID and the name on the account to get a <strong>UPI payment QR code</strong> that works in Google Pay, PhonePe, Paytm, BHIM and every bank app. Add an amount for a one-off payment, or leave it open for the counter. You also get a <strong>printable A6 card</strong>. It all runs in your browser, and your UPI ID is never uploaded."
+  appName="Free UPI QR Code Generator"
+  appDescription="A free, browser-based tool that turns a UPI ID into a payment QR code with an optional amount and note, plus a printable A6 card. No sign-up, nothing stored."
+  toolTitle="Make your UPI QR"
+  note="Scan the preview with your own UPI app before printing. The app should show your name and, if you set one, the amount."
+  cardsTitle="Getting paid without the back-and-forth"
+  cards={[
+    { tag: "Check every payment", d: "Confirm each payment in your own bank or UPI app before handing over keys or ending a trip. Fake “payment successful” screenshots are a common trick." },
+    { tag: "Pair it with reviews", d: `Payment is the moment a guest is happiest to help. <a href="/tools/google-review-qr-code-generator/">Put a Google review QR next to it →</a>` },
+    { tag: "Advance payments on your site", wide: true, d: `For booking advances, a website can take UPI, cards and net banking through a payment gateway and email you a receipt for each one. I build that into <a href="/services/hotel-website-development/">hotel</a> and <a href="/services/travel-website-development/">travel</a> sites.` },
+  ]}
+  faqs={faqs}
+  topics={[TOPICS.ecommerce]}
+  end={{ title: "Want bookings and payments online?", text: "A QR covers the counter. A booking site with online advances covers everyone who finds you on Google first.", primary: { href: "/services/hotel-website-development/", label: "Hotel websites →" } }}
+>
+  <div class="tk">
+    <form class="form" id="up-form" autocomplete="off" novalidate>
+      <label class="field" for="up-vpa">UPI ID *<input type="text" id="up-vpa" placeholder="yourname@okhdfcbank" spellcheck="false" autocapitalize="off" /></label>
+      <label class="field" for="up-name">Name on the account *<input type="text" id="up-name" placeholder="Snow View Homestay" maxlength="50" /></label>
+      <div class="tk-two">
+        <label class="field" for="up-amt">Amount in ₹ (optional)<input type="text" id="up-amt" placeholder="Leave empty for any amount" inputmode="decimal" /></label>
+        <label class="field" for="up-note">Note (optional)<input type="text" id="up-note" placeholder="Room advance" maxlength="50" /></label>
+      </div>
+      <label class="field" for="up-head">Card headline<input type="text" id="up-head" value="Scan to pay with UPI" maxlength="40" /></label>
+      <label class="field" for="up-sub">Line under it<input type="text" id="up-sub" value="Google Pay, PhonePe, Paytm, BHIM or any bank app" maxlength="100" /></label>
+      <label class="field" for="up-color">Card colour<input type="color" id="up-color" value="#0A0A0A" /></label>
+      <label class="tk-check"><input type="checkbox" id="up-showid" checked /> Print the UPI ID under the QR code</label>
+      <label class="tk-check"><input type="checkbox" id="up-credit" checked /> Small “made free at divyanshsood.com” line</label>
+    </form>
+    <div class="tk-out">
+      <div class="tk-bar">
+        <span>UPI card · A6</span>
+        <div class="tk-actions">
+          <button type="button" class="tk-btn" id="up-qr">QR PNG</button>
+          <button type="button" class="tk-btn tk-btn--red" id="up-card">Card PNG</button>
+          <button type="button" class="tk-btn" id="up-print">Print</button>
+        </div>
+      </div>
+      <div class="tk-body">
+        <canvas id="up-canvas" class="tk-card" width="1240" height="1748" role="img" aria-label="Preview of your printable UPI card"></canvas>
+        <p class="tk-msg" id="up-msg" aria-live="polite"></p>
+        <p class="tk-link" id="up-link"></p>
+      </div>
+    </div>
+  </div>
+</Tool>
+
+<script>
+  import { $, val, live, drawCard, printCanvas, qrPngBlob, canvasBlob, download, track, fontsReady, slugify } from "../../scripts/tools-kit.js";
+  const TOOL = "upi_qr";
+  const canvas = $("up-canvas") as HTMLCanvasElement;
+  let link = "";
+
+  function render() {
+    const vpa = val("up-vpa").replace(/\s+/g, "");
+    const name = val("up-name");
+    const amtRaw = val("up-amt").replace(/[₹,\s]/g, "");
+    const note = val("up-note");
+    const msg = $("up-msg")!;
+    let warn = "";
+    if (vpa && !/^[a-zA-Z0-9.\-_]{2,256}@[a-zA-Z][a-zA-Z0-9]{1,63}$/.test(vpa)) warn = "That doesn’t look like a UPI ID. It should read like name@bank, for example 9876543210@ybl.";
+    let amount = "";
+    if (amtRaw) {
+      const a = Number(amtRaw);
+      if (!Number.isFinite(a) || a <= 0) warn = "The amount should be a number above zero, or empty.";
+      else amount = a.toFixed(2);
+    }
+    link = vpa && !warn
+      ? "upi://pay?" + [["pa", vpa], ["pn", name || vpa], amount && ["am", amount], ["cu", "INR"], note && ["tn", note]]
+          .filter(Boolean).map((p) => `${(p as string[])[0]}=${encodeURIComponent((p as string[])[1])}`).join("&")
+      : "";
+    msg.textContent = warn || (link ? (amount ? `Asks for ₹${Number(amount).toLocaleString("en-IN")}. Most apps won’t let the payer change it.` : "Open amount: each payer types their own.") : "Enter your UPI ID to make the QR code.");
+    msg.classList.toggle("tk-msg--warn", !!warn);
+    $("up-link")!.textContent = link || "upi://pay?pa=…";
+    for (const id of ["up-qr", "up-card", "up-print"]) ($(id) as HTMLButtonElement).disabled = !link;
+    drawCard(canvas, {
+      colour: ($("up-color") as HTMLInputElement).value,
+      name: name || "Your business name",
+      head: val("up-head"),
+      sub: val("up-sub"),
+      qr: link,
+      foot: ($("up-showid") as HTMLInputElement).checked && link ? vpa + (amount ? `  ·  ₹${Number(amount).toLocaleString("en-IN")}` : "") : "",
+      credit: ($("up-credit") as HTMLInputElement).checked,
+    });
+  }
+
+  live("up-form", render, TOOL);
+  fontsReady().then(render);
+  $("up-qr")!.addEventListener("click", async () => { if (link) { download(`${slugify(val("up-name"), "upi")}-upi-qr.png`, await qrPngBlob(link, 1024, { ecl: "Q" })); track(TOOL, "download_qr"); } });
+  $("up-card")!.addEventListener("click", async () => { if (link) { download(`${slugify(val("up-name"), "upi")}-upi-card.png`, (await canvasBlob(canvas))!); track(TOOL, "download_card"); } });
+  $("up-print")!.addEventListener("click", () => { if (link) { printCanvas(canvas, "UPI payment card"); track(TOOL, "print"); } });
+</script>

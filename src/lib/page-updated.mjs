@@ -47,6 +47,8 @@
    `npm run verify:seo`, which fails on any sitemap URL missing lastmod.
    =========================================================================== */
 
+import { TOOLS, toolPath } from "./tools.mjs";
+
 /** @type {Record<string, string>} URL path (trailing slash) → ISO date */
 export const PAGE_UPDATED = {
   "/": "2026-11-16",
@@ -61,12 +63,8 @@ export const PAGE_UPDATED = {
 
   // Free tools.
   "/tools/": "2026-11-22",
-  "/tools/llms-txt-generator/": "2026-11-13",
-  "/tools/website-cost-calculator/": "2026-11-22",
-  "/tools/google-review-qr-code-generator/": "2026-11-22",
-  "/tools/whatsapp-link-generator/": "2026-11-22",
-  "/tools/serp-snippet-preview/": "2026-11-22",
-  "/tools/local-business-schema-generator/": "2026-11-22",
+  // Every tool page: dates live with the tool in src/lib/tools.mjs.
+  ...Object.fromEntries(TOOLS.map((t) => [toolPath(t.slug), t.updated])),
 
   // Service pages.
   "/services/": "2026-11-22",

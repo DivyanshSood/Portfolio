@@ -1,0 +1,140 @@
+---
+import Tool from "../../layouts/Tool.astro";
+import { TOPICS } from "../../lib/entity.mjs";
+
+const faqs = [
+  { q: "What does hreflang do?", a: "It tells Google that two or more pages are the same content in different languages or for different regions, so it can show a Hindi searcher the Hindi page and an English searcher the English one. It doesn’t merge or boost the pages; it picks which version to show." },
+  { q: "Why does every page need the same block?", a: "hreflang only works when it’s reciprocal: the English page must list the Hindi page, and the Hindi page must list the English one, each including itself. If one side is missing, Google ignores the pair. So the full block goes on every page in the set." },
+  { q: "Which codes should I use?", a: "A language code (ISO 639-1: en, hi, pa) and optionally a region (ISO 3166-1: IN, GB, US), like hi-IN. Use a region only if you really have different pages per country. Watch the classic mistakes: the UK is GB, not UK, and there’s no language called “in”." },
+  { q: "What is x-default?", a: "The page to show when none of the listed languages matches the searcher, often your main language or a language-picker page. It’s optional but recommended." },
+];
+---
+
+<Tool
+  slug="hreflang-tag-generator"
+  title="hreflang Tag Generator for Hindi & English Sites"
+  description="Generate reciprocal hreflang link tags (and the sitemap version) for Hindi and English or any multilingual pages, with x-default and code checks. Free."
+  keywords="hreflang generator, hreflang tags, hreflang hindi english, multilingual seo, hreflang x-default, hreflang sitemap, hreflang checker"
+  ogTitle="hreflang tag generator"
+  ogDescription="Reciprocal hreflang tags for Hindi and English (or any multilingual) pages, with x-default. Free, in your browser."
+  display="Right language, right page."
+  kicker="Free tool · Multilingual SEO · hreflang · No sign-up"
+  lead="List each language version of a page and its URL. You get the <strong>hreflang link tags</strong> to put on every version and the <strong>sitemap equivalent</strong>, with <strong>x-default</strong>, and a warning for codes Google won’t understand. Built for Hindi and English sites, and works for any language."
+  appName="hreflang Tag Generator"
+  appDescription="A free, browser-based tool that generates reciprocal hreflang link tags and sitemap entries with x-default for multilingual pages, and validates language and region codes. No sign-up, nothing stored."
+  category="DeveloperApplication"
+  toolTitle="Build your hreflang set"
+  toolNote="Live tags"
+  cards={[
+    { tag: "Translate, don’t duplicate", d: "A Hindi page should be written for Hindi readers: their questions, their words for things. A machine translation with the same structure helps nobody and can look like duplicate content." },
+    { tag: "Canonical per language", d: `Each language version should be its own canonical, never canonicalised to the English page. <a href="/tools/meta-tag-generator/">Generate the head tags →</a>` },
+  ]}
+  faqs={faqs}
+  topics={[TOPICS.seo]}
+  end={{ title: "Want a Hindi version of your site?", text: "I build bilingual sites with proper hreflang, separate canonicals and content written for each language, not machine-translated.", primary: { href: "/services/website-development/", label: "Website development →" } }}
+>
+  <div class="tk">
+    <form class="form" id="hl-form" autocomplete="off" novalidate>
+      <div id="hl-rows" class="hl-rows"></div>
+      <button type="button" class="tk-add" id="hl-add">+ Add a language</button>
+      <label class="field" for="hl-def">x-default (page for everyone else)<select id="hl-def"></select></label>
+    </form>
+    <div class="tk-out">
+      <div class="tk-bar">
+        <div class="tk-tabs" role="group" aria-label="Format">
+          <button type="button" class="tk-tab" aria-pressed="true" data-f="html">HTML head</button>
+          <button type="button" class="tk-tab" aria-pressed="false" data-f="xml">Sitemap</button>
+        </div>
+        <div class="tk-actions"><button type="button" class="tk-btn tk-btn--red" id="hl-copy">Copy</button></div>
+      </div>
+      <ul class="tk-list hl-warn" id="hl-warn"></ul>
+      <pre class="tk-pre" id="hl-out" tabindex="0"></pre>
+    </div>
+  </div>
+</Tool>
+
+<script>
+  import { $, val, copyText, track, escHtml } from "../../scripts/tools-kit.js";
+  const TOOL = "hreflang";
+  const LANGS = "aa ab af ak am an ar as av ay az ba be bg bh bi bm bn bo br bs ca ce ch co cr cs cu cv cy da de dv dz ee el en eo es et eu fa ff fi fj fo fr fy ga gd gl gn gu gv ha he hi ho hr ht hu hy hz ia id ie ig ii ik io is it iu ja jv ka kg ki kj kk kl km kn ko kr ks ku kv kw ky la lb lg li ln lo lt lu lv mg mh mi mk ml mn mr ms mt my na nb nd ne ng nl nn no nr nv ny oc oj om or os pa pi pl ps pt qu rm rn ro ru rw sa sc sd se sg si sk sl sm sn so sq sr ss st su sv sw ta te tg th ti tk tl tn to tr ts tt tw ty ug uk ur uz ve vi vo wa wo xh yi yo za zh zu".split(" ");
+  const rowsEl = $("hl-rows")!;
+  let fmt = "html";
+  let touched = false;
+  let defPicked = false;
+
+  function addRow(code = "", url = "") {
+    const el = document.createElement("div");
+    el.className = "hl-row";
+    el.innerHTML = `<label class="field">Code<input type="text" class="hl-code" value="${escHtml(code)}" placeholder="hi-IN" spellcheck="false"></label>
+      <label class="field">URL<input type="url" class="hl-url" value="${escHtml(url)}" placeholder="https://www.example.com/hi/" spellcheck="false"></label>
+      <button type="button" class="tk-del" aria-label="Remove">✕</button>`;
+    el.querySelector(".tk-del")!.addEventListener("click", () => { el.remove(); render(); });
+    rowsEl.appendChild(el);
+  }
+
+  function check(code: string) {
+    const [l, r, ...rest] = code.split("-");
+    if (rest.length) return `“${code}” has too many parts. Use language or language-REGION.`;
+    if (!LANGS.includes(l.toLowerCase())) return l.toLowerCase() === "in" ? `“in” isn’t a language code. For Indian English use en-IN; for Hindi, hi.` : `“${l}” isn’t an ISO 639-1 language code.`;
+    if (r && r.toUpperCase() === "UK") return "The region code for the United Kingdom is GB, not UK.";
+    if (r && !/^[A-Za-z]{2}$|^\d{3}$/.test(r)) return `“${r}” isn’t a valid region code.`;
+    return "";
+  }
+
+  function data() {
+    const rows = Array.from(rowsEl.querySelectorAll(".hl-row")).map((r) => ({
+      code: (r.querySelector(".hl-code") as HTMLInputElement).value.trim(),
+      url: (r.querySelector(".hl-url") as HTMLInputElement).value.trim(),
+    })).filter((r) => r.code && r.url);
+    const warn: string[] = [];
+    const seen = new Set<string>();
+    const ok = rows.map((r) => {
+      const [l, reg] = r.code.split("-");
+      const code = reg ? `${l.toLowerCase()}-${reg.toUpperCase()}` : l.toLowerCase();
+      const w = check(r.code); if (w) warn.push(w);
+      if (seen.has(code)) warn.push(`${code} is listed twice.`); seen.add(code);
+      if (!/^https:\/\//i.test(r.url)) warn.push(`${r.url}: use the full https:// URL.`);
+      return { code, url: r.url };
+    });
+    if (ok.length === 1) warn.push("hreflang needs at least two language versions.");
+    return { rows: ok, warn };
+  }
+
+  function out() {
+    const { rows } = data();
+    const def = val("hl-def");
+    const all = [...rows, ...(def ? [{ code: "x-default", url: def }] : [])];
+    if (fmt === "html") return all.map((r) => `<link rel="alternate" hreflang="${r.code}" href="${escHtml(r.url)}">`).join("\n");
+    const links = all.map((r) => `    <xhtml:link rel="alternate" hreflang="${r.code}" href="${escHtml(r.url)}"/>`).join("\n");
+    return `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n        xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${rows.map((r) => `  <url>\n    <loc>${escHtml(r.url)}</loc>\n${links}\n  </url>`).join("\n")}\n</urlset>`;
+  }
+
+  function render() {
+    const { rows, warn } = data();
+    const sel = $("hl-def") as HTMLSelectElement, prev = sel.value;
+    sel.innerHTML = `<option value="">None</option>` + rows.map((r) => `<option value="${escHtml(r.url)}">${escHtml(r.code)} · ${escHtml(r.url)}</option>`).join("");
+    // Default x-default to the first language until the visitor picks one.
+    if (defPicked && [...sel.options].some((o) => o.value === prev)) sel.value = prev; else if (rows[0]) sel.value = rows[0].url;
+    $("hl-out")!.textContent = rows.length ? out() : "Add at least two language versions.";
+    $("hl-warn")!.innerHTML = [...(rows.length > 1 ? [`<li class="ok">Put this same block on all ${rows.length} pages.</li>`] : []), ...warn.map((w) => `<li>${escHtml(w)}</li>`)].join("");
+    ($("hl-copy") as HTMLButtonElement).disabled = rows.length < 2;
+  }
+
+  document.querySelectorAll<HTMLButtonElement>(".tk-tab").forEach((b) => b.addEventListener("click", () => {
+    fmt = b.dataset.f!;
+    document.querySelectorAll(".tk-tab").forEach((t) => t.setAttribute("aria-pressed", String(t === b)));
+    render();
+  }));
+  $("hl-add")!.addEventListener("click", () => { addRow(); render(); });
+  $("hl-form")!.addEventListener("input", (e) => { if ((e.target as HTMLElement).id !== "hl-def") render(); else { defPicked = true; $("hl-out")!.textContent = out(); } if (!touched) { touched = true; track(TOOL, "edit"); } });
+  $("hl-copy")!.addEventListener("click", (e) => { copyText(out(), e.currentTarget as HTMLElement); track(TOOL, "copy_" + fmt); });
+  addRow("en-IN", "https://www.example.com/"); addRow("hi-IN", "https://www.example.com/hi/");
+  render();
+</script>
+
+<style>
+  .hl-rows{display:flex;flex-direction:column;gap:10px}
+  .hl-rows :global(.hl-row){display:grid;grid-template-columns:110px 1fr auto;gap:12px;align-items:end}
+  .hl-warn{padding:12px 16px 0 34px;font-family:var(--mono);font-size:12px;color:var(--red-on-tint,#D0131C)}
+  .hl-warn :global(li.ok){color:var(--g3e)}
+</style>

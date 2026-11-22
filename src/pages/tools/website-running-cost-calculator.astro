@@ -1,0 +1,103 @@
+---
+import Tool from "../../layouts/Tool.astro";
+
+const LINES = [
+  ["domain", "Domain renewal", "year", "Check the renewal price, not the first-year offer."],
+  ["hosting", "Hosting", "month", "Varies widely with traffic and the kind of site. Check what yours actually needs, and the host’s terms for business use."],
+  ["email", "Business email, per mailbox", "month", "Multiply by mailboxes below."],
+  ["plugins", "Themes, plugins, apps", "year", "Premium plugins and app subscriptions."],
+  ["booking", "Booking engine or other SaaS", "month", "Channel managers, booking engines, form tools."],
+  ["maint", "Maintenance or support plan", "month", "Only if you pay someone monthly."],
+];
+
+const faqs = [
+  { q: "What does a website cost to run each year in India?", a: "For a small custom-built site, often just the domain renewal and the hosting. Costs grow with what you add: business email per mailbox, premium plugins, a booking engine, a maintenance plan. This calculator adds up your own numbers, because prices vary too much by provider to hard-code." },
+  { q: "Is a website builder cheaper?", a: "Sometimes for the first year, rarely over three. A builder’s monthly plan includes hosting and a template, but you pay it for as long as the site exists, and you can’t take the site with you if you leave. Enter the plan’s monthly price on the right to see the three-year comparison with your own figures." },
+  { q: "Should I include the build cost?", a: "Yes, if you want the true three-year cost: a one-off build divided over three years is often less per month than a builder plan plus the time you spend on it." },
+  { q: "Is anything stored?", a: "No. The sums are done in your browser." },
+];
+---
+
+<Tool
+  slug="website-running-cost-calculator"
+  title="Website Running Cost Calculator: Yearly Cost in India"
+  description="Add up your website's yearly running costs (domain, hosting, email, plugins, booking engine, maintenance) and compare 3 years against a builder plan. Free."
+  keywords="website running cost, website maintenance cost india, website yearly cost, domain and hosting cost, website builder vs custom website cost, website cost per year"
+  ogTitle="Website running-cost calculator"
+  ogDescription="Your site's yearly costs added up, and three years compared with a builder plan, using your own numbers. Free."
+  display="What it costs to keep it running."
+  kicker="Free tool · Budget · India · No sign-up"
+  lead="A website’s price isn’t only the build. Enter what you pay (or have been quoted) for the <strong>domain, hosting, email, plugins, booking engine and maintenance</strong>, and see the <strong>one-year and three-year cost</strong>, side by side with a <strong>website builder’s monthly plan</strong>. Every number is yours; nothing is assumed."
+  appName="Website Running Cost Calculator"
+  appDescription="A free, browser-based calculator that totals a website's yearly running costs from the user's own figures and compares one- and three-year costs against a website builder plan. No sign-up, nothing stored."
+  toolTitle="Add up your costs"
+  toolNote="Your numbers"
+  cards={[
+    { tag: "Own the accounts", d: "Whatever you pay, pay it from accounts in your name: domain registrar, hosting, email. It’s the difference between switching developers in a day and starting over." },
+    { tag: "Compare quotes too", d: `Put each developer’s yearly fees next to their build price. <a href="/tools/web-developer-quote-comparison/">Compare website quotes →</a>` },
+  ]}
+  faqs={faqs}
+  end={{ title: "Want a site with almost no running costs?", text: "The sites I build are fast, custom-coded and handed over in your name; the yearly costs are the domain and the hosting.", primary: { href: "/tools/website-cost-calculator/", label: "Website cost calculator →" } }}
+>
+  <div class="tk">
+    <form class="form" id="rc-form" autocomplete="off" novalidate data-lines={JSON.stringify(LINES)}>
+      <fieldset class="tk-fieldset">
+        <legend>Custom website</legend>
+        <label class="field" for="rc-build">One-off build price, ₹<input type="number" id="rc-build" min="0" inputmode="numeric" placeholder="0" /></label>
+        {LINES.map(([id, label, per, hint]) => (
+          <label class="field" for={`rc-${id}`}>{label}, ₹ per {per}<input type="number" id={`rc-${id}`} min="0" inputmode="numeric" placeholder="0" /><span class="tk-hint">{hint}</span></label>
+        ))}
+        <label class="field" for="rc-boxes">Number of mailboxes<input type="number" id="rc-boxes" min="0" value="1" inputmode="numeric" /></label>
+      </fieldset>
+      <fieldset class="tk-fieldset">
+        <legend>Website builder, for comparison (optional)</legend>
+        <div class="tk-two">
+          <label class="field" for="rc-plan">Plan, ₹ per month<input type="number" id="rc-plan" min="0" inputmode="numeric" placeholder="0" /></label>
+          <label class="field" for="rc-planx">Its extras, ₹ per year<input type="number" id="rc-planx" min="0" inputmode="numeric" placeholder="apps, domain, email" /></label>
+        </div>
+      </fieldset>
+    </form>
+    <div class="tk-out">
+      <div class="tk-bar"><span>Totals</span></div>
+      <div class="tk-body">
+        <div class="rc-row"><span>Running cost per year</span><b class="tk-big" id="rc-year">₹0</b></div>
+        <table class="tk-table" id="rc-table"></table>
+        <div class="rc-bars" id="rc-bars"></div>
+        <p class="tk-msg" id="rc-msg"></p>
+      </div>
+    </div>
+  </div>
+</Tool>
+
+<script>
+  import { $, val, live } from "../../scripts/tools-kit.js";
+  const TOOL = "running_cost";
+  const LINES = JSON.parse($("rc-form")!.dataset.lines || "[]") as string[][];
+  const n = (id: string) => Math.max(0, Number(val(id)) || 0);
+  const inr = (x: number) => "₹" + Math.round(x).toLocaleString("en-IN");
+
+  function render() {
+    const boxes = Math.max(0, Math.round(n("rc-boxes")));
+    const items = LINES.map(([id, label, per]) => [label, (per === "month" ? 12 : 1) * n("rc-" + id) * (id === "email" ? boxes : 1)] as [string, number]).filter(([, v]) => v > 0);
+    const year = items.reduce((a, [, v]) => a + v, 0);
+    const build = n("rc-build");
+    const planY = n("rc-plan") * 12 + n("rc-planx");
+    $("rc-year")!.textContent = inr(year);
+    const rows = [...items.map(([l, v]) => `<tr><td>${l}</td><td class="num">${inr(v)}/yr</td></tr>`), `<tr><td><b>Custom site, year 1</b> (build + running)</td><td class="num"><b>${inr(build + year)}</b></td></tr>`, `<tr><td><b>Custom site, 3 years</b></td><td class="num"><b>${inr(build + year * 3)}</b></td></tr>`];
+    if (planY) rows.push(`<tr><td><b>Builder, 3 years</b></td><td class="num"><b>${inr(planY * 3)}</b></td></tr>`);
+    $("rc-table")!.innerHTML = `<tbody>${rows.join("")}</tbody>`;
+    const a = build + year * 3, b = planY * 3, max = Math.max(a, b, 1);
+    $("rc-bars")!.innerHTML = planY ? `<div class="rc-bar"><span>Custom, 3 yrs</span><i style="width:${(a / max) * 100}%"></i><b>${inr(a)}</b></div><div class="rc-bar rc-bar--b"><span>Builder, 3 yrs</span><i style="width:${(b / max) * 100}%"></i><b>${inr(b)}</b></div>` : "";
+    $("rc-msg")!.textContent = planY ? (a < b ? `Over three years the custom site costs ${inr(b - a)} less, and it’s yours to keep.` : a > b ? `Over three years the builder costs ${inr(a - b)} less with these numbers. Check what happens to the site if you stop paying.` : "Over three years they cost the same.") : "Add a builder plan to compare.";
+  }
+  live("rc-form", render, TOOL);
+</script>
+
+<style>
+  .rc-row{display:flex;flex-direction:column;gap:6px}
+  .rc-row span{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--g5c)}
+  .rc-bars{display:flex;flex-direction:column;gap:10px}
+  .rc-bars :global(.rc-bar){display:grid;grid-template-columns:110px 1fr auto;gap:10px;align-items:center;font-family:var(--mono);font-size:12px}
+  .rc-bars :global(.rc-bar i){display:block;height:14px;background:var(--ink);min-width:2px}
+  .rc-bars :global(.rc-bar--b i){background:var(--red)}
+</style>

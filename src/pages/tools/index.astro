@@ -6,73 +6,13 @@ import Cards from "../../components/brand/Cards.astro";
 import EndCta from "../../components/brand/EndCta.astro";
 import { SITE } from "../../lib/site.mjs";
 import { TOPICS } from "../../lib/entity.mjs";
+import { TOOLS, TOOL_GROUPS, toolPath } from "../../lib/tools.mjs";
 
 const canonical = `${SITE}/tools/`;
-
-// The tools hub. Add new tools here — each becomes a card + an ItemList entry.
-const tools = [
-  {
-    href: "/tools/website-cost-calculator/",
-    tag: "Pricing · India",
-    name: "Website cost calculator",
-    desc: "Pick the kind of site and what it needs. See the published starting price, a typical timeline and what adds scope, then send the brief for a fixed written quote.",
-    who: "Hotel, homestay, travel, taxi and school owners and small businesses in India trying to budget for a website before they talk to anyone.",
-    what: "Six site types and nine scope items. It shows the real starting price for my work and how long builds like it take, and writes a brief you can copy or send on WhatsApp.",
-    honest:
-      "It never shows a made-up total, because a final price depends on details a form can't see. Web apps, AI products, landing pages and SEO get no number at all: they're quoted after a call.",
-  },
-  {
-    href: "/tools/google-review-qr-code-generator/",
-    tag: "Local SEO · Reviews",
-    name: "Google review QR code generator",
-    desc: "Paste your Google review link or Place ID and get a QR code plus a printable A6 card for the reception desk, the rooms or the taxi dashboard.",
-    who: "Hotels, homestays, taxi operators, cafés and any local business that wants more Google reviews from real customers.",
-    what: "Builds the review link (from a Place ID if needed), checks that it points at Google, and draws a print-ready card at 300 dpi in your colour. Download the QR, the card or print it straight away.",
-    honest:
-      "A card helps you ask; it doesn't make anyone review you. Google forbids discounts for reviews and asking only happy customers, and the page says so.",
-  },
-  {
-    href: "/tools/whatsapp-link-generator/",
-    tag: "WhatsApp · QR",
-    name: "WhatsApp link generator",
-    desc: "A wa.me click-to-chat link with a pre-filled booking message, a QR code for print and a button to paste on your website.",
-    who: "Anyone who takes bookings or enquiries on WhatsApp: taxi and tour operators, hotels, homestays, schools and shops.",
-    what: "Cleans your number into international format, offers booking templates (taxi, room, homestay, tour, admission), and gives you the link, a QR PNG and the button HTML, inline or floating.",
-    honest:
-      "The link only opens a chat. Replying fast is still on you, and that's what decides whether the chat turns into a booking.",
-  },
-  {
-    href: "/tools/serp-snippet-preview/",
-    tag: "SEO · Snippets",
-    name: "SERP snippet preview",
-    desc: "Preview a title tag and meta description on desktop and mobile, measured in pixels the way Google truncates, with plain-English fixes.",
-    who: "Site owners, writers and developers checking a page's title and description before it goes live.",
-    what: "Measures pixel width, shows where Google would cut off the text, bolds your keyword, flags short or duplicated titles, and gives you the two head tags to copy.",
-    honest:
-      "Widths are close estimates, not Google's own numbers, and Google can still rewrite a title or description for a particular search.",
-  },
-  {
-    href: "/tools/local-business-schema-generator/",
-    tag: "Schema · JSON-LD",
-    name: "Local business schema generator",
-    desc: "JSON-LD for a hotel, homestay, travel agency, school or any local business: address, hours, map location, areas served and profiles.",
-    who: "Local businesses and the developers who build their sites, especially anyone whose Business Profile and website don't seem to be connected.",
-    what: "Picks the most specific schema type, writes opening hours and check-in times properly, escapes the output safely, and links straight to Google's Rich Results Test.",
-    honest:
-      "It deliberately has no star-rating field. Google ignores a business's ratings of itself in its own schema, and copying your Google rating into it breaks the guidelines.",
-  },
-  {
-    href: "/tools/llms-txt-generator/",
-    tag: "GEO · AI search",
-    name: "llms.txt generator",
-    desc: "Write a spec-correct llms.txt — a plain-text brief of your business — from five fields. Free, in your browser, nothing stored. Includes a straight answer on what the file does and doesn't do.",
-    live: true,
-    who: "Founders, marketers and developers who've been told they need an llms.txt and want one that's actually valid — plus anyone being quoted for a \"GEO package\" who wants to know what the cheap part looks like.",
-    what: "Five fields: business name, one-line summary, services, key pages, contact. It writes the H1, the blockquote summary and the linked sections in the order the spec calls for, then hands you the file to copy or download. Nothing is uploaded — the whole thing runs client-side.",
-    honest:
-      "Google has confirmed its search systems ignore llms.txt, and analysis across ~300,000 domains found no measurable link between having one and being cited by AI. This tool is free because the file is the cheap part of GEO, not the valuable part.",
-  },
-];
+// The hub reads src/lib/tools.mjs: add a tool there and it gets a card here
+// and an ItemList entry.
+const groups = TOOL_GROUPS.map((g) => ({ ...g, tools: TOOLS.filter((t) => t.group === g.id) }));
+const count = TOOLS.length;
 
 const jsonld = JSON.stringify({
   "@context": "https://schema.org",
@@ -80,19 +20,20 @@ const jsonld = JSON.stringify({
     {
       "@type": "CollectionPage",
       "@id": `${canonical}#page`,
-      name: "Free tools for founders & marketers",
+      name: "Free tools for local businesses, founders and developers",
       url: canonical,
       description:
-        "Free web tools by Divyansh Sood — practical utilities for SEO, GEO and building a better site. No sign-up.",
+        "Free web tools by Divyansh Sood: practical utilities for pricing a website, bookings and reviews, local SEO, AI search and site building. No sign-up, everything runs in the browser.",
       isPartOf: { "@id": `${SITE}/#website` },
     },
     {
       "@type": "ItemList",
-      itemListElement: tools.map((t, i) => ({
+      numberOfItems: count,
+      itemListElement: TOOLS.map((t, i) => ({
         "@type": "ListItem",
         position: i + 1,
         name: t.name,
-        url: `${SITE}${t.href}`,
+        url: `${SITE}${toolPath(t.slug)}`,
       })),
     },
     {
@@ -107,12 +48,12 @@ const jsonld = JSON.stringify({
 ---
 
 <Base
-  title="Free Web Tools — SEO, GEO & Site Utilities · Divyansh Sood"
-  description="Free, no-sign-up web tools: website cost calculator, Google review QR card, WhatsApp link + QR, SERP preview, schema and llms.txt generators."
+  title={`${count} Free Web Tools: SEO, Local Business & Dev Utilities`}
+  description="Free, no-sign-up tools: website cost calculator, review and UPI QR cards, WhatsApp links, SERP preview, schema, robots.txt, favicons and more."
   canonical={canonical}
-  keywords="free web tools, website cost calculator, google review qr code, whatsapp link generator, serp preview, schema generator, llms.txt generator, free SEO tools"
-  ogTitle="Free web tools"
-  ogDescription="Practical, free tools for local businesses, founders and developers: pricing, reviews, WhatsApp, snippets and schema. No sign-up."
+  keywords="free web tools, website cost calculator, google review qr code, upi qr code generator, whatsapp link generator, serp preview, schema generator, robots.txt generator, favicon generator, free SEO tools"
+  ogTitle={`${count} free web tools`}
+  ogDescription="Practical, free tools for local businesses, founders and developers: pricing, bookings, reviews, SEO, schema and site files. No sign-up."
   topics={[TOPICS.seo, TOPICS.ai, TOPICS.webDevelopment]}
   jsonld={jsonld}
 >
@@ -120,33 +61,32 @@ const jsonld = JSON.stringify({
     <PageHero
       display="Free tools, no strings."
       size="case"
-      kicker="Tools · Free · no sign-up · 2026"
-      lead="Small, genuinely useful utilities I've built while doing client work. No sign-up, no upsell wall — everything runs in your browser. If one saves you an afternoon, that's the point."
+      kicker={`Tools · ${count} free · no sign-up · 2026`}
+      lead="Small, genuinely useful utilities from client work: for hotels, homestays and taxi operators, for anyone planning a website, and for the people who build them. No sign-up, no upsell wall, and everything runs in your browser."
     />
 
     <Section n={1} term="Setup" note="The deal" title="Why these exist">
       <Cards items={[
         { tag: "No email wall", wide: true, d: "Every tool here came out of a job. A client needed something, I wrote it once properly instead of twice badly, and it turned out to be useful to more than one person. So it's on the site, free, with no form in front of it. You don't give me an email address, I don't get a lead, and you get the thing you came for. If it's useful and you later want the full build done properly, you know where I am — that's the entire funnel." },
-        { tag: "Runs in your browser", d: "Nothing you type is uploaded, logged or stored. These are static pages with the logic in client-side JavaScript, so your business details, draft copy and URLs never leave your device. Works offline once the page has loaded." },
-        { tag: "Honest about limits", d: "Each tool says what it does and what it doesn't. The llms.txt generator tells you up front that Google ignores the file it produces — because a tool that oversells itself costs you more than the half hour it saved." },
+        { tag: "Runs in your browser", d: "What you type isn't uploaded, logged or stored. These are static pages with the logic in client-side JavaScript, so your business details, prices and URLs stay on your device. The only thing sent is an anonymous count of which tool was used." },
+        { tag: "Honest about limits", d: "Each tool says what it does and what it doesn't. The llms.txt generator tells you up front that Google ignores the file it produces, and the cost calculator won't invent a total, because a tool that oversells itself costs you more than the time it saved." },
       ]} />
     </Section>
 
-    <Section n={2} term="Pit lane" note="More coming" title="The toolbox">
-      {tools.map((t, i) => (
-        <a class="tl" href={t.href}>
-          <div class="tl-top"><span class="tl-pos">T{String(i + 1).padStart(2, "0")}</span><span>{t.tag}</span></div>
-          <h3 class="tl-name">{t.name}</h3>
-          <p class="tl-lead">{t.desc}</p>
-          <dl class="spec tl-spec">
-            {t.what && <div><dt>What it does</dt><dd>{t.what}</dd></div>}
-            {t.who && <div><dt>Who it's for</dt><dd>{t.who}</dd></div>}
-            {t.honest && <div><dt>The caveat</dt><dd>{t.honest}</dd></div>}
-          </dl>
-          <span class="tl-cta">Open the {t.name} →</span>
-        </a>
-      ))}
-    </Section>
+    {groups.map((g, gi) => (
+      <Section n={gi + 2} term="Pit lane" note={g.note} title={g.title}>
+        <div class="tg">
+          {g.tools.map((t) => (
+            <a class="tg-card" href={toolPath(t.slug)}>
+              <span class="tg-tag">{t.tag}</span>
+              <h3 class="tg-name">{t.name}</h3>
+              <p class="tg-d">{t.short}</p>
+              <span class="tg-cta">Open <span aria-hidden="true">→</span></span>
+            </a>
+          ))}
+        </div>
+      </Section>
+    ))}
 
     <EndCta
       title="Need the real thing, not a tool?"
@@ -158,13 +98,12 @@ const jsonld = JSON.stringify({
 </Base>
 
 <style>
-  .tl{display:flex;flex-direction:column;gap:16px;max-width:980px;color:var(--ink);text-decoration:none}
-  .tl:hover{color:var(--ink)}
-  .tl-top{display:flex;justify-content:space-between;border-top:3px solid var(--ink);padding-top:10px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--g5c)}
-  .tl-pos{color:var(--red);font-weight:700}
-  .tl-name{margin:0;font-weight:900;font-style:italic;font-stretch:125%;text-transform:uppercase;font-size:clamp(28px,3vw,46px);line-height:.95}
-  .tl-lead{margin:0;font-size:18px;line-height:1.5;color:var(--g3e);max-width:60ch}
-  .tl-spec > div{grid-template-columns:140px 1fr}
-  .tl-cta{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--red)}
-  .tl:hover .tl-cta{color:var(--ink)}
+  .tg{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:16px}
+  .tg-card{display:flex;flex-direction:column;gap:10px;padding:22px 20px;border:1px solid var(--gda);border-top:3px solid var(--ink);color:var(--ink);text-decoration:none;background:#fff}
+  .tg-card:hover{border-top-color:var(--red);color:var(--ink)}
+  .tg-tag{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--g5c)}
+  .tg-name{margin:0;font-weight:900;font-style:italic;font-stretch:118%;text-transform:uppercase;font-size:clamp(20px,1.8vw,24px);line-height:1.02}
+  .tg-d{margin:0;font-size:15px;line-height:1.5;color:var(--g3e);flex:1}
+  .tg-cta{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--red-on-tint,#D0131C)}
+  .tg-card:hover .tg-cta{color:var(--ink)}
 </style>

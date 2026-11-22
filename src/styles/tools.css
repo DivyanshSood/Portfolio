@@ -39,3 +39,26 @@
   body.tk-printing .tk-print{display:block !important}
 }
 .tk-print{display:none}
+
+/* Card previews (A6 canvases) and small shared bits for the later tools. */
+.tk-card{display:block;width:100%;max-width:340px;height:auto;margin:0 auto;border:1px solid var(--gda);box-shadow:0 8px 24px rgba(0,0,0,.08)}
+.tk-table{width:100%;border-collapse:collapse;font-size:15px;line-height:1.4}
+.tk-table th,.tk-table td{border-bottom:1px solid var(--gda);padding:10px 8px;text-align:left;vertical-align:top}
+.tk-table th{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--g5c);font-weight:400}
+.tk-table td.num,.tk-table th.num{text-align:right;font-variant-numeric:tabular-nums}
+.tk-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tk-tabs{display:flex;flex-wrap:wrap;gap:6px}
+.tk-tab{background:transparent;border:1px solid var(--ink);color:var(--ink);min-height:40px;padding:0 14px;font-family:var(--mono);font-size:12px;letter-spacing:.04em;cursor:pointer}
+.tk-tab[aria-pressed="true"],.tk-tab:hover{background:var(--ink);color:#fff}
+.tk-add{align-self:flex-start;background:transparent;border:1px dashed var(--ink);color:var(--ink);min-height:44px;padding:0 16px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+.tk-add:hover{border-style:solid}
+.tk-del{background:transparent;border:0;color:var(--g5c);font-family:var(--mono);font-size:12px;cursor:pointer;min-height:44px;min-width:44px}
+.tk-del:hover{color:var(--red-on-tint,#D0131C)}
+.tk-big{font-family:var(--display);font-weight:900;font-style:italic;font-stretch:125%;font-size:clamp(36px,4.5vw,56px);line-height:1;color:var(--ink)}
+.tk-pill{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:4px 8px;border:1px solid currentColor}
+.tk-pill--ok{color:#1E7B34}
+.tk-pill--bad{color:var(--red-on-tint,#D0131C)}
+.tk-drop{border:2px dashed var(--gda);padding:28px 16px;text-align:center;font-family:var(--mono);font-size:13px;color:var(--g3e);cursor:pointer}
+.tk-drop.is-over{border-color:var(--red)}
+.tk-list{margin:0;padding:0 0 0 18px;display:flex;flex-direction:column;gap:8px;font-size:15px;line-height:1.5}
+.tk-out [hidden],.tk [hidden]{display:none !important}

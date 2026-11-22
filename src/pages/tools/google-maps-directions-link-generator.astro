@@ -1,0 +1,101 @@
+---
+import Tool from "../../layouts/Tool.astro";
+
+const faqs = [
+  { q: "How does a Google Maps directions link work?", a: "It uses Google’s documented Maps URLs format, google.com/maps/dir/?api=1&destination=… Tapping it opens Google Maps (the app on a phone, the website on a computer) with directions to your place from wherever the person is, ready to start." },
+  { q: "Should I use the address or the coordinates?", a: "Coordinates are the safest for places with a vague address, such as a homestay up a village path or a pickup point on a highway. Right-click (or long-press) your exact spot in Google Maps and tap the numbers to copy them. Add your Place ID as well if you have one, so Maps shows your business name instead of a dropped pin." },
+  { q: "Where should I send this link?", a: "In every booking confirmation, on your website’s contact page, in your WhatsApp away message and on printed cards. A guest who arrives without calling for directions is a guest who had an easier first hour." },
+  { q: "Is this free?", a: "Yes, free with no sign-up. The link is built in your browser and points straight at Google Maps, with nothing of mine in between." },
+];
+---
+
+<Tool
+  slug="google-maps-directions-link-generator"
+  title="Google Maps Directions Link Generator + QR Code"
+  description="Make a Google Maps “Get directions” link for your place from an address, coordinates or Place ID, with a QR code and website button. Free, no sign-up."
+  keywords="google maps directions link, google maps link generator, get directions link, google maps qr code, directions link for website, google maps url"
+  ogTitle="Google Maps directions link generator"
+  ogDescription="A “Get directions” link, QR code and button for your hotel, homestay or pickup point. Free, in your browser."
+  display="Directions that land at the door."
+  kicker="Free tool · Google Maps · Directions · No sign-up"
+  lead="Guests get lost on the last kilometre, not the first hundred. Make a <strong>Google Maps directions link</strong> to your exact spot, from an address, coordinates or a Place ID, with a <strong>QR code</strong> and a <strong>button</strong> for your website. It opens in the Maps app with the route ready."
+  appName="Google Maps Directions Link Generator"
+  appDescription="A free, browser-based tool that builds a Google Maps directions or search link for a place, with a QR code and website button. No sign-up, nothing stored."
+  toolTitle="Build your directions link"
+  note="Tap “Test” and check that Maps puts the pin on your door, not on the main road."
+  cards={[
+    { tag: "Send it before they ask", d: `Put the link in every booking confirmation. A pre-filled <a href="/tools/whatsapp-link-generator/">WhatsApp link</a> and a directions link together answer most of the questions guests call about.` },
+    { tag: "Match your profile", d: `Use the same pin as your Google Business Profile, and the same coordinates in your site’s <a href="/tools/local-business-schema-generator/">local business schema</a>, so every map agrees.` },
+  ]}
+  faqs={faqs}
+  end={{ title: "Want guests to find you before they book?", text: "A directions link helps after booking. A site with a page for every place your guests travel to helps them find you in the first place.", primary: { href: "/services/homestay-website-development/", label: "Homestay websites →" } }}
+>
+  <div class="tk">
+    <form class="form" id="gm-form" autocomplete="off" novalidate>
+      <label class="field" for="gm-dest">Destination: address, place name or coordinates *<input type="text" id="gm-dest" placeholder="32.2470, 76.3240  or  Snow View Homestay, Dharamkot" /></label>
+      <label class="field" for="gm-pid">Place ID (optional)<input type="text" id="gm-pid" placeholder="ChIJ…" spellcheck="false" /></label>
+      <div class="tk-two">
+        <label class="field" for="gm-mode">Travel mode
+          <select id="gm-mode">
+            <option value="driving">Driving</option>
+            <option value="walking">Walking</option>
+            <option value="transit">Public transport</option>
+            <option value="two-wheeler">Two-wheeler</option>
+          </select>
+        </label>
+        <label class="field" for="gm-kind">Link type
+          <select id="gm-kind">
+            <option value="dir">Directions (route ready)</option>
+            <option value="search">Show the place (pin)</option>
+          </select>
+        </label>
+      </div>
+      <label class="field" for="gm-origin">Start from (optional)<input type="text" id="gm-origin" placeholder="Gaggal Airport  (empty = the person’s location)" /></label>
+      <label class="field" for="gm-label">Button text<input type="text" id="gm-label" value="Get directions" maxlength="40" /></label>
+    </form>
+    <div class="tk-out">
+      <div class="tk-bar">
+        <span>Maps link</span>
+        <div class="tk-actions">
+          <button type="button" class="tk-btn" id="gm-copy">Copy link</button>
+          <button type="button" class="tk-btn" id="gm-test">Test</button>
+          <button type="button" class="tk-btn tk-btn--red" id="gm-png">QR PNG</button>
+        </div>
+      </div>
+      <div class="tk-body">
+        <p class="tk-link" id="gm-url"></p>
+        <div class="tk-qr" id="gm-qr"></div>
+      </div>
+      <div class="tk-bar"><span>Website button · HTML</span><div class="tk-actions"><button type="button" class="tk-btn" id="gm-copyhtml">Copy HTML</button></div></div>
+      <pre class="tk-pre" id="gm-html" tabindex="0" style="min-height:0"></pre>
+    </div>
+  </div>
+</Tool>
+
+<script>
+  import { $, val, live, qrSvg, qrPngBlob, download, copyText, openExternal, track, escHtml } from "../../scripts/tools-kit.js";
+  const TOOL = "maps_directions";
+  let link = "";
+
+  function render() {
+    const dest = val("gm-dest").replace(/\s*,\s*/g, ",");
+    const pid = val("gm-pid");
+    if (!dest) link = "";
+    else if (val("gm-kind") === "search") {
+      link = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(dest)}` + (pid ? `&query_place_id=${encodeURIComponent(pid)}` : "");
+    } else {
+      const q = [["destination", dest], pid && ["destination_place_id", pid], val("gm-origin") && ["origin", val("gm-origin")], ["travelmode", val("gm-mode")]].filter(Boolean) as string[][];
+      link = "https://www.google.com/maps/dir/?api=1&" + q.map(([k, v]) => `${k}=${encodeURIComponent(v)}`).join("&");
+    }
+    $("gm-url")!.textContent = link || "https://www.google.com/maps/dir/?api=1&destination=…";
+    $("gm-qr")!.innerHTML = link ? qrSvg(link, { label: "QR code for your directions link" }) : "";
+    const label = escHtml(val("gm-label") || "Get directions");
+    $("gm-html")!.textContent = link ? `<a href="${escHtml(link)}" target="_blank" rel="noopener" style="display:inline-block;padding:12px 20px;background:#1A73E8;color:#fff;font:600 16px/1.2 system-ui,sans-serif;text-decoration:none;border-radius:8px">${label}</a>` : "Enter a destination to get the button code.";
+    for (const id of ["gm-copy", "gm-test", "gm-png", "gm-copyhtml"]) ($(id) as HTMLButtonElement).disabled = !link;
+  }
+  live("gm-form", render, TOOL);
+  $("gm-copy")!.addEventListener("click", (ev) => { copyText(link, ev.currentTarget as HTMLElement); track(TOOL, "copy_link"); });
+  $("gm-copyhtml")!.addEventListener("click", (ev) => { copyText($("gm-html")!.textContent || "", ev.currentTarget as HTMLElement); track(TOOL, "copy_html"); });
+  $("gm-test")!.addEventListener("click", () => { openExternal(link); track(TOOL, "test"); });
+  $("gm-png")!.addEventListener("click", async () => { download("directions-qr.png", await qrPngBlob(link)); track(TOOL, "download_qr"); });
+</script>

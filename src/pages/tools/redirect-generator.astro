@@ -1,0 +1,148 @@
+---
+import Tool from "../../layouts/Tool.astro";
+import { TOPICS } from "../../lib/entity.mjs";
+
+const faqs = [
+  { q: "301 or 308?", a: "Both are permanent redirects, and Google treats them the same way for rankings. 301 is the traditional choice; 308 also guarantees the request method is kept, which only matters for forms and APIs. Vercel’s “permanent: true” sends a 308. For moving pages, either is fine." },
+  { q: "What is a redirect chain and why does it matter?", a: "A chain is when /a redirects to /b, which redirects to /c. Each hop adds a delay, and search engines may stop following after several. This tool spots chains and points every old URL straight at its final destination." },
+  { q: "Where do the rules go?", a: "Vercel: the redirects array in vercel.json. Netlify: a _redirects file in the publish folder. Apache: the site’s .htaccess file. Nginx: inside the server block of the site’s config, then reload Nginx. If you’re not sure which you have, your developer or hosting panel will tell you." },
+  { q: "Is my URL list stored?", a: "No. Everything runs in your browser." },
+];
+---
+
+<Tool
+  slug="redirect-generator"
+  title="Redirect Map Generator: Vercel, Netlify, Apache, Nginx"
+  description="Turn a list of old and new URLs into 301 redirect rules for Vercel, Netlify, Apache .htaccess or Nginx, with checks for chains, loops and duplicates. Free."
+  keywords="redirect generator, 301 redirect generator, htaccess redirect generator, nginx redirect, vercel redirects, netlify redirects, redirect map, website migration redirects"
+  ogTitle="Redirect map generator"
+  ogDescription="Old and new URLs into 301 rules for Vercel, Netlify, Apache or Nginx, with chain and loop checks. Free."
+  display="Move pages, keep rankings."
+  kicker="Free tool · Migrations · 301 redirects · No sign-up"
+  lead="Paste your <strong>old URL → new URL</strong> pairs, one per line, and get ready-to-paste <strong>redirect rules for Vercel, Netlify, Apache or Nginx</strong>. The tool flattens chains, catches loops and duplicates, and strips your own domain so rules stay portable."
+  appName="Redirect Map Generator"
+  appDescription="A free, browser-based tool that converts old-to-new URL pairs into 301/308 redirect rules for Vercel, Netlify, Apache and Nginx, flattening chains and flagging loops and duplicates. No sign-up, nothing stored."
+  category="DeveloperApplication"
+  toolTitle="Build your redirect map"
+  toolNote="Live rules"
+  cards={[
+    { tag: "Where the old URLs come from", d: "Your old sitemap, Search Console’s Pages report, and the Wayback Machine for pages nobody remembers. Every old URL that ever got a link or a visit deserves a redirect." },
+    { tag: "After launch", d: `Submit the new <a href="/tools/xml-sitemap-generator/">sitemap</a> in Search Console and watch the 404s for a few weeks.` },
+    { tag: "Done properly, for you", wide: true, d: `When I rebuilt Leisure Himachal’s 2011 site, 71 redirects worked out from the old sitemap, a live crawl and 74 Wayback captures meant no old link broke. Redesigns are part of <a href="/services/website-development/">website development →</a>` },
+  ]}
+  faqs={faqs}
+  topics={[TOPICS.seo]}
+  end={{ title: "Redesigning a site that already ranks?", text: "Migrations are where rankings get lost. I map every old URL before anything goes live.", primary: { href: "/services/website-development/", label: "Website development →" } }}
+>
+  <div class="tk">
+    <form class="form" id="rd-form" autocomplete="off" novalidate>
+      <label class="field" for="rd-in">Old URL → new URL, one pair per line
+        <textarea id="rd-in" rows="10" spellcheck="false" placeholder="/old-page.html  /new-page/&#10;https://www.example.com/tours.php?id=4  /tours/manali/&#10;/blog/old-post, /blog/new-post/"></textarea>
+        <span class="tk-hint">Separate the two with a space, tab, comma or →. Query strings are matched in the Apache and Nginx output only.</span>
+      </label>
+      <div class="tk-two">
+        <label class="field" for="rd-domain">Your domain (to strip)<input type="text" id="rd-domain" placeholder="www.example.com" spellcheck="false" /></label>
+        <label class="field" for="rd-code">Status<select id="rd-code"><option value="301">301 permanent</option><option value="308">308 permanent</option><option value="302">302 temporary</option></select></label>
+      </div>
+      <label class="tk-check"><input type="checkbox" id="rd-flat" checked /> Flatten chains (point every URL at its final destination)</label>
+    </form>
+    <div class="tk-out">
+      <div class="tk-bar">
+        <div class="tk-tabs" role="group" aria-label="Server">
+          <button type="button" class="tk-tab" aria-pressed="true" data-f="vercel">vercel.json</button>
+          <button type="button" class="tk-tab" aria-pressed="false" data-f="netlify">_redirects</button>
+          <button type="button" class="tk-tab" aria-pressed="false" data-f="apache">.htaccess</button>
+          <button type="button" class="tk-tab" aria-pressed="false" data-f="nginx">Nginx</button>
+        </div>
+        <div class="tk-actions"><button type="button" class="tk-btn tk-btn--red" id="rd-copy">Copy</button></div>
+      </div>
+      <ul class="tk-list rd-issues" id="rd-issues" aria-live="polite"></ul>
+      <pre class="tk-pre" id="rd-out" tabindex="0"></pre>
+    </div>
+  </div>
+</Tool>
+
+<script>
+  import { $, val, live, copyText, track } from "../../scripts/tools-kit.js";
+  const TOOL = "redirects";
+  let fmt = "vercel";
+
+  function norm(u: string, domain: string) {
+    u = u.trim().replace(/^["']|["']$/g, "");
+    if (!u) return "";
+    try {
+      if (/^https?:\/\//i.test(u)) {
+        const x = new URL(u);
+        if (!domain || x.hostname.replace(/^www\./, "") === domain.replace(/^www\./, "")) return x.pathname + x.search;
+        return x.href;
+      }
+    } catch { /* fall through to a path */ }
+    return u.startsWith("/") ? u : "/" + u;
+  }
+
+  function parse() {
+    const domain = val("rd-domain").replace(/^https?:\/\//, "").replace(/\/.*$/, "");
+    const issues: string[] = [];
+    const map = new Map<string, string>();
+    val("rd-in").split("\n").map((l) => l.trim()).filter(Boolean).forEach((l, i) => {
+      const parts = l.split(/\s*(?:→|->|=>|,|\t|\s)\s*/).filter(Boolean);
+      if (parts.length < 2) { issues.push(`Line ${i + 1}: needs an old and a new URL.`); return; }
+      const from = norm(parts[0], domain), to = norm(parts[1], domain);
+      if (from === to) { issues.push(`Line ${i + 1}: ${from} redirects to itself, skipped.`); return; }
+      if (map.has(from) && map.get(from) !== to) issues.push(`${from} appears twice with different targets; the last one wins.`);
+      map.set(from, to);
+    });
+    // Chains and loops.
+    const out: [string, string][] = [];
+    for (const [from, to] of map) {
+      let dest = to, hops = 0;
+      const seen = new Set([from]);
+      while (map.has(dest) && hops < 20) {
+        if (seen.has(dest)) { issues.push(`Loop: ${from} ends up back at itself. Fix this before publishing.`); dest = ""; break; }
+        seen.add(dest); dest = map.get(dest)!; hops++;
+      }
+      if (!dest) continue;
+      if (hops) issues.push(`Chain: ${from} → … → ${dest} (${hops + 1} hops)${($("rd-flat") as HTMLInputElement).checked ? ", flattened." : "."}`);
+      out.push([from, ($("rd-flat") as HTMLInputElement).checked ? dest : to]);
+    }
+    return { pairs: out, issues };
+  }
+
+  const esc = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  function rules(pairs: [string, string][]) {
+    const code = Number(val("rd-code"));
+    if (fmt === "vercel") {
+      // Vercel's permanent: true sends a 308; any other code goes in statusCode.
+      const arr = pairs.map(([s, d]) => ({ source: s.split("?")[0], destination: d, ...(code === 308 ? { permanent: true } : { statusCode: code }) }));
+      return JSON.stringify({ redirects: arr }, null, 2);
+    }
+    if (fmt === "netlify") return pairs.map(([s, d]) => `${s.split("?")[0]}  ${d}  ${code}`).join("\n");
+    if (fmt === "apache") return ["RewriteEngine On", ...pairs.map(([s, d]) => {
+      const [path, q] = s.split("?");
+      return (q ? `RewriteCond %{QUERY_STRING} ^${esc(q)}$\n` : "") + `RewriteRule ^${esc(path.slice(1))}$ ${d}${q ? "?" : ""} [R=${code},L]`;
+    })].join("\n");
+    return pairs.map(([s, d]) => {
+      const [path, q] = s.split("?");
+      return q ? `location = ${path} {\n  if ($args = "${q}") { return ${code} ${d}; }\n}` : `location = ${path} { return ${code} ${d}; }`;
+    }).join("\n");
+  }
+
+  function render() {
+    const { pairs, issues } = parse();
+    $("rd-out")!.textContent = pairs.length ? rules(pairs) : "Paste old and new URLs on the left.";
+    $("rd-issues")!.innerHTML = pairs.length ? [`<li>${pairs.length} redirect${pairs.length > 1 ? "s" : ""}.</li>`, ...issues.map((i) => `<li class="warn">${i.replace(/</g, "&lt;")}</li>`)].join("") : "";
+    ($("rd-copy") as HTMLButtonElement).disabled = !pairs.length;
+  }
+  document.querySelectorAll<HTMLButtonElement>(".tk-tab").forEach((b) => b.addEventListener("click", () => {
+    fmt = b.dataset.f!;
+    document.querySelectorAll(".tk-tab").forEach((t) => t.setAttribute("aria-pressed", String(t === b)));
+    render();
+  }));
+  live("rd-form", render, TOOL);
+  $("rd-copy")!.addEventListener("click", (e) => { copyText($("rd-out")!.textContent || "", e.currentTarget as HTMLElement); track(TOOL, "copy_" + fmt); });
+</script>
+
+<style>
+  .rd-issues{padding:12px 16px 0 34px;font-family:var(--mono);font-size:12px}
+  .rd-issues :global(li.warn){color:var(--red-on-tint,#D0131C)}
+</style>

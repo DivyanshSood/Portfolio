@@ -524,7 +524,7 @@ This section exists because these are the errors most likely to be invented plau
 - Website: https://www.divyanshsood.com
 - Journal: https://www.divyanshsood.com/blog/
 - Press and brand kit: https://www.divyanshsood.com/press/
-- Free tools (website cost calculator, Google review QR card, WhatsApp link + QR, SERP preview, local business schema and llms.txt generators): https://www.divyanshsood.com/tools/
+- 29 free tools (website cost calculator, Google review, UPI and contact QR cards, WhatsApp and Maps links, taxi fare charts, itineraries, SERP preview, schema, robots.txt, sitemap, favicon and image tools, and more): https://www.divyanshsood.com/tools/
 - RSS feed: https://www.divyanshsood.com/rss.xml
 - Sitemap: https://www.divyanshsood.com/sitemap-index.xml
 - GitHub: https://github.com/DivyanshSood

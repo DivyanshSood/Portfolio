@@ -1,0 +1,136 @@
+---
+import Tool from "../../layouts/Tool.astro";
+
+// [section, item, why, optional tool slug]
+const ITEMS: [string, string, string, string?][] = [
+  ["Content", "Every page has been read on a phone, start to finish", "Most visitors will see it on a phone first. Typos and broken layouts show up there."],
+  ["Content", "Phone, WhatsApp, email and address are correct everywhere", "Check the header, footer, contact page and every button. One wrong digit costs every enquiry.", "whatsapp-link-generator"],
+  ["Content", "Prices, timings and policies are current", "Old prices and closed-season dates are the most common complaint on travel sites."],
+  ["Content", "No placeholder text, stock “Lorem ipsum” or sample reviews", "Search the site for “lorem”, “example” and “test” before launch."],
+  ["Content", "Every image has a sensible alt text", "It’s read aloud to blind visitors and helps image search."],
+  ["Search", "Each page has its own title and meta description", "Duplicate titles make pages compete with each other.", "serp-snippet-preview"],
+  ["Search", "One H1 per page that says what the page is about", ""],
+  ["Search", "Canonical tags point at the right, final URLs", "Especially after moving from http to https or from no-www to www.", "meta-tag-generator"],
+  ["Search", "robots.txt doesn’t block the site (a common leftover from staging)", "“Disallow: /” left over from development hides the whole site.", "robots-txt-tester"],
+  ["Search", "No noindex tag left on live pages", "Same leftover, page by page. View the source of the homepage and search for noindex."],
+  ["Search", "XML sitemap is live and submitted in Search Console and Bing Webmaster Tools", "", "xml-sitemap-generator"],
+  ["Search", "Old URLs redirect (301) to their new pages", "Every old link and ranking you don’t redirect is lost.", "redirect-generator"],
+  ["Search", "Local business schema matches your Google Business Profile", "", "local-business-schema-generator"],
+  ["Search", "Google Business Profile links to the new site", "", "google-business-profile-description-checker"],
+  ["Speed", "Images are resized and in WebP or AVIF", "", "image-compressor"],
+  ["Speed", "Mobile Lighthouse performance checked (three runs, take the middle)", "", "lighthouse-report-explainer"],
+  ["Speed", "No unused plugins, sliders or widgets loading on every page", "Each one adds weight even when it isn’t on the page you’re viewing."],
+  ["Tracking", "Google Analytics 4 is installed and recording visits", "Open Realtime in GA4 and visit the site from your phone."],
+  ["Tracking", "WhatsApp taps, calls and form sends are tracked as events", "Otherwise you’ll know how many people visited, not how many got in touch.", "utm-link-builder"],
+  ["Tracking", "Search Console and Bing Webmaster Tools are verified", ""],
+  ["Forms", "Every form sends, and the email arrives (check spam too)", "Test from a phone and a computer, with a real address."],
+  ["Forms", "Form spam protection is on", ""],
+  ["Forms", "There’s a thank-you message or page after sending", "It confirms the enquiry went through and can be tracked as a conversion."],
+  ["Security", "HTTPS works on every page, with http and non-www redirecting", "Try http://yoursite.com and https://yoursite.com in a private window."],
+  ["Security", "Admin logins use strong, unique passwords and two-factor where possible", ""],
+  ["Security", "Backups are running and you know how to restore one", ""],
+  ["Legal", "Privacy policy is published and mentions your forms and analytics", "India’s DPDP Act applies to the personal data your forms collect."],
+  ["Legal", "Images, fonts and text are yours or properly licensed", ""],
+  ["Social", "Share image and Open Graph tags show correctly on WhatsApp", "", "og-image-maker"],
+  ["Social", "Favicon and home-screen icon are set", "", "favicon-generator"],
+  ["Ownership", "Domain, hosting and code accounts are in your name", "Get the logins before the final payment.", "web-developer-quote-comparison"],
+  ["Ownership", "You have the documentation and know how to update content", ""],
+  ["Accessibility", "Text contrast passes WCAG AA", "", "color-contrast-checker"],
+  ["Accessibility", "The site can be used with a keyboard (Tab through it)", "Every link and button should be reachable and visibly focused."],
+];
+const sections = [...new Set(ITEMS.map((i) => i[0]))];
+
+const faqs = [
+  { q: "Is my progress saved?", a: "Yes, in this browser only, so you can tick items over a few days. Nothing is uploaded. Clearing your browser data, or using a private window, resets it." },
+  { q: "Which items matter most?", a: "The ones that silently lose customers: wrong contact details, forms that don’t arrive, robots.txt or noindex left over from development, and missing redirects from the old site. Do those four on launch day whatever else waits." },
+  { q: "Can I print it?", a: "Yes. “Print” gives a clean list with your ticks, and “Save as PDF” in the print dialog keeps a copy." },
+  { q: "Does this cover e-commerce?", a: "It covers the basics every site needs. A store also needs checkout tested end to end with a real payment and refund, tax and shipping rules checked, and order emails proofread." },
+];
+---
+
+<Tool
+  slug="website-launch-checklist"
+  title="Website Launch Checklist: 34 Checks Before You Go Live"
+  description="An interactive 34-point website launch checklist covering content, SEO, speed, tracking, forms, security and ownership. Saved in your browser, printable."
+  keywords="website launch checklist, website go live checklist, pre launch checklist website, new website checklist, seo launch checklist, website handover checklist"
+  ogTitle="Website launch checklist"
+  ogDescription="34 checks before a website goes live: content, SEO, speed, tracking, forms, security and ownership. Free."
+  display="Launch without the oops."
+  kicker="Free tool · Launch · Checklist · No sign-up"
+  lead={`<strong>${ITEMS.length} checks</strong> worth running before any site goes live: content, search, speed, tracking, forms, security, legal and ownership. Tick them off as you go; <strong>your progress is saved in this browser</strong>. Where a free tool helps with a check, it’s linked.`}
+  appName="Website Launch Checklist"
+  appDescription="A free, interactive 34-point website launch checklist covering content, SEO, speed, tracking, forms, security, legal and ownership, with progress saved in the browser and a printable view."
+  toolTitle="Before you go live"
+  toolNote="Saved in this browser"
+  faqs={faqs}
+  end={{ title: "Rather someone else ran the checklist?", text: "Launch checks are part of every build I hand over, along with the code, the documentation and a walkthrough.", primary: { href: "/services/website-development/", label: "Website development →" } }}
+>
+  <div class="tk-out lc-out">
+    <div class="tk-bar">
+      <span id="lc-progress">0 of {ITEMS.length} done</span>
+      <div class="tk-actions">
+        <button type="button" class="tk-btn" id="lc-print">Print</button>
+        <button type="button" class="tk-btn" id="lc-reset">Reset</button>
+      </div>
+    </div>
+    <span class="tk-meter lc-meter" id="lc-meter"><i></i></span>
+    <div class="tk-body lc-body" id="lc">
+      {sections.map((s) => (
+        <fieldset class="tk-fieldset lc-sec">
+          <legend>{s}</legend>
+          {ITEMS.map((it, i) => it[0] === s && (
+            <label class="tk-check lc-item">
+              <input type="checkbox" data-i={i} />
+              <span><span class="lc-t">{it[1]}</span>{it[2] && <small>{it[2]}</small>}{it[3] && <a href={`/tools/${it[3]}/`} class="lc-tool">Free tool →</a>}</span>
+            </label>
+          ))}
+        </fieldset>
+      ))}
+    </div>
+  </div>
+</Tool>
+
+<script>
+  import { $, track, printOnly } from "../../scripts/tools-kit.js";
+  const TOOL = "launch_checklist";
+  const KEY = "ds-launch-checklist";
+  const boxes = Array.from(document.querySelectorAll<HTMLInputElement>("#lc input[type=checkbox]"));
+  let state: Record<string, boolean> = {};
+  try { state = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch { state = {}; }
+  boxes.forEach((b) => (b.checked = !!state[b.dataset.i!]));
+  let touched = false;
+
+  function update() {
+    const done = boxes.filter((b) => b.checked).length;
+    $("lc-progress")!.textContent = `${done} of ${boxes.length} done`;
+    (($("lc-meter")!.firstElementChild) as HTMLElement).style.width = (done / boxes.length) * 100 + "%";
+  }
+  $("lc")!.addEventListener("change", (e) => {
+    const b = e.target as HTMLInputElement;
+    state[b.dataset.i!] = b.checked;
+    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch { /* not kept */ }
+    update();
+    if (!touched) { touched = true; track(TOOL, "tick"); }
+  });
+  $("lc-reset")!.addEventListener("click", () => { state = {}; boxes.forEach((b) => (b.checked = false)); try { localStorage.removeItem(KEY); } catch { /* nothing */ } update(); });
+  $("lc-print")!.addEventListener("click", () => {
+    const w = document.createElement("div");
+    w.style.fontFamily = "sans-serif";
+    w.innerHTML = "<h2>Website launch checklist</h2>" + Array.from(document.querySelectorAll(".lc-sec")).map((s) =>
+      `<h3>${s.querySelector("legend")!.textContent}</h3><ul style="list-style:none;padding:0">${Array.from(s.querySelectorAll(".lc-item")).map((it) =>
+        `<li style="margin:4px 0">${(it.querySelector("input") as HTMLInputElement).checked ? "☑" : "☐"} ${it.querySelector(".lc-t")!.textContent}</li>`).join("")}</ul>`).join("");
+    printOnly(w);
+    track(TOOL, "print");
+  });
+  update();
+</script>
+
+<style>
+  .lc-out{position:static}
+  .lc-meter{display:block}
+  .lc-body{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:28px 48px}
+  .lc-item span{display:flex;flex-direction:column;gap:2px}
+  .lc-item small{font-size:13px;color:var(--g5c);line-height:1.45}
+  .lc-tool{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--red-on-tint,#D0131C);padding:4px 0;align-self:flex-start}
+  .lc-item:has(input:checked) .lc-t{text-decoration:line-through;color:var(--g5c)}
+</style>

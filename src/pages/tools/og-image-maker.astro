@@ -1,0 +1,123 @@
+---
+import Tool from "../../layouts/Tool.astro";
+
+const faqs = [
+  { q: "What is an OG image?", a: "The picture that appears when someone shares your link on WhatsApp, Facebook, LinkedIn or X. It comes from the og:image tag in your page’s head. Without one, the platform picks a random image from the page, or shows none." },
+  { q: "Why 1200 × 630?", a: "It’s the size Facebook recommends for link shares, and WhatsApp, LinkedIn and X all display it well. Keep the text large and away from the edges, because some apps crop the card to a square or show it small." },
+  { q: "Is my logo uploaded?", a: "No. The logo is read by your browser and drawn on a canvas on your device. Nothing leaves this page." },
+  { q: "PNG or JPG?", a: "JPG for a photo background or when file size matters (WhatsApp likes images under a few hundred KB); PNG for flat colours and sharp text." },
+];
+---
+
+<Tool
+  slug="og-image-maker"
+  title="Free OG Image Maker: 1200×630 Social Share Images"
+  description="Make a 1200×630 social share (Open Graph) image from a title, a line, your colours and logo, in your browser. Download as PNG or JPG. Free, no sign-up."
+  keywords="og image generator, open graph image maker, social share image, 1200x630 image maker, link preview image, og image template"
+  ogTitle="Free OG image maker"
+  ogDescription="A 1200×630 share image from your title, colours and logo, made in your browser. Free."
+  display="Links that look shared-worthy."
+  kicker="Free tool · Images · Open Graph · No sign-up"
+  lead="Type a title and a short line, pick your colours, add your logo, and download a <strong>1200 × 630 share image</strong> for WhatsApp, Facebook, LinkedIn and X. Everything is drawn on a canvas in your browser; your logo never leaves your device."
+  appName="Free OG Image Maker"
+  appDescription="A free, browser-based tool that draws a 1200×630 Open Graph share image from a title, subtitle, colours and an optional logo, downloadable as PNG or JPG. No sign-up, nothing uploaded."
+  category="DesignApplication"
+  toolTitle="Design your share image"
+  cards={[
+    { tag: "Then add the tags", d: `Upload the image to your site and point og:image at it. <a href="/tools/meta-tag-generator/">Generate the tags →</a>` },
+    { tag: "Keep it light", d: `Run the JPG through the <a href="/tools/image-compressor/">image compressor</a> if it’s over 300 KB.` },
+  ]}
+  faqs={faqs}
+  end={{ title: "Want a share card for every page, automatically?", text: "Sites I build generate a card per page from its own title at build time, so every link looks right when shared.", primary: { href: "/services/website-development/", label: "Website development →" } }}
+>
+  <div class="tk">
+    <form class="form" id="og-form" autocomplete="off" novalidate>
+      <label class="field" for="og-title">Title *<input type="text" id="og-title" value="Homestay in Dharamkot" maxlength="70" /></label>
+      <label class="field" for="og-sub">Line under it<input type="text" id="og-sub" value="Mountain-view rooms · Home-cooked meals · Airport pickups" maxlength="100" /></label>
+      <label class="field" for="og-brand">Brand or URL (bottom)<input type="text" id="og-brand" value="snowview.example.com" maxlength="50" /></label>
+      <div class="tk-two">
+        <label class="field" for="og-bg">Background<input type="color" id="og-bg" value="#0A0A0A" /></label>
+        <label class="field" for="og-accent">Accent<input type="color" id="og-accent" value="#E4151F" /></label>
+      </div>
+      <div class="tk-two">
+        <label class="field" for="og-layout">Layout<select id="og-layout"><option value="left">Left-aligned</option><option value="center">Centred</option></select></label>
+        <label class="field" for="og-font">Type<select id="og-font"><option value="sans">Bold sans</option><option value="serif">Serif</option></select></label>
+      </div>
+      <label class="field" for="og-logo">Logo (PNG, JPG or SVG, optional)<input type="file" id="og-logo" accept="image/png,image/jpeg,image/svg+xml,image/webp" /></label>
+    </form>
+    <div class="tk-out">
+      <div class="tk-bar">
+        <span>1200 × 630</span>
+        <div class="tk-actions">
+          <button type="button" class="tk-btn" id="og-jpg">JPG</button>
+          <button type="button" class="tk-btn tk-btn--red" id="og-png">PNG</button>
+        </div>
+      </div>
+      <div class="tk-body"><canvas id="og-canvas" width="1200" height="630" class="og-canvas" role="img" aria-label="Preview of your share image"></canvas></div>
+    </div>
+  </div>
+</Tool>
+
+<script>
+  import { $, val, live, canvasBlob, download, track, wrap, fontsReady, slugify } from "../../scripts/tools-kit.js";
+  const TOOL = "og_image";
+  const canvas = $("og-canvas") as HTMLCanvasElement;
+  const ctx = canvas.getContext("2d")!;
+  let logo: HTMLImageElement | null = null;
+  const DISPLAY = (getComputedStyle(document.documentElement).getPropertyValue("--display") || "sans-serif").trim();
+
+  function lum(hex: string) { const n = parseInt(hex.slice(1), 16); return 0.2126 * ((n >> 16) & 255) + 0.7152 * ((n >> 8) & 255) + 0.0722 * (n & 255); }
+
+  function draw() {
+    const W = 1200, H = 630, pad = 80;
+    const bg = ($("og-bg") as HTMLInputElement).value, accent = ($("og-accent") as HTMLInputElement).value;
+    const fg = lum(bg) < 140 ? "#FFFFFF" : "#0A0A0A";
+    const center = val("og-layout") === "center";
+    const fam = val("og-font") === "serif" ? 'Georgia, "Times New Roman", serif' : DISPLAY;
+    ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = accent; ctx.fillRect(center ? W / 2 - 60 : pad, pad, 120, 10);
+    ctx.textAlign = center ? "center" : "left";
+    const x = center ? W / 2 : pad;
+    let size = 84;
+    let tl: string[] = [];
+    for (; size >= 48; size -= 4) {
+      ctx.font = `900 ${size}px ${fam}`;
+      tl = wrap(ctx, val("og-title") || "Your title", W - pad * 2 - (logo ? (center ? 320 : 160) : 0));
+      if (tl.length <= 3) break;
+    }
+    tl = tl.slice(0, 3);
+    ctx.fillStyle = fg;
+    const top = 150 + size;
+    tl.forEach((l, i) => ctx.fillText(l, x, top + i * size * 1.08));
+    ctx.font = `400 34px ${fam}`;
+    ctx.globalAlpha = 0.82;
+    wrap(ctx, val("og-sub"), W - pad * 2).slice(0, 2).forEach((l, i) => ctx.fillText(l, x, top + tl.length * size * 1.08 + 24 + i * 44));
+    ctx.globalAlpha = 1;
+    ctx.font = `700 26px ${fam}`;
+    ctx.fillStyle = accent;
+    ctx.fillText(val("og-brand"), x, H - pad + 10);
+    if (logo) {
+      const box = 120, r = Math.min(box / logo.width, box / logo.height);
+      const w = logo.width * r, h = logo.height * r;
+      // Top-right in both layouts; the title wraps narrower to keep clear of it.
+      ctx.drawImage(logo, W - pad - w, pad - 20, w, h);
+    }
+  }
+
+  ($("og-logo") as HTMLInputElement).addEventListener("change", (e) => {
+    const f = (e.target as HTMLInputElement).files?.[0];
+    if (!f) { logo = null; draw(); return; }
+    const r = new FileReader();
+    r.onload = () => { const img = new Image(); img.onload = () => { logo = img; draw(); }; img.src = String(r.result); };
+    r.readAsDataURL(f);
+  });
+  live("og-form", draw, TOOL);
+  fontsReady().then(draw);
+  const name = () => slugify(val("og-title"), "share-image");
+  $("og-png")!.addEventListener("click", async () => { draw(); download(`${name()}-og.png`, (await canvasBlob(canvas))!); track(TOOL, "download_png"); });
+  $("og-jpg")!.addEventListener("click", async () => { draw(); download(`${name()}-og.jpg`, (await canvasBlob(canvas, "image/jpeg", 0.88))!); track(TOOL, "download_jpg"); });
+</script>
+
+<style>
+  .og-canvas{display:block;width:100%;height:auto;border:1px solid var(--gda)}
+</style>

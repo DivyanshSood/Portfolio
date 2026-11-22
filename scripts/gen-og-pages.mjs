@@ -48,6 +48,7 @@ import satori from "satori";
 import { Resvg } from "@resvg/resvg-js";
 import sharp from "sharp";
 import { create } from "fontkitten";
+import { TOOLS, toolPath } from "../src/lib/tools.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const DIST = join(ROOT, "dist", "client");
@@ -74,12 +75,7 @@ const STUDIO_PAGES = [
   "/portfolio/",
   "/press/",
   "/tools/",
-  "/tools/llms-txt-generator/",
-  "/tools/website-cost-calculator/",
-  "/tools/google-review-qr-code-generator/",
-  "/tools/whatsapp-link-generator/",
-  "/tools/serp-snippet-preview/",
-  "/tools/local-business-schema-generator/",
+  ...TOOLS.map((t) => toolPath(t.slug)),
   "/website-audit/",
   "/privacy/",
 ];
