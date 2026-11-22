@@ -5,10 +5,11 @@
    A personal page: the craft and obsession behind the brand, and the source of
    the site's palette. It still routes back to the work (EndCta).
 
-   The name is the bike's nickname. "Marlboro" is a tobacco trademark, so the
-   page never shows the logo, wordmark or chevron graphic, and every photo has
-   them blurred (src/lib/bike.mjs explains the rules, including COTPA 2003).
-   Plain text in the site's own type only, plus a no-affiliation line.
+   The name is the bike's nickname. "Marlboro" is a tobacco trademark: the
+   page never adds the logo, wordmark or chevron as a graphic of its own, sets
+   the name in plain text in the site's type, and carries a no-affiliation
+   line. The photos show the bike as painted, cut out onto the site's Tarmac
+   Tint (owner's decision, 22 Nov 2026; src/lib/bike.mjs has the rules).
    =========================================================================== */
 import Base from "../layouts/Base.astro";
 import PageHero from "../components/brand/PageHero.astro";
@@ -91,7 +92,7 @@ const jsonld = JSON.stringify({
 });
 
 const heroSizes = "(min-width: 1680px) 1600px, calc(100vw - 2 * clamp(16px, 4vw, 40px))";
-const gallerySizes = "(min-width: 1100px) 31vw, (min-width: 640px) 47vw, calc(100vw - 32px)";
+const gallerySizes = "(min-width: 1100px) 31vw, (min-width: 640px) 47vw, calc(100vw - 32px)"; // matches .mc-gal columns
 ---
 
 <Base
@@ -172,7 +173,7 @@ const gallerySizes = "(min-width: 1100px) 31vw, (min-width: 640px) 47vw, calc(10
 <style>
   .mc-hero{padding:clamp(28px,4vw,56px) var(--gutter) 0}
   .mc-hero figure{margin:0;aspect-ratio:16/9;background:var(--tint);overflow:hidden}
-  .mc-hero img{width:100%;height:100%;object-fit:cover;object-position:50% 62%;display:block}
+  .mc-hero img{width:100%;height:100%;object-fit:cover;display:block}
   .mc-prose{display:flex;flex-direction:column;gap:20px;max-width:760px}
   .mc-prose p{margin:0;max-width:64ch}
   .mc-prose a{color:var(--ink)}
@@ -188,9 +189,11 @@ const gallerySizes = "(min-width: 1100px) 31vw, (min-width: 640px) 47vw, calc(10
   .mc-sw-name{font-weight:900;font-style:italic;font-stretch:125%;text-transform:uppercase;font-size:26px;line-height:.95;letter-spacing:-0.02em}
   .mc-sw-hex{font-family:var(--mono);font-size:13px;letter-spacing:.08em}
   .mc-sw-use{font-size:15px;line-height:1.4}
-  .mc-gal{columns:1;column-gap:clamp(12px,1.6vw,20px)}
-  @media (min-width:640px){.mc-gal{columns:2}}
-  @media (min-width:1100px){.mc-gal{columns:3}}
-  .mc-gal-i{margin:0 0 clamp(12px,1.6vw,20px);break-inside:avoid;background:var(--tint)}
+  /* Every gallery photo is a 4:3 cutout on the tint, so a plain grid reads
+     left-to-right in list order. */
+  .mc-gal{display:grid;grid-template-columns:1fr;gap:clamp(12px,1.6vw,20px)}
+  @media (min-width:640px){.mc-gal{grid-template-columns:repeat(2,1fr)}}
+  @media (min-width:1100px){.mc-gal{grid-template-columns:repeat(3,1fr)}}
+  .mc-gal-i{margin:0;background:var(--tint)}
   .mc-gal-i img{width:100%;height:auto;display:block}
 </style>

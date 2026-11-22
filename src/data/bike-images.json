@@ -1,62 +1,46 @@
 {
-  "ridge-side-profile": {
-    "w": 1920,
-    "h": 1440
-  },
-  "forest-trail": {
-    "w": 1920,
-    "h": 2560
-  },
-  "snow-peaks-railing": {
+  "side-profile": {
     "w": 1920,
     "h": 1080
   },
-  "tank-and-snow": {
-    "w": 1920,
-    "h": 3413
-  },
-  "mountain-lookout": {
-    "w": 1920,
-    "h": 1080
-  },
-  "valley-ledge": {
-    "w": 1920,
-    "h": 2560
-  },
-  "sunset-cockpit": {
-    "w": 1920,
-    "h": 2560
-  },
-  "dusty-trail": {
+  "helmet-on-seat": {
     "w": 1920,
     "h": 1440
   },
-  "dusk-grass": {
+  "front-three-quarter": {
     "w": 1920,
     "h": 1440
   },
-  "road-crossing": {
+  "side-grass": {
     "w": 1920,
     "h": 1440
   },
-  "roadside-profile": {
+  "side-dusk": {
     "w": 1920,
     "h": 1440
   },
-  "handguards-flyscreen": {
+  "side-exhaust": {
     "w": 1920,
-    "h": 3413
+    "h": 1440
   },
-  "white-grass": {
+  "side-low": {
     "w": 1920,
-    "h": 1080
+    "h": 1440
   },
-  "tank-under-conifer": {
+  "rear-three-quarter": {
     "w": 1920,
-    "h": 2560
+    "h": 1440
   },
-  "dusk-silhouette": {
+  "rear-view": {
     "w": 1920,
-    "h": 1080
+    "h": 1440
+  },
+  "side-panel": {
+    "w": 1920,
+    "h": 1440
+  },
+  "front-flyscreen": {
+    "w": 1920,
+    "h": 1440
   }
 }
