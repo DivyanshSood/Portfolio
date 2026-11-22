@@ -7,22 +7,33 @@ import Cards from "../components/brand/Cards.astro";
 import Steps from "../components/brand/Steps.astro";
 import ResultGrid from "../components/brand/ResultGrid.astro";
 import EndCta from "../components/brand/EndCta.astro";
-import SpecList from "../components/brand/SpecList.astro";
-import { portraitSrcset, PORTRAIT_SIZES_ABOUT } from "../lib/images.mjs";
-import { projects, SHIPPED_SOURCE } from "../lib/projects/data.mjs";
+import { portraitSrcset, PORTRAIT_SIZES_ABOUT, localSrcset, localVariant } from "../lib/images.mjs";
+import { projects, SHIPPED_SOURCE, BAGLAMUKHI_GSC_SOURCE } from "../lib/projects/data.mjs";
 import { JOB_TITLE, PERSON_DESCRIPTION, KNOWS_ABOUT } from "../lib/entity.mjs";
-import { SITE, CALENDLY_URL, FOUNDER_PHOTO_ABOUT, FOUNDER_PHOTO_ALT, HAS_FOUNDER_PHOTO, SAME_AS, GOOGLE_MAPS_URL, GOOGLE_REVIEWS_URL } from "../lib/site.mjs";
+import { SITE, CALENDLY_URL, FOUNDER_PHOTO, FOUNDER_PHOTO_ABOUT, FOUNDER_PHOTO_ALT, HAS_FOUNDER_PHOTO, SAME_AS, GOOGLE_MAPS_URL, GOOGLE_REVIEWS_URL, FOUNDED_YEAR } from "../lib/site.mjs";
+import { BIKE_ABOUT, bikeSrc } from "../lib/bike.mjs";
+import BIKE_SIZES from "../data/bike-images.json";
 
 const canonical = `${SITE}/about/`;
 
 const WA = "https://wa.me/919816091875?text=Hi%20Divyansh,%20I%20saw%20your%20about%20page%20and%20want%20to%20talk.";
 
+/* ---------------------------------------------------------------------------
+   The story on this page comes from Divyansh's own handwritten notes (owner-
+   confirmed 22 Nov 2026): coding since 2019 in his first year of ECE at
+   Ramaiah Institute of Technology, a CNN final-year project, POSTOR SHOP (the
+   spelling is the store's name) in 2023, GoDaddy 2024–2025, building for
+   himself in 2025, freelancing from 2026. Keep the facts exactly as they are;
+   the numbers are the site's verified ones (20+, 17, 41.8K), not the notes'.
+--------------------------------------------------------------------------- */
+
 // Snapshot stats — keep the copy honest, update both here and the homepage if any change.
 const stats = [
-  { v: "20+", l: "Projects shipped", src: SHIPPED_SOURCE },
-  { v: "2022", l: "First launch" },
-  { v: "1", l: "Person, end to end" },
+  { v: "20+", l: `Projects shipped since ${FOUNDED_YEAR}`, src: SHIPPED_SOURCE },
   { v: String(projects.length), l: "Case studies published" },
+  { v: "41.8K", l: "Google impressions in 28 days for Baglamukhi Travels", src: BAGLAMUKHI_GSC_SOURCE },
+  { v: "2019", l: "First line of code" },
+  { v: "1", l: "Person, end to end" },
 ];
 
 const skills = [
@@ -32,45 +43,30 @@ const skills = [
   { t: "Strategy & copy", d: "What the homepage should say, in what order, to whom. Most projects want it, and it usually makes the biggest difference." },
 ];
 
-const milestones = [
-  { year: "2022", t: "The first ship", d: "First paying website. A local school wanted better than their Google Sites page. I took the brief on a Sunday, learned Next.js the same week, delivered in ten days. I've been working out of Himachal ever since." },
-  { year: "2023", t: "Going full-time solo", d: "Closed the side projects, went independent. Hired zero people. Took on 8 sites that year — e-commerce, travel, education, creator brands." },
-  { year: "2024", t: "Modern K.B.S. admissions", d: "Website, online admissions and an admin panel for a school that had to be ready for its intake. In the admin's words: \"Every other agency said 6 months. Delivered in 7 days.\"" },
-  { year: "2026", t: "WebSeek.ai ships", d: "Built and launched my own AI website generator — running it as a real product with real users, not a portfolio toy. It's now Websitekind.ai, powered by Claude. Now I think about every build the way a founder does." },
-  { year: "2026", t: "Now", d: "Solo studio out of Himachal Pradesh. Limited projects at a time. Async across time zones, calls in yours. Open every day, 6 AM–1 AM IST." },
-];
-
-/* ---------------------------------------------------------------------------
-   About me — the personal side. Each section renders only when its list has
-   entries, so the page never ships placeholder copy: fill these in and the
-   sections (and their numbering) appear.
-     life     paragraphs — where I grew up, how I got into this, life today
-     hobbies  { t, d }   — what I do away from the desk
-     facts    { k, v }   — quick facts; `v` may carry inline HTML
---------------------------------------------------------------------------- */
-const life: string[] = [];
-const hobbies: { t: string; d: string }[] = [];
-const facts: { k: string; v: string }[] = [];
-
-// Section numbers follow whichever personal sections are present.
-let sn = 1;
-const num = {
-  life: life.length ? ++sn : 0,
-  hobbies: hobbies.length ? ++sn : 0,
-  facts: facts.length ? ++sn : 0,
-  stats: ++sn,
-  skills: ++sn,
-  principles: ++sn,
-  journey: ++sn,
-  working: ++sn,
-};
-
 const principles = [
   { n: "01", t: "Start from the decision, not the design", d: "Most sites are designed to look good. I design to make a decision easier — yours, your buyer's, whoever the page is for." },
   { n: "02", t: "Own the code, own the future", d: "No monthly tax to a platform. No lock-in that makes the next dev rebuild from scratch. You hold the keys, anyone can pick it up when I'm done." },
   { n: "03", t: "Ship like a founder, not an agency", d: "I run my own product. So I make the same calls you do: speed, ownership, ROI, runway. Decisions move in days, not committee weeks." },
   { n: "04", t: "Premium work, honest pricing", d: "My overhead is a laptop in the Himalayas. You get agency-grade custom code at a price that respects what you actually need." },
 ];
+
+const milestones = [
+  { year: "2019", t: "First line of code", d: "First year of Electronics &amp; Communication Engineering at Ramaiah Institute of Technology, Bengaluru. Started teaching myself web design and development outside the syllabus." },
+  { year: "2023", t: "Trained my own AI model", d: "Final-year project: seed segregation with a convolutional neural network on 2,000+ images. Built from scratch, before ChatGPT. Graduated B.E. in Electronics &amp; Communication." },
+  { year: "2023", t: "Started POSTOR SHOP", d: "Right after college, a friend and I launched POSTOR SHOP, a Shopify store. We tested it, launched it and ran it successfully for 3 months on Shopify's free plan. When the plan ran out, the monthly fees, app subscriptions and per-order commissions made it unviable, so we shut it down. That's when I learned the lesson behind everything I build now." },
+  { year: "2024 – 2025", t: "GoDaddy — Guide & Sales Executive", d: "I handled day-to-day customer queries and anything people needed help with. Two years of seeing first-hand what problems people actually face while running their websites. I kept building custom sites on my own the whole time." },
+  { year: "2025", t: "Building for myself", d: "Left GoDaddy and spent my time building custom websites for myself. Some amazing things came out of it, and every build taught me more." },
+  { year: "2026", t: "Freelancing, “just a try”", d: "I combined that build experience with what GoDaddy taught me and gave freelancing a try. I started delivering premium, smooth websites for local businesses in Himachal, and for anyone else who needed one. Leads started coming." },
+  { year: "2026", t: "WebSeek.ai ships", d: "Built and launched my own AI website generator — running it as a real product with real users, not a portfolio toy. It's now Websitekind.ai, powered by Claude. Now I think about every build the way a founder does." },
+  { year: "Now", t: "Now", d: "Solo studio out of Himachal Pradesh. Limited projects at a time. Async across time zones, calls in yours. Open every day, 6 AM–1 AM IST." },
+];
+
+// Sections are numbered in page order.
+let sn = 0;
+const num = () => ++sn;
+
+const bike = BIKE_ABOUT!;
+const bikeSize = (BIKE_SIZES as Record<string, { w: number; h: number }>)[bike.slug];
 
 const jsonld = JSON.stringify({
   "@context": "https://schema.org",
@@ -79,14 +75,13 @@ const jsonld = JSON.stringify({
       "@type": "AboutPage",
       "@id": `${canonical}#page`,
       url: canonical,
-      name: "About Divyansh Sood — solo web developer",
+      name: "About Divyansh Sood — freelance web designer & developer",
       description:
-        "Divyansh Sood runs a 1-person studio out of Himachal Pradesh, India — custom-coded websites, stores and web apps for founders worldwide.",
+        "Divyansh Sood, freelance web designer & developer in Himachal Pradesh: coding since 2019, a 1-person studio building custom-coded websites, stores and web apps.",
       isPartOf: { "@id": `${SITE}/#website` },
       // Points at the Person entity rather than repeating a bare name, so the
       // subject of this page resolves to the node carrying the job title,
-      // photo, expertise and verified profiles. completeGraph() in
-      // Base.astro defines that node in this same document.
+      // photo, expertise and verified profiles.
       about: { "@id": `${SITE}/#person` },
       mainEntity: { "@id": `${SITE}/#person` },
     },
@@ -106,6 +101,23 @@ const jsonld = JSON.stringify({
       jobTitle: JOB_TITLE,
       description: PERSON_DESCRIPTION,
       url: canonical,
+      image: `${SITE}${FOUNDER_PHOTO}`,
+      // completeGraph() in Base.astro appends the #studio node this points at.
+      worksFor: { "@id": `${SITE}/#studio` },
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Kangra",
+        addressRegion: "Himachal Pradesh",
+        addressCountry: "IN",
+      },
+      // B.E., Electronics & Communication, 2019–2023. The Wikipedia URL was
+      // checked to return 200 on 22 Nov 2026 (sameAs is an identity claim).
+      alumniOf: {
+        "@type": "CollegeOrUniversity",
+        name: "Ramaiah Institute of Technology",
+        address: { "@type": "PostalAddress", addressLocality: "Bengaluru", addressRegion: "Karnataka", addressCountry: "IN" },
+        sameAs: "https://en.wikipedia.org/wiki/M._S._Ramaiah_Institute_of_Technology",
+      },
       knowsAbout: KNOWS_ABOUT,
       // Imported, never hardcoded. A literal copy here drifts from site.mjs
       // on the one page most likely to be read as the identity record. Add a
@@ -117,12 +129,12 @@ const jsonld = JSON.stringify({
 ---
 
 <Base
-  title="About Divyansh Sood — Freelance Web Designer & Developer"
-  description="Divyansh Sood is a freelance web designer & developer in Himachal Pradesh, India. 20+ custom-coded websites, stores and web apps shipped worldwide since 2022."
+  title="About Divyansh Sood — Web Designer & Developer, Himachal"
+  description="Divyansh Sood, freelance web designer & developer in Himachal Pradesh. Coding since 2019; 20+ custom websites shipped since 2025. You own the code."
   canonical={canonical}
-  keywords="Divyansh Sood about, independent web developer, Himachal Pradesh web developer, freelance Next.js developer, custom website developer India, hire web developer"
-  ogTitle="About Divyansh Sood — freelance web designer & developer"
-  ogDescription="One person, 20+ custom-coded websites, stores and web apps shipped for founders worldwide since 2022."
+  keywords="Divyansh Sood about, freelance web designer Himachal Pradesh, web developer Kangra, Ramaiah Institute of Technology, custom website developer India, hire web developer"
+  ogTitle="About Divyansh Sood — Freelance Web Designer & Developer, Himachal Pradesh"
+  ogDescription="Divyansh Sood, freelance web designer & developer in Himachal Pradesh. Coding since 2019; 20+ custom websites shipped since 2025. You own the code."
   jsonld={jsonld}
   preloadImage={HAS_FOUNDER_PHOTO ? { href: FOUNDER_PHOTO_ABOUT, srcset: portraitSrcset(FOUNDER_PHOTO_ABOUT, 1200), sizes: PORTRAIT_SIZES_ABOUT } : undefined}
 >
@@ -130,22 +142,23 @@ const jsonld = JSON.stringify({
     <PageHero
       display="About me"
       h1="Built from the Himalayas. Shipping for the world."
-      kicker="About me · Himalayas · 2022 — 2026"
-      lead="I'm Divyansh Sood — a freelance web designer &amp; developer in Himachal Pradesh, India. Since 2022 I've designed and shipped 20+ custom-coded websites, stores, web apps and AI features for founders worldwide. One person, end to end — no agency layers."
+      kicker="About me · Himalayas · 2019 — 2026"
+      lead={`I'm Divyansh Sood — a freelance web designer &amp; developer in Himachal Pradesh, India. Since ${FOUNDED_YEAR} I've designed and shipped 20+ custom-coded websites, stores, web apps and AI features. One person, end to end — no agency layers.`}
       notes={["Solo · Design + Build", `Kangra, Himachal Pradesh · India · <a href="${GOOGLE_MAPS_URL}" rel="noopener">on Google Maps <span aria-hidden="true">↗</span></a>`, "IST +5:30 · Overlap with US / UK / Gulf"]}
     >
       <a class="btn btn--red" href={CALENDLY_URL}>Book a 30-min call <span aria-hidden="true">→</span></a>
       <a class="btn btn--ink" href={WA}>Message on WhatsApp</a>
     </PageHero>
 
-    <Section n={1} term="Hello" note="One person, end to end" title="Hi, I'm Divyansh">
+    <Section n={num()} term="Hello" note="One person, end to end" title="Hi, I'm Divyansh Sood">
       <div class="fd">
         <figure class="fd-photo">
           {HAS_FOUNDER_PHOTO && <img src={FOUNDER_PHOTO_ABOUT} srcset={portraitSrcset(FOUNDER_PHOTO_ABOUT, 1200)} sizes={PORTRAIT_SIZES_ABOUT} alt={FOUNDER_PHOTO_ALT} width="1200" height="1499" fetchpriority="high" decoding="async" />}
         </figure>
         <div class="fd-copy">
-          <p class="fd-big">I'm Divyansh. I run a 1-person studio from a small town in Himachal Pradesh, India — no agency floor, no account managers, just me, designing and building websites for founders who care about outcomes, not theme marketplaces.</p>
-          <p class="body">Twenty-plus products shipped since 2022 — marketing sites, web apps, stores, dashboards, and my own AI product. Most in 3–4 weeks. Every one custom-coded, conversion-led, built to last longer than the trend that prompted it. IST working hours (10am–7pm) overlap with US mornings, UK afternoons and Gulf evenings — calls in your zone, async when you want it.</p>
+          <p class="fd-big">I make, design and develop websites for businesses and startups.</p>
+          <p class="body">I've been building for the web since 2019, back in my first year of Electronics &amp; Communication Engineering at Ramaiah Institute of Technology, Bengaluru. My syllabus didn't teach any of it. In an ECE class I was the one guy who coded a lot, because the excitement and curiosity were on another level.</p>
+          <p class="body">Somewhere in those engineering years I found myself leaning into coding, websites, online businesses, startups and investing. That urge to build new things that could actually make money never left.</p>
           <p class="body">What clients say about working with me is on the <a href="/testimonials/">testimonials page</a>, and how they find me in the first place, with no ad spend, is written up in <a href="/blog/how-i-get-clients-without-paid-ads/">how I get clients without paid ads</a>. Agencies can also hire me under their own brand: <a href="/agencies/">white-label web development for agencies</a>.</p>
           <div class="meta fd-by"><span>Divyansh Sood — founder</span><span>Himachal · India · IST +5:30</span></div>
           <div class="btn-row">
@@ -164,51 +177,85 @@ const jsonld = JSON.stringify({
       </div>
     </Section>
 
-    {life.length > 0 && (
-      <Section n={num.life} term="Life" note="Off the clock" title="Where I'm from">
-        <div class="life">{life.map((para) => <p class="body" set:html={para} />)}</div>
-      </Section>
-    )}
-
-    {hobbies.length > 0 && (
-      <Section n={num.hobbies} term="Life" note="Away from the desk" title="Outside work">
-        <Rows items={hobbies} />
-      </Section>
-    )}
-
-    {facts.length > 0 && (
-      <Section n={num.facts} term="Life" note="Quick facts" title="The short version">
-        <SpecList items={facts} />
-      </Section>
-    )}
-
-    <Section n={num.stats} term="Telemetry" note="Snapshot" title="By the numbers">
+    <Section n={num()} term="Telemetry" note="Snapshot" title="By the numbers">
       <ResultGrid stats={stats} />
+      <p class="body ab-after">Every published project is in the <a href="/portfolio/">portfolio of {projects.length} case studies</a>, and the figures behind each one are on the <a href="/results/">results page</a>.</p>
     </Section>
 
-    <Section n={num.skills} term="Setup" note="The skillset" title="What I actually do">
+    <Section n={num()} term="Ignition" note="Before ChatGPT" title="My first AI model">
+      <div class="ab-prose">
+        <p class="fd-big">I trained my first AI model before ChatGPT existed.</p>
+        <p class="body">For our final-year engineering project, three teammates and I built <strong>“Seed Segregation using Convolutional Neural Networks”</strong> from scratch.</p>
+        <p class="body">We fed it a dataset of <strong>2,000+ seed images</strong> labelled in three categories (good, average and bad) based on their physical appearance and whether they were fit for consumption. The model worked. The code and the dataset performed exactly as we wanted. We'd trained our own AI model.</p>
+        <p class="body">What it couldn't teach us was how to put AI to work in real life. That part came later. But it taught me more about AI than I'd known before, and it's why I'm comfortable using it today.</p>
+      </div>
+    </Section>
+
+    <Section n={num()} term="Setup" note="The skillset" title="What I actually do">
       <Rows items={skills} />
     </Section>
 
-    <Section n={num.principles} term="Setup" note="Four principles" title="How I think about the work">
+    <Section n={num()} term="Power unit" note="Workflow" title="How I use AI">
+      <div class="ab-prose">
+        <p class="fd-big">AI makes me faster. It doesn't write your website.</p>
+        <p class="body">When the AI boom hit, demand for websites didn't drop. It went up. Every business suddenly wanted a site that AI assistants could cite, so they'd get more leads.</p>
+        <p class="body">I use AI to get three days of work done in three hours. I don't ask it to write the code for me. I use it to help design the system and the front end, which is the part that takes the most time. Once it gives me a direction and a plan, I build the website myself with my own experience and judgement.</p>
+        <p class="body">With that workflow, most projects go live in <strong>7–14 days</strong>.</p>
+      </div>
+    </Section>
+
+    <Section n={num()} term="Setup" note="Four principles" title="How I think about the work">
+      <div class="ab-prose ab-why">
+        <h3 class="ab-h3">Why I build custom instead of renting you a site builder</h3>
+        <p class="body">POSTOR SHOP taught me this the hard way. It wasn't only us. Everyone in the Shopify ecosystem was paying the monthly plan, then the apps, then a commission on every single order. Those recurring costs keep going up while your features and sales don't. That makes it hard to price your own products the way you want.</p>
+        <p class="body">So I build websites made for one business only. They cost less to run and less to maintain than the site-builder giants charge every month, and there's no lock-in for as long as you're in business.</p>
+      </div>
       <Cards items={principles} />
     </Section>
 
-    <Section n={num.journey} term="Pit lane" note="2022 — Now" title="The journey so far">
+    <Section n={num()} term="Pit lane" note="2019 — Now" title="The journey so far">
       <Rows items={milestones.map((m) => ({ n: m.year, t: m.t, d: m.d }))} />
     </Section>
 
-    <Section n={num.working} term="Race weekend" note="What to expect" title="Working with me looks like" tint>
+    <Section n={num()} term="Race weekend" note="What to expect" title="Working with me looks like" tint>
       <Steps items={[
         { t: "A short call", d: "30 minutes, then an honest answer. Tell me what you're building and where it's stuck. I'll tell you whether I'm the right person for it — and if I'm not, who I'd point you toward. No sales script, no pressure." },
         { t: "A clear plan", d: "Fixed scope, real milestones. Within a couple of days you get a written plan with phases, deliverables and dates. You always know what's shipping next and where the budget is going." },
-        { t: "A working build", d: "Live link from week one, not a deck. You'll see a working build early — usually by week two — and review it on a real staging link on your phone. No slideshows, no surprises, no agency handoffs." },
+        { t: "A working build", d: "A live link, not a deck. You'll see a working build within the first week and review it on a real staging link on your phone. No slideshows, no surprises, no agency handoffs." },
       ]} hot={2} />
+    </Section>
+
+    <Section n={num()} term="Parc fermé" note="Support" title="After launch">
+      <div class="ab-prose">
+        <p class="fd-big">Every published project has its own case study.</p>
+        <p class="body">Each one is built around what that business actually needs. My sites cost less, need fewer recurring payments, and are built to grow organically, so they keep gaining impressions over time.</p>
+        <p class="body">I keep an eye on every site I've built, in my free time. I only charge my clients once, so if you're not satisfied with something, I'll fix it for free.</p>
+        <div class="btn-row">
+          <a class="btn btn--red" href="/portfolio/">See the case studies <span aria-hidden="true">→</span></a>
+          <a class="btn btn--ink" href="/results/">See the numbers <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </Section>
+
+    <Section n={num()} term="Cool-down lap" note="Off the clock" title="Other than code">
+      <div class="otc">
+        <figure class="otc-photo">
+          <img src={localVariant(bikeSrc(bike.slug), 768)} srcset={localSrcset(bikeSrc(bike.slug))} sizes="(min-width: 900px) 420px, calc(100vw - 32px)" alt={bike.alt} width={bikeSize.w} height={bikeSize.h} loading="lazy" decoding="async" />
+        </figure>
+        <div class="otc-copy">
+          <p class="body">My favourite things are the mountains, trekking, riding my bike, and all that a young soul craves.</p>
+          <p class="body">I love my bike as much as I love building websites, and the obsession is real. I got bored of the stock colour, so I <strong>hand-painted the entire bike</strong> myself. It's a <strong>Royal Enfield Scram 411</strong> that I've modified into a proper scrambler, and I named it <strong>Marlboro Cross</strong> after the colours I picked. <strong>This website uses the same colours I painted on my motorcycle.</strong></p>
+          <p class="body">I'm from Himachal Pradesh, so I take it out on long solo rides deep into the Himalayas. Sometimes there's a laptop in my bag, so I can make some bucks on the go.</p>
+          <div class="btn-row">
+            <a class="btn btn--red" href="/marlboro-cross/">Meet Marlboro Cross <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+      </div>
     </Section>
 
     <EndCta
       title="Want to work together?"
-      text={`Tell me what you're shipping. I'll come back with a clear path from brief to launch — and an honest timeline. Writing about me, or crediting a build? The <a href="/press/">press kit</a> has the bio, headshot and logo, so the details stay accurate.`}
+      text={`Hit that button to know more about me, talk to me, pitch me a business idea, or anything you have in mind. I'm open to all discussions. Writing about me, or crediting a build? The <a href="/press/">press kit</a> has the bio, headshot and logo. <em>Also, if you read this far — thank you for reading.</em>`}
       secondary={{ href: WA, label: "Message on WhatsApp →" }}
     />
   </main>
@@ -223,6 +270,16 @@ const jsonld = JSON.stringify({
   .fd-big{font-weight:800;font-stretch:108%;font-size:clamp(24px,2.6vw,38px);line-height:1.1;letter-spacing:-0.02em;text-wrap:pretty}
   .fd-by{display:flex;flex-wrap:wrap;gap:6px 20px}
   .fd-chips{display:flex;flex-wrap:wrap;gap:10px}
-  .life{display:flex;flex-direction:column;gap:20px}
-  .life p{margin:0;max-width:64ch}
+  .ab-prose{display:flex;flex-direction:column;gap:20px;max-width:760px}
+  .ab-prose p{margin:0;max-width:64ch}
+  .ab-prose strong{color:var(--ink)}
+  .ab-why{margin-bottom:clamp(32px,4vw,56px);padding-left:clamp(16px,2vw,24px);border-left:3px solid var(--red)}
+  .ab-h3{margin:0;font-weight:800;font-stretch:112%;font-size:clamp(22px,2vw,28px);line-height:1.15;letter-spacing:-0.01em}
+  .ab-after{margin:24px 0 0;max-width:64ch}
+  .otc{display:flex;flex-wrap:wrap;gap:clamp(28px,5vw,80px);align-items:flex-start}
+  .otc-photo{flex:0 1 420px;margin:0;aspect-ratio:3/4;background:var(--tint);overflow:hidden}
+  .otc-photo img{width:100%;height:100%;object-fit:cover;display:block}
+  .otc-copy{flex:1 1 420px;display:flex;flex-direction:column;gap:22px}
+  .otc-copy p{margin:0;max-width:58ch}
+  .otc-copy strong{color:var(--ink)}
 </style>

@@ -1,0 +1,196 @@
+---
+/* ===========================================================================
+   /marlboro-cross/ — Divyansh's hand-painted Royal Enfield Scram 411.
+
+   A personal page: the craft and obsession behind the brand, and the source of
+   the site's palette. It still routes back to the work (EndCta).
+
+   The name is the bike's nickname. "Marlboro" is a tobacco trademark, so the
+   page never shows the logo, wordmark or chevron graphic, and every photo has
+   them blurred (src/lib/bike.mjs explains the rules, including COTPA 2003).
+   Plain text in the site's own type only, plus a no-affiliation line.
+   =========================================================================== */
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/brand/PageHero.astro";
+import Section from "../components/brand/Section.astro";
+import SpecList from "../components/brand/SpecList.astro";
+import EndCta from "../components/brand/EndCta.astro";
+import { SITE } from "../lib/site.mjs";
+import { localSrcset, localVariant } from "../lib/images.mjs";
+import { BIKE_HERO, BIKE_GALLERY, BIKE_OG, bikeSrc } from "../lib/bike.mjs";
+import BIKE_SIZES from "../data/bike-images.json";
+import BRAND_CSS from "../styles/brand.css?raw";
+
+const canonical = `${SITE}/marlboro-cross/`;
+const sizes = BIKE_SIZES as Record<string, { w: number; h: number }>;
+const hero = BIKE_HERO!;
+
+/* The palette, read from the site's own tokens so the swatches can't drift
+   from what the site actually paints with. A token is
+     --red:#E4151F;   /* Racing Red — hero, contact, … *\/
+   and the name is the comment up to its first dash. */
+const token = (name: string) => {
+  const m = BRAND_CSS.match(new RegExp(`--${name}:\\s*(#[0-9A-Fa-f]{6})\\s*;\\s*/\\*\\s*([^—*]+)`));
+  if (!m) throw new Error(`brand.css: token --${name} not found`);
+  return { hex: m[1].toUpperCase(), label: m[2].trim() };
+};
+const swatches = [
+  { ...token("red"), use: "The tank, the hero, every call to action", ink: false },
+  { ...token("paper"), use: "The tank's white panels and the fenders; every page's background", ink: true },
+  { ...token("ink"), use: "Seat, frame and tyres; the text you're reading", ink: false },
+  { ...token("tint"), use: "Road dust; the site's one alternate surface", ink: true },
+];
+
+const spec = [
+  { k: "Base bike", v: "Royal Enfield Scram 411" },
+  { k: "Year", v: "2022" },
+  { k: "Paint", v: "Hand-painted by me, red &amp; white" },
+  { k: "Build", v: "Scrambler" },
+  { k: "Mods", v: "Acerbis handguards · flyscreen · high front fender · auxiliary lights · knobby tyres · aftermarket exhaust" },
+  { k: "Home roads", v: "Kangra, Himachal Pradesh" },
+];
+
+const img = (slug: string) => `${SITE}${bikeSrc(slug)}`;
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": `${canonical}#webpage`,
+      url: canonical,
+      name: "Marlboro Cross — my hand-painted Royal Enfield Scram 411",
+      description:
+        "Divyansh Sood's 2022 Royal Enfield Scram 411, hand-painted red and white and built into a scrambler. The website's colours come from it.",
+      inLanguage: "en",
+      isPartOf: { "@id": `${SITE}/#website` },
+      author: { "@id": `${SITE}/#person` },
+      about: { "@id": `${SITE}/#person` },
+      primaryImageOfPage: { "@id": `${canonical}#${hero.slug}` },
+      image: [hero, ...BIKE_GALLERY].map((p) => ({
+        "@type": "ImageObject",
+        "@id": `${canonical}#${p.slug}`,
+        contentUrl: img(p.slug),
+        url: img(p.slug),
+        width: sizes[p.slug].w,
+        height: sizes[p.slug].h,
+        caption: p.alt,
+        creator: { "@id": `${SITE}/#person` },
+        copyrightHolder: { "@id": `${SITE}/#person` },
+      })),
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "About", item: `${SITE}/about/` },
+        { "@type": "ListItem", position: 3, name: "Marlboro Cross", item: canonical },
+      ],
+    },
+  ],
+});
+
+const heroSizes = "(min-width: 1680px) 1600px, calc(100vw - 2 * clamp(16px, 4vw, 40px))";
+const gallerySizes = "(min-width: 1100px) 31vw, (min-width: 640px) 47vw, calc(100vw - 32px)";
+---
+
+<Base
+  title="Marlboro Cross — Hand-Painted Royal Enfield Scram 411"
+  description="Marlboro Cross is my 2022 Royal Enfield Scram 411. I hand-painted it red and white, built it into a proper scrambler, and took this website's colours from it."
+  canonical={canonical}
+  keywords="Marlboro Cross, Royal Enfield Scram 411, hand-painted motorcycle, Scram 411 scrambler, custom paint Royal Enfield, Himachal motorcycle rides, Divyansh Sood"
+  ogTitle="Marlboro Cross — My Hand-Painted Royal Enfield Scram 411 | Divyansh Sood"
+  ogImage={`${SITE}${BIKE_OG}`}
+  imageAlt={hero.alt}
+  jsonld={jsonld}
+  preloadImage={{ href: localVariant(bikeSrc(hero.slug), 1080), srcset: localSrcset(bikeSrc(hero.slug)), sizes: heroSizes }}
+>
+  <main>
+    <PageHero
+      display="Marlboro Cross"
+      kicker="Off the clock · Himalayas"
+      lead="My 2022 Royal Enfield Scram 411. Hand-painted, built into a scrambler, ridden deep into the Himalayas."
+    />
+
+    <div class="wrap mc-hero">
+      <figure>
+        <img src={localVariant(bikeSrc(hero.slug), 1080)} srcset={localSrcset(bikeSrc(hero.slug))} sizes={heroSizes} alt={hero.alt} width={sizes[hero.slug].w} height={sizes[hero.slug].h} fetchpriority="high" />
+      </figure>
+    </div>
+
+    <Section n={1} term="Ignition" note="The story" title="Hand-painted, then built">
+      <div class="mc-prose">
+        <p class="mc-big">I love my bike as much as I love my website work, and the obsession is real.</p>
+        <p class="body">The stock colour bored me, so I hand-painted the entire bike myself in red and white. Then I kept going and modified it into a proper scrambler.</p>
+        <p class="body">I named it <strong>Marlboro Cross</strong> after the colours I chose.</p>
+        <p class="meta mc-note">Marlboro Cross is my nickname for the paint scheme. No affiliation with, or endorsement by, any brand.</p>
+      </div>
+    </Section>
+
+    <Section n={2} term="Telemetry" note="Spec sheet" title="The spec sheet">
+      <div class="mc-spec"><SpecList head="Marlboro Cross" headRight="Scram 411 · 2022" items={spec} /></div>
+    </Section>
+
+    <Section n={3} term="Livery" note="The palette" title="Where this website's colours come from">
+      <p class="mc-big mc-lead">The colours on this website aren't from a mood board. They're the same ones I painted on my motorcycle.</p>
+      <ul class="mc-sw" aria-label="The site's colour palette">
+        {swatches.map((s) => (
+          <li class:list={["mc-sw-i", { "mc-sw-i--light": s.ink }]} style={`background:${s.hex}`}>
+            <span class="mc-sw-name">{s.label}</span>
+            <span class="mc-sw-hex">{s.hex}</span>
+            <span class="mc-sw-use">{s.use}</span>
+          </li>
+        ))}
+      </ul>
+    </Section>
+
+    <Section n={4} term="Pit lane" note="Rides" title="Long solo rides">
+      <div class="mc-prose">
+        <p class="body">I'm from Himachal Pradesh, so Marlboro Cross goes on long solo rides deep into the Himalayan mountains. Sometimes there's a laptop in my bag, so I can make some bucks on the go.</p>
+        <p class="body">Back at the desk, I build websites for businesses across Himachal and beyond. The story of how I got here is on my <a href="/about/">about page</a>.</p>
+      </div>
+    </Section>
+
+    <Section n={5} term="Parc fermé" note={`${BIKE_GALLERY.length} photos`} title="Gallery">
+      <div class="mc-gal">
+        {BIKE_GALLERY.map((p) => (
+          <figure class="mc-gal-i">
+            <img src={localVariant(bikeSrc(p.slug), 768)} srcset={localSrcset(bikeSrc(p.slug))} sizes={gallerySizes} alt={p.alt} width={sizes[p.slug].w} height={sizes[p.slug].h} loading="lazy" decoding="async" />
+          </figure>
+        ))}
+      </div>
+    </Section>
+
+    <EndCta
+      title="I build websites with the same obsession."
+      text={`Hand-painted, hand-built, then ridden hard. Every site I make gets the same care. See the <a href="/portfolio/">case studies</a>, or book a call and tell me what you're building.`}
+      secondary={{ href: "/portfolio/", label: "See the work →" }}
+    />
+  </main>
+</Base>
+
+<style>
+  .mc-hero{padding:clamp(28px,4vw,56px) var(--gutter) 0}
+  .mc-hero figure{margin:0;aspect-ratio:16/9;background:var(--tint);overflow:hidden}
+  .mc-hero img{width:100%;height:100%;object-fit:cover;object-position:50% 62%;display:block}
+  .mc-prose{display:flex;flex-direction:column;gap:20px;max-width:760px}
+  .mc-prose p{margin:0;max-width:64ch}
+  .mc-prose a{color:var(--ink)}
+  .mc-prose a:hover{color:var(--red)}
+  .mc-big{margin:0;font-weight:800;font-stretch:108%;font-size:clamp(24px,2.6vw,38px);line-height:1.1;letter-spacing:-0.02em;text-wrap:pretty;max-width:30ch}
+  .mc-lead{margin-bottom:clamp(28px,3vw,44px)}
+  .mc-note{max-width:64ch;line-height:1.6}
+  .mc-spec{max-width:820px}
+  .mc-spec :global(.spec > div){grid-template-columns:minmax(96px,150px) 1fr}
+  .mc-sw{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:clamp(12px,1.6vw,20px)}
+  .mc-sw-i{min-height:220px;padding:20px;display:flex;flex-direction:column;justify-content:flex-end;gap:6px;color:#fff;border:1px solid transparent}
+  .mc-sw-i--light{color:var(--ink);border-color:var(--gda)}
+  .mc-sw-name{font-weight:900;font-style:italic;font-stretch:125%;text-transform:uppercase;font-size:26px;line-height:.95;letter-spacing:-0.02em}
+  .mc-sw-hex{font-family:var(--mono);font-size:13px;letter-spacing:.08em}
+  .mc-sw-use{font-size:15px;line-height:1.4}
+  .mc-gal{columns:1;column-gap:clamp(12px,1.6vw,20px)}
+  @media (min-width:640px){.mc-gal{columns:2}}
+  @media (min-width:1100px){.mc-gal{columns:3}}
+  .mc-gal-i{margin:0 0 clamp(12px,1.6vw,20px);break-inside:avoid;background:var(--tint)}
+  .mc-gal-i img{width:100%;height:auto;display:block}
+</style>

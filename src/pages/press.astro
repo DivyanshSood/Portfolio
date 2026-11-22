@@ -4,27 +4,29 @@ import PageHero from "../components/brand/PageHero.astro";
 import Section from "../components/brand/Section.astro";
 import EndCta from "../components/brand/EndCta.astro";
 import SpecList from "../components/brand/SpecList.astro";
-import { SITE, FOUNDER_PHOTO, FOUNDER_PHOTO_ALT, SOCIAL_PROFILES } from "../lib/site.mjs";
+import { SITE, FOUNDER_PHOTO, FOUNDER_PHOTO_ALT, SOCIAL_PROFILES, FOUNDED_YEAR } from "../lib/site.mjs";
 import { SHIPPED_SOURCE } from "../lib/projects/data.mjs";
 
 const canonical = `${SITE}/press/`;
 
 const bioShort =
-  "Divyansh Sood is a freelance web designer & developer based in Himachal Pradesh, India, working with founders worldwide. Since 2022 he has shipped 20+ custom-coded websites, stores and web apps under Divyansh Sood® Studio — a one-person studio.";
+  `Divyansh Sood is a freelance web designer & developer based in Himachal Pradesh, India, working with founders worldwide. Since ${FOUNDED_YEAR} he has shipped 20+ custom-coded websites, stores and web apps under Divyansh Sood® Studio — a one-person studio.`;
 
 const bioLong =
-  "Divyansh Sood is a freelance web designer and developer based in Himachal Pradesh, India, working with clients worldwide as Divyansh Sood® Studio — a one-person practice. He designs and builds custom-coded, conversion-focused websites, e-commerce storefronts and web apps end to end: strategy, interface design and full-stack engineering under one roof, with no page-builder templates. Since 2022 he has shipped 20+ projects, including a school website with online admissions and an admin panel, a made-to-order site for a 585K-subscriber YouTube creator, a five-hotel group site, and a Kangra taxi site that drew 41.8K Google impressions and 246 clicks in 28 days. He works in React, Next.js, Astro and Angular, and specialises in technical SEO and Generative Engine Optimization (GEO).";
+  `Divyansh Sood is a freelance web designer and developer based in Himachal Pradesh, India, working with clients worldwide as Divyansh Sood® Studio — a one-person practice. He designs and builds custom-coded, conversion-focused websites, e-commerce storefronts and web apps end to end: strategy, interface design and full-stack engineering under one roof, with no page-builder templates. Since ${FOUNDED_YEAR} he has shipped 20+ projects, including a school website with online admissions and an admin panel, a made-to-order site for a 585K-subscriber YouTube creator, a five-hotel group site, and a Kangra taxi site that drew 41.8K Google impressions and 246 clicks in 28 days. He works in React, Next.js, Astro and Angular, and specialises in technical SEO and Generative Engine Optimization (GEO).`;
 
 const facts = [
   { k: "Name", v: "Divyansh Sood" },
   { k: "Title", v: "Freelance web designer & developer" },
   { k: "Studio", v: "Divyansh Sood® Studio (1 person)" },
   { k: "Based", v: "Himachal Pradesh, India — worldwide" },
-  { k: "Since", v: "2022" },
-  { k: "Projects", v: `20+ shipped since 2022 (${SHIPPED_SOURCE})` },
+  { k: "Since", v: String(FOUNDED_YEAR) },
+  { k: "Projects", v: `20+ shipped since ${FOUNDED_YEAR} (${SHIPPED_SOURCE})` },
+  { k: "Education", v: "B.E. Electronics &amp; Communication, Ramaiah Institute of Technology, Bengaluru (2023)" },
   { k: "Stacks", v: "React · Next.js · Astro · Angular" },
   { k: "Focus", v: "Custom-coded, conversion-focused, SEO/GEO" },
   { k: "Email", v: "hello@divyanshsood.com" },
+  { k: "Off the clock", v: `<a href="/marlboro-cross/">Marlboro Cross</a>, a Royal Enfield Scram 411 hand-painted in this site's red and white` },
 ];
 
 const creditPlain = `<a href="https://www.divyanshsood.com/" rel="nofollow" title="Website by Divyansh Sood">Site by Divyansh Sood</a>`;

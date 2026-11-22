@@ -11,7 +11,7 @@ import PostList from "../components/brand/PostList.astro";
 import EndCta from "../components/brand/EndCta.astro";
 import { SITE, CALENDLY_URL, DEFAULT_OG, fmtDate, iso, related } from "../lib/blog.mjs";
 import { coverBase, coverSrcset, COVER_SIZES_POST } from "../lib/images.mjs";
-import { STUDIO_HOURS, FOUNDER_PHOTO_ABOUT, HAS_FOUNDER_PHOTO } from "../lib/site.mjs";
+import { STUDIO_HOURS, FOUNDER_PHOTO_ABOUT, HAS_FOUNDER_PHOTO, FOUNDED_YEAR } from "../lib/site.mjs";
 import { SHIPPED_SOURCE } from "../lib/projects/data.mjs";
 import { existsSync } from "node:fs";
 import { join } from "node:path";
@@ -164,7 +164,7 @@ let n = 1;
               <div class="lbl">Written by</div>
               <p class="pb-author-name"><a href="/about/">Divyansh Sood</a></p>
               <p class="pb-author-cred">Freelance web designer &amp; developer in Himachal Pradesh, India. One person, end to end: design, code and launch. Builds and runs his own AI product, Websitekind.ai.</p>
-              <p class="pb-author-cred"><strong>20+ projects since 2022</strong> <span class="pb-author-src">({SHIPPED_SOURCE})</span></p>
+              <p class="pb-author-cred"><strong>20+ projects since {FOUNDED_YEAR}</strong> <span class="pb-author-src">({SHIPPED_SOURCE})</span></p>
               <a class="pb-author-more" href="/about/">More about me <span aria-hidden="true">→</span></a>
             </div>
           </aside>

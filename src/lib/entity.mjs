@@ -28,7 +28,7 @@
    which is a range, not an offer.
    =========================================================================== */
 
-import { FOUNDER_PHOTO, GOOGLE_KG_MID, GOOGLE_MAPS_CID_URL, SAME_AS, SITE, STUDIO_ADDRESS, GBP_NAME, STARTING_PRICES, inr } from "./site.mjs";
+import { FOUNDER_PHOTO, GOOGLE_KG_MID, GOOGLE_MAPS_CID_URL, SAME_AS, SITE, STUDIO_ADDRESS, GBP_NAME, STARTING_PRICES, FOUNDED_YEAR, inr } from "./site.mjs";
 
 /* ProfessionalService `priceRange`: the lowest starting price in site.mjs, so
    it moves when the prices do. Used by publisherNode() and the homepage node. */
@@ -48,6 +48,8 @@ export const KNOWS_ABOUT = [
   "Angular",
   "E-commerce development",
   "Web application development",
+  "Tailwind CSS",
+  "Supabase",
   "SEO",
   "Generative Engine Optimization",
   "Answer Engine Optimization",
@@ -55,6 +57,7 @@ export const KNOWS_ABOUT = [
   "Core Web Vitals",
   "AI-assisted software development",
   "Large language model integration",
+  "Convolutional neural networks",
 ];
 
 export const JOB_TITLE = "Freelance Web Developer & Designer";
@@ -63,7 +66,7 @@ export const PERSON_DESCRIPTION =
   "Freelance web designer and developer running a one-person studio (Divyansh Sood® Studio) from Himachal Pradesh, India — building custom-coded, conversion-focused websites, stores and web apps for founders worldwide.";
 
 export const STUDIO_DESCRIPTION =
-  "Independent one-person web design and development studio building custom-coded, conversion-focused websites, e-commerce storefronts and web apps for founders worldwide. Marketing sites and MVPs go live in 3–4 weeks; larger builds run 6–10 weeks.";
+  "Independent one-person web design and development studio building custom-coded, conversion-focused websites, e-commerce storefronts and web apps for founders worldwide. Most websites, stores and MVPs go live in 7–14 days; larger builds run 3–4 weeks.";
 
 /**
  * The author node for articles and case studies.
@@ -110,7 +113,7 @@ export function publisherNode(SITE) {
     logo: { "@type": "ImageObject", url: `${SITE}/icon.svg` },
     image: `${SITE}${FOUNDER_PHOTO}`,
     description: STUDIO_DESCRIPTION,
-    foundingDate: "2022",
+    foundingDate: String(FOUNDED_YEAR),
     founder: { "@id": `${SITE}/#person` },
     address: STUDIO_ADDRESS,
     priceRange: PRICE_RANGE,

@@ -1,0 +1,62 @@
+{
+  "ridge-side-profile": {
+    "w": 1920,
+    "h": 1440
+  },
+  "forest-trail": {
+    "w": 1920,
+    "h": 2560
+  },
+  "snow-peaks-railing": {
+    "w": 1920,
+    "h": 1080
+  },
+  "tank-and-snow": {
+    "w": 1920,
+    "h": 3413
+  },
+  "mountain-lookout": {
+    "w": 1920,
+    "h": 1080
+  },
+  "valley-ledge": {
+    "w": 1920,
+    "h": 2560
+  },
+  "sunset-cockpit": {
+    "w": 1920,
+    "h": 2560
+  },
+  "dusty-trail": {
+    "w": 1920,
+    "h": 1440
+  },
+  "dusk-grass": {
+    "w": 1920,
+    "h": 1440
+  },
+  "road-crossing": {
+    "w": 1920,
+    "h": 1440
+  },
+  "roadside-profile": {
+    "w": 1920,
+    "h": 1440
+  },
+  "handguards-flyscreen": {
+    "w": 1920,
+    "h": 3413
+  },
+  "white-grass": {
+    "w": 1920,
+    "h": 1080
+  },
+  "tank-under-conifer": {
+    "w": 1920,
+    "h": 2560
+  },
+  "dusk-silhouette": {
+    "w": 1920,
+    "h": 1080
+  }
+}

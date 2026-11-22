@@ -63,7 +63,7 @@ export const LOCATIONS = [
     tier: "local",
     title: "Web Developer in Palampur — Homestay, Tea & Bir Websites",
     description:
-      "Web developer and website designer in Palampur — sites for homestays, Bir Billing paragliding operators, tea estates and shops. Fixed quote, live in 1–3 weeks.",
+      "Web developer and website designer in Palampur — sites for homestays, Bir Billing paragliding operators, tea estates and shops. Fixed quote, live in 1–2 weeks.",
     keywords:
       "web developer Palampur, website designer Palampur, website design Palampur, website development Bir Billing, homestay website Palampur, paragliding website Bir",
     ogDescription: "Homestays, Bir Billing operators, tea estates and shops — websites built down the road in Kangra district.",
@@ -467,7 +467,7 @@ export const LOCATIONS = [
     lead: `Chandigarh has no shortage of web agencies — Mohali's IT parks are full of them. What the tricity is short of is a developer who quotes once, writes every line of the code and hands you the repository at the end. I work from Kangra, a few hours up the road, for tricity startups, clinics, coaching institutes and builders who want a custom-coded site or web app without an agency's layers. Everything runs remotely, and I say so up front.`,
     offersHead: "For tricity businesses that want it built properly",
     offers: [
-      { t: "Startup sites & MVPs", d: "Next.js, Astro or React — a marketing site in 3–4 weeks, an MVP in 3–4 weeks and a larger web app in 6–10, with a repo and README the next developer can pick up clean." },
+      { t: "Startup sites & MVPs", d: "Next.js, Astro or React — a marketing site or an MVP in 7–14 days and a larger web app in 3–4 weeks, with a repo and README the next developer can pick up clean." },
       { t: "Clinics & healthcare", d: "Doctors, specialities, timings and appointment requests that reach the front desk, on a site that's fast on a phone and clear to a worried patient." },
       { t: "Coaching institutes", d: "Course and batch pages, results, demo-class bookings and enquiries routed to a counsellor's WhatsApp — the funnel Sector 34's institutes compete on." },
       { t: "Real estate & builders", d: "Project pages with RERA details, floor plans, location and an enquiry form that doesn't vanish into a shared inbox." },

@@ -119,6 +119,14 @@ export const STUDIO_ADDRESS = {
   addressCountry: "IN",
 };
 
+/* The year the studio's project count starts from: "20+ projects shipped
+   since 2025", footer "EST.", schema foundingDate, press kit "Since".
+   Owner decision 2026-11-22, from the timeline on /about/: coding since 2019,
+   POSTOR SHOP 2023, GoDaddy 2024–2025, own builds 2025, freelancing 2026.
+   It was 2022 until then; that year contradicted the confirmed timeline.
+   public/llms.txt and llms-full.txt repeat it by hand. */
+export const FOUNDED_YEAR = 2025;
+
 /* The Business Profile pin's coordinates, read from the listing's Maps URL
    (@32.1008606,76.2763829) on 2026-11-07. Used as `geo` on the homepage
    LocalBusiness node so the site and the listing name the same point. If the

@@ -9,6 +9,8 @@
 // - `size="case"` is the Case Study scale (for multi-word names).
 // - Default slot = right side of the intro row (CTAs, meta). `intro` slot
 //   replaces the whole left side when a page needs more than a paragraph.
+import { wordEm } from "../../lib/display-fit.mjs";
+
 interface Props {
   display: string;
   sup?: string;
@@ -34,19 +36,11 @@ const DisplayTag = h1 ? "div" : "h1";
 const name = display.replace(/\.\s*$/, "");
 
 // The display's widest word, in em — the name's font-size is capped so that
-// word fits the column and never breaks mid-way ("DHARAMSH-ALA"). Advance
-// widths are measured from Archivo 900 italic at 125% with the display's
-// -0.03em tracking; anything unlisted counts as 1em, plus .15em for the
-// italic overhang. The superscript rides on the last word at ~.4em a glyph.
-const GLYPH: Record<string, number> = {
-  A: .924, B: .9, C: .909, D: .903, E: .83, F: .777, G: .982, H: .979, I: .365, J: .734, K: .958, L: .756, M: 1.148,
-  N: .977, O: .978, P: .835, Q: .978, R: .913, S: .852, T: .847, U: .959, V: .908, W: 1.2, X: .931, Y: .936, Z: .847,
-  "0": .781, "1": .701, "2": .779, "3": .783, "4": .789, "5": .783, "6": .785, "7": .716, "8": .798, "9": .785,
-  ".": .351, ",": .351, "&": 1.035, "'": .294, "’": .294, "?": .713, "-": .386, "®": .77,
-};
-const em = (w: string) => [...w.toUpperCase()].reduce((s, c) => s + (GLYPH[c] ?? 1), 0.15);
+// word fits the column and never breaks mid-way ("DHARAMSH-ALA"). Glyph
+// widths live in src/lib/display-fit.mjs (shared with ResultGrid). The
+// superscript rides on the last word at ~.4em a glyph.
 const words = name.split(/\s+/);
-const widths = words.map(em);
+const widths = words.map(wordEm);
 widths[widths.length - 1] += sup ? sup.length * 0.4 : 0;
 // 4% slack: glyph advances were measured in isolation, without kerning pairs.
 const fitEm = (Math.max(...widths) * 1.04).toFixed(2);

@@ -109,7 +109,7 @@ export const POSTS = [
     "seoTitle": "AEO vs GEO vs LLMO vs AI SEO, Explained · Divyansh Sood",
     "description": "Four acronyms, one underlying job: which of SEO, AEO, GEO and LLMO name something real, which is a rebrand, and what the work actually comes down to.",
     "pubDate": "2026-08-09",
-    "updatedDate": "2026-11-13",
+    "updatedDate": "2026-11-22",
     "coverImage": "/blog/aeo-geo-llmo-ai-seo-explained.jpg",
     "coverAlt": "Title card reading “AEO. GEO. LLMO. AI SEO.” in bold white type on a red chevron",
     "tags": [
@@ -129,7 +129,7 @@ export const POSTS = [
     "seoTitle": "Schema Node Identifiers (@id) & Entity Graphs · Divyansh Sood",
     "description": "How to give every structured-data node a stable @id and link them into one entity graph — this site's schema, node by node, and the two mistakes I made first.",
     "pubDate": "2026-08-07",
-    "updatedDate": "2026-11-16",
+    "updatedDate": "2026-11-22",
     "coverImage": "/blog/entity-graph-schema-node-by-node.jpg",
     "coverAlt": "Title card reading “The entity graph, node by node” in bold white type on a red chevron",
     "tags": [
@@ -289,7 +289,7 @@ export const POSTS = [
     "seoTitle": "Shopify Alternatives for Premium D2C · Divyansh Sood",
     "description": "Customize Shopify, go Woo, headless, or fully custom? The four real options for premium D2C brands, judged on brand control and three-year economics.",
     "pubDate": "2026-07-18",
-    "updatedDate": "2026-11-13",
+    "updatedDate": "2026-11-22",
     "coverImage": "/blog/shopify-alternatives-for-premium-d2c.jpg",
     "coverAlt": "Title card reading “Shopify alternatives, honestly ranked” in bold white type on a red chevron",
     "tags": [
@@ -309,7 +309,7 @@ export const POSTS = [
     "seoTitle": "School Website Cost & Features in India (2026) · Divyansh Sood",
     "description": "What parents actually look for on a school website, why an admissions portal beats an ERP subscription, and what a fair build costs — from a real school build.",
     "pubDate": "2026-07-16",
-    "updatedDate": "2026-11-06",
+    "updatedDate": "2026-11-22",
     "coverImage": "/blog/school-website-admissions-portal-india.jpg",
     "coverAlt": "Title card reading “School sites: what parents actually want” in bold white type on a red chevron",
     "tags": [
@@ -369,7 +369,7 @@ export const POSTS = [
     "seoTitle": "Webflow vs Custom Code for Startups (2026) · Divyansh Sood",
     "description": "Webflow vs custom code, decided honestly: where Webflow wins, where it starts taxing a startup's team and roadmap, and the three-year cost of each.",
     "pubDate": "2026-05-12",
-    "updatedDate": "2026-11-13",
+    "updatedDate": "2026-11-22",
     "coverImage": "/blog/custom-code-vs-webflow-for-startups.jpg",
     "coverAlt": "Someone writing in a notebook at a desk beside an open laptop and a coffee",
     "tags": [
@@ -389,7 +389,7 @@ export const POSTS = [
     "seoTitle": "Google Business Profile vs. Website in India · Divyansh Sood",
     "description": "A Google Business Profile gets you on the map. A website converts the people who find you there. What each does, where each fails, and why you need both.",
     "pubDate": "2026-04-28",
-    "updatedDate": "2026-11-13",
+    "updatedDate": "2026-11-22",
     "coverImage": "/blog/google-business-profile-vs-website-himachal.jpg",
     "coverAlt": "A small brick shopfront on a quiet main street, seen from across the road",
     "tags": [
@@ -429,7 +429,7 @@ export const POSTS = [
     "seoTitle": "How to Get Web Development Clients Without Paid Ads (6 Ways)",
     "description": "Six channels that brought every client I have, with zero ad spend: live case studies, referrals, my own site, a narrow niche, local search and useful posts.",
     "pubDate": "2026-03-05",
-    "updatedDate": "2026-11-13",
+    "updatedDate": "2026-11-22",
     "coverImage": "/blog/how-i-get-clients-without-paid-ads.jpg",
     "coverAlt": "Two people shaking hands across a white table beside a coffee cup",
     "tags": [

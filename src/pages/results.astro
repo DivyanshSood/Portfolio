@@ -5,17 +5,17 @@ import Section from "../components/brand/Section.astro";
 import ResultGrid from "../components/brand/ResultGrid.astro";
 import EndCta from "../components/brand/EndCta.astro";
 import Quote from "../components/brand/Quote.astro";
-import { SITE, CALENDLY_URL, GOOGLE_REVIEWS_URL } from "../lib/site.mjs";
+import { SITE, CALENDLY_URL, GOOGLE_REVIEWS_URL, FOUNDED_YEAR } from "../lib/site.mjs";
 import { countWord, projects, SHIPPED_SOURCE, BAGLAMUKHI_GSC_SOURCE, LEISURE_REDIRECTS_SOURCE } from "../lib/projects/data.mjs";
 
 const canonical = `${SITE}/results/`;
 
 // Top-line studio numbers — every figure is real and matches the case studies.
 const topStats = [
-  { v: "20+", l: "Projects shipped since 2022", src: SHIPPED_SOURCE },
-  { v: "3–4 wks", l: "Typical kickoff to live" },
+  { v: "20+", l: `Projects shipped since ${FOUNDED_YEAR}`, src: SHIPPED_SOURCE },
+  { v: "7–14 days", l: "Typical kickoff to live" },
   { v: String(projects.length), l: "Case studies published" },
-  { v: "1–3 wks", l: "Local Himachal sites, kickoff to live" },
+  { v: "1–2 wks", l: "Local Himachal sites, kickoff to live" },
 ];
 
 // One headline result per project. Every number is pulled from a real case study
@@ -92,14 +92,14 @@ const jsonld = JSON.stringify({
     <PageHero
       display="The work, by the numbers."
       size="case"
-      kicker="Results · Real numbers, real projects · 2022—2026"
+      kicker={`Results · Real numbers, real projects · ${FOUNDED_YEAR}—2026`}
       lead="Anyone can promise a pretty website. Here's what mine actually did — bookings won back from aggregators, old sites rebuilt without losing a URL, storefronts that outgrew the builders they replaced. Every figure links to its case study."
     >
       <a class="btn btn--red" href={CALENDLY_URL}>Book an intro call <span aria-hidden="true">→</span></a>
       <a class="btn btn--ink" href="/portfolio/">See all work</a>
     </PageHero>
 
-    <Section n={1} term="Telemetry" note="Since 2022" title="The studio at a glance">
+    <Section n={1} term="Telemetry" note={`Since ${FOUNDED_YEAR}`} title="The studio at a glance">
       <ResultGrid stats={topStats} />
     </Section>
 

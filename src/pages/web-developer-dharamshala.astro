@@ -25,7 +25,7 @@ const offers = [
 const faqs = [
   { q: "What does a website cost for a Dharamshala business?", a: `A tour operator or homestay site starts at ${inr(P.travel)}, and a simple business site at ${inr(P.basic)}. A booking-first site for a tour operator is a different build than a homestay one-pager, so I scope local Himachal projects case by case and quote fixed, in writing, after one conversation — no hourly creep, no surprises later.` },
   { q: "Can we meet in person in Dharamshala?", a: "Yes — I'm based in Himachal Pradesh, so unlike an agency in Delhi or Bangalore, meeting over a coffee in McLeod Ganj is actually possible. Most work still happens over WhatsApp and calls, which keeps things fast." },
-  { q: "How long does a website take?", a: "Local business sites typically go live in 1–3 weeks; the content and photos are usually what sets the pace, not the build." },
+  { q: "How long does a website take?", a: "Local business sites typically go live in 1–2 weeks; the content and photos are usually what sets the pace, not the build." },
   { q: "I already get bookings from Google Maps and Instagram. Why a website?", a: "Maps and Instagram rent you visibility; a website owns it. Aggregators take commission on every booking, and Instagram can't rank for 'best tour operator in Dharamshala'. A fast site with real SEO captures that search demand directly — commission-free." },
   { q: "Are you a web design company in Dharamshala?", a: "No — I'm one web developer, Divyansh Sood, working from Kangra, a short drive from Dharamshala. There's no agency between you and the code: the person who quotes for your homestay, café or tour company is the person who builds it, and you own the code at handover." },
 ];
@@ -41,7 +41,7 @@ const jsonld = JSON.stringify({
       provider: { "@id": `${SITE}/#studio` },
       areaServed: { "@type": "City", name: "Dharamshala", containedInPlace: { "@type": "State", name: "Himachal Pradesh" } },
       description:
-        "Custom-coded, booking-first websites for Dharamshala businesses — tour operators, hotels, homestays, cafés and institutes. Built locally in Himachal, SEO included, live in 1–3 weeks.",
+        "Custom-coded, booking-first websites for Dharamshala businesses — tour operators, hotels, homestays, cafés and institutes. Built locally in Himachal, SEO included, live in 1–2 weeks.",
       url: canonical,
     },
     {
@@ -62,7 +62,7 @@ const jsonld = JSON.stringify({
 
 <Base
   title="Web Developer in Dharamshala — Booking-First Websites"
-  description="Website developer in Dharamshala, Himachal — custom-coded sites for tour operators, hotels, homestays and cafés. Booking-first, SEO included, live in 1–3 weeks."
+  description="Website developer in Dharamshala, Himachal — custom-coded sites for tour operators, hotels, homestays and cafés. Booking-first, SEO included, live in 1–2 weeks."
   canonical={canonical}
   keywords="web developer in Dharamshala, website developer Dharamshala, website design Dharamshala, web designer McLeod Ganj, travel website developer Himachal, hotel website design Dharamshala"
   ogTitle="Web developer in Dharamshala"
@@ -80,7 +80,7 @@ const jsonld = JSON.stringify({
       <a class="btn btn--red" href={CALENDLY_URL}>Book a call <span aria-hidden="true">→</span></a>
       <a class="btn btn--ink" href={WA}>Message on WhatsApp</a>
       <a class="btn btn--ink" href={PHONE_TEL}>Call {PHONE_DISPLAY}</a>
-      <Fragment slot="notes"><span>Based in Himachal · <a href={GOOGLE_MAPS_URL} target="_blank" rel="noopener">on Google Maps <span aria-hidden="true">↗</span></a></span><span>Live in 1–3 weeks</span></Fragment>
+      <Fragment slot="notes"><span>Based in Himachal · <a href={GOOGLE_MAPS_URL} target="_blank" rel="noopener">on Google Maps <span aria-hidden="true">↗</span></a></span><span>Live in 1–2 weeks</span></Fragment>
     </PageHero>
 
     <Section n={1} term="Setup" note="The offering" title="Built for how Dharamshala works">

@@ -22,7 +22,7 @@ import ResultGrid from "../../components/brand/ResultGrid.astro";
 import { SHIPPED_SOURCE } from "../../lib/projects/data.mjs";
 import Faq from "../../components/brand/Faq.astro";
 import EndCta from "../../components/brand/EndCta.astro";
-import { SITE, CALENDLY_URL, STARTING_PRICES as P, inr } from "../../lib/site.mjs";
+import { SITE, CALENDLY_URL, STARTING_PRICES as P, FOUNDED_YEAR, inr } from "../../lib/site.mjs";
 import { TOPICS } from "../../lib/entity.mjs";
 
 const canonical = `${SITE}/services/website-development/`;
@@ -58,7 +58,7 @@ const faqs = [
   },
   {
     q: "How long does a website take to build?",
-    a: "Most business and marketing sites go live in 3–4 weeks. Larger builds with portals, logins or payments run 6–10 weeks. Local business sites in Himachal often go live in 1–3 weeks.",
+    a: "Most business and marketing sites go live in 7–14 days. Larger builds with portals, logins or payments run 3–4 weeks. Local business sites in Himachal typically go live in 1–2 weeks.",
   },
   {
     q: "What does website development cost?",
@@ -95,7 +95,7 @@ const jsonld = JSON.stringify({
       // this page targets custom development across India.
       areaServed: [{ "@type": "Country", name: "India" }, { "@type": "Place", name: "Worldwide" }],
       description:
-        "Custom website development services — hand-coded business websites, marketing sites, redesigns and booking-first builds. Technical SEO and Core Web Vitals built in from the first commit, live in 3–4 weeks, and you own the code.",
+        "Custom website development services — hand-coded business websites, marketing sites, redesigns and booking-first builds. Technical SEO and Core Web Vitals built in from the first commit, live in 7–14 days, and you own the code.",
       url: canonical,
       hasOfferCatalog: {
         "@type": "OfferCatalog",
@@ -131,7 +131,7 @@ const jsonld = JSON.stringify({
   canonical={canonical}
   keywords="website development services, custom website development, custom coded website, hire a website developer, freelance website developer, website redesign, business website development, professional website development"
   ogTitle="Custom website development that's built to rank"
-  ogDescription="Hand-coded business websites with technical SEO and Core Web Vitals built in from the first commit. Live in 3–4 weeks. You own the code."
+  ogDescription="Hand-coded business websites with technical SEO and Core Web Vitals built in from the first commit. Live in 7–14 days. You own the code."
   topics={[TOPICS.webDevelopment, TOPICS.website, TOPICS.seo, TOPICS.cwv]}
   jsonld={jsonld}
 >
@@ -141,7 +141,7 @@ const jsonld = JSON.stringify({
       h1="Custom website development in India"
       size="case"
       kicker="Services · Website development · 2026"
-      lead="Custom website development for businesses that need the site to do a job — bring in enquiries, take bookings, and hold up in search. Every build is hand-coded rather than assembled from a template, with technical SEO and page speed treated as requirements from the first commit instead of a phase at the end. Most go live in 3–4 weeks, and you own everything."
+      lead="Custom website development for businesses that need the site to do a job — bring in enquiries, take bookings, and hold up in search. Every build is hand-coded rather than assembled from a template, with technical SEO and page speed treated as requirements from the first commit instead of a phase at the end. Most go live in 7–14 days, and you own everything."
       notes={["Fixed written quotes · you own the code", "Across India · working worldwide"]}
     >
       <a class="btn btn--red" href={CALENDLY_URL}>Book a 30-min call <span aria-hidden="true">→</span></a>
@@ -158,8 +158,8 @@ const jsonld = JSON.stringify({
 
     <Section n={3} term="Telemetry" note="Shipped, not promised" title="Proof it works">
       <ResultGrid stats={[
-        { v: "20+", l: "Websites shipped since 2022", src: SHIPPED_SOURCE },
-        { v: "1–3 wks", l: "Typical time to live for a local Himachal site" },
+        { v: "20+", l: `Websites shipped since ${FOUNDED_YEAR}`, src: SHIPPED_SOURCE },
+        { v: "1–2 wks", l: "Typical time to live for a local Himachal site" },
         { v: "41.8K", l: "Google impressions in 28 days for a client site built this way" },
         { v: "100%", l: "Code ownership transferred, every project" },
       ]} />

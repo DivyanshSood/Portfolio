@@ -4,7 +4,7 @@
    same serialised string as before.
    =========================================================================== */
 
-import { FOUNDER_PHOTO, GOOGLE_KG_MID, GOOGLE_MAPS_CID_URL, SAME_AS, STUDIO_ADDRESS, STUDIO_GEO, STUDIO_HOURS, GBP_NAME, GBP_EXTRA_AREAS, STARTING_PRICES as P, inr } from "./site.mjs";
+import { FOUNDER_PHOTO, GOOGLE_KG_MID, GOOGLE_MAPS_CID_URL, SAME_AS, STUDIO_ADDRESS, STUDIO_GEO, STUDIO_HOURS, GBP_NAME, GBP_EXTRA_AREAS, STARTING_PRICES as P, FOUNDED_YEAR, inr } from "./site.mjs";
 import { KNOWS_ABOUT, JOB_TITLE, PERSON_DESCRIPTION, PRICE_RANGE } from "./entity.mjs";
 import { projects } from "./projects/data.mjs";
 import { LOCATIONS } from "./locations.mjs";
@@ -21,7 +21,7 @@ export const HOME_FAQ = [
   },
   {
     q: "How long does a project take?",
-    a: "Most marketing sites and MVPs go live in 3–4 weeks. Larger builds — dashboards, portals, multi-phase products — run 6–10 weeks. Local Himachal sites often go live in 1–3 weeks. One school says its website and admissions admin panel went live in 7 days, where other agencies had quoted six months.",
+    a: "Most websites, stores and MVPs go live in 7–14 days. Larger builds — dashboards, portals, multi-phase products — run 3–4 weeks. Local Himachal sites typically go live in 1–2 weeks. One school says its website and admissions admin panel went live in 7 days, where other agencies had quoted six months.",
   },
   {
     q: "What does a project cost?",
@@ -51,7 +51,7 @@ export function homeJsonLd(SITE) {
         url: `${SITE}/`,
         name: "Divyansh Sood® Studio",
         description:
-          "Divyansh Sood® Studio is an independent web design & development studio in Himachal Pradesh, India, building custom-coded, conversion-focused websites, e-commerce stores and web apps for founders worldwide. Most sites live in 3–4 weeks.",
+          "Divyansh Sood® Studio is an independent web design & development studio in Himachal Pradesh, India, building custom-coded, conversion-focused websites, e-commerce stores and web apps for founders worldwide. Most sites live in 7–14 days.",
         inLanguage: "en",
         // #studio, as on every other page (websiteNode in entity.mjs). The home
         // graph said #person while 60 pages said #studio — two publishers for
@@ -97,14 +97,14 @@ export function homeJsonLd(SITE) {
         name: "Divyansh Sood® Studio",
         alternateName: ["Divyansh Sood Studio", GBP_NAME],
         slogan: "Built from the Himalayas. Shipping for the world.",
-        foundingDate: "2022",
+        foundingDate: String(FOUNDED_YEAR),
         numberOfEmployees: { "@type": "QuantitativeValue", value: 1 },
         knowsLanguage: ["English", "Hindi"],
         url: `${SITE}/`,
         image: `${SITE}${FOUNDER_PHOTO}`,
         logo: `${SITE}/icon.svg`,
         description:
-          "Built from the Himalayas. Shipping for the world. Independent 1-person web design & development studio building custom-coded, conversion-focused websites, stores and web apps for founders worldwide. Marketing sites & MVPs in 3–4 weeks; larger builds, 6–10.",
+          "Built from the Himalayas. Shipping for the world. Independent 1-person web design & development studio building custom-coded, conversion-focused websites, stores and web apps for founders worldwide. Most sites & MVPs in 7–14 days; larger builds, 3–4 weeks.",
         founder: { "@id": `${SITE}/#person` },
         employee: { "@id": `${SITE}/#person` },
         email: "hello@divyanshsood.com",
@@ -163,7 +163,7 @@ export function homeJsonLd(SITE) {
           { "@type": "Offer", itemOffered: { "@type": "Service", name: "Design & Prototyping", description: "High-fidelity interface design and clickable prototypes before a line of code is written." } },
           { "@type": "Offer", itemOffered: { "@type": "Service", name: "Development", description: "Fast, accessible, search-friendly front-ends — React, Next.js, Astro or headless." } },
           { "@type": "Offer", itemOffered: { "@type": "Service", name: "Support & Growth", description: "Ongoing iteration, A/B tests, performance tuning and monthly reporting." } },
-          { "@type": "Offer", url: `${SITE}/services/website-development/`, itemOffered: { "@type": "Service", name: "Custom website development", description: "Hand-coded business websites, marketing sites and redesigns — technical SEO and Core Web Vitals built in from the first commit, live in 3–4 weeks, full code ownership." } },
+          { "@type": "Offer", url: `${SITE}/services/website-development/`, itemOffered: { "@type": "Service", name: "Custom website development", description: "Hand-coded business websites, marketing sites and redesigns — technical SEO and Core Web Vitals built in from the first commit, live in 7–14 days, full code ownership." } },
           { "@type": "Offer", url: `${SITE}/services/ecommerce-website-development/`, itemOffered: { "@type": "Service", name: "Ecommerce website development", description: "Custom-coded D2C storefronts — Razorpay/Stripe payments, drop mechanics, full code ownership, no platform rent." } },
           { "@type": "Offer", url: `${SITE}/services/web-app-development/`, itemOffered: { "@type": "Service", name: "Web app & MVP development", description: "Portals, dashboards, admin panels and AI products — full-stack React/Next.js/Astro, live in weeks." } },
           { "@type": "Offer", url: `${SITE}/services/landing-page-design/`, itemOffered: { "@type": "Service", name: "Landing page design", description: "High-converting landing pages — copy, design and code as one argument, with tracking built in." } },

@@ -1,7 +1,7 @@
 ---
 // Footer — Home.dc.html, on every page. The "lap finished" stopwatch banner
 // from the design canvas is left out: the brandbook bans stopwatch readouts.
-import { GOOGLE_MAPS_URL, GOOGLE_REVIEWS_URL, PHONE_TEL, PHONE_DISPLAY, STUDIO_HOURS } from "../lib/site.mjs";
+import { GOOGLE_MAPS_URL, GOOGLE_REVIEWS_URL, PHONE_TEL, PHONE_DISPLAY, STUDIO_HOURS, FOUNDED_YEAR } from "../lib/site.mjs";
 // One link to the hub, not a list of towns: 11 sitewide town links split the
 // town pages into a footer "A team" and an unlinked "B team" (16 Nov 2026
 // audit). The hub lists every town by district; towns link each other.
@@ -15,7 +15,7 @@ const { lang } = Astro.props as { lang?: string };
     <div class="ft-grid">
       <div>
         <p class="ft-about">Independent web designer &amp; developer. Custom-coded, conversion-focused, worldwide.</p>
-        <p class="ft-where"><a href={GOOGLE_MAPS_URL} rel="noopener">KANGRA, HIMACHAL PRADESH, IN <span aria-hidden="true">↗</span></a><a href={PHONE_TEL}>CALL {PHONE_DISPLAY}</a>OPEN DAILY {STUDIO_HOURS.label.toUpperCase()}<br />WORKING WORLDWIDE · EST. 2022</p>
+        <p class="ft-where"><a href={GOOGLE_MAPS_URL} rel="noopener">KANGRA, HIMACHAL PRADESH, IN <span aria-hidden="true">↗</span></a><a href={PHONE_TEL}>CALL {PHONE_DISPLAY}</a>OPEN DAILY {STUDIO_HOURS.label.toUpperCase()}<br />WORKING WORLDWIDE · EST. {FOUNDED_YEAR}</p>
       </div>
       <nav aria-label="Sitemap" class="ft-col">
         <span>SITEMAP</span>

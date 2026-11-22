@@ -8,7 +8,7 @@ import ResultGrid from "../components/brand/ResultGrid.astro";
 import { SHIPPED_SOURCE } from "../lib/projects/data.mjs";
 import Faq from "../components/brand/Faq.astro";
 import EndCta from "../components/brand/EndCta.astro";
-import { SITE, CALENDLY_URL, PHONE_TEL, PHONE_DISPLAY, GOOGLE_MAPS_URL, STARTING_PRICES as P, inr } from "../lib/site.mjs";
+import { SITE, CALENDLY_URL, PHONE_TEL, PHONE_DISPLAY, GOOGLE_MAPS_URL, STARTING_PRICES as P, FOUNDED_YEAR, inr } from "../lib/site.mjs";
 import { TOPICS } from "../lib/entity.mjs";
 import NearbyAreas from "../components/brand/NearbyAreas.astro";
 import { locationBySlug, HUB } from "../lib/locations.mjs";
@@ -27,7 +27,7 @@ const faqs = [
   { q: "Do you work with businesses in Shimla?", a: "Yes. I'm based in Kangra district and work with businesses across Himachal Pradesh — Shimla included. Everything runs over WhatsApp, calls and screen-shares, the same way I work with clients in the US and Europe; and being in-state means same-timezone responses and the option to meet when it matters." },
   { q: "What does a website cost in Shimla?", a: `A firm's website starts at ${inr(P.basic)}, a hotel site at ${inr(P.hotel)}, and a school or institution site with an admin panel at ${inr(P.school)}. Those are three different scopes, so I quote after one conversation, fixed and in writing. You'll know the whole number before anything starts.` },
   { q: "Can you redesign our existing website without losing our Google rankings?", a: "Yes — that's a technical SEO job as much as a design job: preserving URLs or redirecting them properly, keeping the content Google already trusts, and shipping a faster site that improves rankings rather than gambling with them." },
-  { q: "How is this different from hiring a big agency in Chandigarh or Delhi?", a: "You work directly with the person who designs and codes — no account managers, no junior handoffs, no six-month timelines. Builds go live in 1–3 weeks, you own the code outright, and support doesn't die after launch." },
+  { q: "How is this different from hiring a big agency in Chandigarh or Delhi?", a: "You work directly with the person who designs and codes — no account managers, no junior handoffs, no six-month timelines. Builds go live in 1–2 weeks, you own the code outright, and support doesn't die after launch." },
   { q: "Can one website handle Shimla's summer rush and the snow season?", a: "It should, because they're two different guests. Summer brings families escaping the heat of the plains; winter brings people chasing snow at Kufri and Narkanda. Seasonal rates, packages and open dates sit in one place you can edit, and each season gets its own page that answers what that guest is searching for — instead of one homepage trying to sell both." },
   { q: "Can a stay in Kufri, Mashobra, Naldehra or Narkanda rank for its own place, not just “hotel in Shimla”?", a: "That's usually where a smaller stay can win. “Hotel in Shimla” is the most crowded search in the district; the village name is not. A page for your own place — the drive from Shimla, what's nearby, what the season is like — is the same approach I used for a Kangra hotel's 14 “near” pages for guests heading to a medical college and the airport." },
   { q: "Do you build websites for orchards and homestays in the apple belt — Kotkhai, Jubbal, Rohru, Theog?", a: "Yes. An orchard stay, or a grower selling apples direct, needs a few things done well: photographs of the place, the harvest season, how to get there, and an order or booking that arrives on your WhatsApp with the details filled in. No marketplace in the middle taking a cut." },
@@ -46,7 +46,7 @@ const jsonld = JSON.stringify({
       provider: { "@id": `${SITE}/#studio` },
       areaServed: { "@type": "City", name: "Shimla", containedInPlace: { "@type": "State", name: "Himachal Pradesh" } },
       description:
-        "Website designer and developer for Shimla businesses — hotels, institutions, tourism operators and professional firms. Custom-coded, SEO-safe redesigns, direct-booking builds, live in 1–3 weeks.",
+        "Website designer and developer for Shimla businesses — hotels, institutions, tourism operators and professional firms. Custom-coded, SEO-safe redesigns, direct-booking builds, live in 1–2 weeks.",
       url: canonical,
     },
     {
@@ -85,7 +85,7 @@ const jsonld = JSON.stringify({
       <a class="btn btn--red" href={CALENDLY_URL}>Book a call <span aria-hidden="true">→</span></a>
       <a class="btn btn--ink" href={WA}>Message on WhatsApp</a>
       <a class="btn btn--ink" href={PHONE_TEL}>Call {PHONE_DISPLAY}</a>
-      <Fragment slot="notes"><span>Based in Kangra, Himachal · <a href={GOOGLE_MAPS_URL} target="_blank" rel="noopener">on Google Maps <span aria-hidden="true">↗</span></a></span><span>Live in 1–3 weeks</span></Fragment>
+      <Fragment slot="notes"><span>Based in Kangra, Himachal · <a href={GOOGLE_MAPS_URL} target="_blank" rel="noopener">on Google Maps <span aria-hidden="true">↗</span></a></span><span>Live in 1–2 weeks</span></Fragment>
     </PageHero>
 
     <Section n={1} term="Setup" note="The offering" title="Built for how Shimla works">
@@ -94,10 +94,10 @@ const jsonld = JSON.stringify({
 
     <Section n={2} term="Telemetry" note="Proof, not promises" title="Himachal work, on the record">
       <ResultGrid stats={[
-        { v: `20+`, l: `Builds shipped since 2022`, src: SHIPPED_SOURCE },
+        { v: `20+`, l: `Builds shipped since ${FOUNDED_YEAR}`, src: SHIPPED_SOURCE },
         { v: `41.8K`, l: `Google impressions in 28 days, Baglamukhi Travels` },
         { v: `76`, l: `Pages rebuilt for a Manali agency, 71 old URLs redirected` },
-        { v: `1–3 wks`, l: `Typical time to live` },
+        { v: `1–2 wks`, l: `Typical time to live` },
       ]} />
       <div class="gap-top">
         <Cards items={[

@@ -25,8 +25,8 @@ const offers = [
 const faqs = [
   { q: "What does a website cost for a Kangra business?", a: `A business website starts at ${inr(P.basic)}, a taxi or travel site at ${inr(P.travel)}, and a school site with an admin panel at ${inr(P.school)}. Scope decides the final number — a taxi booking site is a different build than a school admissions portal. I quote local Himachal projects fixed and in writing after one conversation — and I'll tell you honestly if a simpler option would serve you better.` },
   { q: "Do local businesses really need more than Google Maps?", a: "Maps gets you found; it doesn't get you chosen or booked. Nandini Travels — Kangra's most-positively-reviewed taxi operator — was losing every lead to Maps until we built a site with an on-site booking form. Their founder's words: it looks 10 times more premium than competitors, and direct bookings now come through the site." },
-  { q: "How fast can you deliver?", a: "Typical local builds land in 1–3 weeks. Larger builds with portals or logins run 6–10 weeks, and I give you a written timeline with the fixed quote." },
-  { q: "Do you build websites for businesses in Palampur, Jaisinghpur or Dehra?", a: "Yes. I build for businesses across Kangra district — Palampur, Jaisinghpur, Nagrota Bagwan, Baijnath, Dehra, Jawalamukhi, Nurpur and the villages between — with the same fixed, written quote and the same 1–3 week timeline for a local site." },
+  { q: "How fast can you deliver?", a: "Typical local builds land in 1–2 weeks. Larger builds with portals or logins run 3–4 weeks, and I give you a written timeline with the fixed quote." },
+  { q: "Do you build websites for businesses in Palampur, Jaisinghpur or Dehra?", a: "Yes. I build for businesses across Kangra district — Palampur, Jaisinghpur, Nagrota Bagwan, Baijnath, Dehra, Jawalamukhi, Nurpur and the villages between — with the same fixed, written quote and the same 1–2 week timeline for a local site." },
   { q: "Are you actually based in Kangra district?", a: "Yes — I live and work in Himachal Pradesh, in Kangra district. You're not routing through a metro agency's junior team; you message me on WhatsApp and the person who replies is the person who builds." },
   { q: "Are you a web development company in Kangra?", a: "No — I'm one web developer, Divyansh Sood, working from Pushp Vihar Colony in Kangra. No sales team and no account manager: the person who answers your WhatsApp is the person who designs, codes and hands over your site. For a Kangra taxi operator, school or shop, that means one conversation, one fixed quote and a site live in one to three weeks." },
 ];
@@ -42,7 +42,7 @@ const jsonld = JSON.stringify({
       provider: { "@id": `${SITE}/#studio` },
       areaServed: { "@type": "City", name: "Kangra", containedInPlace: { "@type": "State", name: "Himachal Pradesh" } },
       description:
-        "Custom-coded websites for Kangra businesses — taxi operators, schools, institutes and local services. Booking forms, admissions portals and local SEO, built in-district, live in 1–3 weeks.",
+        "Custom-coded websites for Kangra businesses — taxi operators, schools, institutes and local services. Booking forms, admissions portals and local SEO, built in-district, live in 1–2 weeks.",
       url: canonical,
     },
     {
@@ -63,7 +63,7 @@ const jsonld = JSON.stringify({
 
 <Base
   title="Web Developer in Kangra — Websites That Win Local Customers"
-  description="Web developer in Kangra, Himachal — booking sites for taxi operators, school admissions portals, local business websites. Built in-district, live in 1–3 weeks."
+  description="Web developer in Kangra, Himachal — booking sites for taxi operators, school admissions portals, local business websites. Built in-district, live in 1–2 weeks."
   canonical={canonical}
   keywords="web developer Kangra, website developer Kangra Himachal, website design Kangra, taxi website developer, school website developer Himachal, local business website Kangra"
   ogTitle="Web developer in Kangra"
@@ -81,7 +81,7 @@ const jsonld = JSON.stringify({
       <a class="btn btn--red" href={CALENDLY_URL}>Book a call <span aria-hidden="true">→</span></a>
       <a class="btn btn--ink" href={WA}>Message on WhatsApp</a>
       <a class="btn btn--ink" href={PHONE_TEL}>Call {PHONE_DISPLAY}</a>
-      <Fragment slot="notes"><span>Based in Kangra · <a href={GOOGLE_MAPS_URL} target="_blank" rel="noopener">on Google Maps <span aria-hidden="true">↗</span></a></span><span>Live in 1–3 weeks</span></Fragment>
+      <Fragment slot="notes"><span>Based in Kangra · <a href={GOOGLE_MAPS_URL} target="_blank" rel="noopener">on Google Maps <span aria-hidden="true">↗</span></a></span><span>Live in 1–2 weeks</span></Fragment>
     </PageHero>
 
     <Section n={1} term="Setup" note="The offering" title="Built for Kangra's businesses">

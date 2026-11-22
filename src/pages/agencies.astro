@@ -9,7 +9,7 @@ import ResultGrid from "../components/brand/ResultGrid.astro";
 import { projects, SHIPPED_SOURCE } from "../lib/projects/data.mjs";
 import Faq from "../components/brand/Faq.astro";
 import EndCta from "../components/brand/EndCta.astro";
-import { SITE, CALENDLY_URL, GOOGLE_REVIEWS_URL, STARTING_PRICES, inr } from "../lib/site.mjs";
+import { SITE, CALENDLY_URL, GOOGLE_REVIEWS_URL, STARTING_PRICES, FOUNDED_YEAR, inr } from "../lib/site.mjs";
 import SpecList from "../components/brand/SpecList.astro";
 import { TOPICS } from "../lib/entity.mjs";
 
@@ -43,10 +43,10 @@ const terms = [
 ];
 
 const turnaround = [
-  { v: "1–3 wks", l: "Local business websites" },
-  { v: "3–4 wks", l: "Marketing sites and MVPs" },
-  { v: "3–4 wks", l: "E-commerce stores" },
-  { v: "6–10 wks", l: "Larger builds, such as web apps and portals" },
+  { v: "1–2 wks", l: "Local business websites" },
+  { v: "7–14 days", l: "Marketing sites and MVPs" },
+  { v: "7–14 days", l: "E-commerce stores" },
+  { v: "3–4 wks", l: "Larger builds, such as web apps and portals" },
 ];
 
 const deliverables = [
@@ -73,7 +73,7 @@ const faqs = [
   { q: "How do we communicate across time zones?", a: "Whatever tool you already use. I take your 7am call when it has to be 7am." },
   { q: "Can you join calls with our client?", a: "Yes, when it helps. I join under your agency's name, as part of your team, and everything still routes through you. By default I stay behind the scenes." },
   { q: "Will you list our client's project in your portfolio?", a: "Not unless you agree in writing. No footer credit, no portfolio listing and no case study for white-label work without your written OK." },
-  { q: "How long does a white-label build take?", a: "Local business sites take 1–3 weeks, marketing sites and MVPs 3–4 weeks, e-commerce stores 3–4 weeks, and larger builds such as web apps and portals 6–10 weeks. The fixed quote states the timeline for your scope." },
+  { q: "How long does a white-label build take?", a: "Local business sites take 1–2 weeks, marketing sites, MVPs and e-commerce stores 7–14 days, and larger builds such as web apps and portals 3–4 weeks. The fixed quote states the timeline for your scope." },
 ];
 
 const jsonld = JSON.stringify({
@@ -107,7 +107,7 @@ const jsonld = JSON.stringify({
 
 <Base
   title="White-Label Web Development for Agencies · Divyansh Sood"
-  description="White-label web development partner for design and marketing agencies worldwide. Custom-coded builds under your brand — NDA-friendly, live in 3–4 weeks."
+  description="White-label web development partner for design and marketing agencies worldwide. Custom-coded builds under your brand — NDA-friendly, live in 7–14 days."
   canonical={canonical}
   keywords="white-label web development, agency build partner, overflow web developer, subcontract web developer, design to code, white label developer for agencies, Divyansh Sood"
   ogTitle="White-label web development for agencies"
@@ -161,7 +161,7 @@ const jsonld = JSON.stringify({
 
     <Section n={7} term="Telemetry" note="Track record" title="Reliable, on the record">
       <ResultGrid stats={[
-        { v: `20+`, l: `Projects shipped since 2022`, src: SHIPPED_SOURCE },
+        { v: `20+`, l: `Projects shipped since ${FOUNDED_YEAR}`, src: SHIPPED_SOURCE },
         { v: String(projects.length), l: `Case studies published, each linked to its live site` },
       ]} />
       <div class="gap-top">
