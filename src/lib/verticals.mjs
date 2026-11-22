@@ -157,6 +157,7 @@ export const VERTICALS = {
     ],
     see: [
       { lead: "Running a family home or a small guesthouse rather than a hotel?", href: "/services/homestay-website-development/", t: "Homestay website development" },
+      { lead: "Want more Google reviews from guests who've stayed? Free, printable:", href: "/tools/google-review-qr-code-generator/", t: "Google review QR card" },
     ],
     proof: ["yash-rock-hotel", "hotel-himalayan-brothers"],
     steps: [
@@ -207,6 +208,7 @@ export const VERTICALS = {
     see: [
       { lead: "Running a hotel, a resort or several properties?", href: "/services/hotel-website-development/", t: "Hotel website development" },
       { lead: "Also arranging pickups and drops for your guests?", href: "/services/taxi-website-development/", t: "Taxi website development" },
+      { lead: "Taking bookings on WhatsApp? A free link and QR code that pre-fill the dates:", href: "/tools/whatsapp-link-generator/", t: "WhatsApp link generator" },
     ],
     deepHead: "Four valleys, four kinds of guest",
     deepNote: "Where homestays are",
@@ -266,6 +268,7 @@ export const VERTICALS = {
     ],
     see: [
       { lead: "Mostly airport pickups and point-to-point taxi routes?", href: "/services/taxi-website-development/", t: "Taxi website development" },
+      { lead: "Want more Google reviews from past travellers? Free, printable:", href: "/tools/google-review-qr-code-generator/", t: "Google review QR card" },
     ],
     proof: ["leisure-himachal", "dharamshala-tours", "himalayan-brothers", "kangra-valley-travels", "sunny-himachal-travels", "sach-pass"],
     steps: [
@@ -315,6 +318,8 @@ export const VERTICALS = {
     ],
     see: [
       { lead: "Selling tour packages, treks and multi-day trips more than transfers?", href: "/services/travel-website-development/", t: "Travel & tour operator websites" },
+      { lead: "Free for drivers and operators: a booking link that pre-fills the route and date,", href: "/tools/whatsapp-link-generator/", t: "WhatsApp link generator" },
+      { lead: "and a review card for the dashboard:", href: "/tools/google-review-qr-code-generator/", t: "Google review QR card" },
     ],
     deepHead: "What five taxi sites taught me",
     deepNote: "From the builds",

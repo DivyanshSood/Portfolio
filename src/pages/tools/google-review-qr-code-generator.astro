@@ -1,0 +1,291 @@
+---
+import Base from "../../layouts/Base.astro";
+import PageHero from "../../components/brand/PageHero.astro";
+import Section from "../../components/brand/Section.astro";
+import Cards from "../../components/brand/Cards.astro";
+import Faq from "../../components/brand/Faq.astro";
+import EndCta from "../../components/brand/EndCta.astro";
+import { SITE } from "../../lib/site.mjs";
+import { TOPICS } from "../../lib/entity.mjs";
+import "../../styles/tools.css";
+
+const canonical = `${SITE}/tools/google-review-qr-code-generator/`;
+
+const faqs = [
+  { q: "How do I find my Google review link?", a: "Search your business name on Google while signed in to the Google account that manages your Business Profile. In the profile panel, tap “Ask for reviews” (on some accounts it reads “Get more reviews”) and copy the link it shows. That link opens the review box directly. Paste it into the first field above. The Google Business Profile app has the same option." },
+  { q: "Can I use my Place ID instead?", a: "Yes. Paste the Place ID (it usually starts with ChIJ) and the tool builds Google’s standard write-a-review link from it: search.google.com/local/writereview?placeid=… You can look up any business’s Place ID with Google’s free Place ID Finder on developers.google.com." },
+  { q: "Is this Google review QR code generator free?", a: "Yes, fully free, with no sign-up and no watermark you can’t turn off. The QR code is made in your browser. Your link and business name are never uploaded or stored, and the QR points straight at Google, not through a redirect of mine, so it keeps working whatever happens to this site." },
+  { q: "Will the QR code expire?", a: "No. It’s a static QR code: the link is written into the pattern itself, with no tracking redirect in between. It works for as long as your Google review link does. If you ever change the link, make a new card." },
+  { q: "Can I offer a discount for a review?", a: "No. Google’s review policy forbids incentives (discounts, free items, upgrades) in exchange for reviews, and it also forbids asking only happy customers, which is called review gating. Google can remove reviews it thinks broke these rules. Ask every guest, offer nothing for it, and reply to every review, good or bad." },
+  { q: "What size should I print it?", a: "The card downloads at A6 (105 × 148 mm) at 300 dpi, which suits a reception desk, a table tent or a taxi dashboard. The QR on it is about 7 cm wide, so phones scan it easily from an arm’s length. The plain QR PNG is 1024 px, sharp enough for anything up to about 9 cm." },
+];
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": `${canonical}#app`,
+      name: "Free Google Review QR Code Generator",
+      applicationCategory: "BusinessApplication",
+      operatingSystem: "Web browser",
+      url: canonical,
+      description:
+        "A free, browser-based tool that turns a Google review link or Place ID into a QR code and a printable A6 review card. No sign-up, nothing stored.",
+      offers: { "@type": "Offer", price: "0", priceCurrency: "INR" },
+      author: { "@id": `${SITE}/#person` },
+      provider: { "@id": `${SITE}/#studio` },
+      isAccessibleForFree: true,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Tools", item: `${SITE}/tools/` },
+        { "@type": "ListItem", position: 3, name: "Google review QR code generator", item: canonical },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+    },
+  ],
+});
+---
+
+<Base
+  title="Free Google Review QR Code Generator + Printable Card"
+  description="Turn your Google review link or Place ID into a QR code and a printable A6 card for your desk, rooms or taxi. Free, no sign-up, made in your browser."
+  canonical={canonical}
+  keywords="google review qr code generator, google review link qr code, google review card, review qr code for hotel, google business profile qr code, free review qr code"
+  ogTitle="Free Google review QR code generator"
+  ogDescription="Paste your Google review link, get a QR code and a printable review card for your reception, rooms or taxi. Free, in your browser."
+  topics={[TOPICS.seo]}
+  jsonld={jsonld}
+>
+  <main>
+    <PageHero
+      display="Google review QR codes, free."
+      size="case"
+      kicker="Free tool · Local SEO · Google reviews · No sign-up"
+      lead={`Paste your Google review link (or your Place ID) and get a QR code that opens the review box, plus a printable card for the reception desk, the rooms or the taxi dashboard. It runs in your browser: <strong>nothing you type is uploaded</strong>, and the QR points straight at Google with no redirect of mine in between.`}
+    />
+
+    <Section n={1} term="Setup" note="Live preview" title="Make your review card">
+      <div class="tk">
+        <form class="form" id="rq-form" autocomplete="off" novalidate>
+          <label class="field" for="rq-link">Google review link or Place ID *
+            <input type="text" id="rq-link" placeholder="https://g.page/r/…/review  or  ChIJ…" required spellcheck="false" />
+            <span class="tk-hint">On Google, open your profile and tap “Ask for reviews” to copy the link. How-to in the questions below.</span>
+          </label>
+          <label class="field" for="rq-name">Business name *<input type="text" id="rq-name" placeholder="Hotel Snow View, Dharamshala" maxlength="60" /></label>
+          <label class="field" for="rq-head">Headline<input type="text" id="rq-head" value="Enjoyed your stay?" maxlength="40" /></label>
+          <label class="field" for="rq-sub">Line under it<input type="text" id="rq-sub" value="Scan to leave us a Google review. It takes a minute and helps other travellers find us." maxlength="120" /></label>
+          <div class="tk-two">
+            <label class="field" for="rq-color">Card colour<input type="color" id="rq-color" value="#0A0A0A" /></label>
+            <label class="field" for="rq-preset">Quick headline
+              <select id="rq-preset">
+                <option value="">Keep mine</option>
+                <option value="Enjoyed your stay?|Scan to leave us a Google review. It takes a minute and helps other travellers find us.">Hotel / homestay</option>
+                <option value="Enjoyed the ride?|Scan to review your trip on Google. It helps other travellers book with confidence.">Taxi / travel</option>
+                <option value="Enjoyed your meal?|Scan to tell others about us on Google. Thank you for visiting!">Restaurant / café</option>
+                <option value="Happy with our work?|Scan to leave a quick Google review. It helps other people find us.">Any business</option>
+              </select>
+            </label>
+          </div>
+          <label class="tk-check"><input type="checkbox" id="rq-credit" checked /> Small “made free at divyanshsood.com” line at the bottom</label>
+        </form>
+
+        <div class="tk-out">
+          <div class="tk-bar">
+            <span>Review card · A6</span>
+            <div class="tk-actions">
+              <button type="button" class="tk-btn" id="rq-test">Test link</button>
+              <button type="button" class="tk-btn" id="rq-qr">QR PNG</button>
+              <button type="button" class="tk-btn tk-btn--red" id="rq-card">Card PNG</button>
+              <button type="button" class="tk-btn" id="rq-print">Print</button>
+            </div>
+          </div>
+          <div class="tk-body">
+            <canvas id="rq-canvas" class="rq-canvas" width="1240" height="1748" role="img" aria-label="Preview of your printable review card"></canvas>
+            <p class="tk-msg" id="rq-msg" aria-live="polite"></p>
+            <p class="tk-link" id="rq-url"></p>
+          </div>
+        </div>
+      </div>
+      <p class="meta tk-note">Scan the preview with your own phone before you print a stack. If it opens Google’s “Rate and review” box for your business, you’re set.</p>
+    </Section>
+
+    <Section n={2} term="Setup" note="Go further" title="Reviews are one part of local SEO">
+      <Cards items={[
+        { tag: "Ask everyone", d: "Hand the card to every guest, not only the happy ones. Asking only happy customers is called review gating, and Google’s policy forbids it, as it does discounts or freebies in exchange for a review. The card is a reminder, not a bribe." },
+        { tag: "Reply to all of them", d: "Reply to every review within a day or two, the critical ones most of all. People who are about to book read your replies as closely as the reviews themselves." },
+        { tag: "Let guests reach you", d: `A review gets people to your profile. A WhatsApp button gets them to message you. <a href="/tools/whatsapp-link-generator/">Make a WhatsApp link and QR code →</a>` },
+        { tag: "Done properly, for you", wide: true, d: `A hotel or travel site that ranks next to your Google profile, with your real reviews linked, prices in plain text and booking on WhatsApp, is what I build. See <a href="/services/hotel-website-development/">hotel websites</a>, <a href="/services/homestay-website-development/">homestay websites</a> and <a href="/services/taxi-website-development/">taxi websites</a>.` },
+      ]} />
+    </Section>
+
+    <Section bare>
+      <Faq faqs={faqs} label="(03) Before you ask" />
+    </Section>
+
+    <EndCta
+      title="Want a site that earns the bookings?"
+      text="The card brings in reviews. A fast site with your reviews linked turns the people reading them into guests."
+      primary={{ href: "/services/hotel-website-development/", label: "Hotel websites →" }}
+      secondary={{ href: "/tools/", label: "More free tools →" }}
+    />
+  </main>
+</Base>
+
+<script>
+  import { $, val, drawQr, qrPngBlob, canvasBlob, download, openExternal, track, fontsReady, wrap } from "../../scripts/tools-kit.js";
+
+  const TOOL = "google_review_qr";
+  const canvas = $("rq-canvas") as HTMLCanvasElement;
+  const msg = $("rq-msg")!;
+  const urlOut = $("rq-url")!;
+  const GOOGLE_HOSTS = /(^|\.)(g\.page|share\.google|google\.[a-z.]+|goo\.gl|g\.co)$/i;
+
+  // Turn whatever was pasted into the URL the QR should hold, plus a note.
+  function resolveLink(raw: string): { url: string; note: string; warn: boolean } {
+    const s = raw.trim();
+    if (!s) return { url: "", note: "Paste your review link or Place ID to make the QR code.", warn: false };
+    if (!/[\s/.:]/.test(s) && /^[A-Za-z0-9_-]{20,}$/.test(s)) {
+      return { url: "https://search.google.com/local/writereview?placeid=" + encodeURIComponent(s), note: "Built Google’s write-a-review link from your Place ID.", warn: false };
+    }
+    let u: URL;
+    try { u = new URL(/^https?:\/\//i.test(s) ? s : "https://" + s); } catch { return { url: "", note: "That isn’t a link or a Place ID. Check what you pasted.", warn: true }; }
+    if (!GOOGLE_HOSTS.test(u.hostname)) return { url: u.href, note: "This doesn’t look like a Google link. Make sure it opens your review box before you print.", warn: true };
+    if (/maps\.app\.goo\.gl|google\.[a-z.]+\/maps/i.test(u.hostname + u.pathname)) return { url: u.href, note: "This opens your Maps listing, so guests need one more tap to reach “Write a review”. The “Ask for reviews” link opens the review box directly.", warn: true };
+    return { url: u.href, note: "Looks like a Google review link. Scan the preview to check it.", warn: false };
+  }
+
+  const css = getComputedStyle(document.documentElement);
+  const DISPLAY = (css.getPropertyValue("--display") || "Archivo, sans-serif").trim();
+
+  function isDarkColour(hex: string) {
+    const n = parseInt(hex.slice(1), 16);
+    const r = (n >> 16) & 255, g = (n >> 8) & 255, b = n & 255;
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b < 150;
+  }
+
+  let current = "";
+  function draw() {
+    const { url, note, warn } = resolveLink(val("rq-link"));
+    current = url;
+    msg.textContent = note;
+    msg.classList.toggle("tk-msg--warn", warn);
+    urlOut.textContent = url || "Your link will appear here.";
+    for (const id of ["rq-test", "rq-qr", "rq-card", "rq-print"]) ($(id) as HTMLButtonElement).disabled = !url;
+
+    const ctx = canvas.getContext("2d")!;
+    const W = canvas.width, H = canvas.height;
+    const colour = (($("rq-color") as HTMLInputElement).value || "#0A0A0A");
+    const onBand = isDarkColour(colour) ? "#FFFFFF" : "#0A0A0A";
+    ctx.fillStyle = "#FFFFFF";
+    ctx.fillRect(0, 0, W, H);
+
+    // Colour band with the business name.
+    const bandH = 330;
+    ctx.fillStyle = colour;
+    ctx.fillRect(0, 0, W, bandH);
+    ctx.fillStyle = onBand;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "alphabetic";
+    ctx.font = `800 72px ${DISPLAY}`;
+    const name = val("rq-name") || "Your business name";
+    const nameLines = wrap(ctx, name, W - 160).slice(0, 2);
+    const nameTop = nameLines.length > 1 ? 150 : 190;
+    nameLines.forEach((l, i) => ctx.fillText(l, W / 2, nameTop + i * 86));
+
+    // Headline + line.
+    ctx.fillStyle = "#0A0A0A";
+    ctx.font = `900 96px ${DISPLAY}`;
+    const head = wrap(ctx, val("rq-head") || "Enjoyed your visit?", W - 160).slice(0, 2);
+    head.forEach((l, i) => ctx.fillText(l, W / 2, 470 + i * 104));
+    ctx.fillStyle = "#3E3E3E";
+    ctx.font = `400 44px ${DISPLAY}`;
+    const subTop = 470 + head.length * 104 + 10;
+    const sub = wrap(ctx, val("rq-sub"), W - 220).slice(0, 3);
+    sub.forEach((l, i) => ctx.fillText(l, W / 2, subTop + i * 58));
+
+    // QR (up to ≈7 cm at 300 dpi), centred in the space left between the
+    // text and the credit line, so nothing ever sits in its quiet zone.
+    const textBottom = subTop + sub.length * 58;
+    const room = H - 90 - textBottom;
+    const qrPx = Math.min(840, room - 40);
+    const qrY = textBottom + (room - qrPx) / 2;
+    const qrX = (W - qrPx) / 2;
+    if (url) {
+      drawQr(ctx, url, qrX, qrY, qrPx, { ecl: "Q" });
+    } else {
+      ctx.strokeStyle = "#DADADA";
+      ctx.lineWidth = 6;
+      ctx.setLineDash([24, 18]);
+      ctx.strokeRect(qrX + 30, qrY + 30, qrPx - 60, qrPx - 60);
+      ctx.setLineDash([]);
+      ctx.fillStyle = "#9A9A9A";
+      ctx.font = `400 40px ${DISPLAY}`;
+      ctx.fillText("Your QR code", W / 2, qrY + qrPx / 2);
+    }
+
+    if (($("rq-credit") as HTMLInputElement).checked) {
+      ctx.fillStyle = "#8A8A8A";
+      ctx.font = `400 26px ${DISPLAY}`;
+      ctx.fillText("Card made free at divyanshsood.com/tools", W / 2, H - 40);
+    }
+  }
+
+  const slug = () => (val("rq-name") || "google-review").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40) || "google-review";
+
+  $("rq-preset")!.addEventListener("change", (e) => {
+    const v = (e.target as HTMLSelectElement).value;
+    if (!v) return;
+    const [h, s] = v.split("|");
+    ($("rq-head") as HTMLInputElement).value = h;
+    ($("rq-sub") as HTMLInputElement).value = s;
+    draw();
+  });
+  for (const id of ["rq-link", "rq-name", "rq-head", "rq-sub", "rq-color", "rq-credit"]) $(id)!.addEventListener("input", draw);
+
+  $("rq-test")!.addEventListener("click", () => { if (current) { openExternal(current); track(TOOL, "test"); } });
+  $("rq-qr")!.addEventListener("click", async () => {
+    if (!current) return;
+    download(`${slug()}-review-qr.png`, await qrPngBlob(current, 1024, { ecl: "Q" }));
+    track(TOOL, "download_qr");
+  });
+  $("rq-card")!.addEventListener("click", async () => {
+    if (!current) return;
+    draw();
+    download(`${slug()}-review-card.png`, (await canvasBlob(canvas))!);
+    track(TOOL, "download_card");
+  });
+  $("rq-print")!.addEventListener("click", () => {
+    if (!current) return;
+    draw();
+    const holder = document.createElement("div");
+    holder.className = "tk-print";
+    const img = new Image();
+    img.alt = "Google review card";
+    img.style.cssText = "width:105mm;height:148mm;display:block;margin:0 auto";
+    img.src = canvas.toDataURL("image/png");
+    holder.appendChild(img);
+    document.body.appendChild(holder);
+    document.body.classList.add("tk-printing");
+    const cleanup = () => { document.body.classList.remove("tk-printing"); holder.remove(); window.removeEventListener("afterprint", cleanup); };
+    window.addEventListener("afterprint", cleanup);
+    // The holder is display:none on screen, so if a browser never fires
+    // afterprint the leftovers are invisible and the next print replaces them.
+    document.querySelectorAll(".tk-print").forEach((n) => { if (n !== holder) n.remove(); });
+    img.onload = () => window.print();
+    track(TOOL, "print");
+  });
+
+  fontsReady().then(draw);
+  draw();
+</script>
+
+<style>
+  .rq-canvas{display:block;width:100%;max-width:340px;height:auto;margin:0 auto;border:1px solid var(--gda);box-shadow:0 8px 24px rgba(0,0,0,.08)}
+</style>

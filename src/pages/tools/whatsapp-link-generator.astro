@@ -1,0 +1,229 @@
+---
+import Base from "../../layouts/Base.astro";
+import PageHero from "../../components/brand/PageHero.astro";
+import Section from "../../components/brand/Section.astro";
+import Cards from "../../components/brand/Cards.astro";
+import Faq from "../../components/brand/Faq.astro";
+import EndCta from "../../components/brand/EndCta.astro";
+import { SITE } from "../../lib/site.mjs";
+import { TOPICS } from "../../lib/entity.mjs";
+import "../../styles/tools.css";
+
+const canonical = `${SITE}/tools/whatsapp-link-generator/`;
+
+const faqs = [
+  { q: "What is a WhatsApp click-to-chat link?", a: "It’s a link in the form wa.me/<number> that opens a WhatsApp chat with that number, without the person saving you as a contact first. Add ?text= and the message box opens pre-filled, so a guest only has to fill the blanks and press send. It works on phones, on WhatsApp Desktop and on WhatsApp Web." },
+  { q: "How should I write the number?", a: "In full international format with no plus sign, spaces, dashes or leading zero: 91 for India followed by the 10-digit mobile number, for example 919876543210. This tool cleans the number for you and warns if an Indian number doesn’t look like a valid 10-digit mobile." },
+  { q: "Does it work with WhatsApp Business?", a: "Yes. A wa.me link opens a chat with whichever WhatsApp account, personal or Business, is registered to that number. Your greeting and away messages in WhatsApp Business still apply as normal." },
+  { q: "Is this WhatsApp link generator free?", a: "Yes, free, no sign-up, and nothing is stored. The link and QR code are built in your browser. They point straight at wa.me, with no shortener or redirect of mine in between, so they keep working whatever happens to this site." },
+  { q: "Where should I put the link?", a: "On your website’s header and contact section, in your Google Business Profile, your Instagram bio, on printed cards at reception and in booking-confirmation emails. On a website, pre-fill the message to match the page: a taxi route page can ask for the date and the number of passengers, a room page for check-in and check-out dates." },
+];
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": `${canonical}#app`,
+      name: "Free WhatsApp Link Generator",
+      applicationCategory: "BusinessApplication",
+      operatingSystem: "Web browser",
+      url: canonical,
+      description:
+        "A free, browser-based tool that builds a wa.me click-to-chat link with a pre-filled message, a QR code and a copy-paste website button. No sign-up, nothing stored.",
+      offers: { "@type": "Offer", price: "0", priceCurrency: "INR" },
+      author: { "@id": `${SITE}/#person` },
+      provider: { "@id": `${SITE}/#studio` },
+      isAccessibleForFree: true,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Tools", item: `${SITE}/tools/` },
+        { "@type": "ListItem", position: 3, name: "WhatsApp link generator", item: canonical },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+    },
+  ],
+});
+---
+
+<Base
+  title="Free WhatsApp Link Generator with Message + QR Code"
+  description="Make a wa.me click-to-chat link with a pre-filled booking message, a QR code and a website button. Free, no sign-up, built in your browser, nothing stored."
+  canonical={canonical}
+  keywords="whatsapp link generator, wa.me link, whatsapp click to chat link, whatsapp qr code generator, whatsapp link with message, whatsapp button for website"
+  ogTitle="Free WhatsApp link + QR generator"
+  ogDescription="A wa.me link with a pre-filled message, a QR code and a website button, in one go. Free, in your browser."
+  topics={[TOPICS.webDevelopment]}
+  jsonld={jsonld}
+>
+  <main>
+    <PageHero
+      display="WhatsApp links that fill themselves."
+      size="case"
+      kicker="Free tool · WhatsApp · QR code · No sign-up"
+      lead={`Enter your number and the message you want guests to send. You get a <strong>wa.me link</strong>, a <strong>QR code</strong> for print and a <strong>button</strong> to paste on your website. Pick a booking template for taxis, hotels, homestays, tours or schools, or write your own. It runs in your browser, and nothing you type is uploaded.`}
+    />
+
+    <Section n={1} term="Setup" note="Live preview" title="Build your WhatsApp link">
+      <div class="tk">
+        <form class="form" id="wa-form" autocomplete="off" novalidate>
+          <div class="wa-num">
+            <label class="field" for="wa-cc">Country
+              <select id="wa-cc">
+                <option value="91" selected>India +91</option>
+                <option value="977">Nepal +977</option>
+                <option value="971">UAE +971</option>
+                <option value="44">UK +44</option>
+                <option value="1">US / Canada +1</option>
+                <option value="61">Australia +61</option>
+                <option value="">Other (type it in the number)</option>
+              </select>
+            </label>
+            <label class="field" for="wa-number">WhatsApp number *<input type="tel" id="wa-number" placeholder="98765 43210" inputmode="tel" /></label>
+          </div>
+          <label class="field" for="wa-template">Message template
+            <select id="wa-template">
+              <option value="">Write my own</option>
+              <option value="Hi, I'd like to book a taxi.&#10;From: &#10;To: &#10;Date: &#10;Passengers: ">Taxi booking</option>
+              <option value="Hi, I'd like to check room availability.&#10;Check-in: &#10;Check-out: &#10;Guests: ">Hotel room enquiry</option>
+              <option value="Hi, is your homestay available?&#10;Dates: &#10;Guests: &#10;Coming from: ">Homestay enquiry</option>
+              <option value="Hi, I'm interested in a tour package.&#10;Destination: &#10;Dates: &#10;People: ">Tour package</option>
+              <option value="Hello, I'd like to know about admissions.&#10;Class: &#10;Student's name: ">School admission</option>
+              <option value="Hi, I found you on your website and have a question: ">General question</option>
+            </select>
+          </label>
+          <label class="field" for="wa-msg">Pre-filled message (optional)<textarea id="wa-msg" rows="5" maxlength="1000" placeholder="Hi, I'd like to book a taxi…"></textarea></label>
+          <div class="tk-two">
+            <label class="field" for="wa-label">Button text<input type="text" id="wa-label" value="Chat on WhatsApp" maxlength="40" /></label>
+            <label class="field" for="wa-style">Button style
+              <select id="wa-style">
+                <option value="inline">Inline button</option>
+                <option value="float">Floating (bottom-right)</option>
+              </select>
+            </label>
+          </div>
+        </form>
+
+        <div class="tk-out">
+          <div class="tk-bar">
+            <span>wa.me link</span>
+            <div class="tk-actions">
+              <button type="button" class="tk-btn" id="wa-copy">Copy link</button>
+              <button type="button" class="tk-btn" id="wa-test">Test</button>
+              <button type="button" class="tk-btn tk-btn--red" id="wa-png">QR PNG</button>
+            </div>
+          </div>
+          <div class="tk-body">
+            <p class="tk-link" id="wa-url"></p>
+            <p class="tk-msg" id="wa-note" aria-live="polite"></p>
+            <div class="tk-qr" id="wa-qr"></div>
+          </div>
+          <div class="tk-bar">
+            <span>Website button · HTML</span>
+            <div class="tk-actions"><button type="button" class="tk-btn" id="wa-copy-html">Copy HTML</button></div>
+          </div>
+          <pre class="tk-pre wa-pre" id="wa-html" tabindex="0"></pre>
+        </div>
+      </div>
+      <p class="meta tk-note">Tap “Test” to open the chat exactly as a visitor would. On a computer it opens WhatsApp Desktop or WhatsApp Web.</p>
+    </Section>
+
+    <Section n={2} term="Setup" note="Go further" title="Where a WhatsApp link earns its keep">
+      <Cards items={[
+        { tag: "One message per page", d: "A taxi route page should pre-fill the route; a room page should ask for dates. A message that already says what the guest wants gets a faster reply and fewer back-and-forths." },
+        { tag: "Ask for reviews too", d: `Guests who message you are the ones to ask for a review once they’ve stayed or travelled. <a href="/tools/google-review-qr-code-generator/">Make a Google review QR card →</a>` },
+        { tag: "Done properly, for you", wide: true, d: `Every hotel, homestay and taxi site I build sends enquiries to WhatsApp with the right message on every page, and tracks each tap in Google Analytics so you know which pages bring bookings. See <a href="/services/taxi-website-development/">taxi websites</a>, <a href="/services/homestay-website-development/">homestay websites</a> and <a href="/services/travel-website-development/">travel websites</a>.` },
+      ]} />
+    </Section>
+
+    <Section bare>
+      <Faq faqs={faqs} label="(03) Before you ask" />
+    </Section>
+
+    <EndCta
+      title="Want bookings, not just a link?"
+      text="A WhatsApp button helps. A fast site that ranks for your routes and rooms is what fills the chat."
+      primary={{ href: "/services/taxi-website-development/", label: "Taxi & travel sites →" }}
+      secondary={{ href: "/tools/", label: "More free tools →" }}
+    />
+  </main>
+</Base>
+
+<script>
+  import { $, val, qrSvg, qrPngBlob, download, copyText, openExternal, track } from "../../scripts/tools-kit.js";
+
+  const TOOL = "whatsapp_link";
+  let link = "";
+
+  function cleanNumber(): { digits: string; note: string; warn: boolean } {
+    const cc = val("wa-cc");
+    let n = val("wa-number").replace(/\D/g, "");
+    if (!n) return { digits: "", note: "Enter your WhatsApp number to build the link.", warn: false };
+    if (cc) {
+      n = n.replace(/^0+/, "");
+      if (n.startsWith(cc) && n.length > 10) n = n.slice(cc.length);
+      if (cc === "91" && !/^[6-9]\d{9}$/.test(n)) return { digits: cc + n, note: "Indian mobile numbers are 10 digits starting with 6, 7, 8 or 9. Check the number.", warn: true };
+      return { digits: cc + n, note: "", warn: false };
+    }
+    if (n.length < 8) return { digits: n, note: "Type the full number with its country code, digits only.", warn: true };
+    return { digits: n, note: "", warn: false };
+  }
+
+  const escHtml = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
+
+  function snippet(url: string) {
+    const label = escHtml(val("wa-label") || "Chat on WhatsApp");
+    const base = "display:inline-flex;align-items:center;gap:8px;padding:12px 20px;background:#25D366;color:#fff;font:600 16px/1.2 system-ui,sans-serif;text-decoration:none;border-radius:999px";
+    const style = val("wa-style") === "float" ? `position:fixed;right:20px;bottom:20px;z-index:999;box-shadow:0 4px 14px rgba(0,0,0,.25);${base}` : base;
+    return `<a href="${escHtml(url)}" target="_blank" rel="noopener" style="${style}">${label}</a>`;
+  }
+
+  function render() {
+    const { digits, note, warn } = cleanNumber();
+    const text = ($("wa-msg") as HTMLTextAreaElement).value;
+    link = digits ? `https://wa.me/${digits}` + (text.trim() ? `?text=${encodeURIComponent(text)}` : "") : "";
+    $("wa-url")!.textContent = link || "https://wa.me/91XXXXXXXXXX";
+    const n = $("wa-note")!;
+    n.textContent = note || (link ? `${link.length} characters. Scan the QR code with your phone to try it.` : "");
+    n.classList.toggle("tk-msg--warn", warn);
+    try {
+      $("wa-qr")!.innerHTML = link ? qrSvg(link, { label: "QR code for your WhatsApp link" }) : "";
+    } catch {
+      $("wa-qr")!.innerHTML = "";
+      n.textContent = "That message is too long for a QR code. Shorten it.";
+      n.classList.add("tk-msg--warn");
+    }
+    $("wa-html")!.textContent = link ? snippet(link) : "Enter your number to get the button code.";
+    for (const id of ["wa-copy", "wa-test", "wa-png", "wa-copy-html"]) ($(id) as HTMLButtonElement).disabled = !link;
+  }
+
+  $("wa-template")!.addEventListener("change", (e) => {
+    const v = (e.target as HTMLSelectElement).value;
+    if (v) ($("wa-msg") as HTMLTextAreaElement).value = v;
+    render();
+  });
+  for (const id of ["wa-cc", "wa-number", "wa-msg", "wa-label", "wa-style"]) $(id)!.addEventListener("input", render);
+
+  $("wa-copy")!.addEventListener("click", (e) => { if (link) { copyText(link, e.currentTarget as HTMLElement); track(TOOL, "copy_link"); } });
+  $("wa-copy-html")!.addEventListener("click", (e) => { if (link) { copyText(snippet(link), e.currentTarget as HTMLElement); track(TOOL, "copy_html"); } });
+  $("wa-test")!.addEventListener("click", () => { if (link) { openExternal(link); track(TOOL, "test"); } });
+  $("wa-png")!.addEventListener("click", async () => {
+    if (!link) return;
+    download("whatsapp-qr.png", await qrPngBlob(link));
+    track(TOOL, "download_qr");
+  });
+
+  render();
+</script>
+
+<style>
+  .wa-num{display:grid;grid-template-columns:minmax(150px,.8fr) 1.2fr;gap:16px}
+  .wa-pre{min-height:0}
+  @media (max-width:479.98px){.wa-num{grid-template-columns:1fr}}
+</style>

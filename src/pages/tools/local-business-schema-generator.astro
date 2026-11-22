@@ -1,0 +1,295 @@
+---
+import Base from "../../layouts/Base.astro";
+import PageHero from "../../components/brand/PageHero.astro";
+import Section from "../../components/brand/Section.astro";
+import Cards from "../../components/brand/Cards.astro";
+import Faq from "../../components/brand/Faq.astro";
+import EndCta from "../../components/brand/EndCta.astro";
+import { SITE } from "../../lib/site.mjs";
+import { TOPICS } from "../../lib/entity.mjs";
+import "../../styles/tools.css";
+
+const canonical = `${SITE}/tools/local-business-schema-generator/`;
+
+const DAYS = [
+  ["Monday", "Mon"], ["Tuesday", "Tue"], ["Wednesday", "Wed"], ["Thursday", "Thu"],
+  ["Friday", "Fri"], ["Saturday", "Sat"], ["Sunday", "Sun"],
+];
+
+const faqs = [
+  { q: "What is LocalBusiness schema?", a: "It’s structured data, a block of JSON-LD in your page’s HTML, that states your business facts in a form search engines and AI assistants can read without guessing: name, type, address, phone, hours, map location and your profiles elsewhere. It helps Google connect your website to your Business Profile and is one of the clearest signals you can give an AI model about who you are." },
+  { q: "Where do I paste the code?", a: "Into the HTML of your homepage (or your contact page), anywhere inside <head> or <body>. On WordPress, a header-scripts plugin or your SEO plugin’s custom schema field works. On a coded site, put it in the layout. Then run the page through Google’s Rich Results Test and the Schema.org validator; both are linked next to the code." },
+  { q: "Why is there no star rating field?", a: "Because Google ignores it. Since 2019 Google hasn’t shown review stars for a business’s reviews of itself (“self-serving” reviews) on LocalBusiness or Organization markup, and copying your Google rating into your own schema breaks its guidelines. Your real reviews live on your Business Profile, so link to it under “Profiles” instead." },
+  { q: "Which type should I choose?", a: "The most specific one that’s true. A hotel is Hotel; a homestay or guest house fits LodgingBusiness; a tour operator or taxi service fits TravelAgency; a school is School. If nothing fits, LocalBusiness is always correct." },
+  { q: "Is this schema generator free?", a: "Yes, free with no sign-up, and nothing you type leaves your browser. The code is yours to use on any site." },
+];
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": `${canonical}#app`,
+      name: "Free Local Business Schema Generator",
+      applicationCategory: "DeveloperApplication",
+      operatingSystem: "Web browser",
+      url: canonical,
+      description:
+        "A free, browser-based JSON-LD generator for LocalBusiness, Hotel, LodgingBusiness, TravelAgency and School schema, with opening hours, map location and profiles. No sign-up, nothing stored.",
+      offers: { "@type": "Offer", price: "0", priceCurrency: "INR" },
+      author: { "@id": `${SITE}/#person` },
+      provider: { "@id": `${SITE}/#studio` },
+      isAccessibleForFree: true,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Tools", item: `${SITE}/tools/` },
+        { "@type": "ListItem", position: 3, name: "Local business schema generator", item: canonical },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+    },
+  ],
+});
+---
+
+<Base
+  title="Free Local Business Schema Generator (JSON-LD)"
+  description="Generate LocalBusiness, Hotel, homestay, travel agency or school JSON-LD schema with hours, map location and profiles. Free, no sign-up, nothing stored."
+  canonical={canonical}
+  keywords="local business schema generator, localbusiness json-ld generator, hotel schema generator, schema markup generator, structured data generator, json-ld generator"
+  ogTitle="Free local business schema generator"
+  ogDescription="JSON-LD for hotels, homestays, travel agencies, schools and any local business, with hours, map and profiles. Free, in your browser."
+  topics={[TOPICS.seo, TOPICS.ai]}
+  jsonld={jsonld}
+>
+  <main>
+    <PageHero
+      display="Local business schema, done right."
+      size="case"
+      kicker="Free tool · Schema · JSON-LD · No sign-up"
+      lead={`Fill in your business facts and get <strong>valid JSON-LD</strong> for your homepage: type, address, phone, opening hours, map location and the profiles that prove you’re you. It leaves out star ratings on purpose (the questions below explain why), and runs entirely in your browser.`}
+    />
+
+    <Section n={1} term="Setup" note="Live code" title="Build your schema">
+      <div class="tk">
+        <form class="form" id="ls-form" autocomplete="off" novalidate>
+          <label class="field" for="ls-type">Business type
+            <select id="ls-type">
+              <option value="LocalBusiness">Any local business (LocalBusiness)</option>
+              <option value="ProfessionalService">Professional service</option>
+              <option value="Hotel">Hotel</option>
+              <option value="LodgingBusiness">Homestay / guest house (LodgingBusiness)</option>
+              <option value="TravelAgency">Travel agency, tour operator or taxi (TravelAgency)</option>
+              <option value="School">School</option>
+              <option value="Restaurant">Restaurant</option>
+              <option value="CafeOrCoffeeShop">Café</option>
+              <option value="Store">Shop / store</option>
+            </select>
+          </label>
+          <label class="field" for="ls-name">Business name *<input type="text" id="ls-name" placeholder="Snow View Homestay" /></label>
+          <label class="field" for="ls-desc">One-line description<input type="text" id="ls-desc" placeholder="Family-run homestay in Dharamkot with mountain views." maxlength="300" /></label>
+          <div class="tk-two">
+            <label class="field" for="ls-url">Website *<input type="url" id="ls-url" placeholder="https://www.example.com/" inputmode="url" spellcheck="false" /></label>
+            <label class="field" for="ls-phone">Phone<input type="tel" id="ls-phone" placeholder="+91 98765 43210" inputmode="tel" /></label>
+          </div>
+          <div class="tk-two">
+            <label class="field" for="ls-email">Email<input type="email" id="ls-email" placeholder="hello@example.com" inputmode="email" /></label>
+            <label class="field" for="ls-price">Price range<input type="text" id="ls-price" placeholder="₹₹ or ₹2,000–₹5,000" maxlength="40" /></label>
+          </div>
+          <div class="tk-two">
+            <label class="field" for="ls-logo">Logo URL<input type="url" id="ls-logo" placeholder="https://www.example.com/logo.png" spellcheck="false" /></label>
+            <label class="field" for="ls-image">Photo URL<input type="url" id="ls-image" placeholder="https://www.example.com/front.jpg" spellcheck="false" /></label>
+          </div>
+          <label class="field" for="ls-street">Street address<input type="text" id="ls-street" placeholder="Upper Dharamkot Road" /></label>
+          <div class="tk-two">
+            <label class="field" for="ls-city">Town / city<input type="text" id="ls-city" placeholder="Dharamshala" /></label>
+            <label class="field" for="ls-region">State<input type="text" id="ls-region" value="Himachal Pradesh" /></label>
+          </div>
+          <div class="tk-two">
+            <label class="field" for="ls-pin">PIN code<input type="text" id="ls-pin" placeholder="176219" inputmode="numeric" maxlength="10" /></label>
+            <label class="field" for="ls-country">Country code<input type="text" id="ls-country" value="IN" maxlength="2" /></label>
+          </div>
+          <div class="tk-two">
+            <label class="field" for="ls-lat">Latitude<input type="text" id="ls-lat" placeholder="32.2470" inputmode="decimal" /></label>
+            <label class="field" for="ls-lng">Longitude<input type="text" id="ls-lng" placeholder="76.3240" inputmode="decimal" /></label>
+          </div>
+          <span class="tk-hint">On Google Maps, right-click (or long-press) your pin and tap the numbers to copy them.</span>
+          <label class="field" for="ls-map">Google Maps link<input type="url" id="ls-map" placeholder="https://maps.app.goo.gl/…" spellcheck="false" /></label>
+
+          <fieldset class="tk-fieldset">
+            <legend>Opening hours</legend>
+            <label class="tk-check"><input type="checkbox" id="ls-24" /> Open 24 hours, every day</label>
+            <div class="ls-days" id="ls-days">
+              {DAYS.map(([full, short], i) => (
+                <label class="ls-day"><input type="checkbox" name="ls-day" value={full} checked={i < 6} /><span>{short}</span></label>
+              ))}
+            </div>
+            <div class="tk-two" id="ls-times">
+              <label class="field" for="ls-open">Opens<input type="time" id="ls-open" value="09:00" /></label>
+              <label class="field" for="ls-close">Closes<input type="time" id="ls-close" value="19:00" /></label>
+            </div>
+          </fieldset>
+
+          <div class="tk-two ls-lodging" id="ls-lodging">
+            <label class="field" for="ls-in">Check-in time<input type="time" id="ls-in" value="12:00" /></label>
+            <label class="field" for="ls-out">Check-out time<input type="time" id="ls-out" value="11:00" /></label>
+          </div>
+          <label class="field" for="ls-areas">Areas served, one per line<textarea id="ls-areas" rows="3" placeholder="Dharamshala&#10;McLeod Ganj&#10;Kangra"></textarea></label>
+          <label class="field" for="ls-same">Profiles (Business Profile, Instagram, Facebook…), one URL per line<textarea id="ls-same" rows="3" placeholder="https://www.instagram.com/yourhandle/&#10;https://www.facebook.com/yourpage/" spellcheck="false"></textarea></label>
+        </form>
+
+        <div class="tk-out">
+          <div class="tk-bar">
+            <span>JSON-LD</span>
+            <div class="tk-actions">
+              <button type="button" class="tk-btn" id="ls-copy">Copy</button>
+              <button type="button" class="tk-btn tk-btn--red" id="ls-dl">Download</button>
+            </div>
+          </div>
+          <p class="tk-msg ls-msg" id="ls-msg" aria-live="polite"></p>
+          <pre class="tk-pre" id="ls-code" tabindex="0"></pre>
+          <div class="tk-bar ls-test">
+            <span>Test it</span>
+            <span class="ls-links">
+              <a href="https://search.google.com/test/rich-results" target="_blank" rel="noopener">Rich Results Test ↗</a>
+              <a href="https://validator.schema.org/" target="_blank" rel="noopener">Schema validator ↗</a>
+            </span>
+          </div>
+        </div>
+      </div>
+      <p class="meta tk-note">Only mark up what’s visible on your site and true on your Business Profile. If your schema says 9 to 7 and Google says 10 to 6, both look less trustworthy.</p>
+    </Section>
+
+    <Section n={2} term="Setup" note="Go further" title="Schema is one layer of the graph">
+      <Cards items={[
+        { tag: "Match your Business Profile", d: "Use exactly the same name, phone, address and hours as your Google Business Profile. Consistency across your site, Google and directories is what links them into one entity." },
+        { tag: "Pair it with llms.txt", d: `Schema tells machines your facts. A plain-text brief tells AI tools what you do in your own words. <a href="/tools/llms-txt-generator/">Make an llms.txt →</a>` },
+        { tag: "Done properly, for you", wide: true, d: `Every site I build ships one connected schema graph (business, founder, services, pages and articles) generated from a single source of truth, so it never contradicts itself. That’s part of my <a href="/services/seo-geo-services/">SEO &amp; GEO service →</a>` },
+      ]} />
+    </Section>
+
+    <Section bare>
+      <Faq faqs={faqs} label="(03) Before you ask" />
+    </Section>
+
+    <EndCta
+      title="Want it built into the site?"
+      text="Pasting one block is a start. A site that generates its schema, sitemap and llms.txt from one source of truth never drifts."
+      primary={{ href: "/services/seo-geo-services/", label: "SEO & GEO service →" }}
+      secondary={{ href: "/tools/", label: "More free tools →" }}
+    />
+  </main>
+</Base>
+
+<script>
+  import { $, val, copyText, download, track } from "../../scripts/tools-kit.js";
+
+  const TOOL = "local_schema";
+  const LODGING = new Set(["Hotel", "LodgingBusiness"]);
+  let touched = false;
+
+  const lines = (id: string) => val(id).split("\n").map((s) => s.trim()).filter(Boolean);
+  function absUrl(s: string) {
+    if (!s) return "";
+    try { return new URL(/^https?:\/\//i.test(s) ? s : "https://" + s).href; } catch { return ""; }
+  }
+  const num = (s: string) => { const n = parseFloat(s); return Number.isFinite(n) ? n : null; };
+
+  function build() {
+    const type = val("ls-type");
+    const url = absUrl(val("ls-url"));
+    const notes: string[] = [];
+    const o: Record<string, unknown> = { "@context": "https://schema.org", "@type": type };
+    if (url) o["@id"] = url.replace(/#.*$/, "") + "#business";
+    o.name = val("ls-name") || "Your Business Name";
+    if (!val("ls-name")) notes.push("Add your business name.");
+    if (val("ls-desc")) o.description = val("ls-desc");
+    if (url) o.url = url; else notes.push("Add your website URL.");
+    if (val("ls-phone")) o.telephone = val("ls-phone").replace(/[^\d+]/g, "");
+    if (val("ls-email")) o.email = val("ls-email");
+    const logo = absUrl(val("ls-logo")); if (logo) o.logo = logo;
+    const image = absUrl(val("ls-image")); if (image) o.image = image;
+    if (val("ls-price")) o.priceRange = val("ls-price");
+
+    const addr: Record<string, string> = { "@type": "PostalAddress" };
+    if (val("ls-street")) addr.streetAddress = val("ls-street");
+    if (val("ls-city")) addr.addressLocality = val("ls-city");
+    if (val("ls-region")) addr.addressRegion = val("ls-region");
+    if (val("ls-pin")) addr.postalCode = val("ls-pin");
+    if (val("ls-country")) addr.addressCountry = val("ls-country").toUpperCase();
+    if (Object.keys(addr).length > 1) o.address = addr;
+    if (!val("ls-city")) notes.push("Add your town. Local results depend on it.");
+
+    const lat = num(val("ls-lat")), lng = num(val("ls-lng"));
+    if (lat !== null && lng !== null) {
+      if (Math.abs(lat) > 90 || Math.abs(lng) > 180) notes.push("Latitude or longitude is out of range.");
+      else o.geo = { "@type": "GeoCoordinates", latitude: lat, longitude: lng };
+    }
+    const map = absUrl(val("ls-map")); if (map) o.hasMap = map;
+
+    const all = ($("ls-24") as HTMLInputElement).checked;
+    $("ls-days")!.hidden = all;
+    $("ls-times")!.hidden = all;
+    const days = all
+      ? ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+      : Array.from(document.querySelectorAll<HTMLInputElement>('input[name="ls-day"]:checked')).map((c) => c.value);
+    if (days.length) {
+      o.openingHoursSpecification = [{
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: days,
+        opens: all ? "00:00" : val("ls-open") || "09:00",
+        closes: all ? "23:59" : val("ls-close") || "19:00",
+      }];
+    }
+
+    const lodging = LODGING.has(type);
+    $("ls-lodging")!.hidden = !lodging;
+    if (lodging) {
+      if (val("ls-in")) o.checkinTime = val("ls-in");
+      if (val("ls-out")) o.checkoutTime = val("ls-out");
+    }
+
+    const areas = lines("ls-areas");
+    if (areas.length) o.areaServed = areas.map((name) => ({ "@type": "Place", name }));
+    const same = lines("ls-same").map(absUrl).filter(Boolean);
+    if (same.length) o.sameAs = same;
+    else notes.push("Add at least one profile URL (your Business Profile or social pages) to sameAs.");
+
+    const json = JSON.stringify(o, null, 2).replace(/</g, "\\u003c");
+    return { code: `<script type="application/ld+json">\n${json}\n</` + `script>`, notes };
+  }
+
+  function render() {
+    const { code, notes } = build();
+    $("ls-code")!.textContent = code;
+    const m = $("ls-msg")!;
+    m.textContent = notes.length ? notes.join(" ") : "Looks complete. Paste it into your homepage, then test it.";
+    m.classList.toggle("tk-msg--warn", notes.length > 0);
+  }
+
+  $("ls-form")!.addEventListener("input", () => {
+    render();
+    if (!touched) { touched = true; track(TOOL, "edit"); }
+  });
+  $("ls-copy")!.addEventListener("click", (e) => { copyText(build().code, e.currentTarget as HTMLElement); track(TOOL, "copy"); });
+  $("ls-dl")!.addEventListener("click", () => { download("local-business-schema.html", build().code, "text/html;charset=utf-8"); track(TOOL, "download"); });
+  render();
+</script>
+
+<style>
+  .ls-days{display:flex;flex-wrap:wrap;gap:8px}
+  .ls-day{position:relative;cursor:pointer}
+  .ls-day input{position:absolute;opacity:0;width:1px;height:1px}
+  .ls-day span{display:inline-grid;place-items:center;min-width:52px;min-height:44px;padding:0 10px;border:1px solid var(--ink);font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
+  .ls-day input:checked + span{background:var(--ink);color:#fff}
+  .ls-day input:focus-visible + span{outline:2px solid var(--red);outline-offset:2px}
+  .ls-msg{padding:12px 16px 0}
+  .ls-links{display:flex;gap:16px;flex-wrap:wrap;text-transform:none;letter-spacing:.02em}
+  .ls-links a{color:var(--ink)}
+  [hidden]{display:none !important}
+</style>

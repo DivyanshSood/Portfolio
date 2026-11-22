@@ -60,25 +60,30 @@ export const PAGE_UPDATED = {
   "/website-audit/": "2026-09-30",
 
   // Free tools.
-  "/tools/": "2026-09-30",
+  "/tools/": "2026-11-22",
   "/tools/llms-txt-generator/": "2026-11-13",
+  "/tools/website-cost-calculator/": "2026-11-22",
+  "/tools/google-review-qr-code-generator/": "2026-11-22",
+  "/tools/whatsapp-link-generator/": "2026-11-22",
+  "/tools/serp-snippet-preview/": "2026-11-22",
+  "/tools/local-business-schema-generator/": "2026-11-22",
 
   // Service pages.
-  "/services/": "2026-11-16",
+  "/services/": "2026-11-22",
   "/services/ai-development/": "2026-11-16",
   "/services/ecommerce-website-development/": "2026-11-16",
   "/services/landing-page-design/": "2026-11-16",
-  "/services/seo-geo-services/": "2026-11-16",
+  "/services/seo-geo-services/": "2026-11-22",
   "/services/web-app-development/": "2026-11-16",
   "/services/website-development/": "2026-11-16",
 
   // Industry pages — content in src/lib/verticals.mjs.
   "/services/school-website-development/": "2026-11-16",
-  "/services/hotel-website-development/": "2026-11-16",
-  "/services/travel-website-development/": "2026-11-16",
+  "/services/hotel-website-development/": "2026-11-22",
+  "/services/travel-website-development/": "2026-11-22",
   "/services/cbse-school-website-development/": "2026-11-16",
-  "/services/homestay-website-development/": "2026-11-16",
-  "/services/taxi-website-development/": "2026-11-16",
+  "/services/homestay-website-development/": "2026-11-22",
+  "/services/taxi-website-development/": "2026-11-22",
 
   // Location pages — the hub and four towns are hand-written; the rest are
   // generated from src/lib/locations.mjs (added 2026-11-07), so an edit to one

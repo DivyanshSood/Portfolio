@@ -1,0 +1,283 @@
+---
+import Base from "../../layouts/Base.astro";
+import PageHero from "../../components/brand/PageHero.astro";
+import Section from "../../components/brand/Section.astro";
+import Cards from "../../components/brand/Cards.astro";
+import Faq from "../../components/brand/Faq.astro";
+import EndCta from "../../components/brand/EndCta.astro";
+import { SITE } from "../../lib/site.mjs";
+import { TOPICS } from "../../lib/entity.mjs";
+import "../../styles/tools.css";
+
+const canonical = `${SITE}/tools/serp-snippet-preview/`;
+
+const faqs = [
+  { q: "How long should a title tag be?", a: "Short enough to show in full: Google’s desktop results cut titles at roughly 600 pixels, which is about 50–60 characters depending on the letters (a W is much wider than an i). That’s why this tool measures pixels, not characters. Put the words people search for first, so they survive if Google trims the end." },
+  { q: "How long should a meta description be?", a: "Around 120–158 characters, or about 920 pixels on desktop. Mobile shows a little less. Longer isn’t penalised, it just gets cut off. Too short (under about 70 characters) and Google is more likely to replace it with a sentence from the page." },
+  { q: "Will Google show my title and description exactly?", a: "Not always. Google often rewrites titles and descriptions when it thinks another line on the page answers the search better, and the result can differ from one query to the next. A clear, accurate title that matches the page’s main heading is the one most likely to be kept." },
+  { q: "Is this tool free and private?", a: "Yes. It’s free with no sign-up. Everything is measured in your browser and nothing you type is sent anywhere. The pixel widths use the same font family Google uses for results, so they’re close estimates, not Google’s own numbers." },
+  { q: "Does the meta description affect rankings?", a: "Not directly. Google has said the meta description isn’t a ranking factor. It matters because it’s often the text under your link, and a description that answers the search gets more of the clicks." },
+];
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": `${canonical}#app`,
+      name: "Free SERP Snippet Preview Tool",
+      applicationCategory: "DeveloperApplication",
+      operatingSystem: "Web browser",
+      url: canonical,
+      description:
+        "A free, browser-based tool that previews how a page title and meta description may look in Google results on desktop and mobile, with pixel-width checks. No sign-up, nothing stored.",
+      offers: { "@type": "Offer", price: "0", priceCurrency: "INR" },
+      author: { "@id": `${SITE}/#person` },
+      provider: { "@id": `${SITE}/#studio` },
+      isAccessibleForFree: true,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Tools", item: `${SITE}/tools/` },
+        { "@type": "ListItem", position: 3, name: "SERP snippet preview", item: canonical },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+    },
+  ],
+});
+---
+
+<Base
+  title="Free SERP Preview Tool: Title & Meta Description Checker"
+  description="Preview your title tag and meta description as they may appear in Google on desktop and mobile, with pixel-width limits. Free, no sign-up, nothing stored."
+  canonical={canonical}
+  keywords="serp preview tool, serp snippet preview, title tag length checker, meta description length checker, google snippet preview, title pixel width"
+  ogTitle="Free SERP snippet preview"
+  ogDescription="See your title and meta description the way a searcher might, with pixel-width checks for desktop and mobile. Free, in your browser."
+  topics={[TOPICS.seo]}
+  jsonld={jsonld}
+>
+  <main>
+    <PageHero
+      display="See your page in search."
+      size="case"
+      kicker="Free tool · SEO · Titles & descriptions · No sign-up"
+      lead={`Type a title, a meta description and the page URL to see roughly how the result could look on <strong>desktop and mobile</strong>. Lengths are measured in <strong>pixels</strong>, the way Google truncates, not just characters. It all runs in your browser.`}
+    />
+
+    <Section n={1} term="Setup" note="Live preview" title="Check your snippet">
+      <div class="tk">
+        <form class="form" id="sp-form" autocomplete="off" novalidate>
+          <label class="field" for="sp-title">Title tag
+            <input type="text" id="sp-title" value="Taxi Service in Dharamshala | Airport & Local Tours" />
+            <span class="tk-meter" id="sp-title-m"><i></i></span>
+            <span class="tk-hint" id="sp-title-c"></span>
+          </label>
+          <label class="field" for="sp-desc">Meta description
+            <textarea id="sp-desc" rows="4">Taxis in Dharamshala for Gaggal airport pickups, McLeod Ganj sightseeing and Himachal tours. Local drivers, fixed fares. Book on WhatsApp.</textarea>
+            <span class="tk-meter" id="sp-desc-m"><i></i></span>
+            <span class="tk-hint" id="sp-desc-c"></span>
+          </label>
+          <div class="tk-two">
+            <label class="field" for="sp-url">Page URL<input type="url" id="sp-url" value="https://www.example.com/taxi-service-dharamshala/" inputmode="url" spellcheck="false" /></label>
+            <label class="field" for="sp-site">Site name<input type="text" id="sp-site" value="Example Taxi" /></label>
+          </div>
+          <label class="field" for="sp-kw">Main keyword (optional)<input type="text" id="sp-kw" value="taxi service in Dharamshala" /></label>
+        </form>
+
+        <div class="tk-out">
+          <div class="tk-bar">
+            <span>Preview</span>
+            <div class="tk-actions" role="group" aria-label="Device">
+              <button type="button" class="tk-btn tk-btn--red" id="sp-desk" aria-pressed="true">Desktop</button>
+              <button type="button" class="tk-btn" id="sp-mob" aria-pressed="false">Mobile</button>
+            </div>
+          </div>
+          <div class="tk-body">
+            <div class="sp-serp" id="sp-serp">
+              <div class="sp-src">
+                <span class="sp-fav" id="sp-fav" aria-hidden="true">E</span>
+                <span class="sp-srcline"><span class="sp-site" id="sp-o-site"></span><span class="sp-crumb" id="sp-o-url"></span></span>
+              </div>
+              <div class="sp-title" id="sp-o-title"></div>
+              <div class="sp-desc" id="sp-o-desc"></div>
+            </div>
+            <ul class="sp-checks" id="sp-checks" aria-live="polite"></ul>
+          </div>
+          <div class="tk-bar">
+            <span>Head tags</span>
+            <div class="tk-actions"><button type="button" class="tk-btn" id="sp-copy">Copy</button></div>
+          </div>
+          <pre class="tk-pre sp-pre" id="sp-tags" tabindex="0"></pre>
+        </div>
+      </div>
+      <p class="meta tk-note">Widths are estimates measured with the font Google uses for results (Arial). Google can still rewrite a title or description for a particular search.</p>
+    </Section>
+
+    <Section n={2} term="Setup" note="Go further" title="A snippet is a promise">
+      <Cards items={[
+        { tag: "Lead with the search", d: "Put the words people type at the start of the title. If Google trims the end, the part that matched the search is still there." },
+        { tag: "Answer, then invite", d: "Write the description as a one-line answer plus a reason to click: a price, a fact or a next step. Generic lines get replaced with text from the page." },
+        { tag: "Match the page", d: "Keep the title close to the page’s H1. When they disagree, Google is more likely to write its own title." },
+        { tag: "Done properly, for you", wide: true, d: `Titles, descriptions, schema and internal links across a whole site, checked by script on every build so they never drift: that’s my <a href="/services/seo-geo-services/">SEO &amp; GEO service</a>. Or start with a <a href="/website-audit/">free audit of your site →</a>` },
+      ]} />
+    </Section>
+
+    <Section bare>
+      <Faq faqs={faqs} label="(03) Before you ask" />
+    </Section>
+
+    <EndCta
+      title="Want the whole site checked?"
+      text="One snippet is a start. A free audit looks at every page’s title, description, speed and schema, and tells you what to fix first."
+      primary={{ href: "/website-audit/", label: "Free website audit →" }}
+      secondary={{ href: "/tools/", label: "More free tools →" }}
+    />
+  </main>
+</Base>
+
+<script>
+  import { $, val, copyText, track } from "../../scripts/tools-kit.js";
+
+  const TOOL = "serp_preview";
+  // Desktop results: title 20px Arial cut at ~600px; description 14px Arial
+  // cut at ~920px across two lines. Widely used limits, not Google's own.
+  const LIMITS = {
+    desktop: { titlePx: 600, descPx: 920 },
+    // Mobile wraps the title over two lines of ~330px; the description
+    // shows less than desktop.
+    mobile: { titlePx: 660, descPx: 680 },
+  };
+  let mode: "desktop" | "mobile" = "desktop";
+  let touched = false;
+  const ctx = document.createElement("canvas").getContext("2d")!;
+  const width = (text: string, px: number) => { ctx.font = `${px}px Arial, Helvetica, sans-serif`; return ctx.measureText(text).width; };
+
+  function cut(text: string, px: number, max: number) {
+    if (width(text, px) <= max) return { text, cut: false };
+    let lo = 0, hi = text.length;
+    while (lo < hi) {
+      const mid = (lo + hi + 1) >> 1;
+      if (width(text.slice(0, mid) + " …", px) <= max) lo = mid; else hi = mid - 1;
+    }
+    const t = text.slice(0, lo).replace(/\s+\S*$/, "") || text.slice(0, lo);
+    return { text: t + " …", cut: true };
+  }
+
+  const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
+
+  // Bold the keyword's words in the description, as Google bolds query terms.
+  function bold(text: string, kw: string) {
+    const words = kw.toLowerCase().split(/\s+/).filter((w) => w.length > 2);
+    if (!words.length) return esc(text);
+    const re = new RegExp(`\\b(${words.map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|")})\\b`, "gi");
+    return esc(text).replace(re, "<b>$1</b>");
+  }
+
+  function crumbs(raw: string) {
+    try {
+      const u = new URL(/^https?:\/\//i.test(raw) ? raw : "https://" + raw);
+      const parts = u.pathname.split("/").filter(Boolean);
+      return { host: u.hostname, line: [u.origin, ...parts].join(" › ") };
+    } catch { return { host: "example.com", line: raw || "https://www.example.com" }; }
+  }
+
+  function meter(id: string, used: number, max: number) {
+    const m = $(id)!;
+    (m.firstElementChild as HTMLElement).style.width = Math.min(100, (used / max) * 100) + "%";
+    m.classList.toggle("is-over", used > max);
+  }
+
+  function render() {
+    const title = val("sp-title");
+    const desc = val("sp-desc");
+    const kw = val("sp-kw");
+    const site = val("sp-site");
+    const L = LIMITS[mode];
+    const tW = Math.round(width(title, 20));
+    const dW = Math.round(width(desc, 14));
+
+    meter("sp-title-m", tW, LIMITS.desktop.titlePx);
+    meter("sp-desc-m", dW, LIMITS.desktop.descPx);
+    $("sp-title-c")!.textContent = `${title.length} characters · ${tW} / ${LIMITS.desktop.titlePx} px on desktop`;
+    $("sp-desc-c")!.textContent = `${desc.length} characters · ${dW} / ${LIMITS.desktop.descPx} px on desktop`;
+
+    const { host, line } = crumbs(val("sp-url"));
+    $("sp-o-site")!.textContent = site || host.replace(/^www\./, "");
+    $("sp-o-url")!.textContent = line;
+    $("sp-fav")!.textContent = (site || host.replace(/^www\./, "") || "?").charAt(0).toUpperCase();
+    const t = cut(title || "Your page title", 20, L.titlePx);
+    const d = cut(desc || "Your meta description will appear here.", 14, L.descPx);
+    $("sp-o-title")!.textContent = t.text;
+    $("sp-o-desc")!.innerHTML = bold(d.text, kw);
+    $("sp-serp")!.classList.toggle("is-mobile", mode === "mobile");
+
+    const checks: [boolean, string][] = [];
+    if (!title) checks.push([false, "Add a title. Without one, Google writes its own."]);
+    else if (tW > LIMITS.desktop.titlePx) checks.push([false, `The title is ${tW - LIMITS.desktop.titlePx} px too wide for desktop and will be cut. Trim words from the end.`]);
+    else if (title.length < 25) checks.push([false, "The title is short. There’s room for the town, the service or the brand."]);
+    else checks.push([true, "The title fits on desktop."]);
+    if (!desc) checks.push([false, "Add a meta description, or Google will pick a sentence from the page."]);
+    else if (desc.length < 70) checks.push([false, "The description is short, so Google is more likely to replace it. Aim for 120–158 characters."]);
+    else if (dW > LIMITS.desktop.descPx) checks.push([false, "The description will be cut on desktop. Move the most important part to the start."]);
+    else checks.push([true, "The description fits on desktop."]);
+    if (kw) {
+      const inTitle = title.toLowerCase().includes(kw.toLowerCase());
+      checks.push([inTitle, inTitle ? "The keyword is in the title." : "The exact keyword isn’t in the title. Consider working it in near the start."]);
+      if (inTitle) {
+        const pos = title.toLowerCase().indexOf(kw.toLowerCase());
+        if (pos > 30) checks.push([false, "The keyword sits late in the title. Searchers scan the first few words."]);
+      }
+    }
+    const dupe = title.toLowerCase().match(/\b(\w{4,})\b.*\b\1\b/);
+    if (dupe) checks.push([false, `“${dupe[1]}” appears twice in the title. Once is enough.`]);
+    $("sp-checks")!.innerHTML = checks.map(([ok, m]) => `<li class="${ok ? "ok" : "fix"}"><span>${ok ? "OK" : "Fix"}</span>${esc(m)}</li>`).join("");
+
+    $("sp-tags")!.textContent = `<title>${esc(title)}</title>\n<meta name="description" content="${esc(desc)}">`;
+  }
+
+  function setMode(m: "desktop" | "mobile") {
+    mode = m;
+    const d = $("sp-desk")!, mo = $("sp-mob")!;
+    d.setAttribute("aria-pressed", String(m === "desktop"));
+    mo.setAttribute("aria-pressed", String(m === "mobile"));
+    d.classList.toggle("tk-btn--red", m === "desktop");
+    mo.classList.toggle("tk-btn--red", m === "mobile");
+    render();
+  }
+
+  $("sp-form")!.addEventListener("input", () => {
+    render();
+    if (!touched) { touched = true; track(TOOL, "edit"); }
+  });
+  $("sp-desk")!.addEventListener("click", () => setMode("desktop"));
+  $("sp-mob")!.addEventListener("click", () => setMode("mobile"));
+  $("sp-copy")!.addEventListener("click", (e) => { copyText($("sp-tags")!.textContent || "", e.currentTarget as HTMLElement); track(TOOL, "copy_tags"); });
+  render();
+</script>
+
+<style>
+  .sp-serp{font-family:Arial,Helvetica,sans-serif;max-width:600px;padding:4px 0}
+  .sp-serp.is-mobile{max-width:360px;padding:16px;border:1px solid #E5E5E5;border-radius:12px}
+  .sp-src{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+  .sp-fav{flex:none;width:28px;height:28px;border-radius:50%;background:#F1F3F4;border:1px solid #DADCE0;display:grid;place-items:center;font-size:13px;font-weight:700;color:#3C4043}
+  .sp-srcline{display:flex;flex-direction:column;min-width:0}
+  .sp-site{font-size:14px;color:#202124;line-height:20px}
+  .sp-crumb{font-size:12px;color:#4D5156;line-height:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .sp-title{font-size:20px;line-height:26px;color:#1A0DAB;margin-bottom:4px;word-break:break-word}
+  .sp-desc{font-size:14px;line-height:22px;color:#4D5156;word-break:break-word}
+  /* Injected at runtime, so outside Astro's scoping. */
+  .sp-desc :global(b){color:#202124}
+  .sp-serp.is-mobile .sp-title{font-size:20px;line-height:26px}
+  .sp-checks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+  .sp-checks :global(li){display:grid;grid-template-columns:44px 1fr;gap:10px;font-family:var(--display);font-size:15px;line-height:1.45;color:var(--ink)}
+  .sp-checks :global(li span){font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding-top:3px}
+  .sp-checks :global(li.ok span){color:#1E7B34}
+  .sp-checks :global(li.fix span){color:var(--red-on-tint,#D0131C)}
+  .sp-pre{min-height:0}
+</style>

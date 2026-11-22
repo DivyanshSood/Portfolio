@@ -1,0 +1,253 @@
+---
+import Base from "../../layouts/Base.astro";
+import PageHero from "../../components/brand/PageHero.astro";
+import Section from "../../components/brand/Section.astro";
+import Cards from "../../components/brand/Cards.astro";
+import Faq from "../../components/brand/Faq.astro";
+import EndCta from "../../components/brand/EndCta.astro";
+import { SITE, STARTING_PRICES, inr } from "../../lib/site.mjs";
+import { CALENDLY_URL, WHATSAPP_URL } from "../../lib/contact-links.mjs";
+import { TOPICS } from "../../lib/entity.mjs";
+import "../../styles/tools.css";
+
+const canonical = `${SITE}/tools/website-cost-calculator/`;
+
+// Every figure here comes from STARTING_PRICES (site.mjs) and the published
+// timelines. Rule (brand-claims): starting prices only, never a total, and no
+// price at all for web apps, AI, SEO or landing pages.
+const TYPES = [
+  { id: "basic", label: "Business website", d: "Services, about, contact, a few key pages.", price: STARTING_PRICES.basic, time: "1–3 weeks for a local business site, 3–4 weeks for a larger marketing site" },
+  { id: "hotel", label: "Hotel or homestay website", d: "Rooms, photos, location, enquiries on WhatsApp.", price: STARTING_PRICES.hotel, time: "1–3 weeks" },
+  { id: "travel", label: "Travel, tour or taxi website", d: "Packages, routes, fares, enquiries on WhatsApp.", price: STARTING_PRICES.travel, time: "1–3 weeks" },
+  { id: "school", label: "School website with admin panel", d: "Admissions, notices, mandatory disclosure, staff can update it.", price: STARTING_PRICES.school, time: "1–3 weeks" },
+  { id: "store", label: "Online store", d: "Products, cart, online payments.", price: STARTING_PRICES.store, time: "3–4 weeks" },
+  { id: "custom", label: "Web app, AI product, landing page or SEO", d: "Priced only after a call, because the scope varies too much.", price: 0, time: "MVPs and marketing sites usually 3–4 weeks; larger builds 6–10 weeks" },
+];
+
+const SCOPE = [
+  { id: "pages", label: "More than 10 pages (routes, packages, rooms, services)" },
+  { id: "lang", label: "Two languages (for example Hindi and English)" },
+  { id: "pay", label: "Online payments (UPI, cards, net banking)" },
+  { id: "booking", label: "Booking calendar or live availability" },
+  { id: "admin", label: "An admin panel so you can edit it yourself" },
+  { id: "blog", label: "A blog or news section" },
+  { id: "copy", label: "Writing the page copy for you" },
+  { id: "migrate", label: "Moving from an old site without losing Google rankings" },
+  { id: "integr", label: "Connecting other tools (booking engine, CRM, Google Sheets)" },
+];
+
+const data = JSON.stringify({
+  types: TYPES.map((t) => ({ ...t, priceText: t.price ? inr(t.price) : "" })),
+  scope: SCOPE,
+  wa: WHATSAPP_URL,
+});
+
+const faqs = [
+  { q: "How much does a website cost in India in 2026?", a: `It depends on who builds it and how much it has to do. From me, a business website starts at ${inr(STARTING_PRICES.basic)}, a hotel or homestay site at ${inr(STARTING_PRICES.hotel)}, a travel or taxi site at ${inr(STARTING_PRICES.travel)}, a school site with an admin panel at ${inr(STARTING_PRICES.school)} and an online store at ${inr(STARTING_PRICES.store)}. These are starting prices. Every project gets a fixed written quote after one call, and the quote doesn’t change unless the scope does.` },
+  { q: "Why doesn’t the calculator give me a final price?", a: "Because a final price depends on details a form can’t see: how many pages really need writing, whether the photos exist, what the booking flow has to do. A calculator that shows a precise total either pads it or gets it wrong. This one shows the real starting price, lists what adds scope, and hands you a brief to send for a fixed quote." },
+  { q: "What else will I pay for each year?", a: "Only the domain and the hosting, both in your name and billed to you by the provider. Third-party services you choose, such as a booking engine, business email or a payment gateway’s per-transaction fee, are also billed by them directly. There is no yearly fee to me unless you ask for ongoing work." },
+  { q: "What do I get at handover?", a: "The full code repository, documentation, a walkthrough of how to update the site, a signed transfer of the intellectual property and 30 days of support. The domain and hosting are already in your name, so you can take the site to any developer later." },
+  { q: "Why no price for web apps, AI or SEO?", a: "Their scope ranges from a weekend to several months, so any number on a page would mislead someone. They’re quoted after a 30-minute call, in writing, before any work starts." },
+];
+
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": `${canonical}#app`,
+      name: "Website Cost Calculator (India)",
+      applicationCategory: "BusinessApplication",
+      operatingSystem: "Web browser",
+      url: canonical,
+      description:
+        "A free calculator that shows the published starting price and typical timeline for a business, hotel, travel, school or e-commerce website in India, lists what adds scope, and builds a brief for a fixed quote.",
+      offers: { "@type": "Offer", price: "0", priceCurrency: "INR" },
+      author: { "@id": `${SITE}/#person` },
+      provider: { "@id": `${SITE}/#studio` },
+      isAccessibleForFree: true,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Tools", item: `${SITE}/tools/` },
+        { "@type": "ListItem", position: 3, name: "Website cost calculator", item: canonical },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+    },
+  ],
+});
+---
+
+<Base
+  title="Website Cost Calculator India: Real Starting Prices"
+  description={`What a website costs in India in 2026: starting prices from ${inr(STARTING_PRICES.basic)}, typical timelines, what adds scope, and a brief you can send for a fixed quote.`}
+  canonical={canonical}
+  keywords="website cost calculator, website cost in india, website development cost india, hotel website cost, school website cost, ecommerce website cost india, website price himachal"
+  ogTitle="Website cost calculator (India)"
+  ogDescription="Real starting prices, typical timelines and what adds scope, then a brief you can send for a fixed written quote."
+  topics={[TOPICS.webDevelopment]}
+  jsonld={jsonld}
+>
+  <main>
+    <PageHero
+      display="What will my website cost?"
+      size="case"
+      kicker="Free tool · Pricing · India · 2026"
+      lead={`Pick the kind of site and tick what it needs. You’ll see the <strong>published starting price</strong>, a typical timeline and what adds scope. You won’t see a made-up total: every project gets a <strong>fixed written quote</strong> after one call. When you’re ready, send the brief on WhatsApp or book a call.`}
+    />
+
+    <Section n={1} term="Setup" note="Your estimate" title="Price your website">
+      <div class="tk" id="wc" data-wc={data}>
+        <form class="form" id="wc-form" autocomplete="off" novalidate>
+          <fieldset class="tk-fieldset">
+            <legend>1 · What kind of site?</legend>
+            {TYPES.map((t, i) => (
+              <label class="wc-type">
+                <input type="radio" name="wc-type" value={t.id} checked={i === 0} />
+                <span><strong>{t.label}</strong><small>{t.d}</small></span>
+                <em>{t.price ? `from ${inr(t.price)}` : "after a call"}</em>
+              </label>
+            ))}
+          </fieldset>
+          <fieldset class="tk-fieldset">
+            <legend>2 · What does it need?</legend>
+            {SCOPE.map((s) => (
+              <label class="tk-check"><input type="checkbox" name="wc-scope" value={s.id} /> {s.label}</label>
+            ))}
+          </fieldset>
+          <label class="field" for="wc-note">Anything else? (optional)<textarea id="wc-note" rows="3" maxlength="500" placeholder="Business name, town, your current site, a deadline…"></textarea></label>
+        </form>
+
+        <div class="tk-out">
+          <div class="tk-bar"><span>Your estimate</span></div>
+          <div class="tk-body">
+            <div class="wc-price">
+              <span class="wc-from" id="wc-from">Starts at</span>
+              <span class="wc-amt" id="wc-amt"></span>
+            </div>
+            <dl class="spec wc-spec">
+              <div><dt>Timeline</dt><dd id="wc-time"></dd></div>
+              <div><dt>Adds scope</dt><dd id="wc-scope"></dd></div>
+              <div><dt>Always included</dt><dd>Technical SEO, fast pages, the full code, documentation, a walkthrough, a signed IP transfer and 30 days of support.</dd></div>
+              <div><dt>Paid yearly, by you</dt><dd>Only the domain and hosting, both in your name.</dd></div>
+            </dl>
+            <p class="tk-msg" id="wc-msg" aria-live="polite"></p>
+          </div>
+          <div class="tk-bar">
+            <span>Get a fixed quote</span>
+            <div class="tk-actions">
+              <button type="button" class="tk-btn" id="wc-copy">Copy brief</button>
+            </div>
+          </div>
+          <div class="tk-body wc-cta">
+            <a class="btn btn--red" id="wc-wa" href={WHATSAPP_URL} target="_blank" rel="noopener">Send this brief on WhatsApp →</a>
+            <a class="btn btn--ink" href={CALENDLY_URL} target="_blank" rel="noopener">Book a 30-min call →</a>
+          </div>
+        </div>
+      </div>
+      <p class="meta tk-note">Prices are starting prices for work by me, Divyansh Sood, a one-person studio in Kangra, Himachal Pradesh. Other developers and agencies charge differently. Use this to see what’s involved, then compare written quotes.</p>
+    </Section>
+
+    <Section n={2} term="Setup" note="Go further" title="Before you compare quotes">
+      <Cards items={[
+        { tag: "Who owns it", d: "Ask every developer who owns the code, the domain and the hosting account after launch. If the answer is “we do”, the low price comes with a yearly fee and a site you can’t move." },
+        { tag: "What “starting at” covers", d: "A fair quote lists the pages, the features and the number of revisions. Anything not on the list is extra, so the list matters more than the number." },
+        { tag: "See the work first", wide: true, d: `Check sites a developer has already shipped for businesses like yours, and open them on your phone. Mine are on the <a href="/portfolio/">portfolio</a>, with the full stories on each case study. Or start with a <a href="/website-audit/">free audit of your current site →</a>` },
+      ]} />
+    </Section>
+
+    <Section bare>
+      <Faq faqs={faqs} label="(03) Before you ask" />
+    </Section>
+
+    <EndCta
+      title="Ready for a fixed quote?"
+      text="One 30-minute call, then a written quote at the published prices. You own everything at handover."
+      primary={{ href: CALENDLY_URL, label: "Book a 30-min call →" }}
+      secondary={{ href: "/services/", label: "See services →" }}
+    />
+  </main>
+</Base>
+
+<script>
+  import { $, copyText, track } from "../../scripts/tools-kit.js";
+
+  type T = { id: string; label: string; priceText: string; time: string };
+  const root = $("wc")!;
+  const DATA = JSON.parse(root.dataset.wc || "{}") as { types: T[]; scope: { id: string; label: string }[]; wa: string };
+  const TOOL = "website_cost";
+  let touched = false;
+
+  function state() {
+    const typeId = (document.querySelector('input[name="wc-type"]:checked') as HTMLInputElement | null)?.value || "basic";
+    const type = DATA.types.find((t) => t.id === typeId)!;
+    const picked = Array.from(document.querySelectorAll<HTMLInputElement>('input[name="wc-scope"]:checked')).map(
+      (c) => DATA.scope.find((s) => s.id === c.value)!,
+    );
+    const note = (($("wc-note") as HTMLTextAreaElement).value || "").trim();
+    return { type, picked, note };
+  }
+
+  function brief() {
+    const { type, picked, note } = state();
+    const lines = [
+      "Hi Divyansh, I used your website cost calculator.",
+      "",
+      `Site: ${type.label}` + (type.priceText ? ` (from ${type.priceText})` : ""),
+    ];
+    if (picked.length) {
+      lines.push("It needs:");
+      picked.forEach((p) => lines.push(`- ${p.label}`));
+    }
+    if (note) lines.push("", note);
+    lines.push("", "Can I get a fixed quote?");
+    return lines.join("\n");
+  }
+
+  function render() {
+    const { type, picked } = state();
+    const isCustom = !type.priceText;
+    $("wc-from")!.textContent = isCustom ? "Price" : "Starts at";
+    $("wc-amt")!.textContent = isCustom ? "After a 30-min call" : type.priceText;
+    root.classList.toggle("is-custom", isCustom);
+    const big = picked.length >= 4 || (picked.some((p) => p.id === "pay") && picked.some((p) => p.id === "booking"));
+    $("wc-time")!.textContent = type.time + (big && !isCustom ? ". With this much on the list, plan for 6–10 weeks." : ".");
+    $("wc-scope")!.textContent = picked.length
+      ? picked.map((p) => p.label.replace(/\s*\(.*\)$/, "")).join(" · ")
+      : "Nothing extra ticked.";
+    $("wc-msg")!.textContent = isCustom
+      ? "No number here on purpose: these range from days to months. Send the brief and you’ll get a written quote."
+      : picked.length
+        ? `Each ticked item adds to the ${type.priceText} starting price. The written quote lists exactly what it covers.`
+        : `${type.priceText} covers a site of this kind with the essentials. Tick what else it needs.`;
+    ($("wc-wa") as HTMLAnchorElement).href = `${DATA.wa}?text=${encodeURIComponent(brief())}`;
+  }
+
+  $("wc-form")!.addEventListener("input", () => {
+    render();
+    if (!touched) { touched = true; track(TOOL, "estimate"); }
+  });
+  $("wc-copy")!.addEventListener("click", (e) => { copyText(brief(), e.currentTarget as HTMLElement); track(TOOL, "copy_brief"); });
+  render();
+</script>
+
+<style>
+  .wc-type{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:start;padding:14px 0;border-bottom:1px solid var(--gda);cursor:pointer}
+  .wc-type input{width:18px;height:18px;margin-top:3px;accent-color:var(--red)}
+  .wc-type span{display:flex;flex-direction:column;gap:4px;font-family:var(--display);font-size:17px;line-height:1.3;color:var(--ink)}
+  .wc-type small{font-size:14px;color:var(--g5c)}
+  .wc-type em{font-style:normal;font-family:var(--mono);font-size:12px;letter-spacing:.04em;color:var(--g3e);white-space:nowrap;margin-top:3px}
+  .wc-type:has(input:checked) strong{color:var(--red-on-tint,#D0131C)}
+  .wc-price{display:flex;flex-direction:column;gap:6px}
+  .wc-from{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--g5c)}
+  .wc-amt{font-family:var(--display);font-weight:900;font-style:italic;font-stretch:125%;font-size:clamp(40px,5vw,64px);line-height:1;color:var(--ink)}
+  .is-custom .wc-amt{font-size:clamp(26px,3vw,36px)}
+  .wc-spec > div{grid-template-columns:130px 1fr}
+  .wc-cta{flex-direction:row;flex-wrap:wrap}
+  @media (max-width:479.98px){.wc-type{grid-template-columns:auto 1fr}.wc-type em{grid-column:2}}
+</style>

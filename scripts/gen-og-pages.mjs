@@ -75,6 +75,11 @@ const STUDIO_PAGES = [
   "/press/",
   "/tools/",
   "/tools/llms-txt-generator/",
+  "/tools/website-cost-calculator/",
+  "/tools/google-review-qr-code-generator/",
+  "/tools/whatsapp-link-generator/",
+  "/tools/serp-snippet-preview/",
+  "/tools/local-business-schema-generator/",
   "/website-audit/",
   "/privacy/",
 ];

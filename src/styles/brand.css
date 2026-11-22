@@ -85,7 +85,7 @@ img{max-width:100%}
    ring on the edge blends into the page (white ring, white page). So the focus
    ring sits 10px inside the shape, in the button's own text colour, which by
    design contrasts with the button's fill. */
-:root :is(.btn,.form-submit,.hd-cta,.hd-call,.cw-launch,.cw-send,.wcard-all,.contact-cta,.lg-btn,.pk-copy):focus-visible{outline:2px solid currentColor;outline-offset:-10px}
+:root :is(.btn,.form-submit,.hd-cta,.hd-call,.cw-launch,.cw-send,.wcard-all,.contact-cta,.lg-btn,.tk-btn,.pk-copy):focus-visible{outline:2px solid currentColor;outline-offset:-10px}
 /* A red ring vanishes on red: white inside red sections and over the hero. */
 :is(.ph-red,.hero-red,.ec,.contact,.cs-quote,.qt--red,.hd:not(.is-solid)) :focus-visible{outline-color:#fff}
 /* "Skip to content" (Base.astro): off-screen until focused, then an ink tab

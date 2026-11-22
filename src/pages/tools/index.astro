@@ -12,6 +12,56 @@ const canonical = `${SITE}/tools/`;
 // The tools hub. Add new tools here — each becomes a card + an ItemList entry.
 const tools = [
   {
+    href: "/tools/website-cost-calculator/",
+    tag: "Pricing · India",
+    name: "Website cost calculator",
+    desc: "Pick the kind of site and what it needs. See the published starting price, a typical timeline and what adds scope, then send the brief for a fixed written quote.",
+    who: "Hotel, homestay, travel, taxi and school owners and small businesses in India trying to budget for a website before they talk to anyone.",
+    what: "Six site types and nine scope items. It shows the real starting price for my work and how long builds like it take, and writes a brief you can copy or send on WhatsApp.",
+    honest:
+      "It never shows a made-up total, because a final price depends on details a form can't see. Web apps, AI products, landing pages and SEO get no number at all: they're quoted after a call.",
+  },
+  {
+    href: "/tools/google-review-qr-code-generator/",
+    tag: "Local SEO · Reviews",
+    name: "Google review QR code generator",
+    desc: "Paste your Google review link or Place ID and get a QR code plus a printable A6 card for the reception desk, the rooms or the taxi dashboard.",
+    who: "Hotels, homestays, taxi operators, cafés and any local business that wants more Google reviews from real customers.",
+    what: "Builds the review link (from a Place ID if needed), checks that it points at Google, and draws a print-ready card at 300 dpi in your colour. Download the QR, the card or print it straight away.",
+    honest:
+      "A card helps you ask; it doesn't make anyone review you. Google forbids discounts for reviews and asking only happy customers, and the page says so.",
+  },
+  {
+    href: "/tools/whatsapp-link-generator/",
+    tag: "WhatsApp · QR",
+    name: "WhatsApp link generator",
+    desc: "A wa.me click-to-chat link with a pre-filled booking message, a QR code for print and a button to paste on your website.",
+    who: "Anyone who takes bookings or enquiries on WhatsApp: taxi and tour operators, hotels, homestays, schools and shops.",
+    what: "Cleans your number into international format, offers booking templates (taxi, room, homestay, tour, admission), and gives you the link, a QR PNG and the button HTML, inline or floating.",
+    honest:
+      "The link only opens a chat. Replying fast is still on you, and that's what decides whether the chat turns into a booking.",
+  },
+  {
+    href: "/tools/serp-snippet-preview/",
+    tag: "SEO · Snippets",
+    name: "SERP snippet preview",
+    desc: "Preview a title tag and meta description on desktop and mobile, measured in pixels the way Google truncates, with plain-English fixes.",
+    who: "Site owners, writers and developers checking a page's title and description before it goes live.",
+    what: "Measures pixel width, shows where Google would cut off the text, bolds your keyword, flags short or duplicated titles, and gives you the two head tags to copy.",
+    honest:
+      "Widths are close estimates, not Google's own numbers, and Google can still rewrite a title or description for a particular search.",
+  },
+  {
+    href: "/tools/local-business-schema-generator/",
+    tag: "Schema · JSON-LD",
+    name: "Local business schema generator",
+    desc: "JSON-LD for a hotel, homestay, travel agency, school or any local business: address, hours, map location, areas served and profiles.",
+    who: "Local businesses and the developers who build their sites, especially anyone whose Business Profile and website don't seem to be connected.",
+    what: "Picks the most specific schema type, writes opening hours and check-in times properly, escapes the output safely, and links straight to Google's Rich Results Test.",
+    honest:
+      "It deliberately has no star-rating field. Google ignores a business's ratings of itself in its own schema, and copying your Google rating into it breaks the guidelines.",
+  },
+  {
     href: "/tools/llms-txt-generator/",
     tag: "GEO · AI search",
     name: "llms.txt generator",
@@ -58,11 +108,11 @@ const jsonld = JSON.stringify({
 
 <Base
   title="Free Web Tools — SEO, GEO & Site Utilities · Divyansh Sood"
-  description="Free, no-sign-up web tools by Divyansh Sood, starting with an llms.txt generator that writes a spec-correct file in your browser. Nothing stored."
+  description="Free, no-sign-up web tools: website cost calculator, Google review QR card, WhatsApp link + QR, SERP preview, schema and llms.txt generators."
   canonical={canonical}
-  keywords="free web tools, llms.txt generator, GEO tools, SEO tools, free developer tools, AI SEO tools"
+  keywords="free web tools, website cost calculator, google review qr code, whatsapp link generator, serp preview, schema generator, llms.txt generator, free SEO tools"
   ogTitle="Free web tools"
-  ogDescription="Practical, free tools for founders and marketers — starting with an llms.txt generator. No sign-up."
+  ogDescription="Practical, free tools for local businesses, founders and developers: pricing, reviews, WhatsApp, snippets and schema. No sign-up."
   topics={[TOPICS.seo, TOPICS.ai, TOPICS.webDevelopment]}
   jsonld={jsonld}
 >

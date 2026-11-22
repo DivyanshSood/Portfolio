@@ -199,6 +199,11 @@ The articles below answer the "X vs Y" questions people put to an assistant when
 ## Free tools
 
 - [Free tools](https://www.divyanshsood.com/tools/): No-sign-up web tools from Divyansh Sood® Studio.
+- [Website cost calculator](https://www.divyanshsood.com/tools/website-cost-calculator/): Shows the published starting price and typical timeline for a business, hotel or homestay, travel or taxi, school or e-commerce website, lists what adds scope, and writes a brief to send for a fixed written quote. It never shows a total; web apps, AI products, landing pages and SEO are quoted only after a call.
+- [Google review QR code generator](https://www.divyanshsood.com/tools/google-review-qr-code-generator/): Turns a Google review link or Place ID into a QR code and a printable A6 review card, in the browser. Free, nothing stored; the QR points straight at Google.
+- [WhatsApp link generator](https://www.divyanshsood.com/tools/whatsapp-link-generator/): Builds a wa.me click-to-chat link with a pre-filled booking message, a QR code and a website button. Free, in the browser, nothing stored.
+- [SERP snippet preview](https://www.divyanshsood.com/tools/serp-snippet-preview/): Previews a title tag and meta description on desktop and mobile with pixel-width checks. Free, in the browser.
+- [Local business schema generator](https://www.divyanshsood.com/tools/local-business-schema-generator/): Generates LocalBusiness, Hotel, LodgingBusiness, TravelAgency or School JSON-LD with hours, map location and profiles. Deliberately has no rating field. Free, in the browser.
 - [llms.txt generator](https://www.divyanshsood.com/tools/llms-txt-generator/): Generates an llms.txt file for any business, entirely in the browser. Free, no sign-up, nothing stored or sent anywhere. The studio publishes an honest assessment of what the file does and doesn't do alongside it.
 
 ## Answers to common questions
